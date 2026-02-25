@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -25,7 +26,7 @@ class FermerFenetreNoReload(TemplateView):
 def envoyer_email(request):
     subject = request.POST.get('subject', 'Contact')
     body = request.POST.get('body', '')
-    api_key = 'REDACTED'
+    api_key = os.environ.get('SENDINBLUE_API_KEY', '')
     post_data = {
         "sender": {
             "name": "Utilisateur Gyneasy",

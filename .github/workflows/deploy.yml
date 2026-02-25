@@ -23,7 +23,7 @@ jobs:
       - name: Rsync to VPS
         uses: burnett01/rsync-deployments@7.0.1
         with:
-          switches: -avz --delete --exclude='.git/' --exclude='venv/' --exclude='__pycache__/' --exclude='.env' --exclude='data/' --exclude='logs/'
+          switches: -avz --delete --exclude='.git/' --exclude='venv/' --exclude='__pycache__/' --exclude='.env' --exclude='/echo/data/' --exclude='logs/'
           path: ./
           remote_path: /home/echo/app/
           remote_host: ${{ secrets.VPS_HOST }}

@@ -20,8 +20,8 @@ source "$VENV_DIR/bin/activate"
 # Install dependencies (skip backports.zoneinfo — built into Python 3.9+)
 pip install -r requirements.txt --quiet
 
-# Collect static files
-python manage.py collectstatic --noinput
+# Collect static files (ignore duplicate file warnings)
+python manage.py collectstatic --noinput 2>&1
 
 # Run database migrations
 python manage.py migrate --noinput

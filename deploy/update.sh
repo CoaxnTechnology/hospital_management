@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/bin/bash
+set -e
 
 APP_DIR="/home/echo/app"
 VENV_DIR="/home/echo/venv"

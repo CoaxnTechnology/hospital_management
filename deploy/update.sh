@@ -8,6 +8,7 @@ cd "$APP_DIR"
 
 # Ensure required directories exist and correct ownership
 mkdir -p logs data
+chmod +x /home/echo/app/deploy/run.sh
 chown -R echo:echo /home/echo/app
 
 # Load environment variables

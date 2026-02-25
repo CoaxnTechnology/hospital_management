@@ -1,0 +1,79 @@
+<table style="border-collapse: collapse; width: 100%; height: 128px; border-style: none;" border="0"
+       data-pdfmake="{&quot;layout&quot;:&quot;noBorders&quot;}">
+    <tbody>
+    <tr style="height: 32px;">
+        <td style="width: 49.2171%; height: 32px;"><span style="font-size: 12pt;"><strong><%= civilite %> <%= nom_patient %></strong></span>
+        </td>
+        <td style="width: 49.2701%; height: 32px;"><span style="font-size: 12pt;">Age : <%= age %></span>
+        </td>
+    </tr>
+    <tr style="height: 32px;">
+        <td style="width: 49.2171%; height: 32px;" colspan="2">
+            <p><span style="font-size: 12pt;">ATCDs : </span></p>
+            <p><span style="font-size: 12pt;"><%= atcd %></span></p>
+        </td>
+    </tr>
+    <tr style="height: 32px;">
+        <td style="width: 49.2171%; height: 32px;"><span
+                style="font-size: 12pt;">Terme : <%= terme %></span></td>
+        <td style="width: 49.2701%; height: 32px;"><span style="font-size: 12pt;">DPA: <%= date_accouchement %></span>
+        </td>
+    </tr>
+    <tr style="height: 32px;">
+        <td style="width: 49.2171%; height: 32px;"><span
+                style="font-size: 12pt;">DDR : <%= ddr %>&nbsp;<br/></span></td>
+        <td style="width: 49.2701%; height: 32px;"><span style="font-size: 12pt;">Terme actuel: <%= terme %></span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p><span style="font-size: 12pt;"><strong>Biologie</strong></span></p>
+<table style="border-collapse: collapse; width: 100%; height: 50px;" border="1"
+       data-pdfmake="{&quot;layout&quot;:&quot;noBorders&quot;}">
+    <tbody>
+    <tr style="height: 25px;">
+        <td style="width: 23.4578%; height: 25px;"><span style="font-size: 12pt;">GS Rh : <%= gs %></span>
+        </td>
+        <td style="width: 23.4578%; height: 25px;"><span style="font-size: 12pt;">NFS : <%= nfs %></span>
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr style="height: 25px;">
+        <td style="width: 23.4578%; height: 25px;"><span
+                style="font-size: 12pt;">Ag Hbs :&nbsp; <%= ag %></span></td>
+        <td style="width: 23.4578%; height: 25px;"><span style="font-size: 12pt;">TPHA/VDRL :&nbsp; <%= tpha %></span>
+        </td>
+        <td style="width: 23.4578%; height: 25px;"><span
+                style="font-size: 12pt;">Toxo : <%= toxo %></span></td>
+        <td style="width: 23.5658%; height: 25px;"><span style="font-size: 12pt;">Rub : <%= rub %></span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p><span style="font-size: 12pt;">D&eacute;pistage T21 : <%= risque_t21 %></span></p>
+<p><span style="font-size: 12pt;">GP 75 :&nbsp;</span></p>
+<p><span style="font-size: 12pt;">PV : <%= pv %></span></p>
+<p><span style="font-size: 12pt;">Echo T1 :&nbsp;LCC <%= lcc %>, CN <%= cn %></span></p>
+<p><span style="font-size: 12pt;">Echo T2 :&nbsp;<%= resultat_exam_morpho %></span></p>
+<p><span style="font-size: 12pt;">Echo T3 :&nbsp;</span></p>
+<p><span style="font-size: 12pt;">D&eacute;roulement de la grossesse :&nbsp;</span></p>
+<p><span style="font-size: 12pt;"><strong>Examen</strong></span></p>
+<table style="border-collapse: collapse; width: 100%; height: 75px;" border="1"
+       data-pdfmake="{&quot;layout&quot;:&quot;noBorders&quot;}">
+    <tbody>
+    <tr style="height: 25px;">
+        <td style="width: 49.2367%; height: 25px;"><span style="font-size: 12pt;">TA : <%= ta %></span>
+        </td>
+        <td style="width: 49.2367%; height: 25px;"><span
+                style="font-size: 12pt;">Poids : <%= poids %> (<%= var_poids_gross %>)</span></td>
+    </tr>
+    <tr style="height: 25px;">
+        <td style="width: 49.2367%; height: 25px;"><span style="font-size: 12pt;">TV : <%= tv %></span>
+        </td>
+        <td></td>
+    </tr>
+    </tbody>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

@@ -11,8 +11,8 @@ __pycache__/
 public/static/
 db.sqlite3
 
-# App data
-data/
+# App data (only top-level, not apps/core/data/)
+/echo/data/
 logs/
 
 # OS

@@ -1,0 +1,89 @@
+{% extends "core/base_consultation_v2.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block sub_navigation %}
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab" href="#tab-mesures">Mesures foetales</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-mere">Mesures maternelles</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-examen">Examen clinique</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-conclusion">Conclusion</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-images">Images</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-graphs">Graphiques</a>
+    </li>
+{% endblock %}
+
+
+{% block inner_content %}
+
+    <form id="form_1" class="form" method="post" action="">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+
+        <div class="tab-content" id="myTabContent">
+            <div id="tab-mesures" class="tab-pane fade show active">
+                {% include 'core/partials/examen_obs_t23_foetal.html' with form=form foetus=foetus %}
+            </div>
+
+            <div id="tab-mere" class="g-5 g-xxl-8 tab-pane fade">
+                {% include 'core/partials/examen_obs_maternel.html' with form=form %}
+            </div>
+
+            <div id="tab-conclusion" class="g-5 g-xxl-8 tab-pane fade">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label text-danger">Echographie morphologique</label>
+                            {% render_field form.echo_morpho class+="form-control form-control-solid form-control-sm h-100px" %}
+                        </div>
+                        <div class="form-group mt-3">
+                            <label class="form-label">Conclusion</label>
+                            {% render_field form.conclusion class+="form-control form-control-solid form-control-sm h-100px" %}
+                        </div>
+                        <div class="form-group mt-3">
+                            <label class="form-label">Conduite à tenir</label>
+                            {% render_field form.conduite class+="form-control form-control-solid form-control-sm h-100px" %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-examen" class="g-5 g-xxl-8 tab-pane fade">
+                {% include 'core/partials/examen_clinique.html' with form=form afficher=True %}
+            </div>
+
+            <div id="tab-images" class="tab-pane fade" aria-labelledby="images-tab" role="tabpanel">
+                {% include 'core/partials/consultation_images.html' with consultation=object %}
+            </div>
+
+            <div id="tab-graphs" class="tab-pane tab-graph fade" aria-labelledby="graph-tab" role="tabpanel">
+                {% include 'core/partials/consultation_graph.html' with consultation=object %}
+            </div>
+
+        </div>
+
+    </form>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static "plugins/custom/flot/flot.bundle.js" %}"></script>
+    <script src="{% static "js/core/consultation_obstetrique_form.js" %}"></script>
+    <script src="{% static "js/core/consultation_obstetrique_graph.js" %}"></script>
+    <script src="{% static "js/core/consultation_obs_echo_deuxieme_trimestre_form.js" %}"></script>
+{% endblock %}

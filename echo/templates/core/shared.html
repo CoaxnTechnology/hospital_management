@@ -1,0 +1,1054 @@
+<script type="text/html" id="template-product-footer">
+    <div style="margin-left: 100px; color: #777; font-size: 10px">
+
+    </div>
+</script>
+
+<script type="text/html" id="template-examen">
+    {% if user.profil.compte.parametrescompte.logo and user.profil.compte.parametrescompte.logo.url %}
+        <img data-pdfmake="{&quot;fit&quot;:[500,75]}" src="<%= logo %>" style="margin-bottom: 50px">
+    {% endif %}
+</script>
+
+<script type="text/html" id="template-signature" style="font-family: arial, sans-serif">
+    <div style="margin-top: 10px; width: 100%; text-align: right; margin-right: 20px">
+        <%= signature_titre %> <br>
+        <% if (signature_img) { %>
+        <img data-pdfmake="{&quot;fit&quot;:[75,75]}" src="<%= signature_img %>">
+        <% } %>
+    </div>
+    <div>&nbsp;</div>
+</script>
+
+<script type="text/html" id="template-page-number" style="font-family: arial, sans-serif">
+    <div style="margin-right: 100px;color: #777; font-size: 10px;">
+        Page <%= page %> <span style="color: white">>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    </div>
+</script>
+
+<script type="text/html" id="edition-patient-template">
+    <div style="text-align: right;">
+        <span>
+            {% if user.profil.ville %}
+                {{ user.profil.ville }}<% if (date) { %>, <% } %>
+            {% endif %}
+            <% if (date) { %> le <%= date %><% } %>
+        </span>
+    </div>
+    <br>
+    <div style="text-align: center">
+        <h4 style="font-size: 14pt"><%= motif %></h4>
+    </div>
+
+    <br>
+    <p>
+        <strong><%= _.capitalize(patient.civilite) %> <%= formatNomPatient(patient.nom_naissance, patient.nom, patient.prenom) %></strong> &nbsp;
+        <% if (patient.sexe == 'F') { %> née <% } else { %> né <% } %> le <%= moment(patient.date_naissance).format('DD/MM/yyyy') %> (<%= patient.age %> ans)
+        <% if (patient.taille) { %>
+            <br>Taille: <%= patient.taille %> cm
+        <% } %>
+    </p>
+    <p>
+        <%= data %>
+    </p>
+</script>
+
+<script type="text/html" id="consultation-template">
+    <div style="text-align: right;">
+        <span>{% if user.profil.compte.adresse.ville %}{{ user.profil.compte.adresse.ville }}, le {% endif %}<%= date %></span>
+    </div>
+    <br>
+    <div style="text-align: center">
+        <h4 style="font-size: 14pt">{{ motif }}</h4>
+    </div>
+    <br>
+    <p>
+        <strong>{{ patient.civilite|title }} {{ patient.nom_complet }}</strong>
+        {% if patient.sexe == 'F' %} née {% else %} né {% endif %} le
+        {{ patient.date_naissance }} ({{ patient.age }} ans)
+        {% if patient.taille %}
+            <br>Taille: {{ patient.taille|floatformat }} cm
+        {% endif %}
+    </p>
+
+    <div id="grossesse"></div>
+
+    <div id="antecedents"></div>
+
+    <div id="notes"></div>
+
+    <% if (data) { %>
+        <p>
+            <%= data %>
+        </p>
+    <% } %>
+
+    <p></p>
+
+</script>
+
+<script type="text/html" id="consultation-template-no-date">
+    <div style="text-align: right;">
+        &nbsp;
+    </div>
+    <br>
+    <div style="text-align: center">
+        <h4 style="font-size: 14pt">{{ motif }}</h4>
+    </div>
+
+    <br>
+    <p>
+        <strong>{{ patient.civilite|title }} {{ patient.nom_complet }}</strong>
+        {% if patient.sexe == 'F' %} née {% else %} né {% endif %} le
+        {{ patient.date_naissance }} ({{ patient.age }} ans)
+        {% if patient.taille %}
+            <br>Taille: {{ patient.taille|floatformat }} cm
+        {% endif %}
+    </p>
+
+    <p id="grossesse"></p>
+
+    <p id="antecedents"></p>
+
+    <p id="notes"></p>
+
+    <% if (data) { %>
+        <p>
+            <%= data %>
+        </p>
+    <% } %>
+
+    <p></p>
+
+</script>
+
+<script id="pma-interro-template" type="text/html">
+    <table style="border-collapse: collapse; width: 100%; height: 43px; border-color: #000000; border-style: solid;" border="1">
+        <th>
+            <tr>
+                <td style="font-weight: bold">Date</td>
+                <td style="font-weight: bold">Acte</td>
+                <td style="font-weight: bold">Résultats</td>
+                <td style="font-weight: bold">Remarques</td>
+            </tr>
+
+
+        </th>
+        <tr>
+            <td style="width: 100px">
+                <input id="tent_1_date" type="text" value="" class="date">
+            </td>
+            <td>
+                <select id="tent_1_acte" style="width: 100%">
+                    <option value="IAC">IAC</option>
+                    <option value="FIV">FIV</option>
+                    <option value="DPI">DPI</option>
+                </select>
+            </td>
+            <td>
+                <select id="tent_1_result" style="width: 100%">
+                    <option value="Succès">Succès</option>
+                    <option value="Echec">Echec</option>
+                </select>
+            </td>
+            <td></td>
+        </tr>
+    </table>
+</script>
+
+<script type="text/html" id="grossesse-info-template">
+    <div id="grossesse-container">
+        {% if patient.grossesse_encours %}
+                DDR: {{ patient.grossesse_encours.get_ddr|date:'d/m/Y' }} - DDG: {{ patient.grossesse_encours.get_ddg|date:'d/m/Y' }}, soit un terme théorique de {{ patient.grossesse_encours.terme_disp }}
+                {% if patient.poids %}<br>Poids: {{ patient.poids|floatformat }} Kg{% endif %}
+                {% if ta %}&nbsp;&nbsp;&nbsp;TA: {{ ta }}{% endif %}
+        {% endif %}
+    </div>
+</script>
+
+<script type="text/html" id="notes-template">
+    <div id="notes-container">
+        {% if patient.notes %}
+            <strong>Notes</strong> <br>
+            {{ patient.notes|safe }}
+        {% endif %}
+    </div>
+</script>
+
+<script type="text/html" id="antecedents-template">
+    <div id="antecedents-container">
+        {% if patient.antecedents_familiaux %}
+            <br>
+            <strong>Antécédents Familiaux</strong> <br>
+                {{ patient.antecedents_familiaux|safe }}
+        {% endif %}
+
+        {% if patient.antecedents_medico_chirurgicaux %}
+            <br>
+            <strong>Antécédents Médico-chirurgicaux</strong> <br>
+                {{ patient.antecedents_medico_chirurgicaux|safe }}
+        {% endif %}
+
+        {% if patient.antecedents_gynecologiques %}
+            <br>
+            <strong>Antécédents Gynécologiques</strong> <br>
+                {{ patient.antecedents_gynecologiques|safe }}
+        {% endif %}
+
+        {% if patient.antecedents_obstetriques.all %}
+            <br>
+            <strong>Antécédents Obstétricaux</strong>
+            {% for obs in patient.antecedents_obstetriques.all %}
+                <br>
+                {% if obs.grossesse %}Grossesse {{ forloop.counter }}: {{ obs.grossesse_disp }}<br>{% endif %}
+                {% if obs.sous_categorie and obs.sous_categorie.id != 19 %} > Issue de grossesse:
+                    {{ obs.sous_categorie }}<br>{% endif %}
+                {% if obs.issue_grossesse %} > Issue de grossesse: {{ obs.issue_grossesse }}<br>{% endif %}
+                {% if obs.mise_en_travail %} > Mise en travail: {{ obs.mise_en_travail }}<br>{% endif %}
+                {% if obs.indications %} > Indications: {{ obs.indications }}<br>{% endif %}
+                {% if obs.analgesie %} > Analgesie: {{ obs.analgesie }}<br>{% endif %}
+                {% if obs.date_accouchement %} > Date d'accouchement: {{ obs.date_accouchement|date:'d/m/Y' }}
+                    <br>{% endif %}
+                {% if obs.lieu_accouchement_disp %} > Lieu d'accouchement: {{ obs.lieu_accouchement_disp }}<br>{% endif %}
+                {% if obs.evacuation_grossesse %} > Evacuation: {{ obs.evacuation_grossesse }}<br>{% endif %}
+                {% if obs.perinee %} > Périnée: {{ obs.perinee }}<br>{% endif %}
+                {% if obs.suite_couche_type %} > Suite de couche: {{ obs.suite_couche_type }}
+                    {% if obs.suite_couche_detail %} - {{ obs.suite_couche_detail }}{% endif %}<br>{% endif %}
+                {% if obs.atcd_surligner %} > A surligner: {{ obs.atcd_surligner }}<br>{% endif %}
+                {% if obs.nb_foetus %} > Nb de foetus: {{ obs.nb_foetus }}<br>{% endif %}
+
+                {% if obs.nb_foetus >= 1 %}
+                    <!-- Foetus 1 -->
+                    {% if obs.terme_1 or obs.sexe_1 or obs.prenom_1 or obs.poids_naissance_1 %}
+                         > > Foetus 1: {% if obs.terme_1 %}{{ obs.terme_1 }} SA, {% endif %}
+                            {% if obs.prenom_1 %}{{ obs.prenom_1 }}{% endif %}
+                            {% if obs.sexe_1 %}({{ obs.sexe_1 }}){% endif %}
+                            {% if obs.poids_naissance_1 %}, {{ obs.poids_naissance_1|floatformat }}
+                                gr{% endif %}
+                            {% if obs.etat_sante_1 %}, {{ obs.etat_sante_1 }}{% endif %}
+                            {% if obs.t21_1 %}, T21 {{ obs.t21_1 }}{% endif %}
+                            {% if obs.allaitement_1 == True %}, Allaité{% endif %}
+                            <br>
+
+                    {% endif %}
+                {% endif %}
+                {% if obs.nb_foetus >= 2 %}
+                    <!-- Foetus 2 -->
+                    {% if obs.terme_2 or obs.sexe_2 or obs.prenom_2 or obs.poids_naissance_2 %}
+                        > > Foetus 2: {% if obs.terme_2 %}{{ obs.terme_2 }} SA, {% endif %}
+                            {% if obs.prenom_2 %}{{ obs.prenom_2 }}{% endif %}
+                            {% if obs.sexe_2 %}({{ obs.sexe_2 }}){% endif %}
+                            {% if obs.poids_naissance_2 %}, {{ obs.poids_naissance_2|floatformat }}
+                                gr{% endif %}
+                            {% if obs.etat_sante_2 %}, {{ obs.etat_sante_2 }}{% endif %}
+                            {% if obs.t21_2 %}, T21 {{ obs.t21_2 }}{% endif %}
+                            {% if obs.allaitement_2 == True %}, Allaité{% endif %}
+                            <br>
+
+                    {% endif %}
+                {% endif %}
+                {% if obs.nb_foetus >= 3 %}
+                    <!-- Foetus 3 -->
+                    {% if obs.terme_3 or obs.sexe_3 or obs.prenom_3 or obs.poids_naissance_3 %}
+                        > > Foetus 3: {% if obs.terme_3 %}{{ obs.terme_3 }} SA, {% endif %}
+                            {% if obs.prenom_3 %}{{ obs.prenom_3 }}{% endif %}
+                            {% if obs.sexe_3 %}({{ obs.sexe_3 }}){% endif %}
+                            {% if obs.poids_naissance_3 %}, {{ obs.poids_naissance_3|floatformat }}
+                                gr{% endif %}
+                            {% if obs.etat_sante_3 %}, {{ obs.etat_sante_3 }}{% endif %}
+                            {% if obs.t21_3 %}, T21 {{ obs.t21_3 }}{% endif %}
+                            {% if obs.allaitement_3 == True %}, Allaité{% endif %}
+                            <br>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        {% if patient.allergies %}
+            <br>
+                <strong>Allergies</strong> <br>
+                {{ patient.allergies|safe }}
+        {% endif %}
+
+    </div>
+
+</script>
+
+
+<script type="text/html" id="doppler-uterin-template">
+    <table style="border:0">
+        <tr style="border: 0">
+            <td style="padding-left: 0">Droit</td>
+            <td>IP: <%- ip_droit %></td>
+            <td>IR: <%- ir_droit %></td>
+            <td><%- notch_droit %></td>
+        </tr>
+        <tr style="border: 0">
+            <td style="padding-left: 0">Gauche</td>
+            <td>IP: <%- ip_gauche %></td>
+            <td>IR: <%- ir_gauche %></td>
+            <td><%- notch_gauche %></td>
+        </tr>
+    </table>
+</script>
+
+<script type="text/html" id="doppler-ombi-template">
+    <table style="border:0">
+        <tr style="border: 0">
+            <td style="padding-left: 0"><strong>Doppler Ombilical</strong></td>
+            <td>IP: <%- doppler_cordon_ip %></td>
+            <td>IR: <%- doppler_cordon_ir %></td>
+            <td>Flux en diastole: <%- doppler_cordon_diastole %></td>
+        </tr>
+    </table>
+</script>
+
+<script type="text/html" id="doppler-acm-template">
+    <table style="border:0">
+        <tr style="border: 0">
+            <td style="padding-left: 0"><strong>Artère Cérébrale Moy.</strong></td>
+            <td>IP: <%- doppler_acm_ip %></td>
+            <td>IR: <%- doppler_acm_ir %></td>
+            <td>Vitesse: <%- doppler_acm_vitesse %> cm/s</td>
+            <td><%- doppler_acm_mom %> MoM</td>
+        </tr>
+    </table>
+</script>
+
+<script type="text/html" id="doppler-dv-template">
+    <table style="border:0">
+        <tr style="border: 0">
+            <td style="padding-left: 0"><strong>Ductus Venosus</strong></td>
+            <td>IP: <%- doppler_dv_ip %></td>
+            <td>IR: <%- doppler_dv_ir %></td>
+            <td>Onde: <%- doppler_dv_onde %></td>
+        </tr>
+    </table>
+</script>
+
+<div class="modal fade" id="rdv-modal" tabindex="-1" role="dialog" aria-labelledby="Rendez-vous"
+     aria-hidden="true">
+    <div class="modal-dialog modal-xl" style="height: 90%" role="document">
+        <div class="modal-content" style="height: 560px">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Rendez-vous</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0" style="visibility:hidden;"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="absence-modal" tabindex="-1" role="dialog" aria-labelledby="Absence_medecin"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" style="height: 90%" role="document">
+        <div class="modal-content h-100">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Absence Medecin</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0" style="visibility:hidden;"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="grossesse-modal" tabindex="-1" aria-labelledby="Grossesse" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen m-auto mw-1500px p-9">
+        <div class="modal-content h-100 modal-rounded">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Grossesse</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mesures-modal" tabindex="-1" aria-labelledby="Mesures" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="height: 90%">
+        <div class="modal-content h-300px">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Mesures patient</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="patient-form-modal" tabindex="-1" aria-labelledby="Patient" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen p-9 m-auto mw-1500px" style="height: 90%">
+        <div class="modal-content h-100 modal-rounded">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Patient</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="antecedent-obstetrique-modal" tabindex="-1" aria-labelledby="Antécédent obstétrical"
+     aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen m-auto mw-1500px p-9">
+        <div class="modal-content h-100 modal-rounded">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Antécédent obstétrical</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ms-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="calendrier-grossesse-modal" tabindex="-1" aria-labelledby="Calendrier de grossesse"
+     aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 600px; height:50%;">
+        <div class="modal-content h-100 modal-rounded">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Calendrier de grossesse</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ms-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="600px" height="400px" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="prescription-analyses-modal" tabindex="-1" aria-labelledby="Analyses"
+     aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen p-9 m-auto mw-1500px">
+        <div class="modal-content h-100 modal-rounded">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Analyses biologiques</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="fichiers-patient-modal" tabindex="-1" aria-labelledby="Fichiers" aria-hidden="true">
+    <div class="modal-dialog " style="height: 40%">
+        <div class="modal-content h-100">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Fichiers patient</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ordonnances-modal" tabindex="-1" aria-labelledby="Ordonnances" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen m-auto mw-1500px p-9">
+        <div class="modal-content h-100 modal-rounded">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Ordonnances</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="historique-consultations-modal" tabindex="-1" aria-labelledby="Historique des consultations" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen m-auto mw-1500px p-9">
+        <div class="modal-content h-100 modal-rounded">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Historique des consultations</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="antecedents-modal" tabindex="-1" aria-labelledby="Antécédents" aria-hidden="true">
+    <div class="modal-dialog m-auto mw-1000px p-9">
+        <div class="modal-content h-100 modal-rounded">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Antécédents</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-8">
+                {%  include "core/partials/antecedents.html" %}
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="etablissements-modal" tabindex="-1" aria-labelledby="Etablissement" aria-hidden="true">
+    <div class="modal-dialog modal-md" style="height: 50%">
+        <div class="modal-content h-100">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Etablissements</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="liste-choix-modal" tabindex="-1" aria-labelledby="Listes" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="height: 80%">
+        <div class="modal-content h-100">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Listes</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-fs fade" id="certificats-modal" tabindex="-1" aria-labelledby="Courriers" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen p-9 m-auto mw-1500px">
+        <div class="modal-content h-100 modal-rounded">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Courriers</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="dispo-rdv-modal" tabindex="-1" aria-labelledby="Rendez-vous"
+     aria-hidden="true">
+    <div class="modal-dialog modal-md" style="height: 95%">
+        <div class="modal-content  h-100">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Prise de rendez-vous</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0" style="visibility:hidden;"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="traitements-modal" tabindex="-1" aria-labelledby="Traitements" aria-hidden="true">
+    <div class="modal-dialog" style="height: 75%">
+        <div class="modal-content h-100 modal-rounded">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Traitements</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal" data-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="pa-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="prescriptions-modal" tabindex="-1" aria-labelledby="Prescriptions" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="height: 75%">
+        <div class="modal-content h-100">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Prescriptions</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="pa-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-2"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="consultation-modal" tabindex="-1" aria-labelledby="Consultation" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen p-9 m-auto mw-1500px" style="height: 90%">
+        <div class="modal-content h-100 modal-rounded">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Consultation</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="image-grid-4-template">
+    <table style="border:0;" class="pdf-pagebreak-before">
+        <% for(let row=0; row<rows; row++) { %>
+            <tr style="border: 0">
+                <% for(let col=0; col<3 && row*3+col<images.length; col++) { %>
+                <td>Image</td>
+                <% } %>
+            </tr>
+        <% } %>
+    </table>
+</script>

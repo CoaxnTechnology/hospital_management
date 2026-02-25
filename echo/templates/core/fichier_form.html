@@ -1,0 +1,49 @@
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+<form method="post" action="">
+    {% csrf_token %}
+
+    <div class="modal-header">
+
+        <h5 class="modal-title"> Déplacer un fichier </h5>
+        <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+            <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+            <!--end::Svg Icon-->
+        </div>
+    </div>
+
+    <div class="modal-body">
+        <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">Destination</label>
+            <div class="col-lg-9 col-xl-6">
+                <select name="dossier_fichier_patient" class="form-control form-control-lg ">
+                    {% for dossier in dossier_patient %}
+                        <option name="{{ dossier.nom }}" value="{{ dossier.id }}">
+                            {{ dossier.nom }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer p-2">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+        <button type="submit" class="submit-btn btn btn-primary">Déplacer</button>
+    </div>
+</form>
+
+
+

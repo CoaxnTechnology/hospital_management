@@ -1,0 +1,1665 @@
+{% extends "base_v2.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+{% block styles %}
+    <style>
+        .la-trash {
+            color: red;
+        }
+
+        .tagify .tagify__tag.tagify--notAllowed {
+            background-color: #ECF0F3;
+        }
+
+        .tagify .tagify__tag.tagify--notAllowed div .tagify__tag-text {
+            color: #80808F;
+            font-weight: 400;
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block header %}
+    {% include "core/basic_header.html" with module="" %}
+{% endblock %}
+
+{% block content %}
+
+    <a href="/#liste_salle_attente" class="btn btn-color-light"><i class="bi bi-caret-left-fill"></i> Salle
+        d'attente</a>
+    <div class="card mb-5 mb-xxl-8 mt-6">
+        <div class="card-body pt-9 pb-0">
+            <!--begin::Details-->
+            <div class="d-flex flex-wrap flex-sm-nowrap">
+                <!--begin: Pic-->
+                <div class="me-7 mb-4">
+                    <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
+                        <img src="{% static "v2/media/avatars/blank.png" %}" alt="profil"/>
+                        <div class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-body h-20px w-20px"></div>
+                    </div>
+                </div>
+                <!--end::Pic-->
+                <!--begin::Info-->
+                <div class="flex-grow-1">
+                    <!--begin::Title-->
+                    <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
+                        <!--begin::User-->
+                        <div class="d-flex flex-column">
+                            <!--begin::Name-->
+                            <div class="d-flex align-items-center mb-2">
+                                <a href="#" class="text-gray-900 text-hover-primary fs-2 fw-bold me-1 h-30px"
+                                   onclick="modifierPatient({{ object.pk }})">
+                                    {{ object.nom_complet }} &nbsp;
+                                    <span class="svg-icon svg-icon-3">
+                                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                           <path opacity="0.3"
+                                                 d="M21.4 8.35303L19.241 10.511L13.485 4.755L15.643 2.59595C16.0248 2.21423 16.5426 1.99988 17.0825 1.99988C17.6224 1.99988 18.1402 2.21423 18.522 2.59595L21.4 5.474C21.7817 5.85581 21.9962 6.37355 21.9962 6.91345C21.9962 7.45335 21.7817 7.97122 21.4 8.35303ZM3.68699 21.932L9.88699 19.865L4.13099 14.109L2.06399 20.309C1.98815 20.5354 1.97703 20.7787 2.03189 21.0111C2.08674 21.2436 2.2054 21.4561 2.37449 21.6248C2.54359 21.7934 2.75641 21.9115 2.989 21.9658C3.22158 22.0201 3.4647 22.0084 3.69099 21.932H3.68699Z"
+                                                 fill="currentColor"></path>
+											<path d="M5.574 21.3L3.692 21.928C3.46591 22.0032 3.22334 22.0141 2.99144 21.9594C2.75954 21.9046 2.54744 21.7864 2.3789 21.6179C2.21036 21.4495 2.09202 21.2375 2.03711 21.0056C1.9822 20.7737 1.99289 20.5312 2.06799 20.3051L2.696 18.422L5.574 21.3ZM4.13499 14.105L9.891 19.861L19.245 10.507L13.489 4.75098L4.13499 14.105Z"
+                                                  fill="currentColor"></path>
+                                       </svg>
+                                   </span>
+                                </a>
+
+                            </div>
+                            <!--end::Name-->
+                            <!--begin::Info-->
+                            <div class="d-flex flex-wrap fw-semibold fs-6 mb-4 pe-2">
+                                <span class="badge badge-light-primary me-2"><i class="bi bi-key text-primary"></i> &nbsp;&nbsp;{{ object.identifiant_unique }}</span>
+                                <span class="badge badge-light-primary me-2"><i class="bi bi-1-circle text-primary"></i> &nbsp;&nbsp;{{ object.age }} ans</span>
+                                {% if object.telephone %}<span class="badge badge-light-primary me-2"><i
+                                        class="bi bi-telephone text-primary"></i> &nbsp;&nbsp;{{ object.telephone }}</span>{% endif %}
+                                {% if object.telephone_secondaire %}<span class="badge badge-light-primary me-2"><i
+                                        class="bi bi-telephone text-primary"></i> &nbsp;&nbsp;{{ object.telephone_secondaire }}</span>{% endif %}
+                                {% if object.profession %}<span class="badge badge-light-primary me-2"><i
+                                        class="bi bi-briefcase text-primary"></i> &nbsp;&nbsp;{{ object.profession }}</span>{% endif %}
+                                {% if object.mutuelle %}
+                                    <span class="badge badge-light-primary me-2"><i class="bi bi-plus text-primary"></i> &nbsp;&nbsp;{{ object.designation }}</span>{% endif %}
+                            </div>
+                            <!--end::Info-->
+                        </div>
+                        <!--end::User-->
+                        <!--begin::Actions-->
+                        <div class="my-4">
+                            <div class="d-flex justify-content-end">
+                                <div>
+                                    <a href="#" class="btn btn-sm btn-primary me-2"
+                                       data-kt-menu-trigger="click"
+                                       data-kt-menu-placement="bottom-end">
+                                        Nouvelle consultation
+                                    </a>
+                                    <div class="menu menu-sub menu-sub-dropdown w-250px menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold py-3"
+                                         data-kt-menu="true"
+                                         id="kt_menu_633e7ca49aabh3">
+                                        <!--begin::Header-->
+                                        <div class="px-5 py-3">
+                                            <div class="fs-5 text-dark fw-bold">Nouvelle consultation</div>
+                                        </div>
+                                        <!--end::Header-->
+                                        <!--begin::Menu separator-->
+                                        <div class="separator border-gray-200"></div>
+                                        <!--end::Menu separator-->
+
+
+                                        {% if 2 in user.profil.compte.categories %}
+                                            <!--begin::Form-->
+                                            <div class="menu-item px-3">
+                                                <div class="menu-content text-primary pb-2 px-3 fs-7 text-uppercase">
+                                                    Gynécologie
+                                                </div>
+                                            </div>
+
+                                            <div class="menu-item px-3">
+                                                <a href="/patients/{{ object.pk }}/consultation_gynecologique/ajouter"
+                                                   class="menu-link px-3">Consultation gynécologique</a>
+                                            </div>
+                                            <div class="menu-item px-3 d-none">
+                                                <a href="/patients/{{ object.pk }}/consultation_colposcopie/ajouter"
+                                                   class="menu-link px-3">Colposcopie</a>
+                                            </div>
+                                            <div class="menu-item px-3">
+                                                <a href="/patients/{{ object.pk }}/consultation_echo_pelvienne/ajouter"
+                                                   class="menu-link px-3">Echo pelvienne</a>
+                                            </div>
+                                            <div class="menu-item px-3">
+                                                <a href="/patients/{{ object.pk }}/consultation/ajouter?motif=gyneco-libre"
+                                                   class="menu-link px-3">Consultation libre</a>
+                                            </div>
+                                        {% endif %}
+
+                                        <div class="separator border-gray-200"></div>
+
+                                        {% if 1 in user.profil.compte.categories %}
+                                            <!--end::Menu separator-->
+                                            <!--begin::Form-->
+                                            <div class="menu-item px-3">
+                                                <div class="menu-content text-primary pb-2 px-3 fs-7 text-uppercase">
+                                                    Obstétrique
+                                                </div>
+                                            </div>
+
+                                            {% if patient.grossesse_encours != None %}
+                                                <div class="menu-item px-3">
+                                                    <a href="/patients/{{ object.pk }}/consultation_obs_echo_11SA/ajouter"
+                                                       class="menu-link px-3">Echo < 11 SA</a>
+                                                </div>
+                                                <div class="menu-item px-3">
+                                                    <a href="/patients/{{ object.pk }}/consultation_obs_echo_premier_trimestre/ajouter"
+                                                       class="menu-link px-3">1er trimestre</a>
+                                                </div>
+                                                <div class="menu-item px-3">
+                                                    <a href="/patients/{{ object.pk }}/consultation_obs_echo_deuxieme_trimestre/ajouter"
+                                                       class="menu-link px-3">2ème trimestre</a>
+                                                </div>
+                                                <div class="menu-item px-3">
+                                                    <a href="/patients/{{ object.pk }}/consultation_obs_echo_troisieme_trimestre/ajouter"
+                                                       class="menu-link px-3">3ème trimestre</a>
+                                                </div>
+                                                <div class="menu-item px-3">
+                                                    <a href="/patients/{{ object.pk }}/consultation_obs_echo_croissance/ajouter"
+                                                       class="menu-link px-3">Echo de croissance</a>
+                                                </div>
+                                                <div class="menu-item px-3">
+                                                    <a href="/patients/{{ object.pk }}/consultation/ajouter?motif=obs-libre"
+                                                       class="menu-link px-3">Consultation libre</a>
+                                                </div>
+                                            {% else %}
+                                                <div class="menu-item px-3">
+                                                    <div class="menu-content pb-2 px-3 fs-7">
+                                                        Pas de grossesse en cours
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+
+                                        {% endif %}
+
+                                        <div class="separator border-gray-200"></div>
+
+                                        {% if 3 in user.profil.compte.categories %}
+
+                                            <div class="d-none">
+                                                <div class="menu-item px-3">
+                                                    <div class="menu-content text-primary pb-2 px-3 fs-7 text-uppercase">
+                                                        PMA
+                                                    </div>
+                                                </div>
+
+                                                {% if patient.interrogatoire_pma %}
+                                                    <div class="menu-item px-3">
+                                                        <a href="/interrogatoire-pma/{{ patient.interrogatoire_pma.pk }}/modifier/"
+                                                           class="menu-link px-3">Interrogatoire</a>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="menu-item px-3">
+                                                        <a href="/patients/{{ object.pk }}/interrogatoire-pma/ajouter/"
+                                                           class="menu-link px-3">Interrogatoire</a>
+                                                    </div>
+                                                {% endif %}
+
+                                                {% if not patient.pma_encours %}
+                                                    <div class="menu-item px-3">
+                                                        <a href="/patients/{{ object.pk }}/tentative-pma/ajouter/"
+                                                           class="menu-link px-3">Nouvelle tentative</a>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
+
+                                        {% if 4 in user.profil.compte.categories %}
+                                            <div class="separator border-gray-200"></div>
+
+                                            <div class="menu-item px-3">
+                                                <div class="menu-content text-primary pb-2 px-3 fs-7 text-uppercase">
+                                                    Examen libre
+                                                </div>
+                                            </div>
+
+                                            <div class="menu-item px-3">
+                                                <a href="/patients/{{ object.pk }}/consultation/ajouter?motif=libre-defaut"
+                                                   class="menu-link px-3">Nouvel examen libre</a>
+                                            </div>
+
+                                        {% endif %}
+
+
+
+                                        <div class="separator border-gray-200"></div>
+
+                                        <div class="menu-item px-3">
+                                            <div class="menu-content text-primary pb-2 px-3 fs-7 text-uppercase">
+                                                Compte-rendu opératoire
+                                            </div>
+                                        </div>
+
+                                        <div class="menu-item px-3">
+                                            <a href="/patients/{{ object.pk }}/consultation/ajouter?motif=cr_op"
+                                               class="menu-link px-3">Nouveau compte-rendu</a>
+                                        </div>
+
+                                        <!--begin::Actions-->
+                                        <div class="d-flex justify-content-end">
+                                            <button type="reset"
+                                                    class="btn btn-sm btn-light btn-active-light-primary me-2"
+                                                    data-kt-menu-dismiss="true">Fermer
+                                            </button>
+                                        </div>
+                                        <!--end::Actions-->
+
+                                    </div>
+                                </div>
+                                {% if user.profil.compte.is_gyneco %}
+                                    <div class="btn-group me-2">
+                                        {% if patient.grossesse_encours != None %}
+                                            <button type="button" class="btn btn-sm btn-success"
+                                                    onclick="modifierGrossesse()">
+                                                Grossesse
+                                            </button>
+                                            <button type="button"
+                                                    class="btn btn-sm btn-success dropdown-toggle dropdown-toggle-split"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                <span class="visually-hidden">Menu</span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#"
+                                                       onclick="afficherCalendrierGrossesse()">Calendrier</a>
+                                                </li>
+                                                <li><a class="dropdown-item" href="#"
+                                                       onclick="cloturerGrossesse()">Clôturer</a>
+                                                </li>
+                                            </ul>
+                                        {% else %}
+                                            <button type="button" class="btn btn-sm btn-success"
+                                                    onclick="nouvelleGrossesse()">
+                                                Nouvelle grossesse
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="d-flex mt-6">
+                            <span>
+                                   <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" data-kt-menu-trigger="click"
+                                      data-kt-menu-placement="bottom-end">
+                                       Biologie
+                                   </a>
+                                   <div class="menu menu-sub menu-sub-dropdown w-350px w-md-350px" data-kt-menu="true"
+                                        id="kt_menu_633e7ca49aaa3">
+                                       <!--begin::Header-->
+                                       <div class="px-7 py-5">
+                                           <div class="fs-5 text-dark fw-bold">Dernières analyses</div>
+                                       </div>
+                                       <!--end::Header-->
+                                       <!--begin::Menu separator-->
+                                       <div class="separator border-gray-200"></div>
+                                       <!--end::Menu separator-->
+                                       <!--begin::Form-->
+                                       <div class="px-7 py-5">
+
+                                           <div id="prescriptions-container" class="scroll scroll-pull mb-10"
+                                                data-scroll="true"
+                                                style="/*height: 200px*/">
+                                               {% include 'core/partials/prescription_list.html' with prescriptions=object.prescriptionanalysebiologique_set %}
+                                           </div>
+
+                                           <!--begin::Actions-->
+                                           <div class="d-flex justify-content-end">
+                                               <button type="reset"
+                                                       class="btn btn-sm btn-light btn-active-light-primary me-2"
+                                                       data-kt-menu-dismiss="true">Fermer
+                                               </button>
+                                               <button type="submit" class="btn btn-sm btn-primary"
+                                                       data-kt-menu-dismiss="true"
+                                                       onclick="ajouterPrescriptionAnalyses()">
+                                                   Nouveau
+                                               </button>
+                                           </div>
+                                           <!--end::Actions-->
+                                       </div>
+                                       <!--end::Form-->
+                                   </div>
+                               </span>
+                                <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" id="ouvrir_liste_ordonnances">
+                                    Ordonnances
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" id="ouvrir_liste_certificats">
+                                    Courriers
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" onclick="priseRdv()">
+                                    Rendez-vous
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" id="ouvrir_historique_consultations">
+                                    Historique
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" id="ouvrir_antecedents">
+                                    Antécédents
+                                </a>
+                            </div>
+
+                        </div>
+                        <!--end::Actions-->
+                    </div>
+                    <!--end::Title-->
+                    <!--begin::Stats-->
+                    <div class="d-flex flex-wrap flex-stack">
+
+                        <div class="py-0">
+                            <!--begin::Body-->
+                            <div class="fs-6">
+                                <!--begin::Details-->
+                                <div class="d-flex flex-wrap py-2">
+                                    <!--begin::Col-->
+                                    <div class="flex-equal me-10">
+                                        <table class="table table-flush fw-semibold gy-1">
+                                            {% if object.adresse.ville %}
+                                                <tr>
+                                                    <td class="text-muted min-w-125px w-125px">Adresse</td>
+                                                    <td class="text-gray-800">
+                                                        {% if object.adresse.rue %}
+                                                            {{ object.adresse.numero }} rue {{ object.adresse.rue }}
+                                                        {% endif %}
+                                                        {% if object.adresse.ville %}
+                                                            {{ object.adresse.ville }} {{ object.adresse.cp }}
+                                                        {% endif %}
+                                                        {% if object.adresse.gouvernorat %}
+                                                            {{ object.adresse.gouvernorat }}
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+
+                                            <tr>
+                                                <td class="text-muted min-w-125px w-125px">GS</td>
+                                                <td class="text-gray-800">
+                                                    {% if '-' in  object.groupe_sanguin %}
+                                                        <span class="text-danger">
+                                                        {{ object.groupe_sanguin|default:"-" }}
+                                                       </span>
+                                                    {% else %}
+                                                        {{ object.groupe_sanguin|default:"-" }}
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-muted min-w-125px w-125px">Origine</td>
+                                                <td class="text-gray-800 min-w-175px w-175px">
+                                                    {{ object.get_origine_display|default:"-" }}
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="text-muted min-w-125px w-125px">Fumeur
+                                                </td>
+                                                <td class="text-gray-800">
+                                                    {% if object.fumeur %}Oui{% else %}Non{% endif %}
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="text-muted min-w-125px w-125px align-middle">Mots clés
+                                                </td>
+                                                <td class="text-gray-800">
+                                                    <input class="form-control form-control-solid tagify form-control-sm"
+                                                           name="tags" id="tags"
+                                                           value='{{ object.mot_cle|default:'' }}'>
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                    </div>
+                                    <!--end::Col-->
+                                    <!--begin::Col-->
+                                    <div class="flex-equal me-10">
+                                        <table class="table table-flush fw-semibold gy-1">
+
+                                            <tr>
+                                                <td class="text-muted min-w-125px w-125px">Taille <small>(cm)</small>
+                                                </td>
+                                                <td class="text-gray-800">
+                                                    {{ object.taille|floatformat|default:"-" }}
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="text-muted min-w-125px w-125px">Poids<small>(kg)</small>
+                                                </td>
+                                                <td class="text-gray-800">
+                                                    {{ object.poids|floatformat|default:"-" }}
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="text-muted min-w-125px w-125px">IMC <small>(kg/m2)</small>
+                                                </td>
+                                                <td class="text-gray-800">
+                                                    {{ IMC }}
+                                                </td>
+                                            </tr>
+
+
+                                        </table>
+                                    </div>
+
+                                    {% if patient.grossesse_encours != None %}
+                                        <div class="border-start ms-4 ps-8 border-grey-300">
+
+                                            <div class="flex-equal me-10">
+                                                <table class="table table-flush fw-semibold gy-1">
+                                                    <tr>
+                                                        <td class="text-muted min-w-125px w-125px">Terme</td>
+                                                        <td class="">
+                                                            <span class="terme badge text-bg-warning"></span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-muted min-w-125px w-125px">DDR</td>
+                                                        <td class="ddr text-gray-800 min-w-100px w-100px">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-muted min-w-125px w-125px">DDG</td>
+                                                        <td class="ddg text-gray-800 min-w-100px w-100px">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-muted min-w-125px w-125px">DPA</td>
+                                                        <td class="accouchement text-gray-800 min-w-100px w-100px">
+                                                        </td>
+                                                    </tr>
+
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="ms-4">
+
+                                            <div class="flex-equal me-10">
+
+                                                {% with g=patient.grossesse_encours %}
+                                                    <table class="table table-flush fw-semibold gy-1">
+                                                        <tr>
+                                                            <td class="text-muted min-w-125px w-125px">Risque T21</td>
+                                                            <td class="text-gray-800 min-w-125px w-125px">
+                                                                {% if g.risque %}
+                                                                    1/{{ g.risque|floatformat }}
+                                                                {% else %}
+                                                                    Non défini
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-muted min-w-125px w-125px">Toxo</td>
+                                                            <td class="text-gray-800 min-w-175px w-175px">
+                                                                {% if g.toxoplasmose_v2 %}
+                                                                    {{ g.get_toxoplasmose_v2_display }}
+                                                                {% else %}
+                                                                    Non défini
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td class="text-muted min-w-125px w-125px">Diabète</td>
+                                                            <td class="text-gray-800 min-w-175px w-175px">
+                                                                {% if g.diabete_v2 %}
+                                                                    {{ g.diabete_v2 }}
+                                                                {% else %}
+                                                                    Non défini
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td class="text-muted min-w-125px w-125px">Aspegic</td>
+                                                            <td class="text-gray-800 min-w-175px w-175px">
+                                                                {% if g.aspegic %}Oui{% else %}Non{% endif %}
+                                                            </td>
+                                                        </tr>
+                                                        {% if g.notes %}
+                                                            <tr>
+                                                                <td class="text-muted min-w-125px w-125px">Notes</td>
+                                                                <td class="text-gray-800 min-w-175px w-175px">
+                                                                    {{ g.notes|linebreaks }}
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
+
+                                                    </table>
+                                                {% endwith %}
+                                            </div>
+
+                                        </div>
+                                    {% endif %}
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Details-->
+                            </div>
+                            <!--end::Body-->
+                        </div>
+
+                        <!--end::Progress-->
+                    </div>
+                    <!--end::Stats-->
+                </div>
+                <!--end::Info-->
+            </div>
+            <!--end::Details-->
+            <!--begin::Navs-->
+
+            <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold">
+                <!--begin:::Tab item-->
+                <li class="nav-item">
+                    <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab"
+                       href="#tab-accueil">Accueil</a>
+                </li>
+                <!--end:::Tab item-->
+                <!--begin:::Tab item-->
+                <li class="nav-item">
+                    <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-consultations">Consultations</a>
+                </li>
+
+                {% if 3 in user.profil.compte.categories %}
+                <li class="nav-item">
+                    <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-pma">PMA</a>
+                </li>
+                {% endif %}
+
+                <li class="nav-item">
+                    <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab"
+                       href="#tab-historique">Historique</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab"
+                       href="#tab-documents">Documents</a>
+                </li>
+                <!--end:::Tab item-->
+            </ul>
+            <!--begin::Navs-->
+        </div>
+    </div>
+
+    <div class="tab-content mt-8">
+
+        <div id="tab-accueil" class="g-5 g-xxl-8 tab-pane fade show active">
+            <div class="row">
+
+                <!--begin::Col-->
+                <div class="col-12 col-xl-4">
+                    <!--begin::Feeds Widget 1-->
+                    <div class="card card-flush h-lg-100  border border-1 border-danger">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Alertes</span>
+                            </h3>
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body pt-0">
+                            <div class="min-h-50px p-2">
+                                <div id="alertes-container">
+                                    {% for alerte in object.alertepatient_set.all %}
+                                        <div id="alerte-{{ alerte.id }}"
+                                             class="py-1 d-flex align-items-center justify-content-between border-bottom border-bottom-light-danger">
+                                            <div {% if alerte.lien %} class="cursor-pointer"
+                                                                      onclick="gotoAlerte('{{ alerte.lien }}')" {% endif %}>
+                                                <i class="la la-warning text-danger"></i> {{ alerte.created_at|date:'d/m/Y' }}
+                                                - {{ alerte.text|safe }}
+                                            </div>
+                                            <div>
+                                                <button type="button" class="btn btn-sm btn-icon btn-danger"
+                                                        title="Masquer" onclick="dismissAlerte({{ alerte.id }})">
+                                                    <i class="la la-eye-slash icon-md"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <input type="text" placeholder="Ajouter une alerte" id="new-alerte"
+                                       class="mt-2 form-control form-control-sm bg-light-danger">
+                            </div>
+                        </div>
+
+                        <script id="alerte-template" type="text/html">
+                            <div id="alerte-<%= id %>"
+                                 class="py-1 d-flex align-items-center justify-content-between border-bottom border-bottom-light-danger">
+                                <div><i class="la la-warning text-danger"></i> <%= date %> - <%= text %></div>
+                                <div>
+                                    <button type="button" class="btn btn-sm btn-icon btn-danger"
+                                            title="Masquer"
+                                            onclick="dismissAlerte(<%= id %>)">
+                                        <i class="la la-eye-slash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </script>
+                        <!--end: Card Body-->
+                    </div>
+                </div>
+
+                <div class="col-12 col-xl-4">
+                    <div class="card card-flush h-lg-100 border border-1 border-warning">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Notes</span>
+                            </h3>
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body pt-0">
+                            <div class="min-h-50px p-2">
+                                <form id="kt_forms_widget_1_form" class="ql-quil ql-quil-plain pb-3">
+                                    <!--begin::Editor-->
+                                    <div id="edt-notes" class="pb-6 min-h-50px">
+                                        {% if object.notes %}
+                                            {{ object.notes|safe }}
+                                        {% endif %}
+                                    </div>
+                                    <!--end::Editor-->
+                                    <div class="separator"></div>
+                                    <!--begin::Toolbar-->
+                                    <div id="kt_forms_widget_1_editor_toolbar"
+                                         class="ql-toolbar d-flex flex-stack py-2">
+                                        <div class="me-2">
+                                                            <span class="ql-formats ql-size ms-0">
+                                                                <select class="ql-size w-75px"></select>
+                                                            </span>
+                                            <span class="ql-formats">
+                                                                <button class="ql-bold"></button>
+                                                                <button class="ql-italic"></button>
+                                                                <button class="ql-underline"></button>
+                                                                <button class="ql-strike"></button>
+                                                                <select class="ql-color"></select>
+                                                                <select class="ql-background"></select>
+
+                                                            </span>
+
+                                        </div>
+                                        <div class="me-n3">
+                                                            <span class="btn btn-icon btn-sm btn-active-color-primary">
+                                                                <i class="flaticon2-clip-symbol icon-ms"></i>
+                                                            </span>
+                                            <span class="btn btn-icon btn-sm btn-active-color-primary">
+                                                                <i class="flaticon2-pin icon-ms"></i>
+                                                            </span>
+                                        </div>
+                                    </div>
+                                    <!--end::Toolbar-->
+                                </form>
+
+                            </div>
+                        </div>
+                        <!--end: Card Body-->
+                    </div>
+                </div>
+
+
+                <div class="col-12 col-xl-4">
+                    <div class="card card-flush h-lg-100 border border-1 border-info">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Rendez-vous</span>
+                            </h3>
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body pt-0">
+                            <div class="min-h-50px p-2">
+                                <div class="scroll scroll-pull" data-scroll="true" style="/*height: 200px*/">
+                                    <ul class="list-group list-group-flush">
+                                        {% for rdv in object.rdv_set.all|slice:":4" %}
+                                            <li class="list-group-item px-1 py-1 d-flex justify-content-between">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="font-size-sm text-weight-bold">{{ rdv.debut|date:'d/m/Y' }}
+                                                        - &nbsp;&nbsp;
+                                                    </div>
+                                                    <div class="font-size-sm font-weight-bolder {% if rdv.is_missed %}text-danger{% endif %}">
+                                                        {{ rdv.motif.libelle }}
+                                                        {% if rdv.is_missed %}
+                                                            <span class="label label-pill label-inline label-danger ml-2">Manqué</span>{% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="rdv_action">
+                                                    <button data-id="{{ rdv.pk }}" type="button"
+                                                            class="modifier_rdv btn btn-clean btn-hover-light-primary btn-sm btn-icon">
+                                                        <i class="la la-pencil icon-md"></i>
+                                                    </button>
+                                                </div>
+                                            </li>
+                                        {% empty %}
+                                            <li id="rdv-msg-vide" class="list-item">
+                                                <span class="small">Pas de rendez-vous prévus</span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end: Card Body-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <h1 class="d-flex fw-bold fs-3">Antécédents</h1>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12 col-xl-3 mt-8 mt-xl-0">
+                    <div class="card card-flush h-lg-100 border border-1 border-primary">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Familiaux</span>
+                            </h3>
+                            <div class="my-0">
+                                <button type="button"
+                                        class="btn btn-sm btn-flex btn-light-primary"
+                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                    <!--begin::Svg Icon | path: icons/duotune/general/gen024.svg-->
+                                    <span class="svg-icon svg-icon-3">
+															<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                                 xmlns="http://www.w3.org/2000/svg">
+																<rect opacity="0.3" x="2" y="2" width="20" height="20"
+                                                                      rx="5" fill="currentColor"></rect>
+																<rect x="10.8891" y="17.8033" width="12" height="2"
+                                                                      rx="1" transform="rotate(-90 10.8891 17.8033)"
+                                                                      fill="currentColor"></rect>
+																<rect x="6.01041" y="10.9247" width="12" height="2"
+                                                                      rx="1" fill="currentColor"></rect>
+															</svg>
+														</span>
+                                    Ajouter
+                                    <!--end::Svg Icon-->
+                                </button>
+                                <!--begin::Menu 2-->
+                                <div id="phrases-antecedents-familiaux"
+                                     class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px"
+                                     data-kt-menu="true">
+                                </div>
+                                <!--end::Menu 2-->
+                            </div>
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body py-4">
+                            <div class="min-h-50px p-2">
+                                <form id="editor-1" class="ql-quil ql-quil-plain pb-3">
+                                    <!--begin::Editor-->
+                                    <div id="antecedents-1" data-id="1"
+                                         class="antecedent-editor pb-6 min-h-100px">
+                                        {% if object.antecedents_familiaux %}
+                                            {{ object.antecedents_familiaux|safe }}
+                                        {% endif %}
+                                    </div>
+                                    <!--end::Editor-->
+                                    <div class="separator"></div>
+                                    <!--begin::Toolbar-->
+                                    <div id="antecedent-editor-toolbar-1" class="ql-toolbar d-flex flex-stack py-2">
+                                        <div class="me-2">
+                                                            <span class="ql-formats ql-size ms-0">
+                                                                <select class="ql-size w-75px"></select>
+                                                            </span>
+                                            <span class="ql-formats">
+                                                                <button class="ql-bold"></button>
+                                                                <button class="ql-italic"></button>
+                                                                <button class="ql-underline"></button>
+                                                                <button class="ql-strike"></button>
+                                                                <select class="ql-color"></select>
+                                                                <select class="ql-background"></select>
+
+                                                            </span>
+                                        </div>
+                                        <div class="me-n3">
+                                                            <span class="btn btn-icon btn-sm btn-active-color-primary">
+                                                                <i class="flaticon2-clip-symbol icon-ms"></i>
+                                                            </span>
+                                            <span class="btn btn-icon btn-sm btn-active-color-primary">
+                                                                <i class="flaticon2-pin icon-ms"></i>
+                                                            </span>
+                                        </div>
+                                    </div>
+                                    <!--end::Toolbar-->
+                                </form>
+
+                            </div>
+                        </div>
+                        <!--end: Card Body-->
+                    </div>
+                </div>
+                <div class="col-12 col-xl-3 mt-8 mt-xl-0">
+                    <div class="card card-flush h-lg-100  border border-1 border-primary">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Médico-chirurgicaux</span>
+                            </h3>
+                            <div class="my-0">
+                                <button type="button"
+                                        class="btn btn-sm btn-flex btn-light-primary"
+                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                    <!--begin::Svg Icon | path: icons/duotune/general/gen024.svg-->
+                                    <span class="svg-icon svg-icon-3">
+															<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                                 xmlns="http://www.w3.org/2000/svg">
+																<rect opacity="0.3" x="2" y="2" width="20" height="20"
+                                                                      rx="5" fill="currentColor"></rect>
+																<rect x="10.8891" y="17.8033" width="12" height="2"
+                                                                      rx="1" transform="rotate(-90 10.8891 17.8033)"
+                                                                      fill="currentColor"></rect>
+																<rect x="6.01041" y="10.9247" width="12" height="2"
+                                                                      rx="1" fill="currentColor"></rect>
+															</svg>
+														</span>
+                                    Ajouter
+                                    <!--end::Svg Icon-->
+                                </button>
+                                <!--begin::Menu 2-->
+                                <div id="phrases-antecedents-chirurgicaux"
+                                     class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px"
+                                     data-kt-menu="true">
+                                </div>
+                                <!--end::Menu 2-->
+                            </div>
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body py-4">
+                            <div class="min-h-50px p-2">
+                                <form id="editor-2" class="ql-quil ql-quil-plain pb-3">
+                                    <!--begin::Editor-->
+                                    <div id="antecedents-2" class="antecedent-editor pb-6 min-h-100px">
+                                        {% if object.antecedents_medico_chirurgicaux %}
+                                            {{ object.antecedents_medico_chirurgicaux|safe }}
+                                        {% endif %}
+                                    </div>
+                                    <!--end::Editor-->
+                                    <div class="separator"></div>
+                                    <!--begin::Toolbar-->
+                                    <div id="antecedent-editor-toolbar-2" class="ql-toolbar d-flex flex-stack py-2">
+                                        <div class="me-2">
+                                                            <span class="ql-formats ql-size ms-0">
+                                                                <select class="ql-size w-75px"></select>
+                                                            </span>
+                                            <span class="ql-formats">
+                                                                <button class="ql-bold"></button>
+                                                                <button class="ql-italic"></button>
+                                                                <button class="ql-underline"></button>
+                                                                <button class="ql-strike"></button>
+                                                                <select class="ql-color"></select>
+                                                                <select class="ql-background"></select>
+
+                                                            </span>
+                                        </div>
+                                        <div class="me-n3">
+                                                            <span class="btn btn-icon btn-sm btn-active-color-primary">
+                                                                <i class="flaticon2-clip-symbol icon-ms"></i>
+                                                            </span>
+                                            <span class="btn btn-icon btn-sm btn-active-color-primary">
+                                                                <i class="flaticon2-pin icon-ms"></i>
+                                                            </span>
+                                        </div>
+                                    </div>
+                                    <!--end::Toolbar-->
+                                </form>
+                            </div>
+                        </div>
+                        <!--end: Card Body-->
+                    </div>
+                </div>
+                <div class="col-12 col-xl-3 mt-8 mt-xl-0">
+                    <div class="card card-flush h-lg-100  border border-1 border-primary">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Gynécologiques</span>
+                            </h3>
+                            <div class="my-0">
+                                <button type="button"
+                                        class="btn btn-sm btn-flex btn-light-primary"
+                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                    <!--begin::Svg Icon | path: icons/duotune/general/gen024.svg-->
+                                    <span class="svg-icon svg-icon-3">
+															<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                                 xmlns="http://www.w3.org/2000/svg">
+																<rect opacity="0.3" x="2" y="2" width="20" height="20"
+                                                                      rx="5" fill="currentColor"></rect>
+																<rect x="10.8891" y="17.8033" width="12" height="2"
+                                                                      rx="1" transform="rotate(-90 10.8891 17.8033)"
+                                                                      fill="currentColor"></rect>
+																<rect x="6.01041" y="10.9247" width="12" height="2"
+                                                                      rx="1" fill="currentColor"></rect>
+															</svg>
+														</span>
+                                    Ajouter
+                                    <!--end::Svg Icon-->
+                                </button>
+                                <!--begin::Menu 2-->
+                                <div id="phrases-antecedents-gynecologiques"
+                                     class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px"
+                                     data-kt-menu="true">
+                                </div>
+                                <!--end::Menu 2-->
+                            </div>
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body py-4">
+                            <div class="min-h-50px p-2">
+                                <form id="editor-3" class="ql-quil ql-quil-plain pb-3">
+                                    <!--begin::Editor-->
+                                    <div id="antecedents-3" class="antecedent-editor pb-6 min-h-100px">
+                                        {% if object.antecedents_gynecologiques %}
+                                            {{ object.antecedents_gynecologiques|safe }}
+                                        {% endif %}
+                                    </div>
+                                    <!--end::Editor-->
+                                    <div class="separator"></div>
+                                    <!--begin::Toolbar-->
+                                    <div id="antecedent-editor-toolbar-3" class="ql-toolbar d-flex flex-stack py-2">
+                                        <div class="me-2">
+                                                            <span class="ql-formats ql-size ms-0">
+                                                                <select class="ql-size w-75px"></select>
+                                                            </span>
+                                            <span class="ql-formats">
+                                                                <button class="ql-bold"></button>
+                                                                <button class="ql-italic"></button>
+                                                                <button class="ql-underline"></button>
+                                                                <button class="ql-strike"></button>
+                                                                <select class="ql-color"></select>
+                                                                <select class="ql-background"></select>
+
+                                                            </span>
+                                        </div>
+                                        <div class="me-n3">
+                                                            <span class="btn btn-icon btn-sm btn-active-color-primary">
+                                                                <i class="flaticon2-clip-symbol icon-ms"></i>
+                                                            </span>
+                                            <span class="btn btn-icon btn-sm btn-active-color-primary">
+                                                                <i class="flaticon2-pin icon-ms"></i>
+                                                            </span>
+                                        </div>
+                                    </div>
+                                    <!--end::Toolbar-->
+                                </form>
+                            </div>
+                        </div>
+                        <!--end: Card Body-->
+                    </div>
+                </div>
+                <div class="col-12 col-xl-3 mt-8 mt-xl-0">
+                    <div class="card card-flush h-lg-100  border border-1 border-primary">
+                        <!--begin::Header-->
+                        <div class="card-header pt-7">
+                            <!--begin::Title-->
+                            <h3 class="card-title align-items-start flex-column">
+                                <span class="card-label fw-bold text-gray-800">Allergies</span>
+                            </h3>
+                            <div class="my-0">
+                                <button type="button"
+                                        class="btn btn-sm btn-flex btn-light-primary"
+                                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                    <!--begin::Svg Icon | path: icons/duotune/general/gen024.svg-->
+                                    <span class="svg-icon svg-icon-3">
+															<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                                 xmlns="http://www.w3.org/2000/svg">
+																<rect opacity="0.3" x="2" y="2" width="20" height="20"
+                                                                      rx="5" fill="currentColor"></rect>
+																<rect x="10.8891" y="17.8033" width="12" height="2"
+                                                                      rx="1" transform="rotate(-90 10.8891 17.8033)"
+                                                                      fill="currentColor"></rect>
+																<rect x="6.01041" y="10.9247" width="12" height="2"
+                                                                      rx="1" fill="currentColor"></rect>
+															</svg>
+														</span>
+                                    Ajouter
+                                    <!--end::Svg Icon-->
+                                </button>
+                                <!--begin::Menu 2-->
+                                <div id="phrases-allergies"
+                                     class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px"
+                                     data-kt-menu="true">
+                                </div>
+                                <!--end::Menu 2-->
+                            </div>
+                        </div>
+                        <!--end::Header-->
+                        <!--begin::Body-->
+                        <div class="card-body py-4">
+                            <div class="min-h-50px p-2">
+                                <form id="editor-4" class="ql-quil ql-quil-plain pb-3">
+                                    <!--begin::Editor-->
+                                    <div id="antecedents-4" class="antecedent-editor pb-6 min-h-100px">
+                                        {% if object.allergies %}
+                                            {{ object.allergies|safe }}
+                                        {% endif %}
+                                    </div>
+                                    <!--end::Editor-->
+                                    <div class="separator"></div>
+                                    <!--begin::Toolbar-->
+                                    <div id="antecedent-editor-toolbar-4" class="ql-toolbar d-flex flex-stack py-2">
+                                        <div class="me-2">
+                                                            <span class="ql-formats ql-size ms-0">
+                                                                <select class="ql-size w-75px"></select>
+                                                            </span>
+                                            <span class="ql-formats">
+                                                                <button class="ql-bold"></button>
+                                                                <button class="ql-italic"></button>
+                                                                <button class="ql-underline"></button>
+                                                                <button class="ql-strike"></button>
+                                                                <select class="ql-color"></select>
+                                                                <select class="ql-background"></select>
+
+                                                            </span>
+                                        </div>
+                                        <div class="me-n3">
+                                                            <span class="btn btn-icon btn-sm btn-active-color-primary">
+                                                                <i class="flaticon2-clip-symbol icon-ms"></i>
+                                                            </span>
+                                            <span class="btn btn-icon btn-sm btn-active-color-primary">
+                                                                <i class="flaticon2-pin icon-ms"></i>
+                                                            </span>
+                                        </div>
+                                    </div>
+                                    <!--end::Toolbar-->
+                                </form>
+                            </div>
+                        </div>
+                        <!--end: Card Body-->
+                    </div>
+                </div>
+            </div>
+
+            <!--<div class="h-1px bg-blue-200"></div>-->
+            {% if user.profil.compte.is_gyneco %}
+                <div class="pt-1 pl-5 pr-5 pb-1 bg-blue-50">
+                    <div class="row mt-4 mb-1">
+                        <div class="col-4 col-xxl-4 pr-1 pr-xxl-8">
+                            <div class="card card-custom card-stretch gutter-b px-2  border border-1 border-primary">
+                                <div class="card-header align-items-center border-0 mt-0">
+                                    <h3 class="card-title align-items-start flex-column">
+                                        <span class="font-weight-bolder text-dark">FCV</span>
+                                    </h3>
+
+                                    <div class="card-toolbar">
+                                        <div class="dropdown dropdown-inline">
+                                            <button class="btn btn-light-primary btn-sm dropdown-toggle p-1"
+                                                    type="button" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false"
+                                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
+                                                    data-form="antecedents" data-champ="FCV">
+                                                Ajouter
+                                            </button>
+                                            <div id="fcv"
+                                                 class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px"
+                                                 data-kt-menu="true">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="fcv-date-container"
+                                         class="antecedent-date-container form-group w-100" style="display:none">
+                                        <div class="form-group row">
+                                            <label class="col-3 col-form-label">Date</label>
+                                            <div class="col-9">
+                                                <div class="input-group">
+                                                    <input id="fcv-date" type="text"
+                                                           class="date-picker form-control form-control-sm">
+                                                    <div class="input-group-append">
+                                                        <button onclick="ajouterAntecedentParChamp('FCV')"
+                                                                class="btn btn-sm btn-primary"
+                                                                disabled
+                                                                type="button">
+                                                            OK
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-body pt-0">
+                                    <div id="fcv-timeline" class="timeline timeline-2">
+                                        <div class="timeline-bar"></div>
+                                        {% for antecedent in antecedents_fcv %}
+                                            <div class="timeline-item">
+                                                <div class="timeline-badge bg-success mr-2"></div>
+                                                <div class="timeline-content d-flex align-items-center justify-content-between">
+                                                                <span class="font-size-sm mr-1">
+				                                                    {{ antecedent.text }}
+                                                                </span>
+                                                    <span class="text-muted text-right font-size-xs">
+                                                                    {{ antecedent.date|date:'d/m/Y' }}
+                                                                    <button type="button"
+                                                                            onclick="supprimerAntecedent(event, {{ antecedent.id }})"
+                                                                            class="btn btn-icon btn-clean btn-hover-danger btn-sm"
+                                                                            title="Supprimer">
+                                                                        <i class="la la-trash icon-md"></i>
+                                                                    </button>
+                                                                </span>
+                                                </div>
+                                            </div>
+                                        {% empty %}
+                                            <div id="fcv-timeline-empty" class="font-size-sm">
+                                                Pas d'historique
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-4 col-xxl-4 pr-1 pr-xxl-8 pl-2">
+                            <div class="card card-custom card-stretch gutter-b px-2  border border-1 border-primary">
+                                <div class="card-header align-items-center border-0 mt-0">
+                                    <h3 class="card-title align-items-start flex-column">
+                                        <span class="font-weight-bolder text-dark">Mammographie</span>
+                                    </h3>
+
+                                    <div class="card-toolbar">
+                                        <div class="dropdown dropdown-inline">
+                                            <button class="btn btn-light-primary btn-sm dropdown-toggle p-1"
+                                                    type="button" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false"
+                                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
+                                                    data-form="antecedents" data-champ="Mammographie">
+                                                Ajouter
+                                            </button>
+                                            <div id="mammographie"
+                                                 class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px"
+                                                 data-kt-menu="true">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="mammographie-date-container"
+                                         class="antecedent-date-container form-group" style="display:none">
+                                        <div class="form-group row">
+                                            <label class="col-3 col-form-label">Date</label>
+                                            <div class="col-9">
+                                                <div class="input-group">
+                                                    <input id="mammographie-date" type="text"
+                                                           class="date-picker form-control form-control-sm">
+                                                    <div class="input-group-append">
+                                                        <button onclick="ajouterAntecedentParChamp('Mammographie')"
+                                                                class="btn btn-sm btn-primary"
+                                                                disabled
+                                                                type="button">
+                                                            OK
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-body pt-0">
+                                    <div id="mammographie-timeline" class="timeline timeline-2">
+                                        <div class="timeline-bar"></div>
+                                        {% for antecedent in antecedents_mammographie %}
+                                            <div class="timeline-item">
+                                                <div class="timeline-badge bg-success mr-2"></div>
+                                                <div class="timeline-content d-flex align-items-center justify-content-between">
+                                                                <span class="font-size-sm mr-1">
+				                                                    {{ antecedent.text }}
+                                                                </span>
+                                                    <span class="text-muted text-right font-size-xs">
+                                                                    {{ antecedent.date|date:'d/m/Y' }}
+                                                                    <button type="button"
+                                                                            onclick="supprimerAntecedent(event, {{ antecedent.id }})"
+                                                                            class="btn btn-icon btn-clean btn-hover-danger btn-sm"
+                                                                            title="Supprimer">
+                                                                        <i class="la la-trash icon-md"></i>
+                                                                    </button>
+                                                                </span>
+                                                </div>
+                                            </div>
+                                        {% empty %}
+                                            <div id="mammographie-timeline-empty" class="font-size-sm">Pas
+                                                d'historique
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-4 col-xxl-4 pr-1 pr-xxl-8 pl-2">
+                            <div class="card card-custom card-stretch gutter-b px-2  border border-1 border-primary">
+                                <div class="card-header align-items-center border-0 mt-0">
+                                    <h3 class="card-title align-items-start flex-column">
+                                        <span class="font-weight-bolder text-dark">Echo Mammaire</span>
+                                    </h3>
+
+                                    <div class="card-toolbar">
+                                        <div class="dropdown dropdown-inline">
+                                            <button class="btn btn-light-primary btn-sm dropdown-toggle p-1"
+                                                    type="button" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false"
+                                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
+                                                    data-form="antecedents" data-champ="Echo Mammaire">
+                                                Ajouter
+                                            </button>
+                                            <div id="echo-mammaire"
+                                                 class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px"
+                                                 data-kt-menu="true">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="echo-mammaire-date-container"
+                                         class="antecedent-date-container form-group" style="display:none">
+                                        <div class="form-group row">
+                                            <label class="col-3 col-form-label">Date</label>
+                                            <div class="col-9">
+                                                <div class="input-group">
+                                                    <input id="echo-mammaire-date" type="text"
+                                                           class="date-picker form-control form-control-sm">
+                                                    <div class="input-group-append">
+                                                        <button onclick="ajouterAntecedentParChamp('Echo Mammaire')"
+                                                                class="btn btn-sm btn-primary"
+                                                                disabled
+                                                                type="button">
+                                                            OK
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-body pt-0">
+                                    <div id="echo-mammaire-timeline" class="timeline timeline-2">
+                                        <div class="timeline-bar"></div>
+                                        {% for antecedent in antecedents_echo_mammaire %}
+                                            <div class="timeline-item">
+                                                <div class="timeline-badge bg-success mr-2"></div>
+                                                <div class="timeline-content d-flex align-items-center justify-content-between">
+                                                                <span class="font-size-sm mr-1">
+				                                                    {{ antecedent.text }}
+                                                                </span>
+                                                    <span class="text-muted text-right font-size-xs">
+                                                                    {{ antecedent.date|date:'d/m/Y' }}
+                                                                    <button type="button"
+                                                                            onclick="supprimerAntecedent(event, {{ antecedent.id }})"
+                                                                            class="btn btn-icon btn-clean btn-hover-danger btn-sm"
+                                                                            title="Supprimer">
+                                                                        <i class="la la-trash icon-md"></i>
+                                                                    </button>
+                                                                </span>
+                                                </div>
+                                            </div>
+                                        {% empty %}
+                                            <div id="echo-mammaire-timeline-empty" class="font-size-sm">Pas
+                                                d'historique
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--<div class="card">
+                        <div class="card-header" id="headingThree3">
+                            <div class="card-title collapsed" data-toggle="collapse"
+                                 data-target="#collapseThree2">
+                                Antécédents obstétricaux
+                            </div>
+                        </div>
+                        <div id="collapseThree2" class="collapse" data-parent="#accordionExample2">
+                            <div class="card-body">
+                                ...
+                            </div>
+                        </div>
+                    </div>-->
+
+                </div>
+            {% endif %}
+
+            {% if user.profil.compte.is_gyneco %}
+                <div class="row">
+                    <div class="col-12 mt-4">
+                        <div class="card card-flush h-lg-100 border border-1 border-info">
+                            <!--begin::Header-->
+                            <div class="card-header pt-7">
+                                <!--begin::Title-->
+                                <h3 class="card-title align-items-start flex-column">
+                                    <span class="card-label fw-bold text-gray-800">Obstétricaux</span>
+                                </h3>
+                                <div class="my-0">
+                                    <button type="button"
+                                            class="btn btn-sm btn-flex btn-light-primary"
+                                            onclick="nouvelAntecedentObstetrique()">
+                                        <!--begin::Svg Icon | path: icons/duotune/general/gen024.svg-->
+                                        <span class="svg-icon svg-icon-3">
+															<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                                 xmlns="http://www.w3.org/2000/svg">
+																<rect opacity="0.3" x="2" y="2" width="20" height="20"
+                                                                      rx="5" fill="currentColor"></rect>
+																<rect x="10.8891" y="17.8033" width="12" height="2"
+                                                                      rx="1" transform="rotate(-90 10.8891 17.8033)"
+                                                                      fill="currentColor"></rect>
+																<rect x="6.01041" y="10.9247" width="12" height="2"
+                                                                      rx="1" fill="currentColor"></rect>
+															</svg>
+														</span>
+                                        Ajouter
+                                        <!--end::Svg Icon-->
+                                    </button>
+
+                                </div>
+                            </div>
+                            <!--end::Header-->
+                            <!--begin::Body-->
+                            <div class="card-body">
+                                <div class="min-h-50px p-2">
+                                    {% if user.profil.compte.is_gyneco %}
+                                        <div id="accordion" class="accordion accordion-icon-toggle">
+                                            {% for antecedent in antecedents_obstetriques_patient %}
+                                                <div class="mb-5">
+                                                    <div id="heading{{ antecedent.pk }}"
+                                                         class="accordion-header">
+
+                                                        <div class="ps-2 font-size-base row">
+                                                            <div data-bs-toggle="collapse"
+                                                                 data-bs-target="#collapse{{ antecedent.pk }}"
+                                                                 class="accordion-icon col-1">
+                                                               <span class="svg-icon svg-icon-4">
+                                                                        <svg width="24" height="24" viewBox="0 0 24 24"
+                                                                             fill="none"
+                                                                             xmlns="http://www.w3.org/2000/svg">
+                                                                            <rect opacity="0.5" x="18" y="13" width="13"
+                                                                                  height="2" rx="1"
+                                                                                  transform="rotate(-180 18 13)"
+                                                                                  fill="currentColor"></rect>
+                                                                            <path d="M15.4343 12.5657L11.25 16.75C10.8358 17.1642 10.8358 17.8358 11.25 18.25C11.6642 18.6642 12.3358 18.6642 12.75 18.25L18.2929 12.7071C18.6834 12.3166 18.6834 11.6834 18.2929 11.2929L12.75 5.75C12.3358 5.33579 11.6642 5.33579 11.25 5.75C10.8358 6.16421 10.8358 6.83579 11.25 7.25L15.4343 11.4343C15.7467 11.7467 15.7467 12.2533 15.4343 12.5657Z"
+                                                                                  fill="currentColor"></path>
+                                                                        </svg>
+                                                                    </span>
+                                                                <!--end::Svg Icon-->
+                                                            </div>
+                                                            <div class="col-3 d-flex align-items-center">
+                                                                <div class="font-size-sm text-primary font-weight-bold">
+                                                                    {{ antecedent.date_accouchement|date:'d/m/Y' }}
+                                                                </div>
+                                                                <div class="font-size-sm text-primary font-weight-bold ms-4">
+                                                                    {% if antecedent.lieu_accouchement_disp %}à
+                                                                        {{ antecedent.lieu_accouchement_disp }}{% endif %}
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 d-flex align-items-center">
+                                                                <a class="text-primary font-weight-bolder"
+                                                                   onclick="modifierAntecedentObstetrique({{ antecedent.pk }})">
+                                                                    {% if antecedent.sous_categorie.id == 19 %}
+                                                                        {% if antecedent.issue_grossesse %}
+                                                                            {{ antecedent.issue_grossesse }}
+                                                                        {% else %}
+                                                                            Issue de grossesse à compléter
+                                                                        {% endif %}
+                                                                    {% else %}
+                                                                        {% if antecedent.sous_categorie %}
+                                                                            {{ antecedent.sous_categorie }}
+                                                                        {% else %}
+                                                                            Issue de grossesse à compléter
+                                                                        {% endif %}
+                                                                    {% endif %}
+                                                                </a>
+                                                            </div>
+                                                            <div class="col-3 d-flex align-items-center">
+                                                            <span data-bs-toggle="popover" data-bs-placement="left"
+                                                                  data-bs-html="true" title="Foetus"
+                                                                  data-bs-content="{{ antecedent.resume_foetus }}"
+                                                                  class="label label-light-info label-pill label-inline me-2 w-80px">
+                                                                {{ antecedent.nb_foetus }} foetus
+                                                            </span>
+                                                                <!-- {% if antecedent.prenom_1 %}
+                                                                {{ antecedent.prenom_1 }}
+                                                            {% endif %}
+                                                            {% if antecedent.sexe_1 %}
+                                                                ({{ antecedent.sexe_1 }})
+                                                            {% endif %}
+                                                            {% if antecedent.poids_naissance_1 %}
+                                                                -
+                                                                {{ antecedent.poids_naissance_1|floatformat }}
+                                                                g{% endif %}
+                                                                -->
+                                                            </div>
+                                                            <div class="col-1">
+                                                                <a onclick="modifierAntecedentObstetrique({{ antecedent.pk }})"
+                                                                   class="btn btn-icon btn-primary btn-sm"
+                                                                   title="Modifier">
+                                                                    <i class="la la-pen"></i>
+                                                                </a>
+                                                                <a onclick="supprimerAntecedentObstetrique({{ antecedent.pk }})"
+                                                                   class="btn btn-icon btn-danger btn-sm"
+                                                                   title="Supprimer">
+                                                                    <i class="la la-trash"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="collapse{{ antecedent.pk }}"
+                                                         class="accordion-collapse collapse"
+                                                         data-parent="#accordion">
+                                                        <div class="card-body px-0 py-1">
+                                                            <table
+                                                                    id="table{{ antecedent.pk }}"
+                                                                    class="table-cons-obs table table-checkable table-striped border-top"
+                                                                    style="margin: 0 !important;">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>Date</th>
+                                                                    <th>Terme</th>
+                                                                    <th>Motif</th>
+                                                                    <th>Praticien</th>
+                                                                    <th>Actions</th>
+                                                                </tr>
+                                                                </thead>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!--end: Card Body-->
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+
+        </div>
+
+        <div id="tab-consultations" class="tab-pane fade">
+            <div class="card px-4">
+                <div class="card-body">
+                    {% include 'core/partials/consultations_patient.html' with consultations=consultations %}
+                </div>
+            </div>
+
+        </div>
+        <div id="tab-pma" class="tab-pane fade">
+            <div class="card px-4">
+                <div class="card-body">
+                    {% include 'core/partials/pma.html' with categories=categories %}
+                </div>
+            </div>
+        </div>
+        <div id="tab-historique" class="tab-pane fade">
+            {% include 'core/partials/timeline_patient.html' with categories=categories %}
+        </div>
+        <div id="tab-documents" class="tab-pane fade">
+            {% include 'core/patient_fichiers_v2.html' with patient=object %}
+        </div>
+
+
+    </div>
+
+    <script type="text/html" id="actions-template">
+        <a href="<%- modifUrl %>" class="btn btn-icon btn-primary btn-sm" title="Consulter">
+            <i class="la la-eye"></i>
+        </a>
+        <a onclick="supprimerConsultation(<%= id %>)" href="javascript:void(0)" class="btn btn-icon btn-danger btn-sm"
+           title="Supprimer">
+            <i class="la la-trash"></i>
+        </a>
+    </script>
+
+    <script type="text/html" id="actions-pma-template">
+        <a href="<%- modifUrl %>" class="btn btn-icon btn-primary btn-sm" title="Consulter">
+            <i class="la la-eye"></i>
+        </a>
+        <a onclick="supprimerPMA(<%= id %>)" href="javascript:void(0)" class="btn btn-icon btn-danger btn-sm"
+           title="Supprimer">
+            <i class="la la-trash"></i>
+        </a>
+    </script>
+
+    <script type="text/html" id="actions-ordonnances-template">
+        <a onclick="afficherOrdonnance(<%= id %>)"
+           class="btn btn-icon btn-primary btn-sm" title="Consulter">
+            <i class="la la-eye"></i>
+        </a>
+    </script>
+
+    <script type="text/html" id="antecedent-timeline-item-template">
+        <div class="timeline-item">
+            <div class="timeline-badge bg-success me-2"></div>
+            <div class="timeline-content d-flex align-items-center justify-content-between">
+				<span class="font-size-sm me-1">
+				    <%= valeur %>
+				</span>
+                <span class="text-muted text-right font-size-xs"><%= date %></span>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/html" id="actions-rapport-template">
+        <a onclick="afficherConsultation(<%= id %>, '<%= motif %>')"
+           class="btn btn-icon btn-primary btn-sm" title="Consulter le compte-rendu">
+            <i class="la la-file"></i>
+        </a>
+        <a href="<%- modifUrl %>"
+           class="btn btn-icon btn-info btn-sm" title="Modifier consultation">
+            <i class="la la-pen"></i>
+        </a>
+    </script>
+
+    <script id="etablissement-template" type="text/html">
+        <div class="d-flex flex-wrap align-items-center justify-content-between w-100 px-1 py-1">
+            <div class="font-size-sm font-weight-bolder">
+                <%= nom %>
+            </div>
+            <div>
+                <button data-id="<%= etablissement_id %>" type="button"
+                        onclick="modifierEtablissement(<%= etablissement_id %>)"
+                        class="btn btn-clean btn-hover-light-primary btn-sm btn-icon">
+                    <i class="la la-pencil icon-md"></i>
+                </button>
+                <button type="button" onClick="dissocierEtablissement(event, <%= patient_id %>)"
+                        class="btn btn-icon btn-clean btn-hover-danger btn-sm"
+                        title="Supprimer">
+                    <i class="la la-trash icon-md"></i>
+                </button>
+            </div>
+        </div>
+    </script>
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="{% static "plugins/custom/tinymce/tinymce.bundle.js" %}"></script>
+    <script type="text/javascript">
+
+        const patient = {{ object.pk }};
+        const list_mots = {{ mot_patient|safe }};
+
+        {% if msg %}
+            toastr.success("{{ msg }}");
+        {% endif %}
+
+        let consultations = {{ consultations_json|safe }};
+        //console.info('Consultations', consultations);
+
+        let consultations_obs = {{ consultations_obs_json|safe }};
+        consultations_obs = _.groupBy(consultations_obs, 'grossesse.id')
+        //console.info('Consultations obstetriques', consultations_obs);
+
+        let grossesse = {% if grossesse_encours %}{{ grossesse_encours_json|safe }}{% else %}null{% endif %};
+
+        if (grossesse && _.isNil(grossesse.ddr)) {
+            toastr.warning("La DDR n'est pas renseignée pour la grossesse en cours", '', {
+                timeOut: 0,
+                extendedTimeOut: 0,
+                closeButton: true
+            });
+        }
+
+        let ordonnances = {{ ordonnances_json|safe }};
+        ordonnances = _.map(ordonnances, e => _.merge(e.fields, {'pk': e.pk}));
+
+        let antecedents_obstetriques_patient = {{ antecedents_obstetriques_patient_json|safe }};
+        //console.info('Antecedents obstetriques', antecedents_obstetriques_patient);
+
+        let motifs = {{ motifs|safe }};
+        motifs = _.keyBy(_.map(motifs, e => _.merge(e.fields, {'pk': e.pk})), 'code');
+
+        let motifs_json = {{ motifs_json|safe }};
+
+        let praticiens = {{ praticiens_json|safe }};
+        //console.info('Praticiens', praticiens);
+
+        let etablissements = {{ etablissements_json|safe }};
+        etablissements = _.map(etablissements, e => _.merge(e.fields, {'pk': e.pk}));
+
+        let phrasiers = {{ phrasiers_json|safe }};
+        phrasiers_par_categorie = _.groupBy(phrasiers, p => p.categorie.libelle);
+
+        // Phrases affichées par défaut dans les editeurs des antécédents
+        let antecedents_defaut = {{ antecedents_defaut|safe }};
+        antecedents_defaut = _.map(antecedents_defaut, a => a != null && a.replace('\n', '<br>'));
+
+        let formulaire_antecedents_liste_choix = {{ formulaire_antecedents_liste_choix|safe }};
+        //console.log('formulaire_antecedents_liste_choix', formulaire_antecedents_liste_choix);
+        const formulaire_antecedents_liste_choix_par_champ = _.groupBy(
+            _.filter(formulaire_antecedents_liste_choix, {actif: true}), p => p.champ);
+
+        let sous_categories_antecedents = {{ sous_categories_antecedents|safe }};
+
+        let tentativePMAId = -1;
+        {% if patient.pma_encours %}tentativePMAId = {{ patient.pma_encours.id  }}{% endif %};
+
+        let tentativesPMA = {{ tentatives_pma_json|safe }};
+
+        const dureeGrossesse = {{ user.profil.compte.parametrescompte.duree_grossesse }};
+
+        let grossesse_data = {};
+        {% if grossesse_data %}grossesse_data = JSON.parse(`{{ grossesse_data|safe }}`);{% endif %}
+
+    </script>
+    <script src="{% static 'plugins/custom/jqbootstrapmodalforms/jquery.bootstrap.modal.forms.min.js' %}"></script>
+    <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
+    <script src="{% static "js/core/obstetrique.js" %}"></script>
+    <script src="{% static "js/core/fichiers_patient.js" %}"></script>
+    <script src="{% static "js/core/patient_detail.js" %}"></script>
+    <script src="{% static "js/core/patient_info_panel.js" %}"></script>
+
+{% endblock %}

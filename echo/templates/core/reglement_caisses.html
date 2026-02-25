@@ -1,0 +1,73 @@
+<div class="px-4">
+    <ul class="nav nav-tabs nav-tabs-space-lg nav-tabs-line nav-tabs-bold" role="tablist">
+        <li class="nav-item mr-1">
+            <a class="nav-link active" data-toggle="tab" href="#list">Liste des règlements
+            </a>
+        </li>
+        <li class="nav-item mr-1">
+            <a class="nav-link" data-toggle="tab" href="#historique">
+                Historique des clôtures
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div class="tab-content">
+    <div class="tab-pane active" id="list" role="tabpanel">
+        <div class="p-4">
+            <form id="form_1" class="form" method="post" action="/caisse/cloturer">
+                {% csrf_token %}
+                <table class="table table-bordered table-checkable table-striped" id="datatable_reglement">
+                    <thead>
+                    <tr>
+                        <th><input name="reglements_ids" id="reglements_ids" value="1" type="checkbox"
+                                   class="reglement_cb"></th>
+                        <th>N°</th>
+                        <th>Date</th>
+                        <th>Nom</th>
+                        <th>Nom de naissance</th>
+                        <th>Prénom</th>
+                        <th>Espèces</th>
+                        <th>Chèques</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                </table>
+                <button type="submit" id="btn_cloturer_caisse" class="ml-2 btn btn-primary font-weight-bolder" disabled>
+                    <i class="ki ki-check icon-sm"></i>
+                    Clôturer la caisse
+                </button>
+            </form>
+        </div>
+
+        <script type="text/html" id="actions-reglement-template">
+            <a href="reglements/<%- id %>/modifier/?next=/reglements/#caisse#list"
+               class="btn btn-warning btn-icon btn-sm"
+               title="Modifier">
+                <i class="la la-edit icon-lg"></i>
+            </a>
+        </script>
+    </div>
+    <div class="tab-pane" id="historique" role="tabpanel">
+        <div class="p-4">
+            <table class="table table-bordered table-checkable table-striped" id="datatable_caisse">
+                <thead>
+                <tr>
+                    <th>N° clôture</th>
+                    <th>Date clôture</th>
+                    <th>Montant total</th>
+                    <th>Période</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+
+        <script type="text/html" id="actions-caisse-template">
+            <a href="cloture/<%- id %>/detail" class="btn btn-warning btn-icon btn-sm" title="Consulter">
+                <i class="la la-list icon-lg"></i>
+            </a>
+        </script>
+    </div>
+</div>
+

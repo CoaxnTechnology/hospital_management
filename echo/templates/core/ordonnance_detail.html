@@ -1,0 +1,62 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="d-flex flex-row-reverse p-2">
+        <button id="btn-enregistrer" type="button" class="btn btn-primary font-weight-bolder">
+            <i class="flaticon2-printer icon-sm"></i>
+            Editer l'ordonnance
+        </button>
+    </div>
+    <div class="mt-2 p-4">
+        <div id="ordonnance-text">
+            {{ object.text|safe }}
+        </div>
+    </div>
+
+    <script type="text/html" id="template-header">
+        <span style="margin-top: 10px">&nbsp;</span><br>
+        <div style="text-align: right;">
+            <span><%= date %></span>
+        </div>
+        <span style="margin-top: 10px">&nbsp;</span><br>
+         <div style="text-align: center;">
+            <h4 style="font-size: 24pt">Ordonnance médicale</h4>
+        </div>
+        <span style="margin-top: 10px">&nbsp;</span><br>
+        <p>
+        <strong>{{ patient.civilite|title }} {{ patient.nom_complet }}</strong>
+        </p>
+        <br>
+    </script>
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="{% static "plugins/custom/tinymce/tinymce.bundle.js" %}"></script>
+    <script type="text/javascript">
+        const praticien = '{{ object.praticien }}';
+        const logo_url = {% if user.profil.compte.parametrescompte.logo %}
+            '{{ user.profil.compte.parametrescompte.logo.url }}'
+        {% else %} ''
+        {% endif  %};
+        const footer_url =
+            {% if user.profil.compte.parametrescompte.footer %}
+                '{{ user.profil.compte.parametrescompte.footer.url }}'
+            {% else %} ''
+            {% endif  %};
+
+        const signature_url =
+            {% if user.profil.signature and user.profil.ajouter_signature_edition %}
+                '{{ user.profil.signature.url }}'
+            {% else %} ''
+            {% endif  %};
+        const ordonnance_id = {{ object.pk }};
+    </script>
+    <script src="{% static "plugins/custom/datatables/datatables.bundle.js" %}"></script>
+    <script src="{% static "js/core/editique.js" %}"></script>
+    <script src="{% static "js/core/ordonnance_detail.js" %}"></script>
+{% endblock %}

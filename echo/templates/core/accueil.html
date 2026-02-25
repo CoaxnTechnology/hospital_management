@@ -1,0 +1,522 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block styles %}
+    <link href="{% static "css/core/rdv_calendrier.css" %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block header %}
+    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Details-->
+            <div class="d-flex justify-content-between flex-wrap mr-2">
+                <div class="fc fc-ltr fc-unthemed d-flex flex-row">
+                    <div class="fc-toolbar fc-header-toolbar mb-0 d-flex flex-row ali">
+                        <div class="">
+                            <div class="fc-button-group">
+                                <button id="btn_jour_precedent" type="button"
+                                        class="fc-prev-button fc-button fc-button-primary"
+                                        aria-label="prev"><span class="fc-icon fc-icon-chevron-left"></span>
+                                </button>
+                                <button id="btn_jour_suivant" type="button"
+                                        class="fc-next-button fc-button fc-button-primary"
+                                        aria-label="next"><span class="fc-icon fc-icon-chevron-right"></span>
+                                </button>
+                            </div>
+                            <button id="btn_aujourdhui" type="button"
+                                    class="fc-today-button fc-button fc-button-primary">
+                                Aujourd'hui
+                            </button>
+                        </div>
+                        <div class="">
+                            <h2 class="m-0 ml-4">
+                                <div class="input-group date">
+                                    <input type="text" class="form-control" readonly="readonly" value=""
+                                           id="date_courante_picker"/>
+                                    <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                <i class="la la-calendar"></i>
+                                            </span>
+                                    </div>
+                                </div>
+                            </h2>
+                        </div>
+
+                        <div class="">
+                            <h2 class="pt-2 m-0 ml-4">
+                                <div class="form-group">
+                                    <select class="form-control" id="praticien">
+                                        <option value="-1">Tous les praticiens</option>
+                                        {% for p in praticiens %}
+                                            <option value="{{ p.id }}"
+                                                    {% if user.profil.groupe == 'Médecin' and user.profil.id == p.id %}selected{% endif %}>
+                                                {{ p.nom }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Details-->
+            <!--begin::Toolbar-->
+            <div class="d-flex align-items-center">
+                <!--begin::Button-->
+                <a href="#" class=""></a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-custom gutter-bs">
+                <div class="card-header card-header-tabs-line">
+                    <div class="card-toolbar py-4">
+                        <div class="">
+                            <ul class="nav nav-pills nav-tabs-bold" role="tablist">
+                                <li class="nav-item">
+                                    <a id="link_rdv_jour" class="nav-link px-3 py-3 mx-xs-1 mx-md-2 active"
+                                       data-toggle="tab"
+                                       href="#liste_complete">
+									<span class="nav-icon mr-2">
+                                        <i class="flaticon-calendar-1 mr-1"></i>
+                                    </span>
+                                        <span class="nav-text font-weight-bold">RDV du jour</span>
+                                        <span id="nb_rdvs"
+                                              class="label label-lg font-weight-bold label-success ml-2">0</span>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a id="link_salle" class="nav-link px-3 py-3 mx-xs-1 mx-md-2" data-toggle="tab"
+                                       href="#liste_salle_attente">
+														<span class="nav-icon mr-2">
+															<i class="la la-user-clock icon-xl mr-1"></i>
+														</span>
+                                        <span class="nav-text font-weight-bold">Salle d'attente</span>
+                                        <span id="nb_attente"
+                                              class="label label-lg font-weight-bold label-success ml-2">0</span>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a id="link_salle" class="nav-link px-3 py-3 mx-xs-1 mx-md-2" data-toggle="tab"
+                                       href="#liste_en_consultation">
+														<span class="nav-icon mr-2">
+															<i class="la la-first-aid icon-xl mr-1"></i>
+														</span>
+                                        <span class="nav-text font-weight-bold">En examen</span>
+                                        <span id="nb_consultations_en_cours"
+                                              class="label label-lg font-weight-bold label-success ml-2">0</span>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a id="link_consultations" class="nav-link px-3 py-3 mx-xs-1 mx-md-2"
+                                       data-toggle="tab"
+                                       href="#liste_consultations">
+														<span class="nav-icon mr-2">
+															<i class="la la-user-check icon-xl mr-1"></i>
+														</span>
+                                        <span class="nav-text font-weight-bold">Réalisés</span>
+                                        <span id="nb_realises"
+                                              class="label label-lg font-weight-bold label-success ml-2">0</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a id="link_modifications" class="nav-link px-3 py-3 mx-xs-1 mx-md-2"
+                                       data-toggle="tab"
+                                       href="#liste_modifies_annules">
+														<span class="nav-icon mr-2">
+															<i class="la la-user-minus icon-xl mr-1"></i>
+														</span>
+                                        <span class="nav-text font-weight-bold">Modifications</span>
+                                        <span id="nb_modifies"
+                                              class="label label-lg font-weight-bold label-success ml-2">0</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--<ul class="nav nav-tabs nav-tabs-space-lg nav-tabs-line nav-tabs-bold nav-tabs-line-3x d-lg-none d-xl-none d-xxl-none"
+                            role="tablist">
+                            <li class="nav-item mr-1">
+                                <a id="link_rdv_jour" class="nav-link active mx-1" data-toggle="tab" href="#liste_complete">
+									<span class="nav-icon mr-2">
+                                        <i class="flaticon-calendar-1 mr-1"></i>
+                                    </span>
+                                    <span class="nav-text font-weight-bold">RDV du jour</span>
+                                    <span id="nb_rdvs"
+                                          class="label label-xl p-0 font-weight-bold label-success ml-2">0</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item mr-1">
+                                <a id="link_salle" class="nav-link mx-1" data-toggle="tab" href="#liste_salle_attente">
+														<span class="nav-icon mr-1">
+															<i class="la la-user-clock icon-xl mr-1"></i>
+														</span>
+                                    <span class="nav-text font-weight-bold">Salle d'attente</span>
+                                    <span id="nb_attente"
+                                          class="label label-xl p-0 font-weight-bold label-success ml-2">0</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item mr-1">
+                                <a id="link_salle" class="nav-link mx-1" data-toggle="tab" href="#liste_en_consultation">
+														<span class="nav-icon mr-1">
+															<i class="la la-first-aid icon-xl mr-1"></i>
+														</span>
+                                    <span class="nav-text font-weight-bold">Consultations en cours</span>
+                                    <span id="nb_consultations_en_cours"
+                                          class="label label-xl p-0 font-weight-bold label-success ml-2">0</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item mr-1">
+                                <a id="link_consultations" class="nav-link mx-1" data-toggle="tab"
+                                   href="#liste_consultations">
+														<span class="nav-icon mr-1">
+															<i class="la la-user-check icon-xl mr-1"></i>
+														</span>
+                                    <span class="nav-text font-weight-bold">Consultations réalisées</span>
+                                    <span id="nb_realises"
+                                          class="label label-xl p-0 font-weight-bold label-success ml-2">0</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mr-1">
+                                <a id="link_modifications" class="nav-link mx-1" data-toggle="tab"
+                                   href="#liste_modifies_annules">
+														<span class="nav-icon mr-1">
+															<i class="la la-user-minus icon-xl mr-1"></i>
+														</span>
+                                    <span class="nav-text font-weight-bold">Modifications</span>
+                                    <span id="nb_modifies"
+                                          class="label label-xl p-0 font-weight-bold label-success ml-2">0</span>
+                                </a>
+                            </li>
+                        </ul>-->
+                    </div>
+
+                </div>
+                <!--end::Header-->
+                <!--begin::Body-->
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="liste_complete" role="tabpanel">
+                            <table class="table table-bordered table-checkable table-striped" id="kt_datatable_rdvs">
+                                <thead>
+                                <tr>
+                                    <th>E.</th>
+                                    <th>Etat</th>
+                                    <th>Nom de naissance</th>
+                                    <th>Nom marital</th>
+                                    <th>Prénom</th>
+                                    <th>Ville</th>
+                                    <th>Tél.</th>
+                                    <th>Heure</th>
+                                    <th>Motif</th>
+                                    <th>Praticien</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+
+                        <div class="tab-pane" id="liste_salle_attente" role="tabpanel">
+                            <table class="table table-bordered table-checkable table-striped" id="kt_datatable_salle">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>E.</th>
+                                    <th>Nom de naissance</th>
+                                    <th>Nom marital</th>
+                                    <th>Prénom</th>
+                                    <th>Age</th>
+                                    <th>Ville</th>
+                                    <th>Tél.</th>
+                                    <th>Admission</th>
+                                    <th>Attente</th>
+                                    <th>Motif</th>
+                                    <th>Praticien</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+
+                        <div class="tab-pane" id="liste_en_consultation" role="tabpanel">
+                            <table class="table table-bordered table-checkable table-striped"
+                                   id="kt_datatable_en_consultation">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>E.</th>
+                                    <th>Nom de naissance</th>
+                                    <th>Nom marital</th>
+                                    <th>Prénom</th>
+                                    <th>Age</th>
+                                    <th>Ville</th>
+                                    <th>Tél.</th>
+                                    <th>Heure</th>
+                                    <th>Motif</th>
+                                    <th>Praticien</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+
+                        <div class="tab-pane" id="liste_consultations" role="tabpanel">
+                            <div class="tab-pane active" id="liste_complete" role="tabpanel">
+                                <table class="table table-bordered table-checkable table-striped"
+                                       id="kt_datatable_consultations">
+                                    <thead>
+                                    <tr>
+                                        <th>Nom de naissance</th>
+                                        <th>Nom marital</th>
+                                        <th>Prénom</th>
+                                        <th>Age</th>
+                                        <th>Ville</th>
+                                        <th>Motif</th>
+                                        <th>Praticien</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="liste_modifies_annules" role="tabpanel">
+                            <table class="table table-bordered table-checkable table-striped"
+                                   id="kt_datatable_modifies_annules">
+                                <thead>
+                                <tr>
+                                    <th>Etat</th>
+                                    <th>Nom de naissance</th>
+                                    <th>Nom marital</th>
+                                    <th>Prénom</th>
+                                    <th>Ville</th>
+                                    <th>Tél.</th>
+                                    <th>Heure</th>
+                                    <th>Motif</th>
+                                    <th>Praticien</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Body-->
+            </div>
+        </div>
+    </div>
+
+    <script id="actions-rdv-template" type="text/html">
+        <a href="patients/recherche/?rdv=<%- id %>" class="btn btn-icon btn-sm btn-primary <%- admission %>"
+           title="Admission">
+            <i class="la la-folder-plus icon-md"></i>
+        </a>
+
+        <a onclick="javascript:afficherRdvModal('rdvs/<%- id %>/modifier/?next=accueil')" class="btn btn-warning btn-icon btn-sm"
+           title="Modifier le rendez-vous">
+            <i class="la la-edit icon-md"></i>
+        </a>
+        <a onclick="annulerRdv(<%- id %>)" class="btn btn-icon btn-sm btn-danger <%- annulation %>"
+           title="Annuler le rendez-vous">
+            <i class="la la-trash icon-md"></i>
+        </a>
+
+        <div class="rappel-container d-inline">
+            <% if (rappele) { %>
+            <a onclick="rappel(this, <%- id %>, 0)" class="btn btn-icon btn-sm btn-success" title="Patient rappelé">
+                <i class="la la-phone icon-md"></i>
+            </a>
+            <% } else { %>
+            <a onclick="rappel(this, <%- id %>, 1)" class="btn btn-icon btn-sm btn-outline-danger"
+               title="Patient non rappelé">
+                <i class="la la-phone-slash icon-md"></i>
+            </a>
+            <% } %>
+        </div>
+    </script>
+
+    <script id="action-rappel-rdv" type="text/html">
+        <a onclick="rappel(this, <%- id %>, <%- action %>)"
+           class="btn btn-icon btn-sm <% if(action==1) { %>btn-outline-danger<% } else { %>btn-success<% }%>"
+           title="<% if(action==1) { %>Patient non rappelé<% } else { %>Patient rappelé<% }%>">
+            <i class="la <% if(action==1) { %>la-phone-slash<% } else { %>la-phone<% } %> icon-md"></i>
+        </a>
+    </script>
+
+    <script id="actions-rdv-modif-template" type="text/html">
+        <a href="patients/recherche/?rdv=<%- id %>" class="btn btn-icon btn-sm btn-primary <%- admission %>"
+           title="Admission">
+            <i class="la la-folder-plus icon-md"></i>
+        </a>
+
+        <a onclick="javascript:afficherRdvModal('rdvs/<%- id %>/modifier/?next=accueil')" class="btn btn-warning btn-icon btn-sm"
+           title="Modifier le rendez-vous">
+            <i class="la la-edit icon-md"></i>
+        </a>
+        <a onclick="annulerRdv(<%- id %>)" class="btn btn-icon btn-sm btn-danger <%- annulation %>"
+           title="Annuler le rendez-vous">
+            <i class="la la-trash icon-md"></i>
+        </a>
+
+    </script>
+
+    <script id="actions-consultation-template" type="text/html">
+        {% if user.profil.groupe == 'Médecin' %}
+            <a href="patients/<%- id %>" class="btn btn-primary btn-icon btn-sm" title="Dossier patient">
+                <i class="la la-eye icon-md"></i>
+            </a>
+        {% endif %}
+        <button type="button"
+                onclick="afficherTelechargerFichierModal(<%- id %>)"
+                class="btn btn-info btn-icon btn-sm" title="Télécharger fichier">
+            <i class="la la-upload icon-md"></i>
+        </button>
+    </script>
+
+    <script id="actions-attente-template" type="text/html">
+        <!--<a href="patients/<%- id %>" class="btn btn-sm btn-clean btn-icon" title="Dossier patient">
+            <i class="la la-eye icon-xl text-primary"></i>
+        </a>-->
+        <a href="patients/<%- id %>/?action=demarrer_consultation" class="btn btn-sm btn-primary btn-icon"
+           title="Démarrer la consultation">
+            <i class="fa fa-play icon-sm"></i>
+        </a>
+        <a onclick="annulerAdmission(<%- admission_id %>)" class="btn btn-icon btn-sm btn-danger"
+           title="Annuler l'admission">
+            <i class="la la-trash icon-md"></i>
+        </a>
+        <button type="button"
+                onclick="afficherTelechargerFichierModal(<%- id %>)"
+                class="btn btn-info btn-icon btn-sm" title="Télécharger fichier">
+            <i class="la la-upload icon-md"></i>
+        </button>
+
+        <button type="button"
+                onclick="afficherMesuresModal(<%- id %>, <%= mesuresId %>)"
+                class="btn btn-light-dark btn-icon btn-sm" title="Saisir des mesures">
+            <i class="la la-pen icon-md"></i>
+        </button>
+    </script>
+
+    <script type="text/html" id="statut-template">
+        <div class="d-flex flex-grow-1 align-items-center rounded">
+            <div class="mr-1 flex-shrink-0 text-center">
+                <div class="symbol symbol-circle symbol-30">
+                    <span class="symbol-label <%= cssClass %>">
+                    <i class="la <%= smiley %> icon-lg-2x text-white"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="text-dark-75"><%= msg %></div>
+        </div>
+    </script>
+
+    <script type="text/html" id="praticien-template">
+        <%= nom %>
+        <div class="dropdown dropdown-inline" title="Modifier praticien">
+            <a href="javascript:void(0)" class="btn btn-xs btn-secondary btn-icon praticien-dropdown" data-toggle="dropdown">
+                <i class="fa fa-pen icon-sm"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                <ul class="navi flex-column navi-hover py-2">
+                    {% for p in praticiens %}
+                    <li class="navi-item" title="Modifier praticien">
+                        <a href="javascript:void(0)" onclick="modifierPraticien(this, <%= id %>, {{ p.id }})" class="navi-link">
+                            <span class="navi-icon"><i class="fa fa-user"></i></span>
+                            <span class="navi-text">{{ p.nom }}</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/html" id="motif-rdv-template">
+        <%= motif %>
+        <div class="dropdown dropdown-inline" title="Modifier motif">
+            <a href="javascript:void(0)" class="btn btn-xs btn-secondary btn-icon motif-rdv-dropdown" data-toggle="dropdown">
+                <i class="fa fa-pen icon-sm"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                <ul class="navi flex-column navi-hover py-2">
+                    {% for p in motifs_rdv %}
+                    <li class="navi-item" title="Modifier motif rendez-vous">
+                        <a href="javascript:void(0)" onclick="modifierMotifRdv(this, <%= id %>, {{ p.id }})" class="navi-link">
+                            <span class="navi-icon"><i class="fa fa-user"></i></span>
+                            <span class="navi-text">{{ p.libelle }}</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </script>
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+
+        {% if msg %}
+            toastr.success("{{ msg }}");
+        {% endif %}
+
+
+        let filterPraticienId = -1;
+        {% if user.profil.groupe == 'Médecin' %}
+            filterPraticienId = {{ user.profil.id }};
+        {% endif %}
+
+        let rdvs_jour = {{ rdvs_json | safe }};
+        console.log('Rdv jour', rdvs_jour);
+        let rdvs_modifies_annules = _.filter(rdvs_jour, rdv => {
+                return rdv.statut == 10 || (rdv.statut == 1 && rdv.ancien_debut && !moment(rdv.debut).isSame(moment(), 'day'));
+            }
+        );
+        console.log("Modifiés", rdvs_modifies_annules);
+
+        let admissions = {{ admissions_json|safe }};
+        admissions = _.map(admissions, p => {
+            // Si un rdv est associé au patient à la date du jour, récupérer les informations du rdv
+            const rdv = _.find(rdvs_jour, {'patient': p.patient.id});
+            if (rdv) {
+                p = _.extend(p, _.pick(rdv, ['debut', 'nouveau']));
+            } else {
+                p.debut = '-';
+                p.nouveau = p.patient.nouveau;
+            }
+            return p;
+        });
+        patients_en_attente = _.filter(admissions, p => p.statut == 1);
+        consultations_en_cours = _.filter(admissions, p => p.statut == 2);
+
+        let motifs_consultation = {{ motifs_consultation_json|safe }};
+        motifs_consultation = _.map(motifs_consultation, p => _.merge({pk: p.pk}, p.fields));
+
+        let motifs_rdvs = {{ motifs_rdv_json|safe }};
+
+        let consultations = {{ consultations_json|safe }};
+        consultations = _.filter(consultations, c => moment(c.date).isSame(moment(), 'day'));
+        console.log('Consultations', consultations);
+
+        let praticiens = {{ praticiens_json|safe }};
+        let motifs_rdv = {{ motifs_rdv_json|safe }};
+
+    </script>
+    <script src="{% static "plugins/custom/datatables/datatables.bundle.js" %}"></script>
+    <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
+    <script src="{% static "js/core/accueil.js" %}"></script>
+{% endblock %}

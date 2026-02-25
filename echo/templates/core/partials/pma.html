@@ -1,0 +1,57 @@
+<div class="font-weight-bolder text-warning py-1 font-size-lg">
+    {% if patient.interrogatoire_pma %}
+        <a href="/interrogatoire-pma/{{ patient.interrogatoire_pma.pk }}/modifier/"
+           class="btn btn-info btn-sm">Interrogatoire</a>
+    {% else %}
+        <a href="/patients/{{ object.pk }}/interrogatoire-pma/ajouter/"
+           class="btn btn-info btn-sm">Interrogatoire</a>
+    {% endif %}
+    {% if not patient.pma_encours %}
+        <a href="/patients/{{ object.pk }}/tentative-pma/ajouter/"
+           class="btn btn-info btn-sm">Nouvelle tentative</a>
+    {% endif %}
+</div>
+
+<div class="px-0">
+    {% if patient.pma_encours %}
+        <div class="d-flex justify-content-between mt-8">
+            <div>
+                <h3 class="text-primary">Tentative en cours</h3>
+                <div class="d-flex">
+                    <div><strong>Date de création:</strong> {{ patient.pma_encours.created_at|date:'d/m/Y' }}</div>
+                    <div class="ms-8"><strong>Dernière mise à jour: </strong>{{ patient.pma_encours.updated_at|date:'d/m/Y' }}</div>
+                </div>
+            </div>
+            <div>
+                <a class="btn btn-primary btn-sm"
+                   href="/tentative-pma/{{ patient.pma_encours.id }}/modifier/">
+                    Consulter
+                </a>
+                <button id="cloturer-tentative-pma" type="button"
+                        class="btn btn-sm btn-warning">
+                    <i class="la la-close icon-sm"></i>Clôturer la tentative
+                </button>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="separator mt-10 mb-4"></div>
+
+    <h3 class="text-primary">Tentatives passées</h3>
+
+    <div>
+        <table id="table-tentatives-pma" class="table table-row-bordered gy-5">
+            <thead>
+            <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
+                <th>Date de clôture</th>
+                <th>Titre</th>
+                <th>Résultat</th>
+                <th>Praticien</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody class="text-gray-600 fw-semibold">
+            </tbody>
+        </table>
+    </div>
+</div>

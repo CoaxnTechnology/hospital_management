@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block header %}
+    {% include "core/basic_header.html" with module="Patients" %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="card card-custom px-0 px-md-2 px-lg-4">
+        <div class="card-header">
+            <div class="card-title">
+				<span class="card-icon">
+                    <i class="fas fa-file-medical text-primary"></i>
+                </span>
+                <h3 class="card-label">
+                    {% if rdv %}
+                        Recherche patient
+                    {% else %}
+                        Liste des patients
+                    {% endif %}
+                </h3>
+            </div>
+            <div class="card-toolbar">
+
+            </div>
+        </div>
+        <div class="card-body">
+            <!--begin: Search Form-->
+                <form class="form mb-1">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-2 form-group">
+                        <label>Nom de naissance</label>
+                        <input data-search-key="nom_naissance" type="text"
+                               value="{% if rdv and rdv.nom_naissance %}{{ rdv.nom_naissance }}{% endif %}"
+                               class="form-control form-control-sm datatable-input" placeholder="" data-col-index="1"/>
+                    </div>
+                    <div class="col-sm-6 col-lg-2 form-group">
+                        <label>Nom marital</label>
+                        <input data-search-key="nom" type="text" class="form-control form-control-sm datatable-input"
+                               placeholder="" data-col-index="2"
+                               value="{% if rdv and rdv.nom %}{{ rdv.nom }}{% endif %}"/>
+                    </div>
+                    <div class="col-sm-6 col-lg-2 form-group">
+                        <label>Prénom</label>
+                        <input data-search-key="prenom" type="text" class="form-control form-control-sm datatable-input"
+                               placeholder="" data-col-index="3"
+                               value="{% if rdv %}{{ rdv.prenom }}{% endif %}"/>
+                    </div>
+                    <div class="col-sm-6 col-lg-2 form-group">
+                        <label>Date de naissance</label>
+                        <input data-search-key="date_naissance" type="text"
+                               class="date_naissance form-control form-control-sm datatable-input" placeholder=""
+                               data-col-index="4"/>
+                    </div>
+                    <div class="col-sm-6 col-lg-2 form-group">
+                        <label>Téléphone</label>
+                        <input data-search-key="telephone" type="text"
+                               class="form-control form-control-sm datatable-input" placeholder=""
+                               value="{% if rdv and rdv.telephone %}{{ rdv.telephone }}{% endif %}"
+                               data-col-index="6"/>
+                    </div>
+                    <div class="col-sm-6 col-lg-2 form-group">
+                        <label>Ville</label>
+                        <input data-search-key="ville" type="text" class="form-control form-control-sm datatable-input"
+                               placeholder="" data-col-index="5"
+                               value="{% if rdv and rdv.ville is not None %}{{ rdv.ville }}{% endif %}"/>
+                    </div>
+                    <div class="col-sm-6 col-lg-2 form-group">
+                        <label>Ancien numéro</label>
+                        <input data-search-key="ancien_numero" type="text" class="form-control form-control-sm datatable-input"
+                               placeholder="" data-col-index="8"/>
+                    </div>
+                    <!--<div class="col-lg-3 mb-lg-0 mb-6">
+                        <label>CIN:</label>
+                        <input type="text" class="form-control form-control-sm datatable-input" placeholder="" data-col-index="3"/>
+                    </div>-->
+                </div>
+
+                <div class="row mt-1 d-none">
+                    <div class="col-lg-12">
+                        <button class="btn btn-primary btn-sm btn-primary--icon" id="kt_search">
+													<span>
+														<i class="la la-search"></i>
+														<span>Chercher</span>
+													</span>
+                        </button>&nbsp;&nbsp;
+                        <button class="btn btn-secondary btn-sm btn-secondary--icon" id="kt_reset">
+													<span>
+														<i class="la la-close"></i>
+														<span>Annuler</span>
+													</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <!--begin: Datatable-->
+            <!--begin: Datatable-->
+            <table class="table table-bordered table-checkable table-striped" id="kt_datatable">
+                <thead>
+                <tr>
+                    <th>IPP</th>
+                    <th>Nom de naissance</th>
+                    <th>Nom marital</th>
+                    <th>Prénom</th>
+                    <th>Date de naissance</th>
+                    <th>Ville</th>
+                    <th>Téléphone</th>
+                    <th>Infos</th>
+                    <th>Ancien n°</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+            </table>
+            <!--end: Datatable-->
+        </div>
+    </div>
+
+    <script id="terme-template" type="text/html">
+        <strong class="label label-inline label-success label-pill">
+        <span style="width: 20px">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 57 57"><defs><style>.cls-1{fill:#fff;}</style></defs><g id="Calque_2" data-name="Calque 2"><g id="icons"><path class="cls-1" d="M31.2,46.87c-2.65,0-5.93-1.35-9-6.33a2.49,2.49,0,0,0-.22-.32A8.63,8.63,0,0,0,21.41,42a5.11,5.11,0,0,1-2.65,3.64A5.32,5.32,0,0,1,14,45.27c-2-1-6.09-4-6.28-6.88a3.19,3.19,0,0,1,1.5-2.92c2.28-1.53,4.31-.4,5.4.21l.4.22a4.19,4.19,0,0,0-.42-1.9c-.47-1.29-1-2.9-.24-4.54a3.93,3.93,0,0,1,3.16-2.2,8.06,8.06,0,0,1,6.39,2.79A1.5,1.5,0,0,1,21.55,32a5.19,5.19,0,0,0-3.72-1.71.91.91,0,0,0-.8.54c-.23.47,0,1.15.36,2.2.48,1.35,1.14,3.19-.05,4.92-1.38,2-3.36.87-4.21.4-1.12-.62-1.57-.8-2.26-.34-.2.13-.19.18-.19.23.07,1,2.49,3.33,4.63,4.39a2.69,2.69,0,0,0,2.17.33,2.36,2.36,0,0,0,1-1.6c.4-1.74,1.15-4.09,3-4.4,1.18-.2,2.27.49,3.23,2.05,2.36,3.83,4.95,5.42,7.69,4.75,6.28-1.53,6.71-6,6.63-11.59,0-2-.06-3.58.53-4.75A5.82,5.82,0,0,1,42,25.14a6.74,6.74,0,0,0,2.94-3,5.25,5.25,0,0,0-.67-5.87A5.72,5.72,0,0,0,38,14.87a5.63,5.63,0,0,0-4,3.71,4,4,0,0,0,1,3.84,1.5,1.5,0,0,1-2.21,2,7.05,7.05,0,0,1-1.74-6.62A8.58,8.58,0,0,1,37,12a8.74,8.74,0,0,1,9.46,2.23,8.26,8.26,0,0,1,1.15,9.13,9.54,9.54,0,0,1-4.06,4.3,3.6,3.6,0,0,0-1.29,1,11.1,11.1,0,0,0-.21,3.36c.07,4.61.18,12.32-8.92,14.55A8.46,8.46,0,0,1,31.2,46.87Z"/><path class="cls-1" d="M28.65,32.5a1.5,1.5,0,0,1-1.5-1.5c0-2.76-1.48-10.32-8.26-12.11C5.84,15.44,5.77,4,5.77,3.86a1.5,1.5,0,0,1,3,0c0,.38.15,9.27,10.89,12.11,8.6,2.27,10.49,11.6,10.49,15A1.5,1.5,0,0,1,28.65,32.5Z"/><path class="cls-1" d="M28.5,57a28.5,28.5,0,0,1-25-42.15,1.5,1.5,0,1,1,2.63,1.44,25.45,25.45,0,1,0,9.46-9.78A1.48,1.48,0,0,1,13.52,6a1.5,1.5,0,0,1,.53-2.05A28.5,28.5,0,1,1,28.5,57Z"/></g></g></svg>
+        </span> &nbsp; <%= terme %>
+        </strong>
+
+    </script>
+
+    <script id="actions-template" type="text/html">
+        {% if rdv %}
+            <a onclick="admissionPatient(event, <%= id %>)"
+               class="btn btn-primary font-weight-bold">
+                <i class="la la-check icon-md"></i> Sélectionner
+            </a>
+        {% else %}
+            <a onclick="admissionPatient(event, <%= id %>)"
+               class="btn btn-primary btn-icon btn-xs" title="Admission">
+                <i class="la la-folder-plus icon-md"></i>
+            </a>
+            {% if user.profil.groupe == 'Médecin' %}
+                <a href="patients/<%- id %>" class="btn btn-info btn-icon btn-xs" title="Consulter">
+                    <i class="la la-eye icon-md"></i>
+                </a>
+            {% endif %}
+            <button type="button"
+                    onclick="creerPatient('patients/<%- id %>/modifier')"
+                    class="btn btn-warning btn-icon btn-xs" title="Modifier">
+                <i class="la la-edit icon-md"></i>
+            </button>
+            <!--<a onclick="supprimer(<%- id %>)" class="btn btn-danger btn-icon btn-xs" title="Supprimer">
+                <i class="la la-trash icon-md"></i>
+            </a>-->
+
+            <button type="button"
+                    onclick="afficherTelechargerFichierModal(<%- id %>)"
+                    class="btn btn-light-info btn-icon btn-xs" title="Télécharger fichier">
+                <i class="la la-upload icon-md"></i>
+            </button>
+            <button type="button"
+                    data-bs-toggle="popover" data-bs-placement="left" data-bs-html="true"
+                    data-bs-trigger="hover"
+                    data-bs-title="Historique des règlements"
+                    data-bs-content="<%- reglements %>"
+                    class="btn btn-light-primary btn-icon btn-xs">
+                <i class="la la-history icon-md"></i>
+            </button>
+            <div class="dropdown dropdown-inline" title="Archiver patient">
+                <a href="javascript:void(0)" class="btn btn-xs btn-secondary btn-icon" data-toggle="dropdown">
+                    <i class="flaticon-more"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                    <ul class="navi flex-column navi-hover py-2">
+                        <li class="navi-header font-weight-bolder text-uppercase font-size-xs text-primary pb-2">
+                            Autres actions:
+                        </li>
+                        <li class="navi-item" title="Archiver patient">
+                            <a href="javascript:void(0)" onclick="archiverPatient(<%= id %>)" class="navi-link">
+                                <span class="navi-icon"><i class="la la-archive"></i></span>
+                                <span class="navi-text">Archiver</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+    </script>
+
+    <script id="historique-reglements-template" type="text/html">
+        <% if (reglements && reglements.length) { %>
+        <ul class="list-group">
+            <% _.each(reglements, reg => { %>
+            <li class="list-group-item">
+                <strong><%= moment(reg.date_creation).format('DD/MM/YYYY') %> - <%= reg.somme_payee %> DT</strong> <br>
+            </li>
+            <% }); %>
+        </ul>
+        <% } else { %>
+        Pas d'historique
+        <% } %>
+    </script>
+
+    <script type="text/html" id="creer-patient-template">
+        <div class="my-12">
+            Le patient n'existe pas <br><br>
+            {% if rdv %}
+                <button type="button"
+                        onclick="creerPatient('patients/ajouter/?action=admission&rdv={{ rdv.pk }}<%= params %>')"
+                        class="btn btn-primary font-weight-bold ml-2">
+                    <i class="fa fa-plus"></i> Créer un patient
+                </button>
+            {% else %}
+                <button type="button"
+                        onclick="creerPatient('patients/ajouter/?action=admission<%= params %>')"
+                        class="btn btn-primary font-weight-bold ml-2">
+                    <i class="fa fa-plus"></i> Créer un patient
+                </button>
+            {% endif %}
+        </div>
+    </script>
+
+    <script type="text/html" id="lien-patient-template">
+        {% if user.profil.groupe == 'Médecin' %}
+            <a href="patients/<%- id %>"><%- val %></a>
+        {% else %}
+            <%- val %>
+        {% endif %}
+    </script>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script type="text/javascript">
+        const modeAdmission = {% if rdv %}true{% else %}false{% endif %};
+        const rdvId = {% if rdv %}{{ rdv.id  }}{% else %}-1{% endif %};
+    </script>
+    <script src="{% static "plugins/custom/datatables/datatables.bundle.js" %}"></script>
+    <script src="{% static "js/core/patient_list.js" %}"></script>
+{% endblock %}

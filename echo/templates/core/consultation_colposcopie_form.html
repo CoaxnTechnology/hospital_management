@@ -1,0 +1,286 @@
+{% extends "core/base_consultation.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block inner_content %}
+
+    <form id="form_1" class="form" method="post" action="">
+        {% csrf_token %}
+        <div class="card card-custom gutter-bs px-4">
+            <div class="card-header border-0">
+                <div class="card-title">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a id="form-tab" class="nav-link active" data-toggle="tab" href="#tab-form"
+                               role="tab"
+                               aria-controls="tab-form" aria-selected="true">
+																	<span class="nav-icon">
+																		<i class="flaticon2-document"></i>
+																	</span>
+                                <span class="nav-text">Formulaire</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="edition-tab" class="nav-link" data-toggle="tab" href="#tab-edition"
+                               role="tab"
+                               aria-controls="tab-edition" aria-selected="false">
+																	<span class="nav-icon">
+																		<i class="flaticon2-edit"></i>
+																	</span>
+                                <span class="nav-text">Edition</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <span class="label label-pill label-inline label-success hide ml-2"
+                          id="libelle_statut"></span>
+                </div>
+                <div class="card-toolbar">
+                    <a href="/patients/{{ patient.pk }}"
+                       class="btn btn-sm btn-light-primary font-weight-bolder mr-2">
+                        <i class="ki ki-long-arrow-back icon-sm"></i>
+                        Précédent
+                    </a>
+                    <button id="btn_enregistrer_gyneco"
+                            class="btn btn-sm btn-primary font-weight-bolder mr-2 enregistrer" type="button">
+                        <i class="ki ki-check icon-sm"></i>
+                        Enregistrer
+                    </button>
+
+                    <a id="btn_terminer" href="/patients/{{ patient.pk }}/consultation/terminer"
+                       class="btn btn-sm btn-success font-weight-bolder d-none mr-4">
+                        <i class="ki ki-bold-close icon-sm"></i>
+                        Terminer la consultation
+                    </a>
+
+                    <a id="btn_imprimer" href="javascript:void(0)"
+                       class="btn btn-sm btn-warning font-weight-bolder">
+                        <i class="flaticon2-printer"></i>
+                        Imprimer
+                    </a>
+                </div>
+            </div>
+            <!--begin::Body-->
+            <div class="card-body pt-4">
+                <div class="tab-content mt-2" id="myTabContent">
+                    <div class="tab-pane fade show active" id="tab-form" aria-labelledby="form-tab"
+                         role="tabpanel">
+                        <div class="row">
+                            <div class="form-group col-4">
+                                <label class="">{{ form.praticien.label }}</label>
+                                {% render_field form.praticien class+="form-control form-control-sm" %}
+                                <div class="invalid-feedback"
+                                     {% if form.praticien.errors %}style="display: block"{% endif %}>
+                                    {{ form.praticien.errors }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-1 pt-2 border-top-1 border-top border-light-dark">
+                            <div class="row">
+                                <div class="form-group col-4">
+                                    <label class="">Indications</label>
+                                    <div class="">
+                                        {% render_field form.indications data-form="consultation_colposcopie" data-champ="indications_colposcopie" class+="form-control form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.indications.errors %}style="display: block"{% endif %}>
+                                            {{ form.indications.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-4">
+                                    <label class="">Test HPV</label>
+                                    <div class="">
+                                        {% render_field form.test_hpv data-form="consultation_colposcopie" data-champ="test_hpv" class+="form-control form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.test_hpv.errors %}style="display: block"{% endif %}>
+                                            {{ form.test_hpv.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-3">
+                                    <label class="">Typage</label>
+                                    <div class="">
+                                        {% render_field form.typage class+="form-control form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.typage.errors %}style="display: block"{% endif %}>
+                                            {{ form.typage.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-group">
+                                    <label class="">Commentaires</label>
+                                    <div class="">
+                                        {% render_field form.commentaires_1 class+="form-control form-control-sm h-80px" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.commentaires_1.errors %}style="display: block"{% endif %}>
+                                            {{ form.commentaires_1.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-2 pt-2 border-top-1 border-top border-light-dark">
+                            <div class="row">
+                                <div class="col-4 form-group">
+                                    <label class="">Examen sans préparation</label>
+                                    <div class="">
+                                        {% render_field form.examen_sans_preparation data-form="consultation_colposcopie" data-champ="examen_sans_preparation" class+="form-control form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.examen_sans_preparation.errors %}style="display: block"{% endif %}>
+                                            {{ form.examen_sans_preparation.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-group">
+                                    <label class="">Commentaires</label>
+                                    <div class="">
+                                        {% render_field form.commentaires_2 class+="form-control form-control-sm h-80px" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.commentaires_2.errors %}style="display: block"{% endif %}>
+                                            {{ form.commentaires_2.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-2 pt-2 border-top-1 border-top border-light-dark">
+                            <div class="row">
+                                <div class="form-group col-3">
+                                    <label class="">Acide acétique</label>
+                                    <div class="">
+                                        {% render_field form.acide_acetique data-form="consultation_colposcopie" data-champ="acide_acetique" class+="form-control form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.acide_acetique.errors %}style="display: block"{% endif %}>
+                                            {{ form.acide_acetique.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="">TAG</label>
+                                    <div class="">
+                                        {% render_field form.tag data-form="consultation_colposcopie" data-champ="tag" class+="form-control form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.tag.errors %}style="display: block"{% endif %}>
+                                            {{ form.tag.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="">Localisation</label>
+                                    <div class="">
+                                        {% render_field form.localisation data-form="consultation_colposcopie" data-champ="localisation" class+="form-control form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.localisation.errors %}style="display: block"{% endif %}>
+                                            {{ form.localisation.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="">Lugol</label>
+                                    <div class="">
+                                        {% render_field form.lugol data-form="consultation_colposcopie" data-champ="lugol" class+="form-control form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.lugol.errors %}style="display: block"{% endif %}>
+                                            {{ form.lugol.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-group">
+                                    <label class="">Commentaires</label>
+                                    <div class="">
+                                        {% render_field form.commentaires_3 class+="form-control form-control-sm h-80px" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.commentaires_3.errors %}style="display: block"{% endif %}>
+                                            {{ form.commentaires_3.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-2 pt-2 border-top-1 border-top border-light-dark">
+                            <div class="row">
+                                <div class="form-group col-4">
+                                    <label class="">Biopsie</label>
+                                    <div class="">
+                                        {% render_field form.biopsie class+="form-control form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.biopsie.errors %}style="display: block"{% endif %}>
+                                            {{ form.biopsie.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-group">
+                                    <label class="">Commentaires</label>
+                                    <div class="">
+                                        {% render_field form.commentaires_4 class+="form-control form-control-sm h-80px" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.commentaires_4.errors %}style="display: block"{% endif %}>
+                                            {{ form.commentaires_4.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3 pt-2 border-top-1 border-top border-light-dark">
+                            <div class="form-group">
+                                <label class="">Conclusion</label>
+                                <div>
+                                    {% render_field form.conclusion class+="form-control form-control-sm h-100px" %}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="">Conduite à tenir</label>
+                                <div>
+                                    {% render_field form.conduite class+="form-control form-control-sm h-100px" %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="tab-edition" aria-labelledby="edition-tab" role="tabpanel">
+                        <div class="d-flex">
+                            <div>
+                                <label class="checkbox">
+                                    <input type="checkbox" id="cb-inserer-antecedents"> Ajouter les antécédents
+                                    <span></span>
+                                </label>
+                            </div>
+                            <div class="ml-8">
+                                <label class="checkbox">
+                                    <input type="checkbox" id="cb-inserer-notes"> Ajouter les notes
+                                    <span></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div id="editor-2" class="editor min-h-400px" style="font-size: 10pt ">
+                            {% if object %}
+                                {{ object.text|safe }}
+                            {% else %}
+
+                            {% endif %}
+                            <p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static "js/core/consultation_colposcopie_form.js" %}"></script>
+{% endblock %}

@@ -1,0 +1,682 @@
+{% extends "base_v2.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block styles %}
+    <style type="text/css">
+        .input-group-label {
+            width: 50px !important;
+        }
+
+        .legendLayer .background {
+            fill: rgba(255, 255, 255, 0.85);
+            stroke: rgba(0, 0, 0, 0.85);
+            stroke-width: 1;
+        }
+    </style>
+{% endblock %}
+
+{% block header %}
+    {% include "core/basic_header.html" with module="" %}
+{% endblock %}
+
+{% block content %}
+
+    {% if mode_edition %}
+        <div class="position-fixed w-100 h-100 bg-white" style="top: 0;left: 0;z-index: 100;"></div>
+        <div class="d-flex justify-content-center h-100 loading bg-white position-fixed w-100 h-100 bg-white"
+             style="top: 0;left: 0;z-index: 100;">
+            <div class="d-flex flex-center">
+                <div class="spinner spinner-primary"></div>
+                <div class="text-primary ml-10">Chargement</div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="card mb-5 mb-xxl-8">
+        <div class="card-body pt-9 pb-0">
+            <!--begin::Details-->
+            <div class="d-flex flex-wrap flex-sm-nowrap">
+                <!--begin: Pic-->
+                <div class="me-7 mb-4">
+                    <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
+                        <img src="{% static "v2/media/avatars/blank.png" %}" alt="profil"/>
+                        <div class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-body h-20px w-20px"></div>
+                    </div>
+                </div>
+                <!--end::Pic-->
+                <!--begin::Info-->
+                <div class="flex-grow-1">
+                    <!--begin::Title-->
+                    <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
+                        <!--begin::User-->
+                        <div class="d-flex flex-column">
+                            <!--begin::Name-->
+                            <div class="d-flex align-items-center mb-2">
+                                <a href="#" class="text-gray-900 text-hover-primary fs-2 fw-bold me-1 h-30px"
+                                   onclick="modifierPatient({{ patient.pk }})">
+                                    {{ patient.nom_complet }} &nbsp;
+                                    <span class="svg-icon svg-icon-3">
+                                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                           <path opacity="0.3"
+                                                 d="M21.4 8.35303L19.241 10.511L13.485 4.755L15.643 2.59595C16.0248 2.21423 16.5426 1.99988 17.0825 1.99988C17.6224 1.99988 18.1402 2.21423 18.522 2.59595L21.4 5.474C21.7817 5.85581 21.9962 6.37355 21.9962 6.91345C21.9962 7.45335 21.7817 7.97122 21.4 8.35303ZM3.68699 21.932L9.88699 19.865L4.13099 14.109L2.06399 20.309C1.98815 20.5354 1.97703 20.7787 2.03189 21.0111C2.08674 21.2436 2.2054 21.4561 2.37449 21.6248C2.54359 21.7934 2.75641 21.9115 2.989 21.9658C3.22158 22.0201 3.4647 22.0084 3.69099 21.932H3.68699Z"
+                                                 fill="currentColor"></path>
+											<path d="M5.574 21.3L3.692 21.928C3.46591 22.0032 3.22334 22.0141 2.99144 21.9594C2.75954 21.9046 2.54744 21.7864 2.3789 21.6179C2.21036 21.4495 2.09202 21.2375 2.03711 21.0056C1.9822 20.7737 1.99289 20.5312 2.06799 20.3051L2.696 18.422L5.574 21.3ZM4.13499 14.105L9.891 19.861L19.245 10.507L13.489 4.75098L4.13499 14.105Z"
+                                                  fill="currentColor"></path>
+                                       </svg>
+                                   </span>
+                                </a>
+
+                            </div>
+                            <!--end::Name-->
+                            <!--begin::Info-->
+                            <div class="d-flex flex-wrap fw-semibold fs-6 mb-4 pe-2">
+                                <span class="badge badge-light-primary me-2"><i class="bi bi-key text-primary"></i> &nbsp;&nbsp;{{ patient.identifiant_unique }}</span>
+                                <span class="badge badge-light-primary me-2"><i class="bi bi-1-circle text-primary"></i> &nbsp;&nbsp;{{ patient.age }} ans</span>
+                                {% if patient.telephone %}<span class="badge badge-light-primary me-2"><i
+                                        class="bi bi-telephone text-primary"></i> &nbsp;&nbsp;{{ patient.telephone }}</span>{% endif %}
+                                {% if patient.telephone_secondaire %}<span class="badge badge-light-primary me-2"><i
+                                        class="bi bi-telephone text-primary"></i> &nbsp;&nbsp;{{ patient.telephone_secondaire }}</span>{% endif %}
+                                {% if patient.profession %}<span class="badge badge-light-primary me-2"><i
+                                        class="bi bi-briefcase text-primary"></i> &nbsp;&nbsp;{{ patient.profession }}</span>{% endif %}
+                                {% if patient.mutuelle %}
+                                    <span class="badge badge-light-primary me-2"><i class="bi bi-plus text-primary"></i> &nbsp;&nbsp;{{ patient.designation }}</span>{% endif %}
+                            </div>
+                            <!--end::Info-->
+                        </div>
+                        <!--end::User-->
+                        <!--begin::Actions-->
+                        <div class="my-4">
+                            <div class="d-flex justify-content-end">
+                                {% if user.profil.compte.is_gyneco %}
+                                    <div class="btn-group me-2">
+                                        {% if patient.grossesse_encours != None %}
+                                            <button type="button" class="btn btn-sm btn-success"
+                                                    onclick="modifierGrossesse()">
+                                                Grossesse
+                                            </button>
+                                            <button type="button"
+                                                    class="btn btn-sm btn-success dropdown-toggle dropdown-toggle-split"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                <span class="visually-hidden">Menu</span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#"
+                                                       onclick="afficherCalendrierGrossesse()">Calendrier</a>
+                                                </li>
+                                                <li><a class="dropdown-item" href="#"
+                                                       onclick="cloturerGrossesse()">Clôturer</a>
+                                                </li>
+                                            </ul>
+                                        {% else %}
+                                            <button type="button" class="btn btn-sm btn-success"
+                                                    onclick="nouvelleGrossesse()">
+                                                Nouvelle grossesse
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="d-flex mt-6">
+                            <span>
+                                   <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" data-kt-menu-trigger="click"
+                                      data-kt-menu-placement="bottom-end">
+                                       Biologie
+                                   </a>
+                                   <div class="menu menu-sub menu-sub-dropdown w-350px w-md-350px" data-kt-menu="true"
+                                        id="kt_menu_633e7ca49aaa3">
+                                       <!--begin::Header-->
+                                       <div class="px-7 py-5">
+                                           <div class="fs-5 text-dark fw-bold">Dernières analyses</div>
+                                       </div>
+                                       <!--end::Header-->
+                                       <!--begin::Menu separator-->
+                                       <div class="separator border-gray-200"></div>
+                                       <!--end::Menu separator-->
+                                       <!--begin::Form-->
+                                       <div class="px-7 py-5">
+
+                                           <div id="prescriptions-container" class="scroll scroll-pull mb-10"
+                                                data-scroll="true"
+                                                style="/*height: 200px*/">
+                                               {% include 'core/partials/prescription_list.html' with prescriptions=object.prescriptionanalysebiologique_set %}
+                                           </div>
+
+                                           <!--begin::Actions-->
+                                           <div class="d-flex justify-content-end">
+                                               <button type="reset"
+                                                       class="btn btn-sm btn-light btn-active-light-primary me-2"
+                                                       data-kt-menu-dismiss="true">Fermer
+                                               </button>
+                                               <button type="submit" class="btn btn-sm btn-primary"
+                                                       data-kt-menu-dismiss="true"
+                                                       onclick="ajouterPrescriptionAnalyses()">
+                                                   Nouveau
+                                               </button>
+                                           </div>
+                                           <!--end::Actions-->
+                                       </div>
+                                       <!--end::Form-->
+                                   </div>
+                               </span>
+                                <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" id="ouvrir_liste_ordonnances">
+                                    Ordonnances
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" id="ouvrir_liste_certificats">
+                                    Courriers
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" onclick="priseRdv()">
+                                    Rendez-vous
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" id="ouvrir_historique_consultations">
+                                    Historique
+                                </a>
+                                <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" id="ouvrir_antecedents">
+                                    Antécédents
+                                </a>
+                            </div>
+
+                        </div>
+                        <!--end::Actions-->
+                    </div>
+                    <!--end::Title-->
+                    <!--begin::Stats-->
+                    <div class="d-flex flex-wrap flex-stack">
+
+                        <div class="py-0">
+                            <!--begin::Body-->
+                            <div class="fs-6">
+                                <!--begin::Details-->
+                                <div class="d-flex flex-wrap py-2">
+                                    <!--begin::Col-->
+                                    <div class="flex-equal me-10">
+                                        <table class="table table-flush fw-semibold gy-1">
+                                            {% if patient.adresse.ville %}
+                                                <tr>
+                                                    <td class="text-muted min-w-125px w-125px">Adresse</td>
+                                                    <td class="text-gray-800">
+                                                        {% if patient.adresse.rue %}
+                                                            {{ patient.adresse.numero }} rue {{ patient.adresse.rue }}
+                                                        {% endif %}
+                                                        {% if patient.adresse.ville %}
+                                                            {{ patient.adresse.ville }} {{ patient.adresse.cp }}
+                                                        {% endif %}
+                                                        {% if patient.adresse.gouvernorat %}
+                                                            {{ patient.adresse.gouvernorat }}
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+
+                                            <tr>
+                                                <td class="text-muted min-w-125px w-125px">GS</td>
+                                                <td class="text-gray-800">
+                                                    {% if '-' in  patient.groupe_sanguin %}
+                                                        <span class="text-danger">
+                                                        {{ patient.groupe_sanguin|default:"-" }}
+                                                       </span>
+                                                    {% else %}
+                                                        {{ patient.groupe_sanguin|default:"-" }}
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-muted min-w-125px w-125px">Origine</td>
+                                                <td class="text-gray-800 min-w-175px w-175px">
+                                                    {{ patient.get_origine_display|default:"-" }}
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="text-muted min-w-125px w-125px">Fumeur
+                                                </td>
+                                                <td class="text-gray-800">
+                                                    {% if patient.fumeur %}Oui{% else %}Non{% endif %}
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="text-muted min-w-125px w-125px align-middle">Mots clés
+                                                </td>
+                                                <td class="text-gray-800">
+                                                    <input class="form-control form-control-solid tagify form-control-sm"
+                                                           name="tags" id="tags"
+                                                           value='{{ patient.mot_cle|default:'' }}'>
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                    </div>
+                                    <!--end::Col-->
+                                    <!--begin::Col-->
+                                    <div class="flex-equal me-10">
+                                        <table class="table table-flush fw-semibold gy-1">
+
+                                            <tr>
+                                                <td class="text-muted min-w-125px w-125px">Taille <small>(cm)</small>
+                                                </td>
+                                                <td class="text-gray-800">
+                                                    {{ patient.taille|floatformat|default:"-" }}
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="text-muted min-w-125px w-125px">Poids<small>(kg)</small>
+                                                </td>
+                                                <td class="text-gray-800">
+                                                    {{ patient.poids|floatformat|default:"-" }}
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="text-muted min-w-125px w-125px">IMC <small>(kg/m2)</small>
+                                                </td>
+                                                <td class="text-gray-800">
+                                                    {{ patient.imc }}
+                                                </td>
+                                            </tr>
+
+
+                                        </table>
+                                    </div>
+
+                                    {% if patient.grossesse_encours != None %}
+                                        <div class="border-start ms-4 ps-8 border-grey-300">
+
+                                            <div class="flex-equal me-10">
+                                                <table class="table table-flush fw-semibold gy-1">
+                                                    <tr>
+                                                        <td class="text-muted min-w-125px w-125px">Terme</td>
+                                                        <td class="">
+                                                            <span class="terme badge text-bg-warning"></span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-muted min-w-125px w-125px">DDR</td>
+                                                        <td class="ddr text-gray-800 min-w-100px w-100px">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                       <td class="text-muted min-w-125px w-125px">DDG</td>
+                                                       <td class="ddg text-gray-800 min-w-100px w-100px">
+                                                       </td>
+                                                   </tr>
+                                                    <tr>
+                                                        <td class="text-muted min-w-125px w-125px">Accouchement</td>
+                                                        <td class="accouchement text-gray-800 min-w-100px w-100px">
+                                                        </td>
+                                                    </tr>
+
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="ms-4">
+                                            <div class="flex-equal me-10">
+                                                {% with g=patient.grossesse_encours %}
+                                                    <table class="table table-flush fw-semibold gy-1">
+                                                        <tr>
+                                                            <td class="text-muted min-w-125px w-125px">Risque T21</td>
+                                                            <td class="text-gray-800 min-w-125px w-125px">
+                                                                {% if g.risque %}
+                                                                    1/{{ g.risque|floatformat }}
+                                                                {% else %}
+                                                                    Non défini
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-muted min-w-125px w-125px">Toxo</td>
+                                                            <td class="text-gray-800 min-w-175px w-175px">
+                                                                {% if g.toxoplasmose_v2 %}
+                                                                    {{ g.get_toxoplasmose_v2_display }}
+                                                                {% else %}
+                                                                    Non défini
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td class="text-muted min-w-125px w-125px">Diabète</td>
+                                                            <td class="text-gray-800 min-w-175px w-175px">
+                                                                {% if g.diabete_v2 %}
+                                                                    {{ g.diabete_v2 }}
+                                                                {% else %}
+                                                                    Non défini
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td class="text-muted min-w-125px w-125px">Aspegic</td>
+                                                            <td class="text-gray-800 min-w-175px w-175px">
+                                                                {% if g.aspegic %}Oui{% else %}Non{% endif %}
+                                                            </td>
+                                                        </tr>
+                                                        {% if g.notes %}
+                                                            <tr>
+                                                                <td class="text-muted min-w-125px w-125px">Notes</td>
+                                                                <td class="text-gray-800 min-w-175px w-175px">
+                                                                    {{ g.notes|linebreaks }}
+                                                                </td>
+                                                            </tr>
+                                                        {% endif %}
+
+                                                    </table>
+                                                {% endwith %}
+                                            </div>
+
+                                        </div>
+                                    {% endif %}
+                                    <!--end::Col-->
+                                </div>
+                                <!--end::Details-->
+                            </div>
+                            <!--end::Body-->
+                        </div>
+
+                        <!--end::Progress-->
+                    </div>
+                    <!--end::Stats-->
+                </div>
+                <!--end::Info-->
+            </div>
+            <!--end::Details-->
+            <!--begin::Navs-->
+
+            <div class="d-flex justify-content-between">
+                <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold">
+
+                    {% block sub_navigation %}{% endblock %}
+
+                    <li class="nav-item ms-10">
+                        <span class="badge badge-success badge-sm hide h-30px mt-1" id="libelle_statut"></span>
+                        <span class="badge badge-primary badge-square badge-sm px-3 h-30px mt-1 ms-2">
+                            <i class="bi bi-clock text-light"></i> &nbsp;<span class=""
+                                                                               id="timer-minutes">00</span>:<span
+                                class="" id="timer-seconds">00</span>
+                        </span>
+                    </li>
+
+                </ul>
+
+                {% include 'core/partials/consultation_toolbar.html' with patient=patient %}
+            </div>
+            <!--begin::Navs-->
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-12">
+            {% block inner_content %}{% endblock %}
+        </div>
+    </div>
+
+    <div class="modal fade" id="pdf-modal" tabindex="-1" aria-labelledby="Aperçu PDF" aria-hidden="true">
+        <div class="modal-dialog modal-xl h-100 my-0">
+            <div class="modal-content h-100">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Impression</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close icon-md"></i>
+                    </button>
+                </div>
+                <div class="modal-body p-0">
+                    <iframe src="" id="pdf-frame" width="100%" height="100%"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    <button id="btn-demarrer-impression" type="button" class="btn btn-primary">Imprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="edition-modal" tabindex="-1" aria-labelledby="Edition" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen p-9 m-auto mw-1500px">
+            <div class="modal-content h-100 modal-rounded">
+                <div class="modal-header py-7 d-flex justify-content-between">
+                    <!--begin::Modal title-->
+                    <h2>Edition</h2>
+                    <!--end::Modal title-->
+                    <!--begin::Close-->
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                        <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                        <!--end::Svg Icon-->
+                    </div>
+                    <!--end::Close-->
+                </div>
+
+                <div class="modal-body">
+                    <div class="d-flex mb-4 justify-content-between">
+                        <div class="d-flex">
+                            {% if templates %}
+                                <div class="row me-8">
+                                    <label for="id_template_edition_obs" class="col-4 col-form-label py-2">Modèle</label>
+                                    <div class="col-8">
+                                        <select name="template_edition_obs" id="id_template_edition_obs"
+                                                class="form-select form-select-solid form-select-sm">
+                                            <option value="-1">---------</option>
+                                            {% for temp in templates %}
+                                                <option value="{{ temp.id }}"
+                                                        {% if forloop.counter == 1 %}selected{% endif %}>{{ temp.libelle }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="me-8 py-2">
+                                <label class="form-check form-check-inline form-check-custom form-check-solid">
+                                    <input type="checkbox" id="cb-inserer-antecedents" class="form-check-input h-20px w-20px">
+                                    <span class="form-check-label fw-semibold">Ajouter les antécédents</span>
+                                </label>
+                            </div>
+                            <div class="me-8 py-2">
+                                <label class="form-check form-check-inline form-check-custom form-check-solid">
+                                    <input type="checkbox" id="cb-inserer-notes" class="form-check-input h-20px w-20px">
+                                    <span class="form-check-label fw-semibold">Ajouter les notes</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                                <a onclick="demarrerImpression()" class="btn btn-sm btn-warning font-weight-bolder">
+                                <i class="bi bi-printer"></i> Imprimer
+                            </a>
+                        </div>
+                    </div>
+                    <div id="editor-2" class="editor min-h-400px" style="font-size: 10pt ">
+                        {% if object %}
+                            {{ object.text|safe }}
+                        {% else %}
+
+                        {% endif %}
+                        <p>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 p-1"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="consultation-print" class="hide" style="height: 1px">
+    </div>
+
+    <script type="text/html" id="image-item-template">
+        <div data-image-id="<%= img.id %>" class="col-3">
+            <div class="card card-custom gutter-b card-stretch bg-white border">
+                <div class="card-header border-0 px-1 h-30px" style="min-height: 0px;">
+                    <h3 class="card-title pl-2">
+                        <div class="form-group">
+                            <label for="img-cb-<%= img.id %>">
+                                <input data-id="<%= img.id %>"
+                                       name="img-cb-<%= img.id %>"
+                                       class="img-cb" type="checkbox"/>
+                                <i class="la la-print"></i>
+                            </label>
+                        </div>
+                    </h3>
+                    <div class="card-toolbar">
+                        <div class="dropdown dropdown-inline" data-toggle="tooltip"
+                             title="Actions" data-placement="left">
+                            <a href="#"
+                               class="btn btn-clean btn-hover-light-primary btn-sm btn-icon"
+                               data-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">
+                                <i class="ki ki-bold-more-hor"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
+                                <!--begin::Navigation-->
+                                <ul class="navi navi-hover py-1">
+                                    <li class="navi-item">
+                                        <a href="#" onclick="supprimerImage(event, <%= img.id %>)"
+                                           class="navi-link">
+                                                                    <span class="navi-icon">
+                                                                        <i class="flaticon2-delete icon-sm"></i>
+                                                                    </span>
+                                            <span class="navi-text">Supprimer</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <!--end::Navigation-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-2 pl-2 pr-2 pb-6 text-center">
+                    <a href="<%= img.url %>" data-lightbox="images">
+                        <img src="<%= img.url %>" class="w-100">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script id="etablissement-template" type="text/html" >
+        <div class="d-flex flex-wrap align-items-center justify-content-between w-100 px-1 py-1">
+            <div class="font-size-sm font-weight-bolder">
+                <%= nom %>
+            </div>
+            <div>
+                <button data-id="<%= etablissement_id %>" type="button"
+                        onclick="modifierEtablissement(<%= etablissement_id %>)"
+                        class="btn btn-clean btn-hover-light-primary btn-sm btn-icon">
+                    <i class="la la-pencil icon-md"></i>
+                </button>
+                <button type="button" onClick="dissocierEtablissement(event, <%= patient_id %>)"
+                        class="btn btn-icon btn-clean btn-hover-danger btn-sm"
+                        title="Supprimer le lieu d'accouchement">
+                    <i class="la la-trash icon-md"></i>
+                </button>
+            </div>
+        </div>
+    </script>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script type="text/javascript">
+        let consultation_pk = -1;
+        let motif_pk = {{ motif.pk }};
+        let motif_code = '{{ motif.code }}';
+        let consultation_date = moment().format('DD/MM/YYYY');
+        {% if object %}
+            consultation_pk = {{ object.pk }};
+            consultation_date = "{{ object.date|date:'d/m/Y' }}";
+        {% endif %}
+        const patient_pk = {{ patient.pk }};
+
+        let grossesse = {% if patient.grossesse_encours %}{{ grossesse_encours_json|safe }}{% else %}null{% endif %};
+
+        const logo_url = {% if user.profil.compte.parametrescompte.logo_a4 %}
+            '{{ user.profil.compte.parametrescompte.logo_a4.url }}'
+        {% else %} ''
+        {% endif  %};
+        const footer_url =
+            {% if user.profil.compte.parametrescompte.footer_a4 %}
+                '{{ user.profil.compte.parametrescompte.footer_a4.url }}'
+            {% else %} ''
+            {% endif  %};
+
+        const signature_url =
+            {% if user.profil.signature and user.profil.ajouter_signature_edition %}
+                '{{ user.profil.signature.url }}'
+            {% else %} ''
+            {% endif  %};
+        const entete = '{{ user.profil.compte.parametrescompte.nom_entete | linebreaksbr}}';
+        const patient = {{ patient_json|safe }};
+        const praticiens = {{ praticiens_json|safe }};
+        const medecins = {{ medecins_json|safe }};
+        const list_mots = {{ mot_patient|safe }};
+
+        let etablissements = {{ etablissements_json|safe }};
+        etablissements = _.map(etablissements, e => _.merge(e.fields, {'pk': e.pk}));
+
+        let consultationImages = [];
+        {% if object and object.imageconsultation_set.count > 0 %}
+            consultationImages = {{ images_json|safe }}
+        {% endif %};
+
+        let consultationSR = {};
+        {% if object and object.srconsultation_set.count > 0 %}
+            consultationSR = {{ sr_json|safe }}
+        {% endif %};
+        consultationSR = {};
+        console.info('Images de consultation', consultationImages);
+
+        let addAntecedents = {% if user.profil.compte.parametrescompte.ajouter_antecedents_edition %}true{% else %}
+            false{% endif %};
+
+        let listes_choix = [];
+        {% if listes_choix_json %}
+            listes_choix = {{ listes_choix_json|safe }};
+        {% endif %}
+        //console.info('Listes', listes_choix);
+        let templates_edition = [];
+        {% if templates_json %}
+            templates_edition = {{ templates_json|safe }};
+        {% endif %}
+
+        const ajouterDateLieuEdition = {% if user.profil.compte.parametrescompte.ajouter_date_cro %}true{% else %}
+            false{% endif %};
+
+        let modeEdition = false;
+        {% if mode_edition %}
+            //KTApp.block('body', {opacity: 1, overlayColor: '#fff',});
+            modeEdition = true;
+        {% endif %}
+
+        let doublon_url = null;
+        {% if doublon_consultation %}
+            doublon_url = '{{ doublon_consultation.modif_url }}';
+        {% endif %}
+
+        const dureeGrossesse = {{ user.profil.compte.parametrescompte.duree_grossesse }};
+
+        const devices = {{ devices_json|safe }};
+
+        let grossesse_data = {};
+        {% if grossesse_data %}grossesse_data = JSON.parse(`{{ grossesse_data|safe }}`);{% endif %}
+
+    </script>
+    <script src="{% static "plugins/custom/tinymce/tinymce.bundle.js" %}"></script>
+    <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
+    <script src="{% static "plugins/custom/fslightbox/fslightbox.bundle.js" %}"></script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+    <script src="{% static "js/core/editique.js" %}"></script>
+    <script src="{% static "js/core/patient_info_panel.js" %}"></script>
+    <script src="{% static "js/core/consultation_form.js" %}"></script>
+    <script src="{% static "js/core/obstetrique.js" %}"></script>
+
+
+{% endblock %}

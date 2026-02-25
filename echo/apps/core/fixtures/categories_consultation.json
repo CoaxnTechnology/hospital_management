@@ -1,0 +1,51 @@
+[
+  {
+    "model": "core.CategorieConsultation",
+    "pk": 1,
+    "fields": {
+      "libelle": "Obstétrique"
+    }
+  },
+  {
+    "model": "core.CategorieConsultation",
+    "pk": 2,
+    "fields": {
+      "libelle": "Gynécologie"
+    }
+  },
+  {
+    "model": "core.CategorieConsultation",
+    "pk": 3,
+    "fields": {
+      "libelle": "PMA"
+    }
+  },
+  {
+    "model": "core.CategorieConsultation",
+    "pk": 4,
+    "fields": {
+      "libelle": "Examen libre"
+    }
+  },
+  {
+    "model": "core.CategorieConsultation",
+    "pk": 5,
+    "fields": {
+      "libelle": "Cardiologie"
+    }
+  },
+  {
+    "model": "core.CategorieConsultation",
+    "pk": 6,
+    "fields": {
+      "libelle": "Vasculaire"
+    }
+  },
+  {
+    "model": "core.CategorieConsultation",
+    "pk": 7,
+    "fields": {
+      "libelle": "Compte-rendu opératoire"
+    }
+  }
+]

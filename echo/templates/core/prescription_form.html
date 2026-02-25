@@ -1,0 +1,66 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="p-4">
+        <form id="form_1" class="form" method="post" action="">
+            {% csrf_token %}
+
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+
+            <div class="row">
+                <div class="form-group col-5">
+                    <label>{{ form.libelle.label }}</label>
+                    {% render_field form.libelle class+="form-control form-control-sm" %}
+                    <div class="invalid-feedback"
+                         {% if form.libelle.errors %}style="display: block"{% endif %}>
+                        {{ form.libelle.errors }}
+                    </div>
+                </div>
+                <div class="form-group col-5">
+                    <label>{{ form.categorie.label }}</label>
+                    {% render_field form.categorie class+="form-control form-control-sm" %}
+                    <div class="invalid-feedback"
+                         {% if form.categorie.errors %}style="display: block"{% endif %}>
+                        {{ form.categorie.errors }}
+                    </div>
+                </div>
+            </div>
+
+            <textarea name="text" id="id_text" class="h-300px">
+                {% if object %}
+                    {{ object.text|safe }}
+                {% else %}
+
+                {% endif %}
+            </textarea>
+            <div class="invalid-feedback"
+                 {% if form.text.errors %}style="display: block"{% endif %}>
+                {{ form.text.errors }}
+            </div>
+
+            <div class="d-flex mt-4 justify-content-end">
+                <a href="/prescriptions/" class="btn btn-default">Annuler</a>
+                <button type="submit" id="btn_enregistrer" class="ml-2 btn btn-primary font-weight-bolder"
+                        onclick="this.disabled=true,this.form.submit();">
+                    <i class="ki ki-check icon-sm"></i>
+                    Enregistrer
+                </button>
+            </div>
+
+        </form>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="{% static "plugins/custom/tinymce/tinymce.bundle.js" %}"></script>
+    <script type="text/javascript">
+
+    </script>
+    <script src="{% static "js/core/prescription_form.js" %}"></script>
+{% endblock %}

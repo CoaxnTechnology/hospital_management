@@ -1,0 +1,78 @@
+<div class="card">
+<div class="card-header">
+        <div class="card-toolbar">
+            <select name="materiel" id="materiel" class="form-select form-select-sm me-2">
+                <option value="-1">Echographe</option>
+                {% for d in devices %}
+                    <option value="{{ d.id }}" {% if user.profil.default_device.id == d.id %}selected{% endif %}>
+                        {{ d.marque }} - {{ d.modele }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="card-body">
+
+        <div id="images-container" class="row p-2">
+            {% if consultation %}
+                {% for img in consultation.imageconsultation_set.all %}
+                    {% if img.image %}
+                        <div data-image-id="{{ img.pk }}" class="col-3">
+                            <div class="card card-custom gutter-b card-stretch bg-white border">
+                                <div class="card-header border-0 px-1 h-30px" style="min-height: 0px;">
+                                    <h3 class="card-title pl-2">
+                                        <div class="form-group">
+                                            <label for="img-cb-{{ img.pk }}">
+                                                <input data-id="{{ img.pk }}"
+                                                       name="img-cb-{{ img.pk }}"
+                                                       class="img-cb" type="checkbox"
+                                                       {% if img.impression %}checked{% endif %}/>
+                                                <i class="la la-print"></i>
+                                            </label>
+                                        </div>
+                                    </h3>
+                                    <div class="card-toolbar">
+                                        <div class="dropdown dropdown-inline" data-toggle="tooltip"
+                                             title="Actions" data-placement="left">
+                                            <a href="#"
+                                               class="btn btn-clean btn-hover-light-primary btn-sm btn-icon"
+                                               data-toggle="dropdown" aria-haspopup="true"
+                                               aria-expanded="false">
+                                                <i class="ki ki-bold-more-hor"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
+                                                <!--begin::Navigation-->
+                                                <ul class="navi navi-hover py-1">
+                                                    <li class="navi-item">
+                                                        <a href="#" onclick="supprimerImage(event, {{ img.pk }})"
+                                                           class="navi-link">
+                                                                    <span class="navi-icon">
+                                                                        <i class="flaticon2-delete icon-sm"></i>
+                                                                    </span>
+                                                            <span class="navi-text">Supprimer</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                                <!--end::Navigation-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body pt-2 pl-2 pr-2 pb-6 text-center">
+                                    <a class="d-block overlay" href="{{ img.image.url }}" data-fslightbox="lightbox-basic">
+                                        <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px "
+                                            style="background-image:url({{ img.image.url }})">
+                                        </div>
+                                        <div class="overlay-layer card-rounded bg-dark bg-opacity-25 shadow">
+                                            <i class="bi bi-eye-fill text-white fs-3x"></i>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>

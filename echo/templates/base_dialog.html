@@ -1,0 +1,163 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="fr">
+<!--begin::Head-->
+<head>
+    <base href="../../">
+    <meta charset="utf-8"/>
+    <title>Gyneasy</title>
+    <meta name="description" content="Page with empty content"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <!--begin::Fonts-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"/>
+    <!--end::Fonts-->
+    <!--begin::Page Vendors Styles(used by this page)-->
+    <link href="{% static "plugins/custom/fullcalendar/fullcalendar.bundle.css" %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static "plugins/custom/datatables/datatables.bundle.css" %}" rel="stylesheet" type="text/css"/>
+    <!--end::Page Vendors Styles-->
+    <!--begin::Global Theme Styles(used by all pages)-->
+    <link href="{% static "plugins/global/plugins.bundle.css" %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static "plugins/custom/prismjs/prismjs.bundle.css" %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static "css/style.bundle.css" %}" rel="stylesheet" type="text/css"/>
+    <!--end::Global Theme Styles-->
+    <!--begin::Layout Themes(used by all pages)-->
+    <link href="{% static "css/themes/layout/header/base/dark.css" %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static "css/themes/layout/header/menu/light.css" %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static "css/themes/layout/brand/dark.css" %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static "css/themes/layout/aside/dark.css" %}" rel="stylesheet" type="text/css"/>
+    <!--end::Layout Themes-->
+    <link rel="shortcut icon" href="{% static "media/logos/favicon.ico" %}"/>
+    {% block styles %}
+    {% endblock %}
+</head>
+<!--end::Head-->
+<!--begin::Body-->
+<body id="kt_body" class="bg-white">
+<!--begin::Main-->
+<div class="d-flex flex-column flex-root ">
+    <!--begin::Page-->
+    <div class="d-flex flex-row flex-column-fluid page">
+        <!--begin::Wrapper-->
+        <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+            <!--begin::Content-->
+            <div class="content d-flex flex-column flex-column-fluid py-0" id="kt_content">
+                <!--begin::Subheader-->
+                {% block header %}{% endblock %}
+                <!--end::Subheader-->
+                <!--begin::Entry-->
+                <div class="d-flex flex-column-fluid">
+                    <!--begin::Container-->
+                    <div class="container p-0 m-0" style="max-width: 100% ;">
+                        {% block content %}{% endblock %}
+                    </div>
+                    <!--end::Container-->
+                </div>
+                <!--end::Entry-->
+            </div>
+            <!--end::Content-->
+        </div>
+        <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+</div>
+<!--end::Main-->
+
+{% include "core/shared.html" %}
+
+<!--begin::Global Config(global config for global JS scripts)-->
+<script>var KTAppSettings = {
+    "breakpoints": {"sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1200},
+    "colors": {
+        "theme": {
+            "base": {
+                "white": "#ffffff",
+                "primary": "#6993FF",
+                "secondary": "#E5EAEE",
+                "success": "#1BC5BD",
+                "info": "#8950FC",
+                "warning": "#FFA800",
+                "danger": "#F64E60",
+                "light": "#F3F6F9",
+                "dark": "#212121"
+            },
+            "light": {
+                "white": "#ffffff",
+                "primary": "#E1E9FF",
+                "secondary": "#ECF0F3",
+                "success": "#C9F7F5",
+                "info": "#EEE5FF",
+                "warning": "#FFF4DE",
+                "danger": "#FFE2E5",
+                "light": "#F3F6F9",
+                "dark": "#D6D6E0"
+            },
+            "inverse": {
+                "white": "#ffffff",
+                "primary": "#ffffff",
+                "secondary": "#212121",
+                "success": "#ffffff",
+                "info": "#ffffff",
+                "warning": "#ffffff",
+                "danger": "#ffffff",
+                "light": "#464E5F",
+                "dark": "#ffffff"
+            }
+        },
+        "gray": {
+            "gray-100": "#F3F6F9",
+            "gray-200": "#ECF0F3",
+            "gray-300": "#E5EAEE",
+            "gray-400": "#D6D6E0",
+            "gray-500": "#B5B5C3",
+            "gray-600": "#80808F",
+            "gray-700": "#464E5F",
+            "gray-800": "#1B283F",
+            "gray-900": "#212121"
+        }
+    },
+    "font-family": "Poppins"
+};
+const base_ws_server_path = "{{ request.ws_server_path }}";
+const user = {{ request.user.profil.pk }};
+
+let addEntetes = {% if user.profil.compte.parametrescompte.ajouter_entetes_edition %}true{% else %}false{% endif %};
+const pays = {% if user.profil.compte.adresse and user.profil.compte.adresse.pays  %}"{{ user.profil.compte.adresse.pays }}"{% else %}"Tunisie"{% endif %};
+
+</script>
+<!--end::Global Config-->
+<!--begin::Global Theme Bundle(used by all pages)-->
+<script src="{% static "plugins/global/plugins.bundle.js" %}"></script>
+<script src="{% static "plugins/custom/prismjs/prismjs.bundle.js" %}"></script>
+<script src="{% static "js/scripts.bundle.js" %}"></script>
+<!--end::Global Theme Bundle-->
+<!--begin::Page Vendors(used by this page)-->
+<script src="{% static "v2/plugins/custom/fullcalendar/fullcalendar.bundle.js" %}"></script>
+<script src="{% static "v2/plugins/custom/datatables/datatables.bundle.js" %}"></script>
+<!--end::Page Vendors-->
+<!--begin::Page Scripts(used by this page)-->
+<script src="{% static "js/core/common.js" %}"></script>
+<script type="text/javascript">
+    $('iframe').on('load', e => {
+        hideFrameLoading();
+    });
+    function fermerModals() {
+        console.log('Fermer modals dialog base');
+        $('.modal').modal('hide');
+    }
+    EventManager = window.parent.EventManager;
+
+    let productBrand = '';
+    {% if user.profil.compte.is_general %}productBrand = 'Medeasy';{% endif %}
+    {% if user.profil.compte.is_gyneco %}productBrand = 'Gyneasy';{% endif %}
+    {% if user.profil.compte.is_cardio %}productBrand = 'Gyneasy';{% endif %}
+
+    const parametresCompte = {{ PARAMETRES_COMPTE|safe }};
+
+</script>
+<!--end::Page Scripts-->
+{% block scripts %}{% endblock %}
+{% block extra_js %}{% endblock extra_js %}
+</body>
+<!--end::Body-->
+</html>

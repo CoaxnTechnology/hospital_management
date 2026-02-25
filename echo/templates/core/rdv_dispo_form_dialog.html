@@ -1,0 +1,86 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block content %}
+    <div class="p-4">
+        <form id="form" class="form" method="post" action="">
+            {% csrf_token %}
+
+            {{ form.errors }}
+
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+
+            <div class="border-bottom-lg pb-2">
+                <div class="form-group row">
+                    <div class="col-6">
+                        <label>A partir du</label>
+                        <input type="text" id="date-debut" value="{{ date_debut|date:'d/m/Y' }}"
+                               class="form-control form-control-sm">
+
+                        <div class="btn-group btn-group-toggle btn-group-sm mt-1" data-toggle="buttons" role="tablist">
+                            <label class="btn btn-outline-primary active">
+                                <input type="radio" name="options" id="option1" checked onclick="afficherMatin(event)"> Matin
+                            </label>
+                            <label class="btn btn-outline-primary">
+                                <input type="radio" name="options" id="option2" onclick="afficherApresmidi(event)"> Après-midi
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <label>{{ form.motif.label }}</label>
+                        {% render_field form.motif class+="form-control form-control-sm" %}
+                        <div class="invalid-feedback"
+                             {% if form.motif.errors %}style="display: block"{% endif %}>
+                            {{ form.motif.errors }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content">
+                <div id="mat" class="d-flex">
+                </div>
+                <div id="am" class="d-none">
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <script type="text/html" id="cal-template">
+        <% _.forIn(slots, (slot, date) => { %>
+        <table cellpadding="2px">
+            <tr>
+                <th class="text-center"><%= date %></th>
+            </tr>
+            <tr>
+                <% for(let i=0; i
+                <slot.length
+                        ; i++) { %>
+            <tr>
+                <td>
+                    <button data-slot="<%= moment(slot[i]).toISOString() %>" type="button"
+                            class="btn btn-outline-primary btn-hover-success w-60px" style="padding:5px">
+                        <%= moment(slot[i]).format('HH:mm') %>
+                    </button>
+                </td>
+            </tr>
+            <% } %>
+            </tr>
+        </table>
+        <% }) %>
+    </script>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        const slots = {{ slots|safe }};
+        console.log('Slots', slots);
+        const patient = {{ patient }};
+    </script>
+    <script src="{% static "js/core/rdv_dispo_form.js" %}"></script>
+{% endblock %}

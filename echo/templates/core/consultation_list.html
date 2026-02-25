@@ -1,0 +1,13 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+    <div class="pl-4 pt-4 pr-2">
+    {% include 'core/partials/timeline_patient.html' with consultations=object_list %}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}

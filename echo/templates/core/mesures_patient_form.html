@@ -1,0 +1,62 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block styles %}
+    <style type="text/css">
+
+    </style>
+{% endblock %}
+{% block content %}
+    <form id="form_1" class="form" method="post" action="">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+
+        <div class="card card-custom bg-white shadow-none">
+            <div class="card-header fixed-header d-flex align-content-between align-items-center w-100 zindex-2 shadow-xs bg-light">
+                <div class="card-title pl-2">
+                    <h3 class="m-0">
+                        {% if object %}
+                            <h3 class="m-0 mt-1">{{ object.patient.titre }}</h3>
+                        {% else %}
+                            <h3 class="m-0 mt-1">{{ patient.titre }}</h3>
+                        {% endif %}
+                    </h3>
+                </div>
+                <div class="card-toolbar">
+                    <button type="button" class="btn btn-default" onclick="window.parent.fermerModals()">Annuler
+                    </button>
+                    <button type="submit" id="btn_enregistrer" class="ml-2 btn btn-primary font-weight-bolder">
+                        <i class="ki ki-check icon-sm"></i>
+                        Enregistrer
+                    </button>
+                </div>
+            </div>
+            <div class="card-body px-0">
+                <div class="py-4 px-4">
+                    <div class="row">
+                        <div class="form-group col-3">
+                            <label>Tension</label>
+                            {% render_field form.ta class+="form-control form-control-sm" %}
+                        </div>
+                        <div class="form-group col-3">
+                            <label>Température</label>
+                            {% render_field form.temperature class+="form-control form-control-sm" %}
+                        </div>
+                        <div class="form-group col-3">
+                            <label>Poids</label>
+                            {% render_field form.poids class+="form-control form-control-sm" %}
+                        </div>
+                        <div class="form-group col-3">
+                            <label>Glycémie</label>
+                            {% render_field form.gly class+="form-control form-control-sm" %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

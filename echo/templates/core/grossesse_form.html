@@ -1,0 +1,579 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block styles %}
+    <style type="text/css">
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <form id="form_1" class="form" method="post" action="">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+        <div class="card card-custom bg-white shadow-none">
+            <div class="card-header fixed-header d-flex align-content-between align-items-center w-100 zindex-2 shadow-xs bg-light">
+                <div class="card-title pl-2">
+                    <h3 class="m-0">
+                        {% if object %}Modifier{% else %}Créer{% endif %} une grossesse
+                    </h3>
+                </div>
+                <div class="card-toolbar">
+                    <button type="button" class="btn btn-default" onclick="window.parent.fermerModals()">Annuler</button>
+                    <button type="submit" id="btn_enregistrer" class="ml-2 btn btn-primary font-weight-bolder">
+                        <i class="ki ki-check icon-sm"></i>
+                        Enregistrer
+                    </button>
+                </div>
+            </div>
+            <div class="card-body pt-15">
+                <div class="bg-light px-4 pt-6 pb-4">
+                    <div class="d-flex justify-content-between">
+                        {% if object %}
+                            <h3 class="m-0 mt-1">{{ object.patient.titre }}</h3>
+                        {% else %}
+                            <h3 class="m-0 mt-1">{{ patient.titre }}</h3>
+                        {% endif %}
+
+                        <button type="button" class="btn btn-sm btn-outline-info" data-toggle="collapse"
+                                href="#blocConjoint"
+                                role="button"
+                                aria-expanded="false" aria-controls="blocConjoint">Informations sur le conjoint
+                        </button>
+                    </div>
+                </div>
+
+                <div class="py-4 px-0">
+                    <div class="collapse px-7" id="blocConjoint">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title font-size-h5">Conjoint</h5>
+                                <div class="row">
+                                    <div class="form-group col-3">
+                                        <label>Nom</label>
+                                        {% render_field form.nom_conjoint class+="form-control form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.nom_conjoint.errors %}style="display: block"{% endif %}>
+                                            {{ form.nom_conjoint.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <label>Prénom</label>
+                                        {% render_field form.prenom_conjoint class+="form-control form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.prenom_conjoint.errors %}style="display: block"{% endif %}>
+                                            {{ form.prenom_conjoint.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <label>Date de naissance</label>
+                                        {% render_field form.date_naissance_conjoint class+="form-control form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.date_naissance_conjoint.errors %}style="display: block"{% endif %}>
+                                            {{ form.date_naissance_conjoint.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <label>Téléphone</label>
+                                        {% render_field form.telephone_conjoint class+="form-control form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.telephone_conjoint.errors %}style="display: block"{% endif %}>
+                                            {{ form.telephone_conjoint.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <label>Groupe sanguin</label>
+                                        {% render_field form.groupe_sanguin_conjoint class+="form-control form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.groupe_sanguin_conjoint.errors %}style="display: block"{% endif %}>
+                                            {{ form.groupe_sanguin_conjoint.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <label>Consanguinite</label>
+                                        {% render_field form.consanguinite_conjoint class+="form-control form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.consanguinite_conjoint.errors %}style="display: block"{% endif %}>
+                                            {{ form.consanguinite_conjoint.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-12">
+                                        <label>Etat de santé</label>
+                                        {% render_field form.etat_sante_conjoint class+="form-control form-control-sm h-100px" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.etat_sante_conjoint.errors %}style="display: block"{% endif %}>
+                                            {{ form.etat_sante_conjoint.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2 px-8 mx-0">
+                        <div class="form-group col-4">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend"><span
+                                        class="input-group-text text-danger font-weight-bolder">Poids av. grossesse</span>
+                                </div>
+                                {% render_field form.poids_avant_grossesse class+="form-control form-control-sm" %}
+                                <div class="input-group-append"><span class="input-group-text">kg</span></div>
+                            </div>
+                        </div>
+                        <div class="form-group col-4">
+                            <div class="input-group input-group-sm foetus_1">
+                                <div class="input-group-prepend"><span class="input-group-text">Taille</span>
+                                </div>
+                                {% render_field form.taille class+="form-control form-control-sm" %}
+                                <div class="input-group-append"><span class="input-group-text">cm</span></div>
+                            </div>
+                        </div>
+                        <div class="form-group col-4">
+                            <div class="input-group input-group-sm foetus_1">
+                                <div class="input-group-prepend"><span class="input-group-text">IMC</span>
+                                </div>
+                                <input id="imc" disabled class="form-control form-control-sm"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mx-0 px-8 mt-1 pt-2 border-top-1 border-top border-light-dark">
+                        <div class="form-group col-3">
+                            <div class="form-group">
+                                <label class="text-danger font-weight-bolder">DDR</label>
+                                {% render_field form.ddr class+="form-control form-control-sm js-ddr" %}
+                                <div class="invalid-feedback"
+                                     {% if form.ddr.errors %}style="display: block"{% endif %}>
+                                    {{ form.ddr.errors }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="text-danger font-weight-bolder">DDR corrigée</label>
+                                {% render_field form.ddr_corrige class+="form-control form-control-sm js-ddr" %}
+                            </div>
+                        </div>
+                        <div class="form-group col-3">
+                            <div class="form-group">
+                                <label>DDG théorique</label>
+                                <input id="ddg_theorique" type="text" class="form-control form-control-sm">
+                            </div>
+                            <div class="form-group">
+                                <label>DDG corrigée</label>
+                                {% render_field form.ddg_corrige class+="form-control form-control-sm date" %}
+                                <div class="invalid-feedback"
+                                     {% if form.ddg_corrige.errors %}style="display: block"{% endif %}>
+                                    {{ form.ddg_corrige.errors }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-3">
+                            <div class="form-group">
+                                <label class="text-danger font-weight-bolder">Terme</label>
+                                <div>
+                                    <strong id="terme-theorique"
+                                            class="label label-inline label-lg label-success label-pill">---</strong>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="mt-3 text-danger font-weight-bolder">Terme corrigé</label>
+                                <div>
+                                    <strong id="terme-corrige"
+                                            class="label label-inline label-lg label-success label-pill">---</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-3">
+                            <label>Cycle (jours)</label>
+                            {% render_field form.cycle class+="form-control form-control-sm" %}
+                            <div class="invalid-feedback"
+                                 {% if form.cycle.errors %}style="display: block"{% endif %}>
+                                {{ form.cycle.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-8 mt-4 pt-2 border-top-1 border-top border-light-dark form-group">
+                        <label class="font-size-h5">Données de la grossesse</label>
+                        <div class="row">
+                            <div class="form-group col-3">
+                                <label>Nb de Fœtus</label>
+                                {% render_field form.nb_foetus class+="form-control form-control-sm" %}
+                                <div class="invalid-feedback"
+                                     {% if form.nb_foetus.errors %}style="display: block"{% endif %}>
+                                    {{ form.nb_foetus.errors }}
+                                </div>
+                            </div>
+
+                            <div class="form-group col-3">
+                                <label>Type de grossesse</label>
+                                {% render_field form.type_grossesse_v2 class+="form-control form-control-sm"  data-form="grossesse" data-champ="type_grossesse" %}
+                                <div class="invalid-feedback"
+                                     {% if form.type_grossesse.errors %}style="display: block"{% endif %}>
+                                    {{ form.type_grossesse.errors }}
+                                </div>
+                            </div>
+
+                            <div class="form-group col-3">
+                                <label class="text-danger font-weight-bolder">Conception</label>
+                                {% render_field form.conception_v2 class+="form-control form-control-sm" data-form="grossesse" data-champ="conception" %}
+                                <div class="invalid-feedback"
+                                     {% if form.conception.errors %}style="display: block"{% endif %}>
+                                    {{ form.conception.errors }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="px-8 mt-1 form-group">
+                        <label>Echographie du 1er trimestre</label>
+                        <div class="row">
+                            <div class="form-group col-4">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend"><span
+                                            class="input-group-text">Date de l'écho</span>
+                                    </div>
+                                    {% render_field form.date_echo class+="form-control form-control-sm date" %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-4">
+                                <div class="input-group input-group-sm foetus_1">
+                                    <div class="input-group-prepend"><span
+                                            class="input-group-text">LCC <small>1</small></span>
+                                    </div>
+                                    {% render_field form.lcc_1 class+="form-control form-control-sm" %}
+                                    <div class="input-group-append"><span class="input-group-text">mm</span></div>
+                                </div>
+                                <div class="input-group input-group-sm foetus_2 d-none">
+                                    <div class="input-group-prepend"><span
+                                            class="input-group-text">LCC <small>2</small></span>
+                                    </div>
+                                    {% render_field form.lcc_2 class+="form-control form-control-sm" %}
+                                    <div class="input-group-append"><span class="input-group-text">mm</span></div>
+                                </div>
+                                <div class="input-group input-group-sm foetus_3 d-none">
+                                    <div class="input-group-prepend"><span
+                                            class="input-group-text">LCC <small>3</small></span>
+                                    </div>
+                                    {% render_field form.lcc_3 class+="form-control form-control-sm" %}
+                                    <div class="input-group-append"><span class="input-group-text">mm</span></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-4">
+                                <div class="input-group input-group-sm foetus_1">
+                                    <div class="input-group-prepend"><span
+                                            class="input-group-text">CN <small>1</small></span>
+                                    </div>
+                                    {% render_field form.cn_1 class+="form-control form-control-sm" %}
+                                    <div class="input-group-append"><span class="input-group-text">mm</span></div>
+                                </div>
+                                <div class="input-group input-group-sm foetus_2 d-none">
+                                    <div class="input-group-prepend"><span
+                                            class="input-group-text">CN <small>2</small></span>
+                                    </div>
+                                    {% render_field form.cn_2 class+="form-control form-control-sm" %}
+                                    <div class="input-group-append"><span class="input-group-text">mm</span></div>
+                                </div>
+                                <div class="input-group input-group-sm foetus_3 d-none">
+                                    <div class="input-group-prepend"><span
+                                            class="input-group-text">CN <small>3</small></span>
+                                    </div>
+                                    {% render_field form.cn_3 class+="form-control form-control-sm" %}
+                                    <div class="input-group-append"><span class="input-group-text">mm</span></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-4">
+                                <div class="input-group input-group-sm foetus_1">
+                                    <div class="input-group-prepend"><span
+                                            class="input-group-text">Score de Herman <small>1</small></span>
+                                    </div>
+                                    {% render_field form.score_herman_1_v2 class+="form-control form-control-sm" data-form="grossesse" data-champ="score_herman" %}
+                                </div>
+                                <div class="input-group input-group-sm foetus_2 d-none">
+                                    <div class="input-group-prepend"><span
+                                            class="input-group-text">Score de Herman <small>2</small></span>
+                                    </div>
+                                    {% render_field form.score_herman_2_v2 class+="form-control form-control-sm" data-form="grossesse" data-champ="score_herman" %}
+                                </div>
+                                <div class="input-group input-group-sm foetus_3 d-none">
+                                    <div class="input-group-prepend"><span
+                                            class="input-group-text">Score de Herman <small>3</small></span>
+                                    </div>
+                                    {% render_field form.score_herman_3_v2 class+="form-control form-control-sm" data-form="grossesse" data-champ="score_herman" %}
+                                </div>
+                            </div>
+                        </div>
+                        <label>Trisomie</label>
+                        <div class="row">
+                            <div class="form-group col-3">
+                                <div class="form-check">
+                                    {% render_field form.test_t21_fait class+="form-check-input" %}
+                                    <label class="form-check-label" for="{{ form.test_t21_fait.id_for_label }}">
+                                        Dépistage T21 Fait
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="t21-container">
+                            <div class="form-group col-3">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend"><span
+                                            class="input-group-text text-danger font-weight-bolder">Risque T21 combiné 1/</span>
+                                    </div>
+                                    {% render_field form.risque class+="form-control form-control-sm" %}
+                                </div>
+                            </div>
+                            <div class="form-group col-3">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend"><span
+                                            class="input-group-text">Risque T21 biochimique 1/</span>
+                                    </div>
+                                    {% render_field form.risque_t21_bio class+="form-control form-control-sm" %}
+                                </div>
+                            </div>
+                            <div class="form-group col-3">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend"><span
+                                            class="input-group-text">Risque T21 lié à l'âge 1/</span>
+                                    </div>
+                                    {% render_field form.risque_t21_age class+="form-control form-control-sm" %}
+                                </div>
+                            </div>
+                            <div class="form-group col-3">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend"><span
+                                            class="input-group-text">Risque T18 et 13 1/</span>
+                                    </div>
+                                    {% render_field form.risque_t18_13 class+="form-control form-control-sm" %}
+                                </div>
+                            </div>
+
+                            <div class="form-group col-1">
+                                {% render_field form.msres_1_type_v2 class+="form-control form-control-sm" data-form="grossesse" data-champ="msres_1_type" %}
+                            </div>
+                            <div class="form-group col-2">
+                                <div class="input-group input-group-sm">
+                                    {% render_field form.msres_1_val class+="form-control form-control-sm" %}
+                                    <div class="input-group-append"><span class="input-group-text">Ul/l</span></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-2">
+                                <div class="input-group input-group-sm">
+                                    {% render_field form.msres_1_mom class+="form-control form-control-sm" %}
+                                    <div class="input-group-append"><span class="input-group-text">MoM</span></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-1">
+                                {% render_field form.msres_2_type_v2 class+="form-control form-control-sm" data-form="grossesse" data-champ="msres_2_type" %}
+                            </div>
+                            <div class="form-group col-2">
+                                <div class="input-group input-group-sm">
+                                    {% render_field form.msres_2_val class+="form-control form-control-sm" %}
+                                    <div class="input-group-append"><span class="input-group-text">mUl/l</span></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-2">
+                                <div class="input-group input-group-sm">
+                                    {% render_field form.msres_2_mom class+="form-control form-control-sm" %}
+                                    <div class="input-group-append"><span class="input-group-text">MoM</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mx-0 px-8 form-group">
+                        <label>Screening</label>
+                        <div class="row">
+                            <div class="form-group col-4">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend"><span class="input-group-text">1er trimestre</span>
+                                    </div>
+                                    {% render_field form.screening_premier_trimestre class+="form-control form-control-sm" %}
+                                </div>
+                            </div>
+                            <div class="form-group col-4">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend"><span class="input-group-text">2ème trimestre</span>
+                                    </div>
+                                    {% render_field form.screening_deuxieme_trimestre class+="form-control form-control-sm" %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-2">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend"><span class="input-group-text text-danger font-weight-bolder">Caryotype</span>
+                                    </div>
+                                    {% render_field form.caryotype_type class+="form-control form-control-sm" %}
+                                </div>
+                            </div>
+                            <div class="form-group col-2">
+                                {% render_field form.caryotype_val class+="form-control form-control-sm border-danger" placeholder="Résultat" %}
+                            </div>
+
+                            <div class="form-group col-2">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend"><span class="input-group-text text-danger font-weight-bolder">DPNI</span></div>
+                                    {% render_field form.dpni class+="form-control form-control-sm" placeholder="Résultat" %}
+                                </div>
+                            </div>
+                            <div class="form-group col-2">
+                                {% render_field form.dpni_comment class+="form-control form-control-sm border-danger" placeholder="Commentaire" %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row px-8">
+                        <div class="form-group col-4">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend"><span class="input-group-text text-danger font-weight-bolder">Diabète</span></div>
+                                {% render_field form.diabete_v2 class+="form-control form-control-sm" data-form="grossesse" data-champ="diabete" %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 px-8 pt-2 border-top-1 border-top border-light-dark form-group">
+                        <label class="font-size-h5">Informations complémentaires</label>
+                        <div class="d-flex">
+                            <!--<div class="form-check">
+                                {% render_field form.tabac class+="form-check-input" %}
+                                <label class="form-check-label text-danger font-weight-bolder" for="{{ form.tabac.id_for_label }}">
+                                    Tabac
+                                </label>
+                            </div>-->
+                            <div class="form-check ml-4">
+                                {% render_field form.listeria class+="form-check-input" %}
+                                <label class="form-check-label" for="{{ form.listeria.id_for_label }}">
+                                    Listeria
+                                </label>
+                            </div>
+                            <div class="form-check ml-4">
+                                {% render_field form.cmv class+="form-check-input" %}
+                                <label class="form-check-label" for="{{ form.cmv.id_for_label }}">
+                                    CMV
+                                </label>
+                            </div>
+                            <div class="form-check ml-4">
+                                {% render_field form.alcool class+="form-check-input" %}
+                                <label class="form-check-label" for="{{ form.alcool.id_for_label }}">
+                                    Alcool
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-3">
+                            <label class="text-danger">Toxoplasmose</label>
+                            {% render_field form.toxoplasmose_v2 class+="form-control form-control-sm" %}
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-3">
+                                <div class="form-check">
+                                    {% render_field form.aspegic class+="form-check-input" %}
+                                    <label class="form-check-label" for="{{ form.aspegic.id_for_label }}">
+                                        Sous traitement Aspegic
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="mt-4 px-8 pt-2 border-top-1 border-top border-light-dark form-group">
+                        <label class="font-size-h5">Projet d'accouchement</label>
+                        <div class="d-flex">
+                            <!--<div class="form-check">
+                                {% render_field form.epp class+="form-check-input" %}
+                                <label class="form-check-label" for="{{ form.epp.id_for_label }}">
+                                    EPP
+                                </label>
+                            </div>
+                            <div class="form-check ml-4">
+                                {% render_field form.ppo class+="form-check-input" %}
+                                <label class="form-check-label" for="{{ form.ppo.id_for_label }}">
+                                    PPO
+                                </label>
+                            </div>
+                            <div class="form-check ml-4">
+                                {% render_field form.adp class+="form-check-input" %}
+                                <label class="form-check-label" for="{{ form.adp.id_for_label }}">
+                                    ADP
+                                </label>
+                            </div>-->
+                            <div class="form-check">
+                                {% render_field form.allaitement_maternel class+="form-check-input" %}
+                                <label class="form-check-label" for="{{ form.allaitement_maternel.id_for_label }}">
+                                    Allaitement maternel
+                                </label>
+                            </div>
+                            <div class="form-check ml-4">
+                                {% render_field form.allaitement_artificiel class+="form-check-input" %}
+                                <label class="form-check-label"
+                                       for="{{ form.allaitement_artificiel.id_for_label }}">
+                                    Allaitement artificiel
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-8 row mx-0 mt-4">
+                        <div class="form-group col-5">
+                            <label>Lieu d'accouchement</label>
+                            {% render_field form.lieu_accouchement_principal class+="form-control form-control-sm" %}
+                        </div>
+                        <div class="col-5">
+                            <div id="lieu_accouch_precis" class="form-group d-none">
+                                {% if object and object.lieu_accouchement %}
+                                    <label>Nom de l'établissement</label>
+                                    <div class="d-flex">
+                                    <input id="lieu_disp" type="text" disabled value="{{ object.lieu_accouchement.nom }}" class="w-200px form-control form-control-sm">
+                                    <button type="button" onclick="selectionnerEtablissement()" class="btn btn-primary btn-sm">Modifier</button>
+                                    </div>
+                                {% else %}
+                                    <label>&nbsp;</label>
+                                    <div class="d-flex">
+                                        <div><input id="lieu_disp" type="text" disabled
+                                                                  class="w-200px form-control form-control-sm d-none"></div>
+                                        <div class="">
+                                            <button id="btn-selection-etablissement" type="button" onclick="selectionnerEtablissement()"
+                                                    class="btn btn-primary btn-sm">Sélectionner
+                                            </button>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div id="lieu_accouch_libre" class="form-group d-none">
+                                <label>Préciser</label>
+                                {% render_field form.lieu_accouchement_libre class+="form-control form-control-sm" %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 px-8 pt-2 border-top-1 border-top border-light-dark form-group">
+                        <label>Informations complémentaires</label>
+                        {% render_field form.infos_complemenatires class+="form-control h-100px" placeholder="Autres informations" %}
+                    </div>
+                    <div class="mt-4 px-8 pt-2 border-top-1 border-top border-light-dark form-group">
+                        <label>Notes</label>
+                        {% render_field form.notes class+="form-control h-100px" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="{% static "plugins/custom/tinymce/tinymce.bundle.js" %}"></script>
+    <script type="text/javascript">
+        const grossesse = {% if object %}{{ object.pk }}{% else %}-1{% endif %};
+    </script>
+    <script src="{% static "js/core/grossesse_form.js" %}"></script>
+{% endblock %}
+

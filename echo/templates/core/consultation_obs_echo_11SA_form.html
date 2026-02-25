@@ -1,0 +1,161 @@
+{% extends "core/base_consultation_v2.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block sub_navigation %}
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab" href="#tab-mesures">Mesures
+            foetales</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-examen">Examen clinique</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-conclusion">Conclusion</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-images">Images</a>
+    </li>
+{% endblock %}
+
+
+{% block inner_content %}
+
+    <form id="form_1" class="form" method="post" action="">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+
+        <div class="tab-content" id="myTabContent">
+            <div id="tab-mesures" class="tab-pane fade show active">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div class="form-group col-3">
+                                <label class="form-label">{{ form.praticien.label }}</label>
+                                {% render_field form.praticien class+="form-select form-select-solid form-select-sm" %}
+                            </div>
+                            <div class="form-group text-right">
+                                <label class="form-label">&nbsp;</label>
+                                <div>
+                                    <button onclick="setQuick()" type="button"
+                                            class="btn btn-sm btn-secondary">
+                                        Tout normal
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-6">
+                            <h5 class="text-primary font-size-h5">Sac gestationnel</h5>
+                        </div>
+                        <div id="sac_gest_form" class="row gy-3">
+                            <div class="mb-3 col-12 col-lg-3">
+                                <label class="form-label">Localisation</label>
+                                {% render_field form.sac_gestationnel_localisation data-form="consultation_obs_11SA" data-champ="sac_gestationnel_localisation" class+="form-select form-select-solid form-select-sm" %}
+                            </div>
+                            <div class="mb-3 col-12 col-lg-3">
+                                <label class="form-label">Tonicité</label>
+                                {% render_field form.sac_gestationnel_tonicite data-form="consultation_obs_11SA" data-champ="sac_gestationnel_tonicite" class+="form-select form-select-solid form-select-sm" %}
+                            </div>
+                            <div class="mb-3 col-12 col-lg-3">
+                                <label class="form-label">Trophoblaste</label>
+                                {% render_field form.sac_gestationnel_trophoblaste data-form="consultation_obs_11SA" data-champ="sac_gestationnel_trophoblaste" class+="form-select form-select-solid form-select-sm" %}
+                            </div>
+                            <div id="sac_gest_dim_form" class="mb-3 col-12 col-lg-3">
+                                <label class="form-label">Dimensions</label>
+                                <div class="input-group input-group-sm input-group-solid">
+                                    {% render_field form.sac_gestationnel_largeur class+="form-control dorm-control-solid form-control-sm" placeholder="Larg." %}
+                                    {% render_field form.sac_gestationnel_longueur class+="form-control dorm-control-solid form-control-sm" placeholder="Long." %}
+                                    {% render_field form.sac_gestationnel_hauteur class+="form-control dorm-control-solid form-control-sm" placeholder="Haut." %}
+                                    {% render_field form.sac_gestationnel_diametre class+="form-control dorm-control-solid form-control-sm" placeholder="Diam." %}
+                                </div>
+                            </div>
+                            <div class="mb-3 col-12 col-lg-3">
+                                <label class="form-label">Décollement</label>
+                                {% render_field form.sac_gestationnel_decollement data-form="consultation_obs_11SA" data-champ="sac_gestationnel_decollement" class+="form-select form-select-solid form-select-sm" %}
+                            </div>
+                        </div>
+
+                        <div class="mt-6 d-flex">
+                            <h5 class="text-primary font-size-h5">Embryon</h5>
+                            <div class="ms-6">
+                                <label class="form-check form-check-inline form-check-custom form-check-solid">
+                                    {% render_field form.embryon_visible class+="form-check-input h-20px w-20px" %}
+                                    <span class="form-check-label fw-semibold">visible</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row gy-3">
+                            <div class="mb-3 col-12 col-lg-3">
+                                <label class="form-label">Extrémité céphalique</label>
+                                {% render_field form.morpho_extremite_cephalique data-form="consultation_obs_11SA" data-champ="morpho_extremite_cephalique" class+="form-select form-select-solid form-select-sm" %}
+                            </div>
+                            <div class="mb-3 col-12 col-lg-3">
+                                <label class="form-label">Membres</label>
+                                {% render_field form.morpho_membres data-form="consultation_obs_11SA" data-champ="morpho_membres" class+="form-select form-select-solid form-select-sm" %}
+                            </div>
+                            <div class="mb-3 col-12 col-lg-3">
+                                <label class="form-label">LCC</label>
+                                {% render_field form.lcc class+="form-control form-control-solid form-control-sm" %}
+                            </div>
+                            <div class="mb-3 col-12 col-lg-3">
+                                <label class="form-label">BIP</label>
+                                {% render_field form.bip class+="form-control form-control-solid form-control-sm" %}
+                            </div>
+                            <div class="mb-3 col-12 col-lg-3">
+                                <label class="form-label">Activité cardiaque</label>
+                                {% render_field form.activite_cardiaque data-form="consultation_obs_11SA" data-champ="activite_cardiaque" class+="form-select form-select-solid form-select-sm" %}
+                            </div>
+
+                            <div class="mb-3 col-12">
+                                <label class="form-label">Commentaires</label>
+                                {% render_field form.commentaires class+="form-control form-control-solid form-control-sm h-50px" %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="tab-conclusion" class="g-5 g-xxl-8 tab-pane fade">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label">Conclusion</label>
+                            {% render_field form.conclusion class+="form-control form-control-solid form-control-sm h-100px" %}
+                        </div>
+                        <div class="form-group mt-3">
+                            <label class="form-label">Conduite à tenir</label>
+                            {% render_field form.conduite class+="form-control form-control-solid form-control-sm h-100px" %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-examen" class="g-5 g-xxl-8 tab-pane fade">
+                {% include 'core/partials/examen_clinique.html' with form=form afficher=True %}
+            </div>
+
+            <div id="tab-images" class="tab-pane fade" aria-labelledby="images-tab" role="tabpanel">
+                {% include 'core/partials/consultation_images.html' with consultation=object %}
+            </div>
+
+            <div id="tab-graphs" class="tab-pane tab-graph fade" aria-labelledby="graph-tab" role="tabpanel">
+                {% include 'core/partials/consultation_graph.html' with consultation=object %}
+            </div>
+
+        </div>
+
+    </form>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static "js/core/consultation_obstetrique_form.js" %}"></script>
+    <script src="{% static "js/core/consultation_obs_echo_11SA_form.js" %}"></script>
+{% endblock %}

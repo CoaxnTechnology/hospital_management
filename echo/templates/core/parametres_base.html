@@ -1,0 +1,142 @@
+{% extends "base_v2.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block header %}
+    {% include "core/basic_header.html" with module="" %}
+{% endblock %}
+
+{% block content %}
+    <form id="form_1" class="form" method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% for hidden in patient.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+
+        <div class="d-flex flex-row">
+            <!--begin::Aside-->
+            <div class="flex-row-auto offcanvas-mobile w-250px w-xxl-350px" id="kt_profile_aside">
+                <!--begin::Profile Card-->
+                <div class="card">
+                    <!--begin::Body-->
+                    <div class="card-body">
+                        <!--begin::User-->
+                        <div class="d-flex align-items-center">
+                            <div class="me-5 align-self-start align-self-xxl-center">
+                                <div class="symbol-label"><i class="fas fa-clinic-medical fs-3 text-primary"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-weight-bolder font-size-h5 text-dark-75 text-hover-primary">
+                                    {{ user.profil.compte.raison_sociale }}
+                                </h3>
+                            </div>
+                        </div>
+                        <!--end::User-->
+                        <!--begin::Contact-->
+                        <div class="py-9">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="font-weight-bold me-2">Email:</span>
+                                <span
+                                        class="text-muted text-hover-primary">{{ user.profil.compte.email|default:"Non renseigné" }}</span>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="font-weight-bold me-2">Téléphone:</span>
+                                <span class="text-muted text-hover-primary">{{ user.profil.compte.telephone|default:"Non renseigné" }}</span>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="font-weight-bold me-2">Fax:</span>
+                                <span class="text-muted text-hover-primary">{{ user.profil.compte.fax|default:"Non renseigné" }}</span>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <span class="font-weight-bold me-2">Adresse:</span>
+                                <span class="text-muted text-hover-primary">{{ user.profil.compte.adresse|default:"Non renseigné" }}</span>
+                            </div>
+                        </div>
+                        <!--end::Contact-->
+                        <!--begin::Nav-->
+                        <ul class="nav flex-column nav-pills">
+                            <li class="nav-item mb-2">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#generaux">
+                                    <span class="nav-icon me-2">
+                                        <i class="fas fa-cog"></i>
+                                    </span>
+                                    <span class="nav-text">Paramètres généraux</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mb-2">
+                                <a class="nav-link" data-bs-toggle="tab" href="#patients">
+                                    <span class="nav-icon me-2">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    <span class="nav-text">Dossier patient</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mb-2">
+                                <a class="nav-link" data-bs-toggle="tab" href="#edition">
+                                    <span class="nav-icon me-2">
+                                        <i class="fas fa-print"></i>
+                                    </span>
+                                    <span class="nav-text">Edition</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mb-2">
+                                <a class="nav-link" data-bs-toggle="tab" href="#modeles">
+                                    <span class="nav-icon me-2">
+                                        <i class="fas fa-list"></i>
+                                    </span>
+                                    <span class="nav-text">Modèles</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mb-2">
+                                <a class="nav-link" data-bs-toggle="tab" href="#prestations">
+                                    <span class="nav-icon me-2">
+                                        <i class="fas fa-shopping-bag"></i>
+                                    </span>
+                                    <span class="nav-text">Prestations</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mb-2">
+                                <a class="nav-link" data-bs-toggle="tab" href="#motif">
+                                    <span class="nav-icon me-2">
+                                        <i class="fas fa-calendar"></i>
+                                    </span>
+                                    <span class="nav-text">Motifs d'absence médecin</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mb-2">
+                                <a class="nav-link" data-bs-toggle="tab" href="#devices">
+                                    <span class="nav-icon me-2">
+                                        <i class="fas fa-network-wired"></i>
+                                    </span>
+                                    <span class="nav-text">Matériel</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <!--end::Nav-->
+                    </div>
+                    <!--end::Body-->
+                </div>
+                <!--end::Profile Card-->
+            </div>
+            <!--end::Aside-->
+            <!--begin::Content-->
+            <div class="flex-row-fluid ms-3 ms-xxl-8">
+                <div class="tab-content" id="myTabContent5">
+                    {% block contents %}
+                    {% endblock %}
+                </div>
+            </div>
+            <!--end::Content-->
+        </div>
+
+    </form>
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="{% static "plugins/custom/tinymce/tinymce.bundle.js" %}"></script>
+    <script src="{% static "js/core/parametres.js" %}"></script>
+{% endblock %}

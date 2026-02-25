@@ -1,0 +1,410 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+{% load common %}
+
+{% block styles %}
+    <style type="text/css">
+    .tb-cell {
+        height: 42px;
+        border: 1px solid #e2e4ea;
+        padding: 4px;
+        width:100px;
+    }
+    .tb-header{
+        width: 150px;
+        text-align: center;
+        font-weight: bold;
+        background: #eef0f8;
+    }
+    .tb-separator {
+        border-top-width: 4px;
+    }
+    </style>
+{% endblock %}
+
+{% block header %}
+    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Details-->
+            <div class="d-flex align-items-center flex-wrap mr-2">
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">{{ titre }}</h5>
+                <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+                    <li class="breadcrumb-item">
+                        <a href="/accueil/#liste_salle_attente" class="text-muted">Liste des patients en salle</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="/patients/{{ patient.pk }}" class="text-muted">
+                            Patient{% if patient.sexe == 'F' %}e{% endif %}
+                            &nbsp;<strong>{{ patient.nom_complet }}</strong>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            {% if object.encours %}
+            <div id="timer-container" class="d-flex align-items-center">
+                <div class="d-flex align-items-center bg-success btn-sm font-weight-bolder w-80px text-light font-size-h6">
+                    <i class="la la-clock text-light icon-lg"></i>
+                    &nbsp;<span class="" id="timer-minutes">00</span>:<span class="" id="timer-seconds">00</span>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    {% if mode_edition %}
+        <div class="position-fixed w-100 h-100 bg-white" style="top: 0;left: 0;z-index: 100;"></div>
+        <div class="d-flex justify-content-center h-100 loading bg-white position-fixed w-100 h-100 bg-white"
+             style="top: 0;left: 0;z-index: 100;">
+            <div class="d-flex flex-center">
+                <div class="spinner spinner-primary"></div>
+                <div class="text-primary ml-10">Chargement</div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-12 col-md-12 col-xxl-12 pr-0">
+            <form id="form_1" class="form" method="post" action="">
+                {% csrf_token %}
+                <div class="card card-custom gutter-bs px-0">
+                    <div class="card-header border-0">
+                        <div class="card-title">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a id="form-tab" class="nav-link active" data-toggle="tab" href="#tab-form"
+                                       role="tab"
+                                       aria-controls="tab-form" aria-selected="true">
+																	<span class="nav-icon">
+																		<i class="flaticon2-document"></i>
+																	</span>
+                                        <span class="nav-text">Formulaire</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item d-none">
+                                    <a id="edition-tab" class="nav-link" data-toggle="tab" href="#tab-edition"
+                                       role="tab"
+                                       aria-controls="tab-edition" aria-selected="false">
+																	<span class="nav-icon">
+																		<i class="flaticon2-edit"></i>
+																	</span>
+                                        <span class="nav-text">Edition</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <span class="label label-pill label-inline label-success hide ml-2"
+                                  id="libelle_statut"></span>
+                        </div>
+                        <div class="card-toolbar">
+                            <a href="/patients/{{ patient.pk }}/#tab-pma"
+                               class="btn btn-sm btn-light-primary font-weight-bolder mr-2">
+                                <i class="ki ki-long-arrow-back icon-sm"></i>
+                                Précédent
+                            </a>
+
+                            <a id="btn_terminer" href="/patients/{{ patient.pk }}/#tab-pma"
+                               class="btn btn-sm btn-success font-weight-bolder mr-4">
+                                <i class="ki ki-bold-close icon-sm"></i>
+                                Terminer
+                            </a>
+
+                            <a id="btn_imprimer" href="javascript:void(0)"
+                               class="btn btn-sm btn-warning font-weight-bolder d-none">
+                                <i class="flaticon2-printer"></i>
+                                Imprimer
+                            </a>
+                        </div>
+                    </div>
+                    <!--begin::Body-->
+                    <div class="card-body pt-0 px-0">
+                        <div class="tab-content mt-2" id="myTabContent">
+                            <div class="tab-pane fade show active" id="tab-form" aria-labelledby="form-tab"
+                                 role="tabpanel">
+                                <div class="row pl-5 pr-5 pb-0">
+                                    <div class="form-group col-3">
+                                        <label>{{ form.praticien.label }}</label>
+                                        {% render_field form.praticien class+="form-control form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.praticien.errors %}style="display: block"{% endif %}>
+                                            {{ form.praticien.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row pl-5 pr-5 pb-0">
+                                    <div class="form-group col-4">
+                                        <label>Diagnostic</label>
+                                        {% render_field form.diagnostic class+="form-control form-control-sm" %}
+                                    </div>
+                                    <div class="form-group col-2">
+                                        <label>Rang tentative</label>
+                                        {% render_field form.rang class+="form-control form-control-sm" %}
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label>Remarques tentatives antérieures</label>
+                                        {% render_field form.remarques_tentatives class+="form-control form-control-sm" %}
+                                    </div>
+                                </div>
+                                <div class="row pl-5 pr-5 pb-3">
+                                    <div class="form-group col-4">
+                                        <label>Prétraitement</label>
+                                        {% render_field form.pretraitement class+="form-control form-control-sm" %}
+                                    </div>
+                                    <div class="form-group col-6">
+                                        <label>Protocole</label>
+                                        {% render_field form.protocole class+="form-control form-control-sm" %}
+                                    </div>
+                                </div>
+                                <div class="h-10px page-bg"></div>
+                                <div class="h-5px bg-blue-grey-400"></div>
+                                <div class="pt-4 pl-5 pr-5 pb-3">
+                                    <h3 class="mb-6 text-primary">Stimulation & monitorage</h3>
+                                    {{ suivi_traitement_formset.management_form }}
+                                    <div class="d-flex" style="overflow-x: scroll">
+                                        <div class="d-flex flex-column">
+                                            <div class="tb-cell tb-header align-items-center">Date</div>
+                                            <div class="tb-cell tb-header align-items-center">Jour de stimulation</div>
+                                            <div class="tb-cell tb-header align-items-center">
+                                                <select data-id="1" class="traitement-select form-control form-control-sm">
+                                                    <option value="">---------</option>
+                                                    {% for traitement in traitements %}
+                                                        <option value="{{ traitement.id }}">{{ traitement.libelle }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="tb-cell tb-header align-items-center">
+                                                <select data-id="2" class="traitement-select form-control form-control-sm">
+                                                    <option value="">---------</option>
+                                                    {% for traitement in traitements %}
+                                                        <option value="{{ traitement.id }}">{{ traitement.libelle }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="tb-cell tb-header align-items-center">
+                                                <select data-id="3" class="traitement-select form-control form-control-sm">
+                                                    <option value="">---------</option>
+                                                    {% for traitement in traitements %}
+                                                        <option value="{{ traitement.id }}">{{ traitement.libelle }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="tb-cell tb-header align-items-center">
+                                                <select data-id="4" class="traitement-select form-control form-control-sm">
+                                                    <option value="">---------</option>
+                                                    {% for traitement in traitements %}
+                                                        <option value="{{ traitement.id }}">{{ traitement.libelle }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="tb-cell tb-header align-items-center">
+                                                <select data-id="5" class="traitement-select form-control form-control-sm">
+                                                    <option value="">---------</option>
+                                                    {% for traitement in traitements %}
+                                                        <option value="{{ traitement.id }}">{{ traitement.libelle }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="tb-cell tb-header align-items-center">
+                                                <select data-id="6" class="traitement-select form-control form-control-sm">
+                                                    <option value="">---------</option>
+                                                    {% for traitement in traitements %}
+                                                        <option value="{{ traitement.id }}">{{ traitement.libelle }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="tb-cell tb-header align-items-center">
+                                                <select data-id="7" class="traitement-select form-control form-control-sm">
+                                                    <option value="">---------</option>
+                                                    {% for traitement in traitements %}
+                                                        <option value="{{ traitement.id }}">{{ traitement.libelle }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="tb-cell tb-header align-items-center tb-separator">Oestradiol</div>
+                                            <div class="tb-cell tb-header align-items-center">LH</div>
+                                            <div class="tb-cell tb-header align-items-center">Progesetérone</div>
+                                            <div class="tb-cell tb-header align-items-center">Ovaire droit</div>
+                                            <div class="tb-cell tb-header align-items-center">Ovaire gauche</div>
+                                            <div class="tb-cell tb-header align-items-center">Endomètre</div>
+                                        </div>
+                                        {% for form in suivi_traitement_formset %}
+                                            {% for hidden in form.hidden_fields %}
+                                                {{ hidden }}
+                                            {% endfor %}
+                                            <div class="">
+                                                <div class="tb-cell bg-light">
+                                                    {% render_field form.date class+="date form-control form-control-sm" %}
+                                                </div>
+                                                <div class="tb-cell text-center font-weight-boldest bg-light">J {{ forloop.counter }}</div>
+                                                {% if form.nested %}
+                                                    {{ form.nested.management_form }}
+                                                    {% for nested in form.nested.forms %}
+                                                        <div class="tb-cell traitement-val" data-id="{{ forloop.counter }}">
+                                                            {% for hidden in nested.hidden_fields %}
+                                                                {{ hidden }}
+                                                            {% endfor %}
+                                                            {% render_field nested.valeur class+="form-control form-control-sm" %}
+                                                        </div>
+                                                    {% endfor %}
+                                                {% endif %}
+
+                                                <div class="tb-cell tb-separator">
+                                                    {% render_field form.oestradiol class+="form-control form-control-sm" %}
+                                                </div>
+                                                <div class="tb-cell">
+                                                    {% render_field form.lh class+="form-control form-control-sm" %}
+                                                </div>
+                                                <div class="tb-cell">
+                                                    {% render_field form.progesterone class+="form-control form-control-sm" %}
+                                                </div>
+                                                <div class="tb-cell">
+                                                    {% render_field form.ovaire_droit class+="form-control form-control-sm" %}
+                                                </div>
+                                                <div class="tb-cell">
+                                                    {% render_field form.ovaire_gauche class+="form-control form-control-sm" %}
+                                                </div>
+                                                <div class="tb-cell">
+                                                    {% render_field form.endometre class+="form-control form-control-sm" %}
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                {% if not object.encours %}
+                                <div class="h-10px page-bg"></div>
+                                <div class="h-5px bg-blue-grey-400"></div>
+                                <div class="pt-4 pl-5 pr-5 pb-3">
+                                    <h3 class="mb-6 text-primary">Résultat</h3>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label class="checkbox">
+                                                {% render_field form.reussie class+="form-control form-control-sm" %}
+                                                <span></span>
+                                                Tentative réussie ?
+                                            </label>
+                                        </div>
+                                        <div class="col-6">
+                                            {% render_field form.commentaires class+="form-control form-control-sm" %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+
+        <div class="col-3 col-xxl-3 pr-1 pl-2 pl-xxl-4 d-none d-md-none flex-column">
+            {% include 'core/patient_info_panel.html' with object=patient %}
+
+            <div class="card card-custom card-small mb-1 mb-xxl-4">
+                <div class="card-header px-4">
+                    <div class="card-title">
+                        <h3 class="card-label">
+                            <span class="font-weight-bolder">
+                            Fichiers
+                            </span>
+                        </h3>
+                    </div>
+                </div>
+                <div class="card-body px-2 py-1">
+                    <div class="scroll scroll-pull" data-scroll="true">
+                        <ul class="list-group list-group-flush">
+                            {% for fichier in fichiers %}
+                                <li class="list-group-item px-2 py-1">
+                                    <a href="{{ fichier.fichier.url }}" target="_blank">
+                                        <span class="font-weight-bolder">{{ fichier.nom }}</span><br>
+                                    </a>
+                                    <span class="text-muted font-size-sm">{{ fichier.date|date:'d/m/Y' }}</span>
+                                </li>
+                            {% empty %}
+                                <li id="fichiers-msg-vide" class="list-item">
+                                    <span class="small">Aucun fichier</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="pdf-modal" tabindex="-1" aria-labelledby="Aperçu PDF" aria-hidden="true">
+        <div class="modal-dialog modal-xl h-100 my-0">
+            <div class="modal-content h-100">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Impression</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close icon-md"></i>
+                    </button>
+                </div>
+                <div class="modal-body p-0">
+                    <iframe src="" id="pdf-frame" width="100%" height="100%"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    <button id="btn-demarrer-impression" type="button" class="btn btn-primary">Imprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        let tentativeId = -1;
+        let dateEdition = moment().format('DD/MM/YYYY');
+        {% if object %}
+            tentativeId = {{ object.pk }};
+            dateEdition = "{{ object.date|date:'d/m/Y' }}";
+            archive = {% if object.encours %}false{% else %}true{% endif %};
+        {% endif %}
+
+        const patient = {{ patient_json|safe }};
+
+        let grossesse = {% if patient.grossesse_encours %}{{ grossesse_encours_json|safe }}{% else %}null{% endif %};
+
+        const logo_url = {% if user.profil.compte.parametrescompte.logo %}
+            '{{ user.profil.compte.parametrescompte.logo.url }}'
+        {% else %} ''
+        {% endif  %};
+        const footer_url =
+            {% if user.profil.compte.parametrescompte.footer %}
+                '{{ user.profil.compte.parametrescompte.footer.url }}'
+            {% else %} ''
+            {% endif  %};
+
+        const signature_url =
+            {% if user.profil.signature and user.profil.ajouter_signature_edition %}
+                '{{ user.profil.signature.url }}'
+            {% else %} ''
+            {% endif  %};
+
+        const praticiens = {{ praticiens_json|safe }};
+        const medecins = {{ medecins_json|safe }};
+        const list_mots = {{ mot_patient|safe }};
+
+        let etablissements = {{ etablissements_json|safe }};
+        etablissements = _.map(etablissements, e => _.merge(e.fields, {'pk': e.pk}));
+
+        const dureeGrossesse = {{ user.profil.compte.parametrescompte.duree_grossesse }};
+
+    </script>
+    <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+    <script src="{% static "js/core/editique.js" %}"></script>
+    <script src="{% static "js/core/obstetrique.js" %}"></script>
+    <script src="{% static "js/core/patient_info_panel.js" %}"></script>
+    <script src="{% static "js/core/tentative_pma_form.js" %}"></script>
+{% endblock %}

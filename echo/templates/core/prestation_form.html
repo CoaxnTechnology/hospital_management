@@ -1,0 +1,69 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="p-4">
+        <form id="form_1" class="form" method="post" action="">
+            {% csrf_token %}
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+
+            <div class="row">
+                <div class="form-group required col-6">
+                    <label>{{ form.prestation.label }}</label>
+                    {% render_field form.prestation class+="form-control" %}
+                    <div class="invalid-feedback"
+                         {% if form.prestation.errors %}style="display: block"{% endif %}>
+                        {{ form.libelle.errors }}
+                    </div>
+                </div>
+                <div class="form-group required col-3">
+                    <label>{{ form.code.label }}</label>
+                    {% render_field form.code class+="form-control" %}
+                    <div class="invalid-feedback"
+                         {% if form.code.errors %}style="display: block"{% endif %}>
+                        {{ form.code.errors }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group required col-3">
+                    <label>Prix total TTC</label>
+                    {% render_field form.prix_ttc class+="form-control" %}
+                    <div class="invalid-feedback"
+                         {% if form.prix_ttc.errors %}style="display: block"{% endif %}>
+                        {{ form.prix_ttc.errors }}
+                    </div>
+                </div>
+                <div class="form-group required col-3">
+                    <label>Ticket modérateur</label>
+                    {% render_field form.prix_pec class+="form-control" %}
+                    <div class="invalid-feedback"
+                         {% if form.prix_pec.errors %}style="display: block"{% endif %}>
+                        {{ form.prix_pec.errors }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-12">
+                    <label class="checkbox">
+                        {% render_field form.par_defaut %} Par défaut
+                        <span></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="d-flex mt-4 justify-content-end">
+                <a href="/prestations/" class="btn btn-default">Annuler</a>
+                <button type="submit" id="btn_enregistrer" class="ml-2 btn btn-primary font-weight-bolder">
+                    <i class="ki ki-check icon-sm"></i>
+                    Enregistrer
+                </button>
+            </div>
+
+        </form>
+    </div>
+{% endblock %}

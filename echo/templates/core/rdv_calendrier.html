@@ -1,0 +1,369 @@
+{% extends "base_v2.html" %}
+{% load i18n %}
+{% load static %}
+
+
+{% block styles %}
+    <link href="{% static "css/core/rdv_calendrier.css" %}" rel="stylesheet" type="text/css"/>
+    <style type="text/css">
+        #view-container {
+            padding: 0px !important;
+        }
+
+        .fc-event-type-absence {
+            background: #C0C0C0 !important;
+        }
+
+        .fc-event-type-absence .fc-time, .fc-event-type-absene .fc-title {
+            color: #fff !important;
+        }
+
+        .fc-event-type-programme-operatoire {
+            background: #FEE347 !important;
+        }
+
+        .fc-event-type-programme-operatoire .fc-time, .fc-event-type-programme-operatoire .fc-title {
+            color: #808080 !important;
+        }
+    </style>
+{% endblock %}
+
+{% block header %}
+    {% include "core/basic_header.html" with module="" %}
+{% endblock %}
+
+{% block content %}
+
+
+    <div class="flex-lg-row-fluid ms-lg-15">
+        <!--begin:::Tabs-->
+        <ul class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x border-0 fs-4 fw-semibold mb-8">
+            <!--begin:::Tab item-->
+            <li class="nav-item">
+                <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab"
+                   href="#calendrier">Calendrier</a>
+            </li>
+            <!--end:::Tab item-->
+            <!--begin:::Tab item-->
+            <li class="nav-item">
+                <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#liste">Liste</a>
+            </li>
+            <!--end:::Tab item-->
+            <!--begin:::Tab item-->
+            <li class="nav-item ms-auto">
+                <!--begin::Action menu-->
+                <a onclick="afficherRdvModal('/rdvs/ajouter')" class="btn btn-primary font-weight-bold ms-2">
+                    Nouveau rendez-vous
+                </a>
+                <a onclick="afficherAbsenceModal('/absence/ajouter/')" class="btn btn-primary font-weight-bold ms-2">
+                    Nouvelle absence
+                </a>
+
+            </li>
+            <!--end:::Tab item-->
+        </ul>
+        <!--end:::Tabs-->
+        <!--begin:::Tab content-->
+        <div class="tab-content">
+            <!--begin:::Tab pane-->
+
+            <div id="calendrier" class="tab-pane fade show active" role="tabpanel">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex d-md-none justify-content-between flex-wrap me-2">
+                            <div class="fc fc-ltr fc-unthemed d-flex flex-row">
+                                <div class="fc-toolbar fc-header-toolbar mb-0 d-flex flex-row">
+                                    <div class="">
+                                        <h2 class="m-0 ms-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" readonly="readonly" value=""
+                                                       id="mobile-datepicker"/>
+                                                <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                <i class="la la-calendar"></i>
+                                            </span>
+                                                </div>
+                                            </div>
+                                        </h2>
+                                    </div>
+                                    <div class="">
+                                        <div class="fc-button-group">
+                                            <button id="btn_jour_precedent" type="button"
+                                                    class="fc-prev-button fc-button fc-button-primary"
+                                                    aria-label="prev"><span
+                                                    class="fc-icon fc-icon-chevron-left"></span>
+                                            </button>
+                                            <button id="btn_jour_suivant" type="button"
+                                                    class="fc-next-button fc-button fc-button-primary"
+                                                    aria-label="next"><span
+                                                    class="fc-icon fc-icon-chevron-right"></span>
+                                            </button>
+                                        </div>
+                                        <!--<button id="btn_aujourdhui" type="button"
+                                                class="fc-today-button fc-button fc-button-primary">
+                                            <span class="fc-icon la la-calendar-day"></span>
+                                        </button>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column flex-xl-row">
+                            <div class="p-0 d-none d-md-block">
+                                <div class="d-flex align-items-start flex-column">
+                                    <div class="datepicker p-0"></div>
+                                    <div class="ps-0 pe-4 mt-4">
+                                        <p class="text-muted">Légende</p>
+                                        <div class="fc-event-type-1 rounded-sm w-200px p-1 mt-1 ps-3">
+                                            <div class="fc-title font-size-sm">RDV Confirmé</div>
+                                        </div>
+                                        <div class="fc-event-type-2 rounded-sm w-200px p-1 mt-1 ps-3">
+                                            <div class="fc-title font-size-sm">Patient en salle d'attente</div>
+                                        </div>
+                                        <div class="fc-event-type-3 rounded-sm w-200px p-1 mt-1 ps-3">
+                                            <div class="fc-title font-size-sm">Consultation terminée</div>
+                                        </div>
+                                        <div class="fc-event-type-10 rounded-sm w-200px p-1 mt-1 ps-3">
+                                            <div class="fc-title font-size-sm">RDV Annulé</div>
+                                        </div>
+                                        <div class="fc-event-thick-border rounded-sm w-200px p-1 mt-2 ps-3">
+                                            <div class="fc-title font-size-sm">Consultation</div>
+                                        </div>
+                                        <div class="fc-event-type-absence rounded-sm w-200px p-1 mt-2 ps-3">
+                                            <div class="fc-title font-size-sm">Absence médecin</div>
+                                        </div>
+                                        <div class="fc-event-type-programme-operatoire rounded-sm w-200px p-1 mt-2 ps-3">
+                                            <div class="fc-title font-size-sm">Programme opératoire</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div id="calendar" class="ms-0 ms-md-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="liste" class="tab-pane" role="tabpanel">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-toolbar">
+                            <div class="row">
+                                <div class="col-12">
+                                    <ul id="dates-filtre" class="nav nav-pills nav-tabs-bold">
+                                        <li class="nav-item">
+                                            <a onclick="filtrerDate(this, event, 0)"
+                                               class="nav-link py-2 py-md-4 mx-xs-1 mx-md-2 px-2 px-md-4 active"
+                                               href="javascript:void(0)">
+                                                <span class="nav-text">Tous</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a onclick="filtrerDate(this, event, 1)"
+                                               class="nav-link py-2 py-md-4 mx-xs-1 mx-md-2 px-2 px-md-4"
+                                               href="javascript:void(0)">
+                                                <span class="nav-text">Aujourd'hui</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a onclick="filtrerDate(this, event, 2)"
+                                               class="nav-link py-2 py-md-4 mx-xs-1 mx-md-2 px-2 px-md-4"
+                                               href="javascript:void(0)">
+                                                <span class="nav-text">Demain</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a onclick="filtrerDate(this, event, 3)"
+                                               class="nav-link py-2 py-md-4 mx-xs-1 mx-md-2 px-2 px-md-4"
+                                               href="javascript:void(0)">
+                                                <span class="nav-text">Après-demain</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a onclick="filtrerDate(this, event, 4)"
+                                               class="nav-link py-2 py-md-4 mx-xs-1 mx-md-2 px-2 px-md-4"
+                                               href="javascript:void(0)">
+                                                <span class="nav-text">Cette semaine</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a onclick="filtrerDate(this, event, 5)"
+                                               class="nav-link py-2 py-md-4 mx-xs-1 mx-md-2 px-2 px-md-4"
+                                               href="javascript:void(0)">
+                                                <span class="nav-text">Semaine prochaine</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!--begin: Search Form-->
+                        <form class="form mb-1">
+                            <div class="row">
+                                <div class="form-group col-4 col-md-2">
+                                    <label>Nom</label>
+                                    <input type="text" class="form-control form-control-sm datatable-input"
+                                           placeholder=""
+                                           data-col-index="2"/>
+                                </div>
+                                <div class="form-group col-4 col-md-2">
+                                    <label>Prénom</label>
+                                    <input type="text" class="form-control form-control-sm datatable-input"
+                                           placeholder=""
+                                           data-col-index="3"/>
+                                </div>
+                                <div class="form-group col-4 col-md-2">
+                                    <label>Ville</label>
+                                    <input type="text" class="form-control form-control-sm datatable-input"
+                                           placeholder=""
+                                           data-col-index="4"/>
+                                </div>
+                                <div class="form-group col-4 col-md-2">
+                                    <label>Téléphone</label>
+                                    <input type="text" class="form-control form-control-sm datatable-input"
+                                           placeholder=""
+                                           data-col-index="5"/>
+                                </div>
+                                <div class="form-group col-4 col-md-2">
+                                    <label>Date rendez-vous</label>
+                                    <input type="text" class="date form-control form-control-sm datatable-input"
+                                           placeholder=""
+                                           data-col-index="0"/>
+                                </div>
+                            </div>
+
+                            <div class="row mt-1 d-none">
+                                <div class="col-lg-12">
+                                    <button class="btn btn-sm btn-primary btn-primary--icon" id="kt_search">
+									<span>
+										<i class="la la-search"></i>
+                                        <span>Chercher</span>
+                                    </span>
+                                    </button>&nbsp;
+                                    <button class="btn btn-sm btn-secondary btn-secondary--icon" id="kt_reset">
+                                    <span>
+                                        <i class="la la-close"></i>
+                                        <span>Annuler</span>
+                                    </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <!--begin: Datatable-->
+                        <!--begin: Datatable-->
+                        <table class="table table-row-bordered gy-5" id="datatable_rdv">
+                            <thead>
+
+                            <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
+                                <th>Date</th>
+                                <th>Heure</th>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Ville</th>
+                                <th>Téléphone</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody class="text-gray-600 fw-semibold">
+                            </tbody>
+                        </table>
+                        <!--end: Datatable-->
+                    </div>
+                </div>
+            </div>
+
+            <!--end::Card-->
+        </div>
+        <!--end:::Tab pane-->
+
+
+    </div>
+
+
+
+    <div class="modal fade" id="dialog" tabindex="-1" role="dialog" aria-labelledby="dialog-title"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="dialog-title">Nouveau rendez-vous</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close icon-md"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Le <span id="date"></span> de <span id="from"></span> à <span id="to"></span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">
+                        Annuler
+                    </button>
+                    <a id="lien_creer" href="" class="btn btn-primary font-weight-bold">Créer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/html" id="popover-template">
+        <ul class="px-2 py-0">
+            <li><strong>Tel</strong>: <%= telephone %></li>
+            <li><strong>Motif</strong>: <%= motif %></li>
+            <li><strong>Observation</strong>: <%= observation %></li>
+        </ul>
+
+
+    </script>
+
+    <script type="text/html" id="actions-rdv-template">
+        <button type="button"
+                onclick="afficherRdvModal('/rdvs/<%- id %>/modifier/?next=/rdvs/#liste')"
+                class="btn btn-icon btn-sm btn-warning"
+                title="Modifier le rendez-vous">
+            <i class="la la-edit icon-md"></i>
+        </button>
+        <a onclick="supprimer(<%- id %>)" class="btn btn-icon btn-sm btn-danger"
+           title="Annuler le rendez-vous">
+            <i class="la la-trash icon-md"></i>
+        </a>
+    </script>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        const timezone = '{{ user.profil.compte.parametrescompte.timezone }}';
+        let rdvs = {{ object_list | safe }};
+        rdvs = _.map(rdvs, e => {
+            let out = _.merge(e.fields, {'pk': e.pk})
+            //out.debut = moment(out.debut);
+            return out;
+        });
+        //console.log('rdv', rdvs);
+
+        let absences = {{ absence_list | safe }};
+        absences = _.map(absences, e => {
+            let out = _.merge(e.fields, {'pk': e.pk})
+            //out.debut = moment(out.debut);
+            return out;
+        });
+        console.log(absences);
+        let programmes_operatoire = {{ programme_operatoire | safe }};
+        //console.log('proog', programmes_operatoire);
+
+
+        //console.log('Start of day', moment().startOf('day'));
+        rdvs_futurs = _.filter(rdvs, rdv => moment(rdv.debut).isAfter(moment().startOf('day')));
+        // Duree est en minutes en base, donc on transforme en millisecondes pour Fullcalendar
+        const duree_defaut = 1000 * 60 * '{{ user.profil.compte.parametrescompte.duree_rdv_defaut }}'
+    </script>
+
+    <script src="{% static "js/core/rdv_calendrier.js" %}"></script>
+{% endblock %}

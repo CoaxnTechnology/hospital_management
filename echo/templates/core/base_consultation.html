@@ -1,0 +1,269 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block styles %}
+    <style type="text/css">
+        .input-group-label {
+            width: 150px !important;
+        }
+        .legendLayer .background {
+            fill: rgba(255, 255, 255, 0.85);
+            stroke: rgba(0, 0, 0, 0.85);
+            stroke-width: 1;
+        }
+    </style>
+{% endblock %}
+
+{% block header %}
+    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Details-->
+            <div class="d-flex align-items-center flex-wrap mr-2">
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">{{ titre }}</h5>
+                <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+                    <li class="breadcrumb-item">
+                        <a href="/accueil/#liste_salle_attente" class="text-muted">Liste des patients en salle</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="/patients/{{ patient.pk }}" class="text-muted">
+                            Patient{% if patient.sexe == 'F' %}e{% endif %}
+                            &nbsp;<strong>{{ patient.nom_complet }}</strong>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="d-flex align-items-center">
+                <select name="materiel" id="materiel" class="form-control form-control-sm mr-2">
+                    {% for d in devices %}
+                        <option value="{{ d.id }}" {% if user.profil.default_device.id == d.id %}selected{% endif %}>
+                            {{ d.marque }} - {{ d.modele }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <div class="d-flex align-items-center bg-success btn-sm font-weight-bolder w-80px text-light font-size-h6">
+                    <i class="la la-clock text-light icon-lg"></i>
+                    &nbsp;<span class="" id="timer-minutes">00</span>:<span class="" id="timer-seconds">00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    {% if mode_edition %}
+        <div class="position-fixed w-100 h-100 bg-white" style="top: 0;left: 0;z-index: 100;"></div>
+        <div class="d-flex justify-content-center h-100 loading bg-white position-fixed w-100 h-100 bg-white" style="top: 0;left: 0;z-index: 100;">
+            <div class="d-flex flex-center">
+                <div class="spinner spinner-primary"></div>
+                <div class="text-primary ml-10">Chargement</div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-12 col-md-9 col-xxl-9 pr-0">
+            {% block inner_content %}{% endblock %}
+        </div>
+
+
+        <div class="col-3 col-xxl-3 pr-1 pl-2 pl-xxl-4 d-none d-md-block flex-column">
+            {% include 'core/patient_info_panel.html' with object=patient %}
+
+            <div class="card card-custom card-small mb-1 mb-xxl-4">
+                <div class="card-header px-4">
+                    <div class="card-title">
+                        <h3 class="card-label">
+                            <span class="font-weight-bolder">
+                            Fichiers
+                            </span>
+                        </h3>
+                    </div>
+                </div>
+                <div class="card-body px-2 py-1">
+                    <div class="scroll scroll-pull" data-scroll="true">
+                        <ul class="list-group list-group-flush">
+                            {% for fichier in fichiers %}
+                                <li class="list-group-item px-2 py-1">
+                                    <a href="{{ fichier.fichier.url }}" target="_blank">
+                                        <span class="font-weight-bolder">{{ fichier.nom }}</span><br>
+                                    </a>
+                                    <span class="text-muted font-size-sm">{{ fichier.date|date:'d/m/Y' }}</span>
+                                </li>
+                            {% empty %}
+                                <li id="fichiers-msg-vide" class="list-item">
+                                    <span class="small">Aucun fichier</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="pdf-modal" tabindex="-1" aria-labelledby="Aperçu PDF" aria-hidden="true">
+        <div class="modal-dialog modal-xl h-100 my-0">
+            <div class="modal-content h-100">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Impression</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close icon-md"></i>
+                    </button>
+                </div>
+                <div class="modal-body p-0">
+                    <iframe src="" id="pdf-frame" width="100%" height="100%"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    <button id="btn-demarrer-impression" type="button" class="btn btn-primary">Imprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/html" id="image-item-template">
+        <div data-image-id="<%= img.id %>" class="col-3">
+            <div class="card card-custom gutter-b card-stretch bg-white border">
+                <div class="card-header border-0 px-1 h-30px" style="min-height: 0px;">
+                    <h3 class="card-title pl-2">
+                        <div class="form-group">
+                            <label for="img-cb-<%= img.id %>">
+                                <input data-id="<%= img.id %>"
+                                       name="img-cb-<%= img.id %>"
+                                       class="img-cb" type="checkbox"/>
+                                <i class="la la-print"></i>
+                            </label>
+                        </div>
+                    </h3>
+                    <div class="card-toolbar">
+                        <div class="dropdown dropdown-inline" data-toggle="tooltip"
+                             title="Actions" data-placement="left">
+                            <a href="#"
+                               class="btn btn-clean btn-hover-light-primary btn-sm btn-icon"
+                               data-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">
+                                <i class="ki ki-bold-more-hor"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
+                                <!--begin::Navigation-->
+                                <ul class="navi navi-hover py-1">
+                                    <li class="navi-item">
+                                        <a href="#" onclick="supprimerImage(event, <%= img.id %>)"
+                                           class="navi-link">
+                                                                    <span class="navi-icon">
+                                                                        <i class="flaticon2-delete icon-sm"></i>
+                                                                    </span>
+                                            <span class="navi-text">Supprimer</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <!--end::Navigation-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-2 pl-2 pr-2 pb-6 text-center">
+                    <a href="<%= img.url %>" data-lightbox="images">
+                        <img src="<%= img.url %>" class="w-100">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </script>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script type="text/javascript">
+        let consultation_pk = -1;
+        let motif_pk = {{ motif.pk }};
+        let motif_code = '{{ motif.code }}';
+        let consultation_date = moment().format('DD/MM/YYYY');
+        {% if object %}
+            consultation_pk = {{ object.pk }};
+            consultation_date = "{{ object.date|date:'d/m/Y' }}";
+        {% endif %}
+        const patient_pk = {{ patient.pk }};
+
+        let grossesse = {% if patient.grossesse_encours %}{{ grossesse_encours_json|safe }}{% else %}null{% endif %};
+
+        const logo_url = {% if user.profil.compte.parametrescompte.logo_a4 %}
+            '{{ user.profil.compte.parametrescompte.logo_a4.url }}'
+        {% else %} ''
+        {% endif  %};
+        const footer_url =
+            {% if user.profil.compte.parametrescompte.footer_a4 %}
+                '{{ user.profil.compte.parametrescompte.footer_a4.url }}'
+            {% else %} ''
+            {% endif  %};
+
+        const signature_url =
+            {% if user.profil.signature and user.profil.ajouter_signature_edition %}
+                '{{ user.profil.signature.url }}'
+            {% else %} ''
+            {% endif  %};
+        const entete = '{{ user.profil.compte.parametrescompte.nom_entete | linebreaksbr}}';
+        const patient = {{ patient_json|safe }};
+        const praticiens = {{ praticiens_json|safe }};
+        const medecins = {{ medecins_json|safe }};
+        const list_mots = {{ mot_patient|safe }};
+
+        let etablissements = {{ etablissements_json|safe }};
+        etablissements = _.map(etablissements, e => _.merge(e.fields, {'pk': e.pk}));
+
+        let consultationImages = [];
+        {% if object and object.imageconsultation_set.count > 0 %}
+            consultationImages = {{ images_json|safe }}
+        {% endif %};
+
+        let consultationSR = {};
+        {% if object and object.srconsultation_set.count > 0 %}
+            consultationSR = {{ sr_json|safe }}
+        {% endif %};
+        consultationSR = {};
+        console.info('Images de consultation', consultationImages);
+
+        let addAntecedents = {% if user.profil.compte.parametrescompte.ajouter_antecedents_edition %}true{% else %}false{% endif %};
+
+        let listes_choix = [];
+        {% if listes_choix_json %}
+            listes_choix = {{ listes_choix_json|safe }};
+        {% endif %}
+        //console.info('Listes', listes_choix);
+        let templates_edition = [];
+        {% if templates_json %}
+        templates_edition = {{ templates_json|safe }};
+        {% endif %}
+
+        const ajouterDateLieuEdition = {% if user.profil.compte.parametrescompte.ajouter_date_cro %}true{% else %}false{% endif %};
+
+        let modeEdition = false;
+        {% if mode_edition %}
+            //KTApp.block('body', {opacity: 1, overlayColor: '#fff',});
+            modeEdition = true;
+        {% endif %}
+
+        let doublon_url = null;
+        {% if doublon_consultation %}
+            doublon_url =  '{{ doublon_consultation.modif_url }}';
+        {% endif %}
+
+        const dureeGrossesse = {{ user.profil.compte.parametrescompte.duree_grossesse }};
+
+        const devices = {{ devices_json|safe }};
+
+    </script>
+    <script src="{% static "plugins/custom/tinymce/tinymce.bundle.js" %}"></script>
+    <script src="{% static "plugins/custom/datatables/datatables.bundle.js" %}"></script>
+    <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+    <script src="{% static "js/core/editique.js" %}"></script>
+    <script src="{% static "js/core/consultation_form.js" %}"></script>
+    <script src="{% static "js/core/obstetrique.js" %}"></script>
+    <script src="{% static "js/core/patient_info_panel.js" %}"></script>
+
+{% endblock %}

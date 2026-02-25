@@ -1,0 +1,95 @@
+{% spaceless %}
+    <p>
+        {% if patient.antecedents_familiaux %}
+            <strong>Antécédents Familiaux</strong> <br>
+            {{ patient.antecedents_familiaux|safe }}
+        {% endif %}
+    </p>
+    <p>
+        {% if patient.antecedents_medico_chirurgicaux %}
+            <strong>Antécédents Médico-chirurgicaux</strong> <br>
+            {{ patient.antecedents_medico_chirurgicaux|safe }}
+        {% endif %}
+    </p>
+    <p>
+        {% if patient.antecedents_gynecologiques %}
+            <strong>Antécédents Gynécologiques</strong> <br>
+            {{ patient.antecedents_gynecologiques|safe }}
+        {% endif %}
+    </p>
+
+    {% if patient.antecedents_obstetriques.all %}
+        <p>
+            <strong>Antécédents Obstétricaux</strong> <br>
+            {% for obs in patient.antecedents_obstetriques.all %}
+                <ul>
+                    <li>
+                        {% if obs.grossesse %}Grossesse: {{ obs.grossesse_disp }}<br>{% endif %}
+                        {% if obs.sous_categorie and obs.sous_categorie.id != 19 %}Issue de grossesse: {{ obs.sous_categorie }}<br>{% endif %}
+                        {% if obs.issue_grossesse %}Issue de grossesse: {{ obs.issue_grossesse }}<br>{% endif %}
+                        {% if obs.mise_en_travail %}Mise en travail: {{ obs.mise_en_travail }}<br>{% endif %}
+                        {% if obs.indications %}Indications: {{ obs.indications }}<br>{% endif %}
+                        {% if obs.analgesie %}Analgesie: {{ obs.analgesie }}<br>{% endif %}
+                        {% if obs.date_accouchement %}Date d'accouchement: {{ obs.date_accouchement|date:'d/m/Y' }}
+                            <br>{% endif %}
+                        {% if obs.evacuation_grossesse %}Evacuation: {{ obs.evacuation_grossesse }}<br>{% endif %}
+                        {% if obs.nb_foetus %}Nb de foetus: {{ obs.nb_foetus }}<br>{% endif %}
+                        {% if obs.perinee %}Périnée: {{ obs.perinee }}<br>{% endif %}
+                        {% if obs.suite_couche_type %}Suite de couche: {{ obs.suite_couche_type }}
+                            {% if obs.suite_couche_detail %} - {{ obs.suite_couche_detail }}{% endif %}<br>{% endif %}
+                        {% if obs.atcd_surligner %}A surligner: {{ obs.atcd_surligner }}<br>{% endif %}
+                        {% if obs.lieu_accouchement_disp %}Lieu d'accouchement: {{ obs.lieu_accouchement_disp }}
+                            <br>{% endif %}
+                        <ul>
+                            {% if obs.nb_foetus >= 1 %}
+                            <!-- Foetus 1 -->
+                            {% if obs.terme_1 or obs.sexe_1 or obs.prenom_1 or obs.poids_naissance_1 %}
+                                <li>Foetus 1: {% if obs.terme_1 %}{{ obs.terme_1 }} SA{% endif %}<br>
+                                    {% if obs.prenom_1 %}{{ obs.prenom_1 }}{% endif %}
+                                    {% if obs.sexe_1 %}({{ obs.sexe_1 }}){% endif %}
+                                    {% if obs.poids_naissance_1 %}, {{ obs.poids_naissance_1|floatformat }}
+                                        gr{% endif %}
+                                    {% if obs.etat_sante_1 %}, {{ obs.etat_sante_1 }}{% endif %}
+                                    {% if obs.t21_1 %}, T21 {{ obs.t21_1 }}{% endif %}
+                                    {% if obs.allaitement_1 == True %}, Allaité{% endif %}
+                                    <br>
+                                </li>
+                            {% endif %}
+                            {% endif %}
+                            {% if obs.nb_foetus >= 2 %}
+                            <!-- Foetus 2 -->
+                            {% if obs.terme_2 or obs.sexe_2 or obs.prenom_2 or obs.poids_naissance_2 %}
+                                <li>Foetus 2: {% if obs.terme_2 %}{{ obs.terme_2 }} SA{% endif %}<br>
+                                    {% if obs.prenom_2 %}{{ obs.prenom_2 }}{% endif %}
+                                    {% if obs.sexe_2 %}({{ obs.sexe_2 }}){% endif %}
+                                    {% if obs.poids_naissance_2 %}, {{ obs.poids_naissance_2|floatformat }}
+                                        gr{% endif %}
+                                    {% if obs.etat_sante_2 %}, {{ obs.etat_sante_2 }}{% endif %}
+                                    {% if obs.t21_2 %}, T21 {{ obs.t21_2 }}{% endif %}
+                                    {% if obs.allaitement_2 == True %}, Allaité{% endif %}
+                                    <br>
+                                </li>
+                            {% endif %}
+                            {% endif %}
+                            {% if obs.nb_foetus >= 3 %}
+                            <!-- Foetus 3 -->
+                            {% if obs.terme_3 or obs.sexe_3 or obs.prenom_3 or obs.poids_naissance_3 %}
+                                <li>Foetus 3: {% if obs.terme_3 %}{{ obs.terme_3 }} SA{% endif %}<br>
+                                    {% if obs.prenom_3 %}{{ obs.prenom_3 }}{% endif %}
+                                    {% if obs.sexe_3 %}({{ obs.sexe_3 }}){% endif %}
+                                    {% if obs.poids_naissance_3 %}, {{ obs.poids_naissance_3|floatformat }}
+                                        gr{% endif %}
+                                    {% if obs.etat_sante_3 %}, {{ obs.etat_sante_3 }}{% endif %}
+                                    {% if obs.t21_3 %}, T21 {{ obs.t21_3 }}{% endif %}
+                                    {% if obs.allaitement_3 == True %}, Allaité{% endif %}
+                                    <br>
+                                </li>
+                            {% endif %}
+                            {% endif %}
+                        </ul>
+                    </li>
+                </ul>
+            {% endfor %}
+        </p>
+    {% endif %}
+{% endspaceless %}

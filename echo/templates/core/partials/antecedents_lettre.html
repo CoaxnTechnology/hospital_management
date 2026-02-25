@@ -1,0 +1,49 @@
+{% spaceless %}
+    {% if patient.antecedents_medico_chirurgicaux %}
+        <strong>Antécédents Médico-chirurgicaux</strong> <br>
+        {{ patient.antecedents_medico_chirurgicaux_compresse|safe }}
+    {% endif %}
+    {% if patient.antecedents_gynecologiques %}
+        <br>
+        <strong>Antécédents Gynécologiques</strong> <br>
+        {{ patient.antecedents_gynecologiques_compresse|safe }}
+    {% endif %}
+
+    {% if patient.antecedents_obstetriques.all %}
+        <br>
+            <strong>Antécédents Obstétricaux</strong>
+            {% for obs in patient.antecedents_obstetriques.all %}
+                <br>
+                -
+                        {% if obs.date_accouchement %}
+                            {{ obs.date_accouchement|date:'d/m/Y' }},
+                        {% endif %}
+                        {% if obs.lieu_accouchement_disp %}
+                            {{ obs.lieu_accouchement_disp }},
+                        {% endif %}
+                        {% if obs.issue_grossesse %}
+                            {{ obs.issue_grossesse }},
+                        {% endif %}
+                        {% if obs.terme_1 or obs.sexe_1 or obs.prenom_1 or obs.poids_naissance_1 %}
+                            {% if obs.sexe_1 %} ({{ obs.sexe_1 }}) {% endif %}
+                            {% if obs.poids_naissance_1 %}{{ obs.poids_naissance_1|floatformat }}g, {% endif %}
+                            {% if obs.terme_1 %}{{ obs.terme_1 }} SA{% endif %}
+                        {% endif %}
+                        {% if obs.terme_2 or obs.sexe_2 or obs.prenom_2 or obs.poids_naissance_2 %}
+                            , {% if obs.sexe_2 %} ({{ obs.sexe_2 }}) {% endif %}
+                            {% if obs.poids_naissance_2 %}{{ obs.poids_naissance_2|floatformat }}g, {% endif %}
+                            {% if obs.terme_2 %}{{ obs.terme_2 }} SA{% endif %}
+                        {% endif %}
+                        {% if obs.terme_3 or obs.sexe_3 or obs.prenom_3 or obs.poids_naissance_3 %}
+                            , {% if obs.sexe_3 %} ({{ obs.sexe_3 }}) {% endif %}
+                            {% if obs.poids_naissance_3 %}{{ obs.poids_naissance_3|floatformat }}g, {% endif %}
+                            {% if obs.terme_3 %}{{ obs.terme_3 }} SA{% endif %}
+                        {% endif %}
+            {% endfor %}
+    {% endif %}
+    {% if patient.allergies %}
+        <br>
+        <strong>Allergies</strong> <br>
+        {{ patient.allergies|safe }}
+    {% endif %}
+{% endspaceless %}

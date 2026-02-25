@@ -1,0 +1,4 @@
+--2023-04-09 23:38:50--  http://ftp.fr.debian.org/debian/pool/main/p/pangox-compat/libpangox-1.0-0_0.0.2-5.1_amd64.deb
+Résolution de ftp.fr.debian.org (ftp.fr.debian.org)… 212.27.32.66, 2a01:e0c:1:1598::2
+Connexion à ftp.fr.debian.org (ftp.fr.debian.org)|212.27.32.66|:80… échec : Connexion terminée par expiration du délai d'attente.
+Connexion à ftp.fr.debian.org (ftp.fr.debian.org)|2a01:e0c:1:1598::2|:80… échec : Le réseau n'est pas accessible.

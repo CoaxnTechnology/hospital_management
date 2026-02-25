@@ -1,0 +1,89 @@
+{% extends "core/base_consultation_v2.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+{% load common %}
+
+{% block styles %}
+    <style type="text/css">
+        .cercle {
+            height: 50px;
+            width: 50px;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            display: table-cell;
+            vertical-align: middle;
+            font-weight: bold;
+            font-size: 16px;
+            touch-action: none;
+            user-select: none;
+            -webkit-transform: translate(0px, 0px);
+            transform: translate(0px, 0px);
+        }
+    </style>
+{% endblock %}
+
+
+{% block sub_navigation %}
+
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab" href="#tab-echo">Echo pelvienne</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-images">Images</a>
+    </li>
+
+{% endblock %}
+
+{% block inner_content %}
+
+    <form id="form_1" class="form" method="post" action="">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+
+        <div class="tab-content">
+
+            <div id="tab-echo" class="g-5 g-xxl-8 tab-pane show active">
+                <div class="card border-bottom-0">
+                    <div class="card-body">
+
+                        <div class="row pb-3">
+                            <div class="form-group col-4">
+                                <label class="form-label">Motif de consultation</label>
+                                {% render_field form.titre_echo_pelvienne data-form="consultation_echo_pelvienne" data-champ="titre_echo_pelvienne" class+="form-select form-select-solid form-select-sm" %}
+                            </div>
+                            <div class="form-group col-3">
+                                <label class="form-label">{{ form.praticien.label }}</label>
+                                {% render_field form.praticien class+="form-select form-select-solid form-select-sm" %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% include 'core/partials/echo_pelvienne.html' with form=form afficher=True %}
+            </div>
+
+            <div id="tab-images" class="g-5 g-xxl-8 tab-pane fade">
+                {% include 'core/partials/consultation_images.html' with consultation=object %}
+            </div>
+
+        </div>
+
+    </form>
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        let examens = {% if object.examens %} {{ object.examens|safe }} {% else %}[]{% endif %};
+        let traitements = {% if object.traitements %} {{ object.traitements|safe }} {% else %}[]{% endif %};
+        const types_figo = {{ types_figo|safe }};
+        const formset_prefix = '{{ myomes_formset.prefix }}';
+    </script>
+    <script src="{% static "js/core/echo_pelvienne.js" %}"></script>
+    <script src="{% static "js/core/consultation_echo_pelvienne_form.js" %}"></script>
+{% endblock %}

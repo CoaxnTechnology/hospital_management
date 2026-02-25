@@ -1,0 +1,746 @@
+{% load static %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="fr">
+	<!--begin::Head-->
+	<head><base href=""/>
+		<title>Gyneasy</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta property="og:locale" content="fr_FR" />
+		<meta property="og:type" content="article" />
+		<meta property="og:title" content="" />
+		<meta property="og:url" content="" />
+		<meta property="og:site_name" content="" />
+		<link rel="canonical" href="" />
+		<link rel="shortcut icon" href="{% static "media/logos/favicon.ico" %}" />
+		<!--begin::Fonts(mandatory for all pages)-->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
+		<!--end::Fonts-->
+		<!--begin::Vendor Stylesheets(used for this page only)-->
+		<link href="{% static "v2/plugins/custom/fullcalendar/fullcalendar.bundle.css" %}" rel="stylesheet" type="text/css" />
+		<link href="{% static "v2/plugins/custom/datatables/datatables.bundle.css" %}" rel="stylesheet" type="text/css" />
+		<!--end::Vendor Stylesheets-->
+		<!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
+		<link href="{% static "v2/plugins/global/plugins.bundle.css" %}" rel="stylesheet" type="text/css" />
+		<link href="{% static "v2/css/style.bundle.css" %}" rel="stylesheet" type="text/css" />
+        {% block styles %}
+        {% endblock %}
+		<!--end::Global Stylesheets Bundle-->
+	</head>
+	<!--end::Head-->
+	<!--begin::Body-->
+	<body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled">
+		<!--begin::Theme mode setup on page load-->
+		<script>var defaultThemeMode = "light"; var themeMode; if ( document.documentElement ) { if ( document.documentElement.hasAttribute("data-theme-mode")) { themeMode = document.documentElement.getAttribute("data-theme-mode"); } else { if ( localStorage.getItem("data-theme") !== null ) { themeMode = localStorage.getItem("data-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-theme", themeMode); }</script>
+		<!--end::Theme mode setup on page load-->
+		<!--begin::Main-->
+		<!--begin::Root-->
+		<div class="d-flex flex-column flex-root">
+			<!--begin::Page-->
+			<div class="page d-flex flex-row flex-column-fluid">
+				<!--begin::Wrapper-->
+				<div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
+					<!--begin::Header-->
+					<div id="kt_header" class="header align-items-stretch" data-kt-sticky="true" data-kt-sticky-name="header" data-kt-sticky-offset="{default: '200px', lg: '300px'}">
+						<!--begin::Container-->
+						<div class="container-xxl d-flex align-items-center">
+							<!--begin::Heaeder menu toggle-->
+							<div class="d-flex topbar align-items-center d-lg-none ms-n2 me-3" title="Show aside menu">
+								<div class="btn btn-icon btn-active-light-primary btn-custom w-30px h-30px w-md-40px h-md-40px" id="kt_header_menu_mobile_toggle">
+									<!--begin::Svg Icon | path: icons/duotune/abstract/abs015.svg-->
+									<span class="svg-icon svg-icon-1">
+										<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M21 7H3C2.4 7 2 6.6 2 6V4C2 3.4 2.4 3 3 3H21C21.6 3 22 3.4 22 4V6C22 6.6 21.6 7 21 7Z" fill="currentColor" />
+											<path opacity="0.3" d="M21 14H3C2.4 14 2 13.6 2 13V11C2 10.4 2.4 10 3 10H21C21.6 10 22 10.4 22 11V13C22 13.6 21.6 14 21 14ZM22 20V18C22 17.4 21.6 17 21 17H3C2.4 17 2 17.4 2 18V20C2 20.6 2.4 21 3 21H21C21.6 21 22 20.6 22 20Z" fill="currentColor" />
+										</svg>
+									</span>
+									<!--end::Svg Icon-->
+								</div>
+							</div>
+							<!--end::Heaeder menu toggle-->
+							<!--begin::Header Logo-->
+							<div class="header-logo me-5 me-md-10 flex-grow-1 flex-lg-grow-0">
+                                <a href="/">
+                                    {% if user.profil.compte.is_gyneco %}
+                                        <img alt="{{ user.profil.compte.product_brand }}"
+                                             class="logo-default h-50px"
+                                             src="{% static "media/logos/logo-gyneasy.png" %}"/>
+
+                                        <img alt="{{ user.profil.compte.product_brand }}"
+                                             class="logo-sticky h-25px"
+                                             src="{% static "media/logos/logo-gyneasy.png" %}"/>
+                                    {% endif %}
+                                    {% if user.profil.compte.is_cardio %}
+                                        <img alt="{{ user.profil.compte.product_brand }}"
+                                             class="logo-default h-50px"
+                                             src="{% static "media/logos/logo-gyneasy.png" %}"/>
+                                        <img alt="{{ user.profil.compte.product_brand }}"
+                                             class="logo-sticky h-25px"
+                                             src="{% static "media/logos/logo-gyneasy.png" %}"/>
+                                    {% endif %}
+                                    {% if user.profil.compte.is_general %}
+                                        <img alt="{{ user.profil.compte.product_brand }}"
+                                             class="logo-default h-40px"
+                                             src="{% static "media/logos/logo-expert-medical.png" %}"/>
+                                        <img alt="{{ user.profil.compte.product_brand }}"
+                                             class="logo-sticky h-25px"
+                                             src="{% static "media/logos/logo-expert-medical.png" %}"/>
+                                    {% endif %}
+								</a>
+							</div>
+							<!--end::Header Logo-->
+							<!--begin::Wrapper-->
+							<div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1">
+								<!--begin::Navbar-->
+								<div class="d-flex align-items-stretch" id="kt_header_nav">
+									<!--begin::Menu wrapper-->
+									<div class="header-menu d-lg-none bg-dark align-items-stretch" data-kt-drawer="true" data-kt-drawer-name="header-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_header_menu_mobile_toggle" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav'}">
+										<!--begin::Menu-->
+										<div class="menu menu-rounded menu-column menu-lg-row menu-active-bg menu-title-gray-700 menu-state-primary menu-arrow-gray-400 fw-semibold my-5 my-lg-0 align-items-stretch px-2 px-lg-0" id="#kt_header_menu" data-kt-menu="true">
+											<!--begin:Menu item-->
+											<div class="menu-item menu-lg-down-accordion me-0 me-lg-2 {% if '/accueil' in request.path or '/' == request.path %}show{% endif %}">
+												<!--begin:Menu link-->
+												<span class="menu-link py-3">
+													<span class="menu-title"><a href="/accueil" class="link-white">Tableau de bord</a></span>
+												</span>
+												<!--end:Menu link-->
+											</div>
+											<div class="menu-item menu-lg-down-accordion me-0 me-lg-2 {% if '/rdvs' in request.path %}show{% endif %}">
+												<!--begin:Menu link-->
+												<span class="menu-link py-3">
+													<span class="menu-title"><a href="/rdvs" class="link-white">Agenda</a></span>
+												</span>
+												<!--end:Menu link-->
+											</div>
+											<div class="menu-item menu-lg-down-accordion me-0 me-lg-2 {% if '/patients' in request.path %}show{% endif %}">
+												<!--begin:Menu link-->
+												<span class="menu-link py-3">
+													<span class="menu-title">
+														<a href="/patients" class="link-white">Patients</a></span>
+												</span>
+												<!--end:Menu link-->
+											</div>
+											{% if user.profil.responsable %}
+											<div class="menu-item menu-lg-down-accordion me-0 me-lg-2 {% if '/rapports' in request.path %}show{% endif %}">
+												<!--begin:Menu link-->
+												<span class="menu-link py-3">
+													<span class="menu-title"><a href="/rapports/consultation" class="link-white">Rapports</a></span>
+												</span>
+												<!--end:Menu link-->
+											</div>
+											{% endif %}
+											{% if user.profil.responsable %}
+											<div class="menu-item menu-lg-down-accordion me-0 me-lg-2 {% if '/mutuelle' in request.path %}show{% endif %}">
+												<!--begin:Menu link-->
+												<span class="menu-link py-3">
+													<span class="menu-title"><a href="/mutuelle" class="link-white">Mutuelle</a></span>
+												</span>
+												<!--end:Menu link-->
+											</div>
+											{% endif %}
+											{% if user.profil.responsable %}
+											<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
+												<!--begin:Menu link-->
+												<span class="menu-link py-3">
+													<span class="menu-title">Administration</span>
+													<span class="menu-arrow d-lg-none"></span>
+												</span>
+												<!--end:Menu link-->
+												<!--begin:Menu sub-->
+												<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px">
+													<!--begin:Menu item-->
+													<div class="menu-item">
+														<!--begin:Menu link-->
+														<a class="menu-link py-3" href="/utilisateurs">
+															<span class="menu-icon">
+																<!--begin::Svg Icon | path: /var/www/preview.keenthemes.com/kt-products/docs/metronic/html/releases/2022-10-09-043348/core/html/src/media/icons/duotune/communication/com014.svg-->
+																<span class="svg-icon svg-icon-3"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<path d="M16.0173 9H15.3945C14.2833 9 13.263 9.61425 12.7431 10.5963L12.154 11.7091C12.0645 11.8781 12.1072 12.0868 12.2559 12.2071L12.6402 12.5183C13.2631 13.0225 13.7556 13.6691 14.0764 14.4035L14.2321 14.7601C14.2957 14.9058 14.4396 15 14.5987 15H18.6747C19.7297 15 20.4057 13.8774 19.912 12.945L18.6686 10.5963C18.1487 9.61425 17.1285 9 16.0173 9Z" fill="currentColor"/>
+																<rect opacity="0.3" x="14" y="4" width="4" height="4" rx="2" fill="currentColor"/>
+																<path d="M4.65486 14.8559C5.40389 13.1224 7.11161 12 9 12C10.8884 12 12.5961 13.1224 13.3451 14.8559L14.793 18.2067C15.3636 19.5271 14.3955 21 12.9571 21H5.04292C3.60453 21 2.63644 19.5271 3.20698 18.2067L4.65486 14.8559Z" fill="currentColor"/>
+																<rect opacity="0.3" x="6" y="5" width="6" height="6" rx="3" fill="currentColor"/>
+																</svg>
+																</span>
+																<!--end::Svg Icon-->
+															</span>
+															<span class="menu-title">Utilisateurs</span>
+														</a>
+														<!--end:Menu link-->
+													</div>
+													<!--end:Menu item-->
+													<!--begin:Menu item-->
+
+														<div class="menu-item">
+															<!--begin:Menu link-->
+															<a class="menu-link py-3" href="/parametres/{{ user.profil.compte.parametrescompte.id }}">
+																<span class="menu-icon">
+																	<!--begin::Svg Icon | path: icons/duotune/abstract/abs027.svg-->
+																	<span class="svg-icon svg-icon-3"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<path opacity="0.3" d="M22.0318 8.59998C22.0318 10.4 21.4318 12.2 20.0318 13.5C18.4318 15.1 16.3318 15.7 14.2318 15.4C13.3318 15.3 12.3318 15.6 11.7318 16.3L6.93177 21.1C5.73177 22.3 3.83179 22.2 2.73179 21C1.63179 19.8 1.83177 18 2.93177 16.9L7.53178 12.3C8.23178 11.6 8.53177 10.7 8.43177 9.80005C8.13177 7.80005 8.73176 5.6 10.3318 4C11.7318 2.6 13.5318 2 15.2318 2C16.1318 2 16.6318 3.20005 15.9318 3.80005L13.0318 6.70007C12.5318 7.20007 12.4318 7.9 12.7318 8.5C13.3318 9.7 14.2318 10.6001 15.4318 11.2001C16.0318 11.5001 16.7318 11.3 17.2318 10.9L20.1318 8C20.8318 7.2 22.0318 7.59998 22.0318 8.59998Z" fill="currentColor"/>
+																	<path d="M4.23179 19.7C3.83179 19.3 3.83179 18.7 4.23179 18.3L9.73179 12.8C10.1318 12.4 10.7318 12.4 11.1318 12.8C11.5318 13.2 11.5318 13.8 11.1318 14.2L5.63179 19.7C5.23179 20.1 4.53179 20.1 4.23179 19.7Z" fill="currentColor"/>
+																	</svg>
+																	</span>
+																	<!--end::Svg Icon-->
+																</span>
+																<span class="menu-title">Paramètres</span>
+															</a>
+															<!--end:Menu link-->
+														</div>
+													<!--end:Menu item-->
+
+												</div>
+												<!--end:Menu sub-->
+											</div>
+											{% endif %}
+											<!--end:Menu item-->
+										</div>
+										<!--end::Menu-->
+									</div>
+									<div class="header-menu d-none d-lg-flex align-items-stretch" data-kt-drawer="true" data-kt-drawer-name="header-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_header_menu_mobile_toggle" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav'}">
+										<!--begin::Menu-->
+										<div class="menu menu-rounded menu-column menu-lg-row menu-active-bg menu-title-gray-700 menu-state-primary menu-arrow-gray-400 fw-semibold my-5 my-lg-0 align-items-stretch px-2 px-lg-0" id="#kt_header_menu" data-kt-menu="true">
+											<!--begin:Menu item-->
+											<div class="menu-item menu-lg-down-accordion me-0 me-lg-2 {% if '/accueil' in request.path or '/' == request.path %}show{% endif %}">
+												<!--begin:Menu link-->
+												<span class="menu-link py-3">
+													<span class="menu-title"><a href="/accueil" class="link-white">Tableau de bord</a></span>
+												</span>
+												<!--end:Menu link-->
+											</div>
+											<div class="menu-item menu-lg-down-accordion me-0 me-lg-2 {% if '/rdvs' in request.path %}show{% endif %}">
+												<!--begin:Menu link-->
+												<span class="menu-link py-3">
+													<span class="menu-title"><a href="/rdvs" class="link-white">Agenda</a></span>
+												</span>
+												<!--end:Menu link-->
+											</div>
+											<div class="menu-item menu-lg-down-accordion me-0 me-lg-2 {% if '/patients' in request.path %}show{% endif %}">
+												<!--begin:Menu link-->
+												<span class="menu-link py-3">
+													<span class="menu-title">
+														<a href="/patients" class="link-white">Patients</a></span>
+												</span>
+												<!--end:Menu link-->
+											</div>
+											{% if user.profil.responsable %}
+											<div class="menu-item menu-lg-down-accordion me-0 me-lg-2 {% if '/rapports' in request.path %}show{% endif %}">
+												<!--begin:Menu link-->
+												<span class="menu-link py-3">
+													<span class="menu-title"><a href="/rapports/consultation" class="link-white">Rapports</a></span>
+												</span>
+												<!--end:Menu link-->
+											</div>
+											{% endif %}
+											{% if user.profil.responsable %}
+											<div class="menu-item menu-lg-down-accordion me-0 me-lg-2 {% if '/mutuelle' in request.path %}show{% endif %}">
+												<!--begin:Menu link-->
+												<span class="menu-link py-3">
+													<span class="menu-title"><a href="/mutuelle" class="link-white">Mutuelle</a></span>
+												</span>
+												<!--end:Menu link-->
+											</div>
+											{% endif %}
+											{% if user.profil.responsable %}
+											<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
+												<!--begin:Menu link-->
+												<span class="menu-link py-3">
+													<span class="menu-title">Administration</span>
+													<span class="menu-arrow d-lg-none"></span>
+												</span>
+												<!--end:Menu link-->
+												<!--begin:Menu sub-->
+												<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px">
+													<!--begin:Menu item-->
+													<div class="menu-item">
+														<!--begin:Menu link-->
+														<a class="menu-link py-3" href="/utilisateurs">
+															<span class="menu-icon">
+																<!--begin::Svg Icon | path: /var/www/preview.keenthemes.com/kt-products/docs/metronic/html/releases/2022-10-09-043348/core/html/src/media/icons/duotune/communication/com014.svg-->
+																<span class="svg-icon svg-icon-3"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<path d="M16.0173 9H15.3945C14.2833 9 13.263 9.61425 12.7431 10.5963L12.154 11.7091C12.0645 11.8781 12.1072 12.0868 12.2559 12.2071L12.6402 12.5183C13.2631 13.0225 13.7556 13.6691 14.0764 14.4035L14.2321 14.7601C14.2957 14.9058 14.4396 15 14.5987 15H18.6747C19.7297 15 20.4057 13.8774 19.912 12.945L18.6686 10.5963C18.1487 9.61425 17.1285 9 16.0173 9Z" fill="currentColor"/>
+																<rect opacity="0.3" x="14" y="4" width="4" height="4" rx="2" fill="currentColor"/>
+																<path d="M4.65486 14.8559C5.40389 13.1224 7.11161 12 9 12C10.8884 12 12.5961 13.1224 13.3451 14.8559L14.793 18.2067C15.3636 19.5271 14.3955 21 12.9571 21H5.04292C3.60453 21 2.63644 19.5271 3.20698 18.2067L4.65486 14.8559Z" fill="currentColor"/>
+																<rect opacity="0.3" x="6" y="5" width="6" height="6" rx="3" fill="currentColor"/>
+																</svg>
+																</span>
+																<!--end::Svg Icon-->
+															</span>
+															<span class="menu-title">Utilisateurs</span>
+														</a>
+														<!--end:Menu link-->
+													</div>
+													<!--end:Menu item-->
+													<!--begin:Menu item-->
+
+														<div class="menu-item">
+															<!--begin:Menu link-->
+															<a class="menu-link py-3" href="/parametres/{{ user.profil.compte.parametrescompte.id }}">
+																<span class="menu-icon">
+																	<!--begin::Svg Icon | path: icons/duotune/abstract/abs027.svg-->
+																	<span class="svg-icon svg-icon-3"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+																	<path opacity="0.3" d="M22.0318 8.59998C22.0318 10.4 21.4318 12.2 20.0318 13.5C18.4318 15.1 16.3318 15.7 14.2318 15.4C13.3318 15.3 12.3318 15.6 11.7318 16.3L6.93177 21.1C5.73177 22.3 3.83179 22.2 2.73179 21C1.63179 19.8 1.83177 18 2.93177 16.9L7.53178 12.3C8.23178 11.6 8.53177 10.7 8.43177 9.80005C8.13177 7.80005 8.73176 5.6 10.3318 4C11.7318 2.6 13.5318 2 15.2318 2C16.1318 2 16.6318 3.20005 15.9318 3.80005L13.0318 6.70007C12.5318 7.20007 12.4318 7.9 12.7318 8.5C13.3318 9.7 14.2318 10.6001 15.4318 11.2001C16.0318 11.5001 16.7318 11.3 17.2318 10.9L20.1318 8C20.8318 7.2 22.0318 7.59998 22.0318 8.59998Z" fill="currentColor"/>
+																	<path d="M4.23179 19.7C3.83179 19.3 3.83179 18.7 4.23179 18.3L9.73179 12.8C10.1318 12.4 10.7318 12.4 11.1318 12.8C11.5318 13.2 11.5318 13.8 11.1318 14.2L5.63179 19.7C5.23179 20.1 4.53179 20.1 4.23179 19.7Z" fill="currentColor"/>
+																	</svg>
+																	</span>
+																	<!--end::Svg Icon-->
+																</span>
+																<span class="menu-title">Paramètres</span>
+															</a>
+															<!--end:Menu link-->
+														</div>
+													<!--end:Menu item-->
+
+												</div>
+												<!--end:Menu sub-->
+											</div>
+											{% endif %}
+											<!--end:Menu item-->
+										</div>
+										<!--end::Menu-->
+									</div>
+									<!--end::Menu wrapper-->
+								</div>
+								<!--end::Navbar-->
+								<!--begin::Toolbar wrapper-->
+								<div class="topbar d-flex align-items-stretch flex-shrink-0">
+									<!--begin::Chat-->
+									<div class="d-flex align-items-center ms-1 ms-lg-3">
+										<!--begin::Menu wrapper-->
+										<div id="kt_drawer_chat_toggle" class="btn btn-icon btn-active-light-primary position-relative btn btn-icon btn-active-light-primary btn-custom w-30px h-30px w-md-40px h-md-40px">
+											<!--begin::Svg Icon | path: icons/duotune/communication/com012.svg-->
+											<span class="svg-icon svg-icon-1">
+												<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<path opacity="0.3" d="M20 3H4C2.89543 3 2 3.89543 2 5V16C2 17.1046 2.89543 18 4 18H4.5C5.05228 18 5.5 18.4477 5.5 19V21.5052C5.5 22.1441 6.21212 22.5253 6.74376 22.1708L11.4885 19.0077C12.4741 18.3506 13.6321 18 14.8167 18H20C21.1046 18 22 17.1046 22 16V5C22 3.89543 21.1046 3 20 3Z" fill="currentColor" />
+													<rect x="6" y="12" width="7" height="2" rx="1" fill="currentColor" />
+													<rect x="6" y="7" width="12" height="2" rx="1" fill="currentColor" />
+												</svg>
+											</span>
+											<!--end::Svg Icon-->
+											<span class="bullet bullet-dot bg-success h-6px w-6px position-absolute translate-middle top-0 start-50 animation-blink"></span>
+										</div>
+										<!--end::Menu wrapper-->
+									</div>
+									<!--end::Chat-->
+									<!--begin::User-->
+									<div class="d-flex align-items-center me-n3 ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
+										<!--begin::Menu wrapper-->
+										<div class="btn btn-icon btn-active-light-primary btn btn-icon btn-active-light-primary btn-custom w-30px h-30px w-md-40px h-md-40px" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+											<img class="h-30px w-30px rounded" src="{%  static "v2/media/avatars/blank.png" %}" alt="" />
+										</div>
+										<!--begin::User account menu-->
+										<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px" data-kt-menu="true">
+											<!--begin::Menu item-->
+											<div class="menu-item px-3">
+												<div class="menu-content d-flex align-items-center px-3">
+													<!--begin::Avatar-->
+                                                    <div class="symbol symbol-50px me-5">
+                                                        <div class="symbol-label fs-2 fw-semibold bg-primary text-inverse-primary">
+                                                            {{ user.profil.initiales }}
+                                                        </div>
+                                                    </div>
+													<!--end::Avatar-->
+													<!--begin::Username-->
+													<div class="d-flex flex-column">
+														<div class="fw-bold d-flex align-items-center fs-5">{{ user.profil.titre_nom }}</div>
+														<a href="#" class="fw-semibold text-muted text-hover-primary fs-7">{{ user.profil.groupe }}</a>
+													</div>
+													<!--end::Username-->
+												</div>
+											</div>
+											<!--end::Menu item-->
+											<!--begin::Menu separator-->
+											<div class="separator my-2"></div>
+											<!--end::Menu separator-->
+
+											<!--begin::Menu item-->
+											<div class="menu-item px-5">
+												<a href="/accounts/logout" class="menu-link px-5">Déconnexion</a>
+											</div>
+											<!--end::Menu item-->
+										</div>
+										<!--end::User account menu-->
+										<!--end::Menu wrapper-->
+									</div>
+									<!--end::User -->
+									<!--begin::Aside mobile toggle-->
+									<!--end::Aside mobile toggle-->
+								</div>
+								<!--end::Toolbar wrapper-->
+							</div>
+							<!--end::Wrapper-->
+						</div>
+						<!--end::Container-->
+					</div>
+					<!--end::Header-->
+					<!--begin::Toolbar-->
+                    {% block header %}{% endblock %}
+
+					<!--end::Toolbar-->
+					<!--begin::Container-->
+					<div id="kt_content_container" class="d-flex flex-column-fluid align-items-start container-xxl">
+						<!--begin::Post-->
+						<div class="content flex-row-fluid" id="kt_content">
+							<!-- Main content goes here -->
+                            {% block content %}{% endblock %}
+						</div>
+						<!--end::Post-->
+					</div>
+					<!--end::Container-->
+					<!--begin::Footer-->
+					<div class="footer py-4 d-flex flex-lg-column" id="kt_footer">
+						<!--begin::Container-->
+						<div class="container-xxl d-flex flex-column flex-md-row align-items-center justify-content-between">
+							<!--begin::Copyright-->
+							<div class="text-dark order-2 order-md-1">
+								<span class="text-muted fw-semibold me-1">2023&copy;</span>
+								<a href="" target="_blank" class="text-gray-800 text-hover-primary">Compixia</a>
+							</div>
+							<!--end::Copyright-->
+							<!--begin::Menu-->
+							<ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
+								<li class="menu-item">
+									<a href="#" onclick="afficherSupportModal()" class="menu-link px-2">Support</a>
+								</li>
+
+							</ul>
+							<!--end::Menu-->
+						</div>
+						<!--end::Container-->
+					</div>
+					<!--end::Footer-->
+				</div>
+				<!--end::Wrapper-->
+			</div>
+			<!--end::Page-->
+		</div>
+		<!--end::Root-->
+
+		<!--begin::Scrolltop-->
+		<div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
+			<!--begin::Svg Icon | path: icons/duotune/arrows/arr066.svg-->
+			<span class="svg-icon">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<rect opacity="0.5" x="13" y="6" width="13" height="2" rx="1" transform="rotate(90 13 6)" fill="currentColor" />
+					<path d="M12.5657 8.56569L16.75 12.75C17.1642 13.1642 17.8358 13.1642 18.25 12.75C18.6642 12.3358 18.6642 11.6642 18.25 11.25L12.7071 5.70711C12.3166 5.31658 11.6834 5.31658 11.2929 5.70711L5.75 11.25C5.33579 11.6642 5.33579 12.3358 5.75 12.75C6.16421 13.1642 6.83579 13.1642 7.25 12.75L11.4343 8.56569C11.7467 8.25327 12.2533 8.25327 12.5657 8.56569Z" fill="currentColor" />
+				</svg>
+			</span>
+			<!--end::Svg Icon-->
+		</div>
+		<!--end::Scrolltop-->
+
+        <div id="kt_drawer_chat" class="bg-body" data-kt-drawer="true" data-kt-drawer-name="chat" data-kt-drawer-activate="true" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'300px', 'md': '500px'}" data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_drawer_chat_toggle" data-kt-drawer-close="#kt_drawer_chat_close">
+			<!--begin::Messenger-->
+
+			<div class="card w-100 rounded-0 border-0" id="kt_drawer_chat_messenger">
+				<!--begin::Card header-->
+				<div class="card-header pe-5" id="kt_drawer_chat_messenger_header">
+					<!--begin::Title-->
+					<div class="card-title">
+						<!--begin::User-->
+						<div class="d-flex justify-content-center flex-column me-3">
+							<a href="#" class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 mb-2 lh-1">Mesagerie</a>
+						</div>
+						<!--end::User-->
+					</div>
+					<!--end::Title-->
+					<!--begin::Card toolbar-->
+					<div class="card-toolbar">
+						<!--begin::Menu-->
+						<div class="btn btn-sm btn-icon btn-active-light-primary" id="kt_drawer_chat_close">
+							<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+							<span class="svg-icon svg-icon-2">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor" />
+									<rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor" />
+								</svg>
+							</span>
+							<!--end::Svg Icon-->
+						</div>
+						<!--end::Close-->
+					</div>
+					<!--end::Card toolbar-->
+				</div>
+				<!--end::Card header-->
+				<!--begin::Card body-->
+                <div class="card-body" id="kt_drawer_chat_messenger_body">
+                    <div id="liste_utilisateurs">
+                    </div>
+                </div>
+                <!--end::Messages-->
+				</div>
+				<!--end::Card body-->
+				<!--begin::Card footer-->
+				<div class="card-footer pt-4" id="kt_drawer_chat_messenger_footer">
+					<!--begin::Input-->
+
+					<!--end::Toolbar-->
+				</div>
+				<!--end::Card footer-->
+			</div>
+			<!--end::Messenger-->
+		</div>
+
+        <div id="discussions-container" class="d-flex flex-row-reverse px-5"
+             style="position: fixed; bottom: 0; right:0; z-index: 100">
+
+        </div>
+
+        {% include "core/shared.html" %}
+
+        <script type="text/html" id="template-user-discussion">
+            <% _.forEach(users, function(user) { %>
+            <div class="d-flex align-items-center mb-7">
+                <!--begin::Avatar-->
+                <div class="symbol symbol-circle symbol-primary symbol-50 me-5">
+                    <span class="symbol-label font-size-h5 fw-bold"><%- user.initiales %></span>
+                    <% if (user.enligne) { %>
+                    <i class="symbol-badge bg-success"></i>
+                    <% } else { %>
+                    <i class="symbol-badge bg-danger"></i>
+                    <% } %>
+                </div>
+                <!--end::Avatar-->
+                <!--begin::Text-->
+                <div class="flex-grow-1">
+                    <a href="#" onclick="ouvrirDiscussion(event, <%- user.pk %>)"
+                       class="text-dark fw-bold text-hover-primary fs-6"><%- user.titre_nom %></a>
+                    <span class="text-muted d-block fw-bold"><%- user.groupe %></span>
+                </div>
+
+                <% if (user.num_messages || true) { %>
+                <span class="badge badge-light-success fs-8 fw-bold"><%- user.num_messages %></span>
+                <% } %>
+                <!--end::Text-->
+            </div>
+            <% }) %>
+        </script>
+
+        <script type="text/html" id="template-discussion-popup">
+            <div id="discussion-<%- id %>" class="modal w-300px ms-4" role="dialog" data-bs-backdrop="false"
+                 style="position: relative">
+                <div class="modal-dialog mb-0">
+                    <div class="modal-content modal-rounded">
+                        <div class="modal-header py-3 px-5 d-flex justify-content-between bg-primary">
+                            <div class="modal-title">
+                                <h5 class="text-light"><%- nom %></h5>
+                                <div>
+                                    <% if (enligne) { %>
+                                    <span class="label label-dot label-success"></span>
+                                    <span class="text-light-light font-size-xs">En ligne</span>
+                                    <% } else { %>
+                                    <span class="label label-dot label-danger"></span>
+                                    <span class="text-light-light font-size-xs">Hors ligne</span>
+                                    <% } %>
+                                </div>
+
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body pe-4">
+
+                            <div class="scroll scroll-pull h-250px pe-4" data-height="250" data-mobile-height="200">
+                                <!--begin::Messages-->
+                                <div class="messages">
+
+                                </div>
+                                <!--end::Messages-->
+                            </div>
+                        </div>
+                        <div class="modal-footer p-1">
+                            <input type="text" class="message-text form-control border-0"
+                                   data-id="<%- id %>"
+                                   placeholder="Ecrire un message"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <script type="text/html" id="template-message-in">
+            <div class="d-flex flex-column mb-5 align-items-start">
+                <div class="d-flex align-items-center">
+                    <div>
+                <span class="ms-1 text-dark-75 fw-bold fs-xs">
+                    <%= sender %>
+                </span>
+                    </div>
+                </div>
+                <div class="mt-1 rounded p-2 bg-light-primary text-dark-75 text-left max-w-200px">
+                    <%= msg %>
+                </div>
+                <div>
+                    <span class="ms-1 text-dark-50 fs-xs"><%- heure %></span>
+                </div>
+            </div>
+        </script>
+
+        <script type="text/html" id="template-message-out">
+            <div class="d-flex flex-column mb-5 align-items-end">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <span class="me-1 text-dark-75 fs-xs">Moi</span>
+                    </div>
+                </div>
+                <div class="mt-1 rounded p-2 bg-light-primary text-dark-75 text-right max-w-200px">
+                    <%= msg %>
+                </div>
+                <div>
+                    <span class="me-1 text-dark-50 fs-xs"><%- heure %></span>
+                </div>
+            </div>
+        </script>
+
+        <div class="modal fade" id="support-modal" tabindex="-1" aria-labelledby="Support" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content h-100 modal-rounded">
+                    <div class="modal-header py-7 d-flex justify-content-between">
+                        <!--begin::Modal title-->
+                        <h2>Support</h2>
+                        <!--end::Modal title-->
+                        <!--begin::Close-->
+                        <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                            <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                            <!--end::Svg Icon-->
+                        </div>
+                        <!--end::Close-->
+                    </div>
+                    <div class="modal-body p-4">
+                        <div class="form-group">
+                            <label for="support-msg-desc form-label">Veuillez saisir votre requête</label>
+                            <textarea name="support-msg-desc" id="support-msg-desc" cols="30" rows="10"
+                                      class="form-control form-control-solid mt-3"></textarea>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Version {{ APP_VERSION }}</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="envoyerMessageSupport()">
+                            Envoyer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="reglements-modal" tabindex="-1" aria-labelledby="Reglements" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen m-auto mw-1500px p-9 reglement_modal">
+                <div class="modal-content h-100 modal-rounded">
+                    <div class="modal-header py-7 d-flex justify-content-between">
+                        <!--begin::Modal title-->
+                        <h2>Règlements & Encaissements</h2>
+                        <!--end::Modal title-->
+                        <!--begin::Close-->
+                        <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                            <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                            <!--end::Svg Icon-->
+                        </div>
+                        <!--end::Close-->
+                    </div>
+                    <div class="modal-body p-0">
+                        <iframe src="" width="100%" height="100%" frameBorder="0" class="pa-0"></iframe>
+                    </div>
+                    <div class="modal-footer border-0"></div>
+                </div>
+            </div>
+        </div>
+
+		<!--begin::Javascript-->
+		<script>
+            const APP_VERSION = '{{ APP_VERSION }}';
+            const hostUrl = "{% static "v2/" %}";
+            const base_ws_server_path = "{{ request.ws_server_path }}";
+            const user = {{ request.user.profil.pk }};
+        </script>
+
+		<!--begin::Global Javascript Bundle(mandatory for all pages)-->
+		<script src="{% static "v2/plugins/global/plugins.bundle.js" %}"></script>
+		<script src="{% static "v2/js/scripts.bundle.js" %}"></script>
+		<!--end::Global Javascript Bundle-->
+		<!--begin::Vendors Javascript(used for this page only)-->
+		<script src="{% static "v2/plugins/custom/fullcalendar/fullcalendar.bundle.js" %}"></script>
+		<script src="{% static "v2/plugins/custom/datatables/datatables.bundle.js" %}"></script>
+		<!--end::Vendors Javascript-->
+		<!--begin::Custom Javascript(used for this page only)-->
+		<script src="{% static "v2/js/widgets.bundle.js" %}"></script>
+		<script src="{% static "v2/js/custom/widgets.js" %}"></script>
+		<script src="{% static "v2/js/custom/apps/chat/chat.js" %}"></script>
+		<script src="{% static "v2/js/custom/utilities/modals/upgrade-plan.js" %}"></script>
+		<script src="{% static "v2/js/custom/utilities/modals/create-app.js" %}"></script>
+		<script src="{% static "v2/js/custom/utilities/modals/create-campaign.js" %}"></script>
+		<script src="{% static "v2/js/custom/utilities/modals/users-search.js" %}"></script>
+		<!--end::Custom Javascript-->
+        <script src="{% static "js/core/common.js" %}"></script>
+        <script src="{% static "js/core/logger.js" %}"></script>
+        <script src="{% static "js/chat/chat.js" %}"></script>
+        <script type="text/javascript">
+
+            hotkeys('f6,ctrl+m', function (event, handler) {
+                $('#reglements-modal iframe').attr('src', `/reglements/`);
+                bootstrap.Modal.getOrCreateInstance('#reglements-modal').show();
+            });
+
+            function fermerModals(toastMsg) {
+                $('.modal').modal('hide');
+                if (toastMsg) toastr.success(toastMsg);
+            }
+
+            $('iframe').on('load', e => {
+                console.info('Iframe loaded');
+                hideFrameLoading();
+            });
+
+            let addEntetes = {% if user.profil.compte.parametrescompte.ajouter_entetes_edition %}true{% else %}
+                false{% endif %};
+
+            /*$("body").popover({
+                trigger: "focus",
+                sanitize: false,
+                html: true,
+                animation: true,
+                selector: '.popo',
+                container: '#kt_content',
+            });*/
+
+            let productBrand = '';
+            {% if user.profil.compte.is_general %}productBrand = 'Medeasy';{% endif %}
+            {% if user.profil.compte.is_gyneco %}productBrand = 'Gyneasy';{% endif %}
+            {% if user.profil.compte.is_cardio %}productBrand = 'Gyneasy';{% endif %}
+
+            let nom_client = '';
+            {% if user and user.profil %}nom_client='{{ user.profil.compte.raison_sociale }}'{% endif %}
+            let nom_utilisateur = '';
+            {% if user and user.profil %}nom_utilisateur='{{ user.get_full_name }}'{% endif %}
+
+            const parametresCompte = {{ PARAMETRES_COMPTE|safe }};
+
+        </script>
+        <!--end::Page Scripts-->
+        {% block extra_js %}{% endblock %}
+        {% block scripts %}{% endblock %}
+		<!--end::Javascript-->
+	</body>
+	<!--end::Body-->
+</html>

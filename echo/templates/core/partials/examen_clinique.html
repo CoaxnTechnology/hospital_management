@@ -1,0 +1,123 @@
+{% load widget_tweaks %}
+{% load common %}
+
+<div id="examen-clinique" class="card">
+
+    <div class="card-body">
+        <div class="row gy-4">
+            <div class="col-2 form-group">
+                <label class="form-label text-danger font-weight-bolder">Poids</label>
+                <div>
+                    {% render_field form.poids class+="form-control form-control-solid form-control-sm" data-unit="kg" %}
+                    <div class="invalid-feedback"
+                         {% if form.poids.errors %}style="display: block"{% endif %}>
+                        {{ form.poids.errors }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-2">
+                <label class="form-label text-danger font-weight-bolder">TA</label>
+                <div>
+                    {% render_field form.ta class+="form-control form-control-solid form-control-sm" %}
+                    <div class="invalid-feedback"
+                         {% if form.ta.errors %}style="display: block"{% endif %}>
+                        {{ form.ta.errors }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-2">
+                <label class="form-label text-danger font-weight-bolder">Température</label>
+                <div>
+                    {% render_field form.temperature class+="form-control form-control-solid form-control-sm" %}
+                    <div class="invalid-feedback"
+                         {% if form.temperature.errors %}style="display: block"{% endif %}>
+                        {{ form.temperature.errors }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-2">
+                <label class="form-label text-danger font-weight-bolder">Alb</label>
+                <div>
+                    {% render_field form.alb class+="form-control form-control-solid form-control-sm" %}
+                    <div class="invalid-feedback"
+                         {% if form.alb.errors %}style="display: block"{% endif %}>
+                        {{ form.alb.errors }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-2">
+                <label class="form-label text-danger font-weight-bolder">Gly</label>
+                <div>
+                    {% render_field form.gly class+="form-control form-control-solid form-control-sm" %}
+                    <div class="invalid-feedback"
+                         {% if form.gly.errors %}style="display: block"{% endif %}>
+                        {{ form.gly.errors }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-3">
+                <label class="form-label">Seins</label>
+                <div>
+                    {% render_field form.seins data-form="consultation_gynecologique" data-champ="seins" class+="form-select form-select-solid form-select-sm" %}
+                    <div class="invalid-feedback"
+                         {% if form.seins.errors %}style="display: block"{% endif %}>
+                        {{ form.seins.errors }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-3">
+                <label class="form-label">Examen sous speculum</label>
+                <div>
+                    {% render_field form.examen_sous_speculum data-form="consultation_gynecologique" data-champ="examen_sous_speculum" class+="form-select form-select-solid form-select-sm" %}
+                    <div class="invalid-feedback"
+                         {% if form.examen_sous_speculum.errors %}style="display: block"{% endif %}>
+                        {{ form.examen_sous_speculum.errors }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-3">
+                <label class="form-label text-danger font-weight-bolder">TV</label>
+                <div>
+                    {% render_field form.tv data-form="consultation_gynecologique" data-champ="tv" class+="form-control form-control-solid form-control-sm" %}
+                    <div class="invalid-feedback"
+                         {% if form.tv.errors %}style="display: block"{% endif %}>
+                        {{ form.tv.errors }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-3 d-none">
+                <label class="form-label">Leucorrhées</label>
+                <div>
+                    {% for x, y in form.fields.leuco.choices %}
+                        <div class="form-check">
+                            {% is_in_models_list x form.leuco.value as isinmodels %}
+                            <input id="id_{{ form.leuco.name }}_{{ forloop.counter0 }}"
+                                   name="{{ form.leuco.name }}" class="form-check-input"
+                                   type="checkbox"
+                                   {% if isinmodels %}checked="checked"{% endif %}
+                                   value="{{ x }}">
+                            <label class="form-check-label"
+                                   for="id_{{ form.leuco.name }}_{{ forloop.counter0 }}">
+                                {{ y }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <div class="form-group mb-0">
+                <label class="form-label">Commentaires cliniques</label>
+                {% render_field form.commentaires_cliniques class+="form-control form-control-solid form-control-sm h-100px" %}
+                <div class="invalid-feedback"
+                     {% if form.commentaires_cliniques.errors %}style="display: block"{% endif %}>
+                    {{ form.commentaires_cliniques.errors }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

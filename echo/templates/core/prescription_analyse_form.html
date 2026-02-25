@@ -1,0 +1,378 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block styles %}
+    <style type="text/css">
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .list-group-item-action:hover, .list-group-item-action:focus {
+            background: #b3e5fc;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="card card-custom bg-white shadow-none">
+        <div class="card-header fixed-header d-flex align-content-between align-items-center w-100 zindex-2 shadow-xs bg-white">
+            <div class="card-title pl-2">
+                <h3 class="m-0">
+                    {% if object %}Modifier{% else %}Créer{% endif %} une prescription
+                </h3>
+            </div>
+            <div class="card-toolbar">
+                <!--<button type="button" class="btn btn-default" onclick="window.parent.fermerModals()">Annuler</button>-->
+                <button type="submit" id="btn_enregistrer" class="ml-2 btn btn-primary font-weight-bolder">
+                    <i class="ki ki-check icon-sm"></i>
+                    Enregistrer
+                </button>
+                <a id="btn-imprimer" href="javascript:void(0)"
+                   class="ml-2 btn btn-warning font-weight-bolder">
+                    <i class="flaticon2-printer"></i>
+                    Imprimer
+                </a>
+            </div>
+        </div>
+        <div class="card-body" style="padding-top: 35px">
+            <div class="row">
+                <div class="col-3 border-right-lg p-0 pt-6">
+                    <div class="d-flex justify-content-between align-content-center">
+                        <ul class="nav nav-tabs" id="myTab1" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab-1" data-toggle="tab" href="#liste-analyses">
+																	<span class="nav-icon">
+																		<i class="icon-xl la la-list"></i>
+																	</span>
+                                    <span class="nav-text">Analyses</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab-1" data-toggle="tab" href="#collection-analyses"
+                                   aria-controls="profile">
+																	<span class="nav-icon">
+																		<i class="icon-xl la la-layer-group"></i>
+																	</span>
+                                    <span class="nav-text">Packs</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div>
+                            <a href="/analyses-biologiques/" class="btn btn-icon btn-hover-primary">
+                                <i class="fa fa-cog"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="tab-content mt-5" id="myTabContent1">
+                        <div class="tab-pane fade show active" id="liste-analyses" role="tabpanel"
+                             aria-labelledby="home-tab-1">
+                            <div class="pl-2">
+                                <table id="table-analyses" class="table table-checkable mt-6"
+                                       style="margin: 0 !important;">
+                                    <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Libellé</th>
+                                        <th>&nbsp</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                                <ul class="d-none list-group list-group-flush praticiens-list">
+                                    {% for analyse in analyses %}
+                                        <li id="analyse-{{ analyse.pk }}"
+                                            class="list-group-item px-1 py-1 d-flex justify-content-between">
+                                            <div class="d-flex align-items-center">
+                                                <div class="text-weight-bold">{{ analyse.code }}
+                                                    - &nbsp;&nbsp;
+                                                </div>
+                                                <div class="font-weight-bolder">{{ analyse.libelle }}</div>
+                                            </div>
+                                            <div class="analyse_action">
+                                                <button data-id="{{ analyse.pk }}" type="button"
+                                                        class="ajouter_analyse btn btn-clean btn-primary btn-sm btn-icon">
+                                                    <i class="la la-plus icon-md"></i>
+                                                </button>
+                                            </div>
+                                        </li>
+                                    {% empty %}
+                                        <li id="analyse-msg-vide" class="list-item">
+                                            <span class="small">Pas d'analyses disponibles</span>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="collection-analyses" role="tabpanel">
+
+                            <div class="mb-4 border-bottom-lg">
+                                <div class="h-225px scroll scroll-pull" data-scroll="true">
+                                    <div id="collections-group" class="list-group list-group-flush">
+                                        {% for collection in collections %}
+                                            <div id="collection-{{ collection.pk }}"
+                                                 class="list-group-item cursor-pointer {% if forloop.first %}bg-light-blue-100{% endif %}
+                                                 list-group-item-action py-1 d-flex justify-content-between"
+                                                 aria-current="true"
+                                                 onclick="onSelectionnerCollectionClick(event, {{ collection.pk }})">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="font-weight-bolder">{{ collection.nom }}</div>
+                                                </div>
+                                                <div class="collection_action">
+                                                    <button data-id="{{ collection.pk }}" type="button"
+                                                            class="btn btn-clean btn-primary btn-sm btn-icon"
+                                                            onclick="onAjouterCollectionClick({{ collection.pk }})">
+                                                        <i class="la la-plus icon-md"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        {% empty %}
+                                            <div id="collection-msg-vide" class="list-group-item list-group-item-action py-1">
+                                                <span class="small">Aucun pack disponible</span>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pl-2">
+                                <table id="table-collection-analyse" class="table table-checkable mt-6"
+                                       style="margin: 0 !important;">
+                                    <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Libellé</th>
+                                        <th>&nbsp</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+
+
+                            <ul class="mytree d-none">
+                                {% for collection in collections %}
+                                    <li id="collection-{{ collection.pk }}"
+                                        class="px-1 py-1 d-flex justify-content-between root">
+                                        <div class="d-flex align-items-center">
+                                            <div class="font-size-h4 text-primary font-weight-bolder">{{ collection.nom }}</div>
+                                        </div>
+                                        <div class="collection_action">
+                                            <button data-id="{{ collection.pk }}" type="button"
+                                                    class="ajouter_collection btn btn-clean btn-primary btn-sm btn-icon">
+                                                <i class="la la-plus icon-md"></i>
+                                            </button>
+                                        </div>
+                                    </li>
+                                    {% for analyse in collection.analyses.all %}
+                                        <li id="analyse-{{ analyse.pk }}"
+                                            class="px-1 py-1 d-flex justify-content-between">
+                                            <div class="d-flex align-items-center">
+                                                <div class="text-weight-bold">{{ analyse.code }} - &nbsp;&nbsp;
+                                                </div>
+                                                <div class="font-weight-bolder">{{ analyse.libelle }}</div>
+                                            </div>
+                                            <div class="analyse_action">
+                                                <button data-id="{{ analyse.pk }}" type="button"
+                                                        class="ajouter_analyse btn btn-clean btn-primary btn-sm btn-icon">
+                                                    <i class="la la-plus icon-md"></i>
+                                                </button>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-9 p-0">
+                    <div class="py-4">
+                        <div class="row px-2 bg-light m-0 pt-6">
+                            <div class="col-12 col-md-3 form-group">
+                                <label>Date prescription</label>
+                                <input type="text" class="form-control form-control-sm date" id="date_prescription"
+                                       value="{% if prescription %}{{ prescription.date_prescription|date:"d/m/Y" }}{% endif %}">
+                            </div>
+                            <div class="col-12 col-md-3 form-group">
+                                <label>Date résultats</label>
+                                <input type="text" class="form-control form-control-sm date" id="date_resultat"
+                                    value="{% if prescription %}{{ prescription.date_resultat|date:"d/m/Y" }}{% endif %}">
+                            </div>
+                        </div>
+                        <div class="row px-2 bg-light m-0">
+                            <div class="col-12 form-group">
+                                <label class="checkbox">
+                                    <input type="checkbox" id="cb-inserer-date-prescription" checked="checked"> Afficher la date à l'impression
+                                    <span></span>
+                                </label>
+                            </div>
+                        </div>
+                        <table class="table table-hover mb-6">
+                            <thead>
+                            <tr class="bg-light">
+                                <th scope="col" width="70px">Code</th>
+                                <th scope="col" width="150px">Libellé</th>
+                                <th scope="col">Observations</th>
+                                <th scope="col">Résultats</th>
+                                <th scope="col"></th>
+                            </tr>
+                            </thead>
+                            <tbody id="presc-analyses-container">
+                            {% if prescription %}
+                                {% for res in prescription.resultatanalysebiologique_set.all %}
+                                    <tr id="resultat-{{ res.id }}">
+                                        <td>{{ res.analyse.code }}</td>
+                                        <td class="font-weight-bolder">{{ res.analyse.libelle }}</td>
+                                        <td>
+                                            <textarea data-id="{{ res.id }}" class="form-control form-control-sm obs-resultat"
+                                                      rows="4"
+                                                      onchange="onObsChange({{ res.id }})">{{ res.observation|default_if_none:'' }}</textarea>
+                                        </td>
+                                        <td>
+                                            <textarea data-id="{{ res.id }}"
+                                                      class="form-control form-control-sm valeur-resultat"
+                                                      rows="4"
+                                                      onchange="onResultatChange({{ res.id }})">{{ res.valeur|default_if_none:'' }}</textarea>
+
+                                            <div class="checkbox-list">
+                                                <label class="checkbox">
+                                                    <input type="checkbox" data-id="{{ res.id }}"
+                                                           class="form-control form-control-sm anormale-resultat"
+                                                           {% if res.valeur_anormale %}checked{% endif %}
+                                                           onchange="onAnormaleChange({{ res.id }})"> Valeur anormale
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-danger btn-icon"
+                                                    onclick="supprimerResultat({{ res.id }})">
+                                                <i class="la la-trash icon-md"></i></a>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr id="msg-vide">
+                                    <td colspan="3">
+                                        Veuillez ajouter des analyses
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script id="presc-analyse-item-template" type="text/html">
+        <tr id="resultat-<%= resultat.id %>">
+            <td><%= resultat.analyse.code %></td>
+            <td class="font-weight-bolder"><%= resultat.analyse.libelle %></td>
+            <td>
+                <textarea data-id="<%= resultat.id %>" class="form-control form-control-sm obs-resultat"
+                          rows="4"
+                          onchange="onObsChange(<%= resultat.id %>)"><%= resultat.observation %></textarea>
+            </td>
+            <td>
+                <textarea data-id="<%= resultat.id %>" class="form-control form-control-sm valeur-resultat"
+                          rows="4"
+                          onchange="onResultatChange(<%= resultat.id %>)"><%= resultat.valeur %></textarea>
+                <div class="checkbox-list">
+                    <label class="checkbox">
+                        <input type="checkbox" data-id="<%= resultat.id %>"
+                               class="form-control form-control-sm anormale-resultat"
+                               <% if (resultat.valeur_anormale) { %>checked<% } %>
+                               onchange="onAnormaleChange(<%= resultat.id %>)"> Valeur anormale
+                        <span></span>
+                    </label>
+                </div>
+            </td>
+            <td>
+                <button class="btn btn-sm btn-danger btn-icon" onclick="supprimerResultat(<%= resultat.id %>)">
+                    <i class="la la-trash icon-md"></i></a>
+                </button>
+            </td>
+        </tr>
+    </script>
+
+    <script type="text/html" id="analyse-template">
+        <div class="analyse_action">
+            <button data-id="<%= analyse.id %>" type="button"
+                    class="ajouter_analyse btn btn-clean btn-primary btn-sm btn-icon"
+                    onclick="onAjouterAnalyseClick(<%= analyse.id %>)">
+                <i class="la la-plus icon-md"></i>
+            </button>
+        </div>
+    </script>
+
+    <script type="text/html" id="edition-prescription-template">
+        <div style="text-align: right;">
+            <span>
+                <% if (ville) { %><%= ville %>, <% } %>
+                <% if (date) { %> le <%= date %><% } %>
+            </span>
+        </div>
+        <span style="margin-top: 10px">&nbsp;</span>
+        <div style="text-align: center">
+            <h4 style="font-size: 14pt"><%= motif %></h4>
+        </div>
+
+        <span style="margin-top: 10px">&nbsp;</span><br>
+        <p>
+            <strong><%= _.capitalize(patient.civilite) %> <%= formatNomPatient(patient.nom_naissance, patient.nom, patient.prenom) %></strong> &nbsp;
+            <% if (patient.sexe == 'F') { %> née <% } else { %> né <% } %> le <%= moment(patient.date_naissance).format('DD/MM/yyyy') %> (<%= patient.age %> ans)
+            <% if (patient.taille) { %>
+                <br>Taille: <%= patient.taille %> cm
+            <% } %>
+        </p>
+        <p>
+            <%= data %>
+        </p>
+    </script>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        let analyses = {{ analyses_json|safe }};
+        const collections = {{ collections_json|safe }};
+        let prescriptionId = -1;
+        let resultats = [];
+        let datePrescription = moment();
+        {% if prescription %}
+            prescriptionId = {{ prescription.pk }};
+            datePrescription = moment('{{ prescription.date_prescription|date:"Y-m-d" }}');
+            resultats = {{ resultats_json|safe }};
+        {% endif %}
+        let patient = {{ patient_json|safe }};
+
+        let ville = {% if user.profil.ville %}`{{ user.profil.ville }}`{% else %}''{% endif %};
+
+        const logo_url = {% if user.profil.compte.parametrescompte.logo %}
+            '{{ user.profil.compte.parametrescompte.logo.url }}'
+            {% else %} '' {% endif  %};
+        const footer_url =
+            {% if user.profil.compte.parametrescompte.footer %}
+                '{{ user.profil.compte.parametrescompte.footer.url }}'
+            {% else %} '' {% endif  %};
+
+        const signature_url =
+            {% if user.profil.signature and user.profil.ajouter_signature_edition %}
+                '{{ user.profil.signature.url }}'
+            {% else %} '' {% endif  %};
+        const entete = '{{ user.profil.compte.parametrescompte.nom_entete | linebreaksbr}}';
+        addEntetes = {% if user.profil.compte.parametrescompte.ajouter_entete_prescr_bio %}true{% else %}false{% endif %};
+
+        let modele = `{{ user.profil.compte.parametrescompte.modele_presc_analyse_bio|safe}}`;
+
+        let praticien = '{{ user.profil.titre.capitalize }}. {{ user.profil.nom }}';
+
+    </script>
+
+    <script src="{% static "js/core/editique.js" %}"></script>
+    <script src="{% static "js/core/prescription_analyse_form.js" %}"></script>
+{% endblock %}

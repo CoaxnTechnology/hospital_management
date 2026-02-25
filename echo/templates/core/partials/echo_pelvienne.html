@@ -1,0 +1,1092 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load common %}
+
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex flex-row-reverse pl-5 pt-1 pr-5">
+            <button onclick="setQuick()" type="button"
+                    class="btn btn-sm btn-secondary">
+                Tout normal
+            </button>
+
+        </div>
+
+        <div id="uterus-container" class="pt-1 pl-5 pr-5 pb-3">
+            <div class="form-group mb-0">
+                <h5 class="text-primary font-size-h5">Utérus</h5>
+            </div>
+            <div class="row gy-4">
+                <div class="form-group col-3">
+                    <label class="form-label">Position</label>
+                    <div>
+                        {% render_field form.position_uterus data-form="consultation_echo_pelvienne" data-champ="position_uterus" class+="form-select form-select-solid form-select-sm" %}
+                        <div class="invalid-feedback"
+                             {% if form.position_uterus.errors %}style="display: block"{% endif %}>
+                            {{ form.position_uterus.errors }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-3">
+                    <label class="form-label">Latéralisation</label>
+                    <div>
+                        {% render_field form.lateralisation data-form="consultation_echo_pelvienne" data-champ="lateralisation" class+="form-select form-select-solid form-select-sm" %}
+                        <div class="invalid-feedback"
+                             {% if form.lateralisation.errors %}style="display: block"{% endif %}>
+                            {{ form.lateralisation.errors }}
+                        </div>
+                    </div>
+                </div>
+                <div id="uterus-dim" class="form-group col-6">
+                    <label class="form-label">Taille</label>
+                    <div class="row">
+                        <div class="col-3 pr-0">
+                            {% render_field form.longueur class+="form-control form-control-solid form-control-sm" placeholder="longueur" %}
+                        </div>
+                        <div class="col-3 pl-0 pr-0">
+                            {% render_field form.largeur class+="form-control form-control-solid form-control-sm" placeholder="largeur" %}
+                        </div>
+                        <div class="col-3 pl-0 pr-0">
+                            {% render_field form.hauteur class+="form-control form-control-solid form-control-sm" placeholder="hauteur" %}
+                        </div>
+                        <div class="col-3 pl-0 pr-0">
+                            {% render_field form.longueur_totale class+="form-control form-control-solid form-control-sm" placeholder="lon. totale" %}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-2">
+                    <label class="form-label">Vol. utérin</label>
+                    {% render_field form.volume_uterin class+="form-control form-control-solid form-control-sm" data-unit="cm3" %}
+                    <div class="invalid-feedback"
+                         {% if form.volume_uterin.errors %}style="display: block"{% endif %}>
+                        {{ form.volume_uterin.errors }}
+                    </div>
+                </div>
+                <div class="form-group col-3">
+                    <label class="form-label">Commentaire</label>
+                    {% render_field form.volume_uterin_commentaire data-form="consultation_echo_pelvienne" data-champ="volume_uterin_commentaire" class+="form-select form-select-solid form-select-sm" %}
+                    <div class="invalid-feedback"
+                         {% if form.volume_uterin_commentaire.errors %}style="display: block"{% endif %}>
+                        {{ form.volume_uterin_commentaire.errors }}
+                    </div>
+                </div>
+                <div class="form-group col-3">
+                    <label class="form-label">Asymétrie</label>
+                    {% render_field form.asymetrie data-form="consultation_echo_pelvienne" data-champ="asymetrie" class+="form-select form-select-solid form-select-sm" %}
+                    <div class="invalid-feedback"
+                         {% if form.asymetrie.errors %}style="display: block"{% endif %}>
+                        {{ form.asymetrie.errors }}
+                    </div>
+                </div>
+                <div class="form-group col-2">
+                    <label class="form-label">Paroi antérieure</label>
+                    {% render_field form.paroi_anterieure class+="form-control form-control-solid form-control-sm" data-unit="mm" %}
+                    <div class="invalid-feedback"
+                         {% if form.paroi_anterieure.errors %}style="display: block"{% endif %}>
+                        {{ form.paroi_anterieure.errors }}
+                    </div>
+                </div>
+                <div class="form-group col-2">
+                    <label class="form-label">Paroi postérieure</label>
+                    {% render_field form.paroi_posterieure class+="form-control form-control-solid form-control-sm" data-unit="mm" %}
+                    <div class="invalid-feedback"
+                         {% if form.paroi_posterieure.errors %}style="display: block"{% endif %}>
+                        {{ form.paroi_posterieure.errors }}
+                    </div>
+                </div>
+                <div class="form-group col-3">
+                    <label class="form-label">Mobilité</label>
+                    {% render_field form.mobilite data-form="consultation_echo_pelvienne" data-champ="mobilite" class+="form-select form-select-solid form-select-sm" %}
+                    <div class="invalid-feedback"
+                         {% if form.mobilite.errors %}style="display: block"{% endif %}>
+                        {{ form.mobilite.errors }}
+                    </div>
+                </div>
+                <div class="form-group col-3">
+                    <label class="form-label">Structures</label>
+                    {% render_field form.structures data-form="consultation_echo_pelvienne" data-champ="structures" class+="form-select form-select-solid form-select-sm" %}
+                    <div class="invalid-feedback"
+                         {% if form.structures.errors %}style="display: block"{% endif %}>
+                        {{ form.structures.errors }}
+                    </div>
+                </div>
+                <div class="form-group col-6 d-none">
+                    <label class="form-label">&nbsp;</label>
+                    <div>
+                        <button type="button" class="btn btn-sm btn-outline-info"
+                                data-toggle="modal" data-target="#adenomyose-modal">Adénomyose
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-info"
+                                data-toggle="modal" data-target="#myomes-modal">Myomes
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-info"
+                                onclick="afficherSchemaMyomes()">
+                            Myomes Schéma
+                        </button>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        <label class="form-label">Commentaires myomètre</label>
+                        {% render_field form.commentaires_myometre class+="form-control form-control-solid form-control-sm h-50px" %}
+                        <div class="invalid-feedback"
+                             {% if form.commentaires_myometre.errors %}style="display: block"{% endif %}>
+                            {{ form.commentaires_myometre.errors }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-4">
+                    <label class="form-label">Cavité</label>
+                    {% render_field form.cavite data-form="consultation_echo_pelvienne" data-champ="cavite" class+="form-select form-select-solid form-select-sm" %}
+                    <div class="invalid-feedback"
+                         {% if form.cavite.errors %}style="display: block"{% endif %}>
+                        {{ form.cavite.errors }}
+                    </div>
+                </div>
+                <div class="form-group col-4">
+                    <label class="form-label">Malformation</label>
+                    {% render_field form.malformation data-form="consultation_echo_pelvienne" data-champ="malformation" class+="form-select form-select-solid form-select-sm" %}
+                    <div class="invalid-feedback"
+                         {% if form.malformation.errors %}style="display: block"{% endif %}>
+                        {{ form.malformation.errors }}
+                    </div>
+                </div>
+                <div class="form-group col-4">
+                    <label class="form-label">Ligne cavitaire</label>
+                    {% render_field form.ligne_cavitaire data-form="consultation_echo_pelvienne" data-champ="ligne_cavitaire" class+="form-select form-select-solid form-select-sm" %}
+                    <div class="invalid-feedback"
+                         {% if form.ligne_cavitaire.errors %}style="display: block"{% endif %}>
+                        {{ form.ligne_cavitaire.errors }}
+                    </div>
+                </div>
+                <div class="form-group col-3">
+                    <label class="form-label">Largeur inter-ostiale</label>
+                    {% render_field form.largeur_interostiale class+="form-control form-control-solid form-control-sm" data-unit="mm" %}
+                    <div class="invalid-feedback"
+                         {% if form.largeur_interostiale.errors %}style="display: block"{% endif %}>
+                        {{ form.largeur_interostiale.errors }}
+                    </div>
+                </div>
+                <div class="form-group col-3">
+                    <label class="form-label">Hystérométrie</label>
+                    {% render_field form.hysterometrie class+="form-control form-control-solid form-control-sm" data-unit="mm" %}
+                    <div class="invalid-feedback"
+                         {% if form.hysterometrie.errors %}style="display: block"{% endif %}>
+                        {{ form.hysterometrie.errors }}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="separator py-3"></div>
+        <div class="pt-4 pl-5 pr-5 pb-3">
+            <div class="form-group mb-0">
+                <h5 class="text-primary font-size-h5">Endomètre</h5>
+            </div>
+            <div class="row">
+                <div class="form-group col-3">
+                    <label class="form-label">Visualisation</label>
+                    <div>
+                        {% render_field form.endometre_visualisation data-form="consultation_echo_pelvienne" data-champ="endometre_visualisation" class+="form-select form-select-solid form-select-sm" %}
+                        <div class="invalid-feedback"
+                             {% if form.endometre_visualisation.errors %}style="display: block"{% endif %}>
+                            {{ form.endometre_visualisation.errors }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-3">
+                    <label class="form-label">Echogénicité</label>
+                    <div>
+                        {% render_field form.endometre_echogenicite data-form="consultation_echo_pelvienne" data-champ="endometre_echogenicite" class+="form-select form-select-solid form-select-sm" %}
+                        <div class="invalid-feedback"
+                             {% if form.endometre_echogenicite.errors %}style="display: block"{% endif %}>
+                            {{ form.endometre_echogenicite.errors }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-3">
+                    <label class="form-label">Epaisseur</label>
+                    <div>
+                        {% render_field form.endometre_epaisseur class+="form-control form-control-solid form-control-sm" data-unit="mm" %}
+                        <div class="invalid-feedback"
+                             {% if form.endometre_epaisseur.errors %}style="display: block"{% endif %}>
+                            {{ form.endometre_epaisseur.errors }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="separator py-3"></div>
+        <div class="pt-4 pl-5 pr-5 pb-3">
+            <div class="form-group mb-0">
+                <h5 class="text-primary font-size-h5">Col</h5>
+            </div>
+            <div class="row gy-4">
+                <div class="form-group col-3">
+                    <label class="form-label">Longueur du col</label>
+                    <div>
+                        {% render_field form.col_longueur class+="form-control form-control-solid form-control-sm" data-unit="mm" %}
+                        <div class="invalid-feedback"
+                             {% if form.col_longueur.errors %}style="display: block"{% endif %}>
+                            {{ form.col_longueur.errors }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-3">
+                    <label class="form-label">Aspect</label>
+                    <div>
+                        {% render_field form.col_aspect data-form="consultation_echo_pelvienne" data-champ="col_aspect" class+="form-select form-select-solid form-select-sm" %}
+                        <div class="invalid-feedback"
+                             {% if form.col_aspect.errors %}style="display: block"{% endif %}>
+                            {{ form.col_aspect.errors }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-3">
+                    <label class="form-label">Vascularisation</label>
+                    <div>
+                        {% render_field form.col_vascularisation data-form="consultation_echo_pelvienne" data-champ="col_vascularisation" class+="form-select form-select-solid form-select-sm" %}
+                        <div class="invalid-feedback"
+                             {% if form.col_vascularisation.errors %}style="display: block"{% endif %}>
+                            {{ form.col_vascularisation.errors }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        <label class="form-label">Commentaires</label>
+                        {% render_field form.commentaire_col_endometre class+="form-control form-control-solid form-control-sm h-50px" %}
+                        <div class="invalid-feedback"
+                             {% if form.commentaire_col_endometre.errors %}style="display: block"{% endif %}>
+                            {{ form.commentaire_col_endometre.errors }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row pt-4 pl-5 pr-5 pb-3">
+            <div class="form-group col-6">
+                <label class="form-check form-check-custom form-check-solid">
+                    <input type="checkbox" id="dispositif-intra-uterin" class="form-check-input h-20px w-20px">
+                    <span class="form-check-label fw-semibold">Dispositif intra-utérin</span>
+                </label>
+
+                <div id="dispositif-intra-uterin-champs" class="row d-none mt-2">
+                    <div class="form-group col-4">
+                        <label class="form-label">Type</label>
+                        {% render_field form.type_dispositif_intra_uterin class+="form-select form-select-solid form-select-sm" %}
+                    </div>
+                    <div class="form-group col-4">
+                        <label class="form-label">Localisation</label>
+                        {% render_field form.localisation_dispositif_intra_uterin class+="form-select form-select-solid form-select-sm" %}
+                    </div>
+                    <div class="form-group col-4">
+                        <label class="form-label">Anomalies</label>
+                        {% render_field form.anomalies_dispositif_intra_uterin class+="form-select form-select-solid form-select-sm" %}
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group col-6">
+                <label class="form-check form-check-custom form-check-solid">
+                    {% render_field form.dispositif_intra_tubaire class+="form-check-input h-20px w-20px" %}
+                    <span class="form-check-label fw-semibold">Dispositif intra-tubaire</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="separator py-3"></div>
+        <div class="pt-4 pl-5 pr-5 pb-3">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group mb-0">
+                        <h5 class="text-primary font-size-h5">Ovaire gauche</h5>
+                    </div>
+                    <div class="form-group row mt-4">
+                        <label class="form-label" class="col-3 col-form-label">Visibilité</label>
+                        <div class="col-9">
+                            {% render_field form.ovaire_gauche_visibilite data-form="consultation_echo_pelvienne" data-champ="ovaire_visibilite" class+="form-select form-select-solid form-select-sm" %}
+                            <div class="invalid-feedback"
+                                 {% if form.ovaire_gauche_visibilite.errors %}style="display: block"{% endif %}>
+                                {{ form.ovaire_gauche_visibilite.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-4">
+                        <label class="form-label" class="col-3 col-form-label">Aspect</label>
+                        <div class="col-9">
+                            {% render_field form.ovaire_gauche_aspect data-form="consultation_echo_pelvienne" data-champ="ovaire_aspect" class+="form-select form-select-solid form-select-sm" %}
+                            <div class="invalid-feedback"
+                                 {% if form.ovaire_gauche_aspect.errors %}style="display: block"{% endif %}>
+                                {{ form.ovaire_gauche_aspect.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ovaire-gauche-dim" class="form-group row mt-4">
+                        <label class="form-label" class="col-3 col-form-label">Dimensions</label>
+                        <div class="col-3 pr-0">{% render_field form.ovaire_gauche_longueur class+="form-control form-control-solid form-control-sm" placeholder="longueur" data-unit="mm" %}</div>
+                        <div class="col-3 pl-0 pr-0">{% render_field form.ovaire_gauche_largeur class+="form-control form-control-solid form-control-sm" placeholder="largeur" data-unit="mm" %}</div>
+                        <div class="col-3 pl-0">{% render_field form.ovaire_gauche_hauteur class+="form-control form-control-solid form-control-sm" placeholder="hauteur" data-unit="mm" %}</div>
+                    </div>
+                    <div class="form-group row mt-4">
+                        <label class="form-label" class="col-3 col-form-label">Volume</label>
+                        <div class="col-9">
+                            {% render_field form.ovaire_gauche_volume class+="form-control form-control-solid form-control-sm" data-unit="cm3" %}
+                            <div class="invalid-feedback"
+                                 {% if form.ovaire_gauche_volume.errors %}style="display: block"{% endif %}>
+                                {{ form.ovaire_gauche_volume.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-4">
+                        <label class="form-label" class="col-3 col-form-label">Accessibilité</label>
+                        <div class="col-9">
+                            {% render_field form.ovaire_gauche_accessibilite data-form="consultation_echo_pelvienne" data-champ="ovaire_accessibilite" class+="form-select form-select-solid form-select-sm" %}
+                            <div class="invalid-feedback"
+                                 {% if form.ovaire_gauche_accessibilite.errors %}style="display: block"{% endif %}>
+                                {{ form.ovaire_gauche_accessibilite.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-4">
+                        <label class="form-label" class="col-3 col-form-label">Follicules</label>
+                        <div class="col-6">
+                            {% render_field form.ovaire_gauche_follicules data-form="consultation_echo_pelvienne" data-champ="ovaire_follicules" class+="form-select form-select-solid form-select-sm" %}
+                            <div class="invalid-feedback"
+                                 {% if form.ovaire_gauche_follicules.errors %}style="display: block"{% endif %}>
+                                {{ form.ovaire_gauche_follicules.errors }}
+                            </div>
+                        </div>
+                        <div class="col-3 pl-0 pr-0 d-none">
+                            <button type="button" class="btn btn-sm btn-outline-info"
+                                    data-toggle="modal"
+                                    data-target="#diametres-follicules-modal">
+                                Diamètres
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-4">
+                        <label class="form-label" class="col-3 col-form-label">Commentaires</label>
+                        <div class="col-9">
+                            {% render_field form.ovaire_gauche_commentaire class+="form-control form-control-solid form-control-sm h-50px" placeholder="Commentaires" %}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group mb-0">
+                        <h5 class="text-primary font-size-h5">Ovaire droit</h5>
+                    </div>
+                    <div class="form-group row mt-4">
+                        <label class="form-label" class="col-3 col-form-label">Visibilité</label>
+                        <div class="col-9">
+                            {% render_field form.ovaire_droit_visibilite data-form="consultation_echo_pelvienne" data-champ="ovaire_visibilite" class+="form-select form-select-solid form-select-sm" %}
+                            <div class="invalid-feedback"
+                                 {% if form.ovaire_droit_visibilite.errors %}style="display: block"{% endif %}>
+                                {{ form.ovaire_droit_visibilite.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-4">
+                        <label class="form-label" class="col-3 col-form-label">Aspect</label>
+                        <div class="col-9">
+                            {% render_field form.ovaire_droit_aspect data-form="consultation_echo_pelvienne" data-champ="ovaire_aspect" class+="form-select form-select-solid form-select-sm" %}
+                            <div class="invalid-feedback"
+                                 {% if form.ovaire_droit_aspect.errors %}style="display: block"{% endif %}>
+                                {{ form.ovaire_droit_aspect.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ovaire-droit-dim" class="form-group row mt-4">
+                        <label class="form-label" class="col-3 col-form-label">Dimensions</label>
+                        <div class="col-3 pr-0">{% render_field form.ovaire_droit_longueur class+="form-control form-control-solid form-control-sm" placeholder="longueur" data-unit="mm" %}</div>
+                        <div class="col-3 pl-0 pr-0">{% render_field form.ovaire_droit_largeur class+="form-control form-control-solid form-control-sm" placeholder="largeur" data-unit="mm" %}</div>
+                        <div class="col-3 pl-0">{% render_field form.ovaire_droit_hauteur class+="form-control form-control-solid form-control-sm" placeholder="hauteur" data-unit="mm" %}</div>
+                    </div>
+                    <div class="form-group row mt-4">
+                        <label class="form-label" class="col-3 col-form-label">Volume</label>
+                        <div class="col-9">
+                            {% render_field form.ovaire_droit_volume class+="form-control form-control-solid form-control-sm" data-unit="cm3" %}
+                            <div class="invalid-feedback"
+                                 {% if form.ovaire_droit_volume.errors %}style="display: block"{% endif %}>
+                                {{ form.ovaire_droit_volume.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-4">
+                        <label class="form-label" class="col-3 col-form-label">Accessibilité</label>
+                        <div class="col-9">
+                            {% render_field form.ovaire_droit_accessibilite data-form="consultation_echo_pelvienne" data-champ="ovaire_accessibilite" class+="form-select form-select-solid form-select-sm" %}
+                            <div class="invalid-feedback"
+                                 {% if form.ovaire_droit_accessibilite.errors %}style="display: block"{% endif %}>
+                                {{ form.ovaire_droit_accessibilite.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-4">
+                        <label class="form-label" class="col-3 col-form-label">Follicules</label>
+                        <div class="col-6">
+                            {% render_field form.ovaire_droit_follicules data-form="consultation_echo_pelvienne" data-champ="ovaire_follicules" class+="form-select form-select-solid form-select-sm" %}
+                            <div class="invalid-feedback"
+                                 {% if form.ovaire_droit_follicules.errors %}style="display: block"{% endif %}>
+                                {{ form.ovaire_droit_follicules.errors }}
+                            </div>
+                        </div>
+                        <div class="col-3 pl-0 pr-0 d-none">
+                            <button type="button" class="btn btn-sm btn-outline-info"
+                                    data-toggle="modal"
+                                    data-target="#diametres-follicules-modal">
+                                Diamètres
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-4">
+                        <label class="form-label" class="col-3 col-form-label">Commentaires</label>
+                        <div class="col-9">
+                            {% render_field form.ovaire_droit_commentaire class+="form-control form-control-solid form-control-sm h-50px" placeholder="Commentaires" %}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="separator py-3"></div>
+        <div class="pt-4 pl-5 pr-5 pb-3">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group mb-0">
+                        <h5 class="text-primary font-size-h5">Cul de sac latéro</h5>
+                    </div>
+                    <div class="form-group row">
+                        <label class="form-label" class="col-3 col-form-label">Cul de sac</label>
+                        <div class="col-9">
+                            {% render_field form.cul_de_sac_latero data-form="consultation_echo_pelvienne" data-champ="cul_de_sac_latero" class+="form-select form-select-solid form-select-sm" %}
+                            <div class="invalid-feedback"
+                                 {% if form.cul_de_sac_latero.errors %}style="display: block"{% endif %}>
+                                {{ form.cul_de_sac_latero.errors }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="separator py-3"></div>
+        <div class="pt-4 pl-5 pr-5 pb-3">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label class="form-label">Conclusion échographie</label>
+                        {% render_field form.conclusion_echo class+="form-control form-control-solid form-control-sm h-100px" %}
+                        <div class="invalid-feedback"
+                             {% if form.conclusion_echo.errors %}style="display: block"{% endif %}>
+                            {{ form.conclusion_echo.errors }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="separator py-3"></div>
+        <div class="pt-4 pl-5 pr-5 pb-3">
+            <div class="row gy-4">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label class="form-label">Conclusion</label>
+                        {% render_field form.conclusion class+="form-control form-control-solid form-control-sm h-100px" %}
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        <label class="form-label">Conduite à tenir</label>
+                        {% render_field form.conduite class+="form-control form-control-solid form-control-sm h-100px" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="myomes-modal" tabindex="-1" aria-labelledby="Myomes" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content h-100">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Myomes</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close icon-md"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body p-3">
+                        <div class="d-flex justify-content-end">
+                            <button type="button" onclick="ajouterMyome()" class="btn btn-primary btn-sm mb-2">
+                                Ajouter un myome
+                            </button>
+                        </div>
+                        {{ myomes_formset.management_form }}
+                        <div id="myome-list" class="row px-4">
+                            {% for form in myomes_formset %}
+                                <div class="myome-item col-6 px-1 py-1">
+                                    <div class="card card-custom card-fit card-border">
+                                        <div class="card-header">
+                                            <div class="card-title">
+														<span class="card-icon">
+															<i class="flaticon2-document text-primary"></i>
+														</span>
+                                                <h3 class="card-label">Myome {{ forloop.counter }}</h3>
+                                            </div>
+                                            <div class="card-toolbar">
+                                                <button type="button"
+                                                        onclick="supprimerMyome(event, {{ forloop.counter }})"
+                                                        class="btn btn-icon btn-outline-danger btn-sm font-weight-bold">
+                                                    <i class="fa fa-trash icon-sm"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body pt-2">
+                                            {% for hidden in form.hidden_fields %}
+                                                {{ hidden }}
+                                            {% endfor %}
+                                            {% if form.non_field_errors %}
+                                                <div class="alert alert-custom alert-danger" role="alert">
+                                                    <div class="alert-icon">
+                                                        <i class="flaticon-questions-circular-button"></i>
+                                                    </div>
+                                                    <div class="alert-text">{{ form.non_field_errors }}</div>
+                                                </div>
+                                            {% endif %}
+
+                                            <div class="form-group mb-0 row">
+                                                <label class="form-label" class="col-5 col-form-label text-right">Situation</label>
+                                                <div class="col-7">
+                                                    {% render_field form.situation class+="form-control form-control-solid form-control-sm" %}
+                                                    <div class="invalid-feedback"
+                                                         {% if form.situation.errors %}style="display: block"{% endif %}>
+                                                        {{ form.situation.errors }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-0 row">
+                                                <label class="form-label" class="col-5 col-form-label text-right">Type FIGO</label>
+                                                <div class="col-7">
+                                                    {% render_field form.type_figo class+="form-control form-control-solid form-control-sm" %}
+                                                    <div class="invalid-feedback"
+                                                         {% if form.type_figo.errors %}style="display: block"{% endif %}>
+                                                        {{ form.type_figo.errors }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-0 row">
+                                                <label class="form-label" class="col-5 col-form-label text-right">Situation en coupe
+                                                    longitudinale</label>
+                                                <div class="col-7">
+                                                    {% render_field form.situation_coupe_longitudinale class+="form-control form-control-solid form-control-sm" %}
+                                                    <div class="invalid-feedback"
+                                                         {% if form.situation_coupe_longitudinale.errors %}style="display: block"{% endif %}>
+                                                        {{ form.situation_coupe_longitudinale.errors }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-0 row">
+                                                <label class="form-label" class="col-5 col-form-label text-right">Situation en coupe
+                                                    transversale</label>
+                                                <div class="col-7">
+                                                    {% render_field form.situation_coupe_transversale class+="form-control form-control-solid form-control-sm" %}
+                                                    <div class="invalid-feedback"
+                                                         {% if form.situation_coupe_transversale.errors %}style="display: block"{% endif %}>
+                                                        {{ form.situation_coupe_transversale.errors }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-0 row">
+                                                <label class="form-label" class="col-5 col-form-label text-right">Contours</label>
+                                                <div class="col-7">
+                                                    {% render_field form.contours class+="form-control form-control-solid form-control-sm" %}
+                                                    <div class="invalid-feedback"
+                                                         {% if form.contours.errors %}style="display: block"{% endif %}>
+                                                        {{ form.contours.errors }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-0 row">
+                                                <label class="form-label" class="col-5 col-form-label text-right">Structure</label>
+                                                <div class="col-7">
+                                                    {% render_field form.structure class+="form-control form-control-solid form-control-sm" %}
+                                                    <div class="invalid-feedback"
+                                                         {% if form.structure.errors %}style="display: block"{% endif %}>
+                                                        {{ form.structure.errors }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-0 row">
+                                                <label class="form-label" class="col-5 col-form-label text-right">Calcifications</label>
+                                                <div class="col-7">
+                                                    {% render_field form.calcifications class+="form-control form-control-solid form-control-sm" %}
+                                                    <div class="invalid-feedback"
+                                                         {% if form.calcifications.errors %}style="display: block"{% endif %}>
+                                                        {{ form.calcifications.errors }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-0 row">
+                                                <label class="form-label" class="col-5 col-form-label text-right">Vascularisation</label>
+                                                <div class="col-7">
+                                                    {% render_field form.vascularisation class+="form-control form-control-solid form-control-sm" %}
+                                                    <div class="invalid-feedback"
+                                                         {% if form.vascularisation.errors %}style="display: block"{% endif %}>
+                                                        {{ form.vascularisation.errors }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="dimensions">
+                                                <div class="form-group mb-0 row">
+                                                    <label class="form-label" class="col-5 col-form-label text-right">Mesures
+                                                        <small>(mm)</small></label>
+                                                    <div class="col-7 row">
+                                                        {% render_field form.longueur class+="form-control form-control-solid form-control-sm col-4" %}
+                                                        {% render_field form.largeur class+="form-control form-control-solid form-control-sm col-4" %}
+                                                        {% render_field form.hauteur class+="form-control form-control-solid form-control-sm col-4" %}
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-0 row">
+                                                    <label class="form-label" class="col-5 col-form-label text-right">Diamètre moyen
+                                                        <small>(mm)</small></label>
+                                                    <div class="col-7">
+                                                        {% render_field form.diametre_moyen class+="form-control form-control-solid form-control-sm" %}
+                                                        <div class="invalid-feedback"
+                                                             {% if form.diametre_moyen.errors %}style="display: block"{% endif %}>
+                                                            {{ form.diametre_moyen.errors }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-0 row">
+                                                    <label class="form-label" class="col-5 col-form-label text-right">Volume
+                                                        <small>(cm3)</small></label>
+                                                    <div class="col-7">
+                                                        {% render_field form.volume class+="form-control form-control-solid form-control-sm" %}
+                                                        <div class="invalid-feedback"
+                                                             {% if form.volume.errors %}style="display: block"{% endif %}>
+                                                            {{ form.volume.errors }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-0 row">
+                                                <label class="form-label" class="col-5 col-form-label text-right">Mur postérieur
+                                                    <small>(mm)</small></label>
+                                                <div class="col-7">
+                                                    {% render_field form.mure_posterieur class+="form-control form-control-solid form-control-sm" %}
+                                                    <div class="invalid-feedback"
+                                                         {% if form.mure_posterieur.errors %}style="display: block"{% endif %}>
+                                                        {{ form.mure_posterieur.errors }}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 p-1"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="myomes-schema-modal" tabindex="-1" aria-labelledby="Myomes" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content h-100">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Myomes</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close icon-md"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body p-3">
+                        <div class="row">
+                            <div id="schema-myome-container" class="col-7">
+                                <img src="{% static "media/technique/gyneco/myomes.png" %}" class="w-100">
+                            </div>
+                            <div class="col-5">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Myome</th>
+                                        <th>Mesures</th>
+                                        <th>Type FIGO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td width="50">1</td>
+                                        <td width="150">
+                                            <div class="input-group input-group-sm">
+                                                <input data-id="1" type="number" min="0"
+                                                       class="myome-input form-control form-control-solid form-control-sm">
+                                                <div class="input-group-append"><span class="input-group-text">mm</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><select class="form-control form-control-solid form-control-sm type-figo"></select></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50">2</td>
+                                        <td width="150">
+                                            <div class="input-group input-group-sm">
+                                                <input data-id="2" type="number" min="0"
+                                                       class="myome-input form-control form-control-solid form-control-sm">
+                                                <div class="input-group-append"><span class="input-group-text">mm</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><select class="form-control form-control-solid form-control-sm type-figo"></select></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50">3</td>
+                                        <td width="150">
+                                            <div class="input-group input-group-sm">
+                                                <input data-id="3" type="number" min="0"
+                                                       class="myome-input form-control form-control-solid form-control-sm">
+                                                <div class="input-group-append"><span class="input-group-text">mm</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><select class="form-control form-control-solid form-control-sm type-figo"></select></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50">4</td>
+                                        <td width="150">
+                                            <div class="input-group input-group-sm">
+                                                <input data-id="4" type="number" min="0"
+                                                       class="myome-input form-control form-control-solid form-control-sm">
+                                                <div class="input-group-append"><span class="input-group-text">mm</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><select class="form-control form-control-solid form-control-sm type-figo"></select></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50">5</td>
+                                        <td width="150">
+                                            <div class="input-group input-group-sm">
+                                                <input data-id="5" type="number" min="0"
+                                                       class="myome-input form-control form-control-solid form-control-sm">
+                                                <div class="input-group-append"><span class="input-group-text">mm</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><select class="form-control form-control-solid form-control-sm type-figo"></select></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50">6</td>
+                                        <td width="150">
+                                            <div class="input-group input-group-sm">
+                                                <input data-id="6" type="number" min="0"
+                                                       class="myome-input form-control form-control-solid form-control-sm">
+                                                <div class="input-group-append"><span class="input-group-text">mm</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><select class="form-control form-control-solid form-control-sm type-figo"></select></td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                                <button class="btn btn-sm btn-primary" type="button" onclick="enregistrerSchemaMyome()">
+                                    Enregistrer l'image
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 p-1"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="adenomyose-modal" tabindex="-1" aria-labelledby="Adénomyose" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content h-100">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Adénomyose</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close icon-md"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body p-3">
+                        <img src="{% static "media/technique/gyneco/adenomyose.png" %}" class="w-100">
+
+                        <div class="row padding-15">
+                            <div class="col-6">
+                                <label class="form-label">MUSA 2015</label>
+                                {% for x, y in form.fields.adenomyose.choices %}
+                                    <div class="form-check">
+                                        {% is_in_models_list x form.adenomyose.value as isinmodels %}
+                                        <input id="id_{{ form.adenomyose.name }}_{{ forloop.counter0 }}"
+                                               name="{{ form.adenomyose.name }}" class="form-check-input"
+                                               type="checkbox"
+                                               {% if isinmodels %}checked="checked"{% endif %}
+                                               value="{{ x }}">
+                                        <label class="form-label" class="form-check-label"
+                                               for="id_{{ form.adenomyose.name }}_{{ forloop.counter0 }}">
+                                            {{ y }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label">Conclusion</label>
+                                {% for x, y in form.fields.adenomyose_conclusion.choices %}
+                                    <div class="form-check">
+                                        {% is_in_models_list x form.adenomyose_conclusion.value as isinmodels %}
+                                        <input id="id_{{ form.adenomyose_conclusion.name }}_{{ forloop.counter0 }}"
+                                               name="{{ form.adenomyose_conclusion.name }}" class="form-check-input"
+                                               type="checkbox"
+                                               {% if isinmodels %}checked="checked"{% endif %}
+                                               value="{{ x }}">
+                                        <label class="form-label" class="form-check-label"
+                                               for="id_{{ form.adenomyose_conclusion.name }}_{{ forloop.counter0 }}">
+                                            {{ y }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 p-1"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="diametres-follicules-modal" tabindex="-1" aria-labelledby="Follicules"
+             aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content h-100">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Follicules</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i aria-hidden="true" class="ki ki-close icon-md"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body p-3">
+                        <div class="row padding-4">
+                            <div id="ovaire-gauche-follicules-mesures" class="col-6 form-group">
+                                <label class="form-label">Ovaire gauche</label>
+                                <div class="form-group mb-0 row">
+                                    <label class="form-label" class="col-2 col-form-label text-right">&nbsp;</label>
+                                    <div class="col-10 row">
+                                        <div class="col-3 d-flex align-items-center">Long</div>
+                                        <div class="col-3 d-flex align-items-center">Larg</div>
+                                        <div class="col-3 d-flex align-items-center">Haut</div>
+                                        <div class="col-3 d-flex align-items-center">Diam moy</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="ovaire-droit-follicules-mesures" class="col-6 form-group">
+                                <label class="form-label">Ovaire droit</label>
+                                <div class="form-group mb-0 row">
+                                    <label class="form-label" class="col-2 col-form-label text-right">&nbsp;</label>
+                                    <div class="col-10 row">
+                                        <div class="col-3 d-flex align-items-center">Long</div>
+                                        <div class="col-3 d-flex align-items-center">Larg</div>
+                                        <div class="col-3 d-flex align-items-center">Haut</div>
+                                        <div class="col-3 d-flex align-items-center">Diam moy</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 p-1"></div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/html" id="follicule-template">
+            <div id="fol-<%= lat %>-<%= num %>" class="form-group mb-0 row fol-mesures-item">
+                <label class="form-label" class="col-2 col-form-label text-right">Fol <%= num %></label>
+                <div class="col-10 row">
+                    <div class="col-3 d-flex align-items-center">
+                        <input type="text" class="form-control form-control-solid form-control-sm long">
+                    </div>
+                    <div class="col-3 d-flex align-items-center">
+                        <input type="text" class="form-control form-control-solid form-control-sm larg">
+                    </div>
+                    <div class="col-3 d-flex align-items-center">
+                        <input type="text" class="form-control form-control-solid form-control-sm haut">
+                    </div>
+                    <div class="col-3 d-flex align-items-center">
+                        <input type="text" class="form-control form-control-solid form-control-sm diam">mm
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <script type="text/html" id="myome-template">
+            {% with myomes_formset.empty_form as form %}
+                <div class="myome-item col-6 px-1 py-1">
+                    <div class="card card-custom card-fit card-border">
+                        <div class="card-header">
+                            <div class="card-title">
+														<span class="card-icon">
+															<i class="flaticon2-document text-primary"></i>
+														</span>
+                                <h3 class="card-label">Myome __title__</h3>
+                            </div>
+                            <div class="card-toolbar">
+                                <button type="button" onclick="supprimerMyome(event, __title__)"
+                                        class="btn btn-icon btn-outline-danger btn-sm font-weight-bold">
+                                    <i class="fa fa-trash icon-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body pt-2">
+                            {% for hidden in form.hidden_fields %}
+                                {{ hidden }}
+                            {% endfor %}
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-custom alert-danger" role="alert">
+                                    <div class="alert-icon">
+                                        <i class="flaticon-questions-circular-button"></i>
+                                    </div>
+                                    <div class="alert-text">{{ form.non_field_errors }}</div>
+                                </div>
+                            {% endif %}
+
+                            <div class="form-group mb-0 row">
+                                <label class="form-label" class="col-5 col-form-label text-right">Situation</label>
+                                <div class="col-7">
+                                    {% render_field form.situation class+="form-control form-control-solid form-control-sm" %}
+                                    <div class="invalid-feedback"
+                                         {% if form.situation.errors %}style="display: block"{% endif %}>
+                                        {{ form.situation.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-0 row">
+                                <label class="form-label" class="col-5 col-form-label text-right">Type FIGO</label>
+                                <div class="col-7">
+                                    {% render_field form.type_figo class+="form-control form-control-solid form-control-sm" %}
+                                    <div class="invalid-feedback"
+                                         {% if form.type_figo.errors %}style="display: block"{% endif %}>
+                                        {{ form.type_figo.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-0 row">
+                                <label class="form-label" class="col-5 col-form-label text-right">Situation en coupe
+                                    longitudinale</label>
+                                <div class="col-7">
+                                    {% render_field form.situation_coupe_longitudinale class+="form-control form-control-solid form-control-sm" %}
+                                    <div class="invalid-feedback"
+                                         {% if form.situation_coupe_longitudinale.errors %}style="display: block"{% endif %}>
+                                        {{ form.situation_coupe_longitudinale.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-0 row">
+                                <label class="form-label" class="col-5 col-form-label text-right">Situation en coupe
+                                    transversale</label>
+                                <div class="col-7">
+                                    {% render_field form.situation_coupe_transversale class+="form-control form-control-solid form-control-sm" %}
+                                    <div class="invalid-feedback"
+                                         {% if form.situation_coupe_transversale.errors %}style="display: block"{% endif %}>
+                                        {{ form.situation_coupe_transversale.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-0 row">
+                                <label class="form-label" class="col-5 col-form-label text-right">Contours</label>
+                                <div class="col-7">
+                                    {% render_field form.contours class+="form-control form-control-solid form-control-sm" %}
+                                    <div class="invalid-feedback"
+                                         {% if form.contours.errors %}style="display: block"{% endif %}>
+                                        {{ form.contours.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-0 row">
+                                <label class="form-label" class="col-5 col-form-label text-right">Structure</label>
+                                <div class="col-7">
+                                    {% render_field form.structure class+="form-control form-control-solid form-control-sm" %}
+                                    <div class="invalid-feedback"
+                                         {% if form.structure.errors %}style="display: block"{% endif %}>
+                                        {{ form.structure.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-0 row">
+                                <label class="form-label" class="col-5 col-form-label text-right">Calcifications</label>
+                                <div class="col-7">
+                                    {% render_field form.calcifications class+="form-control form-control-solid form-control-sm" %}
+                                    <div class="invalid-feedback"
+                                         {% if form.calcifications.errors %}style="display: block"{% endif %}>
+                                        {{ form.calcifications.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-0 row">
+                                <label class="form-label" class="col-5 col-form-label text-right">Vascularisation</label>
+                                <div class="col-7">
+                                    {% render_field form.vascularisation class+="form-control form-control-solid form-control-sm" %}
+                                    <div class="invalid-feedback"
+                                         {% if form.vascularisation.errors %}style="display: block"{% endif %}>
+                                        {{ form.vascularisation.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dimensions">
+                                <div class="form-group mb-0 row">
+                                    <label class="form-label" class="col-5 col-form-label text-right">Mesures <small>(mm)</small></label>
+                                    <div class="col-7 row">
+                                        {% render_field form.longueur class+="form-control form-control-solid form-control-sm col-4" %}
+                                        {% render_field form.largeur class+="form-control form-control-solid form-control-sm col-4" %}
+                                        {% render_field form.hauteur class+="form-control form-control-solid form-control-sm col-4" %}
+                                    </div>
+                                </div>
+                                <div class="form-group mb-0 row">
+                                    <label class="form-label" class="col-5 col-form-label text-right">Diamètre moyen
+                                        <small>(mm)</small></label>
+                                    <div class="col-7">
+                                        {% render_field form.diametre_moyen class+="form-control form-control-solid form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.diametre_moyen.errors %}style="display: block"{% endif %}>
+                                            {{ form.diametre_moyen.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-0 row">
+                                    <label class="form-label" class="col-5 col-form-label text-right">Volume <small>(cm3)</small></label>
+                                    <div class="col-7">
+                                        {% render_field form.volume class+="form-control form-control-solid form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.volume.errors %}style="display: block"{% endif %}>
+                                            {{ form.volume.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-0 row">
+                                <label class="form-label" class="col-5 col-form-label text-right">Mur postérieur
+                                    <small>(mm)</small></label>
+                                <div class="col-7">
+                                    {% render_field form.mure_posterieur class+="form-control form-control-solid form-control-sm" %}
+                                    <div class="invalid-feedback"
+                                         {% if form.mure_posterieur.errors %}style="display: block"{% endif %}>
+                                        {{ form.mure_posterieur.errors }}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            {% endwith %}
+
+        </script>
+    </div>
+</div>

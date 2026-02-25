@@ -1,0 +1,86 @@
+{% extends "core/base_consultation_v2.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block sub_navigation %}
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab"
+           href="#tab-consultation">Consultation</a>
+    </li>
+{% endblock %}
+
+
+{% block inner_content %}
+
+    <form id="form_1" class="form" method="post" action="">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+
+        <div class="tab-content" id="myTabContent">
+            <div id="tab-consultation" class="tab-pane fade show active">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="col-2 me-4">
+                                <label class="form-label">{{ form.praticien.label }}</label>
+                                {% render_field form.praticien class+="form-select form-select-solid form-select-sm" %}
+                            </div>
+                            {% if templates and motif.code !=  "pma-interrogatoire" %}
+                                <div class="col-2 me-4">
+                                    <label for="id_template_edition" class="form-label">Modèle</label>
+                                    <select name="template_edition" id="id_template_edition"
+                                            class="form-select form-select-solid form-select-sm">
+                                        <option value="-1">---------</option>
+                                        {% for temp in templates %}
+                                            <option value="{{ temp.id }}"
+                                                    {% if forloop.counter == 1 %}selected{% endif %}>{{ temp.libelle }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            {% endif %}
+                            {% if patient.grossesse_encours %}
+                                <div class="me-8 py-10">
+                                    <label class="form-check form-check-inline form-check-custom form-check-solid">
+                                        <input type="checkbox" id="cb-inserer-grossesse-info"
+                                               class="form-check-input h-20px w-20px">
+                                        <span class="form-check-label fw-semibold">Informations de grossesse</span>
+                                    </label>
+                                </div>
+                            {% endif %}
+                            <div class="me-8 py-10">
+                                <label class="form-check form-check-inline form-check-custom form-check-solid">
+                                    <input type="checkbox" id="cb-inserer-antecedents"
+                                           class="form-check-input h-20px w-20px">
+                                    <span class="form-check-label fw-semibold">Ajouter les antécédents</span>
+                                </label>
+                            </div>
+                            <div class="me-8 py-10">
+                                <label class="form-check form-check-inline form-check-custom form-check-solid">
+                                    <input type="checkbox" id="cb-inserer-notes" class="form-check-input h-20px w-20px">
+                                    <span class="form-check-label fw-semibold">Ajouter les notes</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="editor-1" class="editor min-h-400px mt-8" style="font-size: 10pt ">
+                            {% if object %}
+                                {{ object.text|safe }}
+                            {% endif %}
+                            <p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}

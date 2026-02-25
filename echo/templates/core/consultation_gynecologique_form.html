@@ -1,0 +1,476 @@
+{% extends "core/base_consultation_v2.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+{% load common %}
+
+{% block styles %}
+    <style type="text/css">
+        .cercle {
+            height: 50px;
+            width: 50px;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            display: table-cell;
+            vertical-align: middle;
+            font-weight: bold;
+            font-size: 16px;
+            touch-action: none;
+            user-select: none;
+            -webkit-transform: translate(0px, 0px);
+            transform: translate(0px, 0px);
+        }
+    </style>
+{% endblock %}
+
+
+{% block sub_navigation %}
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab" href="#tab-interrogatoire">Interrogatoire</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-examen">Examen clinique</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-echo">Echo pelvienne</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab"
+           href="#tab-observations">Observations</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-images">Images</a>
+    </li>
+
+{% endblock %}
+
+{% block inner_content %}
+
+    <form id="form_1" class="form" method="post" action="">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+
+        <div class="tab-content">
+
+            <div id="tab-interrogatoire" class="g-5 g-xxl-8 tab-pane fade show active">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row pb-3">
+                            <div class="form-group col-4">
+                                <label class="form-label">Motif de consultation</label>
+                                {% render_field form.motif_consultation data-form="consultation_gynecologique" data-champ="motif_consultation" class+="form-select form-select-solid form-select-sm" %}
+                                {% render_field form.motif_autre class+="form-control form-control-solid form-control-sm" placeholder="Autre motif" %}
+                            </div>
+                            <div class="form-group col-3">
+                                <label class="form-label">{{ form.praticien.label }}</label>
+                                {% render_field form.praticien class+="form-select form-select-solid form-select-sm" %}
+                            </div>
+                            <div class="form-group col-5 text-right">
+                                <label class="form-label">&nbsp;</label>
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <button type="button" class="btn btn-sm btn-light-primary"
+                                                data-bs-toggle="collapse" href="#blocConjoint" role="button"
+                                                aria-expanded="false" aria-controls="blocConjoint">
+                                            Informations conjoint
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-0 collapse" id="blocConjoint">
+                            <div class="card" style="border: 0">
+                                <div class="card-body p-4">
+                                    <h5 class="card-title font-size-h5">Conjoint</h5>
+                                    <div class="row gy-4">
+                                        <div class="form-group col-3">
+                                            <label class="form-label">Nom</label>
+                                            {% render_field form.nom_conjoint class+="form-control form-control-solid form-control-sm" %}
+                                            <div class="invalid-feedback"
+                                                 {% if form.nom_conjoint.errors %}style="display: block"{% endif %}>
+                                                {{ form.nom_conjoint.errors }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label class="form-label">Prénom</label>
+                                            {% render_field form.prenom_conjoint class+="form-control form-control-solid form-control-sm" %}
+                                            <div class="invalid-feedback"
+                                                 {% if form.prenom_conjoint.errors %}style="display: block"{% endif %}>
+                                                {{ form.prenom_conjoint.errors }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label class="form-label">Date de naissance</label>
+                                            {% render_field form.date_naissance_conjoint class+="form-control form-control-solid form-control-sm" %}
+                                            <div class="invalid-feedback"
+                                                 {% if form.date_naissance_conjoint.errors %}style="display: block"{% endif %}>
+                                                {{ form.date_naissance_conjoint.errors }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label class="form-label">Téléphone</label>
+                                            {% render_field form.telephone_conjoint class+="form-control form-control-solid form-control-sm fv-row" %}
+                                            <div class="invalid-feedback"
+                                                 {% if form.telephone_conjoint.errors %}style="display: block"{% endif %}>
+                                                {{ form.telephone_conjoint.errors }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label class="form-label">Groupe sanguin</label>
+                                            {% render_field form.groupe_sanguin_conjoint class+="form-select form-select-solid form-select-sm" %}
+                                            <div class="invalid-feedback"
+                                                 {% if form.groupe_sanguin_conjoint.errors %}style="display: block"{% endif %}>
+                                                {{ form.groupe_sanguin_conjoint.errors }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label class="form-label">Consanguinite</label>
+                                            {% render_field form.consanguinite_conjoint class+="form-select form-select-solid form-select-sm" %}
+                                            <div class="invalid-feedback"
+                                                 {% if form.consanguinite_conjoint.errors %}style="display: block"{% endif %}>
+                                                {{ form.consanguinite_conjoint.errors }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row gy-4 mt-4">
+                                        <div class="form-group col-12">
+                                            <label class="form-label">Etat de santé</label>
+                                            {% render_field form.etat_sante_conjoint class+="form-control form-control-solid form-control-sm h-100px" %}
+                                            <div class="invalid-feedback"
+                                                 {% if form.etat_sante_conjoint.errors %}style="display: block"{% endif %}>
+                                                {{ form.etat_sante_conjoint.errors }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="separator my-3"></div>
+                        <div class="mt-1 pt-4 pb-3">
+                            <div class="form-group mb-0">
+                                <h5 class="text-primary font-size-h5">Interrogatoire</h5>
+                            </div>
+                            <div class="row gy-5">
+                                <div class="form-group col-3">
+                                    <label class="form-label">Age ménarche (ans)</label>
+                                    <div>
+                                        {% render_field form.age_menarche data-form="consultation_gynecologique" data-champ="age_menarche" data-unit="ans" class+="form-control form-control-solid form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.age_menarche.errors %}style="display: block"{% endif %}>
+                                            {{ form.age_menarche.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-3">
+                                    <label class="form-label">Cycles</label>
+                                    <div>
+                                        {% render_field form.cycles data-form="consultation_gynecologique" data-champ="cycles" class+="form-select form-select-solid form-select-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.cycles.errors %}style="display: block"{% endif %}>
+                                            {{ form.cycles.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="separator my-3"></div>
+                        <div class="mt-1 pt-4 pb-3">
+                            <div class="form-group mb-0">
+                                <h5 class="text-primary font-size-h5">Menstruation</h5>
+                            </div>
+                            <div class="row gy-4">
+                                <div class="col-3 form-group">
+                                    <label class="form-label">Durée (jours)</label>
+                                    <div>
+                                        {% render_field form.duree data-unit="jours" class+="form-control form-control-solid form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.duree.errors %}style="display: block"{% endif %}>
+                                            {{ form.duree.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3 form-group">
+                                    <label class="form-label">Abondance</label>
+                                    <div>
+                                        {% render_field form.abondance data-form="consultation_gynecologique" data-champ="abondance" class+="form-select form-select-solid form-select-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.abondance.errors %}style="display: block"{% endif %}>
+                                            {{ form.abondance.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3 form-group">
+                                    <label class="form-label">Douleur</label>
+                                    <div>
+                                        {% render_field form.douleur data-form="consultation_gynecologique" data-champ="douleur" class+="form-select form-select-solid form-select-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.douleur.errors %}style="display: block"{% endif %}>
+                                            {{ form.douleur.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="form-label">Syndrome pré-menstruel</label>
+                                    <div>
+                                        {% render_field form.syndrome_premenstruel data-form="consultation_gynecologique" data-champ="syndrome_premenstruel" class+="form-select form-select-solid form-select-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.syndrome_premenstruel.errors %}style="display: block"{% endif %}>
+                                            {{ form.syndrome_premenstruel.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-3">
+                                    <label class="form-label">DDR</label>
+                                    <div>
+                                        {% render_field form.ddr class+="form-control form-control-solid form-control-sm date" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.ddr.errors %}style="display: block"{% endif %}>
+                                            {{ form.ddr.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="separator my-3"></div>
+                        <div class="mt-1 pt-4 pb-3">
+                            <div class="form-group mb-0">
+                                <h5 class="text-primary font-size-h5">Rapports sexuels</h5>
+                            </div>
+                            <div class="row gy-4">
+                                <div class="col-3 form-group">
+                                    <label class="form-label">Rapports</label>
+                                    <div>
+                                        {% render_field form.presence_rapports_sexuels data-form="consultation_gynecologique" data-champ="presence_rapports_sexuels" class+="form-select form-select-solid form-select-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.presence_rapports_sexuels.errors %}style="display: block"{% endif %}>
+                                            {{ form.presence_rapports_sexuels.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-3">
+                                    <label class="form-label">Partenaire</label>
+                                    <div>
+                                        {% render_field form.partenaire data-form="consultation_gynecologique" data-champ="partenaire" class+="form-select form-select-solid form-select-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.partenaire.errors %}style="display: block"{% endif %}>
+                                            {{ form.partenaire.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-3 form-group">
+                                    <label class="form-label">Age 1er rapport (ans)</label>
+                                    <div>
+                                        {% render_field form.age_premier_rapport data-unit="ans" class+="form-control form-control-solid form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.age_premier_rapport.errors %}style="display: block"{% endif %}>
+                                            {{ form.age_premier_rapport.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="separator my-3"></div>
+                        <div class="mt-1 pt-4 pb-3">
+                            <div class="form-group mb-0">
+                                <h5 class="text-primary  font-size-h5 ">Contraception</h5>
+                            </div>
+                            <div class="row gy-4">
+                                <div class="form-group col-3">
+                                    <label class="form-label">Mode</label>
+                                    <div>
+                                        {% render_field form.mode_contraception data-form="consultation_gynecologique" data-champ="mode_contraception" class+="form-select form-select-solid form-select-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.mode_contraception.errors %}style="display: block"{% endif %}>
+                                            {{ form.mode_contraception.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="form-label">Commentaire</label>
+                                    <div>
+                                        {% render_field form.commentaire_contraception class+="form-control form-control-solid form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.commentaire_contraception.errors %}style="display: block"{% endif %}>
+                                            {{ form.commentaire_contraception.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="form-label">Observance</label>
+                                    <div>
+                                        {% render_field form.observance data-form="consultation_gynecologique" data-champ="observance" class+="form-select form-select-solid form-select-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.observance.errors %}style="display: block"{% endif %}>
+                                            {{ form.observance.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="form-label">Satisfaction</label>
+                                    <div>
+                                        {% render_field form.satisfaction data-form="consultation_gynecologique" data-champ="satisfaction" class+="form-select form-select-solid form-select-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.satisfaction.errors %}style="display: block"{% endif %}>
+                                            {{ form.satisfaction.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="separator my-3"></div>
+                        <div class="mt-1 pt-4 pb-3">
+                            <div class="form-group mb-0">
+                                <h5 class="text-primary font-size-h5 ">Ménopause</h5>
+                            </div>
+                            <div class="row gy-4">
+                                <div class="form-group col-3">
+                                    <label class="form-label">THM</label>
+                                    <div>
+                                        {% render_field form.ths class+="form-select form-select-solid form-select-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.ths.errors %}style="display: block"{% endif %}>
+                                            {{ form.ths.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="form-label">Bouffées de chaleur</label>
+                                    <div>
+                                        {% render_field form.bouffees_chaleur class+="form-select form-select-solid form-select-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.bouffees_chaleur.errors %}style="display: block"{% endif %}>
+                                            {{ form.bouffees_chaleur.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="form-label">Incontinence urinaire</label>
+                                    <div>
+                                        {% render_field form.incontinence class+="form-select form-select-solid form-select-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.incontinence.errors %}style="display: block"{% endif %}>
+                                            {{ form.incontinence.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="form-label">Pesanteur pelvienne</label>
+                                    <div>
+                                        {% render_field form.sensation_pesanteur class+="form-select form-select-solid form-select-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.sensation_pesanteur.errors %}style="display: block"{% endif %}>
+                                            {{ form.sensation_pesanteur.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="form-label">Dyspareunies</label>
+                                    <div>
+                                        {% render_field form.dyspareunies class+="form-select form-select-solid form-select-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.dyspareunies.errors %}style="display: block"{% endif %}>
+                                            {{ form.dyspareunies.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-3 d-none">
+                                    <label class="form-label">Signe clinique</label>
+                                    <div>
+                                        {% render_field form.signe_clinique class+="form-select form-select-solid form-select-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.signe_clinique.errors %}style="display: block"{% endif %}>
+                                            {{ form.signe_clinique.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="form-group">
+                                    <label class="form-label">Commentaires</label>
+                                    {% render_field form.commentaire class+="form-control form-control-solid form-control-sm h-100px" %}
+                                    <div class="invalid-feedback"
+                                         {% if form.commentaire.errors %}style="display: block"{% endif %}>
+                                        {{ form.commentaire.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="separator my-3"></div>
+                            <div class="row gy-4">
+                                <div class="form-group col-3">
+                                    <label class="form-label">Endométriose</label>
+                                    {% render_field form.endometriose class+="form-select form-select-solid form-select-sm" %}
+                                    <div class="invalid-feedback"
+                                         {% if form.endometriose.errors %}style="display: block"{% endif %}>
+                                        {{ form.endometriose.errors }}
+                                    </div>
+                                </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-examen" class="g-5 g-xxl-8 tab-pane fade">
+                {% include 'core/partials/examen_clinique.html' with form=form afficher=True %}
+            </div>
+
+            <div id="tab-echo" class="g-5 g-xxl-8 tab-pane fade">
+                {% include 'core/partials/echo_pelvienne.html' with form=form afficher=True %}
+            </div>
+
+            <div id="tab-observations" class="g-5 g-xxl-8 tab-pane fade">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label">Observations</label>
+                            {% render_field form.observations class+="form-control form-control-solid form-control-sm h-100px" %}
+                            <div class="invalid-feedback"
+                                 {% if form.observations.errors %}style="display: block"{% endif %}>
+                                {{ form.observations.errors }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="tab-images" class="g-5 g-xxl-8 tab-pane fade">
+                {% include 'core/partials/consultation_images.html' with consultation=object %}
+            </div>
+
+        </div>
+
+    </form>
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        let examens = {% if object.examens %} {{ object.examens|safe }} {% else %}[]{% endif %};
+        let traitements = {% if object.traitements %} {{ object.traitements|safe }} {% else %}[]{% endif %};
+        const types_figo = {{ types_figo|safe }};
+        const formset_prefix = '{{ myomes_formset.prefix }}';
+    </script>
+    <script src="{% static "js/core/echo_pelvienne.js" %}"></script>
+    <script src="{% static "js/core/consultation_gynecologique_form.js" %}"></script>
+{% endblock %}

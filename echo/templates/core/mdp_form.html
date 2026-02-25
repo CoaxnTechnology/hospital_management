@@ -1,0 +1,40 @@
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+<form id="form_mdp" method="post" action="">
+    {% csrf_token %}
+
+    <div class="modal-header">
+
+        <h5 class="modal-title">Modifier Mot de passe</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <i aria-hidden="true" class="ki ki-close icon-md"></i>
+        </button>
+    </div>
+
+    <div class="modal-body">
+
+        <div class="form-group row">
+            <div class="col-6">
+                <label>Nouveau mot de passe</label>
+                {% render_field form.password class+="form-control" %}
+                <div class="{% if form.password.errors %} invalid text-danger {% endif %}">
+                    {% for error in form.password.errors %}
+                        <p class="help-block">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+        <button type="button" class="submit-btn btn btn-primary">Modifier</button>
+    </div>
+</form>
+
+<script src="{% static "js/core/mdp_form.js" %}"></script>
+
+

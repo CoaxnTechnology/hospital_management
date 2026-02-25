@@ -1,0 +1,1098 @@
+{% extends "core/parametres_base.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block contents %}
+    <form id="form_1" class="form" method="post" action="">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+        <!--
+        {% if form.errors %}
+            <div id="form-error">
+                <p>The operation could not be performed because one or more error(s) occurred.<br/>Please resubmit the
+                    form after making the following changes:</p>
+                <ul>
+                    {% for field in form %}
+                        {%  if field.errors %}
+                        <li>{{ field.name }} - {{ field.errors|striptags }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        -->
+        <div class="tab-pane fade show active" id="generaux" role="tabpanel">
+            <div class="card card-custom ps-4">
+                <!--begin::Header-->
+                <div class="card-header py-3">
+                    <div class="card-title align-items-start flex-column">
+                        <h3 class="card-label font-weight-bolder text-dark">Paramètres généraux</h3>
+                        <span class="text-muted  fs-6 mt-1">Modifier les paramètres du compte</span>
+                    </div>
+                    <div class="card-toolbar">
+                        <button type="submit" class="btn btn-primary me-2">Enregistrer</button>
+                        <!--<button type="reset" class="btn btn-secondary">Annuler</button>-->
+                    </div>
+                </div>
+                <!--end::Header-->
+                <!--begin::Form-->
+                <div class="card-body">
+                    <!--begin::Form Group-->
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Médecin principal</label>
+                        <div class="col-lg-9 col-xl-6">
+                            {% render_field form.praticien_defaut class+="form-select form-select-sm" %}
+                            <div class="invalid-feedback"
+                                 {% if form.praticien_defaut.errors %}style="display: block"{% endif %}>
+                                {{ form.praticien_defaut.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Durée rendez-vous par défaut
+                            (minutes)</label>
+                        <div class="col-lg-9 col-xl-6">
+                            {% render_field form.duree_rdv_defaut class+="form-control  form-control-sm" %}
+                            <div class="invalid-feedback"
+                                 {% if form.duree_rdv_defaut.errors %}style="display: block"{% endif %}>
+                                {{ form.duree_rdv_defaut.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Fuseau horaire</label>
+                        <div class="col-lg-9 col-xl-6">
+                            <select name="timezone" class="form-select form-select-sm ">
+                                {% for tz in timezones %}
+                                    <option name="{{ form.timezone.html_name }}" value="{{ tz }}"
+                                            {% if tz == form.timezone.value %}
+                                            selected{% endif %}>
+                                        {{ tz }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <div class="invalid-feedback"
+                                 {% if form.timezone.errors %}style="display: block"{% endif %}>
+                                {{ form.timezone.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">
+                            Horaires d'ouverture
+                        </label>
+                        <div class="col-lg-9 col-xl-6">
+                            <div class="text-primary">Lundi</div>
+                            <div class="d-flex align-items-center">
+                                <div>Matin</div>
+                                {% render_field form.h_deb_mat_lundi class+="form-control form-control-sm time w-90px ms-2" %}
+                                {% render_field form.h_fin_mat_lundi class+="form-control  form-control-sm time w-90px" %}
+                                <div class="ms-2">Après-midi</div>
+                                {% render_field form.h_deb_am_lundi class+="form-control  form-control-sm time w-90px ms-2" %}
+                                {% render_field form.h_fin_am_lundi class+="form-control  form-control-sm time w-90px" %}
+                            </div>
+
+                            <div class="text-primary mt-2">Mardi</div>
+                            <div class="d-flex align-items-center">
+                                <div>Matin</div>
+                                {% render_field form.h_deb_mat_mardi class+="form-control form-control-sm time w-90px ms-2" %}
+                                {% render_field form.h_fin_mat_mardi class+="form-control  form-control-sm time w-90px" %}
+                                <div class="ms-2">Après-midi</div>
+                                {% render_field form.h_deb_am_mardi class+="form-control  form-control-sm time w-90px ms-2" %}
+                                {% render_field form.h_fin_am_mardi class+="form-control  form-control-sm time w-90px" %}
+                            </div>
+
+                            <div class="text-primary mt-2">Mercredi</div>
+                            <div class="d-flex align-items-center">
+                                <div>Matin</div>
+                                {% render_field form.h_deb_mat_mercredi class+="form-control form-control-sm time w-90px ms-2" %}
+                                {% render_field form.h_fin_mat_mercredi class+="form-control  form-control-sm time w-90px" %}
+                                <div class="ms-2">Après-midi</div>
+                                {% render_field form.h_deb_am_mercredi class+="form-control  form-control-sm time w-90px ms-2" %}
+                                {% render_field form.h_fin_am_mercredi class+="form-control  form-control-sm time w-90px" %}
+                            </div>
+
+                            <div class="text-primary mt-2">Jeudi</div>
+                            <div class="d-flex align-items-center">
+                                <div>Matin</div>
+                                {% render_field form.h_deb_mat_jeudi class+="form-control form-control-sm time w-90px ms-2" %}
+                                {% render_field form.h_fin_mat_jeudi class+="form-control  form-control-sm time w-90px" %}
+                                <div class="ms-2">Après-midi</div>
+                                {% render_field form.h_deb_am_jeudi class+="form-control  form-control-sm time w-90px ms-2" %}
+                                {% render_field form.h_fin_am_jeudi class+="form-control  form-control-sm time w-90px" %}
+                            </div>
+
+                            <div class="text-primary mt-2">Vendredi</div>
+                            <div class="d-flex align-items-center">
+                                <div>Matin</div>
+                                {% render_field form.h_deb_mat_vendredi class+="form-control form-control-sm time w-90px ms-2" %}
+                                {% render_field form.h_fin_mat_vendredi class+="form-control  form-control-sm time w-90px" %}
+                                <div class="ms-2">Après-midi</div>
+                                {% render_field form.h_deb_am_vendredi class+="form-control  form-control-sm time w-90px ms-2" %}
+                                {% render_field form.h_fin_am_vendredi class+="form-control  form-control-sm time w-90px" %}
+                            </div>
+
+                            <div class="text-primary mt-2">Samedi</div>
+                            <div class="d-flex align-items-center">
+                                <div>Matin</div>
+                                {% render_field form.h_deb_mat_samedi class+="form-control form-control-sm time w-90px ms-2" %}
+                                {% render_field form.h_fin_mat_samedi class+="form-control  form-control-sm time w-90px" %}
+                                <div class="ms-2">Après-midi</div>
+                                {% render_field form.h_deb_am_samedi class+="form-control  form-control-sm time w-90px ms-2" %}
+                                {% render_field form.h_fin_am_samedi class+="form-control  form-control-sm time w-90px" %}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--end::Form-->
+            </div>
+        </div>
+        <div class="tab-pane fade" id="patients" role="tabpanel">
+            <div class="card card-custom ps-4">
+                <!--begin::Header-->
+                <div class="card-header py-3">
+                    <div class="card-title align-items-start flex-column">
+                        <h3 class="card-label font-weight-bolder text-dark">Paramètres patients</h3>
+                        <span class="text-muted  fs-6 mt-1">Modifier les paramètres des patients</span>
+                    </div>
+                    <div class="card-toolbar">
+                        <button type="submit" class="btn btn-primary me-2">Enregistrer</button>
+                        <!--<button type="reset" class="btn btn-secondary">Annuler</button>-->
+                    </div>
+                </div>
+                <!--end::Header-->
+                <!--begin::Form-->
+                <div class="card-body">
+                    <!--begin::Form Group-->
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Antécédents familiaux par défaut</label>
+                        <div class="col-9 col-xxl-6">
+                            {% render_field form.antecedents_familiaux_defaut class+="form-control  form-control-lg h-100px" %}
+                            <div class="invalid-feedback"
+                                 {% if form.antecedents_familiaux_defaut.errors %}style="display: block"{% endif %}>
+                                {{ form.antecedents_familiaux_defaut.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-4">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Antécédents médico-chirurgicaux par
+                            défaut</label>
+                        <div class="col-9 col-xxl-6">
+                            {% render_field form.antecedents_medico_chirurgicaux_defaut class+="form-control  form-control-lg h-100px" %}
+                            <div class="invalid-feedback"
+                                 {% if form.antecedents_medico_chirurgicaux_defaut.errors %}style="display: block"{% endif %}>
+                                {{ form.antecedents_medico_chirurgicaux_defaut.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-4">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Antécédents gynécologiques par défaut</label>
+                        <div class="col-9 col-xxl-6">
+                            {% render_field form.antecedents_gynecologiques_defaut class+="form-control  form-control-lg h-100px" %}
+                            <div class="invalid-feedback"
+                                 {% if form.antecedents_gynecologiques_defaut.errors %}style="display: block"{% endif %}>
+                                {{ form.antecedents_gynecologiques_defaut.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mt-4">
+                        <label class="col-3 col-form-label">Ajouter les antécédents aux éditions</label>
+                        <div class="col-9">
+
+                            <label class="form-check form-check-custom form-check-solid">
+                                {% render_field form.ajouter_antecedents_edition class+="form-check-input h-20px w-20px" %}
+                                <span class="form-check-label fw-semibold">&nbsp;</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">Durée de grossesse</label>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.duree_gross_sa class+="form-control form-control-sm" %}
+                                <span class="input-group-text">SA</span>
+
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.duree_gross_j class+="form-control form-control-sm" %}
+                                <span class="input-group-text">J</span>
+                                <div class="invalid-feedback"
+                                     {% if form.duree_gross_j.errors %}style="display: block"{% endif %}>
+                                    {{ form.duree_gross_j.errors }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">Écho. de datation</label>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_echo_datation_sa_1 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">SA</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_echo_datation_j_1 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">J</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_echo_datation_sa_2 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">SA</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_echo_datation_j_2 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">J</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">1ère écho</label>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_echo_t1_sa_1 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">SA</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_echo_t1_j_1 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">J</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_echo_t1_sa_2 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">SA</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_echo_t1_j_2 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">J</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">2ème écho</label>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_echo_t2_sa_1 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">SA</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_echo_t2_j_1 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">J</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_echo_t2_sa_2 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">SA</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_echo_t2_j_2 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">J</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">3ème écho</label>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_echo_t3_sa_1 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">SA</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_echo_t3_j_1 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">J</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_echo_t3_sa_2 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">SA</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_echo_t3_j_2 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">J</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">12 SA</label>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_12_sa class+="form-control form-control-sm" %}
+                                <span class="input-group-text">SA</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_12_j class+="form-control form-control-sm" %}
+                                <span class="input-group-text">J</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">22 SA</label>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_22_sa class+="form-control form-control-sm" %}
+                                <span class="input-group-text">SA</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_22_j class+="form-control form-control-sm" %}
+                                <span class="input-group-text">J</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">32 SA</label>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_32_sa class+="form-control form-control-sm" %}
+                                <span class="input-group-text">SA</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_32_j class+="form-control form-control-sm" %}
+                                <span class="input-group-text">J</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">T21 Combiné 1er trimestre</label>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_triso_1_sa_1 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">SA</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_triso_1_j_1 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">J</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_triso_1_sa_2 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">SA</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_triso_1_j_2 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">J</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">T21 2ème trimestre</label>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_triso_2_sa_1 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">SA</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_triso_2_j_1 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">J</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_triso_2_sa_2 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">SA</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_triso_2_j_2 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">J</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">Glycémie à jeun 1er trimestre</label>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_gly_sa_1 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">SA</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_gly_j_1 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">J</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_gly_sa_2 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">SA</span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group input-group-sm">
+                                {% render_field form.gross_gly_j_2 class+="form-control form-control-sm" %}
+                                <span class="input-group-text">J</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="edition" role="tabpanel">
+            <div class="card card-custom ps-4">
+                <!--begin::Header-->
+                <div class="card-header py-3">
+                    <div class="card-title align-items-start flex-column">
+                        <h3 class="card-label font-weight-bolder text-dark">Paramètres d'édition</h3>
+                        <span class="text-muted  fs-6 mt-1">Modifier les paramètres d'édition des documents</span>
+                    </div>
+                    <div class="card-toolbar">
+                        <button type="submit" class="btn btn-primary me-2">Enregistrer</button>
+                    </div>
+                </div>
+                <!--end::Header-->
+                <!--begin::Form-->
+                <div class="card-body">
+                    <!--begin::Form Group-->
+                    <!--<div class="form-group row">
+                        <label class="col-3 col-xxl-3 col-form-label">Nom du cabinet</label>
+                        <div class="col-9 col-xxl-9">
+                            {% render_field form.nom_entete class+="form-control form-control-lg editor" %}
+                            <div class="invalid-feedback"
+                                 {% if form.nom_entete.errors %}style="display: block"{% endif %}>
+                                {{ form.nom_entete.errors }}
+                            </div>
+                        </div>
+                    </div>-->
+                    <div class="form-group row">
+                        <label class="col-3 col-xxl-3 col-form-label">Entête A5</label>
+                        <div class="col-9 col-xxl-9">
+                            <div class="logo-preview">
+                                {% if form.instance.logo %}
+                                    <span class="d-block form-control form-control-sm h-125px">
+                                                        <img src="{{ form.instance.logo.url }}" height="100"/>
+                                                    </span>
+                                    <button class="btn-modifier-logo btn btn-sm btn-text-warning btn-hover-light-warning font-weight-bold me-2">
+                                        <i class="fa fa-pen"></i>
+                                        Modifier
+                                    </button>
+                                {% endif %}
+                            </div>
+                            <div class="logo-modifier"
+                                 style="{% if form.instance.logo %}display: none{% endif %}">
+                                <input type="file" class="form-control form-control-sm"
+                                       id="{{ form.logo.id_for_label }}"
+                                       name="{{ form.logo.html_name }}"
+                                       accept="image/*">
+                                <div class="invalid-feedback"
+                                     {% if form.logo.errors %}style="display: block"{% endif %}>
+                                    {{ form.logo.errors }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-3 col-xxl-3 col-form-label">Entête A4</label>
+                        <div class="col-9 col-xxl-9">
+                            <div class="logo-preview">
+                                {% if form.instance.logo_a4 %}
+                                    <span class="d-block form-control form-control-sm h-125px">
+                                                        <img src="{{ form.instance.logo_a4.url }}" height="100"/>
+                                                    </span>
+                                    <button class="btn-modifier-logo btn btn-sm btn-text-warning btn-hover-light-warning font-weight-bold me-2">
+                                        <i class="fa fa-pen"></i>
+                                        Modifier
+                                    </button>
+                                {% endif %}
+                            </div>
+                            <div class="logo-modifier"
+                                 style="{% if form.instance.logo_a4 %}display: none{% endif %}">
+                                <input type="file" class="form-control form-control-sm"
+                                       id="{{ form.logo_a4.id_for_label }}"
+                                       name="{{ form.logo_a4.html_name }}"
+                                       accept="image/*">
+                                <div class="invalid-feedback"
+                                     {% if form.logo_a4.errors %}style="display: block"{% endif %}>
+                                    {{ form.logo_a4.errors }}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-3 col-xxl-3 col-form-label">Pied de page A5</label>
+                        <div class="col-9 col-xxl-9">
+                            <div class="footer-preview">
+                                {% if form.instance.footer %}
+                                    <span class="d-block form-control form-control-sm h-125px">
+                                                        <img src="{{ form.instance.footer.url }}" height="100"/>
+                                                    </span>
+                                    <button class="btn-modifier-footer btn btn-sm btn-text-warning btn-hover-light-warning font-weight-bold me-2">
+                                        <i class="fa fa-pen"></i>
+                                        Modifier
+                                    </button>
+                                {% endif %}
+                            </div>
+                            <div class="footer-modifier"
+                                 style="{% if form.instance.footer %}display: none{% endif %}">
+                                <input type="file" class="form-control form-control-sm"
+                                       id="{{ form.footer.id_for_label }}"
+                                       name="{{ form.footer.html_name }}"
+                                       accept="image/*">
+                                <div class="invalid-feedback"
+                                     {% if form.footer.errors %}style="display: block"{% endif %}>
+                                    {{ form.footer.errors }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-xxl-3 col-form-label">Pied de page A4</label>
+                        <div class="col-9 col-xxl-9">
+                            <div class="footer-preview">
+                                {% if form.instance.footer_a4 %}
+                                    <span class="d-block form-control form-control-sm h-125px">
+                                                        <img src="{{ form.instance.footer_a4.url }}" height="100"/>
+                                                    </span>
+                                    <button class="btn-modifier-footer btn btn-sm btn-text-warning btn-hover-light-warning font-weight-bold me-2">
+                                        <i class="fa fa-pen"></i>
+                                        Modifier
+                                    </button>
+                                {% endif %}
+                            </div>
+                            <div class="footer-modifier"
+                                 style="{% if form.instance.footer_a4 %}display: none{% endif %}">
+                                <input type="file" class="form-control form-control-sm"
+                                       id="{{ form.footer_a4.id_for_label }}"
+                                       name="{{ form.footer_a4.html_name }}"
+                                       accept="image/*">
+                                <div class="invalid-feedback"
+                                     {% if form.footer_a4.errors %}style="display: block"{% endif %}>
+                                    {{ form.footer_a4.errors }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-12 col-form-label badge-light">Marges</label>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">Entête</label>
+                        <div class="col-9 col-xl-2">
+                            {% render_field form.marge_entete class+="form-control  form-control-sm" %}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">Pied de page</label>
+                        <div class="col-9 col-xl-2">
+                            {% render_field form.marge_footer class+="form-control  form-control-sm" %}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">Marge gauche</label>
+                        <div class="col-9 col-xl-2">
+                            {% render_field form.marge_gauche class+="form-control  form-control-sm" %}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">Marge droite</label>
+                        <div class="col-9 col-xl-2">
+                            {% render_field form.marge_droite class+="form-control  form-control-sm" %}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-12 col-form-label badge-light">Ajouter la date et lieu</label>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">Courriers</label>
+                        <div class="col-9">
+                            <label class="form-check form-check-custom form-check-solid">
+                                {% render_field form.ajouter_date_courriers class+="form-check-input h-20px w-20px" %}
+                                <span class="form-check-label fw-semibold">&nbsp;</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">Compte-rendus opératoires</label>
+                        <div class="col-9">
+                            <label class="form-check form-check-custom form-check-solid">
+                                {% render_field form.ajouter_date_cro class+="form-check-input h-20px w-20px" %}
+                                <span class="form-check-label fw-semibold">&nbsp;</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-12 col-form-label badge-light">Ajouter l'entête et pied de page aux
+                            éditions</label>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">Compte-rendus</label>
+                        <div class="col-9">
+                            <label class="form-check form-check-custom form-check-solid">
+                                {% render_field form.ajouter_entetes_edition class+="form-check-input h-20px w-20px" %}
+                                <span class="form-check-label fw-semibold">&nbsp;</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">Ordonnances</label>
+                        <div class="col-9">
+                            <label class="form-check form-check-custom form-check-solid">
+                                {% render_field form.ajouter_entete_ord class+="form-check-input h-20px w-20px" %}
+                                <span class="form-check-label fw-semibold">&nbsp;</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">Certificat médical</label>
+                        <div class="col-9">
+                            <label class="form-check form-check-custom form-check-solid">
+                                {% render_field form.ajouter_entete_cert_med class+="form-check-input h-20px w-20px" %}
+                                <span class="form-check-label fw-semibold">&nbsp;</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">Certificat de présence</label>
+                        <div class="col-9">
+                            <label class="form-check form-check-custom form-check-solid">
+                                {% render_field form.ajouter_entete_cert_pres class+="form-check-input h-20px w-20px" %}
+                                <span class="form-check-label fw-semibold">&nbsp;</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">Lettre d'accouchement</label>
+                        <div class="col-9">
+                            <label class="form-check form-check-custom form-check-solid">
+                                {% render_field form.ajouter_entete_lettre_acc class+="form-check-input h-20px w-20px" %}
+                                <span class="form-check-label fw-semibold">&nbsp;</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">Prescription analyses biologiques</label>
+                        <div class="col-9">
+                            <label class="form-check form-check-custom form-check-solid">
+                                {% render_field form.ajouter_entete_prescr_bio class+="form-check-input h-20px w-20px" %}
+                                <span class="form-check-label fw-semibold">&nbsp;</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">Lettre confidentielle</label>
+                        <div class="col-9">
+                            <label class="form-check form-check-custom form-check-solid">
+                                {% render_field form.ajouter_entete_lettre_confidentielle class+="form-check-input h-20px w-20px" %}
+                                <span class="form-check-label fw-semibold">&nbsp;</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">Attestation de grossesse</label>
+                        <div class="col-9">
+                            <label class="form-check form-check-custom form-check-solid">
+                                {% render_field form.ajouter_entete_attestation_grossesse class+="form-check-input h-20px w-20px" %}
+                                <span class="form-check-label fw-semibold">&nbsp;</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-3 col-form-label">Lettre Fit-to-fly</label>
+                        <div class="col-9">
+                            <label class="form-check form-check-custom form-check-solid">
+                                {% render_field form.ajouter_entete_lettre_fittofly class+="form-check-input h-20px w-20px" %}
+                                <span class="form-check-label fw-semibold">&nbsp;</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="modeles" role="tabpanel">
+            <div class="card card-custom ps-4">
+                <!--begin::Header-->
+                <div class="card-header py-3">
+                    <div class="card-title align-items-start flex-column">
+                        <h3 class="card-label font-weight-bolder text-dark">Modèles</h3>
+                        <span class="text-muted  fs-6 mt-1">Modifier les paramètres des modèles</span>
+                    </div>
+                    <div class="card-toolbar">
+                        <button type="submit" class="btn btn-primary me-2">Enregistrer</button>
+                    </div>
+                </div>
+                <!--end::Header-->
+                <!--begin::Form-->
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Modèles de traitements</label>
+                        <div class="col-lg-9 col-xl-6">
+                            <a id="btn-liste-traitements" class="btn btn-sm btn-light-primary font-weight-bold">
+                                <i class="flaticon-arrows icon-sm"></i>
+                                Traitements
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Modèles de traitements PMA</label>
+                        <div class="col-lg-9 col-xl-6">
+                            <a id="btn-liste-traitements-pma" class="btn btn-sm btn-light-primary font-weight-bold">
+                                <i class="flaticon-arrows icon-sm"></i>
+                                Traitements PMA
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Modèles de prescriptions</label>
+                        <div class="col-lg-9 col-xl-6">
+                            <a id="btn-liste-prescriptions" class="btn btn-sm btn-light-primary font-weight-bold ms-1">
+                                <i class="flaticon-arrows icon-sm"></i>
+                                Prescriptions
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Modèles d'analyses biologiques</label>
+                        <div class="col-lg-9 col-xl-6">
+                            <a id="btn-liste-biologie" class="btn btn-sm btn-light-primary font-weight-bold ms-1">
+                                <i class="flaticon-arrows icon-sm"></i>
+                                Biologie
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">Modèles de compte-rendus</label>
+                        <div class="col-lg-9 col-xl-6">
+                            <a id="btn-liste-template-edition"
+                               class="btn btn-sm btn-light-primary font-weight-bold ms-1">
+                                <i class="flaticon-arrows icon-sm"></i>
+                                Compte-rendus
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="prestations" role="tabpanel">
+            <div class="card card-custom px-4">
+                <!--begin::Header-->
+                <div class="card-header py-3">
+                    <div class="card-title align-items-start flex-column">
+                        <h3 class="card-label font-weight-bolder text-dark">Prestations</h3>
+                        <span class="text-muted  fs-6 mt-1">Gérer le catalogue des prestations </span>
+                    </div>
+                </div>
+                <!--end::Header-->
+                <!--begin::Form-->
+                <div class="card-body">
+                    <!--begin::Form Group-->
+                    <div class="form-group row">
+                        <div class="col-lg-9 col-xl-6">
+                            <a id="ouvrir_liste_prestations" class="btn btn-sm btn-light-primary font-weight-bold">
+                                <i class="flaticon-arrows icon-sm"></i>
+                                Prestations
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="motif" role="tabpanel">
+            <div class="card card-custom px-4">
+                <!--begin::Header-->
+                <div class="card-header py-3">
+                    <div class="card-title align-items-start flex-column">
+                        <h3 class="card-label font-weight-bolder text-dark">Motifs des absences </h3>
+                        <span class="text-muted  fs-6 mt-1">Gérer la liste des motifs d'absence des medecins </span>
+                    </div>
+                </div>
+                <!--end::Header-->
+                <!--begin::Form-->
+                <div class="card-body">
+                    <!--begin::Form Group-->
+                    <div class="form-group row">
+                        <div class="col-lg-9 col-xl-6">
+                            <a id="ouvrir_liste_motifs" class="btn btn-sm btn-light-primary font-weight-bold">
+                                <i class="flaticon-arrows icon-sm"></i>
+                                Motifs des absences
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="devices" role="tabpanel">
+            <div class="card card-custom px-4">
+                <!--begin::Header-->
+                <div class="card-header py-3">
+                    <div class="card-title align-items-start flex-column">
+                        <h3 class="card-label font-weight-bolder text-dark">Matériel</h3>
+                        <span class="text-muted  fs-6 mt-1">Gérer les échographes </span>
+                    </div>
+                </div>
+                <!--end::Header-->
+                <!--begin::Form-->
+                <div class="card-body">
+                    <!--begin::Form Group-->
+                    <div class="form-group row">
+                        <div class="col-lg-9 col-xl-6">
+                            <a id="ouvrir_liste_devices" class="btn btn-sm btn-light-primary font-weight-bold">
+                                <i class="flaticon-arrows icon-sm"></i>
+                                Matériel
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="modal fade" id="biologie-modal" tabindex="-1" aria-labelledby="Biologie" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="height: 75%">
+            <div class="modal-content h-100">
+                <div class="modal-header py-7 d-flex justify-content-between">
+                    <!--begin::Modal title-->
+                    <h2>Biologie</h2>
+                    <!--end::Modal title-->
+                    <!--begin::Close-->
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                        <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                        <!--end::Svg Icon-->
+                    </div>
+                    <!--end::Close-->
+                </div>
+                <div class="modal-body p-0">
+                    <div class="d-flex justify-content-center h-100 loading bg-white">
+                        <div class="d-flex flex-center">
+                            <div class="spinner spinner-primary"></div>
+                            <div class="text-primary ms-10">Chargement</div>
+                        </div>
+                    </div>
+                    <iframe src="" width="100%" height="100%" frameBorder="0" class="pa-0"></iframe>
+                </div>
+                <div class="modal-footer border-0 p-2"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="templates-edition-modal" tabindex="-1" aria-labelledby="Modèles de compte-rendu"
+         aria-hidden="true"
+         width="100%">
+        <div class="modal-dialog modal-lg" style="height: 75%">
+            <div class="modal-content h-100">
+                <div class="modal-header py-7 d-flex justify-content-between">
+                    <!--begin::Modal title-->
+                    <h2>Modèles de compte-rendu</h2>
+                    <!--end::Modal title-->
+                    <!--begin::Close-->
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                        <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                        <!--end::Svg Icon-->
+                    </div>
+                    <!--end::Close-->
+                </div>
+                <div class="modal-body p-0">
+                    <div class="d-flex justify-content-center h-100 loading bg-white">
+                        <div class="d-flex flex-center">
+                            <div class="spinner spinner-primary"></div>
+                            <div class="text-primary ms-10">Chargement</div>
+                        </div>
+                    </div>
+                    <iframe src="" width="100%" height="100%" frameBorder="0" class="pa-0"></iframe>
+                </div>
+                <div class="modal-footer border-0 p-2"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="prestations-modal" tabindex="-1" aria-labelledby="Prestations" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="height: 75%">
+            <div class="modal-content h-100">
+                <div class="modal-header py-7 d-flex justify-content-between">
+                    <!--begin::Modal title-->
+                    <h2>Catalogue des prestations</h2>
+                    <!--end::Modal title-->
+                    <!--begin::Close-->
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                        <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                        <!--end::Svg Icon-->
+                    </div>
+                    <!--end::Close-->
+                </div>
+                <div class="modal-body p-0">
+                    <div class="d-flex justify-content-center h-100 loading bg-white">
+                        <div class="d-flex flex-center">
+                            <div class="spinner spinner-primary"></div>
+                            <div class="text-primary ms-10">Chargement</div>
+                        </div>
+                    </div>
+                    <iframe src="" width="100%" height="100%" frameBorder="0" class="pa-0"></iframe>
+                </div>
+                <div class="modal-footer border-0 p-2"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="devices-modal" tabindex="-1" aria-labelledby="Matériel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="height: 75%">
+            <div class="modal-content h-100">
+                <div class="modal-header py-7 d-flex justify-content-between">
+                    <!--begin::Modal title-->
+                    <h2>Liste du matériel</h2>
+                    <!--end::Modal title-->
+                    <!--begin::Close-->
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                        <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                        <!--end::Svg Icon-->
+                    </div>
+                    <!--end::Close-->
+                </div>
+                <div class="modal-body p-0">
+                    <div class="d-flex justify-content-center h-100 loading bg-white">
+                        <div class="d-flex flex-center">
+                            <div class="spinner spinner-primary"></div>
+                            <div class="text-primary ms-10">Chargement</div>
+                        </div>
+                    </div>
+                    <iframe src="" width="100%" height="100%" frameBorder="0" class="pa-0"></iframe>
+                </div>
+                <div class="modal-footer border-0 p-2"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="motifs-modal" tabindex="-1" aria-labelledby="Motif" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="height: 75%">
+            <div class="modal-content h-100">
+                <div class="modal-header py-7 d-flex justify-content-between">
+                    <!--begin::Modal title-->
+                    <h2>Liste des motifs</h2>
+                    <!--end::Modal title-->
+                    <!--begin::Close-->
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                        <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                        <!--end::Svg Icon-->
+                    </div>
+                    <!--end::Close-->
+                </div>
+                <div class="modal-body p-0">
+                    <div class="d-flex justify-content-center h-100 loading bg-white">
+                        <div class="d-flex flex-center">
+                            <div class="spinner spinner-primary"></div>
+                            <div class="text-primary ms-10">Chargement</div>
+                        </div>
+                    </div>
+                    <iframe src="" width="100%" height="100%" frameBorder="0" class="pa-0"></iframe>
+                </div>
+                <div class="modal-footer border-0 p-2"></div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

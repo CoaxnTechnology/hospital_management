@@ -1,0 +1,327 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+{% load common %}
+
+{% block styles %}
+    <style>
+
+    </style>
+{% endblock %}
+{% block content %}
+
+    <h4 class="pt-4 pb-0 px-4">
+        {% if object %}Modifier{% else %}Ajouter{% endif %} un Règlement
+    </h4>
+    <div class="px-4">
+        <form id="form_1" class="form" method="post" action="">
+            {% csrf_token %}
+            {% for hidden in reglement.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+
+            {% if reglement.non_field_errors %}
+                <div class="alert alert-custom alert-danger" role="alert">
+                    <div class="alert-icon">
+                        <i class="flaticon-questions-circular-button"></i>
+                    </div>
+                    <div class="alert-text">{{ reglement.non_field_errors }}</div>
+                </div>
+            {% endif %}
+
+            <div class="row">
+                <div class="col-8 col-xs-12">
+                    <div class="row">
+                        <div class="form-group col-5">
+                            <label>Patient</label>
+                            <div class="form-control form-control-sm">{{ patient.nom }} {{ patient.prenom }}</div>
+                        </div>
+                        <div class="form-group col-5">
+                            <label>{{ reglement.praticien.label }}</label>
+                            <div class="form-control form-control-sm">{% if praticien %} {{ praticien.nom }}
+                                {{ praticien.prenom }} {% endif %} </div>
+                        </div>
+                    </div>
+                    {% if patient.mutuelle %}
+                        <div class="row">
+                            <div class="form-group col-5 " style="margin-top:15px;">
+                                <label class="checkbox">
+                                    {% render_field reglement.mutuelle class="mutuelle" %} Mutuelle
+                                    <span></span>
+                                </label>
+                            </div>
+                            <div class="form-group col-5">
+                                <label>Désignation Mutuelle </label>
+                                <div class="form-control form-control-sm">{{ patient.designation }} </div>
+                                <input type="hidden" name="nom_mutuelle" value="{{ patient.designation }}">
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div id="id_formset" class="mt-4">
+                        {{ formset.management_form }}
+                        <div class="row">
+                            <div class="form-group col-4">
+                                <label>Prestation</label>
+                            </div>
+                            <div class="form-group col-2">
+                                <label>Prix TTC</label>
+                            </div>
+                        </div>
+                        {% if patient.mutuelle %}
+                            <div class="mutuelle_bloc row">
+                                <div class="form-group col-4">
+                                    <select name="prestation_list"
+                                            class="form-control form-control-sm">
+                                        <option value="" selected="selected" disabled>
+                                            {{ prestation_mutuelle.code }} - {{ prestation_mutuelle.prestation }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-2">
+                                    <input type="text" name="prix_ttc" step="any"
+                                           value="{{ prestation_mutuelle.prix_pec }}"
+                                           class="prix_ttc_mutuelle form-control form-control-sm" readonly>
+                                </div>
+                            </div>
+
+                        {% endif %}
+                        {% if patient.mutuelle %}
+                            <div class="lines-formset" style="display:none;">
+                        {% else %}
+                            <div class="lines-formset">
+                        {% endif %}
+                        {% for ligne_form in formset %}
+                            <div class="row">
+                                <div class="form-group col-4">
+                                    <select name="prestation_list"
+                                            class="prestation_list form-control form-control-sm"
+                                    >
+                                        <option value="" selected="selected" disabled>
+                                            ---Choisir une prestation---
+                                        </option>
+                                        {% for prestation in prestations %}
+                                            <option value="{{ prestation.code }}"
+                                                    data-prix="{{ prestation.prix_ttc }}"
+                                                    {% if ligne_form.prestation.value %}
+                                                    {% if ligne_form.prestation.value == prestation.prestation %}selected="selected"
+                                                    {% endif %}
+                                                    {% else %}
+                                                    {% if prestation.code == prestation_par_defaut.code %}selected="selected"
+                                                    {% endif %}
+                                                    {% endif %}>
+                                                {{ prestation.code }} - {{ prestation.prestation }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+
+                                    {% render_field ligne_form.code class+="code_prestation form-control" type="hidden" %}
+                                    <div class="input-field">
+                                        <div class="errorPrestation"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-2">
+                                    {% render_field ligne_form.prix_ttc class+="prix_ttc form-control form-control-sm" %}
+                                    <div class="invalid-feedback"
+                                         {% if ligne_form.prix_ttc.errors %}style="display: block"{% endif %}>
+                                        {{ ligne_form.prix_ttc.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-1">
+                                    <a class="btn btn-warning btn-icon btn-sm delete-row"><i
+                                            class="la la-trash icon-md"></i></a>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+                        </div>
+                        <br>
+                        <div class="total_reglement row form-group">
+                            <div class="col-4 d-flex align-items-center justify-content-end">
+                                <label class="text-right">Total</label>
+                            </div>
+                            <div class="col-2">
+                                {% if patient.mutuelle %}
+                                    {% render_field reglement.total value=prestation_mutuelle.prix_pec class+="form-control form-control-sm" readonly="" %}
+                                {% else %}
+                                    {% render_field reglement.total class+="form-control form-control-sm" readonly="" %}
+                                {% endif %}
+                            </div>
+                        </div>
+
+
+                        </div>
+
+
+                        <h5>Paiement</h5>
+
+                        <div id="somme-erreur" class="invalid-feedback">
+                            La somme répartie est différente du montant total
+                        </div>
+                        <div id="required_cheque" class="invalid-feedback">
+                            Veuillez saisir tous les champs liés au paiement chèque
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="form-group col-3">
+                                    <label>Espece</label>
+                                    {% if patient.mutuelle %}
+                                        {% render_field reglement.espece_payment value=prestation_mutuelle.prix_pec class+="paiement espece_payment form-control form-control-sm" %}
+                                    {% else %}
+                                        {% render_field reglement.espece_payment class+="paiement espece_payment form-control form-control-sm" %}
+                                    {% endif %}
+                                    <div class="invalid-feedback"
+                                         {% if reglement.espece_payment.errors %}style="display: block"{% endif %}>
+                                        {{ reglement.espece_payment.errors }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-3 d-none">
+                                    <label>CB</label>
+                                    {% render_field reglement.cb_payment class+="paiement form-control form-control-sm" %}
+                                    <div class="invalid-feedback"
+                                         {% if reglement.cb_payment.errors %}style="display: block"{% endif %}>
+                                        {{ reglement.cb_payment.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-3">
+                                    <label>Chèque</label>
+                                    {% render_field reglement.cheque_payment id="moyen_cheque" class+="paiement form-control form-control-sm" %}
+                                    <div class="invalid-feedback"
+                                         {% if reglement.cheque_payment.errors %}style="display: block"{% endif %}>
+                                        {{ reglement.cheque_payment.errors }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-3" id="div_cheque_number" style="display: none">
+                                    <label>Numéro chèque</label>
+                                    {% render_field reglement.cheque_number id="num_cheque" class+="form-control form-control-sm" %}
+                                    <div class="invalid-feedback"
+                                         {% if reglement.cheque_number.errors %}style="display: block"{% endif %}>
+                                        {{ reglement.cheque_number.errors }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-3" id="div_titulaire" style="display: none">
+                                    <label>{{ reglement.titulaire.label }}</label>
+                                    {% render_field reglement.titulaire id="titulaire" class+="form-control form-control-sm" %}
+                                    <div class="invalid-feedback"
+                                         {% if reglement.titulaire.errors %}style="display: block"{% endif %}>
+                                        {{ reglement.titulaire.errors }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-3" id="div_date_cheque" style="display: none">
+                                    <label>Date chèque</label>
+                                    {% render_field reglement.date_cheque id="date_cheque" class+="form-control form-control-sm" %}
+                                    <div class="invalid-feedback"
+                                         {% if reglement.date_cheque.errors %}style="display: block"{% endif %}>
+                                        {{ reglement.date_cheque.errors }}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group mt-4">
+                            <label>{{ reglement.note.label }}</label>
+                            {% render_field reglement.note class+="form-control h-50px" %}
+                        </div>
+                        <div class="d-flex mt-4 justify-content-end">
+                            {% if object %}
+                                <a href="/reglements/#caisse#list" class="btn btn-default">Annuler</a>
+                            {% else %}
+                                <a href="/reglements/" class="btn btn-default">Annuler</a>
+                            {% endif %}
+                            <button type="submit" id="btn_enregistrer" class="ml-2 btn btn-primary font-weight-bolder">
+                                <i class="ki ki-check icon-sm"></i>
+                                Enregistrer
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-4 col-xs-12">
+                        <div class="bg-light p-4">
+                            <h5>Historique des règlements</h5>
+                            <ul class="list-group">
+                                {% for reg in patient.reglement_set.all|slice:":10" %}
+                                    <li class="list-group-item">
+
+                                        <strong>{{ reg.date_creation|date:'d/m/y' }}
+                                            - {{ reg.somme_payee|money_format }} DT</strong> <br>
+                                        <small>
+                                            {% if reg.espece_payment and reg.espece_payment > 0 %} Espèces:
+                                                {{ reg.espece_payment|money_format }}{% endif %}
+                                            {% if reg.cheque_payment and reg.cheque_payment > 0 %} Chèques:
+                                                {{ reg.cheque_payment|money_format }}{% endif %}
+                                        </small>
+                                    </li>
+                                {% empty %}
+                                    Pas d'historique de paiements
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% if patient.mutuelle %}
+                    <input type="hidden" name="mutuelle_checked" class="mutuelle_checked form-control"
+                           value="oui">
+                {% else %}
+                    <input type="hidden" name="mutuelle_checked" class="mutuelle_checked form-control"
+                           value="non">
+                {% endif %}
+
+
+        </form>
+    </div>
+
+    <script type="text/html" id="ligne_reglement_template">
+        <div class="row">
+            {% with formset.empty_form as form %}
+                <div class="form-group col-4">
+                    <select name="prestation_list" class="prestation_list form-control form-control-sm"
+                            required>
+                        <option value="" selected="selected" disabled>
+                            ---Choisir une prestation---
+                        </option>
+                        {% for prestation in prestations %}
+                            <option value="{{ prestation.code }}" data-prix="{{ prestation.prix_ttc }}">
+                                <!-- {% if prestation_par_defaut and prestation_par_defaut.code == prestation.code %}
+                                    selected{% endif %}-->
+                                {{ prestation.code }} - {{ prestation.prestation }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                    <input type="hidden" name="code" maxlength="128" class="code_prestation form-control" id="code"
+                           value="EP">
+                    <div class="input-field">
+                        <div class="errorPrestation"></div>
+                    </div>
+                </div>
+                <div class="form-group col-2">
+                    <input type="number" name="prix_ttc" step="any" class="prix_ttc form-control form-control-sm"
+                           id="prix_ttc">
+                    <div class="invalid-feedback"
+                         {% if form.prix_ttc.errors %}style="display: block"{% endif %}>
+                        {{ form.prix_ttc.errors }}
+                    </div>
+                </div>
+                <div class="col-1">
+                    <a class="btn btn-warning btn-icon btn-sm delete-row"><i
+                            class="la la-trash icon-md"></i></a>
+                </div>
+            {% endwith %}
+        </div>
+    </script>
+
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+
+        const formset_prefix = '{{ formset.prefix }}';
+        const prest_defaut = {% if prestation_par_defaut %}'{{ prestation_par_defaut.code }}'{% else %}null{% endif %};
+
+    </script>
+    <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+    <script src="{% static "plugins/custom/datatables/datatables.bundle.js" %}"></script>
+    <script src="{% static "js/core/reglement_form.js" %}"></script>
+{% endblock %}

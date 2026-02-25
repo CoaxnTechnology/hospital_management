@@ -1,0 +1,64 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+    <div class="p-4 mr-1">
+        <ul class="nav nav-tabs" id="myTab1" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link" id="home-tab-1" href="/analyses-biologiques">
+																	<span class="nav-icon">
+																		<i class="icon-xl la la-list"></i>
+																	</span>
+                    <span class="nav-text">Analyses</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" id="profile-tab-1" onclick="javacript:void(0)" aria-controls="profile">
+																	<span class="nav-icon">
+																		<i class="icon-xl la la-layer-group"></i>
+																	</span>
+                    <span class="nav-text">Packs</span>
+                </a>
+            </li>
+        </ul>
+        <div class="mt-6 mb-0 d-flex justify-content-between">
+            <div class="w-300px">
+                <input type="text" class="form-control datatable-input form-control-sm"
+                       placeholder="Recherche" data-col-index="0"/>
+            </div>
+            <div>
+                <a href="/collection-analyses/ajouter"
+                   class="btn btn-light-primary btn-sm font-weight-bolder mr-2">
+                    <i class="ki ki-plus icon-sm"></i>
+                    Ajouter un pack
+                </a></div>
+        </div>
+
+        <table class="table table-bordered table-checkable table-striped" id="datatable">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+
+    <template id="actions-template">
+        <a href="collection-analyses/<%- id %>/modifier" class="btn btn-warning btn-icon btn-sm" title="Modifier">
+            <i class="la la-edit icon-lg"></i>
+        </a>
+        <a onclick="supprimer(<%- id %>)" class="btn btn-danger btn-icon btn-sm" title="Supprimer">
+            <i class="la la-trash icon-lg"></i>
+        </a>
+    </template>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+
+    </script>
+    <script src="{% static "plugins/custom/datatables/datatables.bundle.js" %}"></script>
+    <script src="{% static "js/core/collection_analyse_list.js" %}"></script>
+{% endblock %}

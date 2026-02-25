@@ -1,0 +1,167 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="col-12">
+        <div class="card card-custom gutter-bs">
+            <!--begin::Header-->
+            <div class="card-header card-header-tabs-line">
+
+                <div class="card-toolbar">
+                    <ul class="nav nav-tabs nav-tabs-space-lg nav-tabs-line nav-tabs-bold nav-tabs-line-3x"
+                        role="tablist">
+                        <li class="nav-item mr-1">
+                            <a class="nav-link" href="/reglements">
+									<span class="nav-icon mr-2">
+                                        <i class="la la-dollar icon-xl mr-3"></i>
+                                    </span>
+                                <span class="nav-text font-weight-bold">Règlement</span>
+                            </a>
+                        </li>
+
+                        {% if user.profil.responsable %}
+                        <li class="nav-item mr-2">
+                            <a class="nav-link" href="/reglements#caisse">
+														<span class="nav-icon mr-2">
+															<i class="la la-lock icon-xl mr-3"></i>
+														</span>
+                                <span class="nav-text font-weight-bold">Clôture de caisse</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item mr-2">
+                            <a class="nav-link active" data-toggle="tab" href="#rapport">
+														<span class="nav-icon mr-2">
+															<i class="la la-bar-chart  icon-xl"></i>
+														</span>
+                                <span class="nav-text font-weight-bold">Rapport</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <div class="card-body pl-0 pr-0">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="rapport" role="tabpanel">
+                        <div class="p-4">
+                            <form class="form mb-1">
+                                <div class="row">
+                                    <div class="col-6 form-group">
+                                        <div class='input-group' id='daterangepicker'>
+                                            <input type='text' class="form-control" readonly="readonly"
+                                                   id="date_range_input"
+                                                   placeholder="intervalle de dates"/>
+                                            <div class="input-group-append">
+															<span class="input-group-text">
+																<i class="la la-calendar-check-o"></i>
+															</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 form-group">
+                                        <input placeholder="" data-col-index="4"
+                                               class="form-control form-control-sm" name="tags" type="text"
+                                               id="tags" value=""/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4 form-group">
+                                        <label>Mutuelle</label>
+                                        <select name="mutuelle" id="mutuelle" class="form-control form-control-sm"
+                                                data-col-index="5">
+                                            <option value="">Tous</option>
+                                            <option value="true">Oui</option>
+                                            <option value="false">Non</option>
+                                        </select>
+
+                                    </div>
+                                    <div class="col-4 form-group">
+                                        <label>Contenant une prestation</label>
+                                        <select name="prestation" id="prestation" class="form-control form-control-sm"
+                                                data-col-index="2" data-search-key="categorie">
+                                            <option value="">---------</option>
+                                            {% for prestation in prestations %}
+                                            <option value="{{ prestation.prestation }}">{{ prestation.prestation }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-4 form-group">
+                                        <label>Nom du patient</label>
+                                        <input type="text"
+                                               class="form-control form-control-sm datatable-input" placeholder=""
+                                               data-col-index="3"
+                                               value=""/>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button onclick="resetSearch()" class="btn btn-light-primary" type="button">
+                                            Réinitialiser
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            <table class="table table-bordered table-checkable table-striped" id="datatable_rapport">
+                                <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Montant Total</th>
+                                    <th>Prestations</th>
+                                    <th>Nom & Prénom patient</th>
+                                    <th>Mot clé</th>
+                                    <th>Mutuelle</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <script type="text/html" id="actions-rapport-template">
+                            <a href="reglements/<%- id %>/modifier" class="btn btn-warning btn-icon btn-sm"
+                               title="Modifier">
+                                <i class="la la-edit icon-lg"></i>
+                            </a>
+                        </script>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+
+        const reglements = {{  reglements_json|safe }};
+        const list_mots = {{ mots_patients|safe }};
+
+        const logo_url = {% if user.profil.compte.parametrescompte.logo %}
+            '{{ user.profil.compte.parametrescompte.logo.url }}'
+        {% else %} ''
+        {% endif  %};
+        const footer_url =
+            {% if user.profil.compte.parametrescompte.footer %}
+                '{{ user.profil.compte.parametrescompte.footer.url }}'
+            {% else %} ''
+            {% endif  %};
+
+        const signature_url =
+            {% if user.profil.signature and user.profil.ajouter_signature_edition %}
+                '{{ user.profil.signature.url }}'
+            {% else %} ''
+            {% endif  %};
+    </script>
+    <script src="{% static "plugins/custom/tinymce/tinymce.bundle.js" %}"></script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+    <script src="{% static "plugins/custom/datatables/datatables.bundle.js" %}"></script>
+    <script src="{% static "js/core/editique.js" %}"></script>
+    <script src="{% static "js/core/reglement_rapport_list.js" %}"></script>
+
+{% endblock %}

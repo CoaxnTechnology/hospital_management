@@ -1,0 +1,763 @@
+<div class="d-flex flex-column ">
+    <div id="patient-info-container" class="card card-custom mb-1 mb-xxl-4">
+        <!--begin::Body-->
+        <div class="card-body px-4 pb-0 pt-5">
+            <div class="d-flex align-items-center">
+                <div class="mr-5 align-self-start align-self-xxl-center">
+                    <div class="symbol-label">
+                        {% if object.sexe == 'F' %}
+                            <i class="fas fa-female icon-xl-3x text-primary"></i>
+                        {% else %}
+                            <i class="fas fa-male icon-xl-3x text-primary"></i>
+                        {% endif %}
+                    </div>
+                </div>
+                <!--end::Pic-->
+                <!--begin::Info-->
+                <div class="d-flex flex-column mr-auto">
+                    <!--begin: Title-->
+                    <a href="javascript:void(0)" onclick="modifierPatient({{ object.pk }})"
+                       class="card-title text-hover-primary font-weight-bolder font-size-h3 text-dark mb-1">
+                        {{ object.nom_complet }}
+                    </a>
+                    <span class="text-primary font-weight-bold">{{ object.age }} ans</span>
+                    <div class="d-flex justify-content-between">
+                        <span class="text-dark-50 font-weight-bold">{{ object.identifiant_unique }}</span>
+                        {% if patient.conjoint %}
+                            <span class="label label-light-info label-pill label-inline mr-2 w-80px"
+                                  data-toggle="popover" data-placement="bottom"
+                                  data-trigger="hover" data-html="true"
+                                  data-content="<strong>{{ patient.conjoint }}</strong><br>{% if patient.anciennete_mariage %} mariés depuis {{ patient.anciennete_mariage }}{% endif %}">
+                        <i class="fa fa-info icon-sm text-info"></i>&nbsp;
+                        Conjoint</span>
+                        {% endif %}
+                    </div>
+                    <!--end::Title-->
+                </div>
+                <!--end::Info-->
+                <!--begin::Toolbar-->
+                <div class="card-toolbar mb-auto">
+                    <div class="dropdown dropdown-inline" data-toggle="tooltip" title="Modifier"
+                         data-placement="left">
+                        <button type="button" onclick="modifierPatient({{ object.pk }})"
+                           class="btn btn-clean btn-hover-light-primary btn-sm btn-icon"
+                           aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-pen"></i>
+                        </button>
+                    </div>
+                </div>
+                <!--end::Toolbar-->
+            </div>
+            <!--end::Section-->
+            <!--begin::Content-->
+            {% if object.grossesse_encours != None %}
+                <div id="grossesse-panel"
+                     class="pt-3 pb-1 mt-xxl-2 px-4 rounded bg-light-primary cursor-pointer"
+                     onclick="modifierGrossesse()">
+                    {% if object.grossesse_encours.type_grossesse_v2 %}
+                        <div class="row mb-2">
+                            <span class="col-4 font-weight-bolder text-left">Grossesse en cours :</span>
+                            <span class="col-8 text-dark text-left">{{ object.grossesse_encours.type_grossesse_v2.valeur|default_if_none:"-"|title }}</span>
+                        </div>
+                    {% endif %}
+                    <div class="row mb-2">
+                        <span class="col-4 font-weight-bolder text-left">Terme :</span>
+                        <div class="terme label label-inline label-lg label-success label-pill"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <span class="col-4 font-weight-bolder text-left">DDG :</span>
+                        <span class="ddg col-8 text-dark text-left"></span>
+                    </div>
+                    <div class="row mb-2">
+                        <span class="col-4 font-weight-bolder text-left">DDR :</span>
+                        <span class="ddr col-8 text-dark text-left"></span>
+                    </div>
+                    <div class="row mb-2">
+                        <span class="col-4 font-weight-bolder text-left">DPA :</span>
+                        <span class="accouchement col-8 text-dark text-left"></span>
+                    </div>
+
+                    {% with g=patient.grossesse_encours %}
+                        <div class="row mb-2">
+                            <span class="col-4 font-weight-bolder text-left">Risque T21 :</span>
+                            <span class="col-8 text-dark text-left">
+                                {% if g.risque %}
+                                    1/{{ g.risque|floatformat }}
+                                {% else %}
+                                    Non défini
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="row mb-2">
+                            <span class="col-4 font-weight-bolder text-left">Toxo :</span>
+                            <span class="col-8 text-dark text-left">
+                                {% if g.toxoplasmose_v2 %}
+                                    {{ g.get_toxoplasmose_v2_display }}
+                                {% else %}
+                                    Non défini
+                                {% endif %}
+                            </span>
+                        </div>
+                        {% if g.diabete_v2 %}
+                        <div class="row mb-2">
+                            <span class="col-4 font-weight-bolder text-left">Diabète :</span>
+                            <span class="col-8 text-dark text-left">
+                                {{ g.diabete_v2 }}
+                            </span>
+                        </div>
+                        {% endif %}
+                        {% if g.aspegic %}
+                        <div class="row mb-2">
+                            <span class="col-4 font-weight-bolder text-left">Aspegic :</span>
+                            <span class="col-8 text-dark text-left">
+                                {% if g.aspegic %}Oui{% else %}Non{% endif %}
+                            </span>
+                        </div>
+                        {% endif %}
+                        {% if g.notes %}
+                            <div class="row mb-2">
+                                <span class="col-4 font-weight-bolder text-left">Notes :</span>
+                                <span class="col-8 text-dark text-left">
+                                {{ g.notes|linebreaks }}
+                            </span>
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            {% endif %}
+
+            <div class="pt-3 pt-xxl-4 pb-1 pb-xxl-4">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="font-weight-bold mr-2">Date naissance:</span>
+                    <span class="text-muted text-hover-primary">{{ object.date_naissance|date:'d/m/Y'|default:"-" }}</span>
+                </div>
+                <!--<div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="font-weight-bold mr-2">Email:</span>
+                            <span class="text-muted text-hover-primary">{{ object.email|default:"-" }}</span>
+                        </div>-->
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="font-weight-bold mr-2">Téléphone:</span>
+                    <span class="text-muted text-hover-primary">{{ object.telephone|default:"-" }}</span>
+                </div>
+                {% if object.telephone_secondaire %}
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="font-weight-bold mr-2">Téléphone 2:</span>
+                        <span class="text-muted text-hover-primary">{{ object.telephone_secondaire|default:"-" }}</span>
+                    </div>
+                {% endif %}
+                {% if object.profession %}
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="font-weight-bold mr-2">Profession:</span>
+                        <span class="text-muted text-hover-primary">{{ object.profession|default:"-" }}</span>
+                    </div>
+                {% endif %}
+              {% if object.mutuelle %}
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="font-weight-bold mr-2">Mutuelle:</span>
+                        <span class="text-muted text-hover-primary">{{ object.designation }}</span>
+                    </div>
+                {% endif %}
+                {% if object.adresse.ville %}
+                    <div class="align-items-center justify-content-between d-none d-xxl-flex">
+                        <span class="font-weight-bold mr-2">Adresse:</span>
+                        <span class="text-right">
+                            {% if object.adresse.rue %}
+                                <span class="text-muted text-hover-primary">{{ object.adresse.numero }} rue {{ object.adresse.rue }}</span>
+                                <br>
+                            {% endif %}
+                            {% if object.adresse.ville %}
+                                <span class="text-muted text-hover-primary">{{ object.adresse.ville }} {{ object.adresse.cp }}</span>
+                                <br>
+                            {% endif %}
+                            {% if object.adresse.gouvernorat %}
+                                <span class="text-muted text-hover-primary">{{ object.adresse.gouvernorat }}</span>
+                            {% endif %}
+                </span>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="separator separator-solid"></div>
+            <div class="row mt-2 mt-xxl-4">
+                <div class="col-4 col-xxl-4 pl-1 pr-1 d-flex flex-column mb-1 mb-xxl-4">
+                    <span class="d-block font-weight-bold mb-1 mb-xxl-1">GS</span>
+                    <span class="btn {% if '-' in  object.groupe_sanguin %}btn-light-danger{% else %}btn-light-primary{% endif %} btn-sm font-weight-bold btn-upper btn-text pt-1 pb-1 pl-1 pr-1">
+                        {% if '-' in  object.groupe_sanguin %}
+                            <span class="text-danger">
+                                {{ object.groupe_sanguin|default:"-" }}
+                            </span>
+                        {% else %}
+                            {{ object.groupe_sanguin|default:"-" }}
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="col-8 col-xxl-8 pl-1 pr-1 d-flex flex-column mb-1 mb-xxl-4">
+                    <span class="d-block font-weight-bold mb-1 mb-xxl-1">Origine</span>
+                    <span class="btn btn-light-primary btn-sm font-weight-bold btn-upper btn-text pt-1 pb-1 pl-1 pr-1">
+                                {{ object.get_origine_display|default:"-" }}
+                            </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 col-xxl-4 pl-1 pr-1 d-flex flex-column mb-1 mb-xxl-4">
+                    <span class="d-block font-weight-bold mb-1 mb-xxl-1">Taille <small>(cm)</small></span>
+                    <span class="btn btn-light-primary btn-sm font-weight-bold btn-upper btn-text pt-1 pb-1 pl-1 pr-1">
+                                {{ object.taille|floatformat|default:"-" }}
+                            </span>
+                </div>
+                <div class="col-6 col-xxl-4 pl-1 pr-1 d-flex flex-column mb-1 mb-xxl-4">
+                    <span class="d-block font-weight-bold mb-1 mb-xxl-1">Poids <small>(kg)</small></span>
+                    <span class="btn btn-light-primary btn-sm font-weight-bold btn-upper btn-text pt-1 pb-1 pl-1 pr-1">
+                                {{ object.poids|floatformat|default:"-" }}
+                            </span>
+                </div>
+                {% if IMC %}
+                    <div class="col-6 col-xxl-4 pl-1 pr-1 d-flex flex-column mb-1 mb-xxl-4">
+                        <span class="d-block font-weight-bold mb-1 mb-xxl-1">IMC <small>(kg/m2)</small></span>
+                        <span class="btn btn-light-primary btn-sm font-weight-bold btn-upper btn-text pt-1 pb-1 pl-1 pr-1">
+                                {{ IMC }}
+                                </span>
+                    </div>
+                {% endif %}
+            </div>
+            {% if object.fumeur %}
+                <div class="row mt-2">
+                    <div class="col-3 pl-1 pr-1 d-flex flex-column mb-1 mb-xxl-4">
+                        <span class="label label-light-danger label-pill label-inline mr-2">Fumeur</span>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="row">
+                <div class="col-12 pl-1 pr-1 d-flex flex-column mb-1 mb-xxl-4">
+                    <span class="d-block font-weight-bold mb-1 mb-xxl-1">Mots clé patient </span>
+                    <input class="form-control tagify form-control-sm" name='tags'
+                           id="tags" value='{{ object.mot_cle|default:'' }}'>
+
+                </div>
+            </div>
+            <!--end::Content-->
+        </div>
+    </div>
+
+    <div class="card card-custom card-small mb-1 mb-xxl-4">
+        <div class="card-header px-4 bg-hover-light-primary" id="ouvrir_historique_consultations">
+            <div class="card-title">
+                <h5 class="card-label">
+                    <span class="font-weight-bolder">
+                        Historique des consultations
+                    </span>
+                </h5>
+            </div>
+            <div class="card-toolbar">
+                <a class="btn btn-xs btn-icon btn-primary font-weight-bold mr-1">
+                    <i class="flaticon-arrows icon-sm"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-custom card-small mb-1 mb-xxl-4">
+        <div class="card-header px-4">
+            <div class="card-title">
+                <h5 id="praticiens_label" class="card-label">
+                    <span class="font-weight-bolder">Praticiens corresp.</span>
+                </h5>
+                <div id="praticien_recherche_container" class="typeahead d-flex align-items-center"
+                     style="visibility: hidden !important; position: absolute; left:0px;">
+                    <button id="btn-retour" class="btn btn-icon btn-link-primary"><i
+                            class="fa fa-chevron-left"></i></button>
+                    <div class="input-group input-group-lg input-group-solid">
+                        <input id="praticien_recherche" type="text"
+                               class="form-control form-control-solid form-control-sm"
+                               placeholder="Chercher un praticien">
+                        <div class="input-group-append">
+									<span class="input-group-text">
+                                        <i class="quick-search-close ki ki-close icon-sm text-muted"
+                                           style="cursor: pointer;display: none;"></i>
+                                    </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-toolbar">
+                <a id="chercher_praticien" class="btn btn-xs btn-icon btn-primary font-weight-bold mr-1">
+                    <i class="flaticon2-search icon-sm"></i>
+                </a>
+                <a id="nouveau_praticien" class="btn btn-xs btn-icon btn-success font-weight-bold">
+                    <i class="flaticon2-plus icon-sm"></i>
+                </a>
+            </div>
+        </div>
+        <div class="card-body px-4 py-1">
+            <div class="scroll scroll-pull" data-scroll="true" style="/*height: 200px*/">
+                <ul class="list-group list-group-flush praticiens-list">
+                    {% for praticien in object.praticiens_correspondants.all %}
+                        <li class="list-group-item px-1 py-1 d-flex justify-content-between">
+                            <div>
+                                <span class="font-size-sm font-weight-bolder">{{ praticien }}</span><br>
+                                <span class="font-size-sm text-muted">{{ praticien.specialite }}</span>
+                            </div>
+                            <div class="praticien_action">
+                                <button data-id="{{ praticien.pk }}" type="button"
+                                        class="modifier_praticien btn btn-clean btn-hover-light-primary btn-sm btn-icon">
+                                    <i class="la la-pencil icon-md"></i>
+                                </button>
+                                <a onclick="supprimer_praticen({{ praticien.pk }})"
+                                   class="btn btn-icon btn-sm btn-clean btn-hover-danger"
+                                   title="Supprimer le praticien">
+                                    <i class="la la-trash icon-md"></i>
+                                </a>
+                            </div>
+                        </li>
+                    {% empty %}
+                        <li id="praticiens-msg-vide" class="list-item">
+                            <span class="small">Pas de praticiens correspondants</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-custom card-small mb-1 mb-xxl-4">
+        <div class="card-header px-4 bg-hover-light-primary" onclick="priseRdv()" >
+            <div class="card-title">
+                <h5 id="praticiens_label" class="card-label">
+                    <span class="font-weight-bolder">Rendez-vous</span>
+                </h5>
+            </div>
+            <div class="card-toolbar">
+                <a class="btn btn-xs btn-icon btn-success font-weight-bold">
+                    <i class="flaticon2-plus icon-sm"></i>
+                </a>
+            </div>
+        </div>
+        <div class="card-body px-4 py-1">
+            <div class="scroll scroll-pull" data-scroll="true" style="/*height: 200px*/">
+                <ul class="list-group list-group-flush">
+                    {% for rdv in object.rdv_set.all|slice:":4" %}
+                        <li class="list-group-item px-1 py-1 d-flex justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <div class="font-size-sm text-weight-bold">{{ rdv.debut|date:'d/m/Y' }} - &nbsp;&nbsp;</div>
+                                <div class="font-size-sm font-weight-bolder {% if rdv.is_missed %}text-danger{% endif %}">
+                                    {{ rdv.motif.libelle }}
+                                    {% if rdv.is_missed %}<span class="label label-pill label-inline label-danger ml-2">Manqué</span>{% endif %}</div>
+                            </div>
+                            <div class="rdv_action">
+                                <button data-id="{{ rdv.pk }}" type="button"
+                                        class="modifier_rdv btn btn-clean btn-hover-light-primary btn-sm btn-icon">
+                                    <i class="la la-pencil icon-md"></i>
+                                </button>
+                            </div>
+                        </li>
+                    {% empty %}
+                        <li id="rdv-msg-vide" class="list-item">
+                            <span class="small">Pas de rendez-vous prévus</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {% if user.profil.compte.is_gyneco %}
+    <div class="card card-custom card-small mb-1 mb-xxl-4">
+        <div class="card-header px-4">
+            <div class="card-title">
+                <h3 class="card-label" id="etablissement_label">
+                            <span class="font-weight-bolder">
+                            Lieu d'accouchement
+                            </span>
+                </h3>
+                <div id="etablissement_recherche_container" class="typeahead d-flex align-items-center"
+                     style="visibility: hidden !important; position: absolute; left:0px;">
+                    <button id="btn-retour-etablissement" class="btn btn-icon btn-link-primary"><i
+                            class="fa fa-chevron-left"></i></button>
+                    <div class="input-group input-group-lg input-group-solid">
+                        <input id="etablissement_recherche" type="text"
+                               class="form-control form-control-solid form-control-sm"
+                               placeholder="Chercher un Etablissement">
+                        <div class="input-group-append">
+									<span class="input-group-text">
+                                        <i class="quick-search-etablishment-close ki ki-close icon-sm text-muted"
+                                           style="cursor: pointer;display: none;"></i>
+                                    </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="lieu-toolbar" class="card-toolbar">
+                {% if object.lieu_accouchement is None %}
+                    <a id="chercher_etablissement"
+                       class="btn btn-xs btn-icon btn-primary font-weight-bold">
+                        <i class="flaticon2-search icon-sm"></i>
+                    </a>
+                {% endif %}
+            </div>
+
+        </div>
+        <div class="card-body px-4 py-1">
+            <div class="scroll scroll-pull" data-scroll="true">
+                <ul class="list-group list-group-flush etablissement-list">
+                    {% if object.lieu_accouchement %}
+                        <div class="d-flex align-items-center justify-content-between  px-1 py-1">
+                            <div class="font-size-sm font-weight-bolder">
+                                {{ object.lieu_accouchement.nom|default:"-" }}
+                            </div>
+                            <div>
+                                <button data-id="{{ object.lieu_accouchement.pk }}" type="button"
+                                        onclick="modifierEtablissement({{ object.lieu_accouchement.pk }})"
+                                        class="btn btn-clean btn-hover-light-primary btn-sm btn-icon">
+                                    <i class="la la-pencil icon-md"></i>
+                                </button>
+                                <button type="button"
+                                        onClick="dissocierEtablissement(event, {{ object.pk }})"
+                                        class="btn btn-icon btn-clean btn-hover-danger btn-sm"
+                                        title="Supprimer le lieu d'accouchement">
+                                    <i class="la la-trash icon-md"></i>
+                                </button>
+                            </div>
+                        </div>
+                    {% else %}
+                        <li id="etablissements-vide" class="list-item">
+                            <span class="small">Aucun lieu défini</span>
+                        </li>
+                    {% endif %}
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="card card-custom card-small mb-1 mb-xxl-4">
+        <div class="card-header px-4 bg-hover-light-primary" onclick="ajouterPrescriptionAnalyses()">
+            <div class="card-title">
+                <h5 id="praticiens_label" class="card-label">
+                    <span class="font-weight-bolder">Biologie</span>
+                </h5>
+            </div>
+            <div class="card-toolbar">
+                <a class="btn btn-xs btn-icon btn-success font-weight-bold">
+                    <i class="flaticon2-plus icon-sm"></i>
+                </a>
+            </div>
+        </div>
+        <div class="card-body px-4 py-1">
+            <div id="prescriptions-container" class="scroll scroll-pull" data-scroll="true" style="/*height: 200px*/">
+                {% include 'core/partials/prescription_list.html' with prescriptions=object.prescriptionanalysebiologique_set %}
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-custom card-small mb-1 mb-xxl-4">
+        <div class="card-header px-4 bg-hover-light-primary" id="ouvrir_liste_ordonnances">
+            <div class="card-title">
+                <h5 class="card-label">
+                            <span class="font-weight-bolder">
+                            Ordonnances
+                            </span>
+                </h5>
+            </div>
+            <div class="card-toolbar">
+                <a class="btn btn-xs btn-icon btn-success font-weight-bold">
+                    <i class="flaticon2-plus icon-sm"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-custom card-small mb-1 mb-xxl-4">
+        <div class="card-header px-4 bg-hover-light-primary" id="ouvrir_liste_certificats">
+            <div class="card-title">
+                <h5 class="card-label">
+                            <span class="font-weight-bolder">
+                            Courriers
+                            </span>
+                </h5>
+            </div>
+            <div class="card-toolbar">
+                <a class="btn btn-xs btn-icon btn-success font-weight-bold">
+                    <i class="flaticon2-plus icon-sm"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script id="etablissement-template" type="text/html" >
+        <div class="d-flex flex-wrap align-items-center justify-content-between w-100 px-1 py-1">
+            <div class="font-size-sm font-weight-bolder">
+                <%= nom %>
+            </div>
+            <div>
+                <button data-id="<%= etablissement_id %>" type="button"
+                        onclick="modifierEtablissement(<%= etablissement_id %>)"
+                        class="btn btn-clean btn-hover-light-primary btn-sm btn-icon">
+                    <i class="la la-pencil icon-md"></i>
+                </button>
+                <button type="button" onClick="dissocierEtablissement(event, <%= patient_id %>)"
+                        class="btn btn-icon btn-clean btn-hover-danger btn-sm"
+                        title="Supprimer le lieu d'accouchement">
+                    <i class="la la-trash icon-md"></i>
+                </button>
+            </div>
+        </div>
+    </script>
+
+    <script id="patient-info-template" type="text/html">
+        <div class="card-body px-4 pb-0 pt-5">
+            <div class="d-flex align-items-center">
+                <div class="mr-5 align-self-start align-self-xxl-center">
+                    <div class="symbol-label">
+                        <% if (patient.sexe == 'F') { %>
+                        <i class="fas fa-female icon-xl-3x text-primary"></i>
+                        <% } else { %>
+                        <i class="fas fa-male icon-xl-3x text-primary"></i>
+                        <% } %>
+                    </div>
+                </div>
+                <!--end::Pic-->
+                <!--begin::Info-->
+                <div class="d-flex flex-column mr-auto">
+                    <!--begin: Title-->
+                    <a href="/patients/<%= patient.id %>/modifier"
+                       class="card-title text-hover-primary font-weight-bolder font-size-h3 text-dark mb-1">
+                        <%= patient.nom_complet %>
+                    </a>
+                    <span class="text-primary font-weight-bold"><%= patient.age %> ans</span>
+                    <span class="text-dark-50 font-weight-bold"><%= patient.identifiant_unique %></span>
+                    <!--end::Title-->
+                </div>
+                <!--end::Info-->
+                <!--begin::Toolbar-->
+                <div class="card-toolbar mb-auto">
+                    <div class="dropdown dropdown-inline" data-toggle="tooltip" title="Modifier"
+                         data-placement="left">
+                        <button type="button" onclick="modifierPatient(<%= patient.id %>)"
+                                class="btn btn-clean btn-hover-light-primary btn-sm btn-icon"
+                                aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-pen"></i>
+                        </button>
+                    </div>
+                </div>
+                <!--end::Toolbar-->
+            </div>
+            <% if (patient.grossesse_encours) { %>
+            <div class="pt-3 pb-1 mt-xxl-2 px-4 rounded bg-light-primary cursor-pointer"
+                 onclick="modifierGrossesse()">
+                <% if (patient.grossesse_encours.type_grossesse_v2) { %>
+                <div class="row mb-2">
+                    <span class="col-6 font-weight-bolder text-left">Grossesse en cours :</span>
+                    <span class="col-6 text-dark text-left"><%= patient.grossesse_encours.type_grossesse_v2.valeur %></span>
+                </div>
+                <% } %>
+                <div class="row mb-2">
+                    <span class="col-4 font-weight-bolder text-left">Terme :</span>
+                    <div class="terme label label-inline label-lg label-success label-pill"></div>
+                </div>
+                <div class="row mb-2">
+                    <span class="col-4 font-weight-bolder text-left">DDG :</span>
+                    <span class="ddg col-6 text-dark text-left"></span>
+                </div>
+                <div class="row mb-2">
+                    <span class="col-4 font-weight-bolder text-left">DDR :</span>
+                    <span class="ddr col-6 text-dark text-left"></span>
+                </div>
+                <div class="row mb-2">
+                    <span class="col-4 font-weight-bolder text-left">DPA :</span>
+                    <span class="accouchement col-6 text-dark text-left"></span>
+                </div>
+
+                {% with g=patient.grossesse_encours %}
+                    <div class="row mb-2">
+                        <span class="col-4 font-weight-bolder text-left">Risque T21 :</span>
+                        <span class="col-8 text-dark text-left">
+                            {% if g.risque %}
+                                1/{{ g.risque|floatformat }}
+                            {% else %}
+                                Non défini
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="row mb-2">
+                        <span class="col-4 font-weight-bolder text-left">Toxo :</span>
+                        <span class="col-8 text-dark text-left">
+                            {% if g.toxoplasmose_v2 %}
+                                {{ g.get_toxoplasmose_v2_display }}
+                            {% else %}
+                                Non défini
+                            {% endif %}
+                        </span>
+                    </div>
+                    {% if g.diabete_v2 %}
+                        <div class="row mb-2">
+                            <span class="col-4 font-weight-bolder text-left">Diabète :</span>
+                            <span class="col-8 text-dark text-left">
+                                {{ g.diabete_v2 }}
+                            </span>
+                        </div>
+                    {% endif %}
+                    {% if g.aspegic %}
+                        <div class="row mb-2">
+                            <span class="col-4 font-weight-bolder text-left">Aspegic :</span>
+                            <span class="col-8 text-dark text-left">
+                                {% if g.aspegic %}Oui{% else %}Non{% endif %}
+                            </span>
+                        </div>
+                    {% endif %}
+                    {% if g.notes %}
+                        <div class="row mb-2">
+                            <span class="col-4 font-weight-bolder text-left">Notes :</span>
+                            <span class="col-8 text-dark text-left">
+                                {{ g.notes }}
+                            </span>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            </div>
+            <% } %>
+
+            <div class="pt-3 pt-xxl-4 pb-1 pb-xxl-4">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="font-weight-bold mr-2">Date naissance:</span>
+                    <span class="text-muted text-hover-primary"><%= moment(patient.date_naissance).format('DD/MM/yyyy') %></span>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="font-weight-bold mr-2">Téléphone:</span>
+                    <span class="text-muted text-hover-primary"><%= patient.telephone %></span>
+                </div>
+                <% if (patient.telephone_secondaire) { %>
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="font-weight-bold mr-2">Téléphone 2:</span>
+                    <span class="text-muted text-hover-primary"><%= patient.telephone_secondaire %></span>
+                </div>
+                <% } %>
+
+                <% if (patient.profession) { %>
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="font-weight-bold mr-2">Profession:</span>
+                    <span class="text-muted text-hover-primary"><%= patient.profession %></span>
+                </div>
+                <% } %>
+
+
+
+                <% if (patient.adresse.ville) { %>
+                <div class="align-items-center justify-content-between d-none d-xxl-flex">
+                    <span class="font-weight-bold mr-2">Adresse:</span>
+                    <span class="text-right">
+                            <% if (patient.adresse.rue) { %>
+                                <span class="text-muted text-hover-primary"><%= patient.adresse.numero %> rue <%= patient.adresse.rue %></span>
+                                <br>
+                            <% } %>
+                            <% if (patient.adresse.ville) { %>
+                                <span class="text-muted text-hover-primary"><%= patient.adresse.ville %> <%= patient.adresse.cp %></span>
+                                <br>
+                            <% } %>
+                            <% if (patient.adresse.gouvernorat) { %>
+                                <span class="text-muted text-hover-primary"><%= patient.adresse.gouvernorat %></span>
+                            <% } %>
+                        </span>
+                </div>
+                <% } %>
+            </div>
+
+            <div class="separator separator-solid"></div>
+            <div class="row mt-2 mt-xxl-4">
+                <div class="col-4 col-xxl-4 pl-1 pr-1 d-flex flex-column mb-1 mb-xxl-4">
+                    <span class="d-block font-weight-bold mb-1 mb-xxl-1">GS</span>
+                    <span class="btn btn-light-primary btn-sm font-weight-bold btn-upper btn-text pt-1 pb-1 pl-1 pr-1">
+                                <%= disp(patient.groupe_sanguin, '-') %>
+                            </span>
+                </div>
+                <div class="col-8 col-xxl-8 pl-1 pr-1 d-flex flex-column mb-1 mb-xxl-4">
+                    <span class="d-block font-weight-bold mb-1 mb-xxl-1">Origine</span>
+                    <span class="btn btn-light-primary btn-sm font-weight-bold btn-upper btn-text pt-1 pb-1 pl-1 pr-1">
+                                <%= disp(patient.origine, '-') %>
+                            </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 col-xxl-4 pl-1 pr-1 d-flex flex-column mb-1 mb-xxl-4">
+                    <span class="d-block font-weight-bold mb-1 mb-xxl-1">Taille <small>(cm)</small></span>
+                    <span class="btn btn-light-primary btn-sm font-weight-bold btn-upper btn-text pt-1 pb-1 pl-1 pr-1">
+                                <%= disp(patient.taille, '-') %>
+                            </span>
+                </div>
+                <div class="col-6 col-xxl-4 pl-1 pr-1 d-flex flex-column mb-1 mb-xxl-4">
+                    <span class="d-block font-weight-bold mb-1 mb-xxl-1">Poids <small>(kg)</small></span>
+                    <span class="btn btn-light-primary btn-sm font-weight-bold btn-upper btn-text pt-1 pb-1 pl-1 pr-1">
+                                <%= disp(patient.poids, '-') %>
+                            </span>
+                </div>
+                <% if (patient.imc) { %>
+                <div class="col-6 col-xxl-4 pl-1 pr-1 d-flex flex-column mb-1 mb-xxl-4">
+                    <span class="d-block font-weight-bold mb-1 mb-xxl-1">IMC <small>(kg/m²)</small></span>
+                    <span class="btn btn-light-primary btn-sm font-weight-bold btn-upper btn-text pt-1 pb-1 pl-1 pr-1">
+                                <%= patient.imc %>
+                                </span>
+                </div>
+                <% } %>
+            </div>
+            <% if (patient.fumeur) { %>
+            <div class="row mt-2">
+                <div class="col-3 pl-1 pr-1 d-flex flex-column mb-1 mb-xxl-4">
+                    <span class="label label-light-danger label-pill label-inline mr-2">Fumeur</span>
+                </div>
+            </div>
+            <% } %>
+            <div class="row">
+                <div class="col-12 pl-1 pr-1 d-flex flex-column mb-1 mb-xxl-4">
+                    <span class="d-block font-weight-bold mb-1 mb-xxl-1">Mots clé patient </span>
+                    <input class="form-control tagify form-control-sm" name='tags'
+                           id="tags" value='<%= disp(patient.mot_cle, "") %>'>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/html" id="grossesse-data-item">
+        <!--<div class="row mb-2">
+            <span class="col-4 font-weight-bolder text-left"><%= label %> :</span>
+            <span class="col-8 text-dark text-left">
+                <%= valeur %>
+            </span>
+        </div>-->
+
+        <div class="row mb-2">
+            <span class="col-4 font-weight-bolder text-left"><%= label %> :</span>
+            <span class="col-8 text-dark text-left" data-toggle="popover" data-placement="left" data-trigger="hover"
+                  data-html="true" data-content="<%= valeur %>">
+                <%=  ellipsis(titre.toString(), 20) %>
+            </span>
+        </div>
+    </script>
+
+
+    <script id="praticien-template" type="text/html">
+        <li class="list-group-item px-1 py-1 d-flex justify-content-between">
+            <div>
+                <span class="font-size-sm font-weight-bolder"><%= praticien.nom_complet %></span><br>
+                <span class="font-size-sm text-muted"><%= praticien.specialite %></span>
+            </div>
+            <div class="praticien_action">
+                <button data-id="<%= praticien.id %>" type="button"
+                        class="modifier_praticien btn btn-clean btn-hover-light-primary btn-sm btn-icon">
+                    <i class="la la-pencil icon-md"></i>
+                </button>
+                <a onclick="supprimer_praticen(<%= praticien.pk %>)"
+                   class="btn btn-icon btn-clean btn-sm btn-hover-danger"
+                   title="Supprimer le praticien">
+                    <i class="la la-trash icon-md"></i>
+                </a>
+            </div>
+        </li>
+    </script>
+</div>
+
+<script type="text/javascript">
+    let grossesse_data = {};
+    {% if grossesse_data %}grossesse_data = JSON.parse(`{{ grossesse_data|safe }}`);{% endif %}
+
+</script>

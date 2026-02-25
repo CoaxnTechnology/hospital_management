@@ -1,0 +1,27 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="d-flex flex-row-reverse p-2">
+        <a type="button" class="btn btn-primary font-weight-bolder"
+           href="{{ object.modif_url }}?edition=1">
+            <i class="flaticon2-printer icon-sm"></i>
+            Editer le compte-rendu
+        </a>
+    </div>
+    <div class="mt-2 p-4">
+        <div id="ordonnance-text">
+            {{ object.text|safe }}
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+
+{% block scripts %}
+
+{% endblock %}

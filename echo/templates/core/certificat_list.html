@@ -1,0 +1,58 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+    <div class="p-4">
+        <div class="mb-4">
+            <a href="/patients/{{ patient.pk }}/certificats/ajouter"
+               class="btn btn-light-primary font-weight-bolder mr-2">
+                <i class="ki ki-long-arrow-back icon-sm"></i>
+                Précédent
+            </a>
+        </div>
+        <form class="kt-form kt-form--fit mb-1">
+            <div class="row">
+                <div class="col-4 mb-lg-0 mb-6">
+                    <label>Date</label>
+                    <input type="text" class="date form-control form-control-sm datatable-input" placeholder=""
+                           data-col-index="0"/>
+                </div>
+                <div class="col-4 mb-lg-0 mb-6">
+                    <label>Praticien</label>
+                    <input type="text" class="form-control form-control-sm datatable-input" placeholder=""
+                           data-col-index="3"/>
+                </div>
+            </div>
+        </form>
+        <table class="table table-bordered table-checkable table-striped" id="datatable_rdv">
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Nom du patient</th>
+                <th>Prénom du patient</th>
+                <th>Praticien</th>
+                <th>Type</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+
+    <template id="actions-template">
+        <a href="certificats/<%- id %>/modifier" class="btn btn-info btn-icon btn-sm" title="Consulter">
+            <i class="la la-eye icon-lg"></i>
+        </a>
+        <a onclick="supprimer(<%- id %>)" class="btn btn-danger btn-icon btn-sm" title="Supprimer">
+            <i class="la la-trash icon-lg"></i>
+        </a>
+    </template>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        const certificats = {{  certificats_json|safe }};
+    </script>
+    <script src="{% static "plugins/custom/datatables/datatables.bundle.js" %}"></script>
+    <script src="{% static "js/core/certificat_list.js" %}"></script>
+{% endblock %}

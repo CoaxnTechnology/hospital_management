@@ -1,0 +1,421 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block header %}
+    {% include "core/form_header.html" with module="Patient" %}
+{% endblock %}
+
+{% block content %}
+    <form id="form_1" class="form" method="post" action="">
+        {% csrf_token %}
+
+        {% for hidden in patient.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+
+        <div class="card card-custom card-sticky px-4" id="kt_page_sticky_card">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3 class="card-label">
+                        Formulaire de {% if object %}modification{% else %}création{% endif %} <i class="mr-2"></i>
+                    </h3>
+                </div>
+                <div class="card-toolbar">
+                    <a class="back-btn btn btn-light-primary font-weight-bolder mr-2">
+                        <i class="ki ki-long-arrow-back icon-sm"></i>
+                        Précédent
+                    </a>
+                    <div class="btn-group">
+                        <button id="btn-enregistrer" class="btn btn-primary font-weight-bolder">
+                            <i class="ki ki-check icon-sm"></i>
+                            Enregistrer
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if patient.non_field_errors %}
+                    <div class="alert alert-custom alert-danger" role="alert">
+                        <div class="alert-icon">
+                            <i class="flaticon-questions-circular-button"></i>
+                        </div>
+                        <div class="alert-text">{{ patient.non_field_errors }}</div>
+                    </div>
+                {% endif %}
+
+                <button type="button" class="btn btn-sm btn-outline-info" data-toggle="collapse"
+                        href="#blocConjoint"
+                        role="button"
+                        aria-expanded="false" aria-controls="blocConjoint">Informations sur le conjoint
+                </button>
+
+                <div class="collapse px-7" id="blocConjoint">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title font-size-h5">Conjoint</h5>
+                            <div class="row">
+                                <div class="form-group col-3">
+                                    <label>Nom</label>
+                                    {% render_field form.nom_conjoint class+="form-control form-control-sm" %}
+                                    <div class="invalid-feedback"
+                                         {% if form.nom_conjoint.errors %}style="display: block"{% endif %}>
+                                        {{ form.nom_conjoint.errors }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label>Prénom</label>
+                                    {% render_field form.prenom_conjoint class+="form-control form-control-sm" %}
+                                    <div class="invalid-feedback"
+                                         {% if form.prenom_conjoint.errors %}style="display: block"{% endif %}>
+                                        {{ form.prenom_conjoint.errors }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label>Date de naissance</label>
+                                    {% render_field form.date_naissance_conjoint class+="form-control form-control-sm" %}
+                                    <div class="invalid-feedback"
+                                         {% if form.date_naissance_conjoint.errors %}style="display: block"{% endif %}>
+                                        {{ form.date_naissance_conjoint.errors }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label>Téléphone</label>
+                                    {% render_field form.telephone_conjoint class+="form-control form-control-sm" %}
+                                    <div class="invalid-feedback"
+                                         {% if form.telephone_conjoint.errors %}style="display: block"{% endif %}>
+                                        {{ form.telephone_conjoint.errors }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label>Groupe sanguin</label>
+                                    {% render_field form.groupe_sanguin_conjoint class+="form-control form-control-sm" %}
+                                    <div class="invalid-feedback"
+                                         {% if form.groupe_sanguin_conjoint.errors %}style="display: block"{% endif %}>
+                                        {{ form.groupe_sanguin_conjoint.errors }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label>Consanguinite</label>
+                                    {% render_field form.consanguinite_conjoint class+="form-control form-control-sm" %}
+                                    <div class="invalid-feedback"
+                                         {% if form.consanguinite_conjoint.errors %}style="display: block"{% endif %}>
+                                        {{ form.consanguinite_conjoint.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <label>Etat de santé</label>
+                                    {% render_field form.etat_sante_conjoint class+="form-control form-control-sm h-100px" %}
+                                    <div class="invalid-feedback"
+                                         {% if form.etat_sante_conjoint.errors %}style="display: block"{% endif %}>
+                                        {{ form.etat_sante_conjoint.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="form-group col-3">
+                                <label>Civilité</label>
+                                <div class="">
+                                    {% render_field patient.civilite class+="form-control form-control-sm " %}
+                                    <div class="invalid-feedback"
+                                         {% if patient.civilite.errors %}style="display: block"{% endif %}>
+                                        {{ patient.civilite.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-3">
+                                <label>{{ patient.sexe.label }}</label>
+                                <div class="">
+                                    {% render_field patient.sexe class+="form-control form-control-sm " %}
+                                    <div class="invalid-feedback"
+                                         {% if patient.sexe.errors %}style="display: block"{% endif %}>
+                                        {{ patient.sexe.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-5 required">
+                                <label>Nom de naissance</label>
+                                {% render_field patient.nom_naissance class+="form-control form-control-sm " %}
+                                <div class="invalid-feedback"
+                                     {% if patient.nom_naissance.errors %}style="display: block"{% endif %}>
+                                    {{ patient.nom_naissance.errors }}
+                                </div>
+                            </div>
+                            <div class="form-group col-5 required">
+                                <label>Prénom</label>
+                                {% render_field patient.prenom class+="form-control form-control-sm " %}
+                                <div class="invalid-feedback"
+                                     {% if patient.prenom.errors %}style="display: block"{% endif %}>
+                                    {{ patient.prenom.errors }}
+                                </div>
+                            </div>
+                            <div class="form-group col-5">
+                                <label>{{ patient.nom.label }}</label>
+                                {% render_field patient.nom class+="form-control form-control-sm " %}
+                                <div class="invalid-feedback"
+                                     {% if patient.nom.errors %}style="display: block"{% endif %}>
+                                    {{ patient.nom.errors }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-4 required">
+                                <label>Date de naissance</label>
+                                {% render_field patient.date_naissance class+="form-control form-control-sm " %}
+                                <div class="invalid-feedback"
+                                     {% if patient.date_naissance.errors %}style="display: block"{% endif %}>
+                                    {{ patient.date_naissance.errors }}
+                                </div>
+                            </div>
+                            <div class="form-group col-3">
+                                <label>Age</label>
+                                <div class="form-control form-control-sm" id="age"></div>
+                            </div>
+                        </div>
+
+                        <div class="separator separator-dashed my-2"></div>
+
+                        <div class="row">
+                            <div class="form-group col-5">
+                                <label>Ancien numéro</label>
+                                {% render_field patient.ancien_numero class+="form-control form-control-sm " %}
+                                <div class="invalid-feedback"
+                                     {% if patient.ancien_numero.errors %}style="display: block"{% endif %}>
+                                    {{ patient.ancien_numero.errors }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="separator separator-dashed my-2"></div>
+
+                        <div class="form-group row">
+                            <div class="col-4">
+                                <label>Ville</label>
+                                <div class="typeahead">
+                                    {% render_field adresse.ville class+="form-control form-control-sm " %}
+                                </div>
+                                <div class="invalid-feedback"
+                                     {% if adresse.ville.errors %}style="display: block"{% endif %}>
+                                    {{ adresse.ville.errors }}
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <label>Code postal</label>
+                                <div class="typeahead">
+                                    {% render_field adresse.cp class+="form-control form-control-sm " %}
+                                </div>
+                                <div class="invalid-feedback"
+                                     {% if adresse.cp.errors %}style="display: block"{% endif %}>
+                                    {{ adresse.cp.errors }}
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <label>Gouvernorat</label>
+                                <div class="typeahead">
+                                    {% render_field adresse.gouvernorat class+="form-control form-control-sm " %}
+                                </div>
+                                <div class="invalid-feedback"
+                                     {% if adresse.gouvernorat.errors %}style="display: block"{% endif %}>
+                                    {{ adresse.gouvernorat.errors }}
+                                </div>
+                            </div>
+                        </div>
+                        {% if object %}
+                            <div class="form-group row">
+                                <div class="col-2">
+                                    <label>N°</label>
+                                    {% render_field adresse.numero class+="form-control form-control-sm " %}
+                                    <div class="invalid-feedback"
+                                         {% if adresse.numero.errors %}style="display: block"{% endif %}>
+                                        {{ adresse.numero.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <label>Rue</label>
+                                    {% render_field adresse.rue class+="form-control form-control-sm " %}
+                                    <div class="invalid-feedback"
+                                         {% if adresse.rue.errors %}style="display: block"{% endif %}>
+                                        {{ adresse.rue.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-5">
+                                    <label>Cité</label>
+                                    {% render_field adresse.cite class+="form-control form-control-sm " %}
+                                    <div class="invalid-feedback"
+                                         {% if adresse.cite.errors %}style="display: block"{% endif %}>
+                                        {{ adresse.cite.errors }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <div class="row form-group">
+                            <div class="col-4">
+                                <label>Pays</label>
+                                {% render_field adresse.pays class+="form-control form-control-sm " %}
+                                <div class="invalid-feedback"
+                                     {% if adresse.pays.errors %}style="display: block"{% endif %}>
+                                    {{ adresse.pays.errors }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+
+                        <div class="row">
+                            <div class="form-group col-4 required">
+                                <label>Téléphone</label>
+                                {% render_field patient.telephone class+="form-control form-control-sm " %}
+                                <div class="invalid-feedback"
+                                     {% if patient.telephone.errors %}style="display: block"{% endif %}>
+                                    {{ patient.telephone.errors }}
+                                </div>
+                            </div>
+                            <div class="form-group col-4">
+                                <label>Autre Téléphone </label>
+                                {% render_field patient.telephone_secondaire class+="form-control form-control-sm " %}
+                                <div class="invalid-feedback"
+                                     {% if patient.telephone_secondaire.errors %}style="display: block"{% endif %}>
+                                    {{ patient.telephone_secondaire.errors }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-4">
+                                <label>{{ patient.email.label }}</label>
+                                {% render_field patient.email class+="form-control form-control-sm " type="text" %}
+                                <div class="invalid-feedback"
+                                     {% if patient.email.errors %}style="display: block"{% endif %}>
+                                    {{ patient.email.errors }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="separator separator-dashed my-2"></div>
+
+                        <div class="form-group row">
+                            <div class="col-3">
+                                <label>Taille (cm)</label>
+                                {% render_field patient.taille class+="form-control form-control-sm " %}
+                                <div class="invalid-feedback"
+                                     {% if patient.taille.errors %}style="display: block"{% endif %}>
+                                    {{ patient.taille.errors }}
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <label>Poids (kg)</label>
+                                {% render_field patient.poids class+="form-control form-control-sm " %}
+                                <div class="invalid-feedback"
+                                     {% if patient.poids.errors %}style="display: block"{% endif %}>
+                                    {{ patient.poids.errors }}
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <label>Groupe sanguin</label>
+                                {% render_field patient.groupe_sanguin class+="form-control form-control-sm " %}
+                                <div class="invalid-feedback"
+                                     {% if patient.groupe_sanguin.errors %}style="display: block"{% endif %}>
+                                    {{ patient.groupe_sanguin.errors }}
+                                </div>
+                            </div>
+                            <div class="form-group col-3">
+                                <label>Origine</label>
+                                {% render_field patient.origine class+="form-control form-control-sm " %}
+                                <div class="invalid-feedback"
+                                     {% if patient.origine.errors %}style="display: block"{% endif %}>
+                                    {{ patient.origine.errors }}
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-3">
+                                <label class="checkbox">
+                                    {% render_field patient.fumeur %} Fumeur
+                                    <span></span>
+                                </label>
+                                <div class="invalid-feedback"
+                                     {% if patient.fumeur.errors %}style="display: block"{% endif %}>
+                                    {{ patient.fumeur.errors }}
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="input-group input-group-sm" id="nombre_cigarettes_field">
+                                    {% render_field patient.nombre_cigarettes class+="form-control form-control-sm" %}
+                                    <div class="input-group-append">
+                                <span class="input-group-text">
+                                    /jour
+                                </span>
+                                    </div>
+                                </div>
+                                <div class="invalid-feedback"
+                                     {% if patient.nombre_cigarettes.errors %}style="display: block"{% endif %}>
+                                    {{ patient.nombre_cigarettes.errors }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="separator separator-dashed my-2"></div>
+
+                        <div class="form-group row">
+                            <div class="col-3">
+                                <label>CIN</label>
+                                {% render_field patient.numero_identite class+="form-control form-control-sm " type="number" %}
+                                <div class="invalid-feedback"
+                                     {% if patient.numero_identite.errors %}style="display: block"{% endif %}>
+                                    {{ patient.numero_identite.errors }}
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <label>Identifiant CNAM</label>
+                                {% render_field patient.code_securite_sociale class+="form-control form-control-sm " type="number" %}
+                                <div class="invalid-feedback"
+                                     {% if patient.code_securite_sociale.errors %}style="display: block"{% endif %}>
+                                    {{ patient.code_securite_sociale.errors }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xl-6">
+                                <label>Profession</label>
+                                {% render_field patient.profession class+="form-control form-control-sm " %}
+                                <div class="invalid-feedback"
+                                     {% if patient.profession.errors %}style="display: block"{% endif %}>
+                                    {{ patient.profession.errors }}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+{% endblock %}
+
+
+{% block scripts %}
+    <script type="text/javascript">
+        const codes_postaux = {{ codes_postaux|safe }};
+    </script>
+    <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
+    <script src="{% static "js/core/adresses.js" %}"></script>
+    <script src="{% static "js/core/patient_form.js" %}"></script>
+{% endblock %}

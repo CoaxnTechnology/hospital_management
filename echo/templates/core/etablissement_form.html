@@ -1,0 +1,54 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="p-4">
+        <form id="form_1" class="form" method="post" action="">
+            {% csrf_token %}
+
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+
+            <div class="row">
+                <div class="form-group col-5">
+                    <label>Nom</label>
+                    {% render_field form.nom class+="form-control form-control-sm" %}
+                    <div class="invalid-feedback"
+                         {% if form.nom.errors %}style="display: block"{% endif %}>
+                        {{ form.nom.errors }}
+                    </div>
+                </div>
+                <div class="form-group col-4">
+                    <label>Téléphone</label>
+                    {% render_field form.telephone class+="form-control form-control-sm" %}
+                    <div class="invalid-feedback"
+                         {% if form.telephone.errors %}style="display: block"{% endif %}>
+                        {{ form.telephone.errors }}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="d-flex mt-4 justify-content-end">
+                <a href="/etablissements/" class="btn btn-default">Annuler</a>
+                <button type="submit" id="btn_enregistrer" class="ml-2 btn btn-primary font-weight-bolder"
+                        onclick="this.disabled=true,this.form.submit();">
+                    <i class="ki ki-check icon-sm"></i>
+                    Enregistrer
+                </button>
+            </div>
+
+        </form>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    <script type="text/javascript">
+
+    </script>
+    <script src="{% static "js/core/etablissement_form.js" %}"></script>
+{% endblock %}

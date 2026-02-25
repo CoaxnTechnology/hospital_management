@@ -1,0 +1,755 @@
+{% extends "core/base_pma.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+{% load common %}
+
+{% block styles %}
+    <style type="text/css" media="print">
+        #kt_header {
+            display: none !important;
+        }
+
+        #kt_subheader {
+            position: relative !important;
+            background: none !important;
+            box-shadow: none !important;
+        }
+
+        #kt_wrapper, #kt_content.content {
+
+        }
+
+        #kt_content.content {
+
+        }
+
+        #main-container {
+            max-width: 100% !important;
+            flex: 0 0 100% !important;
+        }
+
+        #breadcrumb-liste, #clock-container, #side-container {
+            display: none !important;
+        }
+
+        .page-card-header {
+            display: none !important;
+        }
+    </style>
+{% endblock %}
+
+
+{% block sub_navigation %}
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab" href="#tab-infertilite">Type
+            d'infertilité</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-tentatives">Tentatives
+            antérieures</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-technique">Technique proposée</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-bilan-f">Bilan féminin</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-conjoint">Informations conjoint</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-bilan-m">Bilan masculin</a>
+    </li>
+
+{% endblock %}
+
+{% block inner_content %}
+    <form id="form_1" class="form" method="post" action="">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+
+        <div class="tab-content">
+
+            <div id="tab-infertilite" class="g-5 g-xxl-8 tab-pane fade show active">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row pb-3">
+                            <div class="form-group col-3">
+                                <label class="form-label">{{ form.praticien.label }}</label>
+                                {% render_field form.praticien class+="form-select form-select-solid form-select-sm" %}
+                            </div>
+                        </div>
+
+                        <div class="separator my-3"></div>
+                        <div class="mt-1 pt-4 pb-3">
+                            <div class="form-group mb-0">
+                                <h5 class="text-primary font-size-h5">Type d'infertilité</h5>
+                            </div>
+                            <div class="row gy-5">
+                                <div class="form-group col-3">
+                                    <label class="form-label">Type d'infertilité</label>
+                                    <div>
+                                        {% render_field form.type_infertilite class+="form-select form-select-sm form-select-solid " %}
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-3">
+                                    <label class="form-label">Durée d'infertilité (ans)</label>
+                                    <div>
+                                        {% render_field form.duree_infertilite class+="form-control form-control-sm form-control-solid" %}
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="form-label">Durée d'infertilité (mois)</label>
+                                    <div>
+                                        {% render_field form.duree_infertilite_mois class+="form-control form-control-sm form-control-solid" %}
+                                    </div>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="form-label">Désir de grossesse depuis (ans)</label>
+                                    <div>
+                                        {% render_field form.duree_desir_gross class+="form-control form-control-sm form-control-solid" %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-tentatives" class="g-5 g-xxl-8 tab-pane fade">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mt-1 pt-4 pb-3">
+                            <div class="form-group mb-4">
+                                <h5 class="text-primary font-size-h5">Conceptions naturelles</h5>
+                            </div>
+                            <div class="row gy-5 px-5 mb-4">
+                                <table class="table-bordered table">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">&nbsp;</th>
+                                        <th class="text-center">Nombre</th>
+                                        <th class="text-center">Date</th>
+                                        <th class="text-center">&nbsp;</th>
+                                        <th class="text-center">Nombre</th>
+                                        <th class="text-center">Date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <th>Grossesses</th>
+                                        <td>{% render_field form.gross_nb class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.gross_dt class+="date form-control form-control-solid form-control-sm" %}</td>
+                                        <th>GEU</th>
+                                        <td>{% render_field form.geu_nb class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.geu_dt class+="date form-control form-control-solid form-control-sm" %}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Enfants</th>
+                                        <td>{% render_field form.enfants_nb class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.enfants_dt class+="date form-control form-control-solid form-control-sm" %}</td>
+                                        <th>Avortements</th>
+                                        <td>{% render_field form.avort_nb class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.avort_dt class+="date form-control form-control-solid form-control-sm" %}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="form-group mb-0">
+                                <h5 class="text-primary font-size-h5">Tentatives antérieures</h5>
+                            </div>
+
+                            <div class="form-group">
+                                {{ tentatives_formset.management_form }}
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Acte</th>
+                                        <th>Résultats</th>
+                                        <th>Remarques</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="tentatives-list">
+                                    {% for form in tentatives_formset %}
+                                        <tr class="tentatives-item">
+                                            <td>{% render_field form.date class+="date form-control form-control-solid form-control-sm" %}</td>
+                                            <td>{% render_field form.acte class+="form-select form-select-solid form-select-sm" %}</td>
+                                            <td>{% render_field form.resultat class+="form-select form-select-solid form-select-sm" %}</td>
+                                            <td>{% render_field form.remarques class+="form-control form-control-solid form-control-sm" %}</td>
+                                            <td>
+                                                {% for hidden in form.hidden_fields %}
+                                                    {{ hidden }}
+                                                {% endfor %}
+                                                <button class="btn btn-sm btn-icon btn-danger" type="button"
+                                                        onclick="supprimerLigne('tentatives', event, {{ forloop.counter }})">
+                                                    <i class="la la-trash icon-md"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <div>
+                                    <button class="btn btn-sm btn-primary" type="button"
+                                            onclick="ajouterLigne('tentatives')">
+                                        Ajouter
+                                    </button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-technique" class="g-5 g-xxl-8 tab-pane fade">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group col-3">
+                            <label class="form-label">Technique proposée</label>
+                            <div>
+                                {% render_field form.technique class+="form-select form-select-solid form-select-sm" %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-bilan-f" class="g-5 g-xxl-8 tab-pane fade">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group mb-0">
+                            <h5 class="text-primary font-size-h5">Examens complémentaires</h5>
+                        </div>
+                        <div>
+                            <table class="table-bordered">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">Echo</th>
+                                    <th class="text-center">HSG</th>
+                                    <th class="text-center">HSC</th>
+                                    <th class="text-center">Coelioscopie</th>
+                                    <th class="text-center">TPC</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{% render_field form.exam_echo class+="form-control form-control-solid form-control-sm h-70px" %}</td>
+                                    <td>{% render_field form.exam_hsg class+="form-control form-control-solid form-control-sm h-70px" %}</td>
+                                    <td>{% render_field form.exam_hsc class+="form-control form-control-solid form-control-sm h-70px" %}</td>
+                                    <td>{% render_field form.exam_coelioscopie class+="form-control form-control-solid form-control-sm h-70px" %}</td>
+                                    <td>{% render_field form.exam_tpc class+="form-control form-control-solid form-control-sm h-70px" %}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-group mt-8">
+                            <h5 class="text-primary font-size-h5">Bilans endocriniens</h5>
+                        </div>
+                        <div>
+                            {{ bilans_endocriniens_feminin_formset.management_form }}
+                            <table class="table table-bordered table-sm">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">FSH</th>
+                                    <th class="text-center">LH</th>
+                                    <th class="text-center">Prolactine</th>
+                                    <th class="text-center">E2</th>
+                                    <th class="text-center">Inhibine B</th>
+                                    <th class="text-center">AMH</th>
+                                    <th class="text-center">Autres</th>
+                                </tr>
+                                </thead>
+                                <tbody id="bilans_endocriniens_feminin-list">
+                                {% for form in bilans_endocriniens_feminin_formset %}
+                                    <tr class="bilans_endocriniens_feminin-item">
+                                        <td>{% render_field form.date class+="date form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.fsh class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.lh class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.prolactine class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.e2 class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.inhibine class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.amh class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.autres class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>
+                                            {% for hidden in form.hidden_fields %}
+                                                {{ hidden }}
+                                            {% endfor %}
+                                            <button class="btn btn-sm btn-icon btn-danger" type="button"
+                                                    onclick="supprimerLigne('bilans_endocriniens_feminin', event, {{ forloop.counter }})">
+                                                <i class="la la-trash icon-md"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <div>
+                                <button class="btn btn-sm btn-primary" type="button"
+                                        onclick="ajouterLigne('bilans_endocriniens_feminin')">
+                                    Ajouter
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-conjoint" class="g-5 g-xxl-8 tab-pane fade">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row gy-5">
+                            <div class="form-group col-3">
+                                <label class="form-label">Nom</label>
+                                {% render_field form.nom_conjoint class+="form-control form-control-solid form-control-sm" %}
+                                <div class="invalid-feedback"
+                                     {% if form.nom_conjoint.errors %}style="display: block"{% endif %}>
+                                    {{ form.nom_conjoint.errors }}
+                                </div>
+                            </div>
+                            <div class="form-group col-3">
+                                <label class="form-label">Prénom</label>
+                                {% render_field form.prenom_conjoint class+="form-control form-control-solid form-control-sm" %}
+                                <div class="invalid-feedback"
+                                     {% if form.prenom_conjoint.errors %}style="display: block"{% endif %}>
+                                    {{ form.prenom_conjoint.errors }}
+                                </div>
+                            </div>
+                            <div class="form-group col-3">
+                                <label class="form-label">Date de naissance</label>
+                                {% render_field form.date_naissance_conjoint class+="date form-control form-control-solid form-control-sm" %}
+                                <div class="invalid-feedback"
+                                     {% if form.date_naissance_conjoint.errors %}style="display: block"{% endif %}>
+                                    {{ form.date_naissance_conjoint.errors }}
+                                </div>
+                            </div>
+                            <div class="form-group col-3">
+                                <label class="form-label">Téléphone</label>
+                                {% render_field form.telephone_conjoint class+="form-control form-control-solid form-control-sm" %}
+                                <div class="invalid-feedback"
+                                     {% if form.telephone_conjoint.errors %}style="display: block"{% endif %}>
+                                    {{ form.telephone_conjoint.errors }}
+                                </div>
+                            </div>
+                            <div class="form-group col-3">
+                                <label class="form-label">Groupe sanguin</label>
+                                {% render_field form.groupe_sanguin_conjoint class+="form-select form-select-solid form-select-sm" %}
+                                <div class="invalid-feedback"
+                                     {% if form.groupe_sanguin_conjoint.errors %}style="display: block"{% endif %}>
+                                    {{ form.groupe_sanguin_conjoint.errors }}
+                                </div>
+                            </div>
+                            <div class="form-group col-3">
+                                <label class="form-label">Consanguinite</label>
+                                {% render_field form.consanguinite_conjoint class+="form-select form-select-solid form-select-sm" %}
+                                <div class="invalid-feedback"
+                                     {% if form.consanguinite_conjoint.errors %}style="display: block"{% endif %}>
+                                    {{ form.consanguinite_conjoint.errors }}
+                                </div>
+                            </div>
+                            <div class="form-group col-12">
+                                <label class="form-label">Etat de santé</label>
+                                {% render_field form.etat_sante_conjoint class+="form-control form-control-solid form-control-sm h-100px" %}
+                                <div class="invalid-feedback"
+                                     {% if form.etat_sante_conjoint.errors %}style="display: block"{% endif %}>
+                                    {{ form.etat_sante_conjoint.errors }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-bilan-m" class="g-5 g-xxl-8 tab-pane fade">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group mb-0">
+                            <h5 class="text-primary font-size-h5">Antécédents particuliers</h5>
+                        </div>
+                        <div class="form-group">
+                            <table class="table-bordered">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">Médicaux</th>
+                                    <th class="text-center">Chirurgicaux</th>
+                                    <th class="text-center">Familiaux</th>
+                                    <th class="text-center">Tabac</th>
+                                    <th class="text-center">Alcool</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{% render_field form.antec_medicaux class+="form-control form-control-sm h-70px" %}</td>
+                                    <td>{% render_field form.antec_chirugicaux class+="form-control form-control-sm h-70px" %}</td>
+                                    <td>{% render_field form.antec_familiaux class+="form-control form-control-sm h-70px" %}</td>
+                                    <td>{% render_field form.antec_tabac class+="form-control form-control-sm h-70px" %}</td>
+                                    <td>{% render_field form.antec_alcool class+="form-control form-control-sm h-70px" %}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <div class="form-group mt-8 mb-0">
+                            <h5 class="text-primary font-size-h5">Sperme</h5>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-12 col-md-2">
+                                    <label class="form-check">
+                                        {% render_field form.sperme_normal class+="form-check-input" %}
+                                        <span class="form-check-label fw-semibold" for="id_sperme_normal">Normal</span>
+                                    </label>
+                                </div>
+                                <div class="col-12 col-md-4 row px-6">
+
+                                    <label class="form-check col-12 col-md-4">
+                                        {% render_field form.sperme_oats_o class+="form-check-input" %}
+                                        <span class="form-check-label fw-semibold" for="id_sperme_oats_o">O</span>
+                                    </label>
+
+                                    <label class="form-check col-12 col-md-4">
+                                        {% render_field form.sperme_oats_a class+="form-check-input" %}
+                                        <span class="form-check-label fw-semibold" for="id_sperme_oats_a">A</span>
+                                    </label>
+
+                                    <label class="form-check col-12 col-md-4">
+                                        {% render_field form.sperme_oats_t class+="form-check-input" %}
+                                        <span class="form-check-label fw-semibold" for="id_sperme_oats_t">T</span>
+                                    </label>
+
+                                    <div class="col-12 mt-3">
+                                        <label class="form-label">Gravité</label>
+                                        {% render_field form.sperme_oat_gravite class+="form-select form-select-solid form-select-sm" %}
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-4 row px-6">
+
+                                    <label class="form-check col-12 col-md-4">
+                                        {% render_field form.sperme_azoospermie class+="form-check-input" %}
+                                        <span class="form-check-label fw-semibold" for="id_sperme_azoospermie">Azoospermie</span>
+                                    </label>
+
+                                    <div class="col-12 mt-3">
+                                        <label class="form-label">Type</label>
+                                        {% render_field form.sperme_azoo_gravite class+="form-select form-select-solid form-select-sm" %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-8 mb-0">
+                            <h5 class="text-primary font-size-h5">Spermogramme / TMS</h5>
+                        </div>
+
+                        <div class="form-group">
+                            {{ spermogramme_formset.management_form }}
+                            <table class="table table-bordered table-sm">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Vol</th>
+                                    <th class="text-center">Num</th>
+                                    <th class="text-center">% Mob</th>
+                                    <th class="text-center">% Vita</th>
+                                    <th class="text-center">% FT</th>
+                                    <th class="text-center">Leuco</th>
+                                    <th class="text-center">Agglut</th>
+                                    <th class="text-center">TMS</th>
+                                </tr>
+                                </thead>
+                                <tbody id="spermogramme-list">
+                                {% for form in spermogramme_formset %}
+                                    <tr class="spermogramme-item">
+                                        <td>{% render_field form.date class+="date form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.vol class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.num class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.mob class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.vit class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.ft class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.leuco class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.agg class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.tms class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>
+                                            {% for hidden in form.hidden_fields %}
+                                                {{ hidden }}
+                                            {% endfor %}
+                                            <button class="btn btn-sm btn-icon btn-danger" type="button"
+                                                    onclick="supprimerLigne('spermogramme', event, {{ forloop.counter }})">
+                                                <i class="la la-trash icon-md"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <div>
+                                <button class="btn btn-sm btn-primary" type="button"
+                                        onclick="ajouterLigne('spermogramme')">
+                                    Ajouter
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-8 mb-0">
+                            <h5 class="text-primary font-size-h5">Bilans endocriniens</h5>
+                        </div>
+
+                        <div class="form-group">
+                            {{ bilans_endocriniens_masculin_formset.management_form }}
+                            <table class="table table-bordered table-sm">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">FSH</th>
+                                    <th class="text-center">Inhibine B</th>
+                                    <th class="text-center">Testostérone</th>
+                                    <th class="text-center">Spermoculture</th>
+                                    <th class="text-center">Biochimie séminale</th>
+                                    <th class="text-center">Cytogénétique</th>
+                                    <th class="text-center">Autres</th>
+                                </tr>
+                                </thead>
+                                <tbody id="bilans_endocriniens_masculin-list">
+                                {% for form in bilans_endocriniens_masculin_formset %}
+                                    <tr class="bilans_endocriniens_masculin-item">
+                                        <td>{% render_field form.date class+="date form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.fsh class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.inhibine class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.testosterone class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.spermoculture class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.biochoimie class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.cytogen class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>{% render_field form.autres class+="form-control form-control-solid form-control-sm" %}</td>
+                                        <td>
+                                            {% for hidden in form.hidden_fields %}
+                                                {{ hidden }}
+                                            {% endfor %}
+                                            <button class="btn btn-sm btn-icon btn-danger" type="button"
+                                                    onclick="supprimerLigne('bilans_endocriniens_masculin', event,
+                                                            {{ forloop.counter }})">
+                                                <i class="la la-trash icon-md"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <div>
+                                <button class="btn btn-sm btn-primary" type="button"
+                                        onclick="ajouterLigne('bilans_endocriniens_masculin')">
+                                    Ajouter
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-8">
+                            <label class="form-check col-12 col-md-4">
+                                {% render_field form.sperme_congenalation class+="form-check-input" %}
+                                <span class="form-check-label fw-semibold"
+                                      for="id_sperme_congenalation">Congélation</span>
+                            </label>
+                        </div>
+
+                        <div id="lieu_congelation" class="row d-none">
+                            <div class="form-group col-4">
+                                {% if object and object.sperme_congenalation_clinique %}
+                                    <label class="form-label">Etablissement de congélation</label>
+                                    <div class="d-flex">
+                                        <input id="lieu_disp" type="text" disabled
+                                               value="{{ object.sperme_congenalation_clinique.nom }}"
+                                               class="w-200px form-control form-control-solid form-control-sm">
+                                        <button type="button" onclick="selectionnerEtablissement()"
+                                                class="btn btn-primary btn-sm">Modifier
+                                        </button>
+                                    </div>
+                                {% else %}
+                                    <label class="form-label">Etablissement de congélation</label>
+                                    <div class="d-flex">
+                                        <div><input id="lieu_disp" type="text" disabled
+                                                    class="w-200px form-control form-control-solid form-control-sm d-none">
+                                        </div>
+                                        <div class="">
+                                            <button id="btn-selection-etablissement" type="button"
+                                                    onclick="selectionnerEtablissement()"
+                                                    class="btn btn-primary btn-sm">Sélectionner lieu
+                                            </button>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group col-3">
+                                <label class="form-label">Nombre de paillettes</label>
+                                {% render_field form.nb_paillettes class+="form-control form-control-solid form-control-sm" %}
+                            </div>
+
+                            <div class="form-group col-3">
+                                <label class="form-label">Rendement</label>
+                                {% render_field form.rendement class+="form-select form-select-solid form-select-sm" %}
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-4">
+                            <label class="form-check col-12 col-md-4">
+                                {% render_field form.echo_testiculaire class+="form-check-input" %}
+                                <span class="form-check-label fw-semibold"
+                                      for="id_echo_testiculaire">Echographie testisculaire</span>
+                            </label>
+                        </div>
+
+                        {% render_field form.echo_testiculaire_comment class+="form-control form-control-solid form-control-sm h-50px mt-2" %}
+
+                        <div class="form-group mt-4">
+                            <label class="form-check col-12 col-md-4">
+                                {% render_field form.bilan_infect class+="form-check-input" %}
+                                <span class="form-check-label fw-semibold"
+                                      for="id_bilan_infect">Bilan infectieux</span>
+                            </label>
+
+                        </div>
+                        {% render_field form.bilan_infect_comment class+="form-control form-control-solid form-control-sm h-50px mt-2" %}
+
+                        <div class="form-group mt-2">
+                            <label class="mb-2">Conduite à tenir</label>
+                            {% render_field form.conduite class+="form-control form-control-solid form-control-sm h-100px" %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
+    <div class="modal fade" id="pdf-modal" tabindex="-1" aria-labelledby="Aperçu PDF" aria-hidden="true">
+        <div class="modal-dialog modal-xl h-100 my-0">
+            <div class="modal-content h-100">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Impression</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close icon-md"></i>
+                    </button>
+                </div>
+                <div class="modal-body p-0">
+                    <iframe src="" id="pdf-frame" width="100%" height="100%"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    <button id="btn-demarrer-impression" type="button" class="btn btn-primary">Imprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/html" id="tentatives-template">
+        {% with tentatives_formset.empty_form as form %}
+            <tr class="tentatives-item">
+                <td>{% render_field form.date class+="date form-control form-control-sm" %}</td>
+                <td>{% render_field form.acte class+="form-control form-control-sm" %}</td>
+                <td>{% render_field form.resultat class+="form-control form-control-sm" %}</td>
+                <td>{% render_field form.remarques class+="form-control form-control-sm" %}</td>
+                <td>
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+                    <button class="btn btn-sm btn-icon btn-danger" type="button"
+                            onclick="supprimerLigne('tentatives', event, __title__)">
+                        <i class="la la-trash icon-md"></i>
+                    </button>
+                </td>
+            </tr>
+        {% endwith %}
+    </script>
+
+    <script type="text/html" id="bilans_endocriniens_feminin-template">
+        {% with bilans_endocriniens_feminin_formset.empty_form as form %}
+            <tr class="bilans_endocriniens_feminin-item">
+                <td>{% render_field form.date class+="date form-control form-control-sm" %}</td>
+                <td>{% render_field form.fsh class+="form-control form-control-sm" %}</td>
+                <td>{% render_field form.lh class+="form-control form-control-sm" %}</td>
+                <td>{% render_field form.prolactine class+="form-control form-control-sm" %}</td>
+                <td>{% render_field form.e2 class+="form-control form-control-sm" %}</td>
+                <td>{% render_field form.inhibine class+="form-control form-control-sm" %}</td>
+                <td>{% render_field form.amh class+="form-control form-control-sm" %}</td>
+                <td>{% render_field form.autres class+="form-control form-control-sm" %}</td>
+                <td>
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+                    <button class="btn btn-sm btn-icon btn-danger" type="button"
+                            onclick="supprimerLigne('bilans_endocriniens_feminin', event, __title__)">
+                        <i class="la la-trash icon-md"></i>
+                    </button>
+                </td>
+            </tr>
+        {% endwith %}
+    </script>
+
+    <script type="text/html" id="bilans_endocriniens_masculin-template">
+        {% with bilans_endocriniens_masculin_formset.empty_form as form %}
+            <tr class="bilans_endocriniens_masculin-item">
+                <td>{% render_field form.date class+="date form-control form-control-sm" %}</td>
+                <td>{% render_field form.fsh class+="form-control form-control-sm" %}</td>
+                <td>{% render_field form.inhibine class+="form-control form-control-sm" %}</td>
+                <td>{% render_field form.testosterone class+="form-control form-control-sm" %}</td>
+                <td>{% render_field form.spermoculture class+="form-control form-control-sm" %}</td>
+                <td>{% render_field form.biochoimie class+="form-control form-control-sm" %}</td>
+                <td>{% render_field form.cytogen class+="form-control form-control-sm" %}</td>
+                <td>{% render_field form.autres class+="form-control form-control-sm" %}</td>
+                <td>
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+                    <button class="btn btn-sm btn-icon btn-danger" type="button"
+                            onclick="supprimerLigne('bilans_endocriniens_masculin', event, __title__)">
+                        <i class="la la-trash icon-md"></i>
+                    </button>
+                </td>
+            </tr>
+        {% endwith %}
+    </script>
+
+    <script type="text/html" id="spermogramme-template">
+        {% with spermogramme_formset.empty_form as form %}
+            <tr class="spermogramme-item">
+                <td>{% render_field form.date class+="date form-control form-control-sm" %}</td>
+                <td>{% render_field form.vol class+="form-control form-control-sm" %}</td>
+                <td>{% render_field form.num class+="form-control form-control-sm" %}</td>
+                <td>{% render_field form.mob class+="form-control form-control-sm" %}</td>
+                <td>{% render_field form.vit class+="form-control form-control-sm" %}</td>
+                <td>{% render_field form.ft class+="form-control form-control-sm" %}</td>
+                <td>{% render_field form.leuco class+="form-control form-control-sm" %}</td>
+                <td>{% render_field form.agg class+="form-control form-control-sm" %}</td>
+                <td>{% render_field form.tms class+="form-control form-control-sm" %}</td>
+                <td>
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+                    <button class="btn btn-sm btn-icon btn-danger" type="button"
+                            onclick="supprimerLigne('spermogramme', event, __title__)">
+                        <i class="la la-trash icon-md"></i>
+                    </button>
+                </td>
+            </tr>
+        {% endwith %}
+    </script>
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+
+
+    </script>
+    <script src="{% static "js/core/interrogatoire_pma_form.js" %}"></script>
+{% endblock %}

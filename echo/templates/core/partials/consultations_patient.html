@@ -1,0 +1,60 @@
+<form class="form mb-5">
+    <div class="row">
+        <div class="col-6 col-sm-3 col-md-2 col-lg-2 col-xl-1">
+            <label class="form-label">Date Début</label>
+            <input data-search-key="debut" type="text" id="debut" data-col-index="6"
+                   class="form-control form-control-sm datatable-input" placeholder=""
+                   value=""/>
+        </div>
+        <div class="col-6 col-sm-3 col-md-2 col-lg-2 col-xl-1">
+            <label class="form-label">Date Fin</label>
+            <input data-search-key="fin" type="text" id="fin" data-col-index="7"
+                   class="form-control form-control-sm datatable-input" placeholder=""
+                   value=""/>
+        </div>
+
+        <div class="col-6 col-sm-3 col-md-3 col-lg-3 col-xl-2">
+            <label class="form-label">Catégorie Consultation</label>
+            <select name="categorie" id="categorie" class="form-select form-select-sm"
+                    data-col-index="2" data-search-key="categorie">
+                <option value="">---------</option>
+                {% for categorie in categories %}
+                    {% if categorie.id != 5 and categorie.id != 6 %}
+                    <option value="{{ categorie.id }}">{{ categorie.libelle }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-6 col-sm-3 col-md-3 col-lg-3 col-xl-2">
+            <label class="form-label">Motif Consultation</label>
+            <select name="motif" id="motif" class="form-select form-select-sm"
+                    data-col-index="3" data-search-key="motif">
+                <option value="">---------</option>
+                {% for motif in motifs_ %}
+                    <!--<option value="{{ motif.libelle }}">{{ motif.libelle }}</option>-->
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-6 col-sm-3 col-md-3 col-lg-3 col-xl-2 pt-8">
+            <button onclick="resetSearch()" class="btn btn-sm btn-light-primary" type="button">
+                Réinitialiser
+            </button>
+        </div>
+    </div>
+</form>
+<table class="table table-row-bordered gy-5" id="rapport_consultation_datatable">
+    <thead>
+    <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
+        <th>Date</th>
+        <th>Catégorie Consultation</th>
+        <th>Motif Consultation</th>
+        <th>Praticien</th>
+        <th>mot_cle</th>
+        <th>date debut</th>
+        <th>date fin</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody class="text-gray-600 fw-semibold">
+    </tbody>
+</table>

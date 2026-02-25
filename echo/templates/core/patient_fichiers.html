@@ -1,0 +1,358 @@
+{% load i18n %}
+{% load static %}
+
+<div class="d-flex flex-column-fluid">
+    <!--begin::Container-->
+    <div class="container-fluid px-0">
+        <div class="d-flex flex-row">
+            <!--begin::Aside-->
+            <div class="flex-row-auto offcanvas-mobile w-sm-350px w-xxl-350px border-right" id="kt_todo_aside">
+                <!--begin::Card-->
+                <div class="card">
+                    <!--begin::Body-->
+                    <div class="card-body dossiers">
+                        <h4 class="mb-10">Dossier</h4>
+                        <ul class="nav flex-column nav-pills">
+                            <li class="nav-item mb-2">
+                                <a class="nav-link active" id="Administratif" data-bs-toggle="tab"
+                                   href="#tab-administratif">
+                            <span class="nav-icon">
+                                <i class="flaticon2-user"></i>
+                            </span>
+                                    <span class="nav-text">Administratif</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mb-2">
+                                <a class="nav-link" id="Laboratoire" data-bs-toggle="tab" href="#tab-laboratoire"
+                                   aria-controls="profile">
+                            <span class="nav-icon">
+                                <i class="flaticon2-drop"></i>
+                            </span>
+                                    <span class="nav-text">Laboratoire</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="Radiologie" data-bs-toggle="tab" href="#tab-radiologie"
+                                   aria-controls="contact">
+                            <span class="nav-icon">
+                                <i class="flaticon2-wifi"></i>
+                            </span>
+                                    <span class="nav-text">Radiologie</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <form id="dz" action="/patients/{{ patient.pk }}/fichier/ajouter/" class="mt-10">
+
+                        </form>
+
+                        <div class="dropzone dropzone-default" id="kt_dropzone_1">
+                            <div class="dropzone-msg dz-message needsclick d-block">
+                                <h3 class="dropzone-msg-title">Déposer un fichier ou cliquer pour télécharger.</h3> <br>
+                                <span class="dropzone-msg-desc">Le fichier sera  ajouté au dossier sélectionné.</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--end::Body-->
+                </div>
+                <!--end::Card-->
+            </div>
+            <!--end::Aside-->
+            <!--begin::List-->
+            <div class="flex-row-fluid d-flex flex-column ms-lg-8">
+                <div class="tab-content" id="myTabContent5">
+                    <div class="tab-pane fade show active" id="tab-administratif" role="tabpanel"
+                         aria-labelledby="Administratif">
+                        <div class="row Administratif">
+                            {% for fichier in patient.fichiers.Administratif %}
+                                <div class="mt-4 col-xl-3 col-lg-6 col-md-6 col-sm-6">
+                                    <div class="card h-100">
+                                        <div class="card-header border-0 px-1 h-30px" style="min-height: 0px;">
+                                            <h3 class="card-title"></h3>
+                                            <div class="card-toolbar">
+                                                <div class="dropdown dropdown-inline" data-bs-toggle="tooltip"
+                                                     title="Actions" data-placement="left">
+                                                    <a href="#"
+                                                       class="btn btn-clean btn-hover-light-primary btn-sm btn-icon"
+                                                       data-bs-toggle="dropdown" aria-haspopup="true"
+                                                       aria-expanded="false">
+                                                        <i class="ki ki-bold-more-hor"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
+                                                        <!--begin::Navigation-->
+                                                        <ul class="navi navi-hover py-1">
+                                                            <li class="navi-item">
+                                                                <a class="deplacer_fichier navi-link"
+                                                                   data-id="{{ fichier.pk }}"
+                                                                   data-patient="{{ patient.pk }}">
+                                                                    <span class="navi-icon">
+                                                                        <i class="fas fa-file-export icon-sm"></i>
+                                                                    </span>
+                                                                    <span class="navi-text">Déplacer</span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="navi-item">
+                                                                <a href="/patients/{{ patient.pk }}/fichier/{{ fichier.pk }}/supprimer/"
+                                                                   class="navi-link">
+                                                                    <span class="navi-icon">
+                                                                        <i class="flaticon2-delete icon-sm"></i>
+                                                                    </span>
+                                                                    <span class="navi-text">Supprimer</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                        <!--end::Navigation-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--begin::Card body-->
+                                        <div class="card-body d-flex justify-content-center text-center flex-column p-8">
+                                            <!--begin::Name-->
+                                            <a href="{{ MEDIA_URL }}{{ fichier.chemin }}" target="_blank"
+                                               class="text-gray-800 text-hover-primary d-flex flex-column">
+                                                <!--begin::Image-->
+                                                <div class="symbol symbol-75px mb-5">
+                                                    <img src="{% static "v2/media/svg/files/doc.svg" %}"
+                                                         class="theme-light-show" alt=""/>
+                                                    <img src="{% static "assets/media/svg/files/doc-dark.svg" %}"
+                                                         class="theme-dark-show" alt=""/>
+                                                </div>
+                                                <!--end::Image-->
+                                                <!--begin::Title-->
+                                                <div class="fs-5 fw-bold mb-2">{{ fichier.nom|truncatechars:13 }}</div>
+                                                <!--end::Title-->
+                                            </a>
+                                            <!--end::Name-->
+                                            <!--begin::Description-->
+                                            <!--end::Description-->
+                                        </div>
+                                        <!--end::Card body-->
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="tab-pane fade show" id="tab-laboratoire" role="tabpanel"
+                         aria-labelledby="Laboratoire">
+                        <div class="row Laboratoire">
+                            {% for fichier in patient.fichiers.Laboratoire %}
+                                <div class="mt-4 col-xl-3 col-lg-6 col-md-6 col-sm-6">
+                                    <div class="card h-100">
+                                        <div class="card-header border-0 px-1 h-30px" style="min-height: 0px;">
+                                            <h3 class="card-title"></h3>
+                                            <div class="card-toolbar">
+                                                <div class="dropdown dropdown-inline" data-bs-toggle="tooltip"
+                                                     title="Actions" data-placement="left">
+                                                    <a href="#"
+                                                       class="btn btn-clean btn-hover-light-primary btn-sm btn-icon"
+                                                       data-bs-toggle="dropdown" aria-haspopup="true"
+                                                       aria-expanded="false">
+                                                        <i class="ki ki-bold-more-hor"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
+                                                        <!--begin::Navigation-->
+                                                        <ul class="navi navi-hover py-1">
+                                                            <li class="navi-item">
+                                                                <a class="deplacer_fichier navi-link"
+                                                                   data-id="{{ fichier.pk }}"
+                                                                   data-patient="{{ patient.pk }}">
+                                                                    <span class="navi-icon">
+                                                                        <i class="fas fa-file-export icon-sm"></i>
+                                                                    </span>
+                                                                    <span class="navi-text">Déplacer</span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="navi-item">
+                                                                <a href="/patients/{{ patient.pk }}/fichier/{{ fichier.pk }}/supprimer/"
+                                                                   class="navi-link">
+                                                                    <span class="navi-icon">
+                                                                        <i class="flaticon2-delete icon-sm"></i>
+                                                                    </span>
+                                                                    <span class="navi-text">Supprimer</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                        <!--end::Navigation-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--begin::Card body-->
+                                        <div class="card-body d-flex justify-content-center text-center flex-column p-8">
+                                            <!--begin::Name-->
+                                            <a href="{{ MEDIA_URL }}{{ fichier.chemin }}" target="_blank"
+                                               class="text-gray-800 text-hover-primary d-flex flex-column">
+                                                <!--begin::Image-->
+                                                <div class="symbol symbol-75px mb-5">
+                                                    <img src="{% static "v2/media/svg/files/doc.svg" %}"
+                                                         class="theme-light-show" alt=""/>
+                                                    <img src="{% static "assets/media/svg/files/doc-dark.svg" %}"
+                                                         class="theme-dark-show" alt=""/>
+                                                </div>
+                                                <!--end::Image-->
+                                                <!--begin::Title-->
+                                                <div class="fs-5 fw-bold mb-2">{{ fichier.nom|truncatechars:13 }}</div>
+                                                <!--end::Title-->
+                                            </a>
+                                            <!--end::Name-->
+                                            <!--begin::Description-->
+                                            <!--end::Description-->
+                                        </div>
+                                        <!--end::Card body-->
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="tab-pane fade show" id="tab-radiologie" role="tabpanel"
+                         aria-labelledby="Radiologie">
+                        <div class="row Radiologie">
+                            {% for fichier in patient.fichiers.Radiologie %}
+                                <div class="mt-4 col-xl-3 col-lg-6 col-md-6 col-sm-6">
+                                    <div class="card h-100">
+                                        <div class="card-header border-0 px-1 h-30px" style="min-height: 0px;">
+                                            <h3 class="card-title"></h3>
+                                            <div class="card-toolbar">
+                                                <div class="dropdown dropdown-inline" data-bs-toggle="tooltip"
+                                                     title="Actions" data-placement="left">
+                                                    <a href="#"
+                                                       class="btn btn-clean btn-hover-light-primary btn-sm btn-icon"
+                                                       data-bs-toggle="dropdown" aria-haspopup="true"
+                                                       aria-expanded="false">
+                                                        <i class="ki ki-bold-more-hor"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
+                                                        <!--begin::Navigation-->
+                                                        <ul class="navi navi-hover py-1">
+                                                            <li class="navi-item">
+                                                                <a class="deplacer_fichier navi-link"
+                                                                   data-id="{{ fichier.pk }}"
+                                                                   data-patient="{{ patient.pk }}">
+                                                                    <span class="navi-icon">
+                                                                        <i class="fas fa-file-export icon-sm"></i>
+                                                                    </span>
+                                                                    <span class="navi-text">Déplacer</span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="navi-item">
+                                                                <a href="/patients/{{ patient.pk }}/fichier/{{ fichier.pk }}/supprimer/"
+                                                                   class="navi-link">
+                                                                    <span class="navi-icon">
+                                                                        <i class="flaticon2-delete icon-sm"></i>
+                                                                    </span>
+                                                                    <span class="navi-text">Supprimer</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                        <!--end::Navigation-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--begin::Card body-->
+                                        <div class="card-body d-flex justify-content-center text-center flex-column p-8">
+                                            <!--begin::Name-->
+                                            <a href="{{ MEDIA_URL }}{{ fichier.chemin }}" target="_blank"
+                                               class="text-gray-800 text-hover-primary d-flex flex-column">
+                                                <!--begin::Image-->
+                                                <div class="symbol symbol-75px mb-5">
+                                                    <img src="{% static "v2/media/svg/files/doc.svg" %}"
+                                                         class="theme-light-show" alt=""/>
+                                                    <img src="{% static "assets/media/svg/files/doc-dark.svg" %}"
+                                                         class="theme-dark-show" alt=""/>
+                                                </div>
+                                                <!--end::Image-->
+                                                <!--begin::Title-->
+                                                <div class="fs-5 fw-bold mb-2">{{ fichier.nom|truncatechars:13 }}</div>
+                                                <!--end::Title-->
+                                            </a>
+                                            <!--end::Name-->
+                                            <!--begin::Description-->
+                                            <!--end::Description-->
+                                        </div>
+                                        <!--end::Card body-->
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!--end::List-->
+    </div>
+</div>
+
+<script id="template-fichier" type="text/html">
+    <div class="mt-4 col-xl-3 col-lg-6 col-md-6 col-sm-6">
+        <div class="card h-100">
+            <div class="card-header border-0 px-1 h-30px" style="min-height: 0px;">
+                <h3 class="card-title"></h3>
+                <div class="card-toolbar">
+                    <div class="dropdown dropdown-inline" data-bs-toggle="tooltip"
+                         title="Actions" data-placement="left">
+                        <a href="#"
+                           class="btn btn-clean btn-hover-light-primary btn-sm btn-icon"
+                           data-bs-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                            <i class="ki ki-bold-more-hor"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
+                            <!--begin::Navigation-->
+                            <ul class="navi navi-hover py-1">
+                                <li class="navi-item">
+                                    <a class="deplacer_fichier navi-link"
+                                       data-id="<%- pk %>"
+                                       data-patient="{{ patient.pk }}">
+                                                                    <span class="navi-icon">
+                                                                        <i class="fas fa-file-export icon-sm"></i>
+                                                                    </span>
+                                        <span class="navi-text">Déplacer</span>
+                                    </a>
+                                </li>
+                                <li class="navi-item">
+                                    <a href="/patients/{{ patient.pk }}/fichier/{{ fichier.pk }}/supprimer/"
+                                       class="navi-link">
+                                                                    <span class="navi-icon">
+                                                                        <i class="flaticon2-delete icon-sm"></i>
+                                                                    </span>
+                                        <span class="navi-text">Supprimer</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <!--end::Navigation-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--begin::Card body-->
+            <div class="card-body d-flex justify-content-center text-center flex-column p-8">
+                <!--begin::Name-->
+                <a href="<%- chemin %>" target="_blank"
+                   class="text-gray-800 text-hover-primary d-flex flex-column">
+                    <!--begin::Image-->
+                    <div class="symbol symbol-75px mb-5">
+                        <img src="{% static "v2/media/svg/files/doc.svg" %}"
+                             class="theme-light-show" alt=""/>
+                        <img src="{% static "assets/media/svg/files/doc-dark.svg" %}"
+                             class="theme-dark-show" alt=""/>
+                    </div>
+                    <!--end::Image-->
+                    <!--begin::Title-->
+                    <div class="fs-5 fw-bold mb-2"><%- nom %></div>
+                    <!--end::Title-->
+                </a>
+                <!--end::Name-->
+                <!--begin::Description-->
+                <!--end::Description-->
+            </div>
+            <!--end::Card body-->
+        </div>
+    </div>
+
+
+</script>

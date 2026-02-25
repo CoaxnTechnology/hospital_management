@@ -1,0 +1,1416 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+{% block styles %}
+    <style>
+        .la-trash {
+            color: red;
+        }
+
+        .tagify .tagify__tag.tagify--notAllowed {
+            background-color: #ECF0F3;
+        }
+
+        .tagify .tagify__tag.tagify--notAllowed div .tagify__tag-text {
+            color: #80808F;
+            font-weight: 400;
+        }
+
+        .nav .show > .nav-link, .nav .nav-link {
+            height: 32px !important;
+            border-bottom: 0 !important;
+        }
+    </style>
+
+{% endblock %}
+{% block header %}
+    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Details-->
+            <div class="d-flex align-items-center flex-wrap mr-2">
+                <h5 class="text-dark font-weight-normal mt-2 mb-2 mr-5 font-size-h3">Patient{% if object.sexe == 'F' %}e{% endif %}
+                    <strong>{{ object.nom_complet }}</strong></h5>
+                <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+                    <li class="breadcrumb-item">
+                        <a href="/accueil/#liste_salle_attente" class="text-muted">Liste des patients en salle</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12 col-md-8 col-xxl-9 pr-0">
+            <div class="card card-custom gutter-bs shadow-none">
+                <!--begin::Header-->
+                <div class="card-header card-header-tabs-line pl-6">
+                    <!--<div class="card-title">
+                        <h3 class="card-label">Rendez-vous du jour</h3>
+                    </div>-->
+
+                    <div class="card-toolbar">
+                        <ul class="nav nav-tabs nav-tabs-space-lg nav-tabs-line nav-tabs-bold nav-tabs-line-3x"
+                            role="tablist">
+                            <li class="nav-item mr-3">
+                                <a class="nav-link m-0 m-md-4 active" data-toggle="tab" href="#dossier">
+									<span class="nav-icon mr-0 mr-md-2 w-20px w-md-25px">
+                                        <i class="flaticon-clipboard icon-md icon-md-xl mr-0 mr-md-3"></i>
+                                    </span>
+                                    <span class="nav-text font-weight-bold">Dossier patient</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item mr-3">
+                                <a class="nav-link m-0 m-md-4" data-toggle="tab" href="#historique">
+														<span class="nav-icon mr-0 mr-md-2 w-20px w-md-25px">
+															<i class="la la-user-clock icon-lg icon-md-xxl mr-0 mr-md-3"></i>
+														</span>
+                                    <span class="nav-text font-weight-bold">Historique des consultations</span>
+                                </a>
+                            </li>
+                            <li class="nav-item mr-3">
+                                <a class="nav-link m-0 m-md-4" data-toggle="tab" href="#fichiers">
+														<span class="nav-icon mr-0 mr-md-2 w-20px w-md-25px">
+															<i class="la la-file icon-lg icon-md-xxl mr-0 mr-md-3"></i>
+														</span>
+                                    <span class="nav-text font-weight-bold">Fichiers</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+                <!--end::Header-->
+                <!--begin::Body-->
+                <div class="card-body pl-0 pr-0 pb-0">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="dossier" role="tabpanel">
+                            <ul class="nav nav-tabs pl-2" role="tablist">
+                                {% if 2 in user.profil.compte.categories %}
+                                <li class="nav-item">
+                                    <a class="nav-link px-2 px-md-6 active bg-light-warning" data-toggle="tab"
+                                       href="#tab-gynecologique">
+                                        <i class="fa fa-genderless text-warning icon-xxl d-none d-md-block"></i>
+                                        <span class="nav-text font-weight-bolder ml-0 ml-md-2 text-warning">Gynécologie</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                                {% if 1 in user.profil.compte.categories %}
+                                    <li class="nav-item">
+                                        <a class="nav-link px-2 px-md-6 bg-light-success" data-toggle="tab"
+                                           href="#tab-obstetrique">
+                                            <i class="fa fa-genderless text-success icon-xxl d-none d-md-block"></i>
+                                            <span class="nav-text font-weight-bolder ml-0 ml-md-2 text-success">Obstétrique</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if 3 in user.profil.compte.categories %}
+                                    <li class="nav-item">
+                                        <a class="nav-link px-2 px-md-6 bg-light-info" data-toggle="tab"
+                                           href="#tab-pma">
+                                            <i class="fa fa-genderless text-info icon-xxl d-none d-md-block"></i>
+                                            <span class="nav-text font-weight-bolder ml-0 ml-md-2 text-info">PMA</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if 5 in user.profil.compte.categories %}
+                                    <li class="nav-item">
+                                        <a class="nav-link px-2 px-md-6 active bg-light-warning" data-toggle="tab"
+                                           href="#tab-cardio">
+                                            <i class="fa fa-genderless text-warning icon-xxl d-none d-md-block"></i>
+                                            <span class="nav-text font-weight-bolder ml-0 ml-md-2 text-warning">Cardiologie</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if 6 in user.profil.compte.categories %}
+                                    <li class="nav-item">
+                                        <a class="nav-link px-2 px-md-6 bg-light-success" data-toggle="tab"
+                                           href="#tab-vasculaire">
+                                            <i class="fa fa-genderless text-success icon-xxl d-none d-md-block"></i>
+                                            <span class="nav-text font-weight-bolder ml-0 ml-md-2 text-success">Vasculaire</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if 4 in user.profil.compte.categories %}
+                                    <li class="nav-item">
+                                        <a class="nav-link px-2 px-md-6 bg-light-primary" data-toggle="tab"
+                                           href="#tab-examen-libre">
+                                            <i class="fa fa-genderless text-primary icon-xxl d-none d-md-block"></i>
+                                            <span class="nav-text font-weight-bolder ml-0 ml-md-2 text-primary">Examen libre</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                <li class="nav-item">
+                                    <a class="nav-link px-2 px-md-6" data-toggle="tab" style="background: #74bdff"
+                                       href="#tab-cro">
+                                        <i class="fa fa-genderless text-light icon-xxl d-none d-md-block"></i>
+                                        <span class="nav-text font-weight-bolder ml-0 ml-md-2 text-light">Compte-rendu opératoire</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <div id="consult-cat-tabs" class="tab-content">
+                            {% if 2 in user.profil.compte.categories %}
+                                <div class="tab-pane border-light-dark border-bottom border-2"
+                                     id="tab-gynecologique">
+                                    <div class="d-flex align-items-center bg-light-warning px-5 py-1">
+                                        <!--begin::Icon-->
+                                        <span class="svg-icon svg-icon-warning mr-5">
+														<span class="svg-icon svg-icon-lg">
+															<!--begin::Svg Icon | path:assets/media/svg/icons/Home/Library.svg-->
+															<svg xmlns="http://www.w3.org/2000/svg"
+                                                                 xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                                                                 height="24px" viewBox="0 0 24 24" version="1.1">
+																<g stroke="none" stroke-width="1" fill="none"
+                                                                   fill-rule="evenodd">
+																	<rect x="0" y="0" width="24" height="24"></rect>
+																	<path d="M5,3 L6,3 C6.55228475,3 7,3.44771525 7,4 L7,20 C7,20.5522847 6.55228475,21 6,21 L5,21 C4.44771525,21 4,20.5522847 4,20 L4,4 C4,3.44771525 4.44771525,3 5,3 Z M10,3 L11,3 C11.5522847,3 12,3.44771525 12,4 L12,20 C12,20.5522847 11.5522847,21 11,21 L10,21 C9.44771525,21 9,20.5522847 9,20 L9,4 C9,3.44771525 9.44771525,3 10,3 Z"
+                                                                          fill="#000000"></path>
+																	<rect fill="#000000" opacity="0.3"
+                                                                          transform="translate(17.825568, 11.945519) rotate(-19.000000) translate(-17.825568, -11.945519)"
+                                                                          x="16.3255682" y="2.94551858" width="3"
+                                                                          height="18" rx="1"></rect>
+																</g>
+															</svg>
+                                                            <!--end::Svg Icon-->
+														</span>
+													</span>
+                                        <!--end::Icon-->
+                                        <!--begin::Title-->
+                                        <div class="d-flex flex-column flex-grow-1 mr-2">
+                                            <span class="font-weight-bold text-dark-75 my-3 text-hover-primary mb-1">
+                                                Gynécologie
+                                            </span>
+                                            <!--<span class="text-muted font-weight-bold">15 examens</span>-->
+                                        </div>
+                                        <!--end::Title-->
+                                        <span class="font-weight-bolder text-warning py-1 font-size-lg">
+                                            <a href="patients/{{ object.pk }}/consultation_gynecologique/ajouter"
+                                               class="btn btn-warning btn-sm">Consultation gynécologique</a>
+                                            <a href="patients/{{ object.pk }}/consultation_colposcopie/ajouter"
+                                               class="btn btn-warning btn-sm">Colposcopie</a>
+                                            <a href="patients/{{ object.pk }}/consultation_echo_pelvienne/ajouter"
+                                               class="btn btn-warning btn-sm">Echo pelvienne</a>
+                                            <a href="patients/{{ object.pk }}/consultation/ajouter?motif=gyneco-libre"
+                                               class="btn btn-warning btn-sm">Consultation libre</a>
+                                        </span>
+                                    </div>
+                                    <div class="px-0">
+                                        <table class="table-examen table table-checkable table-striped mt-6"
+                                               style="margin: 0 !important;"
+                                               data-categorie="2">
+                                            <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Titre</th>
+                                                <th>Praticien</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if 1 in user.profil.compte.categories %}
+                                <div class="tab-pane border-light-dark border-bottom border-2"
+                                     id="tab-obstetrique" role="tabpanel">
+
+                                    <div class="d-flex align-items-center bg-light-success px-5 py-1">
+                                        <!--begin::Icon-->
+                                        <span class="svg-icon svg-icon-success mr-3">
+														<span class="svg-icon svg-icon-lg">
+															<!--begin::Svg Icon | path:assets/media/svg/icons/Home/Library.svg-->
+															<svg xmlns="http://www.w3.org/2000/svg"
+                                                                 xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                                                                 height="24px" viewBox="0 0 24 24" version="1.1">
+																<g stroke="none" stroke-width="1" fill="none"
+                                                                   fill-rule="evenodd">
+																	<rect x="0" y="0" width="24" height="24"></rect>
+																	<path d="M5,3 L6,3 C6.55228475,3 7,3.44771525 7,4 L7,20 C7,20.5522847 6.55228475,21 6,21 L5,21 C4.44771525,21 4,20.5522847 4,20 L4,4 C4,3.44771525 4.44771525,3 5,3 Z M10,3 L11,3 C11.5522847,3 12,3.44771525 12,4 L12,20 C12,20.5522847 11.5522847,21 11,21 L10,21 C9.44771525,21 9,20.5522847 9,20 L9,4 C9,3.44771525 9.44771525,3 10,3 Z"
+                                                                          fill="#000000"></path>
+																	<rect fill="#000000" opacity="0.3"
+                                                                          transform="translate(17.825568, 11.945519) rotate(-19.000000) translate(-17.825568, -11.945519)"
+                                                                          x="16.3255682" y="2.94551858" width="3"
+                                                                          height="18" rx="1"></rect>
+																</g>
+															</svg>
+                                                            <!--end::Svg Icon-->
+														</span>
+													</span>
+                                        <!--end::Icon-->
+                                        <!--begin::Title-->
+                                        <div class="d-flex flex-column flex-grow-1 mr-2">
+                                            <span class="font-weight-bold text-dark-75 my-3 text-hover-primary mb-1">
+                                                Obstétrique
+                                            </span>
+                                            <!--<span class="text-muted font-weight-bold">15 examens</span>-->
+                                        </div>
+                                        <!--end::Title-->
+                                        <!--begin::Lable-->
+                                        <span class="font-weight-bolder text-primary py-1 font-size-lg">
+                                            {% if not grossesse_encours %}
+                                                <button type="button" class="btn btn-success btn-sm"
+                                                        onclick="nouvelleGrossesse()">Nouvelle grossesse</button>
+                                            {% else %}
+
+                                            {% endif %}
+                                            <!--<a href="patients/{{ object.pk }}/consultation/ajouter?motif=obstetrique-defaut"
+                                               class="btn btn-success btn-sm">Nouvelle consultation</a>-->
+                                        </span>
+                                        <!--end::Lable-->
+                                    </div>
+                                    <div class="px-0">
+                                        {% if grossesse_encours %}
+                                            <div class="p-2 px-4">
+                                                <div class="d-flex justify-content-between">
+                                                    <h5>
+                                                        <button type="button" class="p-0 btn btn-link font-size-h5 font-weight-bolder"
+                                                                onclick="modifierGrossesse()">
+                                                            Grossesse en cours
+                                                            <span class="text-success font-weight-bold">
+                                                                {{ grossesse_encours.type_grossesse_v2.valeur|default_if_none:""|title }}
+                                                            </span>
+                                                        </button>
+                                                        <span class="terme label label-inline label-lg label-success label-pill"></span>
+                                                    </h5>
+                                                    <div>
+                                                        <button onclick="afficherCalendrierGrossesse()" type="button"
+                                                                class="btn btn-sm btn-outline-warning">
+                                                            <i class="flaticon-calendar-1 icon-sm"></i>Calendrier
+                                                        </button>
+                                                        <button onclick="cloturerGrossesse()" type="button"
+                                                                class="btn btn-sm btn-outline-warning">
+                                                            <i class="la la-close icon-sm"></i>Clôturer grossesse en cours
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <strong>DDG : </strong> <span class="ddg"></span>
+                                                    <strong class="ml-4">DDR : </strong>
+                                                    <span class="ddr"></span>
+
+                                                    <strong class="ml-4">Accouchement : </strong>
+                                                    <span class="accouchement"></span>
+                                                </div>
+                                                <div class="mt-2">
+                                                    {% if grossesse_encours %}
+                                                        <a href="patients/{{ object.pk }}/consultation_obs_echo_11SA/ajouter"
+                                                           class="btn btn-outline-success btn-sm mx-1 mt-1">Echo < 11 SA</a>
+
+                                                        <a href="patients/{{ object.pk }}/consultation_obs_echo_premier_trimestre/ajouter"
+                                                           class="btn btn-outline-success btn-sm mx-1 mt-1">1er trimestre</a>
+
+                                                        <a href="patients/{{ object.pk }}/consultation_obs_echo_deuxieme_trimestre/ajouter"
+                                                           class="btn btn-outline-success btn-sm mx-1 mt-1">2ème trimestre</a>
+
+                                                        <a href="patients/{{ object.pk }}/consultation_obs_echo_troisieme_trimestre/ajouter"
+                                                           class="btn btn-outline-success btn-sm mx-1 mt-1">3ème trimestre</a>
+
+                                                        <a href="patients/{{ object.pk }}/consultation_obs_echo_croissance/ajouter"
+                                                           class="btn btn-outline-success btn-sm mx-1 mt-1">Echo de croissance</a>
+
+                                                        <a href="patients/{{ object.pk }}/consultation/ajouter?motif=obs-libre"
+                                                           class="btn btn-outline-success btn-sm mx-1 mt-1">Consultation libre</a>
+
+                                                        <!--<a href="patients/{{ object.pk }}/consultation_obs_echo_col/ajouter"
+                                                           class="btn btn-outline-success btn-sm mx-1 mt-1">Echo du col</a>
+
+                                                        <a href="patients/{{ object.pk }}/consultation_obs_echo_cardio_foetale/ajouter"
+                                                           class="btn btn-outline-success btn-sm mx-1 mt-1">Echo cardiofoetale</a>
+
+                                                        <a href="patients/{{ object.pk }}/consultation_obs_grossesse/ajouter"
+                                                           class="btn btn-outline-success btn-sm mx-1 mt-1">Consult. grossesse</a>
+                                                           -->
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                        <table class="table-examen table table-checkable table-striped"
+                                               style="margin: 0 !important;"
+                                               data-categorie="1">
+                                            <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Terme</th>
+                                                <th>Motif</th>
+                                                <th>Praticien</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if 3 in user.profil.compte.categories %}
+                                <div class="tab-pane border-light-dark border-bottom border-2" id="tab-pma">
+
+                                    <div class="d-flex align-items-center bg-light-info px-5 py-1">
+                                        <!--begin::Icon-->
+                                        <span class="svg-icon svg-icon-info mr-5">
+														<span class="svg-icon svg-icon-lg">
+															<!--begin::Svg Icon | path:assets/media/svg/icons/Home/Library.svg-->
+															<svg xmlns="http://www.w3.org/2000/svg"
+                                                                 xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                                                                 height="24px" viewBox="0 0 24 24" version="1.1">
+																<g stroke="none" stroke-width="1" fill="none"
+                                                                   fill-rule="evenodd">
+																	<rect x="0" y="0" width="24" height="24"></rect>
+																	<path d="M5,3 L6,3 C6.55228475,3 7,3.44771525 7,4 L7,20 C7,20.5522847 6.55228475,21 6,21 L5,21 C4.44771525,21 4,20.5522847 4,20 L4,4 C4,3.44771525 4.44771525,3 5,3 Z M10,3 L11,3 C11.5522847,3 12,3.44771525 12,4 L12,20 C12,20.5522847 11.5522847,21 11,21 L10,21 C9.44771525,21 9,20.5522847 9,20 L9,4 C9,3.44771525 9.44771525,3 10,3 Z"
+                                                                          fill="#000000"></path>
+																	<rect fill="#000000" opacity="0.3"
+                                                                          transform="translate(17.825568, 11.945519) rotate(-19.000000) translate(-17.825568, -11.945519)"
+                                                                          x="16.3255682" y="2.94551858" width="3"
+                                                                          height="18" rx="1"></rect>
+																</g>
+															</svg>
+                                                            <!--end::Svg Icon-->
+														</span>
+													</span>
+                                        <!--end::Icon-->
+                                        <!--begin::Title-->
+                                        <div class="d-flex flex-column flex-grow-1 mr-2">
+                                            <span class="font-weight-bold text-dark-75 my-3 text-hover-primary mb-1">
+                                                PMA
+                                            </span>
+                                            <!--<span class="text-muted font-weight-bold">15 examens</span>-->
+                                        </div>
+                                        <div class="font-weight-bolder text-warning py-1 font-size-lg">
+                                            {% if patient.interrogatoire_pma %}
+                                                <a href="/interrogatoire-pma/{{ patient.interrogatoire_pma.pk }}/modifier/"
+                                                   class="btn btn-info btn-sm">Interrogatoire</a>
+                                            {% else %}
+                                                <a href="patients/{{ object.pk }}/interrogatoire-pma/ajouter/"
+                                                   class="btn btn-info btn-sm">Interrogatoire</a>
+                                            {% endif %}
+                                            {% if not patient.pma_encours %}
+                                                <a href="patients/{{ object.pk }}/tentative-pma/ajouter/"
+                                                   class="btn btn-info btn-sm">Nouvelle tentative</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="px-0">
+                                        {% if patient.pma_encours %}
+                                            <div class="p-2 px-4">
+                                                <div class="d-flex justify-content-between">
+                                                    <h5>
+                                                        <a type="button" class="p-0 btn btn-link font-size-h5 font-weight-bolder"
+                                                            href="/tentative-pma/{{ patient.pma_encours.id }}/modifier/">
+                                                            Tentative en cours
+                                                        </a>
+                                                    </h5>
+                                                    <div>
+                                                        <button id="cloturer-tentative-pma" type="button"
+                                                                class="btn btn-sm btn-outline-warning">
+                                                            <i class="la la-close icon-sm"></i>Clôturer la tentative
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <strong>Date de création: </strong> {{ patient.pma_encours.created_at|date:'d/m/Y' }}
+                                                    <strong class="ml-4">Dernière mise à jour: </strong> {{ patient.pma_encours.updated_at|date:'d/m/Y' }}
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <!--end::Title-->
+                                    <!--begin::Lable-->
+
+                                    <!--end::Lable-->
+
+                                    <div class="px-0">
+                                        <table id="table-tentatives-pma" class="table table-checkable table-striped mt-6"
+                                               style="margin: 0 !important;">
+                                            <thead>
+                                            <tr>
+                                                <th>Date de clôture</th>
+                                                <th>Titre</th>
+                                                <th>Résultat</th>
+                                                <th>Praticien</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if 5 in user.profil.compte.categories %}
+                                <div class="tab-pane border-light-dark border-bottom border-2"
+                                     id="tab-cardio">
+                                    <div class="d-flex align-items-center bg-light-warning px-5 py-1">
+                                        <!--begin::Icon-->
+                                        <span class="svg-icon svg-icon-warning mr-5">
+														<span class="svg-icon svg-icon-lg">
+															<!--begin::Svg Icon | path:assets/media/svg/icons/Home/Library.svg-->
+															<svg xmlns="http://www.w3.org/2000/svg"
+                                                                 xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                                                                 height="24px" viewBox="0 0 24 24" version="1.1">
+																<g stroke="none" stroke-width="1" fill="none"
+                                                                   fill-rule="evenodd">
+																	<rect x="0" y="0" width="24" height="24"></rect>
+																	<path d="M5,3 L6,3 C6.55228475,3 7,3.44771525 7,4 L7,20 C7,20.5522847 6.55228475,21 6,21 L5,21 C4.44771525,21 4,20.5522847 4,20 L4,4 C4,3.44771525 4.44771525,3 5,3 Z M10,3 L11,3 C11.5522847,3 12,3.44771525 12,4 L12,20 C12,20.5522847 11.5522847,21 11,21 L10,21 C9.44771525,21 9,20.5522847 9,20 L9,4 C9,3.44771525 9.44771525,3 10,3 Z"
+                                                                          fill="#000000"></path>
+																	<rect fill="#000000" opacity="0.3"
+                                                                          transform="translate(17.825568, 11.945519) rotate(-19.000000) translate(-17.825568, -11.945519)"
+                                                                          x="16.3255682" y="2.94551858" width="3"
+                                                                          height="18" rx="1"></rect>
+																</g>
+															</svg>
+                                                            <!--end::Svg Icon-->
+														</span>
+													</span>
+                                        <!--end::Icon-->
+                                        <!--begin::Title-->
+                                        <div class="d-flex flex-column flex-grow-1 mr-2">
+                                            <span class="font-weight-bold text-dark-75 my-3 text-hover-primary mb-1">
+                                                Cardiologie
+                                            </span>
+                                            <!--<span class="text-muted font-weight-bold">15 examens</span>-->
+                                        </div>
+                                        <!--end::Title-->
+                                        <span class="font-weight-bolder text-warning py-1 font-size-lg">
+                                            <a href="patients/{{ object.pk }}/consultation/ajouter?motif=libre-defaut"
+                                               class="btn btn-warning btn-sm">Consultation cardiologie</a>
+                                            <a href="patients/{{ object.pk }}/consultation/ajouter?motif=libre-defaut"
+                                               class="btn btn-warning btn-sm">Echocardiolographie</a>
+                                            <a href="patients/{{ object.pk }}/consultation/ajouter?motif=libre-defaut"
+                                               class="btn btn-warning btn-sm">Consultation cardio-pédiatrie</a>
+                                        </span>
+                                    </div>
+                                    <div class="px-0">
+                                        <table class="table-examen table table-checkable table-striped mt-6"
+                                               style="margin: 0 !important;"
+                                               data-categorie="5">
+                                            <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Titre</th>
+                                                <th>Praticien</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if 6 in user.profil.compte.categories %}
+                                <div class="tab-pane border-light-dark border-bottom border-2"
+                                     id="tab-vasculaire" role="tabpanel">
+
+                                    <div class="d-flex align-items-center bg-light-success px-5 py-1">
+                                        <!--begin::Icon-->
+                                        <span class="svg-icon svg-icon-success mr-3">
+														<span class="svg-icon svg-icon-lg">
+															<!--begin::Svg Icon | path:assets/media/svg/icons/Home/Library.svg-->
+															<svg xmlns="http://www.w3.org/2000/svg"
+                                                                 xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                                                                 height="24px" viewBox="0 0 24 24" version="1.1">
+																<g stroke="none" stroke-width="1" fill="none"
+                                                                   fill-rule="evenodd">
+																	<rect x="0" y="0" width="24" height="24"></rect>
+																	<path d="M5,3 L6,3 C6.55228475,3 7,3.44771525 7,4 L7,20 C7,20.5522847 6.55228475,21 6,21 L5,21 C4.44771525,21 4,20.5522847 4,20 L4,4 C4,3.44771525 4.44771525,3 5,3 Z M10,3 L11,3 C11.5522847,3 12,3.44771525 12,4 L12,20 C12,20.5522847 11.5522847,21 11,21 L10,21 C9.44771525,21 9,20.5522847 9,20 L9,4 C9,3.44771525 9.44771525,3 10,3 Z"
+                                                                          fill="#000000"></path>
+																	<rect fill="#000000" opacity="0.3"
+                                                                          transform="translate(17.825568, 11.945519) rotate(-19.000000) translate(-17.825568, -11.945519)"
+                                                                          x="16.3255682" y="2.94551858" width="3"
+                                                                          height="18" rx="1"></rect>
+																</g>
+															</svg>
+                                                            <!--end::Svg Icon-->
+														</span>
+													</span>
+                                        <!--end::Icon-->
+                                        <!--begin::Title-->
+                                        <div class="d-flex flex-column flex-grow-1 mr-2">
+                                            <span class="font-weight-bold text-dark-75 my-3 text-hover-primary mb-1">
+                                                Vasculaire
+                                            </span>
+                                            <!--<span class="text-muted font-weight-bold">15 examens</span>-->
+                                        </div>
+                                        <!--end::Title-->
+                                         <span class="font-weight-bolder text-success py-1 font-size-lg">
+                                            <a href="patients/{{ object.pk }}/consultation/ajouter?motif=libre-defaut"
+                                               class="btn btn-success btn-sm">Echographie doppler vasculaire</a>
+                                        </span>
+                                    </div>
+                                    <div class="px-0">
+                                        <table class="table-examen table table-checkable table-striped"
+                                               style="margin: 0 !important;"
+                                               data-categorie="6">
+                                            <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Motif</th>
+                                                <th>Praticien</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if 4 in user.profil.compte.categories %}
+                                <div class="tab-pane border-light-dark border-bottom border-2"
+                                     id="tab-examen-libre">
+
+                                    <div class="d-flex align-items-center bg-light-primary px-5 py-1">
+                                        <!--begin::Icon-->
+                                        <span class="svg-icon svg-icon-primary mr-5">
+														<span class="svg-icon svg-icon-lg">
+															<!--begin::Svg Icon | path:assets/media/svg/icons/Home/Library.svg-->
+															<svg xmlns="http://www.w3.org/2000/svg"
+                                                                 xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                                                                 height="24px" viewBox="0 0 24 24" version="1.1">
+																<g stroke="none" stroke-width="1" fill="none"
+                                                                   fill-rule="evenodd">
+																	<rect x="0" y="0" width="24" height="24"></rect>
+																	<path d="M5,3 L6,3 C6.55228475,3 7,3.44771525 7,4 L7,20 C7,20.5522847 6.55228475,21 6,21 L5,21 C4.44771525,21 4,20.5522847 4,20 L4,4 C4,3.44771525 4.44771525,3 5,3 Z M10,3 L11,3 C11.5522847,3 12,3.44771525 12,4 L12,20 C12,20.5522847 11.5522847,21 11,21 L10,21 C9.44771525,21 9,20.5522847 9,20 L9,4 C9,3.44771525 9.44771525,3 10,3 Z"
+                                                                          fill="#000000"></path>
+																	<rect fill="#000000" opacity="0.3"
+                                                                          transform="translate(17.825568, 11.945519) rotate(-19.000000) translate(-17.825568, -11.945519)"
+                                                                          x="16.3255682" y="2.94551858" width="3"
+                                                                          height="18" rx="1"></rect>
+																</g>
+															</svg>
+                                                            <!--end::Svg Icon-->
+														</span>
+													</span>
+                                        <!--end::Icon-->
+                                        <!--begin::Title-->
+                                        <div class="d-flex flex-column flex-grow-1 mr-2">
+                                            <span
+                                                    class="font-weight-bold text-dark-75 my-3 text-hover-primary mb-1">
+                                                Examen libre
+                                            </span>
+                                            <!--<span class="text-muted font-weight-bold">15 examens</span>-->
+                                        </div>
+                                        <!--end::Title-->
+                                        <!--begin::Lable-->
+                                        <span class="font-weight-bolder text-primary py-1 font-size-lg">
+                                            <a href="patients/{{ object.pk }}/consultation/ajouter?motif=libre-defaut"
+                                               class="btn btn-primary btn-sm">Nouvel examen libre</a>
+                                        </span>
+                                        <!--end::Lable-->
+                                    </div>
+                                    <div class="px-0">
+                                        <table class="table-examen table table-checkable table-striped mt-6"
+                                               style="margin: 0 !important;"
+                                               data-categorie="4">
+                                            <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Titre</th>
+                                                <th>Praticien</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                                <div class="tab-pane border-light-dark border-bottom border-2" id="tab-cro">
+
+                                    <div class="d-flex align-items-center px-5 py-1" style="background: #74bdff">
+                                        <!--begin::Icon-->
+                                        <span class="svg-icon mr-5 svg-icon-light">
+														<span class="svg-icon svg-icon-lg">
+															<!--begin::Svg Icon | path:assets/media/svg/icons/Home/Library.svg-->
+															<svg xmlns="http://www.w3.org/2000/svg"
+                                                                 xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                                                                 height="24px" viewBox="0 0 24 24" version="1.1">
+																<g stroke="none" stroke-width="1" fill="none"
+                                                                   fill-rule="evenodd">
+																	<rect x="0" y="0" width="24" height="24"></rect>
+																	<path d="M5,3 L6,3 C6.55228475,3 7,3.44771525 7,4 L7,20 C7,20.5522847 6.55228475,21 6,21 L5,21 C4.44771525,21 4,20.5522847 4,20 L4,4 C4,3.44771525 4.44771525,3 5,3 Z M10,3 L11,3 C11.5522847,3 12,3.44771525 12,4 L12,20 C12,20.5522847 11.5522847,21 11,21 L10,21 C9.44771525,21 9,20.5522847 9,20 L9,4 C9,3.44771525 9.44771525,3 10,3 Z"
+                                                                          fill="#000000"></path>
+																	<rect fill="#000000" opacity="0.3"
+                                                                          transform="translate(17.825568, 11.945519) rotate(-19.000000) translate(-17.825568, -11.945519)"
+                                                                          x="16.3255682" y="2.94551858" width="3"
+                                                                          height="18" rx="1"></rect>
+																</g>
+															</svg>
+                                                            <!--end::Svg Icon-->
+														</span>
+													</span>
+                                        <!--end::Icon-->
+                                        <!--begin::Title-->
+                                        <div class="d-flex flex-column flex-grow-1 mr-2">
+                                            <span class="font-weight-bold my-3 text-light mb-1">
+                                                Compte-rendu opératoire
+                                            </span>
+                                            <!--<span class="text-muted font-weight-bold">15 examens</span>-->
+                                        </div>
+                                        <!--end::Title-->
+                                        <!--begin::Lable-->
+                                        <span class="font-weight-bolder text-info py-1 font-size-lg">
+                                            <a href="patients/{{ object.pk }}/consultation/ajouter?motif=cr_op"
+                                               class="btn btn-light-primary btn-sm">Nouveau compte-rendu</a>
+                                        </span>
+                                        <!--end::Lable-->
+                                    </div>
+                                    <div class="px-0">
+                                        <table class="table-examen table table-checkable table-striped mt-6"
+                                               style="margin: 0 !important;"
+                                               data-categorie="7">
+                                            <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Titre</th>
+                                                <th>Praticien</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="h-10px page-bg"></div>
+                            <div class="h-5px bg-red-400"></div>
+
+                            <div class="pt-4 pl-5 pr-5 pb-3" style="background: #ffe7e99e">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <div><h5 class="font-size-h6 text-dark">Alertes</h5></div>
+                                </div>
+
+                                <div class="min-h-50px p-2">
+                                    <div id="alertes-container">
+                                        {% for alerte in object.alertepatient_set.all %}
+                                            <div id="alerte-{{ alerte.id }}"
+                                                 class="py-1 d-flex align-items-center justify-content-between border-bottom border-bottom-light-danger">
+                                                <div {% if alerte.lien %} class="cursor-pointer" onclick="gotoAlerte('{{ alerte.lien }}')" {% endif %}>
+                                                    <i class="la la-warning text-danger"></i> {{ alerte.created_at|date:'d/m/Y' }} - {{ alerte.text|safe }}
+                                                </div>
+                                                <div>
+                                                    <button type="button" class="btn btn-xs btn-icon btn-danger"
+                                                            title="Masquer"
+                                                            onclick="dismissAlerte({{ alerte.id }})">
+                                                        <i class="la la-eye-slash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <input type="text" placeholder="Ajouter une alerte" id="new-alerte"
+                                           class="mt-2 form-control form-control-sm bg-light-danger">
+                                </div>
+                            </div>
+
+                            <script id="alerte-template" type="text/html">
+                                <div id="alerte-<%= id %>"
+                                     class="py-1 d-flex align-items-center justify-content-between border-bottom border-bottom-light-danger">
+                                    <div><i class="la la-warning text-danger"></i> <%= date %> - <%= text %></div>
+                                    <div>
+                                        <button type="button" class="btn btn-xs btn-icon btn-danger"
+                                                title="Masquer"
+                                                onclick="dismissAlerte(<%= id %>)">
+                                            <i class="la la-eye-slash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </script>
+
+                            <div class="h-10px page-bg"></div>
+                            <div class="h-5px bg-yellow-400"></div>
+
+                            <div class="pt-4 pl-5 pr-5 pb-3 bg-yellow-100">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <div><h5 class="font-size-h6 text-dark">Notes</h5></div>
+                                </div>
+
+                                <div id="editor-notes" class="bg-white min-h-50px p-2">
+                                    {% if object.notes %}
+                                        {{ object.notes|safe }}
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="h-10px page-bg"></div>
+                            <div class="h-5px bg-blue-400"></div>
+
+                            <div class="pt-4 pl-5 pr-5 pb-4 bg-blue-50">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <div><h5 class="font-size-h6 text-dark">Antécédents familiaux</h5></div>
+                                    <div class="dropdown">
+                                        <button class="btn btn-light-primary btn-sm dropdown-toggle p-1"
+                                                type="button"
+                                                id="dropdownMenuButton" data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-paragraph icon-sm"></i> Phrases enregistrées
+                                        </button>
+                                        <div id="phrases-antecedents-familiaux" class="dropdown-menu"
+                                             aria-labelledby="dropdownMenuButton">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="editor-1" class="editor_antecedent bg-white p-2">
+                                    {% if object.antecedents_familiaux %}
+                                        {{ object.antecedents_familiaux|safe }}
+                                    {% endif %}
+                                </div>
+
+                                <div class="d-flex justify-content-between mt-6 mb-1">
+                                    <div><h5 class="font-size-h6 text-dark">Antécédents médico-chirurgicaux</h5></div>
+                                    <div class="dropdown">
+                                        <button class="btn btn-light-primary btn-sm dropdown-toggle p-1"
+                                                type="button"
+                                                id="dropdownMenuButton" data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-paragraph icon-sm"></i> Phrases enregistrées
+                                        </button>
+                                        <div id="phrases-antecedents-chirurgicaux" class="dropdown-menu"
+                                             aria-labelledby="dropdownMenuButton">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="editor-2" class="editor_antecedent bg-white p-2">
+                                    {% if object.antecedents_medico_chirurgicaux %}
+                                        {{ object.antecedents_medico_chirurgicaux|safe }}
+                                    {% endif %}
+                                </div>
+
+                                {% if user.profil.compte.is_gyneco %}
+                                <div class="d-flex justify-content-between mt-6 mb-1">
+                                    <div><h5 class="font-size-h6 text-dark">Antécédents gynécologiques</h5></div>
+                                    <div class="dropdown">
+                                        <button class="btn btn-light-primary btn-sm dropdown-toggle p-1"
+                                                type="button"
+                                                id="dropdownMenuButton" data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-paragraph icon-sm"></i> Phrases enregistrées
+                                        </button>
+                                        <div id="phrases-antecedents-gynecologiques" class="dropdown-menu"
+                                             aria-labelledby="dropdownMenuButton">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="editor-3" class="editor_antecedent bg-white p-2">
+                                    {% if object.antecedents_gynecologiques %}
+                                        {{ object.antecedents_gynecologiques|safe }}
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+
+                                {% if user.profil.compte.is_gyneco %}
+                                <div class="d-flex mt-6 mb-1">
+                                    <div><h5 class="font-size-h6 m-0 text-dark">Antécédents obstétricaux</h5></div>
+                                    <button class="btn btn-success btn-sm p-1 ml-6"
+                                            onclick="nouvelAntecedentObstetrique()" type="button">
+                                        <i class="fas fa-plus icon-sm"></i> Nouvel antécédent
+                                    </button>
+                                </div>
+
+                                <div id="accordion" class="accordion accordion-light accordion-svg-toggle">
+                                    {% for antecedent in antecedents_obstetriques_patient %}
+                                        <div class="card">
+                                            <div id="heading{{ antecedent.pk }}" class="card-header">
+                                                <div class="card-title collapsed px-2 py-2">
+                                                    <span data-toggle="collapse"
+                                                          data-target="#collapse{{ antecedent.pk }}"
+                                                          class="svg-icon svg-icon-success">
+                                                       <svg xmlns="http://www.w3.org/2000/svg"
+                                                            xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                                                            height="24px" viewBox="0 0 24 24" version="1.1">
+																			<g stroke="none" stroke-width="1"
+                                                                               fill="none" fill-rule="evenodd">
+																				<rect fill="#000000" x="4" y="11"
+                                                                                      width="16" height="2"
+                                                                                      rx="1"></rect>
+																				<rect fill="#000000" opacity="0.3"
+                                                                                      transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000)"
+                                                                                      x="4" y="11" width="16" height="2"
+                                                                                      rx="1"></rect>
+																			</g>
+																		</svg>
+                                                        <!--end::Svg Icon-->
+                                                    </span>
+                                                    <div class="card-label pl-2 font-size-base row">
+                                                        <div class="col-4 d-flex align-items-center">
+                                                            <div class="font-size-sm text-primary font-weight-bold">
+                                                                {{ antecedent.date_accouchement|date:'d/m/Y' }}
+                                                            </div>
+                                                            <div class="font-size-sm text-primary font-weight-bold ml-4">
+                                                                {% if antecedent.lieu_accouchement_disp %}à {{ antecedent.lieu_accouchement_disp }}{% endif %}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4 d-flex align-items-center">
+                                                            <a class="text-primary font-weight-bolder"
+                                                               onclick="modifierAntecedentObstetrique({{ antecedent.pk }})">
+                                                                {% if antecedent.sous_categorie.id == 19 %}
+                                                                    {% if antecedent.issue_grossesse %}
+                                                                        {{ antecedent.issue_grossesse }}
+                                                                    {% else %}
+                                                                        Issue de grossesse à compléter
+                                                                    {% endif %}
+                                                                {% else %}
+                                                                    {% if antecedent.sous_categorie %}
+                                                                        {{ antecedent.sous_categorie }}
+                                                                    {% else %}
+                                                                        Issue de grossesse à compléter
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-3 d-flex align-items-center">
+                                                            <span data-toggle="popover" data-placement="left"
+                                                                  data-html="true" title="Foetus"
+                                                                  data-content="{{ antecedent.resume_foetus}}"
+                                                                  class="label label-light-info label-pill label-inline mr-2 w-80px">
+                                                                {{ antecedent.nb_foetus }} foetus
+                                                            </span>
+                                                            <!-- {% if antecedent.prenom_1 %}
+                                                                {{ antecedent.prenom_1 }}
+                                                            {% endif %}
+                                                            {% if antecedent.sexe_1 %}
+                                                                ({{ antecedent.sexe_1 }})
+                                                            {% endif %}
+                                                            {% if antecedent.poids_naissance_1 %}
+                                                                -
+                                                                {{ antecedent.poids_naissance_1|floatformat }}
+                                                                g{% endif %}
+                                                                -->
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <a onclick="modifierAntecedentObstetrique({{ antecedent.pk }})"
+                                                               class="btn btn-icon btn-primary btn-xs"
+                                                               title="Modifier">
+                                                                <i class="la la-pen"></i>
+                                                            </a>
+                                                            <a onclick="supprimerAntecedentObstetrique({{ antecedent.pk }})"
+                                                               class="btn btn-icon btn-danger btn-xs"
+                                                               title="Supprimer">
+                                                                <i class="la la-trash"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="collapse{{ antecedent.pk }}" class="collapse"
+                                                 data-parent="#accordion">
+                                                <div class="card-body px-0 py-1">
+                                                    <table
+                                                            id="table{{ antecedent.pk }}"
+                                                            class="table-cons-obs table table-checkable table-striped border-top"
+                                                            style="margin: 0 !important;">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Date</th>
+                                                            <th>Terme</th>
+                                                            <th>Motif</th>
+                                                            <th>Praticien</th>
+                                                            <th>Actions</th>
+                                                        </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+
+                                {% if user.profil.compte.is_cardio %}
+                                    <div class="d-flex justify-content-between mt-6 mb-1">
+                                        <div><h5 class="font-size-h6 text-dark">Antécédents cardio-vasculaires</h5></div>
+                                        <div class="dropdown">
+                                            <button class="btn btn-light-primary btn-sm dropdown-toggle p-1"
+                                                    type="button"
+                                                    id="dropdownMenuButton" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-paragraph icon-sm"></i> Phrases enregistrées
+                                            </button>
+                                            <div id="phrases-antecedents-caerdio" class="dropdown-menu"
+                                                 aria-labelledby="dropdownMenuButton">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="editor-4" class="editor_antecedent bg-white p-2">
+                                        {% if object.antecedents_cardio %}
+                                            {{ object.antecedents_cardio|safe }}
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+
+                            </div>
+
+                            <!--<div class="h-1px bg-blue-200"></div>-->
+                            {% if user.profil.compte.is_gyneco %}
+                            <div class="pt-1 pl-5 pr-5 pb-1 bg-blue-50">
+                                <div class="row mt-4 mb-1">
+                                    <div class="col-4 col-xxl-4 pr-1 pr-xxl-8">
+                                        <div class="card card-custom card-stretch gutter-b px-2">
+                                            <div class="card-header align-items-center border-0 mt-0">
+                                                <h3 class="card-title align-items-start flex-column">
+                                                    <span class="font-weight-bolder text-dark">FCV</span>
+                                                </h3>
+
+                                                <div class="card-toolbar">
+                                                    <div class="dropdown dropdown-inline">
+                                                        <button class="btn btn-light-primary btn-sm dropdown-toggle p-1"
+                                                                type="button" data-toggle="dropdown"
+                                                                aria-haspopup="true" aria-expanded="false"
+                                                                data-form="antecedents" data-champ="FCV">
+                                                            Ajouter
+                                                        </button>
+                                                        <div id="fcv" class="dropdown-menu"
+                                                             aria-labelledby="dropdownMenuButton">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="fcv-date-container"
+                                                     class="antecedent-date-container form-group w-100" style="display:none">
+                                                    <div class="form-group row">
+                                                        <label class="col-3 col-form-label">Date</label>
+                                                        <div class="col-9">
+                                                            <div class="input-group">
+                                                                <input id="fcv-date" type="text"
+                                                                       class="date-picker form-control form-control-sm">
+                                                                <div class="input-group-append">
+                                                                    <button onclick="ajouterAntecedentParChamp('FCV')"
+                                                                            class="btn btn-sm btn-primary"
+                                                                            disabled
+                                                                            type="button">
+                                                                        OK
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="card-body pt-0">
+                                                <div id="fcv-timeline" class="timeline timeline-2">
+                                                    <div class="timeline-bar"></div>
+                                                    {% for antecedent in antecedents_fcv %}
+                                                        <div class="timeline-item">
+                                                            <div class="timeline-badge bg-success mr-2"></div>
+                                                            <div class="timeline-content d-flex align-items-center justify-content-between">
+                                                                <span class="font-size-sm mr-1">
+				                                                    {{ antecedent.text }}
+                                                                </span>
+                                                                <span class="text-muted text-right font-size-xs">
+                                                                    {{ antecedent.date|date:'d/m/Y' }}
+                                                                    <button type="button"
+                                                                            onclick="supprimerAntecedent(event, {{ antecedent.id }})"
+                                                                            class="btn btn-icon btn-clean btn-hover-danger btn-sm"
+                                                                            title="Supprimer le lieu d'accouchement">
+                                                                        <i class="la la-trash icon-md"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    {% empty %}
+                                                        <div id="fcv-timeline-empty" class="font-size-sm">
+                                                            Pas d'historique
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4 col-xxl-4 pr-1 pr-xxl-8 pl-2">
+                                        <div class="card card-custom card-stretch gutter-b px-2">
+                                            <div class="card-header align-items-center border-0 mt-0">
+                                                <h3 class="card-title align-items-start flex-column">
+                                                    <span class="font-weight-bolder text-dark">Mammographie</span>
+                                                </h3>
+
+                                                <div class="card-toolbar">
+                                                    <div class="dropdown dropdown-inline">
+                                                        <button class="btn btn-light-primary btn-sm dropdown-toggle p-1"
+                                                                type="button" data-toggle="dropdown"
+                                                                aria-haspopup="true" aria-expanded="false"
+                                                                data-form="antecedents" data-champ="Mammographie">
+                                                            Ajouter
+                                                        </button>
+                                                        <div id="mammographie" class="dropdown-menu"
+                                                             aria-labelledby="dropdownMenuButton">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="mammographie-date-container"
+                                                     class="antecedent-date-container form-group" style="display:none">
+                                                    <div class="form-group row">
+                                                        <label class="col-3 col-form-label">Date</label>
+                                                        <div class="col-9">
+                                                            <div class="input-group">
+                                                                <input id="mammographie-date" type="text"
+                                                                       class="date-picker form-control form-control-sm">
+                                                                <div class="input-group-append">
+                                                                    <button onclick="ajouterAntecedentParChamp('Mammographie')"
+                                                                            class="btn btn-sm btn-primary"
+                                                                            disabled
+                                                                            type="button">
+                                                                        OK
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="card-body pt-0">
+                                                <div id="mammographie-timeline" class="timeline timeline-2">
+                                                    <div class="timeline-bar"></div>
+                                                    {% for antecedent in antecedents_mammographie %}
+                                                        <div class="timeline-item">
+                                                            <div class="timeline-badge bg-success mr-2"></div>
+                                                            <div class="timeline-content d-flex align-items-center justify-content-between">
+                                                                <span class="font-size-sm mr-1">
+				                                                    {{ antecedent.text }}
+                                                                </span>
+                                                                <span class="text-muted text-right font-size-xs">
+                                                                    {{ antecedent.date|date:'d/m/Y' }}
+                                                                    <button type="button"
+                                                                            onclick="supprimerAntecedent(event, {{ antecedent.id }})"
+                                                                            class="btn btn-icon btn-clean btn-hover-danger btn-sm"
+                                                                            title="Supprimer le lieu d'accouchement">
+                                                                        <i class="la la-trash icon-md"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    {% empty %}
+                                                        <div id="mammographie-timeline-empty" class="font-size-sm">Pas
+                                                            d'historique
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4 col-xxl-4 pr-1 pr-xxl-8 pl-2">
+                                        <div class="card card-custom card-stretch gutter-b px-2">
+                                            <div class="card-header align-items-center border-0 mt-0">
+                                                <h3 class="card-title align-items-start flex-column">
+                                                    <span class="font-weight-bolder text-dark">Echo Mammaire</span>
+                                                </h3>
+
+                                                <div class="card-toolbar">
+                                                    <div class="dropdown dropdown-inline">
+                                                        <button class="btn btn-light-primary btn-sm dropdown-toggle p-1"
+                                                                type="button" data-toggle="dropdown"
+                                                                aria-haspopup="true" aria-expanded="false"
+                                                                data-form="antecedents" data-champ="Echo Mammaire">
+                                                            Ajouter
+                                                        </button>
+                                                        <div id="echo-mammaire" class="dropdown-menu"
+                                                             aria-labelledby="dropdownMenuButton">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="echo-mammaire-date-container"
+                                                     class="antecedent-date-container form-group" style="display:none">
+                                                    <div class="form-group row">
+                                                        <label class="col-3 col-form-label">Date</label>
+                                                        <div class="col-9">
+                                                            <div class="input-group">
+                                                                <input id="echo-mammaire-date" type="text"
+                                                                       class="date-picker form-control form-control-sm">
+                                                                <div class="input-group-append">
+                                                                    <button onclick="ajouterAntecedentParChamp('Echo Mammaire')"
+                                                                            class="btn btn-sm btn-primary"
+                                                                            disabled
+                                                                            type="button">
+                                                                        OK
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="card-body pt-0">
+                                                <div id="echo-mammaire-timeline" class="timeline timeline-2">
+                                                    <div class="timeline-bar"></div>
+                                                    {% for antecedent in antecedents_echo_mammaire %}
+                                                        <div class="timeline-item">
+                                                            <div class="timeline-badge bg-success mr-2"></div>
+                                                            <div class="timeline-content d-flex align-items-center justify-content-between">
+                                                                <span class="font-size-sm mr-1">
+				                                                    {{ antecedent.text }}
+                                                                </span>
+                                                                 <span class="text-muted text-right font-size-xs">
+                                                                    {{ antecedent.date|date:'d/m/Y' }}
+                                                                    <button type="button"
+                                                                            onclick="supprimerAntecedent(event, {{ antecedent.id }})"
+                                                                            class="btn btn-icon btn-clean btn-hover-danger btn-sm"
+                                                                            title="Supprimer le lieu d'accouchement">
+                                                                        <i class="la la-trash icon-md"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    {% empty %}
+                                                        <div id="echo-mammaire-timeline-empty" class="font-size-sm">Pas
+                                                            d'historique
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!--<div class="card">
+                                    <div class="card-header" id="headingThree3">
+                                        <div class="card-title collapsed" data-toggle="collapse"
+                                             data-target="#collapseThree2">
+                                            Antécédents obstétricaux
+                                        </div>
+                                    </div>
+                                    <div id="collapseThree2" class="collapse" data-parent="#accordionExample2">
+                                        <div class="card-body">
+                                            ...
+                                        </div>
+                                    </div>
+                                </div>-->
+
+                            </div>
+                            {% endif %}
+
+                            <div class="pl-5 pr-5 pb-4 bg-blue-50">
+                                <div class="d-flex justify-content-between mt-0 mb-1">
+                                    <div><h5 class="font-size-h6 text-dark">Allergies</h5></div>
+                                    <div class="dropdown">
+                                        <button class="btn btn-light-primary btn-sm dropdown-toggle p-1"
+                                                type="button"
+                                                id="dropdownMenuButton" data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-paragraph icon-sm"></i> Phrases enregistrées
+                                        </button>
+                                        <div id="phrases-allergies" class="dropdown-menu"
+                                             aria-labelledby="dropdownMenuButton">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="editor-4" class="editor_antecedent bg-white p-2">
+                                    {% if object.allergies %}
+                                        {{ object.allergies|safe }}
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="h-10px page-bg"></div>
+                            <div class="h-5px bg-blue-grey-400"></div>
+
+                            <div class="pt-4 pl-5 pr-5 pb-3">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <div><h5 class="font-size-h6 text-dark">Historique des ordonnances</h5></div>
+                                </div>
+
+                                <div class="py-2">
+                                    <table class="table table-checkable table-striped"
+                                           style="margin: 0 !important;"
+                                           id="ordonnances-table">
+                                        <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Catégorie</th>
+                                            <th>Praticien</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane mt-2 pl-5 pr-5 pb-4" id="historique" role="tabpanel">
+                            <div class="row">
+                                <div class="col-12">
+                                    {% include 'core/partials/timeline_patient.html' with consultations=consultations %}
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane px-2" id="fichiers" role="tabpanel">
+                            {% include 'core/patient_fichiers.html' with patient=object %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-4 col-xxl-3 pr-1 pl-2 pl-xxl-4 d-none d-md-block">
+            {% include 'core/patient_info_panel.html' with object=patient grossesse=grossesse_encours %}
+        </div>
+    </div>
+
+    <div class="modal fade" id="calendrier-grossesse-modal" tabindex="-1" aria-labelledby="Calendrier de grossesse"
+         aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 600px; height:50%;">
+            <div class="modal-content h-100">
+                <div class="modal-header">
+                    <h5 class="modal-title">Calendrier de grossesse</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close icon-md"></i>
+                    </button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="d-flex justify-content-center h-100 loading bg-white">
+                        <div class="d-flex flex-center">
+                            <div class="spinner spinner-primary"></div>
+                            <div class="text-primary ml-10">Chargement</div>
+                        </div>
+                    </div>
+                    <iframe src="" width="600px" height="400px" frameBorder="0" class="p-0"></iframe>
+                </div>
+                <div class="modal-footer border-0 p-1">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="antecedent-obstetrique-modal" tabindex="-1" aria-labelledby="Antécédent obstétrical"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl" style="height: 90%">
+            <div class="modal-content h-100">
+                <div class="modal-header">
+                    <h5 class="modal-title">Antécédent obstétrical</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close icon-md"></i>
+                    </button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="d-flex justify-content-center h-100 loading bg-white">
+                        <div class="d-flex flex-center">
+                            <div class="spinner spinner-primary"></div>
+                            <div class="text-primary ml-10">Chargement</div>
+                        </div>
+                    </div>
+                    <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+                </div>
+                <div class="modal-footer border-0 p-1"></div>
+            </div>
+        </div>
+    </div>
+
+    <template id="actions-template">
+        <a href="<%- modifUrl %>" class="btn btn-icon btn-primary btn-xs" title="Consulter">
+            <i class="la la-eye"></i>
+        </a>
+        <a onclick="supprimerConsultation(<%= id %>)" href="javascript:void(0)" class="btn btn-icon btn-danger btn-xs" title="Supprimer">
+            <i class="la la-trash"></i>
+        </a>
+    </template>
+
+    <template id="actions-pma-template">
+        <a href="<%- modifUrl %>" class="btn btn-icon btn-primary btn-xs" title="Consulter">
+            <i class="la la-eye"></i>
+        </a>
+        <a onclick="supprimerPMA(<%= id %>)" href="javascript:void(0)" class="btn btn-icon btn-danger btn-xs" title="Supprimer">
+            <i class="la la-trash"></i>
+        </a>
+    </template>
+
+    <template id="actions-ordonnances-template">
+        <a onclick="afficherOrdonnance(<%= id %>)"
+           class="btn btn-icon btn-primary btn-xs" title="Consulter">
+            <i class="la la-eye"></i>
+        </a>
+    </template>
+
+    <template id="antecedent-timeline-item-template">
+        <div class="timeline-item">
+            <div class="timeline-badge bg-success mr-2"></div>
+            <div class="timeline-content d-flex align-items-center justify-content-between">
+				<span class="font-size-sm mr-1">
+				    <%= valeur %>
+				</span>
+                <span class="text-muted text-right font-size-xs"><%= date %></span>
+            </div>
+        </div>
+    </template>
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="{% static "plugins/custom/tinymce/tinymce.bundle.js" %}"></script>
+    <script type="text/javascript">
+
+        const patient = {{ object.pk }};
+        const list_mots = {{ mot_patient|safe }};
+
+        {% if msg %}
+            toastr.success("{{ msg }}");
+        {% endif %}
+
+        let consultations = {{ consultations_json|safe }};
+        //console.info('Consultations', consultations);
+
+        let consultations_obs = {{ consultations_obs_json|safe }};
+        consultations_obs = _.groupBy(consultations_obs, 'grossesse.id')
+        //console.info('Consultations obstetriques', consultations_obs);
+
+        let grossesse = {% if grossesse_encours %}{{ grossesse_encours_json|safe }}{% else %}null{% endif %};
+
+        if (grossesse && _.isNil(grossesse.ddr)) {
+            toastr.warning("La DDR n'est pas renseignée pour la grossesse en cours", '', {timeOut: 0, extendedTimeOut: 0, closeButton:true});
+        }
+
+        let ordonnances = {{ ordonnances_json|safe }};
+        ordonnances = _.map(ordonnances, e => _.merge(e.fields, {'pk': e.pk}));
+
+        let antecedents_obstetriques_patient = {{ antecedents_obstetriques_patient_json|safe }};
+        //console.info('Antecedents obstetriques', antecedents_obstetriques_patient);
+
+        let motifs = {{ motifs|safe }};
+        motifs = _.keyBy(_.map(motifs, e => _.merge(e.fields, {'pk': e.pk})), 'code');
+
+        let praticiens = {{ praticiens_json|safe }};
+        //console.info('Praticiens', praticiens);
+
+        let etablissements = {{ etablissements_json|safe }};
+        etablissements = _.map(etablissements, e => _.merge(e.fields, {'pk': e.pk}));
+
+        let phrasiers = {{ phrasiers_json|safe }};
+        phrasiers_par_categorie = _.groupBy(phrasiers, p => p.categorie.libelle);
+
+        // Phrases affichées par défaut dans les editeurs des antécédents
+        let antecedents_defaut = {{ antecedents_defaut|safe }};
+        antecedents_defaut = _.map(antecedents_defaut, a => a.replace('\n', '<br>'));
+
+        let formulaire_antecedents_liste_choix = {{ formulaire_antecedents_liste_choix|safe }};
+        //console.log('formulaire_antecedents_liste_choix', formulaire_antecedents_liste_choix);
+        const formulaire_antecedents_liste_choix_par_champ = _.groupBy(
+            _.filter(formulaire_antecedents_liste_choix, {actif: true}), p => p.champ);
+
+        let sous_categories_antecedents = {{ sous_categories_antecedents|safe }};
+
+        let tentativePMAId = -1;
+        {% if patient.pma_encours %}tentativePMAId = {{ patient.pma_encours.id  }}{% endif %};
+
+        let tentativesPMA = {{ tentatives_pma_json|safe }};
+
+        const dureeGrossesse = {{ user.profil.compte.parametrescompte.duree_grossesse }};
+
+    </script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+    <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
+    <script src="{% static "plugins/custom/datatables/datatables.bundle.js" %}"></script>
+    <script src="{% static "js/core/obstetrique.js" %}"></script>
+    <script src="{% static "js/core/fichiers_patient.js" %}"></script>
+    <script src="{% static "js/core/patient_detail.js" %}"></script>
+    <script src="{% static "js/core/patient_info_panel.js" %}"></script>
+
+{% endblock %}

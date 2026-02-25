@@ -1,0 +1,126 @@
+{% extends "core/base_consultation.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block inner_content %}
+    <div class="card card-custom gutter-bs px-4">
+        <div class="card-header border-0">
+            <div class="card-title">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a id="edition-tab" class="nav-link active" data-toggle="tab" href="#tab-edition"
+                           role="tab"
+                           aria-controls="tab-edition" aria-selected="true">
+																	<span class="nav-icon">
+																		<i class="flaticon2-edit"></i>
+																	</span>
+                            <span class="nav-text">Edition</span>
+                        </a>
+                    </li>
+
+                </ul>
+                <span class="label label-pill label-inline label-success hide ml-2"
+                      id="libelle_statut"></span>
+            </div>
+            <div class="card-toolbar">
+                <a href="/patients/{{ patient.pk }}"
+                   class="btn btn-sm btn-light-primary font-weight-bolder mr-2">
+                    <i class="ki ki-long-arrow-back icon-sm"></i>
+                    Précédent
+                </a>
+                <button id="btn_enregistrer" class="btn btn-sm btn-primary font-weight-bolder mr-2 enregistrer">
+                    <i class="ki ki-check icon-sm"></i>
+                    Enregistrer
+                </button>
+
+                <a id="btn_terminer" href="/patients/{{ patient.pk }}/consultation/terminer"
+                   class="btn btn-sm btn-success font-weight-bolder d-none mr-4">
+                    <i class="ki ki-bold-close icon-sm"></i>
+                    Terminer la consultation
+                </a>
+
+                <a id="btn_imprimer" href="javascript:void(0)"
+                   class="btn btn-sm btn-warning font-weight-bolder">
+                    <i class="flaticon2-printer"></i>
+                    Imprimer
+                </a>
+            </div>
+        </div>
+        <div class="card-body pt-4">
+            <form id="form_1" class="form" method="post" action="">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="form-group col-3">
+                        <label>{{ form.praticien.label }}</label>
+                        {% render_field form.praticien class+="form-control form-control-sm" %}
+                        <div class="invalid-feedback"
+                             {% if form.praticien.errors %}style="display: block"{% endif %}>
+                            {{ form.praticien.errors }}
+                        </div>
+                    </div>
+                    {% if motif.code !=  "pma-interrogatoire" %}
+                    <div class="form-group col-3">
+                        <label>Modèle</label>
+                        <select name="template_edition" id="id_template_edition" class="form-control form-control-sm">
+                            <option value="-1">---------</option>
+                            {% for temp in templates %}
+                                <option value="{{ temp.id }}">{{ temp.libelle }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="d-flex">
+                    {% if patient.grossesse_encours %}
+                    <div class="mr-2">
+                        <label class="checkbox">
+                            <input type="checkbox" id="cb-inserer-grossesse-info"> Informations de grossesse
+                            <span></span>
+                        </label>
+                    </div>
+                    {% endif %}
+                    <div>
+                        <label class="checkbox">
+                            <input type="checkbox" id="cb-inserer-antecedents"> Antécédents
+                            <span></span>
+                        </label>
+                    </div>
+                    <div class="ml-8">
+                        <label class="checkbox">
+                            <input type="checkbox" id="cb-inserer-notes"> Notes
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+
+                <ul class="nav nav-tabs d-none" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#tab-edition">
+                            <span class="nav-icon">
+                                <i class="flaticon2-edit"></i>
+                            </span>
+                            <span class="nav-text">Edition</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content mt-2">
+                    <div class="tab-pane show active" id="tab-edition" role="tabpanel">
+                        <div id="editor-1" class="editor min-h-400px" style="font-size: 10pt ">
+                            {% if object %}
+                                {{ object.text|safe }}
+                            {% endif %}
+                            <p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+
+    </script>
+{% endblock %}

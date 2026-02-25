@@ -1,0 +1,172 @@
+{% extends "core/base_rapport.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+{% block styles %}
+    <style>
+        #rapport_consultation_datatable_filter {
+            display: none;
+        }
+    </style>
+{% endblock %}
+{% block content_rapport %}
+    <div class="tab-pane active" id="consultation" role="tabpanel">
+        <form class="form mb-5">
+            <div class="row">
+                <div class="mt-4 col-sm-6 col-lg-2">
+                    <label class="form-label">IPP</label>
+                    <input data-search-key="id" type="number"
+                           class="form-control form-control-sm datatable-input" placeholder=""
+                           data-col-index="0"/>
+                </div>
+                <div class="mt-4 col-sm-6 col-lg-2">
+                    <label class="form-label">Nom</label>
+                    <input data-search-key="nom" type="text"
+                           class="form-control form-control-sm datatable-input"
+                           placeholder=""
+                           data-col-index="4"/>
+                </div>
+                <div class="mt-4 col-sm-6 col-lg-2">
+                    <label class="form-label">Prénom</label>
+                    <input data-search-key="prenom" type="text"
+                           class="form-control form-control-sm datatable-input" placeholder=""
+                           data-col-index="6"
+                           value=""/>
+                </div>
+                <div class="mt-4 col-sm-6 col-lg-2">
+                    <label class="form-label">Gouvernorat</label>
+                    <input data-search-key="ville" type="text"
+                           class="form-control form-control-sm datatable-input" placeholder=""
+                           data-col-index="1"
+                           value=""/>
+                </div>
+                <div class="mt-4 col-sm-6 col-lg-2">
+                    <label class="form-label">Mot clé</label>
+                    <input placeholder="" data-col-index="10"
+                           class="form-control form-control-sm" name="tags" type="text"
+                           id="tags" value=""/>
+                </div>
+                <div class="mt-4 col-sm-6 col-lg-2">
+                    <label class="form-label">Praticien Correspondant</label>
+                    <select name="praticiens-correspondants" id="praticiens-correspondants"
+                            class="form-select form-select-sm" data-col-index="2">
+                        <option value="">---------</option>
+                        {% for praticien in praticiens_corresp %}
+                            <option value="{{ praticien.nom }}">{{ praticien }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="mt-4 col-sm-6 col-lg-2">
+                    <label class="form-label">Date Début</label>
+                    <input data-search-key="debut" type="text" id="debut" data-col-index="11"
+                           class="form-control form-control-sm datatable-input" placeholder=""
+                           value=""/>
+                </div>
+                <div class="mt-4 col-sm-6 col-lg-2">
+                    <label class="form-label">Date Fin</label>
+                    <input data-search-key="fin" type="text" id="fin" data-col-index="12"
+                           class="form-control form-control-sm datatable-input" placeholder=""
+                           value=""/>
+                </div>
+                <div class="mt-4 col-sm-6 col-lg-2">
+                    <label class="form-label">Praticien</label>
+                    <select name="praticien" id="praticien"
+                            class="form-select form-select-sm" data-col-index="9">
+                        <option value="">---------</option>
+                        {% for praticien in praticiens %}
+                            <option value="{{ praticien.id }}">{{ praticien.nom }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mt-4 col-sm-6 col-lg-2">
+                    <label class="form-label">Catégorie Consultation</label>
+                    <select name="categorie" id="categorie" class="form-select form-select-sm"
+                            data-col-index="7" data-search-key="categorie">
+                        <option value="">---------</option>
+                        {% for categorie in categories %}
+                            {% if user.profil.compte.is_gyneco and categorie.id == 1 %}
+                            <option value="{{ categorie.id }}">{{ categorie.libelle }}</option>
+                            {% elif user.profil.compte.is_gyneco and categorie.id == 2 %}
+                                <option value="{{ categorie.id }}">{{ categorie.libelle }}</option>
+                            {% elif user.profil.compte.is_gyneco and categorie.id == 3 %}
+                                <option value="{{ categorie.id }}">{{ categorie.libelle }}</option>
+                            {% elif user.profil.compte.is_gyneco and categorie.id == 4 %}
+                                <option value="{{ categorie.id }}">{{ categorie.libelle }}</option>
+                            {% elif user.profil.compte.is_gyneco and categorie.id == 7 %}
+                                <option value="{{ categorie.id }}">{{ categorie.libelle }}</option>
+                            {% elif not user.profil.compte.is_gyneco and categorie.id == 4 %}
+                                <option value="{{ categorie.id }}">{{ categorie.libelle }}</option>
+                            {% elif not user.profil.compte.is_gyneco and categorie.id == 7 %}
+                                <option value="{{ categorie.id }}">{{ categorie.libelle }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mt-4 col-sm-6 col-lg-2">
+                    <label class="form-label">Motif Consultation</label>
+                    <select name="motif" id="motif" class="form-select form-select-sm"
+                            data-col-index="8" data-search-key="motif">
+                        <option value="">---------</option>
+                        {% for motif in motifs %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mt-4 col-sm-6 col-lg-2 pt-8">
+                    <button onclick="resetSearch()" class="btn btn-light-primary btn-sm" type="button">Réinitialiser</button>
+                </div>
+            </div>
+
+        </form>
+        <table class="table table-row-bordered gy-5" id="rapport_consultation_datatable">
+            <thead>
+            <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
+                <th>Identifiant patient</th>
+                <th>gouvernorat</th>
+                <th>praticien patient</th>
+                <th>Date</th>
+                <th>Nom</th>
+                <th>Nom naissance</th>
+                <th>Prénom</th>
+                <th>Catégorie Consultation</th>
+                <th>Motif Consultation</th>
+                <th>Praticien</th>
+                <th>mot_cle</th>
+                <th>date debut</th>
+                <th>date fin</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody class="text-gray-600 fw-semibold">
+            </tbody>
+        </table>
+    </div>
+    <script type="text/html" id="actions-rapport-template">
+        <a onclick="afficherConsultation(<%= id %>, '<%= motif %>')"
+           class="btn btn-icon btn-primary btn-sm" title="Consulter le compte-rendu">
+            <i class="la la-file"></i>
+        </a>
+        <a href="/patients/<%= patientId %>"
+           class="btn btn-icon btn-info btn-sm" title="Afficher le dossier patient">
+            <i class="la la-eye"></i>
+        </a>
+    </script>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="{% static "plugins/custom/tinymce/tinymce.bundle.js" %}"></script>
+    <script type="text/javascript">
+        let data = {{ object_list | safe }};
+        let motifs = {{ motifs_json|safe }};
+        const list_mots = {{ mots_patients|safe }};
+
+    </script>
+    <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
+    <script src="{% static "js/core/rapport.js" %}"></script>
+
+{% endblock %}

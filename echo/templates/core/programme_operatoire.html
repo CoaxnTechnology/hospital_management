@@ -1,0 +1,43 @@
+<div class="tab-content">
+
+    <div class="p-4">
+        <div class="d-flex justify-content-between">
+            <div>
+                <form class="form mb-1">
+                    <div class="form-group">
+                        <label>Date à partir de</label>
+                        <input data-search-key="debut" type="text" id="debut"
+                               class="form-control form-control-sm datatable-input" placeholder=""
+                               value=""/>
+                    </div>
+                </form>
+            </div>
+            <div>
+                <a href="/programme_operatoire/ajouter/"
+                   class="btn btn-light-primary btn-sm font-weight-bolder mr-2">
+                    <i class="ki ki-plus icon-sm"></i>
+                    Ajouter un programme opératoire
+                </a>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-checkable table-striped" id="datatable_programme_operatoire">
+            <thead>
+            <tr>
+                <th>Nom patient</th>
+                <th>Prénom patient</th>
+                <th>Nom de naissance patient</th>
+                <th>Type d'acte</th>
+                <th>Date</th>
+                <th>Heure début</th>
+                <th>Heure fin</th>
+                <th>Etablissement</th>
+                <th>Observation</th>
+                <th>Praticien</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+
+</div>
+

@@ -1,0 +1,165 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="col-12">
+        <div class="card card-custom gutter-bs">
+            <!--begin::Header-->
+            <div class="card-header card-header-tabs-line">
+                <!--<div class="card-title">
+                    <h3 class="card-label">Rendez-vous du jour</h3>
+                </div>-->
+
+                <div class="card-toolbar">
+                    <ul class="nav nav-tabs nav-tabs-space-lg nav-tabs-line nav-tabs-bold nav-tabs-line-3x"
+                        role="tablist">
+                        <li class="nav-item mr-1">
+                            <a class="nav-link active" data-toggle="tab" href="#reglement">
+									<span class="nav-icon mr-2">
+                                        <i class="la la-dollar icon-xl mr-3"></i>
+                                    </span>
+                                <span class="nav-text font-weight-bold">Règlement</span>
+                            </a>
+                        </li>
+
+                        {% if user.profil.responsable %}
+                            <li class="nav-item mr-2">
+                                <a class="nav-link" data-toggle="tab" href="#caisse">
+														<span class="nav-icon mr-2">
+															<i class="la la-lock icon-xl mr-3"></i>
+														</span>
+                                    <span class="nav-text font-weight-bold">Clôture de caisse</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item mr-2">
+                                <a class="nav-link" href="/reglements/rapport">
+														<span class="nav-icon mr-2">
+															<i class="la la-bar-chart  icon-xl"></i>
+														</span>
+                                    <span class="nav-text font-weight-bold">Rapport</span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                    </ul>
+                </div>
+            </div>
+            <div class="card-body pl-0 pr-0">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="reglement" role="tabpanel">
+                        <div class="col-4 mt-2">
+                            <h5>Liste des admissions</h5>
+                        </div>
+                        <div class="px-2">
+                            <table class="table table-bordered table-checkable table-striped" id="datatable_admission">
+                                <thead>
+                                <tr>
+                                    <th>N° admission</th>
+                                    <th>Nom</th>
+                                    <th>Nom de naissance</th>
+                                    <th>Prénom</th>
+                                    <th>Statut Consultation</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <script type="text/html" id="actions-template">
+                            <% if(admission.nb_reglements == 0) { %>
+                            <a href="/reglements/<%- admission.id %>/ajouter"
+                               class="btn btn-primary btn-icon btn-sm"
+                               title="Ajouter règlement">
+                                <i class="la la-plus icon-md"></i>
+                            </a>
+                            <% } else { %>
+                            <a class="btn btn-success btn-icon btn-sm" onclick="download_facture(<%- admission.id %>)"
+                               title="Note d'honoraire">
+                                <i class="la la-file icon-md"></i>
+                            </a>
+                            <% } %>
+                        </script>
+                        <script type="text/html" id="template-header">
+                            <div style="text-align: right;">
+                                <span>{% if user.profil.compte.adresse.ville %}{{ user.profil.compte.adresse.ville }}, le {% endif %}<%= date %></span>
+                            </div>
+                            <span style="margin-top: 10px">&nbsp;</span>
+                            <div style="text-align: center;">
+                                <h4 style="font-size: 14pt">Note d'honoraire</h4>
+                            </div>
+                            <br>
+                            <p>
+                                <strong>
+                                    <%= admission.patient.nom_complet %>
+                                </strong>&nbsp;
+                                <!--<% if (admission.patient.sexe == 'F') { %> née <% } else { %> né <% } %>le <%= moment(admission.patient.date_naissance).format("DD/MM/YYYY") %>-->
+                            </p>
+                            <br>
+
+                            <table class="reglement_list" style="border: 0; font-size: 10pt">
+                                <tr style="color: white; border: 0">
+                                    <td style="background-color: #0077b6; width: 60px">Code</td>
+                                    <td style="background-color: #0077b6; width: 300px">Prestation</td>
+                                    <td style="background-color: #0077b6; width: 100px">Prix TTC (DT)</td>
+                                </tr>
+                                <% _.forEach(reglement.lignes_reglement, function(ligne) { %>
+                                <tr style="border: 0">
+                                    <td><%- ligne.code %></td>
+                                    <td><%- ligne.prestation %></td>
+                                    <td><%- ligne.prix_ttc %></td>
+                                </tr>
+                                <% }); %>
+                                <tr style="border: 0">
+                                    <td style="background-color: #cecece;  text-align: right" colspan="2">Total</td>
+                                    <td style="background-color: #cecece; "><%- total %></td>
+                                </tr>
+                            </table>
+                            <br>
+                        </script>
+                    </div>
+
+                    {% if user.profil.responsable %}
+                    <div class="tab-pane " id="caisse" role="tabpanel">
+                        {% include 'core/reglement_caisses.html' %}
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+        const admissions = {{  admissions_json|safe }};
+        console.info('Liste des admissions', admissions);
+        const reglements_caisse = {{  reglements_caisse|safe }};
+        const caisses = {{ caisses|safe }}
+        const derniere_facture_id = {{ derniere_facture_id }};
+        const logo_url = {% if user.profil.compte.parametrescompte.logo %}
+            '{{ user.profil.compte.parametrescompte.logo.url }}'
+        {% else %} ''
+        {% endif  %};
+        const footer_url =
+            {% if user.profil.compte.parametrescompte.footer %}
+                '{{ user.profil.compte.parametrescompte.footer.url }}'
+            {% else %} ''
+            {% endif  %};
+
+        const signature_url =
+            {% if user.profil.signature and user.profil.ajouter_signature_edition %}
+                '{{ user.profil.signature.url }}'
+            {% else %} ''
+            {% endif  %};
+    </script>
+    <script src="{% static "plugins/custom/tinymce/tinymce.bundle.js" %}"></script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+    <script src="{% static "plugins/custom/datatables/datatables.bundle.js" %}"></script>
+    <script src="{% static "js/core/editique.js" %}"></script>
+    <script src="{% static "js/core/reglement_list.js" %}"></script>
+
+{% endblock %}

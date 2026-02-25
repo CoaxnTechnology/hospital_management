@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+{% block styles %}
+    <style>
+        th {
+            text-align: center;
+        }
+
+        td {
+            text-align: center;
+        }
+    </style>
+
+{% endblock %}
+{% block header %}
+    {% include "core/basic_header.html" with module="Bordereau" %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="card card-custom px-0 px-md-2 px-lg-4">
+
+        <div class="card-body">
+            <div class="mb-4 d-flex justify-content-between">
+                <a href="/mutuelle/#bordereau"
+                   class="btn btn-light-primary font-weight-bolder mr-2">
+                    <i class="ki ki-long-arrow-back icon-sm"></i>
+                    Précédent
+                </a>
+                <!--<button onclick="imprimerClick()" type="button" class="btn btn-primary font-weight-bolder">
+                    Imprimer
+                </button>-->
+            </div>
+            <div class="mt-2 p-2">
+                <h3 style="text-align: center;">NOTE D'HONORAIRES DES CONSULTATIONS ET DE ACTES AMBULATOIRES EFFECTUES
+                    PAR MEDECIN CONVENTIONNE DANS LE CADRE DU TIERS PAYANT</h3>
+                <br>
+                <div class="row">
+                    <div class="col-md-6 col-lg-4">
+                        <h5>Médecin :
+                            <strong> {{ bordereau_object.nom_medecin }} </strong>
+                        </h5>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <h5>Code conventionnel :
+                            {% if bordereau_object.code_conventionnel %}
+                                <strong> {{ bordereau_object.code_conventionnel }}</strong>
+                            {% endif %}
+                        </h5>
+                    </div>
+                </div>
+                <h5>Période : <strong>{{ bordereau_object.periode_format }}</strong></h5>
+            </div>
+
+
+            <!--begin: Datatable-->
+            <table class="table table-bordered table-checkable table-striped" id="kt_datatable">
+                <thead>
+                <tr>
+                    <th rowspan="2">N°</th>
+                    <th rowspan="2">Date des soins</th>
+                    <th rowspan="2">IU de l'assuré</th>
+                    <th colspan="3">L'identité du bénéficiaire</th>
+                    <th colspan="2">Acte effectué</th>
+                    <th rowspan="2">Montant total</th>
+                    <th rowspan="2">Montant à la charge de la CNAM</th>
+                    <th rowspan="2">Ticket modérateur perçu de l'assuré</th>
+                    <th rowspan="2">Code conventionnel du médecin traitant</th>
+                </tr>
+                <tr>
+                    <td>Nom et prénom patient</td>
+                    <td>Qualité</td>
+                    <td>Code APCI</td>
+                    <th>Code acte</th>
+                    <th>Cotation</th>
+                </tr>
+                </thead>
+            </table>
+            <div class="d-flex flex-row-reverse mt-3 mb-3">
+                <div class="card text-dark bg-secondary mb-3" style="max-width: 18rem;">
+                    <div class="card-body">
+                        <strong>Total à payer:</strong> <span id="totalPEC"></span><br>
+                    <span id="totalPEC-lettres"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="d-flex flex-row-reverse">
+                <button onclick="telechargerRapport()" class="btn btn-light-primary">Télécharger fichier d'échange
+                </button>
+            </div>
+
+            <!--end: Datatable-->
+
+        </div>
+
+
+    </div>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script type="text/javascript">
+        let data = {{ object_list | safe }};
+        const bordereau = {{ bordereau |safe }};
+        const bordereauId = {{ bordereau_object.id }};
+    </script>
+    <script src="{% static "plugins/custom/datatables/datatables.bundle.js" %}"></script>
+    <script src="{% static "js/core/bordereau_detail.js" %}"></script>
+{% endblock %}

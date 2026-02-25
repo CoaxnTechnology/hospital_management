@@ -1,0 +1,402 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block styles %}
+    <style type="text/css">
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+    .nopad th, td {
+        padding: 2px !important;
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="card card-custom bg-light card-stretch shadow-none">
+        <div class="card-header fixed-header d-flex align-content-between align-items-center w-100 zindex-2 shadow-xs bg-white">
+            <div class="card-title pl-2">
+                <h3 class="m-0">
+                    {% if object %}Modifier{% else %}Créer{% endif %} un courrier
+                </h3>
+            </div>
+            <div class="card-toolbar">
+                <button type="submit" id="btn-enregistrer" class="ml-2 btn btn-primary font-weight-bolder">
+                    <i class="ki ki-check icon-sm"></i>
+                    Enregistrer
+                </button>
+                <a id="btn-imprimer" href="javascript:void(0)"
+                   class="ml-2 btn btn-warning font-weight-bolder">
+                    <i class="flaticon2-printer"></i>
+                    Imprimer
+                </a>
+            </div>
+        </div>
+        <div class="card-body" style="padding-top: 60px">
+            <div class="px-4">
+                <form id="form_1" class="form" method="post" action="">
+                    {% csrf_token %}
+
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-custom alert-danger" role="alert">
+                            <div class="alert-icon">
+                                <i class="flaticon-questions-circular-button"></i>
+                            </div>
+                            <div class="alert-text">{{ form.non_field_errors }}</div>
+                        </div>
+                    {% endif %}
+
+                    <div class="row">
+                        <div class="col-12 col-md-3 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="row">
+                                    <div class="form-group col-12">
+                                        <label>Type</label>
+                                        {% render_field form.type class+="form-control form-control-sm" %}
+                                    </div>
+                                </div>
+                                <div class="row  mt-4">
+                                    <div class="form-group col-12 col-md-6">
+                                        <label class="">{{ form.date.label }}</label>
+                                        {% render_field form.date class+="form-control form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.date.errors %}style="display: block"{% endif %}>
+                                            {{ form.date.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12 col-md-6">
+                                        <label class="">{{ form.praticien.label }}</label>
+                                        {% render_field form.praticien class+="form-control form-control-sm" %}
+                                        <div class="invalid-feedback"
+                                             {% if form.praticien.errors %}style="display: block"{% endif %}>
+                                            {{ form.praticien.errors }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row form-group mt-4">
+                                    <div id="id_duree_container" class="col-12">
+                                        <div class="form-group">
+                                            <label>Durée (jours)</label>
+                                            {% render_field form.duree class+="form-control form-control-sm" %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="d-flex justify-content-between mt-4">
+                                    <a href="/patients/{{ patient.pk }}/certificats"
+                                       class="btn btn-light-primary font-weight-bolder mr-2">
+                                        <i class="fa fa-history icon-sm"></i>
+                                        Historique des courriers
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-9 card-stretch">
+                            {% render_field form.text class+="form-control h-450px" %}
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="atcd-print" class="hide overflow-hidden" style="height: 1px"></div>
+
+    <script type="text/html" id="template-header">
+        <div style="text-align: right;">
+            <span>{% if user.profil.compte.adresse.ville %}{{ user.profil.compte.adresse.ville }}, le {% endif %}<%= date %></span>
+        </div>
+        <span style="margin-top: 10px">&nbsp;</span><br>
+        <div style="text-align: center;">
+            <h4 style="font-size: 12pt">
+                <%= titre %>
+            </h4>
+        </div>
+        <span style="margin-top: 5px">&nbsp;</span>
+
+        <%= content %>
+
+        <br>
+        <br>
+    </script>
+
+    <script type="text/html" id="template-header-no-date">
+        <div style="text-align: right;">
+
+        </div>
+        <span style="margin-top: 10px">&nbsp;</span><br>
+        <div style="text-align: center;">
+            <h4 style="font-size: 12pt">
+                <%= titre %>
+            </h4>
+        </div>
+        <span style="margin-top: 5px">&nbsp;</span>
+
+        <%= content %>
+
+        <br>
+        <br>
+    </script>
+
+    <script type="text/html" id="modele-certificat-medical-defaut">
+        <br>
+        <p style="font-size: 12pt;">Je soussign&eacute; <%= nom_praticien %> certifie que l&rsquo;&eacute;tat de sant&eacute;
+            <br/>de <strong><%= civilite %></strong> <strong><%= nom_patient %></strong>
+            <br/>n&eacute;cessite un repos de <strong><%= nb_jours %></strong><br/>sauf
+            complications.</p><p style="font-size: 12pt;">Certificat d&eacute;livr&eacute; &agrave; l&rsquo;int&eacute;ress&eacute;
+            en main propre pour servir et valoir ce que de droit.</p>
+    </script>
+
+    <script type="text/html" id="modele-certificat-presence-defaut">
+        <br>
+        <p style="font-size: 12pt;">Je soussign&eacute; <%= nom_praticien %> certifie que <strong><%= civilite
+            %></strong> <strong><%= nom_patient %></strong></p>
+        <p style="font-size: 12pt;">s&rsquo;est pr&eacute;sent&eacute;e ce jour &agrave; ma consultation.</p>
+        <p style="font-size: 12pt;">Elle &eacute;tait accompagn&eacute;e par&nbsp;</p>
+        <p style="font-size: 12pt;">Certificat d&eacute;livr&eacute; &agrave; l&rsquo;int&eacute;ress&eacute; en main
+            propre pour servir et valoir ce que de droit.</p>
+    </script>
+
+    <script type="text/html" id="modele-lettre-confidentielle-defaut">
+        <br>
+        <p style="font-size: 12pt;">
+            Je soussignée, <%= nom_praticien %>, certifie avoir examiné ce jour <%= civilite %> <%= nom_patient %>,
+            âgée de <%= age %>, enceinte à <%= terme %>, qui s’est présentée pour <br>
+
+
+            <br>
+            Compte tenu de son état de santé, un repos a été prescrit.
+            Lettre délivrée à la demande de l’intéressée et remis en mains propres pour servir et valoir ce que de
+            droit.
+        </p>
+    </script>
+
+    <script type="text/html" id="modele-lettre-accouchement-defaut">
+        <br>
+        <table style="border-collapse: collapse; width: 100%; height: 128px; border-style: none;" border="0"
+               data-pdfmake="{&quot;layout&quot;:&quot;noBorders&quot;}">
+            <tbody>
+            <tr style="">
+                <td style="padding:0; width: 49.2171%;"><span style="font-size: 10pt;"><strong><%= civilite %> <%= nom_patient %></strong></span>
+                </td>
+                <td style="width: 49.2701%; "><span style="font-size: 10pt;">Age : <%= age %></span>
+                </td>
+            </tr>
+            <tr style="">
+                <td style="padding:0; width: 49.2171%;" colspan="2">
+                    <p><span style="font-size: 10pt;"><%= atcd %></span></p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <table style="border-collapse: collapse; width: 100%; height: 50px;" border="1"
+               data-pdfmake="{&quot;layout&quot;:&quot;noBorders&quot;}">
+            <tbody>
+            <tr style="">
+                <td style="width: 23.4578%;font-size: 10pt; "><strong>GROSSESSE ACTUELLE</strong>
+                </td>
+                <td style="width: 23.4578%;font-size: 10pt; "><strong>DDR</strong>: <%= ddr %>
+                </td>
+                <td style="width: 23.4578%;font-size: 10pt; "><strong>DPA</strong>: <%= date_accouchement %>
+                </td>
+                <td style="width: 23.4578%;font-size: 10pt; "><strong>Terme actuel</strong>: <%= terme %>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table style="border-collapse: collapse; width: 100%; height: 50px;" border="1"
+               data-pdfmake="{&quot;layout&quot;:&quot;noBorders&quot;}">
+            <tbody>
+            <tr style="">
+                <td style="width: 23.4578%; "><span style="font-size: 10pt;">GS Rh : <%= gs %></span>
+                </td>
+                <td style="width: 23.4578%; "><span style="font-size: 10pt;">NFS : <%= nfs %></span>
+                </td>
+                <td style="width: 23.4578%; "><span style="font-size: 10pt;">RAI : <%= rai %></span>
+                </td>
+                <td style="width: 23.4578%; "><span style="font-size: 10pt;">TSH : <%= tsh %></span>
+                </td>
+            </tr>
+            <tr style="">
+                <td style="width: 23.4578%; "><span
+                        style="font-size: 10pt;">Ag Hbs :&nbsp; <%= ag %></span></td>
+                <td style="width: 23.4578%; "><span style="font-size: 10pt;">BW :&nbsp; <%= bw %></span>
+                </td>
+                <td style="width: 23.4578%; "><span
+                        style="font-size: 10pt;">Toxo : <%= toxo %></span></td>
+                <td style="width: 23.5658%; "><span style="font-size: 10pt;">Rub : <%= rub %></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <span style="font-size: 10pt;">
+            <table style="border-collapse: collapse; width: 100%; height: 50px;" border="1"
+                   data-pdfmake="{&quot;layout&quot;:&quot;noBorders&quot;}">
+            <tbody>
+            <tr style="">
+                <td>
+                    <span style="font-size: 10pt;">
+                    Echo T1 :&nbsp;LCC <%= lcc %>, CN <%= cn %>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span style="font-size: 10pt;">
+                        <% if (test_t21_fait) { %>
+                            Risque T21 combiné : <%= risque_t21 %>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <% } %>
+                        DPNI : <%= dpni %>
+                    </span>
+                </td>
+                </tr>
+            <tr>
+                <td>
+                    <span style="font-size: 10pt;">
+            Echo T2 :&nbsp;<%= resultat_exam_morpho %>
+                    </span>
+                </td>
+                </tr>
+            <tr>
+                <td>
+                    <span style="font-size: 10pt;">
+            Echo T3 :&nbsp;<%= resultat_echo_t3 %>
+                    </span>
+                </td>
+                </tr>
+            <tr>
+                <td>
+                    <span style="font-size: 10pt;">
+            GP 75 :&nbsp; <%= gp75 %>
+                    </span>
+                </td>
+                </tr>
+            <tr>
+                <td>
+                    <span style="font-size: 10pt;">
+            D&eacute;roulement de la grossesse :&nbsp;
+                    </span>
+                </td>
+                </tr>
+
+            </tbody>
+            </table>
+        </span>
+        <table style="border-collapse: collapse; width: 100%; height: 50px;" border="1"
+               data-pdfmake="{&quot;layout&quot;:&quot;noBorders&quot;}">
+            <tbody>
+            <tr style="">
+                <td style="width: 25%; padding:0; "><span style="font-size: 10pt;">TA : <%= ta %></span>
+                </td>
+                <td style="width: 25%; padding:0; "><span style="font-size: 10pt;">Poids : <%= poids %> <% if(var_poids_gross) { %>(<%= var_poids_gross %>)<% } %></span></td>
+                <td style="width: 25%; padding:0; "><span style="font-size: 10pt;">TV : <%= tv %></span>
+                <td style="width: 25%; padding:0; "><span style="font-size: 10pt;">PV : <%= pv %></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <span style="font-size: 10pt;">
+        Pronostic d'accouchement: <br>
+        </span>
+    </script>
+
+    <script type="text/html" id="modele-attestation-grossesse-defaut">
+        <br>
+        <p style="font-size: 12pt;">
+            Je soussignée, <%= nom_praticien %>, certifie que <%= civilite %> <%= nom_patient %>,
+            âgée de <%= age %> est actuellement enceinte à <%= terme %>, et que la date prévue de l’accouchement correspond au <%= date_accouchement %>.
+        </p>
+        <p style="font-size: 12pt;">
+            Certificat délivré à la demande de l’intéressée et remis en mains propres pour servir et valoir ce que de droit.
+        </p>
+    </script>
+
+    <script type="text/html" id="modele-lettre-fittofly-defaut">
+        <br>
+        <p style="font-size: 12pt;">
+            Je soussignée, <%= nom_praticien %>, certifie que <%= civilite %> <%= nom_patient %>,
+            âgée de <%= age %>, actuellement enceinte à <%= terme %>.
+            Son état de santé lui permet d’emprunter l’avion en direction de
+
+        </p>
+        <p style="font-size: 12pt;">
+            Certificat délivré à la demande de l’intéressée et remis en mains propres pour servir et valoir ce que de droit.
+        </p>
+    </script>
+
+
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="{% static "plugins/custom/tinymce/tinymce.bundle.js" %}"></script>
+    <script type="text/javascript">
+        const praticiens = {{ praticiens_json|safe }};
+        const logo_url = {% if user.profil.compte.parametrescompte.logo %}
+            '{{ user.profil.compte.parametrescompte.logo.url }}'
+        {% else %} ''
+        {% endif  %};
+        const footer_url =
+            {% if user.profil.compte.parametrescompte.footer %}
+                '{{ user.profil.compte.parametrescompte.footer.url }}'
+            {% else %} ''
+            {% endif  %};
+
+        const signature_url =
+            {% if user.profil.signature and user.profil.ajouter_signature_edition %}
+                '{{ user.profil.signature.url }}'
+            {% else %} ''
+            {% endif  %};
+
+        const entete = '{{ user.profil.compte.parametrescompte.nom_entete | linebreaksbr}}';
+        const patient = {{ patient_json|safe }};
+        const certificat_id = {% if object %}{{ object.pk }}{% else %}-1{% endif %};
+
+        let modeles = {};
+        modeles['certificat_medical'] = `{{ user.profil.compte.parametrescompte.modele_certificat_medical|safe}}`;
+        modeles['certificat_presence'] = `{{ user.profil.compte.parametrescompte.modele_certificat_presence|safe}}`;
+        modeles['lettre_accouchement'] = `{{ user.profil.compte.parametrescompte.modele_lettre_accouchement|safe}}`;
+        modeles['lettre_confidentielle'] = `{{ user.profil.compte.parametrescompte.modele_lettre_confidentielle|safe}}`;
+        modeles['attestation_grossesse'] = `{{ user.profil.compte.parametrescompte.modele_attestation_grossesse|safe}}`;
+        modeles['lettre_fittofly'] = `{{ user.profil.compte.parametrescompte.modele_lettre_fittofly|safe}}`;
+
+        let impressionEntetes = {};
+        impressionEntetes['certificat_medical'] = {% if user.profil.compte.parametrescompte.ajouter_entete_cert_med %}true{% else %}false{% endif %};
+        impressionEntetes['certificat_presence'] = {% if user.profil.compte.parametrescompte.ajouter_entete_cert_pres %}true{% else %}false{% endif %};
+        impressionEntetes['lettre_accouchement'] = {% if user.profil.compte.parametrescompte.ajouter_entete_lettre_acc %}true{% else %}false{% endif %};
+        impressionEntetes['lettre_confidentielle'] = {% if user.profil.compte.parametrescompte.ajouter_entete_lettre_confidentielle %}true{% else %}false{% endif %};
+        impressionEntetes['attestation_grossesse'] = {% if user.profil.compte.parametrescompte.ajouter_entete_attestation_grossesse %}true{% else %}false{% endif %};
+        impressionEntetes['lettre_fittofly'] = {% if user.profil.compte.parametrescompte.ajouter_entete_lettre_fittofly %}true{% else %}false{% endif %};
+
+        const ajouterDateLieuEdition = {% if user.profil.compte.parametrescompte.ajouter_date_courriers %}true{% else %}false{% endif %};
+
+        let titres = {};
+        {% for type in types_certificats %}
+            titres['{{ type.0 }}'] = '{{ type.1 }}';
+        {% endfor %}
+
+        let grossesse_data = {};
+        {% if grossesse_data %}grossesse_data = JSON.parse(`{{ grossesse_data|safe }}`);{% endif %}
+
+    </script>
+    <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
+    <script src="{% static "plugins/custom/datatables/datatables.bundle.js" %}"></script>
+    <script src="{% static "js/core/editique.js" %}"></script>
+    <script src="{% static "js/core/certificat_form.js" %}"></script>
+
+{% endblock %}

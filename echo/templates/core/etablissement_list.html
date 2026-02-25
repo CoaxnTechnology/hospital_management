@@ -1,0 +1,45 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+    <div class="p-4">
+    <div class="d-flex justify-content-between">
+        <input type="text" class="form-control datatable-input form-control-sm w-150px" placeholder="Recherche" data-col-index="0"/>
+        <a href="/etablissements/ajouter"
+                    class="btn btn-light-primary btn-sm font-weight-bolder mr-2">
+                <i class="ki ki-plus icon-sm"></i>
+                Ajouter un établissement
+            </a>
+        </div>
+        <table class="table table-bordered table-checkable table-striped">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Téléphone</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+
+    <template id="actions-template">
+        <a onclick="selectionner(<%- id %>)" href="javascript:void(0)" class="btn btn-primary btn-icon btn-sm" title="Sélectionner">
+            <i class="la la-check icon-lg"></i>
+        </a>
+        <a href="etablissements/<%- id %>/modifier" class="btn btn-info btn-icon btn-sm" title="Consulter">
+            <i class="la la-eye icon-lg"></i>
+        </a>
+        <a onclick="supprimer(<%- id %>)" class="btn btn-danger btn-icon btn-sm" title="Supprimer">
+            <i class="la la-trash icon-lg"></i>
+        </a>
+    </template>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        const etablissements = {{  etablissements_json|safe }};
+    </script>
+    <script src="{% static "plugins/custom/datatables/datatables.bundle.js" %}"></script>
+    <script src="{% static "js/core/etablissement_list.js" %}"></script>
+{% endblock %}

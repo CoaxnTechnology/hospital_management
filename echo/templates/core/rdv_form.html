@@ -1,0 +1,271 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block styles %}
+    <style type="text/css">
+
+
+    </style>
+{% endblock %}
+
+{% block header %}
+    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Details-->
+            <div class="d-flex align-items-center flex-wrap mr-2">
+                <!--begin::Title-->
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Ajouter un rendez-vous</h5>
+                <!--end::Title-->
+            </div>
+            <!--end::Details-->
+            <!--begin::Toolbar-->
+            <div class="d-flex align-items-center">
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+
+    <form id="form_1" class="form" method="post" action="">
+        {% csrf_token %}
+
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+
+        <div class="card card-custom card-sticky px-4" id="kt_page_sticky_card">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3 class="card-label">
+                        Formulaire de {% if object %}modification{% else %}création{% endif %} <i class="mr-2"></i>
+                    </h3>
+
+                    <span class="label label-pill label-inline" id="libelle_statut"></span>
+                </div>
+                <div class="card-toolbar">
+                    <a href="/rdvs" class="btn btn-sm btn-light-primary font-weight-bolder mr-2">
+                        <i class="ki ki-long-arrow-back icon-sm"></i>
+                        Précédent
+                    </a>
+                    {% if object and object.statut == '1' %}
+                        <div class="btn-group mr-2">
+                            <button class="btn btn-sm btn-danger font-weight-bolder"
+                                    onclick="supprimer(event, {{ object.pk }})">
+                                <i class="flaticon2-delete icon-sm"></i>
+                                Annuler le rendez-vous
+                            </button>
+                        </div>
+                    {% endif %}
+                    {% if not object or object and object.statut in statuts_confirmables %}
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-primary font-weight-bolder">
+                                <i class="ki ki-check icon-sm"></i>
+                                Confirmer le rendez-vous
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-body">
+
+                <!--begin::Form-->
+                {% if form.non_field_errors %}
+                    <div class="alert alert-custom alert-danger" role="alert">
+                        <div class="alert-icon">
+                            <i class="flaticon-questions-circular-button"></i>
+                        </div>
+                        <div class="alert-text">{{ form.non_field_errors }}</div>
+                    </div>
+                {% endif %}
+                <div class="row">
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="form-group required col-lg-5 col-md-12 required">
+                                <label>Nom de naissance</label>
+                                <div class="typeahead">
+                                    {% render_field form.nom_naissance class+="form-control form-control-sm " %}
+                                </div>
+                                <div class="invalid-feedback"
+                                     {% if form.nom_naissance.errors %}style="display: block"{% endif %}>
+                                    {{ form.nom_naissance.errors }}
+                                </div>
+                            </div>
+                            <div class="form-group required col-lg-5 col-md-12 required">
+                                <label>Nom marital</label>
+                                <div class="typeahead">
+                                    {% render_field form.nom class+="form-control form-control-sm " %}
+                                </div>
+                                <div class="invalid-feedback"
+                                     {% if form.nom.errors %}style="display: block"{% endif %}>
+                                    {{ form.nom.errors }}
+                                </div>
+                            </div>
+
+                            <div class="form-group required col-lg-5 col-md-12 required">
+                                <label>Prénom</label>
+                                <div class="typeahead">
+                                    {% render_field form.prenom class+="form-control form-control-sm " %}
+                                </div>
+                                <div class="invalid-feedback"
+                                     {% if form.prenom.errors %}style="display: block"{% endif %}>
+                                    {{ form.prenom.errors }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="form-group col-lg-3 col-md-12">
+                                <label>Ville</label>
+                                <div class="typeahead">
+                                    {% render_field form.ville class+="form-control form-control-sm " %}
+                                </div>
+                                <div class="invalid-feedback"
+                                     {% if form.ville.errors %}style="display: block"{% endif %}>
+                                    {{ form.ville.errors }}
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-3 col-md-12">
+                                <label>Code postal</label>
+                                <div class="typeahead">
+                                    {% render_field form.cp class+="form-control form-control-sm " %}
+                                </div>
+                                <div class="invalid-feedback"
+                                     {% if form.cp.errors %}style="display: block"{% endif %}>
+                                    {{ form.cp.errors }}
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-12">
+                                <label>Gouvernorat</label>
+                                <div class="typeahead">
+                                    {% render_field form.gouvernorat class+="form-control form-control-sm " %}
+                                </div>
+                                <div class="invalid-feedback"
+                                     {% if form.gouvernorat.errors %}style="display: block"{% endif %}>
+                                    {{ form.gouvernorat.errors }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group required col-lg-3 col-md-12">
+                                <label>Téléphone</label>
+                                {% render_field form.telephone class+="form-control form-control-sm" %}
+                                <div class="{% if form.telephone.errors %} invalid text-danger {% endif %}">
+                                    {% for error in form.telephone.errors %}
+                                        <p class="help-block">{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-4 col-md-12 d-flex flex-row align-items-center pt-4">
+                                <label class="checkbox">
+                                    {% render_field form.nouveau %} Nouveau patient
+                                    <span></span>
+                                </label>
+                                <div class="invalid-feedback"
+                                     {% if form.nouveau.errors %}style="display: block"{% endif %}>
+                                    {{ form.nouveau.errors }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-group row">
+                            <div class="col-lg-3">
+                                <label>Date</label>
+                                {% render_field form.date_debut id="date_debut" class+="form-control form-control-sm " required="" value=" " readonly="" %}
+                                <div class="invalid-feedback"
+                                     {% if form.date_debut.errors %}style="display: block"{% endif %}>
+                                    {{ form.date_debut.errors }}
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>Heure début</label>
+                                {% render_field form.heure_debut id="heure_debut" class+="form-control form-control-sm " required="" value=" " readonly="" %}
+                                <div class="invalid-feedback"
+                                     {% if form.heure_debut.errors %}style="display: block"{% endif %}>
+                                    {{ form.heure_debut.errors }}
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>Heure fin</label>
+                                {% render_field form.heure_fin id="heure_fin" class+="form-control form-control-sm " required="" value=" " readonly="" %}
+                                <div class="invalid-feedback"
+                                     {% if form.heure_fin.errors %}style="display: block"{% endif %}>
+                                    {{ form.heure_fin.errors }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-3">
+                                <label>{{ form.motif.label }}</label>
+                                {% render_field form.motif class+="form-control form-control-sm " %}
+                                <div class="invalid-feedback"
+                                     {% if form.motif.errors %}style="display: block"{% endif %}>
+                                    {{ form.motif.errors }}
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <label>Praticien</label>
+                                {% render_field form.praticien class+="form-control form-control-sm " %}
+                                <div class="invalid-feedback"
+                                     {% if form.praticien.errors %}style="display: block"{% endif %}>
+                                    {{ form.praticien.errors }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-lg-9">
+                                <label>{{ form.observation.label }}</label>
+                                {% render_field form.observation class+="form-control form-control-sm  h-100px" %}
+                                <div class="invalid-feedback"
+                                     {% if form.observation.errors %}style="display: block"{% endif %}>
+                                    {{ form.observation.errors }}
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+
+{% block scripts %}
+    <script type="text/javascript">
+        let statut = 'Non confirmé';
+        {%if object %}
+            const st = '{{ object.statut }}';
+            switch (st) {
+                case '1':
+                    statut = 'Confirmé';
+                    break;
+                case '2':
+                    statut = 'En salle d\'attente';
+                    break;
+                case '3':
+                    statut = 'Consultation terminée';
+                    break;
+                case '10':
+                    statut = 'Annulé';
+            }
+        {% endif %}
+        const codes_postaux = {{ codes_postaux|safe|escape }};
+        const patients = {{ patients|safe|escape }};
+        console.log('patients', patients);
+
+    </script>
+    <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
+    <script src="{% static "js/core/adresses.js" %}"></script>
+    <script src="{% static "js/core/rdv_form.js" %}"></script>
+{% endblock %}

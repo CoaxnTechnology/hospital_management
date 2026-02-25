@@ -1,0 +1,45 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+    <div class="p-4 mr-1">
+        <div class="mb-0 d-flex">
+            <div><a href="/motifs_absence/ajouter"
+                    class="btn btn-light-primary btn-sm font-weight-bolder mr-2">
+                <i class="ki ki-plus icon-sm"></i>
+                Ajouter une motif d'absence
+            </a></div>
+            <div class="w-300px">
+                <input type="text" class="form-control datatable-input form-control-sm"
+                       placeholder="Recherche motif" data-col-index="0"/>
+            </div>
+        </div>
+        <table class="table table-bordered table-checkable table-striped" id="datatable_motif">
+            <thead>
+            <tr>
+                <th>Motif</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+
+    <template id="actions-template">
+        <a href="motifs_absence/<%- id %>/modifier" class="btn btn-warning btn-icon btn-sm" title="Modifier">
+            <i class="la la-edit icon-lg"></i>
+        </a>
+        <a onclick="supprimer(<%- id %>)" class="btn btn-danger btn-icon btn-sm" title="Supprimer">
+            <i class="la la-trash icon-lg"></i>
+        </a>
+    </template>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        const motifs = {{  motifs_json|safe }};
+        console.log(motifs)
+    </script>
+    <script src="{% static "plugins/custom/datatables/datatables.bundle.js" %}"></script>
+    <script src="{% static "js/core/motif_list.js" %}"></script>
+{% endblock %}

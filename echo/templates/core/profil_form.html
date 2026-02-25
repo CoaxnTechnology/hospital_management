@@ -1,0 +1,369 @@
+{% extends "base_v2.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block header %}
+    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Details-->
+            <div class="d-flex align-items-center flex-wrap me-2">
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 me-5">
+
+                </h5>
+                <!--end::Title-->
+            </div>
+            <!--end::Details-->
+            <!--begin::Toolbar-->
+            <div class="d-flex align-items-center">
+                <!--begin::Button-->
+                <a href="#" class=""></a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+    <form id="form_1" class="form" method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="card">
+            <!--begin::Card header-->
+            <div class="card-header">
+                <!--begin::Card title-->
+                <div class="card-title fs-3 fw-bold">{% if object %}Modifier{% else %}Créer{% endif %} un utilisateur
+                </div>
+                <!--end::Card title-->
+            </div>
+            <!--end::Card header-->
+            <!--begin::Form-->
+            <form id="kt_project_settings_form" class="form">
+                <!--begin::Card body-->
+                <div class="card-body p-9">
+
+                    {{ profil.management_form }}
+                    {% for p in profil %}
+                        {% for hidden in p.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-custom alert-danger" role="alert">
+                                <div class="alert-icon">
+                                    <i class="flaticon-questions-circular-button"></i>
+                                </div>
+                                <div class="alert-text">{{ form.non_field_errors }}</div>
+                            </div>
+                        {% endif %}
+
+                        <!--begin::Row-->
+                        <div class="row mb-8">
+                            <!--begin::Col-->
+                            <div class="col-xl-3">
+                                <div class="fs-6 fw-semibold mt-2 mb-3">Titre</div>
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-xl-9 fv-row">
+                                {% render_field p.titre class+="form-select form-select-solid" %}
+                            </div>
+                        </div>
+                        <!--end::Row-->
+                        <!--begin::Row-->
+                        <div class="row mb-8">
+                            <!--begin::Col-->
+                            <div class="col-xl-3">
+                                <div class="fs-6 fw-semibold mt-2 mb-3">Nom</div>
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-xl-9 fv-row">
+                                {% render_field form.last_name class+="form-control form-control-solid" %}
+                            </div>
+                        </div>
+                        <div class="row mb-8">
+                            <!--begin::Col-->
+                            <div class="col-xl-3">
+                                <div class="fs-6 fw-semibold mt-2 mb-3">Prénom</div>
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-xl-9 fv-row">
+                                {% render_field form.first_name class+="form-control form-control-solid" %}
+                            </div>
+                        </div>
+
+                        <div class="row mb-8">
+                            <!--begin::Col-->
+                            <div class="col-xl-3">
+                                <div class="fs-6 fw-semibold mt-2 mb-3">Date de naissance</div>
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-xl-9 fv-row">
+                                {% render_field p.date_naissance class+="form-control form-control-solid datepicker" %}
+                            </div>
+                        </div>
+
+                        <div class="row mb-8">
+                            <!--begin::Col-->
+                            <div class="col-xl-3">
+                                <div class="fs-6 fw-semibold mt-2 mb-3">Email</div>
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-xl-9 fv-row">
+                                <input class="form-control " type="text"
+                                       required
+                                       placeholder="{{ form.email.label }}"
+                                       autocomplete="off" id="{{ form.email.id_for_label }}"
+                                       maxlength="{{ form.email.max_length }}"
+                                       name="{{ form.email.html_name }}"
+                                       value="{{ form.email.value|default:"" }}"/>
+                            </div>
+                        </div>
+
+                        <div class="row mb-8">
+                            <!--begin::Col-->
+                            <div class="col-xl-3">
+                                <div class="fs-6 fw-semibold mt-2 mb-3">Téléphone principal</div>
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-xl-9 fv-row">
+                                {% render_field p.telephone_principal class+="form-control form-control-solid" %}
+                            </div>
+                        </div>
+
+                        <div class="row mb-8">
+                            <!--begin::Col-->
+                            <div class="col-xl-3">
+                                <div class="fs-6 fw-semibold mt-2 mb-3">Téléphone secondaire</div>
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-xl-9 fv-row">
+                                {% render_field p.telephone_secondaire class+="form-control form-control-solid" %}
+                            </div>
+                        </div>
+
+                        <div class="row mb-8">
+                            <!--begin::Col-->
+                            <div class="col-xl-3">
+                                <div class="fs-6 fw-semibold mt-2 mb-3">Code sécurité sociale</div>
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-xl-9 fv-row">
+                                {% render_field p.code_securite_sociale class+="form-control form-control-solid" %}
+                            </div>
+                        </div>
+
+                        <div class="row mb-8">
+                            <!--begin::Col-->
+                            <div class="col-xl-3">
+                                <div class="fs-6 fw-semibold mt-2 mb-3">Code conventionnel</div>
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-xl-9 fv-row">
+                                {% render_field p.code_conventionnel class+="form-control form-control-solid" %}
+                            </div>
+                        </div>
+
+                         <div class="row mb-5">
+                            <!--begin::Col-->
+                            <div class="col-xl-3">
+                                <div class="fs-6 fw-semibold mt-2 mb-3">Signature</div>
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-lg-8">
+                                <!--begin::Image input-->
+                                <div class="image-input image-input-outline" data-kt-image-input="true"
+                                     style="background-image: url('assets/media/svg/avatars/blank.svg')">
+                                    <!--begin::Preview existing avatar-->
+                                    {% if form.instance.profil.signature %}
+                                    <div class="image-input-wrapper w-125px h-125px bgi-position-center"
+                                         style="background-size: 75%; background-image: url({{ MEDIA_URL }}{{ form.instance.profil.signature }})"></div>
+                                    {% else %}
+                                        <div class="image-input-wrapper w-125px h-125px bgi-position-center"></div>
+                                    {% endif %}
+                                    <!--end::Preview existing avatar-->
+                                    <!--begin::Label-->
+                                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
+                                           data-kt-image-input-action="change" data-bs-toggle="tooltip"
+                                           title="Changer singature">
+                                        <i class="bi bi-pencil-fill fs-7"></i>
+                                        <!--begin::Inputs-->
+                                        <input type="file" id="{{ p.signature.id_for_label }}" name="{{ p.signature.html_name }}" accept=".png, .jpg, .jpeg"/>
+                                        <input type="hidden" name="profile_avatar_remove"/>
+                                        <!--end::Inputs-->
+                                    </label>
+                                    <!--end::Label-->
+                                    <!--begin::Cancel-->
+                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
+                                          data-kt-image-input-action="cancel" data-bs-toggle="tooltip"
+                                          title="Cancel avatar">
+														<i class="bi bi-x fs-2"></i>
+													</span>
+                                    <!--end::Cancel-->
+                                    <!--begin::Remove-->
+                                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
+                                          data-kt-image-input-action="remove" data-bs-toggle="tooltip"
+                                          title="Remove avatar">
+														<i class="bi bi-x fs-2"></i>
+													</span>
+                                    <!--end::Remove-->
+                                </div>
+                                <!--end::Image input-->
+                                <!--begin::Hint-->
+                                <div class="form-text d-none">Allowed file types: png, jpg, jpeg.</div>
+                                <!--end::Hint-->
+                            </div>
+                            <!--end::Col-->
+                        </div>
+
+
+                        <!--begin::Row-->
+                        <div class="row mb-8">
+                            <!--begin::Col-->
+                            <div class="col-xl-3">
+                                <div class="fs-6 fw-semibold mt-2 mb-3">Ajouter la signature aux éditions</div>
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-xl-9">
+                                <div class="form-check form-switch form-check-custom form-check-solid">
+                                    {% render_field p.ajouter_signature_edition class+="form-check-input" %}
+                                    <label class="form-check-label fw-semibold text-gray-400 ms-3"
+                                           for="status">&nbsp;</label>
+                                </div>
+                            </div>
+                            <!--end::Col-->
+                        </div>
+
+
+                        <div class="row mb-8">
+                            <!--begin::Col-->
+                            <div class="col-xl-3">
+                                <div class="fs-6 fw-semibold mt-2 mb-3">Echographe par défaut</div>
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-xl-9 fv-row">
+                                {% render_field p.default_device class+="form-select" %}
+                            </div>
+                        </div>
+
+                        <div class="row mb-8">
+                            <!--begin::Col-->
+                            <div class="col-xl-3">
+                                <div class="fs-6 fw-semibold mt-2 mb-3">Profil</div>
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-xl-9 fv-row">
+                                {% render_field form.group class+="form-select" %}
+                            </div>
+                        </div>
+
+                        <div class="row mb-8">
+                            <!--begin::Col-->
+                            <div class="col-xl-3">
+                                <div class="fs-6 fw-semibold mt-2 mb-3">Nom d'utilisateur</div>
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-xl-9 fv-row">
+                                {% render_field form.username class+="form-control" %}
+                            </div>
+                        </div>
+
+                        <div class="row mb-8">
+                            <!--begin::Col-->
+                            <div class="col-xl-3">
+                                <div class="fs-6 fw-semibold mt-2 mb-3">Mot de passe</div>
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-xl-9 fv-row">
+                                {% if object %}
+                                    <button type="button" id="btn-modifier-mdp"
+                                            class="btn btn-light-primary font-weight-bold">
+                                        Modifier le mot de passe
+                                    </button>
+                                {% else %}
+                                    {% render_field form.password type='password' class+="form-control " %}
+                                    <div class="invalid-feedback"
+                                         {% if form.password.errors %}style="display: block"{% endif %}>
+                                        {{ form.password.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!--begin::Col-->
+                            <div class="col-xl-3">
+                                <div class="fs-6 fw-semibold mt-2 mb-3">Actif</div>
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-xl-9">
+                                <div class="form-check form-switch form-check-custom form-check-solid">
+                                    {% render_field form.is_active class+="form-check-input" %}
+                                    <label class="form-check-label fw-semibold text-gray-400 ms-3"
+                                           for="status">&nbsp;</label>
+                                </div>
+                            </div>
+                            <!--end::Col-->
+                        </div>
+
+
+
+                        <!--end::Row-->
+                    {% endfor %}
+                </div>
+
+                <!--end::Card body-->
+                <!--begin::Card footer-->
+                <div class="card-footer d-flex justify-content-end py-6 px-9">
+
+                    <a href="/utilisateurs" class="btn btn-light btn-active-light-primary me-2">
+                        <i class="ki ki-long-arrow-back icon-sm"></i>
+                        Annuler
+                    </a>
+                    <div class="btn-group">
+                        <button class="btn btn-primary">
+                            <i class="ki ki-check icon-sm"></i>
+                            Enregistrer
+                        </button>
+                    </div>
+                </div>
+                <!--end::Card footer-->
+            </form>
+            <!--end:Form-->
+        </div>
+    </form>
+
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        const compte = {{ user.profil.compte.id }};
+        const mode_edition = {% if object %}true{% else %}false{% endif %};
+        const utilisateur = {% if object %} {{ object.pk }} {% else %} -1 {% endif %};
+        {% if msg %}
+            toastr.success("{{ msg }}");
+        {% endif %}
+    </script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+    <script src="{% static "js/core/profil_form.js" %}"></script>
+{% endblock %}

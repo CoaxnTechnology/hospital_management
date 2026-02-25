@@ -1,0 +1,71 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+{% load common %}
+
+{% block content %}
+    <div class="p-4">
+        <form id="form_1" class="form" method="post" action="">
+            {% csrf_token %}
+
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+
+            <strong class="text-danger">{{ form.errors }}</strong>
+
+            <div class="row">
+                <div class="form-group col-5 required">
+                    <label>Libellé</label>
+                    {% render_field form.libelle class+="form-control form-control-sm" %}
+                    <div class="invalid-feedback"
+                         {% if form.libelle.errors %}style="display: block"{% endif %}>
+                        {{ form.libelle.errors }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-12">
+                    <label>Valeur</label>
+                    {% render_field form.valeur class+="form-control form-control-sm" %}
+                    <div class="invalid-feedback"
+                         {% if form.valeur.errors %}style="display: block"{% endif %}>
+                        {{ form.valeur.errors }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-12">
+                    <label>&nbsp;</label>
+                    <div class="form-group">
+                        <label class="checkbox">
+                            {% render_field form.normale class+="form-control form-control-sm" %}
+                            <span></span>
+                            Valeur normale
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex mt-4 justify-content-end">
+                <a href="/listes/?formulaire={{ formulaire }}&champ={{ champ }}" class="btn btn-default">Annuler</a>
+                <button type="submit" id="btn_enregistrer" class="ml-2 btn btn-primary font-weight-bolder"
+                        onclick="this.disabled=true,this.form.submit();">
+                    <i class="ki ki-check icon-sm"></i>
+                    Enregistrer
+                </button>
+            </div>
+
+        </form>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    <script type="text/javascript">
+
+    </script>
+    <script src="{% static "js/core/liste_choix_form.js" %}"></script>
+{% endblock %}

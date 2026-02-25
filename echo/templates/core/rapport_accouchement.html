@@ -1,0 +1,105 @@
+{% extends "core/base_rapport.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+{% block styles %}
+    <style>
+        #rapport_accouchement_datatable_filter {
+            display: none;
+        }
+    </style>
+
+{% endblock %}
+{% block content_rapport %}
+    <div class="tab-pane active" id="accouchement" role="tabpanel">
+
+        <div class="mb-2">
+            <ul id="dates-filtre" class="nav nav-pills nav-tabs-bold">
+                <li class="nav-item">
+                    <a onclick="filtrerDate(this, event, 0)" class="nav-link py-4 mx-xs-1 mx-md-2 active"
+                       href="javascript:void(0)">
+                        <span class="nav-text">Tous</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a onclick="filtrerDate(this, event, 1)" class="nav-link py-4 mx-xs-1 mx-md-2"
+                       href="javascript:void(0)">
+                        <span class="nav-text">Mois en cours</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a onclick="filtrerDate(this, event, 2)" class="nav-link py-4 mx-xs-1 mx-md-2"
+                       href="javascript:void(0)">
+                        <span class="nav-text">Mois prochain</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <div class="input-group input-group-sm" id="daterangepicker">
+                    <input type="text" class="form-control" readonly="readonly" id="date_range_input"
+                           placeholder="intervalle de dates"/>
+                    <div class="input-group-append">
+															<span class="input-group-text">
+																<i class="la la-calendar-check-o"></i>
+															</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <input type="number" id="terme"
+                       class="form-control form-control-sm datatable-input" placeholder="Terme"
+                       value=""/>
+            </div>
+            <div class="col-3">
+                <button onclick="resetSearch()" class="btn btn-light-primary btn-sm" type="button">
+                    Réinitialiser
+                </button>
+            </div>
+
+        </div>
+
+        <table class="table table-row-bordered gy-5" id="rapport_accouchement_datatable">
+            <thead>
+            <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
+                <th>Identifiant patient</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>DDR</th>
+                <th>Terme</th>
+                <th>Terme actuel</th>
+                <th>Type de grossesse</th>
+                <th>Lieu d'accouchement</th>
+                <th>Date prévue d'accouchement</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody class="text-gray-600 fw-semibold">
+            </tbody>
+        </table>
+    </div>
+
+    <script type="text/html" id="actions-rapport-accouchement-template">
+        <a onclick="afficherHistorique(<%= id %>)"
+           class="btn btn-icon btn-primary btn-xs" title="Historique consultations patient">
+            <i class="la la-eye"></i>
+        </a>
+    </script>
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="{% static "plugins/custom/tinymce/tinymce.bundle.js" %}"></script>
+    <script type="text/javascript">
+        let data = {{ accouchements | safe }};
+        const dureeGrossesse = {{ user.profil.compte.parametrescompte.duree_grossesse }};
+        console.log(data);
+    </script>
+    <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
+    <script src="{% static "js/core/rapport_accouchement.js" %}"></script>
+
+{% endblock %}

@@ -1,0 +1,7317 @@
+[
+  {
+    "model": "core.ListeChoix",
+    "pk": 1,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "FCV",
+      "valeur": "FCV ASC US",
+      "libelle": "FCV ASC US",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 2,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "FCV",
+      "valeur": "FCV incomplet",
+      "libelle": "FCV incomplet",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 3,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "FCV",
+      "valeur": "FCV normal",
+      "libelle": "FCV normal",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 4,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "FCV",
+      "valeur": "FCV normal mais résultats non vus",
+      "libelle": "FCV normal mais résultats non vus",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 5,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "FCV",
+      "valeur": "FCV patho",
+      "libelle": "FCV patho",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 6,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "Mammographie",
+      "valeur": "Demandé",
+      "libelle": "Demandé",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 7,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "Mammographie",
+      "valeur": "Mammographie normale",
+      "libelle": "Mammographie normale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 8,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "Mammographie",
+      "valeur": "Mammographie patho",
+      "libelle": "Mammographie patho",
+      "actif": false
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 9,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "Mammographie",
+      "valeur": "Sein droit ACR 2 Sein gauche ACR 3",
+      "libelle": "Sein droit ACR 2 Sein gauche ACR 3",
+      "actif": false
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 10,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "Echo Mammaire",
+      "valeur": "ACR 2",
+      "libelle": "ACR 2",
+      "actif": false
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 11,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "Echo Mammaire",
+      "valeur": "Normale",
+      "libelle": "Normale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 12,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "Echo Mammaire",
+      "valeur": "Patho",
+      "libelle": "Patho",
+      "actif": false
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 13,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "Echo Mammaire",
+      "valeur": "Adenofibrome",
+      "libelle": "Adenofibrome",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 14,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "Echo Mammaire",
+      "valeur": "Ectasie retroareolaire",
+      "libelle": "Ectasie retroareolaire",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 15,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "Echo Mammaire",
+      "valeur": "Kyste",
+      "libelle": "Kyste",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 16,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "grossesse",
+      "valeur": "Normale",
+      "libelle": "Normale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 17,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "grossesse",
+      "valeur": "DGID",
+      "libelle": "DGID",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 18,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "grossesse",
+      "valeur": "DGNID",
+      "libelle": "DGNID",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 19,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "grossesse",
+      "valeur": "HTA",
+      "libelle": "HTA",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 20,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "grossesse",
+      "valeur": "MAP",
+      "libelle": "MAP",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 21,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "grossesse",
+      "valeur": "PE",
+      "libelle": "PE",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 22,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "grossesse",
+      "valeur": "Amniocentèse pour signe echographique",
+      "libelle": "Amniocentèse pour signe echographique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 23,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "grossesse",
+      "valeur": "Chorioamniotite",
+      "libelle": "Chorioamniotite",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 24,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "grossesse",
+      "valeur": "GG",
+      "libelle": "GG",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 25,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "grossesse",
+      "valeur": "RCIU",
+      "libelle": "RCIU",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 26,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "grossesse",
+      "valeur": "RPDE",
+      "libelle": "RPDE",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 27,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "grossesse",
+      "valeur": "Précoce",
+      "libelle": "Précoce",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 28,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "analgesie",
+      "valeur": "AG",
+      "libelle": "AG",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 29,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "analgesie",
+      "valeur": "APD",
+      "libelle": "APD",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 30,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "analgesie",
+      "valeur": "Aucune",
+      "libelle": "Aucune",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 31,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "analgesie",
+      "valeur": "Locale des nerfs honteux",
+      "libelle": "Locale des nerfs honteux",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 32,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "analgesie",
+      "valeur": "RachisA",
+      "libelle": "RachisA",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 33,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "analgesie",
+      "valeur": "Sans Anesthésie",
+      "libelle": "Sans Anesthésie",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 34,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "mise_en_travail",
+      "valeur": "Spontané",
+      "libelle": "Spontané",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 35,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "mise_en_travail",
+      "valeur": "Déclenchement",
+      "libelle": "Déclenchement",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 36,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "mise_en_travail",
+      "valeur": "Maturation",
+      "libelle": "Maturation",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 37,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "mise_en_travail",
+      "valeur": "Dirigé",
+      "libelle": "Dirigé",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 38,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "mise_en_travail",
+      "valeur": "Pas de travail",
+      "libelle": "Pas de travail",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 39,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "indications",
+      "valeur": "Ano RCF",
+      "libelle": "Ano RCF",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 40,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "indications",
+      "valeur": "DGID",
+      "libelle": "DGID",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 41,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "indications",
+      "valeur": "DGNID",
+      "libelle": "DGNID",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 42,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "indications",
+      "valeur": "DT",
+      "libelle": "DT",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 43,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "indications",
+      "valeur": "Macrosomie",
+      "libelle": "Macrosomie",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 44,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "indications",
+      "valeur": "MFIU",
+      "libelle": "MFIU",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 45,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "indications",
+      "valeur": "OLIGOAMNIOS",
+      "libelle": "OLIGOAMNIOS",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 46,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "indications",
+      "valeur": "PE",
+      "libelle": "PE",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 47,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "indications",
+      "valeur": "Pré-éclampsie",
+      "libelle": "Pré-éclampsie",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 48,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "indications",
+      "valeur": "RCIU",
+      "libelle": "RCIU",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 49,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "indications",
+      "valeur": "RPDE",
+      "libelle": "RPDE",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 50,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "indications",
+      "valeur": "Terme dépassé",
+      "libelle": "Terme dépassé",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 51,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "etat_sante",
+      "valeur": "Bien portant",
+      "libelle": "Bien portant",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 52,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "etat_sante",
+      "valeur": "Malformation",
+      "libelle": "Malformation",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 53,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "etat_sante",
+      "valeur": "Anomalie chromosomique",
+      "libelle": "Anomalie chromosomique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 54,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "etat_sante",
+      "valeur": "Décédé",
+      "libelle": "Décédé",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 55,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "perinee",
+      "valeur": "Intact",
+      "libelle": "Intact",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 56,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "perinee",
+      "valeur": "Episiotomie",
+      "libelle": "Episiotomie",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 57,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "perinee",
+      "valeur": "Déchirure simple",
+      "libelle": "Déchirure simple",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 58,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "perinee",
+      "valeur": "Déchirure compliqué",
+      "libelle": "Déchirure compliqué",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 59,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "suite_couche_type",
+      "valeur": "Pathologique",
+      "libelle": "Pathologique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 60,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "suite_couche_type",
+      "valeur": "Physiologique",
+      "libelle": "Physiologique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 61,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "suite_couche_detail",
+      "valeur": "Abcés suite à engorgement opéré",
+      "libelle": "Abcés suite à engorgement opéré",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 62,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "suite_couche_detail",
+      "valeur": "Anémie",
+      "libelle": "Anémie",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 63,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "suite_couche_detail",
+      "valeur": "Décollement du scalp",
+      "libelle": "Décollement du scalp",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 64,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "suite_couche_detail",
+      "valeur": "Néonatal avec ATB",
+      "libelle": "Néonatal avec ATB",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 65,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "suite_couche_detail",
+      "valeur": "Néonat pour petit poids",
+      "libelle": "Néonat pour petit poids",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 66,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "suite_couche_detail",
+      "valeur": "Sepsis à steropto A",
+      "libelle": "Sepsis à steropto A",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 67,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "suite_couche_detail",
+      "valeur": "Thrombus",
+      "libelle": "Thrombus",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 68,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Ablation DIU",
+      "libelle": "Ablation DIU",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 69,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Ablation implant",
+      "libelle": "Ablation implant",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 70,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Avis",
+      "libelle": "Avis",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 71,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "avis sur la cicatirce d'episiotomie",
+      "libelle": "avis sur la cicatirce d'episiotomie",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 72,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Bilan post fausse couche",
+      "libelle": "Bilan post fausse couche",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 73,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Consultation post natale",
+      "libelle": "Consultation post natale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 74,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Consultation pré-conceptionnelle",
+      "libelle": "Consultation pré-conceptionnelle",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 75,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Contraception",
+      "libelle": "Contraception",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 76,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Contraception d'urgence",
+      "libelle": "Contraception d'urgence",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 77,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Contrôle",
+      "libelle": "Contrôle",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 78,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Depistage de routine",
+      "libelle": "Depistage de routine",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 79,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Dépose pose DIU",
+      "libelle": "Dépose pose DIU",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 80,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Desir de grossesse",
+      "libelle": "Desir de grossesse",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 81,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Douleurs pelviennes",
+      "libelle": "Douleurs pelviennes",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 82,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "IVG",
+      "libelle": "IVG",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 83,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Leucorhées",
+      "libelle": "Leucorhées",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 84,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Métrorragies",
+      "libelle": "Métrorragies",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 85,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Métrorragies du premier trimestre",
+      "libelle": "Métrorragies du premier trimestre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 86,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Mise en place d'un traitement pour hypofertilité",
+      "libelle": "Mise en place d'un traitement pour hypofertilité",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 87,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "MYCOSE",
+      "libelle": "MYCOSE",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 88,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Pose implan",
+      "libelle": "Pose implan",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 89,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Pose de DIU",
+      "libelle": "Pose de DIU",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 90,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Résultat d'examen complémentaire",
+      "libelle": "Résultat d'examen complémentaire",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 91,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Retrait du DIU",
+      "libelle": "Retrait du DIU",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 92,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Suivi de routine",
+      "libelle": "Suivi de routine",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 93,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Suivi Gyneco Annuel et renouvellement PILULE",
+      "libelle": "Suivi Gyneco Annuel et renouvellement PILULE",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 94,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Synthèse",
+      "libelle": "Synthèse",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 95,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Urgence",
+      "libelle": "Urgence",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 96,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "motif_consultation",
+      "valeur": "Autres",
+      "libelle": "Autres",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 97,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "partenaire",
+      "valeur": "Unique",
+      "libelle": "Unique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 98,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "partenaire",
+      "valeur": "Multiples",
+      "libelle": "Multiples",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 99,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "partenaire",
+      "valeur": "Régulier",
+      "libelle": "Régulier",
+      "actif": false
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 100,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "cycles",
+      "valeur": "Réguliers",
+      "libelle": "Réguliers",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 101,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "cycles",
+      "valeur": "Irréguliers",
+      "libelle": "Irréguliers",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 102,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "syndrome_premenstruel",
+      "valeur": "Absent",
+      "libelle": "Absent",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 103,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "syndrome_premenstruel",
+      "valeur": "Présent",
+      "libelle": "Présent",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 104,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "abondance",
+      "valeur": "Amenorrhée",
+      "libelle": "Amenorrhée",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 105,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "abondance",
+      "valeur": "Importante",
+      "libelle": "Importante",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 106,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "abondance",
+      "valeur": "Normale",
+      "libelle": "Normale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 107,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "abondance",
+      "valeur": "Peu importante",
+      "libelle": "Peu importante",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 108,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "abondance",
+      "valeur": "Très importante",
+      "libelle": "Très importante",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 109,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "douleur",
+      "valeur": "Absence",
+      "libelle": "Absence",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 110,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "douleur",
+      "valeur": "Importante",
+      "libelle": "Importante",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 111,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "douleur",
+      "valeur": "Tolérable",
+      "libelle": "Tolérable",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 112,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "mode_contraception",
+      "valeur": "DIU cuivre",
+      "libelle": "DIU cuivre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 113,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "mode_contraception",
+      "valeur": "DIU hormonale",
+      "libelle": "DIU hormonale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 114,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "mode_contraception",
+      "valeur": "Implant progestatif",
+      "libelle": "Implant progestatif",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 115,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "mode_contraception",
+      "valeur": "Orale OP",
+      "libelle": "Orale OP",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 116,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "mode_contraception",
+      "valeur": "Orale P",
+      "libelle": "Orale P",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 117,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "mode_contraception",
+      "valeur": "Sans CO",
+      "libelle": "Sans CO",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 118,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "mode_contraception",
+      "valeur": "Locale",
+      "libelle": "Locale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 119,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "mode_contraception",
+      "valeur": "Aucune",
+      "libelle": "Aucune",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 120,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "mode_contraception",
+      "valeur": "Microprogestative",
+      "libelle": "Microprogestative",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 121,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "mode_contraception",
+      "valeur": "Naturelle",
+      "libelle": "Naturelle",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 122,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "observance",
+      "valeur": "Bonne",
+      "libelle": "Bonne",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 123,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "observance",
+      "valeur": "Inégale",
+      "libelle": "Inégale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 124,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "observance",
+      "valeur": "Mauvaise",
+      "libelle": "Mauvaise",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 125,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "satisfaction",
+      "valeur": "Bonne",
+      "libelle": "Bonne",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 126,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "satisfaction",
+      "valeur": "Mauvaise",
+      "libelle": "Mauvaise",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 127,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "satisfaction",
+      "valeur": "Moyenne",
+      "libelle": "Moyenne",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 128,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "satisfaction",
+      "valeur": "Très bonne",
+      "libelle": "Très bonne",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 129,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "effets_indesirables",
+      "valeur": "Acnée",
+      "libelle": "Acnée",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 130,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "effets_indesirables",
+      "valeur": "Aménorhée",
+      "libelle": "Aménorhée",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 131,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "effets_indesirables",
+      "valeur": "Céphalées",
+      "libelle": "Céphalées",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 132,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "effets_indesirables",
+      "valeur": "Mycoses à répetition",
+      "libelle": "Mycoses à répetition",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 133,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "effets_indesirables",
+      "valeur": "Prise de poids",
+      "libelle": "Prise de poids",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 134,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "effets_indesirables",
+      "valeur": "RAS",
+      "libelle": "RAS",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 135,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "effets_indesirables",
+      "valeur": "Règles plus abondantes",
+      "libelle": "Règles plus abondantes",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 136,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "seins",
+      "valeur": "Examen normale",
+      "libelle": "Examen normale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 137,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "seins",
+      "valeur": "Examen normale + position couché",
+      "libelle": "Examen normale + position couché",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 138,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "examen_sous_speculum",
+      "valeur": "Normal",
+      "libelle": "Normal",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 139,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "examen_sous_speculum",
+      "valeur": "Fils DIU visibles",
+      "libelle": "Fils DIU visibles",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 140,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "examen_sous_speculum",
+      "valeur": "Ectropion",
+      "libelle": "Ectropion",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 141,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "examen_sous_speculum",
+      "valeur": "Leucorrhées blanchatres",
+      "libelle": "Leucorrhées blanchatres",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 142,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "examen_sous_speculum",
+      "valeur": "Col d'aspect sain",
+      "libelle": "Col d'aspect sain",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 143,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "examen_sous_speculum",
+      "valeur": "Leucorrhées physiologiques",
+      "libelle": "Leucorrhées physiologiques",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 144,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "examen_sous_speculum",
+      "valeur": "Col d'aspect pathologique",
+      "libelle": "Col d'aspect pathologique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 145,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "leuco",
+      "valeur": "Abondantes",
+      "libelle": "Abondantes",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 146,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "leuco",
+      "valeur": "Colorées",
+      "libelle": "Colorées",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 147,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "leuco",
+      "valeur": "Malodorantes",
+      "libelle": "Malodorantes",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 148,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "leuco",
+      "valeur": "Physiologique",
+      "libelle": "Physiologique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 149,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "leuco",
+      "valeur": "Rougatres",
+      "libelle": "Rougatres",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 150,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "leuco",
+      "valeur": "Verdatres",
+      "libelle": "Verdatres",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 151,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "tv",
+      "valeur": "Culs de sacs libres",
+      "libelle": "Culs de sacs libres",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 152,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "tv",
+      "valeur": "Kyste ovarien",
+      "libelle": "Kyste ovarien",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 153,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "tv",
+      "valeur": "Non fait",
+      "libelle": "Non fait",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 154,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "tv",
+      "valeur": "Normal",
+      "libelle": "Normal",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 155,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "tv",
+      "valeur": "Utérus myomateux, augmenté de taille",
+      "libelle": "Utérus myomateux, augmenté de taille",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 156,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "indications_colposcopie",
+      "valeur": "AGUS",
+      "libelle": "AGUS",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 157,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "indications_colposcopie",
+      "valeur": "ASCUS",
+      "libelle": "ASCUS",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 158,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "indications_colposcopie",
+      "valeur": "Contrôle apres conisation",
+      "libelle": "Contrôle apres conisation",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 159,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "indications_colposcopie",
+      "valeur": "HSIL",
+      "libelle": "HSIL",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 160,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "indications_colposcopie",
+      "valeur": "LSIL",
+      "libelle": "LSIL",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 161,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "test_hpv",
+      "valeur": "Positif",
+      "libelle": "Positif",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 162,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "test_hpv",
+      "valeur": "Négatif",
+      "libelle": "Négatif",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 163,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "examen_sans_preparation",
+      "valeur": "Sans particularité",
+      "libelle": "Sans particularité",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 164,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "acide_acetique",
+      "valeur": "ZT endocervicale",
+      "libelle": "ZT endocervicale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 165,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "acide_acetique",
+      "valeur": "ZT exocervicale",
+      "libelle": "ZT exocervicale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 166,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "acide_acetique",
+      "valeur": "ZT non vue",
+      "libelle": "ZT non vue",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 167,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "acide_acetique",
+      "valeur": "ZT OE",
+      "libelle": "ZT OE",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 168,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "tag",
+      "valeur": "1",
+      "libelle": "1",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 169,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "tag",
+      "valeur": "2",
+      "libelle": "2",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 170,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "tag",
+      "valeur": "N et S",
+      "libelle": "N et S",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 171,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "localisation",
+      "valeur": "1 H",
+      "libelle": "1 H",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 172,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "localisation",
+      "valeur": "2 H",
+      "libelle": "2 H",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 173,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "localisation",
+      "valeur": "3 H",
+      "libelle": "3 H",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 174,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "localisation",
+      "valeur": "4 H",
+      "libelle": "4 H",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 175,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "localisation",
+      "valeur": "5 H",
+      "libelle": "5 H",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 176,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "localisation",
+      "valeur": "6 H",
+      "libelle": "6 H",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 177,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "localisation",
+      "valeur": "7 H",
+      "libelle": "7 H",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 178,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "localisation",
+      "valeur": "8 H",
+      "libelle": "8 H",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 179,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "localisation",
+      "valeur": "9 H",
+      "libelle": "9 H",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 180,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "localisation",
+      "valeur": "10 H",
+      "libelle": "10 H",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 181,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "localisation",
+      "valeur": "11 H",
+      "libelle": "11 H",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 182,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "localisation",
+      "valeur": "12 H",
+      "libelle": "12 H",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 183,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "lugol",
+      "valeur": "Absence zone de iodo-négatif",
+      "libelle": "Absence zone de iodo-négatif",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 184,
+    "fields": {
+      "formulaire": "consultation_colposcopie",
+      "champ": "lugol",
+      "valeur": "Zone iodo-négatif",
+      "libelle": "Zone iodo-négatif",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 185,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "titre_echo_pelvienne",
+      "valeur": "Echographie pelvienne",
+      "libelle": "Echographie pelvienne",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 186,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "titre_echo_pelvienne",
+      "valeur": "Monitorage de l'ovulation",
+      "libelle": "Monitorage de l'ovulation",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 187,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "titre_echo_pelvienne",
+      "valeur": "Reserve Ovarienne",
+      "libelle": "Reserve Ovarienne",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 188,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "titre_echo_pelvienne",
+      "valeur": "Hystérosonographie",
+      "libelle": "Hystérosonographie",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 189,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "titre_echo_pelvienne",
+      "valeur": "Bilan périnée",
+      "libelle": "Bilan périnée",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 190,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "titre_echo_pelvienne",
+      "valeur": "Localisation grossesse",
+      "libelle": "Localisation grossesse",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 191,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "titre_echo_pelvienne",
+      "valeur": "Verification de la vacuité utérine",
+      "libelle": "Verification de la vacuité utérine",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 192,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "position_uterus",
+      "valeur": "antéversé et antéfléchi",
+      "libelle": "antéversé et antéfléchi",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 193,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "position_uterus",
+      "valeur": "rétroversé rétrofléchi",
+      "libelle": "rétroversé rétrofléchi",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 194,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "position_uterus",
+      "valeur": "antéversé",
+      "libelle": "antéversé",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 195,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "position_uterus",
+      "valeur": "rétroversé",
+      "libelle": "rétroversé",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 196,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "position_uterus",
+      "valeur": "axiale",
+      "libelle": "axiale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 197,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "position_uterus",
+      "valeur": "latérodévié à droite",
+      "libelle": "latérodévié à droite",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 198,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "position_uterus",
+      "valeur": "latérodévié à gauche",
+      "libelle": "latérodévié à gauche",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 199,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "position_uterus",
+      "valeur": "Hystérectomie subtotale ",
+      "libelle": "Hystérectomie subtotale ",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 200,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "position_uterus",
+      "valeur": "Hystérectomie totale ",
+      "libelle": "Hystérectomie totale ",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 201,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "position_uterus",
+      "valeur": "Aplasie utérine",
+      "libelle": "Aplasie utérine",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 202,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "position_uterus",
+      "valeur": "Utérus non vu",
+      "libelle": "Utérus non vu",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 203,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "position_uterus",
+      "valeur": "Variable",
+      "libelle": "Variable",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 204,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "lateralisation",
+      "valeur": "droite",
+      "libelle": "droite",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 205,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "lateralisation",
+      "valeur": "gauche",
+      "libelle": "gauche",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 206,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "lateralisation",
+      "valeur": "aucune",
+      "libelle": "aucune",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 207,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "volume_uterin_commentaire",
+      "valeur": "volume normale",
+      "libelle": "volume normale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 208,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "volume_uterin_commentaire",
+      "valeur": "volume augmenté",
+      "libelle": "volume augmenté",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 209,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "volume_uterin_commentaire",
+      "valeur": "volume diminué",
+      "libelle": "volume diminué",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 210,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "volume_uterin_commentaire",
+      "valeur": "important (multiparité)",
+      "libelle": "important (multiparité)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 211,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "asymetrie",
+      "valeur": "au profit du mur postérieur",
+      "libelle": "au profit du mur postérieur",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 212,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "asymetrie",
+      "valeur": "au profit du mur antérieur",
+      "libelle": "au profit du mur antérieur",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 213,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "asymetrie",
+      "valeur": "absence d'asymétrie",
+      "libelle": "absence d'asymétrie",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 214,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "mobilite",
+      "valeur": "utérus de mobilité diminuée",
+      "libelle": "utérus de mobilité diminuée",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 215,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "mobilite",
+      "valeur": "utérus fixé",
+      "libelle": "utérus fixé",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 216,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "mobilite",
+      "valeur": "utérus mobilisable",
+      "libelle": "utérus mobilisable",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 217,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "structures",
+      "valeur": "Adénomyose",
+      "libelle": "Adénomyose",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 218,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "structures",
+      "valeur": "Myomatose diffuse",
+      "libelle": "Myomatose diffuse",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 219,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "structures",
+      "valeur": "Myomètre hétérogène",
+      "libelle": "Myomètre hétérogène",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 220,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "structures",
+      "valeur": "Myomètre homogène",
+      "libelle": "Myomètre homogène",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 221,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "structures",
+      "valeur": "Polyfibromateux",
+      "libelle": "Polyfibromateux",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 222,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "cavite",
+      "valeur": "adenomyose 3D",
+      "libelle": "adenomyose 3D",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 223,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "cavite",
+      "valeur": "Cicatrice d'hysterotomie d'aspect normal",
+      "libelle": "Cicatrice d'hysterotomie d'aspect normal",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 224,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "cavite",
+      "valeur": "contient des résidus ovulaires vascularisés",
+      "libelle": "contient des résidus ovulaires vascularisés",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 225,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "cavite",
+      "valeur": "contient une image échogène = polype",
+      "libelle": "contient une image échogène = polype",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 226,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "cavite",
+      "valeur": "déformée par une synéchie",
+      "libelle": "déformée par une synéchie",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 227,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "cavite",
+      "valeur": "est d'aspect normal",
+      "libelle": "est d'aspect normal",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 228,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "cavite",
+      "valeur": "est d'aspect normal en reconstruction 3D",
+      "libelle": "est d'aspect normal en reconstruction 3D",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 229,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "cavite",
+      "valeur": "est défomée au fond par un résidu de cloison (fond arqué)",
+      "libelle": "est défomée au fond par un résidu de cloison (fond arqué)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 230,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "cavite",
+      "valeur": "est défomée par l'adénomyose ",
+      "libelle": "est défomée par l'adénomyose ",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 231,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "cavite",
+      "valeur": "est déformée par la présence d'un myome",
+      "libelle": "est déformée par la présence d'un myome",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 232,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "cavite",
+      "valeur": "est tubulaire",
+      "libelle": "est tubulaire",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 233,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "cavite",
+      "valeur": "isthmocèle",
+      "libelle": "isthmocèle",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 234,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "cavite",
+      "valeur": "La cavité est en baionnette",
+      "libelle": "La cavité est en baionnette",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 235,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "cavite",
+      "valeur": "ne peut etre étudiée",
+      "libelle": "ne peut etre étudiée",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 236,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "cavite",
+      "valeur": "pas de rétention",
+      "libelle": "pas de rétention",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 237,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "malformation",
+      "valeur": "U0 Normal",
+      "libelle": "U0 Normal",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 238,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "malformation",
+      "valeur": "U1a (en T)",
+      "libelle": "U1a (en T)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 239,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "malformation",
+      "valeur": "U1b (infantile)",
+      "libelle": "U1b (infantile)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 240,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "malformation",
+      "valeur": "U1c (fond arqué)",
+      "libelle": "U1c (fond arqué)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 241,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "malformation",
+      "valeur": "U1c (variantes modérées",
+      "libelle": "U1c (variantes modérées",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 242,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "malformation",
+      "valeur": "U2a (cloisonné partiel)",
+      "libelle": "U2a (cloisonné partiel)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 243,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "malformation",
+      "valeur": "U2b (cloisonné total)",
+      "libelle": "U2b (cloisonné total)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 244,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "malformation",
+      "valeur": "U3a (bicorne partiel)",
+      "libelle": "U3a (bicorne partiel)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 245,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "malformation",
+      "valeur": "U3b (bicorne complet)",
+      "libelle": "U3b (bicorne complet)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 246,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "malformation",
+      "valeur": "U3c (bicorne avec cloison)",
+      "libelle": "U3c (bicorne avec cloison)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 247,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "malformation",
+      "valeur": "U4a (hémi-utérus droit avec cavité rudimentaire)",
+      "libelle": "U4a (hémi-utérus droit avec cavité rudimentaire)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 248,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "malformation",
+      "valeur": "U4a (hémi-utérus gauche avec cavité rudimentaire)",
+      "libelle": "U4a (hémi-utérus gauche avec cavité rudimentaire)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 249,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "malformation",
+      "valeur": "U4b (hémi-utérus droit sans reliquat gauche)",
+      "libelle": "U4b (hémi-utérus droit sans reliquat gauche)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 250,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "malformation",
+      "valeur": "U4b (hémi-utérus droit sans cavité rudimentaire)",
+      "libelle": "U4b (hémi-utérus droit sans cavité rudimentaire)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 251,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "malformation",
+      "valeur": "U4b (hémi-utérus gauche sans cavité rudimentaire)",
+      "libelle": "U4b (hémi-utérus gauche sans cavité rudimentaire)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 252,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "malformation",
+      "valeur": "U4b (hémi-utérus gauche sans reliquat droit)",
+      "libelle": "U4b (hémi-utérus gauche sans reliquat droit)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 253,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "malformation",
+      "valeur": "U5a (aplasie uterine avec corne rudimentaire droite)",
+      "libelle": "U5a (aplasie uterine avec corne rudimentaire droite)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 254,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "malformation",
+      "valeur": "U5a (aplasie uterine avec corne rudimentaire gauche)",
+      "libelle": "U5a (aplasie uterine avec corne rudimentaire gauche)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 255,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "malformation",
+      "valeur": "U5b (aplasie uterine avec reliquat droite)",
+      "libelle": "U5b (aplasie uterine avec reliquat droite)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 256,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "malformation",
+      "valeur": "U5b (aplasie uterine avec reliquat gauche)",
+      "libelle": "U5b (aplasie uterine avec reliquat gauche)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 257,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "malformation",
+      "valeur": "U5b (aplasie uterine sans reliquat)",
+      "libelle": "U5b (aplasie uterine sans reliquat)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 258,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "malformation",
+      "valeur": "U5c (non classifiable)",
+      "libelle": "U5c (non classifiable)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 259,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ligne_cavitaire",
+      "valeur": "régulière",
+      "libelle": "régulière",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 260,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ligne_cavitaire",
+      "valeur": "irrégulière",
+      "libelle": "irrégulière",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 261,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "type_dispositif_intra_uterin",
+      "valeur": "DIU au cuivre",
+      "libelle": "DIU au cuivre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 262,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "type_dispositif_intra_uterin",
+      "valeur": "Mirena",
+      "libelle": "Mirena",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 263,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "localisation_dispositif_intra_uterin",
+      "valeur": "endocavitaire en position normal",
+      "libelle": "endocavitaire en position normal",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 264,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "localisation_dispositif_intra_uterin",
+      "valeur": "endocavitaire basculé",
+      "libelle": "endocavitaire basculé",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 265,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "localisation_dispositif_intra_uterin",
+      "valeur": "cervico-isthmique",
+      "libelle": "cervico-isthmique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 266,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "localisation_dispositif_intra_uterin",
+      "valeur": "intra-myométriale",
+      "libelle": "intra-myométriale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 267,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "localisation_dispositif_intra_uterin",
+      "valeur": "sous séreux",
+      "libelle": "sous séreux",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 268,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "localisation_dispositif_intra_uterin",
+      "valeur": "dans l'épiloon",
+      "libelle": "dans l'épiloon",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 269,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "anomalies_dispositif_intra_uterin",
+      "valeur": "RAS",
+      "libelle": "RAS",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 270,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "anomalies_dispositif_intra_uterin",
+      "valeur": "Une branche non dépliée",
+      "libelle": "Une branche non dépliée",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 271,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "anomalies_dispositif_intra_uterin",
+      "valeur": "Deux branches non dépliées",
+      "libelle": "Deux branches non dépliées",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 272,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "anomalies_dispositif_intra_uterin",
+      "valeur": "Une branche perforante",
+      "libelle": "Une branche perforante",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 273,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "anomalies_dispositif_intra_uterin",
+      "valeur": "Deux branches perforantes",
+      "libelle": "Deux branches perforantes",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 274,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "endometre_visualisation",
+      "valeur": "vu sur toute sa longueur ",
+      "libelle": "vu sur toute sa longueur ",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 275,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "endometre_visualisation",
+      "valeur": "hydrométrie",
+      "libelle": "hydrométrie",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 276,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "endometre_visualisation",
+      "valeur": "hydrosono",
+      "libelle": "hydrosono",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 277,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "endometre_visualisation",
+      "valeur": "gené par posotion utérine",
+      "libelle": "gené par posotion utérine",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 278,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "endometre_visualisation",
+      "valeur": "géné par myomes",
+      "libelle": "géné par myomes",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 279,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "endometre_visualisation",
+      "valeur": "endomètre difficilement visualisé",
+      "libelle": "endomètre difficilement visualisé",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 280,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "endometre_echogenicite",
+      "valeur": "3 feuilles",
+      "libelle": "3 feuilles",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 281,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "endometre_echogenicite",
+      "valeur": "hyperéchogène",
+      "libelle": "hyperéchogène",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 282,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "endometre_echogenicite",
+      "valeur": "hypoéchogène",
+      "libelle": "hypoéchogène",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 283,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "endometre_echogenicite",
+      "valeur": "isoéchogène",
+      "libelle": "isoéchogène",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 284,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "endometre_echogenicite",
+      "valeur": "non uniforme avec des images kystiques réguliers",
+      "libelle": "non uniforme avec des images kystiques réguliers",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 285,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "endometre_echogenicite",
+      "valeur": "non uniforme avec des images kystiques irréguliers",
+      "libelle": "non uniforme avec des images kystiques irréguliers",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 286,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "endometre_echogenicite",
+      "valeur": "non uniforme sans images kystiques",
+      "libelle": "non uniforme sans images kystiques",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 287,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "col_aspect",
+      "valeur": "normal",
+      "libelle": "normal",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 288,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "col_aspect",
+      "valeur": "kystes de Naboth",
+      "libelle": "kystes de Naboth",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 289,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "col_aspect",
+      "valeur": "aspect normal de col restant ",
+      "libelle": "aspect normal de col restant ",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 290,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "col_aspect",
+      "valeur": "augmenté de volume",
+      "libelle": "augmenté de volume",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 291,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "col_aspect",
+      "valeur": "canal cervical dilaté",
+      "libelle": "canal cervical dilaté",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 292,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "col_aspect",
+      "valeur": "collection liquidienne (sténose orificielle)",
+      "libelle": "collection liquidienne (sténose orificielle)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 293,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "col_aspect",
+      "valeur": "court après conisation",
+      "libelle": "court après conisation",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 294,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "col_aspect",
+      "valeur": "non visualisé",
+      "libelle": "non visualisé",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 295,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "col_aspect",
+      "valeur": "C0 (col normal)",
+      "libelle": "C0 (col normal)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 296,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "col_aspect",
+      "valeur": "C1 (col cloisonne)",
+      "libelle": "C1 (col cloisonne)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 297,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "col_aspect",
+      "valeur": "C2 (double col)",
+      "libelle": "C2 (double col)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 298,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "col_aspect",
+      "valeur": "C3 (aplasie cervicale unilaterale droite)",
+      "libelle": "C3 (aplasie cervicale unilaterale droite)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 299,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "col_aspect",
+      "valeur": "C4 (aplasie cervicale)",
+      "libelle": "C4 (aplasie cervicale)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 300,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "col_aspect",
+      "valeur": "Endocol habituel",
+      "libelle": "Endocol habituel",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 301,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "col_aspect",
+      "valeur": "Glaire cervicale",
+      "libelle": "Glaire cervicale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 302,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "col_vascularisation",
+      "valeur": "faible",
+      "libelle": "faible",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 303,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "col_vascularisation",
+      "valeur": "pédicule unique évoquant un polype",
+      "libelle": "pédicule unique évoquant un polype",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 304,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "col_vascularisation",
+      "valeur": "vascularisation diffuse et augmentée",
+      "libelle": "vascularisation diffuse et augmentée",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 305,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_visibilite",
+      "valeur": "visible",
+      "libelle": "visible",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 306,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_aspect",
+      "valeur": "aspect normal",
+      "libelle": "aspect normal",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 307,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_aspect",
+      "valeur": "Kyste de l'ovaire",
+      "libelle": "Kyste de l'ovaire",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 308,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_aspect",
+      "valeur": "Volume modéré",
+      "libelle": "Volume modéré",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 309,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_aspect",
+      "valeur": "Multifolliculaire",
+      "libelle": "Multifolliculaire",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 310,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_aspect",
+      "valeur": "non visualisé",
+      "libelle": "non visualisé",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 311,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_aspect",
+      "valeur": "Polykystique",
+      "libelle": "Polykystique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 312,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_aspect",
+      "valeur": "Corps jaune",
+      "libelle": "Corps jaune",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 313,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_aspect",
+      "valeur": "Pauci folliculaire",
+      "libelle": "Pauci folliculaire",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 314,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_aspect",
+      "valeur": "Aspect de kyste fonctionnel folliculaire",
+      "libelle": "Aspect de kyste fonctionnel folliculaire",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 315,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_aspect",
+      "valeur": "Aspect de kyste kyste hémorragique du corps jaune",
+      "libelle": "Aspect de kyste kyste hémorragique du corps jaune",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 316,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_aspect",
+      "valeur": "Anormal",
+      "libelle": "Anormal",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 317,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_aspect",
+      "valeur": "Aspect macropolykystique",
+      "libelle": "Aspect macropolykystique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 318,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_aspect",
+      "valeur": "Fonctionnel (RB)",
+      "libelle": "Fonctionnel (RB)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 319,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_aspect",
+      "valeur": "Nx Fonctionnels (RB)",
+      "libelle": "Nx Fonctionnels (RB)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 320,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_aspect",
+      "valeur": "Aspect macropolykystique",
+      "libelle": "Aspect macropolykystique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 321,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_aspect",
+      "valeur": "Ovariectomie bilatérale",
+      "libelle": "Ovariectomie bilatérale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 322,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_aspect",
+      "valeur": "Ovariectomie droite",
+      "libelle": "Ovariectomie droite",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 323,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_aspect",
+      "valeur": "Ovariectomie gauche",
+      "libelle": "Ovariectomie gauche",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 324,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_aspect",
+      "valeur": "Annexectomie",
+      "libelle": "Annexectomie",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 325,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_aspect",
+      "valeur": "Normalement multifolliculaire (RB)",
+      "libelle": "Normalement multifolliculaire (RB)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 326,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_aspect",
+      "valeur": "Visible partiellement",
+      "libelle": "Visible partiellement",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 327,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_aspect",
+      "valeur": "Ovaires stimulés",
+      "libelle": "Ovaires stimulés",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 328,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_mobilite",
+      "valeur": "fixé",
+      "libelle": "fixé",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 329,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_accessibilite",
+      "valeur": "accessible",
+      "libelle": "accessible",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 330,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_accessibilite",
+      "valeur": "non accessible",
+      "libelle": "non accessible",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 331,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_follicules",
+      "valeur": "Normofolliculaire",
+      "libelle": "Normofolliculaire",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 332,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_follicules",
+      "valeur": "Pas de follicule décelable",
+      "libelle": "Pas de follicule décelable",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 333,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "ovaire_follicules",
+      "valeur": "Nb de follicules",
+      "libelle": "Nb de follicules",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 334,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "cul_de_sac_latero",
+      "valeur": "Culs de sac latéraux libres",
+      "libelle": "Culs de sac latéraux libres",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 335,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "cul_de_sac_latero",
+      "valeur": "Droit",
+      "libelle": "Droit",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 336,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "cul_de_sac_latero",
+      "valeur": "Droit et gauche",
+      "libelle": "Droit et gauche",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 337,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "situation",
+      "valeur": "fundique",
+      "libelle": "fundique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 338,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "situation",
+      "valeur": "cornual",
+      "libelle": "cornual",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 339,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "situation",
+      "valeur": "corporéal",
+      "libelle": "corporéal",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 340,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "situation",
+      "valeur": "Isthmique",
+      "libelle": "Isthmique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 341,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "situation",
+      "valeur": "cervical",
+      "libelle": "cervical",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 342,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "situation",
+      "valeur": "sus-isthmique",
+      "libelle": "sus-isthmique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 343,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "type_figo",
+      "valeur": "0 (sous-muqueux pédiculé intra-cavitaire)",
+      "libelle": "0 (sous-muqueux pédiculé intra-cavitaire)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 344,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "type_figo",
+      "valeur": "1 (sous-muqueux  < 50% intramural)",
+      "libelle": "1 (sous-muqueux  < 50% intramural)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 345,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "type_figo",
+      "valeur": "2 (sous-muqueux  > 50% intra-mural)",
+      "libelle": "2 (sous-muqueux  > 50% intra-mural)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 346,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "type_figo",
+      "valeur": "3 (100% intra-mural au contact de l'endomètre)",
+      "libelle": "3 (100% intra-mural au contact de l'endomètre)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 347,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "type_figo",
+      "valeur": "4 (100% intra-mural à distance de l'endomètre)",
+      "libelle": "4 (100% intra-mural à distance de l'endomètre)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 348,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "type_figo",
+      "valeur": "5 (sous-séreux > 50% intra-mural)",
+      "libelle": "5 (sous-séreux > 50% intra-mural)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 349,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "type_figo",
+      "valeur": "6 (sous-séreux < 50% intra-mural)",
+      "libelle": "6 (sous-séreux < 50% intra-mural)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 350,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "type_figo",
+      "valeur": "8 (autre: cervical, ligament rond, ligament large)",
+      "libelle": "8 (autre: cervical, ligament rond, ligament large)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 351,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "type_figo",
+      "valeur": "7 (sous-séreux pédiculé)",
+      "libelle": "7 (sous-séreux pédiculé)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 352,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "type_figo",
+      "valeur": "2-5 (hybride sous-muqueux de classe 2 et sous-séreux de classe 5)",
+      "libelle": "2-5 (hybride sous-muqueux de classe 2 et sous-séreux de classe 5)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 353,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "situation_coupe_longitudinale",
+      "valeur": "antérieur",
+      "libelle": "antérieur",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 354,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "situation_coupe_longitudinale",
+      "valeur": "central",
+      "libelle": "central",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 355,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "situation_coupe_longitudinale",
+      "valeur": "postérieur",
+      "libelle": "postérieur",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 356,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "situation_coupe_transversale",
+      "valeur": "droit",
+      "libelle": "droit",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 357,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "situation_coupe_transversale",
+      "valeur": "gauche",
+      "libelle": "gauche",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 358,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "situation_coupe_transversale",
+      "valeur": "médian",
+      "libelle": "médian",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 359,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "contours",
+      "valeur": "régulier",
+      "libelle": "régulier",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 360,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "contours",
+      "valeur": "irrégulier",
+      "libelle": "irrégulier",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 361,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "structure",
+      "valeur": "homogène",
+      "libelle": "homogène",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 362,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "structure",
+      "valeur": "hétérogène",
+      "libelle": "hétérogène",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 363,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "structure",
+      "valeur": "hétérogène",
+      "libelle": "hétérogène",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 364,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "structure",
+      "valeur": "nécrose",
+      "libelle": "nécrose",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 365,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "structure",
+      "valeur": "plusieurs",
+      "libelle": "plusieurs",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 366,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "structure",
+      "valeur": "calcifié",
+      "libelle": "calcifié",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 367,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "calcifications",
+      "valeur": "absents",
+      "libelle": "absents",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 368,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "calcifications",
+      "valeur": "présents",
+      "libelle": "présents",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 369,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "vascularisation",
+      "valeur": "absente",
+      "libelle": "absente",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 370,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "vascularisation",
+      "valeur": "périphérique",
+      "libelle": "périphérique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 371,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "vascularisation",
+      "valeur": "périphérique et centrale",
+      "libelle": "périphérique et centrale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 372,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne_myome",
+      "champ": "vascularisation",
+      "valeur": "hypervascularisation",
+      "libelle": "hypervascularisation",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 373,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "sac_gestationnel_localisation",
+      "valeur": "dans la corne droite",
+      "libelle": "dans la corne droite",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 374,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "sac_gestationnel_localisation",
+      "valeur": "dans la corne gauche",
+      "libelle": "dans la corne gauche",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 375,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "sac_gestationnel_localisation",
+      "valeur": "isthmique",
+      "libelle": "isthmique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 376,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "sac_gestationnel_localisation",
+      "valeur": "intra utérin",
+      "libelle": "intra utérin",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 377,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "sac_gestationnel_localisation",
+      "valeur": "absent",
+      "libelle": "absent",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 378,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "sac_gestationnel_tonicite",
+      "valeur": "normalement tonique",
+      "libelle": "normalement tonique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 379,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "sac_gestationnel_tonicite",
+      "valeur": "hypotonique",
+      "libelle": "hypotonique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 380,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "sac_gestationnel_trophoblaste",
+      "valeur": "diffus",
+      "libelle": "diffus",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 381,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "sac_gestationnel_trophoblaste",
+      "valeur": "à prédominance antérieure",
+      "libelle": "à prédominance antérieure",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 382,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "sac_gestationnel_trophoblaste",
+      "valeur": "à prédominance postérieure",
+      "libelle": "à prédominance postérieure",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 383,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "sac_gestationnel_decollement",
+      "valeur": "absence d'image de décollement",
+      "libelle": "absence d'image de décollement",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 384,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "sac_gestationnel_decollement",
+      "valeur": "décollement < 1/3 de l'oeuf",
+      "libelle": "décollement < 1/3 de l'oeuf",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 385,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "sac_gestationnel_decollement",
+      "valeur": "décollement > 1/3 de l'oeuf",
+      "libelle": "décollement > 1/3 de l'oeuf",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 386,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "sac_gestationnel_decollement",
+      "valeur": "hématome décidual",
+      "libelle": "hématome décidual",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 387,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "sac_gestationnel_decollement",
+      "valeur": "Hématome intracavitaire",
+      "libelle": "Hématome intracavitaire",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 388,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "morpho_extremite_cephalique",
+      "valeur": "d'aspect habituel",
+      "libelle": "d'aspect habituel",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 389,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "morpho_extremite_cephalique",
+      "valeur": "structure médiane en place",
+      "libelle": "structure médiane en place",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 390,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "morpho_extremite_cephalique",
+      "valeur": "suspicion d'acrânie",
+      "libelle": "suspicion d'acrânie",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 391,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "morpho_membres",
+      "valeur": "4 ébauches vues",
+      "libelle": "4 ébauches vues",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 392,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "activite_cardiaque",
+      "valeur": "présente",
+      "libelle": "présente",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 393,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "activite_cardiaque",
+      "valeur": "absente",
+      "libelle": "absente",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 394,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "activite_cardiaque",
+      "valeur": "non mesurable",
+      "libelle": "non mesurable",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 395,
+    "fields": {
+      "formulaire": "consultation_obs_11SA",
+      "champ": "activite_cardiaque",
+      "valeur": "non visible",
+      "libelle": "non visible",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 396,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "presentation",
+      "valeur": "Céphalique",
+      "libelle": "Céphalique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 397,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "presentation",
+      "valeur": "Céphalique, dos à droite",
+      "libelle": "Céphalique, dos à droite",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 398,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "presentation",
+      "valeur": "Céphalique, dos à gauche",
+      "libelle": "Céphalique, dos à gauche",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 399,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "presentation",
+      "valeur": "Céphalique, dos en arrière",
+      "libelle": "Céphalique, dos en arrière",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 400,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "presentation",
+      "valeur": "Céphalique, dos en avant",
+      "libelle": "Céphalique, dos en avant",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 401,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "presentation",
+      "valeur": "Siège",
+      "libelle": "Siège",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 402,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "presentation",
+      "valeur": "Siège complet, dos à droite",
+      "libelle": "Siège complet, dos à droite",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 403,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "presentation",
+      "valeur": "Siège complet, dos à gauche",
+      "libelle": "Siège complet, dos à gauche",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 404,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "presentation",
+      "valeur": "Siège complet, dos en arrière",
+      "libelle": "Siège complet, dos en arrière",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 405,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "presentation",
+      "valeur": "Siège complet, dos en avant",
+      "libelle": "Siège complet, dos en avant",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 406,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "presentation",
+      "valeur": "Siège décomplété, dos à droite",
+      "libelle": "Siège décomplété, dos à droite",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 407,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "presentation",
+      "valeur": "Siège décomplété, dos à gauche",
+      "libelle": "Siège décomplété, dos à gauche",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 408,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "presentation",
+      "valeur": "Siège décomplété, dos en arrière",
+      "libelle": "Siège décomplété, dos en arrière",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 409,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "presentation",
+      "valeur": "Siège décomplété, dos en avant",
+      "libelle": "Siège décomplété, dos en avant",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 410,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "presentation",
+      "valeur": "Transverse, tête à droite",
+      "libelle": "Transverse, tête à droite",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 411,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "presentation",
+      "valeur": "Transverse, tête à gauche",
+      "libelle": "Transverse, tête à gauche",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 412,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "presentation",
+      "valeur": "Variable",
+      "libelle": "Variable",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 413,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "activite_cardiaque",
+      "valeur": "présente et régulière",
+      "libelle": "présente et régulière",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 414,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "activite_cardiaque",
+      "valeur": "absente",
+      "libelle": "absente",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 415,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "activite_cardiaque",
+      "valeur": "arythmie",
+      "libelle": "arythmie",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 416,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "mobilite",
+      "valeur": "Mouvements actifs présents et spontanés",
+      "libelle": "Mouvements actifs présents et spontanés",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 417,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "mobilite",
+      "valeur": "Mouvements actifs non observés",
+      "libelle": "Mouvements actifs non observés",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 418,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_crane",
+      "valeur": "2ème trimestre",
+      "libelle": "2ème trimestre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 419,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_crane",
+      "valeur": "2ème trimestre diagnostic",
+      "libelle": "2ème trimestre diagnostic",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 420,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_crane",
+      "valeur": "3ème trimestre",
+      "libelle": "3ème trimestre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 421,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_crane",
+      "valeur": "2ème trimestre précoce",
+      "libelle": "2ème trimestre précoce",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 422,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_crane",
+      "valeur": "Difficile à examiner",
+      "libelle": "Difficile à examiner",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 423,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_crane",
+      "valeur": "Dolichocéphalie",
+      "libelle": "Dolichocéphalie",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 424,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_crane",
+      "valeur": "Acrânie",
+      "libelle": "Acrânie",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 425,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_crane",
+      "valeur": "Brachycéphalie",
+      "libelle": "Brachycéphalie",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 426,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_crane",
+      "valeur": "cf commentaires",
+      "libelle": "cf commentaires",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 427,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_crane",
+      "valeur": "IEM",
+      "libelle": "IEM",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 428,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_struct",
+      "valeur": "2ème trimestre diagnostic",
+      "libelle": "2ème trimestre diagnostic",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 429,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_struct",
+      "valeur": "2ème trimestre",
+      "libelle": "2ème trimestre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 430,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_struct",
+      "valeur": "3ème trimestre",
+      "libelle": "3ème trimestre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 431,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_struct",
+      "valeur": "2ème trimestre précoce",
+      "libelle": "2ème trimestre précoce",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 432,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_struct",
+      "valeur": "Difficile à examiner",
+      "libelle": "Difficile à examiner",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 433,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_struct",
+      "valeur": "Avec CC CMV non",
+      "libelle": "Avec CC CMV non",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 434,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_struct",
+      "valeur": "CNTE avec corps calleux et vermis",
+      "libelle": "CNTE avec corps calleux et vermis",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 435,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_struct",
+      "valeur": "ventriculomégalie bilatérale",
+      "libelle": "ventriculomégalie bilatérale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 436,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_struct",
+      "valeur": "ventriculomégalie droite",
+      "libelle": "ventriculomégalie droite",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 437,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_struct",
+      "valeur": "non explorable",
+      "libelle": "non explorable",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 438,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_struct",
+      "valeur": "ventriculomégalie gauche",
+      "libelle": "ventriculomégalie gauche",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 439,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_struct",
+      "valeur": "2ème trimestre Corps calleux non",
+      "libelle": "2ème trimestre Corps calleux non",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 440,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_struct",
+      "valeur": "cf commentaires",
+      "libelle": "cf commentaires",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 441,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_face",
+      "valeur": "2ème trimestre",
+      "libelle": "2ème trimestre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 442,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_face",
+      "valeur": "2ème trimestre diagnostic",
+      "libelle": "2ème trimestre diagnostic",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 443,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_face",
+      "valeur": "2ème trimestre précoce",
+      "libelle": "2ème trimestre précoce",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 444,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_face",
+      "valeur": "3ème trimestre",
+      "libelle": "3ème trimestre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 445,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_face",
+      "valeur": "Difficiles à examiner",
+      "libelle": "Difficiles à examiner",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 446,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_face",
+      "valeur": "Face +oreilles",
+      "libelle": "Face +oreilles",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 447,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_face",
+      "valeur": "fente labiale unilatérale droite",
+      "libelle": "fente labiale unilatérale droite",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 448,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_face",
+      "valeur": "fente labiale unilatérale gauche",
+      "libelle": "fente labiale unilatérale gauche",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 449,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_face",
+      "valeur": "non examinée",
+      "libelle": "non examinée",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 450,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_face",
+      "valeur": "Sans lévre sup, profil OK",
+      "libelle": "Sans lévre sup, profil OK",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 451,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_face",
+      "valeur": "Sans profil, nez-bouche OK",
+      "libelle": "Sans profil, nez-bouche OK",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 452,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_face",
+      "valeur": "cf commentaires",
+      "libelle": "cf commentaires",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 453,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_face",
+      "valeur": "Masse bizarre",
+      "libelle": "Masse bizarre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 454,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_thorax",
+      "valeur": "2ème trimestre",
+      "libelle": "2ème trimestre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 455,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_thorax",
+      "valeur": "2ème trimestre diagnostic",
+      "libelle": "2ème trimestre diagnostic",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 456,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_thorax",
+      "valeur": "3ème trimestre",
+      "libelle": "3ème trimestre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 457,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_thorax",
+      "valeur": "2ème trimestre précoce",
+      "libelle": "2ème trimestre précoce",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 458,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_thorax",
+      "valeur": "Difficiles à examiner",
+      "libelle": "Difficiles à examiner",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 459,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_thorax",
+      "valeur": "Kystiques droit",
+      "libelle": "Kystiques droit",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 460,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_thorax",
+      "valeur": "Hyperéchogène gauche",
+      "libelle": "Hyperéchogène gauche",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 461,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_thorax",
+      "valeur": "Hyperéchogène droit",
+      "libelle": "Hyperéchogène droit",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 462,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_thorax",
+      "valeur": "Kystiques gauche",
+      "libelle": "Kystiques gauche",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 463,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_thorax",
+      "valeur": "cf commentaires",
+      "libelle": "cf commentaires",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 464,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_coeur",
+      "valeur": "2ème trimestre",
+      "libelle": "2ème trimestre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 465,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_coeur",
+      "valeur": "2ème trimestre diagnostic",
+      "libelle": "2ème trimestre diagnostic",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 466,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_coeur",
+      "valeur": "3ème trimestre",
+      "libelle": "3ème trimestre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 467,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_coeur",
+      "valeur": "2ème trimestre précoce",
+      "libelle": "2ème trimestre précoce",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 468,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_coeur",
+      "valeur": "2ème trimestre simple + retour veineux",
+      "libelle": "2ème trimestre simple + retour veineux",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 469,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_coeur",
+      "valeur": "2ème trimestre simple +  crosse Ao",
+      "libelle": "2ème trimestre simple +  crosse Ao",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 470,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_coeur",
+      "valeur": "Croisement des gros Vx non vu",
+      "libelle": "Croisement des gros Vx non vu",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 471,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_coeur",
+      "valeur": "Difficile à examiner",
+      "libelle": "Difficile à examiner",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 472,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_coeur",
+      "valeur": "Asymétrie droite gauche",
+      "libelle": "Asymétrie droite gauche",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 473,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_coeur",
+      "valeur": "CIV",
+      "libelle": "CIV",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 474,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_coeur",
+      "valeur": "APSI",
+      "libelle": "APSI",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 475,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_coeur",
+      "valeur": "2ème trimestre 3 vaisseaux",
+      "libelle": "2ème trimestre 3 vaisseaux",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 476,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_coeur",
+      "valeur": "2ème trimestre sans crosse Ao",
+      "libelle": "2ème trimestre sans crosse Ao",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 477,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_coeur",
+      "valeur": "cf commentaires",
+      "libelle": "cf commentaires",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 478,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_abdo",
+      "valeur": "2ème trimestre",
+      "libelle": "2ème trimestre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 479,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_abdo",
+      "valeur": "2ème trimestre diagnostic",
+      "libelle": "2ème trimestre diagnostic",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 480,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_abdo",
+      "valeur": "3ème trimestre",
+      "libelle": "3ème trimestre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 481,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_abdo",
+      "valeur": "2ème trimestre précoce",
+      "libelle": "2ème trimestre précoce",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 482,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_abdo",
+      "valeur": "Non explorable",
+      "libelle": "Non explorable",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 483,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_abdo",
+      "valeur": "CNTE simple",
+      "libelle": "CNTE simple",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 484,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_abdo",
+      "valeur": "Laparoschisis",
+      "libelle": "Laparoschisis",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 485,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_abdo",
+      "valeur": "Omphaocèle",
+      "libelle": "Omphaocèle",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 486,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_abdo",
+      "valeur": "cf commentaires",
+      "libelle": "cf commentaires",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 487,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_digest",
+      "valeur": "2ème trimestre",
+      "libelle": "2ème trimestre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 488,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_digest",
+      "valeur": "2ème trimestre diagnostic",
+      "libelle": "2ème trimestre diagnostic",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 489,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_digest",
+      "valeur": "3ème trimestre",
+      "libelle": "3ème trimestre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 490,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_digest",
+      "valeur": "2ème trimestre précoce",
+      "libelle": "2ème trimestre précoce",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 491,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_digest",
+      "valeur": "2ème trimestre sans vésicule",
+      "libelle": "2ème trimestre sans vésicule",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 492,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_digest",
+      "valeur": "estomac non vu",
+      "libelle": "estomac non vu",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 493,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_digest",
+      "valeur": "Aspect échogène du bas abdomen",
+      "libelle": "Aspect échogène du bas abdomen",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 494,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_digest",
+      "valeur": "Dilatation digestive",
+      "libelle": "Dilatation digestive",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 495,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_digest",
+      "valeur": "Infection non",
+      "libelle": "Infection non",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 496,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_digest",
+      "valeur": "cf commentaires",
+      "libelle": "cf commentaires",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 497,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_urine",
+      "valeur": "2ème trimestre",
+      "libelle": "2ème trimestre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 498,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_urine",
+      "valeur": "2ème trimestre diagnostic",
+      "libelle": "2ème trimestre diagnostic",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 499,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_urine",
+      "valeur": "3ème trimestre",
+      "libelle": "3ème trimestre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 500,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_urine",
+      "valeur": "2ème trimestre précoce",
+      "libelle": "2ème trimestre précoce",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 501,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_urine",
+      "valeur": "Pyélectasie",
+      "libelle": "Pyélectasie",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 502,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_urine",
+      "valeur": "Dilatation pyélocalicielle modérée bilatérale , Vessie normale",
+      "libelle": "Dilatation pyélocalicielle modérée bilatérale , Vessie normale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 503,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_urine",
+      "valeur": "Agénésie rénale",
+      "libelle": "Agénésie rénale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 504,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_urine",
+      "valeur": "Mégavessie",
+      "libelle": "Mégavessie",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 505,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_urine",
+      "valeur": "Rein droit d'aspect dysplasique",
+      "libelle": "Rein droit d'aspect dysplasique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 506,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_urine",
+      "valeur": "Dilatation pyelocalicielle importante correspondant à un très probable syndrome de la jonction pyelourétérale",
+      "libelle": "Dilatation pyelocalicielle importante correspondant à un très probable syndrome de la jonction pyelourétérale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 507,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_urine",
+      "valeur": "Rein gauche d'aspect dysplasique",
+      "libelle": "Rein gauche d'aspect dysplasique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 508,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_urine",
+      "valeur": "cf commentaires",
+      "libelle": "cf commentaires",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 509,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_rachis",
+      "valeur": "2ème trimestre",
+      "libelle": "2ème trimestre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 510,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_rachis",
+      "valeur": "2ème trimestre diagnostic",
+      "libelle": "2ème trimestre diagnostic",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 511,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_rachis",
+      "valeur": "3ème trimestre",
+      "libelle": "3ème trimestre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 512,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_rachis",
+      "valeur": "2ème trimestre précoce",
+      "libelle": "2ème trimestre précoce",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 513,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_rachis",
+      "valeur": "Lombo-sacré difficile à examiner",
+      "libelle": "Lombo-sacré difficile à examiner",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 514,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_rachis",
+      "valeur": "Difficile à examiner",
+      "libelle": "Difficile à examiner",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 515,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_rachis",
+      "valeur": "cf commentaires",
+      "libelle": "cf commentaires",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 516,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_membres",
+      "valeur": "2ème trimestre",
+      "libelle": "2ème trimestre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 517,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_membres",
+      "valeur": "2ème trimestre diagnostic",
+      "libelle": "2ème trimestre diagnostic",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 518,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_membres",
+      "valeur": "3ème trimestre",
+      "libelle": "3ème trimestre",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 519,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_membres",
+      "valeur": "2ème trimestre précoce",
+      "libelle": "2ème trimestre précoce",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 520,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_membres",
+      "valeur": "2ème trimestre avec mains et pieds",
+      "libelle": "2ème trimestre avec mains et pieds",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 521,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_membres",
+      "valeur": "Difficile à examiner",
+      "libelle": "Difficile à examiner",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 522,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_membres",
+      "valeur": "Anomalie réductionnelle de la main gauche",
+      "libelle": "Anomalie réductionnelle de la main gauche",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 523,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_membres",
+      "valeur": "cf commentaires",
+      "libelle": "cf commentaires",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 524,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_oge",
+      "valeur": "XX",
+      "libelle": "XX",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 525,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_oge",
+      "valeur": "XY",
+      "libelle": "XY",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 526,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_oge",
+      "valeur": "XX non dit",
+      "libelle": "XX non dit",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 527,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_oge",
+      "valeur": "XY non dit",
+      "libelle": "XY non dit",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 528,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_oge",
+      "valeur": "Non examinables",
+      "libelle": "Non examinables",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 529,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_oge",
+      "valeur": "Kyste de l'ovaire",
+      "libelle": "Kyste de l'ovaire",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 530,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_oge",
+      "valeur": "OGE normaux",
+      "libelle": "OGE normaux",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 531,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_oge",
+      "valeur": "XX",
+      "libelle": "XX",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 532,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_oge",
+      "valeur": "XY",
+      "libelle": "XY",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 533,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_oge",
+      "valeur": "cf commentaires",
+      "libelle": "cf commentaires",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 534,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_liquide_amnio",
+      "valeur": "normal",
+      "libelle": "normal",
+      "actif": false
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 535,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_liquide_amnio",
+      "valeur": "abondant",
+      "libelle": "abondant",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 536,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_liquide_amnio",
+      "valeur": "peu abondant",
+      "libelle": "peu abondant",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 537,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_liquide_amnio",
+      "valeur": "oligoamnios",
+      "libelle": "oligoamnios",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 538,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_liquide_amnio",
+      "valeur": "Anamnios",
+      "libelle": "Anamnios",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 539,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_liquide_amnio",
+      "valeur": "hydramnios",
+      "libelle": "hydramnios",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 540,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_placenta",
+      "valeur": "antérieur bas inséré",
+      "libelle": "antérieur bas inséré",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 541,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_placenta",
+      "valeur": "antérieur non bas inséré",
+      "libelle": "antérieur non bas inséré",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 542,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_placenta",
+      "valeur": "antérieur recouvrant",
+      "libelle": "antérieur recouvrant",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 543,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_placenta",
+      "valeur": "antéro-latéral droit bas inséré",
+      "libelle": "antéro-latéral droit bas inséré",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 544,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_placenta",
+      "valeur": "fundique",
+      "libelle": "fundique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 545,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_placenta",
+      "valeur": "latéral droit bas inséré",
+      "libelle": "latéral droit bas inséré",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 546,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_placenta",
+      "valeur": "latéral droit non bas inséré",
+      "libelle": "latéral droit non bas inséré",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 547,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_placenta",
+      "valeur": "latéral droit recouvrant",
+      "libelle": "latéral droit recouvrant",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 548,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_placenta",
+      "valeur": "latéral gauche bas inséré",
+      "libelle": "latéral gauche bas inséré",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 549,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_placenta",
+      "valeur": "latéral gauche non bas inséré",
+      "libelle": "latéral gauche non bas inséré",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 550,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_placenta",
+      "valeur": "latéral gauche recouvrant",
+      "libelle": "latéral gauche recouvrant",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 551,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_placenta",
+      "valeur": "postérieur bas inséré",
+      "libelle": "postérieur bas inséré",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 552,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_placenta",
+      "valeur": "postérieur non bas inséré",
+      "libelle": "postérieur non bas inséré",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 553,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_placenta",
+      "valeur": "postérieur recouvrant",
+      "libelle": "postérieur recouvrant",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 554,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_cordon",
+      "valeur": "3 vaisseaux au cordon",
+      "libelle": "3 vaisseaux au cordon",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 555,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_cordon",
+      "valeur": "artère ombilicale droite unique",
+      "libelle": "artère ombilicale droite unique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 556,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_cordon",
+      "valeur": "artère ombilicale gauche unique",
+      "libelle": "artère ombilicale gauche unique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 557,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_cordon",
+      "valeur": "3 vaisseaux au cordon, insertion vélamenteuse du cordon",
+      "libelle": "3 vaisseaux au cordon, insertion vélamenteuse du cordon",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 558,
+    "fields": {
+      "formulaire": "consultation_obstetrique",
+      "champ": "notch",
+      "valeur": "non",
+      "libelle": "non",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 559,
+    "fields": {
+      "formulaire": "consultation_obstetrique",
+      "champ": "notch",
+      "valeur": "oui",
+      "libelle": "oui",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 560,
+    "fields": {
+      "formulaire": "consultation_obstetrique",
+      "champ": "notch",
+      "valeur": "possible",
+      "libelle": "possible",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 561,
+    "fields": {
+      "formulaire": "consultation_obstetrique",
+      "champ": "notch",
+      "valeur": "ébauche",
+      "libelle": "ébauche",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 562,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "doppler_cordon_diastole",
+      "valeur": "positif",
+      "libelle": "positif",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 563,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "doppler_cordon_diastole",
+      "valeur": "négatif",
+      "libelle": "négatif",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 564,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "doppler_cordon_diastole",
+      "valeur": "reverse flow",
+      "libelle": "reverse flow",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 565,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "doppler_dv_onde",
+      "valeur": "négative",
+      "libelle": "négative",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 566,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "doppler_dv_onde",
+      "valeur": "nulle",
+      "libelle": "nulle",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 567,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "doppler_dv_onde",
+      "valeur": "positive",
+      "libelle": "positive",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 568,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "adenomyose",
+      "valeur": "asymétries des parois",
+      "libelle": "asymétries des parois",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 569,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "adenomyose",
+      "valeur": "kystes (cryptes) myométriaux",
+      "libelle": "kystes (cryptes) myométriaux",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 570,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "adenomyose",
+      "valeur": "plages hyperéchogènes",
+      "libelle": "plages hyperéchogènes",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 571,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "adenomyose",
+      "valeur": "cônes d’ombres type pluie dans la forêt",
+      "libelle": "cônes d’ombres type pluie dans la forêt",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 572,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "adenomyose",
+      "valeur": "stries ou bourgeons hyperéchogènes sous-endométriaux",
+      "libelle": "stries ou bourgeons hyperéchogènes sous-endométriaux",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 573,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "adenomyose",
+      "valeur": "vascularisation transversale (en dents de peigne)",
+      "libelle": "vascularisation transversale (en dents de peigne)",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 574,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "adenomyose",
+      "valeur": "zone de jonction irrégulière",
+      "libelle": "zone de jonction irrégulière",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 575,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "adenomyose",
+      "valeur": "interruption de la zone de jonction",
+      "libelle": "interruption de la zone de jonction",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 576,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "evacuation_grossesse",
+      "valeur": "Aspiration",
+      "libelle": "Aspiration",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 577,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "evacuation_grossesse",
+      "valeur": "Médicamenteuse",
+      "libelle": "Médicamenteuse",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 578,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "grossesse",
+      "valeur": "IAC",
+      "libelle": "IAC",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 579,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "grossesse",
+      "valeur": "FIV",
+      "libelle": "FIV",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 580,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_pole_cepha",
+      "valeur": "Le crâne a une forme habituelle. La ligne médiane est en place, on distingue deux hémisphères d'aspect habituel.",
+      "libelle": "Forme habituelle",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 581,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_pole_cepha",
+      "valeur": "Encéphalocèle",
+      "libelle": "Encéphalocèle",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 582,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_pole_cepha",
+      "valeur": "Exencephalie",
+      "libelle": "Exencephalie",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 583,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_pole_cepha",
+      "valeur": "Holoprosencépalie",
+      "libelle": "Holoprosencépalie",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 584,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_pole_cepha",
+      "valeur": "Ne peut être examinée",
+      "libelle": "Ne peut être examinée",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 585,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_trophoblaste_localisation",
+      "valeur": "diffus",
+      "libelle": "diffus",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 586,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_trophoblaste_localisation",
+      "valeur": "prédominance antérieure",
+      "libelle": "prédominance antérieure",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 587,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_trophoblaste_localisation",
+      "valeur": "prédominance postérieure",
+      "libelle": "prédominance postérieure",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 588,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_trophoblaste_localisation",
+      "valeur": "prédominance fundique",
+      "libelle": "prédominance fundique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 589,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_trophoblaste_aspect",
+      "valeur": "homogène",
+      "libelle": "homogène",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 590,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_trophoblaste_aspect",
+      "valeur": "lacunaire",
+      "libelle": "lacunaire",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 591,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_trophoblaste_aspect",
+      "valeur": "très peu épais",
+      "libelle": "très peu épais",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 592,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_trophoblaste_aspect",
+      "valeur": "épaissi en boulle",
+      "libelle": "épaissi en boulle",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 593,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_decol",
+      "valeur": "absence d'image de décollement",
+      "libelle": "absence d'image de décollement",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 594,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_decol",
+      "valeur": "décollement < 1/3 de l'oeuf",
+      "libelle": "décollement < 1/3 de l'oeuf",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 595,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_decol",
+      "valeur": "décollement > 1/3 de l'oeuf",
+      "libelle": "décollement > 1/3 de l'oeuf",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 596,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_decol",
+      "valeur": "hématome décidual",
+      "libelle": "hématome décidual",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 597,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_decol",
+      "valeur": "Hématome intracavitaire",
+      "libelle": "Hématome intracavitaire",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 598,
+    "fields": {
+      "formulaire": "consultation_obstetrique",
+      "champ": "col_entonnoir",
+      "valeur": "non",
+      "libelle": "non",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 599,
+    "fields": {
+      "formulaire": "consultation_obstetrique",
+      "champ": "col_entonnoir",
+      "valeur": "oui",
+      "libelle": "oui",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 600,
+    "fields": {
+      "formulaire": "consultation_obstetrique",
+      "champ": "col_entonnoir",
+      "valeur": "Cicatrice utérine",
+      "libelle": "Cicatrice utérine",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 601,
+    "fields": {
+      "formulaire": "consultation_obstetrique",
+      "champ": "col_entonnoir",
+      "valeur": "Cerclage en place",
+      "libelle": "Cerclage en place",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 602,
+    "fields": {
+      "formulaire": "consultation_obstetrique",
+      "champ": "col_entonnoir",
+      "valeur": "Bandelette en place",
+      "libelle": "Bandelette en place",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 603,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "adenomyose_conclusion",
+      "valeur": "L’association de ces différents signes est évocatrice d’adénomyose diffuse",
+      "libelle": "L’association de ces différents signes est évocatrice d’adénomyose diffuse",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 604,
+    "fields": {
+      "formulaire": "consultation_echo_pelvienne",
+      "champ": "adenomyose_conclusion",
+      "valeur": "Le faible nombre de signes échographiques ne fait pas retenir le diagnostic d’adénomyose",
+      "libelle": "Le faible nombre de signes échographiques ne fait pas retenir le diagnostic d’adénomyose",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 605,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "Mammographie",
+      "valeur": "Sein droit ACR 1",
+      "libelle": "Sein droit ACR 1",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 606,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "Mammographie",
+      "valeur": "Sein droit ACR 2",
+      "libelle": "Sein droit ACR 2",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 607,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "Mammographie",
+      "valeur": "Sein droit ACR 3",
+      "libelle": "Sein droit ACR 3",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 608,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "Mammographie",
+      "valeur": "Sein droit ACR 4",
+      "libelle": "Sein droit ACR 4",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 609,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "Mammographie",
+      "valeur": "Sein droit ACR 5",
+      "libelle": "Sein droit ACR 5",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 610,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "Mammographie",
+      "valeur": "Sein gauche ACR 1",
+      "libelle": "Sein gauche ACR 1",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 611,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "Mammographie",
+      "valeur": "Sein gauche ACR 2",
+      "libelle": "Sein gauche ACR 2",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 612,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "Mammographie",
+      "valeur": "Sein gauche ACR 3",
+      "libelle": "Sein gauche ACR 3",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 613,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "Mammographie",
+      "valeur": "Sein gauche ACR 4",
+      "libelle": "Sein gauche ACR 4",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 614,
+    "fields": {
+      "formulaire": "antecedents",
+      "champ": "Mammographie",
+      "valeur": "Sein gauche ACR 5",
+      "libelle": "Sein gauche ACR 5",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 615,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "presence_rapports_sexuels",
+      "valeur": "Absents",
+      "libelle": "Absents",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 616,
+    "fields": {
+      "formulaire": "consultation_gynecologique",
+      "champ": "presence_rapports_sexuels",
+      "valeur": "Réguliers",
+      "libelle": "Réguliers",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 617,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "caryotype",
+      "valeur": "Fait",
+      "libelle": "Fait",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 618,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "caryotype",
+      "valeur": "Non fait",
+      "libelle": "Non fait",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 619,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "conception",
+      "valeur": "Spontannée",
+      "libelle": "Spontannée",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 620,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "conception",
+      "valeur": "IAC",
+      "libelle": "IAC",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 621,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "conception",
+      "valeur": "FIV",
+      "libelle": "FIV",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 622,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "type_grossesse",
+      "valeur": "Bichoriale biamniotique",
+      "libelle": "Bichoriale biamniotique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 623,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "type_grossesse",
+      "valeur": "Monochoriale biamniotique",
+      "libelle": "Monochoriale biamniotique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 624,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "type_grossesse",
+      "valeur": "Monochoriale monoamniotique",
+      "libelle": "Monochoriale monoamniotique",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 625,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "score_herman",
+      "valeur": "CN non connue",
+      "libelle": "CN non connue",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 626,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "score_herman",
+      "valeur": "CN non mesurée",
+      "libelle": "CN non mesurée",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 627,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "score_herman",
+      "valeur": "CN non significative pour cette LCC",
+      "libelle": "CN non significative pour cette LCC",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 628,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "score_herman",
+      "valeur": "Score de Herman 9",
+      "libelle": "Score de Herman 9",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 629,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "score_herman",
+      "valeur": "Score de Herman < 4",
+      "libelle": "Score de Herman < 4",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 630,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "msres_1_type",
+      "valeur": "Technique",
+      "libelle": "Technique",
+      "actif": false
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 631,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "msres_1_type",
+      "valeur": "PAPP-A",
+      "libelle": "PAPP-A",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 632,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "msres_1_type",
+      "valeur": "AFP",
+      "libelle": "AFP",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 633,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "msres_2_type",
+      "valeur": "Technique",
+      "libelle": "Technique",
+      "actif": false
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 634,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "msres_2_type",
+      "valeur": "FreeBeta",
+      "libelle": "FreeBeta",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 635,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "msres_2_type",
+      "valeur": "BhCG",
+      "libelle": "BhCG",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 636,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "diabete",
+      "valeur": "Diabète gestationnel sous régime seul",
+      "libelle": "Diabète gestationnel sous régime seul",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 637,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "diabete",
+      "valeur": "Diabète gestationnel sous insuline",
+      "libelle": "Diabète gestationnel sous insuline",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 638,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "diabete",
+      "valeur": "HGPO Normale",
+      "libelle": "HGPO Normale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 639,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "diabete",
+      "valeur": "Diabète type 1",
+      "libelle": "Diabète type 1",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 640,
+    "fields": {
+      "formulaire": "grossesse",
+      "champ": "diabete",
+      "valeur": "Diabète type 2",
+      "libelle": "Diabète type 2",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 1000,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "issue_grossesse",
+      "valeur": "Accouchement du siège",
+      "libelle": "Accouchement du siège",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 1001,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "issue_grossesse",
+      "valeur": "Accouchement voie basse",
+      "libelle": "Accouchement voie basse",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 1002,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "issue_grossesse",
+      "valeur": "Césarienne",
+      "libelle": "Césarienne",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 1003,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "issue_grossesse",
+      "valeur": "FCS",
+      "libelle": "FCS",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 1004,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "issue_grossesse",
+      "valeur": "FCT",
+      "libelle": "FCT",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 1005,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "issue_grossesse",
+      "valeur": "GEU",
+      "libelle": "GEU",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 1006,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "issue_grossesse",
+      "valeur": "Grossesse molaire",
+      "libelle": "Grossesse molaire",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 1007,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "issue_grossesse",
+      "valeur": "IMG",
+      "libelle": "IMG",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 1008,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "issue_grossesse",
+      "valeur": "ISG",
+      "libelle": "ISG",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 1009,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "issue_grossesse",
+      "valeur": "IVG",
+      "libelle": "IVG",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 1010,
+    "fields": {
+      "formulaire": "antecedent_obstetrique",
+      "champ": "issue_grossesse",
+      "valeur": "MFIU",
+      "libelle": "MFIU",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 2000,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_coeur",
+      "valeur": "4 cavités",
+      "libelle": "4 cavités",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 2001,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_abdo",
+      "valeur": "Normale",
+      "libelle": "Normale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 2002,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_membres",
+      "valeur": "4 membres / 2 segments",
+      "libelle": "4 membres / 2 segments",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 2003,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_liquide_amnio",
+      "valeur": "Normal",
+      "libelle": "Normal",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 2004,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_trophoblaste_localisation",
+      "valeur": "Homogène",
+      "libelle": "Homogène",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 2005,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_crane",
+      "valeur": "Normale",
+      "libelle": "Normale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 2006,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_struct",
+      "valeur": "Normales",
+      "libelle": "Normales",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 2007,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_face",
+      "valeur": "Normale",
+      "libelle": "Normale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 2008,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_thorax",
+      "valeur": "Normale",
+      "libelle": "Normale",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 2009,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_coeur",
+      "valeur": "4 cavités avec croisement des gros vaisseaux vu",
+      "libelle": "4 cavités avec croisement des gros vaisseaux vu",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 2010,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_digest",
+      "valeur": "Normal",
+      "libelle": "Normal",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 2011,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_urine",
+      "valeur": "Normal",
+      "libelle": "Normal",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 2012,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_rachis",
+      "valeur": "Régulier",
+      "libelle": "Régulier",
+      "actif": true
+    }
+  },
+  {
+    "model": "core.ListeChoix",
+    "pk": 2013,
+    "fields": {
+      "formulaire": "consultation_obs_foetus",
+      "champ": "morpho_membres",
+      "valeur": "4 membres / 3 segments",
+      "libelle": "4 membres / 3 segments",
+      "actif": true
+    }
+  }
+]

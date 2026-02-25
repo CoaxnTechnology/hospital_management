@@ -41,9 +41,15 @@ jobs:
             /bin/bash /home/echo/app/deploy/update.sh
 
       - name: Health check
+        env:
+          SUBDOMAIN: ${{ secrets.SUBDOMAIN }}
         run: |
           sleep 5
-          STATUS=$(curl -o /dev/null -s -w "%{http_code}" "https://${{ secrets.SUBDOMAIN }}")
+          if [ -z "$SUBDOMAIN" ]; then
+            echo "SUBDOMAIN secret not set, skipping health check"
+            exit 0
+          fi
+          STATUS=$(curl -o /dev/null -s -w "%{http_code}" "https://${SUBDOMAIN}")
           if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 400 ]; then
             echo "Health check passed (HTTP $STATUS)"
           else

@@ -1,14 +1,14 @@
 #!/bin/bash
 set -e
 
-APP_DIR="/home/echo/app"
+APP_DIR="/home/echo/app/echo"
 VENV_DIR="/home/echo/venv"
 
 cd "$APP_DIR"
 
 # Load environment variables
 set -a
-source .env
+source /home/echo/app/.env
 set +a
 
 # Activate virtual environment

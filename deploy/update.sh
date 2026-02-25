@@ -6,6 +6,9 @@ VENV_DIR="/home/echo/venv"
 
 cd "$APP_DIR"
 
+# Ensure required directories exist
+mkdir -p logs data
+
 # Load environment variables
 set -a
 source /home/echo/app/.env

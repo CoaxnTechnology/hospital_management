@@ -22,9 +22,7 @@ $(document).ready(function () {
 
     const initTable1 = function () {
         var table = $('#kt_datatable').DataTable({
-            language: {
-                "url": "/static/plugins/custom/datatables/French.json"
-            },
+            language: window.DT_LANGUAGE || {},
             responsive: true,
             // read more: https://datatables.net/examples/basic_init/dom.html
             lengthMenu: [5, 10, 25, 50, 75, 100],
@@ -123,9 +121,7 @@ $(document).ready(function () {
         const _t = _.template($('#actions-bordereau-template').html());
 
         const table = $('#datatable_bordereau').DataTable({
-            language: {
-                "url": "/static/plugins/custom/datatables/French.json"
-            },
+            language: window.DT_LANGUAGE || {},
             responsive: true,
             // read more: https://datatables.net/examples/basic_init/dom.html
             lengthMenu: [5, 10, 25, 50],

@@ -8,31 +8,31 @@
             <div><a href="/prestations/ajouter"
                     class="btn btn-light-primary btn-sm font-weight-bolder mr-2">
                 <i class="ki ki-plus icon-sm"></i>
-                Ajouter une prestation
+                {% trans "Ajouter une prestation" %}
             </a></div>
             <div class="w-300px">
                 <input type="text" class="form-control datatable-input form-control-sm"
-                       placeholder="Recherche prestation" data-col-index="0"/>
+                       placeholder="{% trans 'Recherche prestation' %}" data-col-index="0"/>
             </div>
         </div>
         <table class="table table-bordered table-checkable table-striped" id="datatable_rdv">
             <thead>
             <tr>
-                <th>Prestation</th>
-                <th>Code</th>
+                <th>{% trans "Prestation" %}</th></th>
+                <th>{% trans "Code" %}</th></th>
                 <th>Prix TTC</th>
                 <th>Prix PEC</th>
-                <th>Actions</th>
+                <th>{% trans "Actions" %}</th>
             </tr>
             </thead>
         </table>
     </div>
 
     <template id="actions-template">
-        <a href="prestations/<%- id %>/modifier" class="btn btn-warning btn-icon btn-sm" title="Modifier">
+        <a href="prestations/<%- id %>/modifier" class="btn btn-warning btn-icon btn-sm" title="{% trans 'Modifier' %}">
             <i class="la la-edit icon-lg"></i>
         </a>
-        <a onclick="supprimer(<%- id %>)" class="btn btn-danger btn-icon btn-sm" title="Supprimer">
+        <a onclick="supprimer(<%- id %>)" class="btn btn-danger btn-icon btn-sm" title="{% trans 'Supprimer' %}">
             <i class="la la-trash icon-lg"></i>
         </a>
     </template>

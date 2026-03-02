@@ -37,6 +37,32 @@
     <div class="d-flex flex-column flex-lg-row flex-column-fluid">
         <!--begin::Body-->
         <div class="d-flex flex-column flex-lg-row-fluid w-lg-50 p-10 order-2 order-lg-1">
+            <!--begin::Language Switcher-->
+            <div class="d-flex justify-content-end mb-3">
+                {% get_current_language as CURRENT_LANGUAGE %}
+                <div style="position:relative;">
+                    <button type="button" id="lang-toggle-v2"
+                            class="btn btn-icon btn-active-light-primary btn-custom w-auto h-40px px-3 d-flex align-items-center gap-1">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.3" d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20C7.58 20 4 16.42 4 12Z" fill="currentColor"/>
+                            <path d="M12 2C14.76 2 17 6.48 17 12C17 17.52 14.76 22 12 22C9.24 22 7 17.52 7 12C7 6.48 9.24 2 12 2ZM12 4C10.34 4 9 7.58 9 12C9 16.42 10.34 20 12 20C13.66 20 15 16.42 15 12C15 7.58 13.66 4 12 4Z" fill="currentColor"/>
+                            <path opacity="0.3" d="M3 12H21" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span class="fw-semibold fs-7">{{ CURRENT_LANGUAGE|upper }}</span>
+                    </button>
+                    <div id="lang-menu-v2"
+                         style="display:none; position:absolute; right:0; top:calc(100% + 4px); z-index:1050; min-width:150px; background:#fff; border-radius:8px; box-shadow:0 4px 24px rgba(0,0,0,.12); padding:8px 0;">
+                        {% get_available_languages as LANGUAGES %}
+                        {% for lang_code, lang_name in LANGUAGES %}
+                        <a href="javascript:switchLanguage('{{ lang_code }}')"
+                           style="display:block; padding:8px 16px; text-decoration:none; color:{% if lang_code == CURRENT_LANGUAGE %}#6993FF{% else %}#333{% endif %}; font-weight:{% if lang_code == CURRENT_LANGUAGE %}600{% else %}400{% endif %};">
+                            {{ lang_name }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <!--end::Language Switcher-->
             <!--begin::Form-->
             <div class="d-flex flex-center flex-column flex-lg-row-fluid">
                 <!--begin::Wrapper-->
@@ -47,7 +73,7 @@
                         <!--begin::Heading-->
                         <div class="text-center mb-11">
                             <!--begin::Title-->
-                            <h1 class="text-dark fw-bolder mb-3">Connexion</h1>
+                            <h1 class="text-dark fw-bolder mb-3">{% trans "Connexion" %}</h1>
                             <!--end::Title-->
                         </div>
                         <!--begin::Heading-->
@@ -66,7 +92,7 @@
                                        maxlength="{{ form.username.max_length }}"
                                        name="{{ form.username.html_name }}"
                                        value="{{ form.username.value|default:"" }}">
-                                <div class="invalid-feedback">Nom d'utilisateur ou mot de passe incorrect.
+                                <div class="invalid-feedback">{% trans "Nom" %} d'utilisateur ou mot de passe incorrect.
                                     Merci de réessayer.
                                 </div>
                             </div>
@@ -92,7 +118,7 @@
                         <div class="d-grid mb-10">
                             <button type="submit" id="kt_sign_in_submit" class="btn btn-primary">
                                 <!--begin::Indicator label-->
-                                <span class="indicator-label">Connexion</span>
+                                <span class="indicator-label">{% trans "Connexion" %}</span>
                                 <!--end::Indicator label-->
                             </button>
                         </div>
@@ -203,6 +229,26 @@
 <!--end::Global Theme Bundle-->
 <!--begin::Page Scripts(used by this page)-->
 <script src="{% static "js/pages/custom/login/login.js" %}"></script>
+
+<script>
+var langToggle = document.getElementById('lang-toggle-v2');
+var langMenu = document.getElementById('lang-menu-v2');
+langToggle.addEventListener('click', function(e) {
+    e.stopPropagation();
+    langMenu.style.display = langMenu.style.display === 'none' ? 'block' : 'none';
+});
+document.addEventListener('click', function() { langMenu.style.display = 'none'; });
+
+function switchLanguage(langCode) {
+    var csrftoken = document.cookie.split(';').map(c => c.trim()).find(c => c.startsWith('csrftoken='));
+    csrftoken = csrftoken ? csrftoken.split('=')[1] : '';
+    fetch('/i18n/setlang/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRFToken': csrftoken},
+        body: 'language=' + langCode + '&next=' + window.location.pathname
+    }).then(() => window.location.reload());
+}
+</script>
 </body>
 <!--end::Body-->
 </html>

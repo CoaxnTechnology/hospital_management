@@ -37,22 +37,23 @@
                         <!--end::User-->
                         <!--begin::Contact-->
                         <div class="py-9">
+                            {% trans "Non renseigné" as nr %}
                             <div class="d-flex align-items-center justify-content-between mb-2">
-                                <span class="font-weight-bold me-2">Email:</span>
+                                <span class="font-weight-bold me-2">{% trans "Email" %}:</span>
                                 <span
-                                        class="text-muted text-hover-primary">{{ user.profil.compte.email|default:"Non renseigné" }}</span>
+                                        class="text-muted text-hover-primary">{{ user.profil.compte.email|default:nr }}</span>
                             </div>
                             <div class="d-flex align-items-center justify-content-between mb-2">
-                                <span class="font-weight-bold me-2">Téléphone:</span>
-                                <span class="text-muted text-hover-primary">{{ user.profil.compte.telephone|default:"Non renseigné" }}</span>
+                                <span class="font-weight-bold me-2">{% trans "Téléphone" %}:</span>
+                                <span class="text-muted text-hover-primary">{{ user.profil.compte.telephone|default:nr }}</span>
                             </div>
                             <div class="d-flex align-items-center justify-content-between mb-2">
-                                <span class="font-weight-bold me-2">Fax:</span>
-                                <span class="text-muted text-hover-primary">{{ user.profil.compte.fax|default:"Non renseigné" }}</span>
+                                <span class="font-weight-bold me-2">{% trans "Fax" %}:</span>
+                                <span class="text-muted text-hover-primary">{{ user.profil.compte.fax|default:nr }}</span>
                             </div>
                             <div class="d-flex align-items-center justify-content-between">
-                                <span class="font-weight-bold me-2">Adresse:</span>
-                                <span class="text-muted text-hover-primary">{{ user.profil.compte.adresse|default:"Non renseigné" }}</span>
+                                <span class="font-weight-bold me-2">{% trans "Adresse" %}:</span>
+                                <span class="text-muted text-hover-primary">{{ user.profil.compte.adresse|default:nr }}</span>
                             </div>
                         </div>
                         <!--end::Contact-->
@@ -63,7 +64,7 @@
                                     <span class="nav-icon me-2">
                                         <i class="fas fa-cog"></i>
                                     </span>
-                                    <span class="nav-text">Paramètres généraux</span>
+                                    <span class="nav-text">{% trans "Paramètres généraux" %}</span>
                                 </a>
                             </li>
                             <li class="nav-item mb-2">
@@ -71,7 +72,7 @@
                                     <span class="nav-icon me-2">
                                         <i class="fas fa-user"></i>
                                     </span>
-                                    <span class="nav-text">Dossier patient</span>
+                                    <span class="nav-text">{% trans "Dossier patient" %}</span>
                                 </a>
                             </li>
                             <li class="nav-item mb-2">
@@ -79,7 +80,7 @@
                                     <span class="nav-icon me-2">
                                         <i class="fas fa-print"></i>
                                     </span>
-                                    <span class="nav-text">Edition</span>
+                                    <span class="nav-text">{% trans "Edition" %}</span>
                                 </a>
                             </li>
                             <li class="nav-item mb-2">
@@ -87,7 +88,7 @@
                                     <span class="nav-icon me-2">
                                         <i class="fas fa-list"></i>
                                     </span>
-                                    <span class="nav-text">Modèles</span>
+                                    <span class="nav-text">{% trans "Modèles" %}</span>
                                 </a>
                             </li>
                             <li class="nav-item mb-2">
@@ -95,7 +96,7 @@
                                     <span class="nav-icon me-2">
                                         <i class="fas fa-shopping-bag"></i>
                                     </span>
-                                    <span class="nav-text">Prestations</span>
+                                    <span class="nav-text">{% trans "Prestations" %}</span>
                                 </a>
                             </li>
                             <li class="nav-item mb-2">
@@ -103,7 +104,7 @@
                                     <span class="nav-icon me-2">
                                         <i class="fas fa-calendar"></i>
                                     </span>
-                                    <span class="nav-text">Motifs d'absence médecin</span>
+                                    <<span class="nav-text">{% trans "Motifs d'absence médecin" %}</span>
                                 </a>
                             </li>
                             <li class="nav-item mb-2">
@@ -111,7 +112,7 @@
                                     <span class="nav-icon me-2">
                                         <i class="fas fa-network-wired"></i>
                                     </span>
-                                    <span class="nav-text">Matériel</span>
+                                    <span class="nav-text">{% trans "Matériel" %}</span>
                                 </a>
                             </li>
                         </ul>

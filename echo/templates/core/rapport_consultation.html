@@ -14,40 +14,40 @@
         <form class="form mb-5">
             <div class="row">
                 <div class="mt-4 col-sm-6 col-lg-2">
-                    <label class="form-label">IPP</label>
+                    <label class="form-label">{% trans "IPP" %}</label>
                     <input data-search-key="id" type="number"
                            class="form-control form-control-sm datatable-input" placeholder=""
                            data-col-index="0"/>
                 </div>
                 <div class="mt-4 col-sm-6 col-lg-2">
-                    <label class="form-label">Nom</label>
+                    <label class="form-label">{% trans "Nom" %}</label>
                     <input data-search-key="nom" type="text"
                            class="form-control form-control-sm datatable-input"
                            placeholder=""
                            data-col-index="4"/>
                 </div>
                 <div class="mt-4 col-sm-6 col-lg-2">
-                    <label class="form-label">Prénom</label>
+                    <label class="form-label">{% trans "Prénom" %}</label>
                     <input data-search-key="prenom" type="text"
                            class="form-control form-control-sm datatable-input" placeholder=""
                            data-col-index="6"
                            value=""/>
                 </div>
                 <div class="mt-4 col-sm-6 col-lg-2">
-                    <label class="form-label">Gouvernorat</label>
+                    <label class="form-label">{% trans "Gouvernorat" %}</label>
                     <input data-search-key="ville" type="text"
                            class="form-control form-control-sm datatable-input" placeholder=""
                            data-col-index="1"
                            value=""/>
                 </div>
                 <div class="mt-4 col-sm-6 col-lg-2">
-                    <label class="form-label">Mot clé</label>
+                    <label class="form-label">{% trans "Mot clé" %}</label>
                     <input placeholder="" data-col-index="10"
                            class="form-control form-control-sm" name="tags" type="text"
                            id="tags" value=""/>
                 </div>
                 <div class="mt-4 col-sm-6 col-lg-2">
-                    <label class="form-label">Praticien Correspondant</label>
+                    <label class="form-label">{% trans "Praticien Correspondant" %}</label>
                     <select name="praticiens-correspondants" id="praticiens-correspondants"
                             class="form-select form-select-sm" data-col-index="2">
                         <option value="">---------</option>
@@ -59,19 +59,19 @@
             </div>
             <div class="row">
                 <div class="mt-4 col-sm-6 col-lg-2">
-                    <label class="form-label">Date Début</label>
+                    <label class="form-label">{% trans "Date début" %}</label>
                     <input data-search-key="debut" type="text" id="debut" data-col-index="11"
                            class="form-control form-control-sm datatable-input" placeholder=""
                            value=""/>
                 </div>
                 <div class="mt-4 col-sm-6 col-lg-2">
-                    <label class="form-label">Date Fin</label>
+                    <label class="form-label">{% trans "Date fin" %}</label>
                     <input data-search-key="fin" type="text" id="fin" data-col-index="12"
                            class="form-control form-control-sm datatable-input" placeholder=""
                            value=""/>
                 </div>
                 <div class="mt-4 col-sm-6 col-lg-2">
-                    <label class="form-label">Praticien</label>
+                    <label class="form-label">{% trans "Praticien" %}</label>
                     <select name="praticien" id="praticien"
                             class="form-select form-select-sm" data-col-index="9">
                         <option value="">---------</option>
@@ -82,7 +82,7 @@
                 </div>
 
                 <div class="mt-4 col-sm-6 col-lg-2">
-                    <label class="form-label">Catégorie Consultation</label>
+                    <label class="form-label">{% trans "Catégorie Consultation" %}</label>
                     <select name="categorie" id="categorie" class="form-select form-select-sm"
                             data-col-index="7" data-search-key="categorie">
                         <option value="">---------</option>
@@ -106,7 +106,7 @@
                     </select>
                 </div>
                 <div class="mt-4 col-sm-6 col-lg-2">
-                    <label class="form-label">Motif Consultation</label>
+                    <label class="form-label">{% trans "Motif Consultation" %}</label>
                     <select name="motif" id="motif" class="form-select form-select-sm"
                             data-col-index="8" data-search-key="motif">
                         <option value="">---------</option>
@@ -115,7 +115,7 @@
                     </select>
                 </div>
                 <div class="mt-4 col-sm-6 col-lg-2 pt-8">
-                    <button onclick="resetSearch()" class="btn btn-light-primary btn-sm" type="button">Réinitialiser</button>
+                    <button onclick="resetSearch()" class="btn btn-light-primary btn-sm" type="button">{% trans "Réinitialiser" %}</button>
                 </div>
             </div>
 
@@ -123,20 +123,20 @@
         <table class="table table-row-bordered gy-5" id="rapport_consultation_datatable">
             <thead>
             <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
-                <th>Identifiant patient</th>
-                <th>gouvernorat</th>
-                <th>praticien patient</th>
-                <th>Date</th>
-                <th>Nom</th>
-                <th>Nom naissance</th>
-                <th>Prénom</th>
-                <th>Catégorie Consultation</th>
-                <th>Motif Consultation</th>
-                <th>Praticien</th>
-                <th>mot_cle</th>
-                <th>date debut</th>
-                <th>date fin</th>
-                <th>Actions</th>
+                <th>{% trans "Identifiant patient" %}</th>
+                <th>{% trans "Gouvernorat" %}</th>
+                <th>{% trans "Praticien patient" %}</th>
+                <th>{% trans "Date" %}</th>
+                <th>{% trans "Nom" %}</th>
+                <th>{% trans "Nom" %} {% trans "naissance" %}</th>
+                <th>{% trans "Prénom" %}</th>
+                <th>{% trans "Catégorie Consultation" %}</th>
+                <th>{% trans "Motif Consultation" %}</th>
+                <th>{% trans "Praticien" %}</th>
+                <th>{% trans "Mot clé" %}</th>
+                <th>{% trans "Date début" %}</th>
+                <th>{% trans "Date fin" %}</th>
+                <th>{% trans "Actions" %}</th>
             </tr>
             </thead>
             <tbody class="text-gray-600 fw-semibold">
@@ -145,7 +145,7 @@
     </div>
     <script type="text/html" id="actions-rapport-template">
         <a onclick="afficherConsultation(<%= id %>, '<%= motif %>')"
-           class="btn btn-icon btn-primary btn-sm" title="Consulter le compte-rendu">
+           class="btn btn-icon btn-primary btn-sm" title="{% trans 'Consulter le compte-rendu' %}">
             <i class="la la-file"></i>
         </a>
         <a href="/patients/<%= patientId %>"

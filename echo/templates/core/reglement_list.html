@@ -20,7 +20,7 @@
 									<span class="nav-icon mr-2">
                                         <i class="la la-dollar icon-xl mr-3"></i>
                                     </span>
-                                <span class="nav-text font-weight-bold">Règlement</span>
+                                <span class="nav-text font-weight-bold">{% trans "Règlement" %}</span>
                             </a>
                         </li>
 
@@ -30,7 +30,7 @@
 														<span class="nav-icon mr-2">
 															<i class="la la-lock icon-xl mr-3"></i>
 														</span>
-                                    <span class="nav-text font-weight-bold">Clôture de caisse</span>
+                                    <span class="nav-text font-weight-bold">{% trans "Clôture de caisse" %}</span>
                                 </a>
                             </li>
 
@@ -39,7 +39,7 @@
 														<span class="nav-icon mr-2">
 															<i class="la la-bar-chart  icon-xl"></i>
 														</span>
-                                    <span class="nav-text font-weight-bold">Rapport</span>
+                                    <span class="nav-text font-weight-bold">{% trans "Rapport" %}</span>
                                 </a>
                             </li>
                         {% endif %}
@@ -51,18 +51,18 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="reglement" role="tabpanel">
                         <div class="col-4 mt-2">
-                            <h5>Liste des admissions</h5>
+                            <h5>{% trans "Liste des admissions" %}</h5>
                         </div>
                         <div class="px-2">
                             <table class="table table-bordered table-checkable table-striped" id="datatable_admission">
                                 <thead>
                                 <tr>
-                                    <th>N° admission</th>
-                                    <th>Nom</th>
-                                    <th>Nom de naissance</th>
-                                    <th>Prénom</th>
-                                    <th>Statut Consultation</th>
-                                    <th>Actions</th>
+                                    <th>{% trans "N° admission" %}</th>
+                                    <th>{% trans "Nom" %}</th>
+                                    <th>{% trans "Nom de naissance" %}</th>
+                                    <th>{% trans "Prénom" %}</th>
+                                    <th>{% trans "Statut Consultation" %}</th>
+                                    <th>{% trans "Actions" %}</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -71,12 +71,12 @@
                             <% if(admission.nb_reglements == 0) { %>
                             <a href="/reglements/<%- admission.id %>/ajouter"
                                class="btn btn-primary btn-icon btn-sm"
-                               title="Ajouter règlement">
+                               title="{% trans 'Ajouter règlement' %}">
                                 <i class="la la-plus icon-md"></i>
                             </a>
                             <% } else { %>
                             <a class="btn btn-success btn-icon btn-sm" onclick="download_facture(<%- admission.id %>)"
-                               title="Note d'honoraire">
+                               title="{% trans 'Note d\'honoraire' %}">
                                 <i class="la la-file icon-md"></i>
                             </a>
                             <% } %>

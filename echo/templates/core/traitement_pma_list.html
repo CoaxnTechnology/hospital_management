@@ -7,12 +7,12 @@
         <div class="mb-0 d-flex justify-content-between">
             <div class="w-300px">
                 <input type="text" class="form-control datatable-input form-control-sm"
-                       placeholder="Recherche traitement" data-col-index="0"/>
+                       placeholder="{% trans 'Recherche traitement' %}" data-col-index="0"/>
             </div>
             <div><a href="/traitements-pma/ajouter"
                     class="btn btn-light-primary btn-sm font-weight-bolder mr-2">
                 <i class="ki ki-plus icon-sm"></i>
-                Ajouter un traitement
+                {% trans "Ajouter un traitement" %}
             </a></div>
         </div>
         <table class="table table-bordered table-checkable table-striped" id="datatable_traitements">
@@ -20,17 +20,17 @@
             <tr>
                 <th>Libellé</th>
                 <!--<th>Forme</th>-->
-                <th>Actions</th>
+                <th>{% trans "Actions" %}</th>
             </tr>
             </thead>
         </table>
     </div>
 
     <template id="actions-template">
-        <a href="/traitements-pma/<%- id %>/modifier" class="btn btn-warning btn-icon btn-sm" title="Modifier">
+        <a href="/traitements-pma/<%- id %>/modifier" class="btn btn-warning btn-icon btn-sm" title="{% trans 'Modifier' %}">
             <i class="la la-edit icon-lg"></i>
         </a>
-        <a onclick="supprimer(<%- id %>)" class="btn btn-danger btn-icon btn-sm" title="Supprimer">
+        <a onclick="supprimer(<%- id %>)" class="btn btn-danger btn-icon btn-sm" title="{% trans 'Supprimer' %}">
             <i class="la la-trash icon-lg"></i>
         </a>
     </template>

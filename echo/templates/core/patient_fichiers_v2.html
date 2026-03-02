@@ -11,7 +11,7 @@
                 <div class="card">
                     <!--begin::Body-->
                     <div class="card-body dossiers">
-                        <h4 class="mb-10">Dossier</h4>
+                        <h4 class="mb-10">{% trans "Dossier" %}</h4>
                         <ul class="nav flex-column nav-pills">
 
                             {% for dossier in dossiers %}
@@ -59,7 +59,7 @@
                                                 <h3 class="card-title"></h3>
                                                 <div class="card-toolbar">
                                                     <div class="dropdown dropdown-inline" data-bs-toggle="tooltip"
-                                                         title="Actions" data-placement="left">
+                                                         title="{% trans "Actions" %}" data-placement="left">
                                                         <a href="#"
                                                            class="btn btn-clean btn-hover-light-primary btn-sm btn-icon"
                                                            data-bs-toggle="dropdown" aria-haspopup="true"
@@ -79,7 +79,7 @@
                                                             <li>
                                                                 <a href="/patients/{{ patient.pk }}/fichier/{{ fichier.pk }}/supprimer/"
                                                                    class="dropdown-item">
-                                                                    Supprimer
+                                                                    {% trans "Supprimer" %}
                                                                 </a>
                                                             </li>
                                                         </ul>
@@ -151,7 +151,7 @@
                                                                     <span class="navi-icon">
                                                                         <i class="fas fa-file-export icon-sm"></i>
                                                                     </span>
-                                        <span class="navi-text">Déplacer</span>
+                                        <span class="navi-text">{% trans "Déplacer" %}</span>
                                     </a>
                                 </li>
                                 <li class="navi-item">
@@ -160,7 +160,7 @@
                                                                     <span class="navi-icon">
                                                                         <i class="flaticon2-delete icon-sm"></i>
                                                                     </span>
-                                        <span class="navi-text">Supprimer</span>
+                                        <span class="navi-text">{% trans "Supprimer" %}</span>
                                     </a>
                                 </li>
                             </ul>

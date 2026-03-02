@@ -107,7 +107,7 @@ function initTentativesPMADatatable() {
     let _t = _.template(unescapeTemplate($('#actions-pma-template').html()));
 
     $('#table-tentatives-pma').DataTable({
-        language: {"url": "/static/plugins/custom/datatables/French.json"},
+            language: window.DT_LANGUAGE || {},
         dom: `<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
         responsive: true, lengthMenu: [5, 10, 25, 50], pageLength: 5, searchDelay: 500, processing: true, serverSide: false,
         data: tentativesPMA,
@@ -150,7 +150,7 @@ function initConsultationDatatable(el) {
             data = consultations_obs[grossesse.id];
 
             $(el).DataTable({
-                language: {"url": "/static/plugins/custom/datatables/French.json"},
+            language: window.DT_LANGUAGE || {},
                 responsive: true,
                 // Pagination settings
                 dom: `<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
@@ -200,7 +200,7 @@ function initConsultationDatatable(el) {
         data = _.filter(consultations, c => c.motif.categorie.id == $(el).attr('data-categorie'));
 
         $(el).DataTable({
-            language: {"url": "/static/plugins/custom/datatables/French.json"},
+            language: window.DT_LANGUAGE || {},
             responsive: true,
             // Pagination settings
             dom: `<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
@@ -271,7 +271,7 @@ function showConsultationsObstetriques(el) {
     }
 
     $(tableId).DataTable({
-        language: {"url": "/static/plugins/custom/datatables/French.json"},
+            language: window.DT_LANGUAGE || {},
         dom: `<'row'<'col-sm-12'tr>>`, responsive: true,
         lengthMenu: [5, 10, 25, 50], pageLength: -1, searchDelay: 500,
         processing: true, serverSide: false,
@@ -306,7 +306,7 @@ function initOrdonnancesDatatable() {
     let _t = _.template(unescapeTemplate($('#actions-ordonnances-template').html()));
 
     $('#ordonnances-table').DataTable({
-        language: {"url": "/static/plugins/custom/datatables/French.json"},
+            language: window.DT_LANGUAGE || {},
         responsive: true,
         // Pagination settings
         dom: `<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
@@ -566,9 +566,7 @@ function initTableConsultations() {
     const _t = _.template(unescapeTemplate($('#actions-rapport-template').html()));
 
     var table = $('#rapport_consultation_datatable').DataTable({
-        language: {
-            "url": "/static/plugins/custom/datatables/French.json"
-        },
+            language: window.DT_LANGUAGE || {},
         responsive: true,
         // read more: https://datatables.net/examples/basic_init/dom.html
         lengthMenu: [5, 10, 25, 50],

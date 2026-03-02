@@ -135,6 +135,31 @@ const pays = {% if user.profil.compte.adresse and user.profil.compte.adresse.pay
 <script src="{% static "v2/plugins/custom/fullcalendar/fullcalendar.bundle.js" %}"></script>
 <script src="{% static "v2/plugins/custom/datatables/datatables.bundle.js" %}"></script>
 <!--end::Page Vendors-->
+<script>
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var currentLang = getCookie('django_language') || '{{ LANGUAGE_CODE|default:"fr" }}' || 'fr';
+var dtLang = {
+    fr: {sEmptyTable: "Aucune donnée disponible dans le tableau", sInfo: "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments", sInfoEmpty: "Affichage de l'élément 0 à 0 sur 0 élément", sLengthMenu: "Afficher _MENU_ éléments", sSearch: "Rechercher :", oPaginate: {sFirst: "Premier", sLast: "Dernier", sNext: "Suivant", sPrevious: "Précédent"}},
+    en: {sEmptyTable: "No data available in table", sInfo: "Showing element _START_ to _END_ of _TOTAL_ elements", sInfoEmpty: "Showing element 0 to 0 of 0 element", sLengthMenu: "Show _MENU_ elements", sSearch: "Search :", oPaginate: {sFirst: "First", sLast: "Last", sNext: "Next", sPrevious: "Previous"}},
+    ar: {sEmptyTable: "لا توجد بيانات متاحة في الجدول", sInfo: "عرض العنصر _START_ إلى _END_ من _TOTAL_ عنصر", sInfoEmpty: "عرض العنصر 0 إلى 0 من 0 عنصر", sLengthMenu: "عرض _MENU_ عناصر", sSearch: "بحث :", oPaginate: {sFirst: "الأول", sLast: "الأخير", sNext: "التالي", sPrevious: "السابق"}},
+    es: {sEmptyTable: "No hay datos disponibles en la tabla", sInfo: "Mostrando elemento _START_ a _END_ de _TOTAL_ elementos", sInfoEmpty: "Mostrando elemento 0 a 0 de 0 elemento", sLengthMenu: "Mostrar _MENU_ elementos", sSearch: "Buscar :", oPaginate: {sFirst: "Primero", sLast: "Último", sNext: "Siguiente", sPrevious: "Anterior"}}
+};
+window.DT_LANGUAGE = dtLang[currentLang] || dtLang.fr;
+$.extend(true, $.fn.dataTable.defaults, {language: window.DT_LANGUAGE});
+</script>
 <!--begin::Page Scripts(used by this page)-->
 <script src="{% static "js/core/common.js" %}"></script>
 <script type="text/javascript">

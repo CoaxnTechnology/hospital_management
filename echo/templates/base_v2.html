@@ -105,14 +105,14 @@
 											<div class="menu-item menu-lg-down-accordion me-0 me-lg-2 {% if '/accueil' in request.path or '/' == request.path %}show{% endif %}">
 												<!--begin:Menu link-->
 												<span class="menu-link py-3">
-													<span class="menu-title"><a href="/accueil" class="link-white">Tableau de bord</a></span>
+													<span class="menu-title"><a href="/accueil" class="link-white">{% trans "Tableau de bord" %}</a></span>
 												</span>
 												<!--end:Menu link-->
 											</div>
 											<div class="menu-item menu-lg-down-accordion me-0 me-lg-2 {% if '/rdvs' in request.path %}show{% endif %}">
 												<!--begin:Menu link-->
 												<span class="menu-link py-3">
-													<span class="menu-title"><a href="/rdvs" class="link-white">Agenda</a></span>
+													<span class="menu-title"><a href="/rdvs" class="link-white">{% trans "Agenda" %}</a></span>
 												</span>
 												<!--end:Menu link-->
 											</div>
@@ -120,7 +120,7 @@
 												<!--begin:Menu link-->
 												<span class="menu-link py-3">
 													<span class="menu-title">
-														<a href="/patients" class="link-white">Patients</a></span>
+														<a href="/patients" class="link-white">{% trans "Patients" %}</a></span>
 												</span>
 												<!--end:Menu link-->
 											</div>
@@ -128,7 +128,7 @@
 											<div class="menu-item menu-lg-down-accordion me-0 me-lg-2 {% if '/rapports' in request.path %}show{% endif %}">
 												<!--begin:Menu link-->
 												<span class="menu-link py-3">
-													<span class="menu-title"><a href="/rapports/consultation" class="link-white">Rapports</a></span>
+													<span class="menu-title"><a href="/rapports/consultation" class="link-white">{% trans "Rapports" %}</a></span>
 												</span>
 												<!--end:Menu link-->
 											</div>
@@ -137,7 +137,7 @@
 											<div class="menu-item menu-lg-down-accordion me-0 me-lg-2 {% if '/mutuelle' in request.path %}show{% endif %}">
 												<!--begin:Menu link-->
 												<span class="menu-link py-3">
-													<span class="menu-title"><a href="/mutuelle" class="link-white">Mutuelle</a></span>
+													<span class="menu-title"><a href="/mutuelle" class="link-white">{% trans "Mutuelle" %}</a></span>
 												</span>
 												<!--end:Menu link-->
 											</div>
@@ -146,7 +146,7 @@
 											<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
 												<!--begin:Menu link-->
 												<span class="menu-link py-3">
-													<span class="menu-title">Administration</span>
+													<span class="menu-title">{% trans "Administration" %}</span>
 													<span class="menu-arrow d-lg-none"></span>
 												</span>
 												<!--end:Menu link-->
@@ -167,7 +167,7 @@
 																</span>
 																<!--end::Svg Icon-->
 															</span>
-															<span class="menu-title">Utilisateurs</span>
+															<span class="menu-title">{% trans "Utilisateurs" %}</span>
 														</a>
 														<!--end:Menu link-->
 													</div>
@@ -186,7 +186,7 @@
 																	</span>
 																	<!--end::Svg Icon-->
 																</span>
-																<span class="menu-title">Paramètres</span>
+																<span class="menu-title">{% trans "Paramètres" %}</span>
 															</a>
 															<!--end:Menu link-->
 														</div>
@@ -207,14 +207,14 @@
 											<div class="menu-item menu-lg-down-accordion me-0 me-lg-2 {% if '/accueil' in request.path or '/' == request.path %}show{% endif %}">
 												<!--begin:Menu link-->
 												<span class="menu-link py-3">
-													<span class="menu-title"><a href="/accueil" class="link-white">Tableau de bord</a></span>
+													<span class="menu-title"><a href="/accueil" class="link-white">{% trans "Tableau de bord" %}</a></span>
 												</span>
 												<!--end:Menu link-->
 											</div>
 											<div class="menu-item menu-lg-down-accordion me-0 me-lg-2 {% if '/rdvs' in request.path %}show{% endif %}">
 												<!--begin:Menu link-->
 												<span class="menu-link py-3">
-													<span class="menu-title"><a href="/rdvs" class="link-white">Agenda</a></span>
+													<span class="menu-title"><a href="/rdvs" class="link-white">{% trans "Agenda" %}</a></span>
 												</span>
 												<!--end:Menu link-->
 											</div>
@@ -222,7 +222,7 @@
 												<!--begin:Menu link-->
 												<span class="menu-link py-3">
 													<span class="menu-title">
-														<a href="/patients" class="link-white">Patients</a></span>
+														<a href="/patients" class="link-white">{% trans "Patients" %}</a></span>
 												</span>
 												<!--end:Menu link-->
 											</div>
@@ -230,7 +230,7 @@
 											<div class="menu-item menu-lg-down-accordion me-0 me-lg-2 {% if '/rapports' in request.path %}show{% endif %}">
 												<!--begin:Menu link-->
 												<span class="menu-link py-3">
-													<span class="menu-title"><a href="/rapports/consultation" class="link-white">Rapports</a></span>
+													<span class="menu-title"><a href="/rapports/consultation" class="link-white">{% trans "Rapports" %}</a></span>
 												</span>
 												<!--end:Menu link-->
 											</div>
@@ -239,7 +239,7 @@
 											<div class="menu-item menu-lg-down-accordion me-0 me-lg-2 {% if '/mutuelle' in request.path %}show{% endif %}">
 												<!--begin:Menu link-->
 												<span class="menu-link py-3">
-													<span class="menu-title"><a href="/mutuelle" class="link-white">Mutuelle</a></span>
+													<span class="menu-title"><a href="/mutuelle" class="link-white">{% trans "Mutuelle" %}</a></span>
 												</span>
 												<!--end:Menu link-->
 											</div>
@@ -248,7 +248,7 @@
 											<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
 												<!--begin:Menu link-->
 												<span class="menu-link py-3">
-													<span class="menu-title">Administration</span>
+													<span class="menu-title">{% trans "Administration" %}</span>
 													<span class="menu-arrow d-lg-none"></span>
 												</span>
 												<!--end:Menu link-->
@@ -269,7 +269,7 @@
 																</span>
 																<!--end::Svg Icon-->
 															</span>
-															<span class="menu-title">Utilisateurs</span>
+															<span class="menu-title">{% trans "Utilisateurs" %}</span>
 														</a>
 														<!--end:Menu link-->
 													</div>
@@ -288,7 +288,7 @@
 																	</span>
 																	<!--end::Svg Icon-->
 																</span>
-																<span class="menu-title">Paramètres</span>
+																<span class="menu-title">{% trans "Paramètres" %}</span>
 															</a>
 															<!--end:Menu link-->
 														</div>
@@ -325,6 +325,34 @@
 										<!--end::Menu wrapper-->
 									</div>
 									<!--end::Chat-->
+									<!--begin::Language Switcher-->
+									<div class="d-flex align-items-center ms-1 ms-lg-3">
+										{% get_current_language as CURRENT_LANGUAGE %}
+										<div class="btn btn-icon btn-active-light-primary btn-custom w-auto h-30px h-md-40px px-3 position-relative"
+											 data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+											<span class="svg-icon svg-icon-1 me-1">
+												<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<path opacity="0.3" d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20C7.58 20 4 16.42 4 12Z" fill="currentColor"/>
+													<path d="M12 2C14.76 2 17 6.48 17 12C17 17.52 14.76 22 12 22C9.24 22 7 17.52 7 12C7 6.48 9.24 2 12 2ZM12 4C10.34 4 9 7.58 9 12C9 16.42 10.34 20 12 20C13.66 20 15 16.42 15 12C15 7.58 13.66 4 12 4Z" fill="currentColor"/>
+													<path opacity="0.3" d="M3 12H21" stroke="currentColor" stroke-width="2"/>
+												</svg>
+											</span>
+											<span class="fw-semibold fs-7">{{ CURRENT_LANGUAGE|upper }}</span>
+										</div>
+										<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-3 fs-6 w-175px" data-kt-menu="true">
+											{% get_available_languages as LANGUAGES %}
+											{% get_current_language as CURRENT_LANGUAGE %}
+											{% for lang_code, lang_name in LANGUAGES %}
+											<div class="menu-item px-3">
+												<a href="javascript:switchLanguage('{{ lang_code }}')" 
+                                                   class="menu-link px-3 w-100 {% if lang_code == CURRENT_LANGUAGE %}active{% endif %}">
+													{{ lang_name }}
+												</a>
+											</div>
+											{% endfor %}
+										</div>
+									</div>
+									<!--end::Language Switcher-->
 									<!--begin::User-->
 									<div class="d-flex align-items-center me-n3 ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
 										<!--begin::Menu wrapper-->
@@ -358,7 +386,7 @@
 
 											<!--begin::Menu item-->
 											<div class="menu-item px-5">
-												<a href="/accounts/logout" class="menu-link px-5">Déconnexion</a>
+												<a href="/accounts/logout" class="menu-link px-5">{% trans "Déconnexion" %}</a>
 											</div>
 											<!--end::Menu item-->
 										</div>
@@ -403,7 +431,7 @@
 							<!--begin::Menu-->
 							<ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
 								<li class="menu-item">
-									<a href="#" onclick="afficherSupportModal()" class="menu-link px-2">Support</a>
+									<a href="#" onclick="afficherSupportModal()" class="menu-link px-2">{% trans "Support" %}</a>
 								</li>
 
 							</ul>
@@ -442,7 +470,7 @@
 					<div class="card-title">
 						<!--begin::User-->
 						<div class="d-flex justify-content-center flex-column me-3">
-							<a href="#" class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 mb-2 lh-1">Mesagerie</a>
+							<a href="#" class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 mb-2 lh-1">{% trans "Messagerie" %}</a>
 						</div>
 						<!--end::User-->
 					</div>
@@ -553,7 +581,7 @@
                         <div class="modal-footer p-1">
                             <input type="text" class="message-text form-control border-0"
                                    data-id="<%- id %>"
-                                   placeholder="Ecrire un message"/>
+                                   placeholder="{% trans 'Ecrire un message' %}"/>
                         </div>
                     </div>
                 </div>
@@ -599,7 +627,7 @@
                 <div class="modal-content h-100 modal-rounded">
                     <div class="modal-header py-7 d-flex justify-content-between">
                         <!--begin::Modal title-->
-                        <h2>Support</h2>
+                        <h2>{% trans "Support" %}</h2>
                         <!--end::Modal title-->
                         <!--begin::Close-->
                         <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -619,17 +647,17 @@
                     </div>
                     <div class="modal-body p-4">
                         <div class="form-group">
-                            <label for="support-msg-desc form-label">Veuillez saisir votre requête</label>
+                            <label for="support-msg-desc form-label">{% trans "Veuillez saisir votre requête" %}</label>
                             <textarea name="support-msg-desc" id="support-msg-desc" cols="30" rows="10"
                                       class="form-control form-control-solid mt-3"></textarea>
                         </div>
                         <div class="d-flex justify-content-between">
-                            <span>Version {{ APP_VERSION }}</span>
+                            <span>{% trans "Version" %} {{ APP_VERSION }}</span>
                         </div>
                     </div>
                     <div class="modal-footer border-0">
                         <button type="button" class="btn btn-primary btn-sm" onclick="envoyerMessageSupport()">
-                            Envoyer
+                            {% trans "Envoyer" %}
                         </button>
                     </div>
                 </div>
@@ -641,7 +669,7 @@
                 <div class="modal-content h-100 modal-rounded">
                     <div class="modal-header py-7 d-flex justify-content-between">
                         <!--begin::Modal title-->
-                        <h2>Règlements & Encaissements</h2>
+                        <h2>{% trans "Règlements & Encaissements" %}</h2>
                         <!--end::Modal title-->
                         <!--begin::Close-->
                         <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -683,7 +711,116 @@
 		<script src="{% static "v2/plugins/custom/fullcalendar/fullcalendar.bundle.js" %}"></script>
 		<script src="{% static "v2/plugins/custom/datatables/datatables.bundle.js" %}"></script>
 		<!--end::Vendors Javascript-->
-		<!--begin::Custom Javascript(used for this page only)-->
+        <script>
+            // DataTables language configuration - read from cookie or Django context
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            // Try cookie first, then Django context, then default to French
+            var currentLang = getCookie('django_language') || '{{ LANGUAGE_CODE|default:"fr" }}' || 'fr';
+            var dtLang = {
+                fr: {
+                    sEmptyTable:     "Aucune donnée disponible dans le tableau",
+                    sInfo:           "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
+                    sInfoEmpty:      "Affichage de l'élément 0 à 0 sur 0 élément",
+                    sInfoFiltered:   "(filtré depuis _MAX_ éléments au total)",
+                    sInfoPostFix:    "",
+                    sInfoThousands:  " ",
+                    sLengthMenu:     "Afficher _MENU_ éléments",
+                    sLoadingRecords: "Chargement...",
+                    sProcessing:     "Traitement...",
+                    sSearch:         "Rechercher :",
+                    sZeroRecords:    "Aucune donnée disponible dans le tableau",
+                    oPaginate: {
+                        sFirst:    "Premier",
+                        sLast:     "Dernier",
+                        sNext:     "Suivant",
+                        sPrevious: "Précédent"
+                    },
+                    oAria: {
+                        sSortAscending:  ": activer pour trier la colonne par ordre croissant",
+                        sSortDescending: ": activer pour trier la colonne par ordre décroissant"
+                    }
+                },
+                en: {
+                    sEmptyTable:     "No data available in table",
+                    sInfo:           "Showing element _START_ to _END_ of _TOTAL_ elements",
+                    sInfoEmpty:      "Showing element 0 to 0 of 0 element",
+                    sInfoFiltered:   "(filtered from _MAX_ elements total)",
+                    sInfoPostFix:    "",
+                    sInfoThousands:  " ",
+                    sLengthMenu:     "Show _MENU_ elements",
+                    sLoadingRecords: "Loading...",
+                    sProcessing:     "Processing...",
+                    sSearch:         "Search :",
+                    sZeroRecords:    "No data available in table",
+                    oPaginate: {
+                        sFirst:    "First",
+                        sLast:     "Last",
+                        sNext:     "Next",
+                        sPrevious: "Previous"
+                    },
+                    oAria: {
+                        sSortAscending:  ": activate to sort column ascending",
+                        sSortDescending: ": activate to sort column descending"
+                    }
+                },
+                ar: {
+                    sEmptyTable:     "لا توجد بيانات متاحة في الجدول",
+                    sInfo:           "عرض العنصر _START_ إلى _END_ من _TOTAL_ عنصر",
+                    sInfoEmpty:      "عرض العنصر 0 إلى 0 من 0 عنصر",
+                    sInfoFiltered:   "(مُصفى من _MAX_ عناصر إجمالي)",
+                    sInfoPostFix:    "",
+                    sInfoThousands:  " ",
+                    sLengthMenu:     "عرض _MENU_ عناصر",
+                    sLoadingRecords: "جاري التحميل...",
+                    sProcessing:     "معالجة...",
+                    sSearch:         "بحث :",
+                    sZeroRecords:    "لا توجد بيانات متاحة في الجدول",
+                    oPaginate: {
+                        sFirst:    "الأول",
+                        sLast:     "الأخير",
+                        sNext:     "التالي",
+                        sPrevious: "السابق"
+                    }
+                },
+                es: {
+                    sEmptyTable:     "No hay datos disponibles en la tabla",
+                    sInfo:           "Mostrando elemento _START_ a _END_ de _TOTAL_ elementos",
+                    sInfoEmpty:      "Mostrando elemento 0 a 0 de 0 elemento",
+                    sInfoFiltered:   "(filtrado de _MAX_ elementos total)",
+                    sInfoPostFix:    "",
+                    sInfoThousands:  " ",
+                    sLengthMenu:     "Mostrar _MENU_ elementos",
+                    sLoadingRecords: "Cargando...",
+                    sProcessing:     "Procesando...",
+                    sSearch:         "Buscar :",
+                    sZeroRecords:    "No hay datos disponibles en la tabla",
+                    oPaginate: {
+                        sFirst:    "Primero",
+                        sLast:     "Último",
+                        sNext:     "Siguiente",
+                        sPrevious: "Anterior"
+                    }
+                }
+            };
+            window.DT_LANGUAGE = dtLang[currentLang] || dtLang.fr;
+            if ($.fn.dataTable) {
+                $.extend(true, $.fn.dataTable.defaults, { language: window.DT_LANGUAGE });
+            }
+        </script>
+		<!--end::Custom Javascript-->
 		<script src="{% static "v2/js/widgets.bundle.js" %}"></script>
 		<script src="{% static "v2/js/custom/widgets.js" %}"></script>
 		<script src="{% static "v2/js/custom/apps/chat/chat.js" %}"></script>
@@ -693,6 +830,20 @@
 		<script src="{% static "v2/js/custom/utilities/modals/users-search.js" %}"></script>
 		<!--end::Custom Javascript-->
         <script src="{% static "js/core/common.js" %}"></script>
+        <script>
+        {% trans "Etes vous sûr ?" as s_swal_title %}
+        {% trans "Oui, annuler le rendez-vous!" as s_swal_confirm_annuler %}
+        {% trans "Non, conserver le rendez-vous" as s_swal_cancel %}
+        {% trans "Oui, déplacer le rendez-vous" as s_swal_confirm_deplacer %}
+        {% trans "Déplacer le rendez-vous au" as s_swal_deplacer_au %}
+        window.SWAL_RDV = {
+            titre: '{{ s_swal_title|escapejs }}',
+            confirmer_annuler: '{{ s_swal_confirm_annuler|escapejs }}',
+            conserver: '{{ s_swal_cancel|escapejs }}',
+            confirmer_deplacer: '{{ s_swal_confirm_deplacer|escapejs }}',
+            deplacer_au: '{{ s_swal_deplacer_au|escapejs }}',
+        };
+        </script>
         <script src="{% static "js/core/logger.js" %}"></script>
         <script src="{% static "js/chat/chat.js" %}"></script>
         <script type="text/javascript">
@@ -741,6 +892,50 @@
         {% block extra_js %}{% endblock %}
         {% block scripts %}{% endblock %}
 		<!--end::Javascript-->
+
+        <!--begin::Floating Language Switcher-->
+        <div class="language-switcher" style="position: fixed; left: 0; top: 50%; transform: translateY(-50%); z-index: 10000; pointer-events: auto;">
+            <div class="d-flex flex-column shadow rounded-end bg-white">
+                {% get_available_languages as LANGUAGES %}
+                {% get_current_language as CURRENT_LANGUAGE %}
+                {% for lang_code, lang_name in LANGUAGES %}
+                <a href="javascript:void(0)" onclick="switchLanguage('{{ lang_code }}'); return false;"
+                   class="px-3 py-2 text-decoration-none {% if lang_code == CURRENT_LANGUAGE %}bg-primary text-white{% else %}text-dark{% endif %}"
+                   title="{{ lang_name }}" style="display: block;">
+                    {{ lang_code|upper }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        <!--end::Floating Language Switcher-->
+
+        <script>
+        function switchLanguage(langCode) {
+            fetch(`/i18n/setlang/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: `language=${langCode}&next=${window.location.pathname}`
+            }).then(() => window.location.reload());
+        }
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        </script>
 	</body>
 	<!--end::Body-->
 </html>

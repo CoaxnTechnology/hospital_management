@@ -27,11 +27,11 @@
                 <a href="/patients/{{ patient.pk }}"
                    class="btn btn-sm btn-light-primary font-weight-bolder mr-2">
                     <i class="ki ki-long-arrow-back icon-sm"></i>
-                    Précédent
+                    {% trans "Précédent" %}
                 </a>
                 <button id="btn_enregistrer" class="btn btn-sm btn-primary font-weight-bolder mr-2 enregistrer">
                     <i class="ki ki-check icon-sm"></i>
-                    Enregistrer
+                    {% trans "Enregistrer" %}
                 </button>
 
                 <a id="btn_terminer" href="/patients/{{ patient.pk }}/consultation/terminer"
@@ -43,7 +43,7 @@
                 <a id="btn_imprimer" href="javascript:void(0)"
                    class="btn btn-sm btn-warning font-weight-bolder">
                     <i class="flaticon2-printer"></i>
-                    Imprimer
+                    {% trans "Imprimer" %}
                 </a>
             </div>
         </div>
@@ -61,7 +61,7 @@
                     </div>
                     {% if motif.code !=  "pma-interrogatoire" %}
                     <div class="form-group col-3">
-                        <label>Modèle</label>
+                        <label>{% trans "Modèle" %}</label>
                         <select name="template_edition" id="id_template_edition" class="form-control form-control-sm">
                             <option value="-1">---------</option>
                             {% for temp in templates %}

@@ -16,12 +16,12 @@
                 <div class="card-header">
                     <div class="card-title">
                         <h4 class="card-label">
-                            {% if object %}Modifier{% else %}Ajouter{% endif %} un programme opératoire
+                            {% if object %}{% trans "Modifier" %}{% else %}{% trans "Ajouter" %}{% endif %} {% trans "un programme opératoire" %}
                         </h4>
                     </div>
                     <div class="card-toolbar">
                         <div style="margin-right:5px;">
-                            <a href="/absence/ajouter/" class="btn btn-default">Annuler</a></div>
+                            <a href="/absence/ajouter/" class="btn btn-default">{% trans "Annuler" %}</a></div>
                         <div class="btn-group">
                             <button class="btn btn-sm btn-primary font-weight-bolder">
                                 <i class="ki ki-check icon-sm"></i>
@@ -34,7 +34,7 @@
                     <div class="row">
 
                         <div class="form-group col-12 col-md-6">
-                            <label>Patient</label>
+                            <label>{% trans "Patient" %}</label>
                             <div class="typeahead">
                                 {% render_field form.patient class+="form-control form-control-sm " required="" value=" " readonly="" %}
                             </div>
@@ -46,7 +46,7 @@
 
 
                         <div class="form-group col-12 col-md-2 required">
-                            <label>Date</label>
+                            <label>{% trans "Date" %}</label>
                             {% render_field form.debut id="debut" class+="form-control form-control-sm " required="" value=" " readonly="" %}
                             <div class="invalid-feedback"
                                  {% if form.debut.errors %}style="display: block"{% endif %}>
@@ -54,7 +54,7 @@
                             </div>
                         </div>
                         <div class="form-group col-md-2 required">
-                            <label>Heure début</label>
+                           <label>{% trans "Heure début" %}</label>
                             {% render_field form.heure_debut id="heure_debut" class+="form-control form-control-sm " required="" value=" " readonly="" %}
                             <div class="invalid-feedback"
                                  {% if form.heure_debut.errors %}style="display: block"{% endif %}>
@@ -62,7 +62,7 @@
                             </div>
                         </div>
                         <div class="form-group col-md-2 required">
-                            <label>Heure fin</label>
+                            <label>{% trans "Heure fin" %}</label>
                             {% render_field form.heure_fin id="heure_fin" class+="form-control form-control-sm " required="" value=" " readonly="" %}
                             <div class="invalid-feedback"
                                  {% if form.heure_fin.errors %}style="display: block"{% endif %}>
@@ -71,7 +71,7 @@
                         </div>
 
                         <div class="form-group col-12 col-md-6">
-                            <label>Type d'acte</label>
+                            <label>{% trans "Type d'acte" %}</label>
                             {% render_field form.type_acte class+="form-control form-control-sm " %}
                             <div class="invalid-feedback"
                                  {% if form.type_acte.errors %}style="display: block"{% endif %}>
@@ -96,7 +96,7 @@
                         </div>
 
                         <div class="form-group col-12 col-md-6 required">
-                            <label>Praticien</label>
+                            <label>{% trans "Praticien" %}</label>
                             {% render_field form.praticien class+="form-control form-control-sm " %}
                             <div class="invalid-feedback"
                                  {% if form.praticien.errors %}style="display: block"{% endif %}>

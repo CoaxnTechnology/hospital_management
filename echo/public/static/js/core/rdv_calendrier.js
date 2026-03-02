@@ -1,6 +1,10 @@
 let g_cal;
 
-moment.locale('fr');
+// FullCalendar bundle only includes fr and es locales; fall back to 'en' for unsupported locales (e.g. Arabic)
+const FC_SUPPORTED_LOCALES = ['fr', 'es', 'en'];
+const fcLocale = FC_SUPPORTED_LOCALES.includes(currentLanguage) ? currentLanguage : 'en';
+
+moment.locale(currentLanguage);
 
 let minDate = moment().startOf('day');
 let maxDate = moment().add(180, 'days');
@@ -23,13 +27,14 @@ function classParStatutRdv(statut, motif) {
 }
 
 function supprimer(pk) {
+    const _swal = (typeof SWAL_RDV !== 'undefined') ? SWAL_RDV : {};
     swal.fire({
-        title: "Etes vous sûr ?",
+        title: _swal.titre || "Etes vous sûr ?",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
-        confirmButtonText: "Oui, annuler le rendez-vous!",
-        cancelButtonText: "Non, conserver le rendez-vous",
+        confirmButtonText: _swal.confirmer_annuler || "Oui, annuler le rendez-vous!",
+        cancelButtonText: _swal.conserver || "Non, conserver le rendez-vous",
         closeOnConfirm: false
     }).then(function (result) {
         if (result.value) {
@@ -136,7 +141,7 @@ jQuery(document).ready(function () {
     const calendar = new FullCalendar.Calendar(calendarEl, {
         //plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid', 'list', 'momentTimezonePlugin '],
         //themeSystem: 'bootstrap',
-        locale: 'fr',
+        locale: fcLocale,
         isRTL: KTUtil.isRTL(),
 
         headerToolbar: {
@@ -234,12 +239,13 @@ jQuery(document).ready(function () {
         },
 
         eventDrop: function (info) {
+            const _swal = (typeof SWAL_RDV !== 'undefined') ? SWAL_RDV : {};
             swal.fire({
-                title: `Déplacer le rendez-vous au ${moment(info.event.start).format('DD MMM à HH:mm')} ?`,
+                title: `${_swal.deplacer_au || 'Déplacer le rendez-vous au'} ${moment(info.event.start).format('DD MMM à HH:mm')} ?`,
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-danger",
-                confirmButtonText: "Oui, déplacer le rendez-vous",
+                confirmButtonText: _swal.confirmer_deplacer || "Oui, déplacer le rendez-vous",
                 cancelButtonText: "Non",
                 closeOnConfirm: false
             }).then(function (result) {
@@ -379,9 +385,7 @@ jQuery(document).ready(function () {
         const _t = _.template($('#actions-rdv-template').html());
 
         const tableRdvs = $('#datatable_rdv').DataTable({
-            language: {
-                "url": "/static/plugins/custom/datatables/French.json"
-            },
+            language: window.DT_LANGUAGE || {},
             responsive: true,
             // Pagination settings
             //dom: `<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,

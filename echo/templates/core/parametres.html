@@ -29,12 +29,12 @@
                 <!--begin::Header-->
                 <div class="card-header py-3">
                     <div class="card-title align-items-start flex-column">
-                        <h3 class="card-label font-weight-bolder text-dark">Paramètres généraux</h3>
-                        <span class="text-muted  fs-6 mt-1">Modifier les paramètres du compte</span>
+                        <h3 class="card-label font-weight-bolder text-dark">{% trans "Paramètres généraux" %}</h3>
+                        <span class="text-muted  fs-6 mt-1">{% trans "Modifier les paramètres du compte" %}</span>
                     </div>
                     <div class="card-toolbar">
-                        <button type="submit" class="btn btn-primary me-2">Enregistrer</button>
-                        <!--<button type="reset" class="btn btn-secondary">Annuler</button>-->
+                        <button type="submit" class="btn btn-primary me-2">{% trans "Enregistrer" %}</button>
+                        <!--<button type="reset" class="btn btn-secondary">{% trans "Annuler" %}</button>-->
                     </div>
                 </div>
                 <!--end::Header-->
@@ -42,7 +42,7 @@
                 <div class="card-body">
                     <!--begin::Form Group-->
                     <div class="form-group row">
-                        <label class="col-xl-3 col-lg-3 col-form-label">Médecin principal</label>
+                        <label class="col-xl-3 col-lg-3 col-form-label">{% trans "Médecin principal" %}</label>
                         <div class="col-lg-9 col-xl-6">
                             {% render_field form.praticien_defaut class+="form-select form-select-sm" %}
                             <div class="invalid-feedback"
@@ -52,8 +52,8 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-xl-3 col-lg-3 col-form-label">Durée rendez-vous par défaut
-                            (minutes)</label>
+                        <label class="col-xl-3 col-lg-3 col-form-label">{% trans "Durée rendez-vous par défaut" %}
+                            ({% trans "minutes" %})</label>
                         <div class="col-lg-9 col-xl-6">
                             {% render_field form.duree_rdv_defaut class+="form-control  form-control-sm" %}
                             <div class="invalid-feedback"
@@ -64,7 +64,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-xl-3 col-lg-3 col-form-label">Fuseau horaire</label>
+                        <label class="col-xl-3 col-lg-3 col-form-label">{% trans "Fuseau horaire" %}</label>
                         <div class="col-lg-9 col-xl-6">
                             <select name="timezone" class="form-select form-select-sm ">
                                 {% for tz in timezones %}
@@ -84,65 +84,65 @@
 
                     <div class="form-group row">
                         <label class="col-xl-3 col-lg-3 col-form-label">
-                            Horaires d'ouverture
+                            {% trans "Horaires d'ouverture" %}
                         </label>
                         <div class="col-lg-9 col-xl-6">
-                            <div class="text-primary">Lundi</div>
+                            <div class="text-primary">{% trans "Lundi" %}</div>
                             <div class="d-flex align-items-center">
-                                <div>Matin</div>
+                                <div>{% trans "Matin" %}</div>
                                 {% render_field form.h_deb_mat_lundi class+="form-control form-control-sm time w-90px ms-2" %}
                                 {% render_field form.h_fin_mat_lundi class+="form-control  form-control-sm time w-90px" %}
-                                <div class="ms-2">Après-midi</div>
+                                <div class="ms-2">{% trans "Après-midi" %}</div>
                                 {% render_field form.h_deb_am_lundi class+="form-control  form-control-sm time w-90px ms-2" %}
                                 {% render_field form.h_fin_am_lundi class+="form-control  form-control-sm time w-90px" %}
                             </div>
 
-                            <div class="text-primary mt-2">Mardi</div>
+                            <div class="text-primary mt-2">{% trans "Mardi" %}</div>
                             <div class="d-flex align-items-center">
-                                <div>Matin</div>
+                                <div>{% trans "Matin" %}</div>
                                 {% render_field form.h_deb_mat_mardi class+="form-control form-control-sm time w-90px ms-2" %}
                                 {% render_field form.h_fin_mat_mardi class+="form-control  form-control-sm time w-90px" %}
-                                <div class="ms-2">Après-midi</div>
+                                <div class="ms-2">{% trans "Après-midi" %}</div>
                                 {% render_field form.h_deb_am_mardi class+="form-control  form-control-sm time w-90px ms-2" %}
                                 {% render_field form.h_fin_am_mardi class+="form-control  form-control-sm time w-90px" %}
                             </div>
 
-                            <div class="text-primary mt-2">Mercredi</div>
+                            <div class="text-primary mt-2">{% trans "Mercredi" %}</div>
                             <div class="d-flex align-items-center">
-                                <div>Matin</div>
+                                <div>{% trans "Matin" %}</div>
                                 {% render_field form.h_deb_mat_mercredi class+="form-control form-control-sm time w-90px ms-2" %}
                                 {% render_field form.h_fin_mat_mercredi class+="form-control  form-control-sm time w-90px" %}
-                                <div class="ms-2">Après-midi</div>
+                                <div class="ms-2">{% trans "Après-midi" %}</div>
                                 {% render_field form.h_deb_am_mercredi class+="form-control  form-control-sm time w-90px ms-2" %}
                                 {% render_field form.h_fin_am_mercredi class+="form-control  form-control-sm time w-90px" %}
                             </div>
 
-                            <div class="text-primary mt-2">Jeudi</div>
+                            <div class="text-primary mt-2">{% trans "Jeudi" %}</div>
                             <div class="d-flex align-items-center">
-                                <div>Matin</div>
+                                <div>{% trans "Matin" %}</div>
                                 {% render_field form.h_deb_mat_jeudi class+="form-control form-control-sm time w-90px ms-2" %}
                                 {% render_field form.h_fin_mat_jeudi class+="form-control  form-control-sm time w-90px" %}
-                                <div class="ms-2">Après-midi</div>
+                                <div class="ms-2">{% trans "Après-midi" %}</div>
                                 {% render_field form.h_deb_am_jeudi class+="form-control  form-control-sm time w-90px ms-2" %}
                                 {% render_field form.h_fin_am_jeudi class+="form-control  form-control-sm time w-90px" %}
                             </div>
 
-                            <div class="text-primary mt-2">Vendredi</div>
+                            <div class="text-primary mt-2">{% trans "Vendredi" %}</div>
                             <div class="d-flex align-items-center">
-                                <div>Matin</div>
+                                <div>{% trans "Matin" %}</div>
                                 {% render_field form.h_deb_mat_vendredi class+="form-control form-control-sm time w-90px ms-2" %}
                                 {% render_field form.h_fin_mat_vendredi class+="form-control  form-control-sm time w-90px" %}
-                                <div class="ms-2">Après-midi</div>
+                                <div class="ms-2">{% trans "Après-midi" %}</div>
                                 {% render_field form.h_deb_am_vendredi class+="form-control  form-control-sm time w-90px ms-2" %}
                                 {% render_field form.h_fin_am_vendredi class+="form-control  form-control-sm time w-90px" %}
                             </div>
 
-                            <div class="text-primary mt-2">Samedi</div>
+                            <div class="text-primary mt-2">{% trans "Samedi" %}</div>
                             <div class="d-flex align-items-center">
-                                <div>Matin</div>
+                                <div>{% trans "Matin" %}</div>
                                 {% render_field form.h_deb_mat_samedi class+="form-control form-control-sm time w-90px ms-2" %}
                                 {% render_field form.h_fin_mat_samedi class+="form-control  form-control-sm time w-90px" %}
-                                <div class="ms-2">Après-midi</div>
+                                <div class="ms-2">{% trans "Après-midi" %}</div>
                                 {% render_field form.h_deb_am_samedi class+="form-control  form-control-sm time w-90px ms-2" %}
                                 {% render_field form.h_fin_am_samedi class+="form-control  form-control-sm time w-90px" %}
                             </div>
@@ -159,12 +159,12 @@
                 <!--begin::Header-->
                 <div class="card-header py-3">
                     <div class="card-title align-items-start flex-column">
-                        <h3 class="card-label font-weight-bolder text-dark">Paramètres patients</h3>
-                        <span class="text-muted  fs-6 mt-1">Modifier les paramètres des patients</span>
+                        <h3 class="card-label font-weight-bolder text-dark">{% trans "Paramètres patients" %}</h3>
+                        <span class="text-muted  fs-6 mt-1">{% trans "Modifier les paramètres des patients" %}</span>
                     </div>
                     <div class="card-toolbar">
-                        <button type="submit" class="btn btn-primary me-2">Enregistrer</button>
-                        <!--<button type="reset" class="btn btn-secondary">Annuler</button>-->
+                        <button type="submit" class="btn btn-primary me-2">{% trans "Enregistrer" %}</button>
+                        <!--<button type="reset" class="btn btn-secondary">{% trans "Annuler" %}</button>-->
                     </div>
                 </div>
                 <!--end::Header-->
@@ -172,7 +172,7 @@
                 <div class="card-body">
                     <!--begin::Form Group-->
                     <div class="form-group row">
-                        <label class="col-xl-3 col-lg-3 col-form-label">Antécédents familiaux par défaut</label>
+                        <label class="col-xl-3 col-lg-3 col-form-label">{% trans "Antécédents familiaux par défaut" %}</label>
                         <div class="col-9 col-xxl-6">
                             {% render_field form.antecedents_familiaux_defaut class+="form-control  form-control-lg h-100px" %}
                             <div class="invalid-feedback"
@@ -182,8 +182,7 @@
                         </div>
                     </div>
                     <div class="form-group row mt-4">
-                        <label class="col-xl-3 col-lg-3 col-form-label">Antécédents médico-chirurgicaux par
-                            défaut</label>
+                        <label class="col-xl-3 col-lg-3 col-form-label">{% trans "Antécédents médico-chirurgicaux par défaut" %}</label>
                         <div class="col-9 col-xxl-6">
                             {% render_field form.antecedents_medico_chirurgicaux_defaut class+="form-control  form-control-lg h-100px" %}
                             <div class="invalid-feedback"
@@ -193,7 +192,7 @@
                         </div>
                     </div>
                     <div class="form-group row mt-4">
-                        <label class="col-xl-3 col-lg-3 col-form-label">Antécédents gynécologiques par défaut</label>
+                        <label class="col-xl-3 col-lg-3 col-form-label">{% trans "Antécédents gynécologiques par défaut" %}</label>
                         <div class="col-9 col-xxl-6">
                             {% render_field form.antecedents_gynecologiques_defaut class+="form-control  form-control-lg h-100px" %}
                             <div class="invalid-feedback"
@@ -204,7 +203,7 @@
                     </div>
 
                     <div class="form-group row mt-4">
-                        <label class="col-3 col-form-label">Ajouter les antécédents aux éditions</label>
+                        <label class="col-3 col-form-label">{% trans "Ajouter les antécédents aux éditions" %}</label>
                         <div class="col-9">
 
                             <label class="form-check form-check-custom form-check-solid">
@@ -215,7 +214,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">Durée de grossesse</label>
+                        <label class="col-3 col-form-label">{% trans "Durée de grossesse" %}</label>
                         <div class="col-2">
                             <div class="input-group input-group-sm">
                                 {% render_field form.duree_gross_sa class+="form-control form-control-sm" %}
@@ -236,7 +235,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">Écho. de datation</label>
+                        <label class="col-3 col-form-label">{% trans "Écho. de datation" %}</label>
                         <div class="col-2">
                             <div class="input-group input-group-sm">
                                 {% render_field form.gross_echo_datation_sa_1 class+="form-control form-control-sm" %}
@@ -264,7 +263,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">1ère écho</label>
+                        <label class="col-3 col-form-label">{% trans "1ère écho" %}</label>
                         <div class="col-2">
                             <div class="input-group input-group-sm">
                                 {% render_field form.gross_echo_t1_sa_1 class+="form-control form-control-sm" %}
@@ -292,7 +291,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">2ème écho</label>
+                        <label class="col-3 col-form-label">{% trans "2ème écho" %}</label>
                         <div class="col-2">
                             <div class="input-group input-group-sm">
                                 {% render_field form.gross_echo_t2_sa_1 class+="form-control form-control-sm" %}
@@ -320,7 +319,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">3ème écho</label>
+                        <label class="col-3 col-form-label">{% trans "3ème écho" %}</label>
                         <div class="col-2">
                             <div class="input-group input-group-sm">
                                 {% render_field form.gross_echo_t3_sa_1 class+="form-control form-control-sm" %}
@@ -395,7 +394,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">T21 Combiné 1er trimestre</label>
+                        <label class="col-3 col-form-label">{% trans "T21 Combiné 1er trimestre" %}</label>
                         <div class="col-2">
                             <div class="input-group input-group-sm">
                                 {% render_field form.gross_triso_1_sa_1 class+="form-control form-control-sm" %}
@@ -423,7 +422,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">T21 2ème trimestre</label>
+                        <label class="col-3 col-form-label">{% trans "T21 2ème trimestre" %}</label>
                         <div class="col-2">
                             <div class="input-group input-group-sm">
                                 {% render_field form.gross_triso_2_sa_1 class+="form-control form-control-sm" %}
@@ -451,7 +450,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">Glycémie à jeun 1er trimestre</label>
+                        <label class="col-3 col-form-label">{% trans "Glycémie à jeun 1er trimestre" %}</label>
                         <div class="col-2">
                             <div class="input-group input-group-sm">
                                 {% render_field form.gross_gly_sa_1 class+="form-control form-control-sm" %}
@@ -487,11 +486,11 @@
                 <!--begin::Header-->
                 <div class="card-header py-3">
                     <div class="card-title align-items-start flex-column">
-                        <h3 class="card-label font-weight-bolder text-dark">Paramètres d'édition</h3>
-                        <span class="text-muted  fs-6 mt-1">Modifier les paramètres d'édition des documents</span>
+                        <h3 class="card-label font-weight-bolder text-dark">{% trans "Paramètres d'édition" %}</h3>
+                        <span class="text-muted  fs-6 mt-1">{% trans "Modifier les paramètres d'édition des documents" %}</span>
                     </div>
                     <div class="card-toolbar">
-                        <button type="submit" class="btn btn-primary me-2">Enregistrer</button>
+                        <button type="submit" class="btn btn-primary me-2">{% trans "Enregistrer" %}</button>
                     </div>
                 </div>
                 <!--end::Header-->
@@ -499,7 +498,7 @@
                 <div class="card-body">
                     <!--begin::Form Group-->
                     <!--<div class="form-group row">
-                        <label class="col-3 col-xxl-3 col-form-label">Nom du cabinet</label>
+                        <label class="col-3 col-xxl-3 col-form-label">{% trans "Nom du cabinet" %}</label>
                         <div class="col-9 col-xxl-9">
                             {% render_field form.nom_entete class+="form-control form-control-lg editor" %}
                             <div class="invalid-feedback"
@@ -509,7 +508,7 @@
                         </div>
                     </div>-->
                     <div class="form-group row">
-                        <label class="col-3 col-xxl-3 col-form-label">Entête A5</label>
+                        <label class="col-3 col-xxl-3 col-form-label">{% trans "Entête A5" %}</label>
                         <div class="col-9 col-xxl-9">
                             <div class="logo-preview">
                                 {% if form.instance.logo %}
@@ -518,7 +517,7 @@
                                                     </span>
                                     <button class="btn-modifier-logo btn btn-sm btn-text-warning btn-hover-light-warning font-weight-bold me-2">
                                         <i class="fa fa-pen"></i>
-                                        Modifier
+                                        {% trans "Modifier" %}
                                     </button>
                                 {% endif %}
                             </div>
@@ -536,7 +535,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-3 col-xxl-3 col-form-label">Entête A4</label>
+                        <label class="col-3 col-xxl-3 col-form-label">{% trans "Entête A4" %}</label>
                         <div class="col-9 col-xxl-9">
                             <div class="logo-preview">
                                 {% if form.instance.logo_a4 %}
@@ -545,7 +544,7 @@
                                                     </span>
                                     <button class="btn-modifier-logo btn btn-sm btn-text-warning btn-hover-light-warning font-weight-bold me-2">
                                         <i class="fa fa-pen"></i>
-                                        Modifier
+                                        {% trans "Modifier" %}
                                     </button>
                                 {% endif %}
                             </div>
@@ -564,7 +563,7 @@
 
                     </div>
                     <div class="form-group row">
-                        <label class="col-3 col-xxl-3 col-form-label">Pied de page A5</label>
+                        <label class="col-3 col-xxl-3 col-form-label">{% trans "Pied de page A5" %}</label>
                         <div class="col-9 col-xxl-9">
                             <div class="footer-preview">
                                 {% if form.instance.footer %}
@@ -573,7 +572,7 @@
                                                     </span>
                                     <button class="btn-modifier-footer btn btn-sm btn-text-warning btn-hover-light-warning font-weight-bold me-2">
                                         <i class="fa fa-pen"></i>
-                                        Modifier
+                                        {% trans "Modifier" %}
                                     </button>
                                 {% endif %}
                             </div>
@@ -592,7 +591,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-3 col-xxl-3 col-form-label">Pied de page A4</label>
+                        <label class="col-3 col-xxl-3 col-form-label">{% trans "Pied de page A4" %}</label>
                         <div class="col-9 col-xxl-9">
                             <div class="footer-preview">
                                 {% if form.instance.footer_a4 %}
@@ -601,7 +600,7 @@
                                                     </span>
                                     <button class="btn-modifier-footer btn btn-sm btn-text-warning btn-hover-light-warning font-weight-bold me-2">
                                         <i class="fa fa-pen"></i>
-                                        Modifier
+                                        {% trans "Modifier" %}
                                     </button>
                                 {% endif %}
                             </div>
@@ -620,42 +619,42 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-12 col-form-label badge-light">Marges</label>
+                        <label class="col-12 col-form-label badge-light">{% trans "Marges" %}</label>
                     </div>
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">Entête</label>
+                        <label class="col-3 col-form-label">{% trans "Entête" %}</label>
                         <div class="col-9 col-xl-2">
                             {% render_field form.marge_entete class+="form-control  form-control-sm" %}
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">Pied de page</label>
+                        <label class="col-3 col-form-label">{% trans "Pied de page" %}</label>
                         <div class="col-9 col-xl-2">
                             {% render_field form.marge_footer class+="form-control  form-control-sm" %}
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">Marge gauche</label>
+                        <label class="col-3 col-form-label">{% trans "Marge gauche" %}</label>
                         <div class="col-9 col-xl-2">
                             {% render_field form.marge_gauche class+="form-control  form-control-sm" %}
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">Marge droite</label>
+                        <label class="col-3 col-form-label">{% trans "Marge droite" %}</label>
                         <div class="col-9 col-xl-2">
                             {% render_field form.marge_droite class+="form-control  form-control-sm" %}
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-12 col-form-label badge-light">Ajouter la date et lieu</label>
+                        <label class="col-12 col-form-label badge-light">{% trans "Ajouter la date et lieu" %}</label>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">Courriers</label>
+                        <label class="col-3 col-form-label">{% trans "Courriers" %}</label>
                         <div class="col-9">
                             <label class="form-check form-check-custom form-check-solid">
                                 {% render_field form.ajouter_date_courriers class+="form-check-input h-20px w-20px" %}
@@ -664,7 +663,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">Compte-rendus opératoires</label>
+                        <label class="col-3 col-form-label">{% trans "Compte-rendus opératoires" %}</label>
                         <div class="col-9">
                             <label class="form-check form-check-custom form-check-solid">
                                 {% render_field form.ajouter_date_cro class+="form-check-input h-20px w-20px" %}
@@ -674,12 +673,11 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-12 col-form-label badge-light">Ajouter l'entête et pied de page aux
-                            éditions</label>
+                        <label class="col-12 col-form-label badge-light">{% trans "Ajouter l'entête et pied de page aux éditions" %}</label>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">Compte-rendus</label>
+                        <label class="col-3 col-form-label">{% trans "Compte-rendus" %}</label>
                         <div class="col-9">
                             <label class="form-check form-check-custom form-check-solid">
                                 {% render_field form.ajouter_entetes_edition class+="form-check-input h-20px w-20px" %}
@@ -689,7 +687,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">Ordonnances</label>
+                        <label class="col-3 col-form-label">{% trans "Ordonnances" %}</label></label>
                         <div class="col-9">
                             <label class="form-check form-check-custom form-check-solid">
                                 {% render_field form.ajouter_entete_ord class+="form-check-input h-20px w-20px" %}
@@ -699,7 +697,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">Certificat médical</label>
+                        <label class="col-3 col-form-label">{% trans "Certificat médical" %}</label>
                         <div class="col-9">
                             <label class="form-check form-check-custom form-check-solid">
                                 {% render_field form.ajouter_entete_cert_med class+="form-check-input h-20px w-20px" %}
@@ -709,7 +707,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">Certificat de présence</label>
+                        <label class="col-3 col-form-label">{% trans "Certificat de présence" %}</label>
                         <div class="col-9">
                             <label class="form-check form-check-custom form-check-solid">
                                 {% render_field form.ajouter_entete_cert_pres class+="form-check-input h-20px w-20px" %}
@@ -719,7 +717,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">Lettre d'accouchement</label>
+                        <label class="col-3 col-form-label">{% trans "Lettre d'accouchement" %}</label>
                         <div class="col-9">
                             <label class="form-check form-check-custom form-check-solid">
                                 {% render_field form.ajouter_entete_lettre_acc class+="form-check-input h-20px w-20px" %}
@@ -729,7 +727,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">Prescription analyses biologiques</label>
+                        <label class="col-3 col-form-label">{% trans "Prescription analyses biologiques" %}</label>
                         <div class="col-9">
                             <label class="form-check form-check-custom form-check-solid">
                                 {% render_field form.ajouter_entete_prescr_bio class+="form-check-input h-20px w-20px" %}
@@ -739,7 +737,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">Lettre confidentielle</label>
+                        <label class="col-3 col-form-label">{% trans "Lettre confidentielle" %}</label>
                         <div class="col-9">
                             <label class="form-check form-check-custom form-check-solid">
                                 {% render_field form.ajouter_entete_lettre_confidentielle class+="form-check-input h-20px w-20px" %}
@@ -749,7 +747,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">Attestation de grossesse</label>
+                        <label class="col-3 col-form-label">{% trans "Attestation de grossesse" %}</label>
                         <div class="col-9">
                             <label class="form-check form-check-custom form-check-solid">
                                 {% render_field form.ajouter_entete_attestation_grossesse class+="form-check-input h-20px w-20px" %}
@@ -759,7 +757,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-3 col-form-label">Lettre Fit-to-fly</label>
+                        <label class="col-3 col-form-label">{% trans "Lettre Fit-to-fly" %}</label>
                         <div class="col-9">
                             <label class="form-check form-check-custom form-check-solid">
                                 {% render_field form.ajouter_entete_lettre_fittofly class+="form-check-input h-20px w-20px" %}
@@ -776,59 +774,59 @@
                 <!--begin::Header-->
                 <div class="card-header py-3">
                     <div class="card-title align-items-start flex-column">
-                        <h3 class="card-label font-weight-bolder text-dark">Modèles</h3>
-                        <span class="text-muted  fs-6 mt-1">Modifier les paramètres des modèles</span>
+                        <h3 class="card-label font-weight-bolder text-dark">{% trans "Modèles" %}</h3>
+                        <span class="text-muted  fs-6 mt-1">{% trans "Modifier les paramètres des modèles" %}</span>
                     </div>
                     <div class="card-toolbar">
-                        <button type="submit" class="btn btn-primary me-2">Enregistrer</button>
+                        <button type="submit" class="btn btn-primary me-2">{% trans "Enregistrer" %}</button>
                     </div>
                 </div>
                 <!--end::Header-->
                 <!--begin::Form-->
                 <div class="card-body">
                     <div class="form-group row">
-                        <label class="col-xl-3 col-lg-3 col-form-label">Modèles de traitements</label>
+                        <label class="col-xl-3 col-lg-3 col-form-label">{% trans "Modèles de traitements" %}</label>
                         <div class="col-lg-9 col-xl-6">
                             <a id="btn-liste-traitements" class="btn btn-sm btn-light-primary font-weight-bold">
                                 <i class="flaticon-arrows icon-sm"></i>
-                                Traitements
+                                {% trans "Traitements" %}
                             </a>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-xl-3 col-lg-3 col-form-label">Modèles de traitements PMA</label>
+                        <label class="col-xl-3 col-lg-3 col-form-label">{% trans "Modèles de traitements PMA" %}</label>
                         <div class="col-lg-9 col-xl-6">
                             <a id="btn-liste-traitements-pma" class="btn btn-sm btn-light-primary font-weight-bold">
                                 <i class="flaticon-arrows icon-sm"></i>
-                                Traitements PMA
+                                {% trans "Traitements PMA" %}
                             </a>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-xl-3 col-lg-3 col-form-label">Modèles de prescriptions</label>
+                        <label class="col-xl-3 col-lg-3 col-form-label">{% trans "Modèles de prescriptions" %}</label>
                         <div class="col-lg-9 col-xl-6">
                             <a id="btn-liste-prescriptions" class="btn btn-sm btn-light-primary font-weight-bold ms-1">
                                 <i class="flaticon-arrows icon-sm"></i>
-                                Prescriptions
+                                {% trans "Prescriptions" %}
                             </a>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-xl-3 col-lg-3 col-form-label">Modèles d'analyses biologiques</label>
+                        <label class="col-xl-3 col-lg-3 col-form-label">{% trans "Modèles d'analyses biologiques" %}</label>
                         <div class="col-lg-9 col-xl-6">
                             <a id="btn-liste-biologie" class="btn btn-sm btn-light-primary font-weight-bold ms-1">
                                 <i class="flaticon-arrows icon-sm"></i>
-                                Biologie
+                                {% trans "Biologie" %}
                             </a>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-xl-3 col-lg-3 col-form-label">Modèles de compte-rendus</label>
+                        <label class="col-xl-3 col-lg-3 col-form-label">{% trans "Modèles de compte-rendus" %}</label>
                         <div class="col-lg-9 col-xl-6">
                             <a id="btn-liste-template-edition"
                                class="btn btn-sm btn-light-primary font-weight-bold ms-1">
                                 <i class="flaticon-arrows icon-sm"></i>
-                                Compte-rendus
+                                {% trans "Compte-rendus" %}
                             </a>
                         </div>
                     </div>
@@ -840,8 +838,8 @@
                 <!--begin::Header-->
                 <div class="card-header py-3">
                     <div class="card-title align-items-start flex-column">
-                        <h3 class="card-label font-weight-bolder text-dark">Prestations</h3>
-                        <span class="text-muted  fs-6 mt-1">Gérer le catalogue des prestations </span>
+                        <h3 class="card-label font-weight-bolder text-dark">{% trans "Prestations" %}</h3>
+                        <span class="text-muted  fs-6 mt-1">{% trans "Gérer le catalogue des prestations" %} </span>
                     </div>
                 </div>
                 <!--end::Header-->
@@ -852,7 +850,7 @@
                         <div class="col-lg-9 col-xl-6">
                             <a id="ouvrir_liste_prestations" class="btn btn-sm btn-light-primary font-weight-bold">
                                 <i class="flaticon-arrows icon-sm"></i>
-                                Prestations
+                                {% trans "Prestations" %}
                             </a>
                         </div>
                     </div>
@@ -864,8 +862,8 @@
                 <!--begin::Header-->
                 <div class="card-header py-3">
                     <div class="card-title align-items-start flex-column">
-                        <h3 class="card-label font-weight-bolder text-dark">Motifs des absences </h3>
-                        <span class="text-muted  fs-6 mt-1">Gérer la liste des motifs d'absence des medecins </span>
+                        <h3 class="card-label font-weight-bolder text-dark">{% trans "Motifs des absences" %} </h3>
+                        <span class="text-muted  fs-6 mt-1">{% trans "Gérer la liste des motifs d'absence des médecins" %} </span>
                     </div>
                 </div>
                 <!--end::Header-->
@@ -876,7 +874,7 @@
                         <div class="col-lg-9 col-xl-6">
                             <a id="ouvrir_liste_motifs" class="btn btn-sm btn-light-primary font-weight-bold">
                                 <i class="flaticon-arrows icon-sm"></i>
-                                Motifs des absences
+                                {% trans "Motifs des absences" %}
                             </a>
                         </div>
                     </div>
@@ -888,8 +886,8 @@
                 <!--begin::Header-->
                 <div class="card-header py-3">
                     <div class="card-title align-items-start flex-column">
-                        <h3 class="card-label font-weight-bolder text-dark">Matériel</h3>
-                        <span class="text-muted  fs-6 mt-1">Gérer les échographes </span>
+                        <h3 class="card-label font-weight-bolder text-dark">{% trans "Matériel" %}</h3>
+                        <span class="text-muted  fs-6 mt-1">{% trans "Gérer les échographes" %} </span>
                     </div>
                 </div>
                 <!--end::Header-->
@@ -900,7 +898,7 @@
                         <div class="col-lg-9 col-xl-6">
                             <a id="ouvrir_liste_devices" class="btn btn-sm btn-light-primary font-weight-bold">
                                 <i class="flaticon-arrows icon-sm"></i>
-                                Matériel
+                                {% trans "Matériel" %}
                             </a>
                         </div>
                     </div>
@@ -914,7 +912,7 @@
             <div class="modal-content h-100">
                 <div class="modal-header py-7 d-flex justify-content-between">
                     <!--begin::Modal title-->
-                    <h2>Biologie</h2>
+                    <h2>{% trans "Biologie" %}</h2></h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
                     <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -936,7 +934,7 @@
                     <div class="d-flex justify-content-center h-100 loading bg-white">
                         <div class="d-flex flex-center">
                             <div class="spinner spinner-primary"></div>
-                            <div class="text-primary ms-10">Chargement</div>
+                            <div class="text-primary ms-10">{% trans "Chargement" %}</div>
                         </div>
                     </div>
                     <iframe src="" width="100%" height="100%" frameBorder="0" class="pa-0"></iframe>
@@ -953,7 +951,7 @@
             <div class="modal-content h-100">
                 <div class="modal-header py-7 d-flex justify-content-between">
                     <!--begin::Modal title-->
-                    <h2>Modèles de compte-rendu</h2>
+                    <h2>{% trans "Modèles de compte-rendu" %}</h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
                     <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -975,7 +973,7 @@
                     <div class="d-flex justify-content-center h-100 loading bg-white">
                         <div class="d-flex flex-center">
                             <div class="spinner spinner-primary"></div>
-                            <div class="text-primary ms-10">Chargement</div>
+                            <div class="text-primary ms-10">{% trans "Chargement" %}</div>
                         </div>
                     </div>
                     <iframe src="" width="100%" height="100%" frameBorder="0" class="pa-0"></iframe>
@@ -990,7 +988,7 @@
             <div class="modal-content h-100">
                 <div class="modal-header py-7 d-flex justify-content-between">
                     <!--begin::Modal title-->
-                    <h2>Catalogue des prestations</h2>
+                    <h2>{% trans "Catalogue des prestations" %}</h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
                     <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -1012,7 +1010,7 @@
                     <div class="d-flex justify-content-center h-100 loading bg-white">
                         <div class="d-flex flex-center">
                             <div class="spinner spinner-primary"></div>
-                            <div class="text-primary ms-10">Chargement</div>
+                            <div class="text-primary ms-10">{% trans "Chargement" %}</div>
                         </div>
                     </div>
                     <iframe src="" width="100%" height="100%" frameBorder="0" class="pa-0"></iframe>
@@ -1027,7 +1025,7 @@
             <div class="modal-content h-100">
                 <div class="modal-header py-7 d-flex justify-content-between">
                     <!--begin::Modal title-->
-                    <h2>Liste du matériel</h2>
+                    <h2>{% trans "Liste du matériel" %}</h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
                     <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -1049,7 +1047,7 @@
                     <div class="d-flex justify-content-center h-100 loading bg-white">
                         <div class="d-flex flex-center">
                             <div class="spinner spinner-primary"></div>
-                            <div class="text-primary ms-10">Chargement</div>
+                            <div class="text-primary ms-10">{% trans "Chargement" %}</div>
                         </div>
                     </div>
                     <iframe src="" width="100%" height="100%" frameBorder="0" class="pa-0"></iframe>
@@ -1063,7 +1061,7 @@
             <div class="modal-content h-100">
                 <div class="modal-header py-7 d-flex justify-content-between">
                     <!--begin::Modal title-->
-                    <h2>Liste des motifs</h2>
+                    <h2>{% trans "Liste des motifs" %}</h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
                     <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -1085,7 +1083,7 @@
                     <div class="d-flex justify-content-center h-100 loading bg-white">
                         <div class="d-flex flex-center">
                             <div class="spinner spinner-primary"></div>
-                            <div class="text-primary ms-10">Chargement</div>
+                            <div class="text-primary ms-10">{% trans "Chargement" %}</div>
                         </div>
                     </div>
                     <iframe src="" width="100%" height="100%" frameBorder="0" class="pa-0"></iframe>

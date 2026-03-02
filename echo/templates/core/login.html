@@ -51,7 +51,7 @@
                 <div class="flex-column-fluid d-flex flex-column justify-content-center">
                     <h3 class="font-size-h1 mb-5 text-white">{{ user.profil.compte.product_brand }}</h3>
                     <p class="font-weight-lighter text-white opacity-80">
-                        L'application de gestion de cabinet de médecine.</p>
+                        {% trans "L'application de gestion de cabinet de médecine." %}</p>
                 </div>
                 <!--end: Aside content-->
                 <!--begin: Aside footer for desktop-->
@@ -71,17 +71,34 @@
         <!--begin::Content-->
         <div class="flex-row-fluid d-flex flex-column position-relative p-7 overflow-hidden">
             <!--begin::Content header-->
-            {% comment %}            <div class="position-absolute top-0 right-0 text-right mt-5 mb-15 mb-lg-0 flex-column-auto justify-content-center py-5 px-10">
-                <span class="font-weight-bold text-dark-50">Pas de compte? contactez votre référent</span>
-            </div>{% endcomment %}
+            <div class="position-absolute top-0 right-0 mt-5 mr-5" style="z-index:10;">
+                {% get_current_language as CURRENT_LANGUAGE %}
+                <div style="position:relative; display:inline-block;">
+                    <button type="button" id="lang-toggle"
+                            class="btn btn-icon btn-light-primary btn-sm px-3 d-flex align-items-center gap-1">
+                        <i class="fas fa-globe fs-5"></i>
+                        <span class="font-weight-bold fs-7">{{ CURRENT_LANGUAGE|upper }}</span>
+                    </button>
+                    <div id="lang-menu"
+                         style="display:none; position:absolute; right:0; top:calc(100% + 4px); z-index:1050; min-width:150px; background:#fff; border-radius:8px; box-shadow:0 4px 24px rgba(0,0,0,.12); padding:8px 0;">
+                        {% get_available_languages as LANGUAGES %}
+                        {% for lang_code, lang_name in LANGUAGES %}
+                        <a href="javascript:switchLanguage('{{ lang_code }}')"
+                           style="display:block; padding:8px 16px; text-decoration:none; color:{% if lang_code == CURRENT_LANGUAGE %}#6993FF{% else %}#333{% endif %}; font-weight:{% if lang_code == CURRENT_LANGUAGE %}600{% else %}400{% endif %};">
+                            {{ lang_name }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
             <!--end::Content header-->
             <!--begin::Content body-->
             <div class="d-flex flex-column-fluid flex-center mt-30 mt-lg-0">
                 <!--begin::Signin-->
                 <div class="login-form login-signin">
                     <div class="text-center mb-10 mb-lg-20">
-                        <h3 class="font-size-h1">Connexion à l'application Expert</h3>
-                        <p class="text-muted font-weight-bold">Saisir votre nom d'utilisateur et mot de passe</p>
+                        <h3 class="font-size-h1">{% trans "Connexion à l'application Expert" %}</h3>
+                        <p class="text-muted font-weight-bold">{% trans "Saisir votre nom d'utilisateur et mot de passe" %}</p>
                     </div>
                     <!--begin::Form-->
                     <form class="form" method="post" action="{% url 'login' %}" >
@@ -95,8 +112,8 @@
                                    maxlength="{{ form.username.max_length }}"
                                    name="{{ form.username.html_name }}"
                                    value="{{ form.username.value|default:"" }}">
-                            <div class="invalid-feedback">Nom d'utilisateur ou mot de passe incorrect.
-                                Merci de réessayer.
+                            <div class="invalid-feedback">{% trans "Nom" %} {% trans "d'utilisateur" %} {% trans "ou mot de passe incorrect." %}
+                                {% trans "Merci de réessayer." %}
                             </div>
                         </div>
                         <div class="form-group">
@@ -115,7 +132,7 @@
                                class="text-dark-50 text-hover-primary my-3 mr-2">Mot de passe
                                 oublié ?</a>-->
                             <span></span>
-                            <input value="Connexion" type="submit"
+                            <input value="{% trans "Connexion" %}" type="submit"
                                    class="btn btn-primary font-weight-bold px-9 py-4 my-3"/>
                         </div>
                         <!--end::Action-->
@@ -274,6 +291,26 @@
 <!--begin::Page Scripts(used by this page)-->
 <script src="{% static "js/pages/custom/login/login.js" %}"></script>
 <!--end::Page Scripts-->
+
+<script>
+var langToggle = document.getElementById('lang-toggle');
+var langMenu = document.getElementById('lang-menu');
+langToggle.addEventListener('click', function(e) {
+    e.stopPropagation();
+    langMenu.style.display = langMenu.style.display === 'none' ? 'block' : 'none';
+});
+document.addEventListener('click', function() { langMenu.style.display = 'none'; });
+
+function switchLanguage(langCode) {
+    var csrftoken = document.cookie.split(';').map(c => c.trim()).find(c => c.startsWith('csrftoken='));
+    csrftoken = csrftoken ? csrftoken.split('=')[1] : '';
+    fetch('/i18n/setlang/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRFToken': csrftoken},
+        body: 'language=' + langCode + '&next=' + window.location.pathname
+    }).then(() => window.location.reload());
+}
+</script>
 </body>
 <!--end::Body-->
 </html>

@@ -1,11 +1,12 @@
 function supprimer(eve, pk) {
+    const _swal = (typeof SWAL_RDV !== 'undefined') ? SWAL_RDV : {};
     swal.fire({
-        title: "Etes vous sûr ?",
+        title: _swal.titre || "Etes vous sûr ?",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
-        confirmButtonText: "Oui, annuler le rendez-vous!",
-        cancelButtonText: "Non, conserver le rendez-vous",
+        confirmButtonText: _swal.confirmer_annuler || "Oui, annuler le rendez-vous!",
+        cancelButtonText: _swal.conserver || "Non, conserver le rendez-vous",
         closeOnConfirm: false
     }).then(function (result) {
         if (result.value) {
@@ -193,7 +194,7 @@ $(document).ready(function () {
                 'prenom': {
                     validators: {
                         notEmpty: {
-                            message: 'Prénom est obligatoire'
+                            message: (typeof RDV_MESSAGES !== 'undefined') ? RDV_MESSAGES.prenom_obligatoire : 'Prénom est obligatoire'
                         }
                     }
                 },
@@ -201,7 +202,7 @@ $(document).ready(function () {
                 'nom_naissance': {
                     validators: {
                         notEmpty: {
-                            message: 'Nom naissance est obligatoire'
+                            message: (typeof RDV_MESSAGES !== 'undefined') ? RDV_MESSAGES.nom_naissance_obligatoire : 'Nom naissance est obligatoire'
                         }
                     }
                 },
@@ -209,10 +210,10 @@ $(document).ready(function () {
                 'telephone': {
                     validators: {
                         notEmpty: {
-                            message: 'Téléphone est obligatoire'
+                            message: (typeof RDV_MESSAGES !== 'undefined') ? RDV_MESSAGES.telephone_obligatoire : 'Téléphone est obligatoire'
                         },
                         numeric: {
-                            message: 'Téléphone doit contenir des chiffres uniquement'
+                            message: (typeof RDV_MESSAGES !== 'undefined') ? RDV_MESSAGES.telephone_chiffres : 'Téléphone doit contenir des chiffres uniquement'
                         },
                         /*stringLength: {
                             min: 8,

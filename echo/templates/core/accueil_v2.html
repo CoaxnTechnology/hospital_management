@@ -14,7 +14,7 @@
             <!--begin::Page title-->
             <div class="page-title d-flex flex-column me-3">
                 <!--begin::Title-->
-                <h1 class="d-flex text-white fw-bold my-1 fs-3">Tableau de bord</h1>
+                <h1 class="d-flex text-white fw-bold my-1 fs-3">{% trans "Tableau de bord" %}</h1>
                 <!--end::Title-->
             </div>
             <!--end::Page title-->
@@ -30,7 +30,7 @@
                     </div>
                     <div class="btn-group btn-group-sm me-2" role="group" aria-label="Second group">
                         <button id="btn_aujourdhui" type="button" class="btn btn-primary">
-                            Aujourd'hui
+                            {% trans "Aujourd'hui" %}
                         </button>
                     </div>
                     <div class="btn-group btn-group-sm me-2 col-lg-3" role="group" aria-label="Third group">
@@ -43,7 +43,7 @@
 
                     <div class="btn-group col-lg-4" role="group" aria-label="Third group">
                         <select class="form-select form-select-sm form-select-solid" data-kt-select2="true" id="praticien">
-                            <option value="-1">Tous les praticiens</option>
+                            <option value="-1">{% trans "Tous les praticiens" %}</option>
                             {% for p in praticiens %}
                                 <option value="{{ p.id }}"
                                         {% if user.profil.groupe == 'Médecin' and user.profil.id == p.id %}selected{% endif %}>
@@ -71,7 +71,7 @@
                                 <li class="nav-item">
                                     <a id="link_rdv_jour" class="nav-link px-3 py-3 mx-xs-1 mx-md-2 active"
                                        data-bs-toggle="tab" href="#liste_complete">
-                                        <span class="nav-text font-weight-bold">RDV du jour</span>
+                                        <span class="nav-text font-weight-bold">{% trans "RDV du jour" %}</span>
                                         <span id="nb_rdvs" class="badge badge-square badge-light-primary ms-2">0</span>
                                     </a>
                                 </li>
@@ -79,7 +79,7 @@
                                 <li class="nav-item">
                                     <a id="link_salle" class="nav-link px-3 py-3 mx-xs-1 mx-md-2" data-bs-toggle="tab"
                                        href="#liste_salle_attente">
-                                        <span class="nav-text font-weight-bold">Salle d'attente</span>
+                                        <span class="nav-text font-weight-bold">{% trans "Salle d'attente" %}</span>
                                         <span id="nb_attente" class="badge badge-square badge-light-primary ms-2">0</span>
                                     </a>
                                 </li>
@@ -87,7 +87,7 @@
                                 <li class="nav-item">
                                     <a id="link_salle" class="nav-link px-3 py-3 mx-xs-1 mx-md-2" data-bs-toggle="tab"
                                        href="#liste_en_consultation">
-                                        <span class="nav-text font-weight-bold">En examen</span>
+                                        <span class="nav-text font-weight-bold">{% trans "En examen" %}</span>
                                         <span id="nb_consultations_en_cours" class="badge badge-square badge-light-primary ms-2">0</span>
                                     </a>
                                 </li>
@@ -96,7 +96,7 @@
                                     <a id="link_consultations" class="nav-link px-3 py-3 mx-xs-1 mx-md-2"
                                        data-bs-toggle="tab"
                                        href="#liste_consultations">
-                                        <span class="nav-text font-weight-bold">Réalisés</span>
+                                        <span class="nav-text font-weight-bold">{% trans "Réalisés" %}</span>
                                         <span id="nb_realises" class="badge badge-square badge-light-primary ms-2">0</span>
                                     </a>
                                 </li>
@@ -104,7 +104,7 @@
                                     <a id="link_modifications" class="nav-link px-3 py-3 mx-xs-1 mx-md-2"
                                        data-bs-toggle="tab"
                                        href="#liste_modifies_annules">
-                                        <span class="nav-text font-weight-bold">Modifications</span>
+                                        <span class="nav-text font-weight-bold">{% trans "Modifications" %}</span>
                                         <span id="nb_modifies" class="badge badge-square badge-light-primary ms-2">0</span>
                                     </a>
                                 </li>
@@ -117,7 +117,7 @@
 									<span class="nav-icon me-2">
                                         <i class="flaticon-calendar-1 me-1"></i>
                                     </span>
-                                    <span class="nav-text font-weight-bold">RDV du jour</span>
+                                    <span class="nav-text font-weight-bold">{% trans "RDV du jour" %}</span>
                                     <span id="nb_rdvs"
                                           class="label label-xl p-0 font-weight-bold label-success ms-2">0</span>
                                 </a>
@@ -128,7 +128,7 @@
 														<span class="nav-icon me-1">
 															<i class="la la-user-clock icon-xl me-1"></i>
 														</span>
-                                    <span class="nav-text font-weight-bold">Salle d'attente</span>
+                                    <span class="nav-text font-weight-bold">{% trans "Salle d'attente" %}</span>
                                     <span id="nb_attente"
                                           class="label label-xl p-0 font-weight-bold label-success ms-2">0</span>
                                 </a>
@@ -139,7 +139,7 @@
 														<span class="nav-icon me-1">
 															<i class="la la-first-aid icon-xl me-1"></i>
 														</span>
-                                    <span class="nav-text font-weight-bold">Consultations en cours</span>
+                                    <span class="nav-text font-weight-bold">{% trans "Consultations en cours" %}</span>
                                     <span id="nb_consultations_en_cours"
                                           class="label label-xl p-0 font-weight-bold label-success ms-2">0</span>
                                 </a>
@@ -151,7 +151,7 @@
 														<span class="nav-icon me-1">
 															<i class="la la-user-check icon-xl me-1"></i>
 														</span>
-                                    <span class="nav-text font-weight-bold">Consultations réalisées</span>
+                                    <span class="nav-text font-weight-bold">{% trans "Consultations réalisées" %}</span>
                                     <span id="nb_realises"
                                           class="label label-xl p-0 font-weight-bold label-success ms-2">0</span>
                                 </a>
@@ -162,7 +162,7 @@
 														<span class="nav-icon me-1">
 															<i class="la la-user-minus icon-xl me-1"></i>
 														</span>
-                                    <span class="nav-text font-weight-bold">Modifications</span>
+                                    <span class="nav-text font-weight-bold">{% trans "Modifications" %}</span>
                                     <span id="nb_modifies"
                                           class="label label-xl p-0 font-weight-bold label-success ms-2">0</span>
                                 </a>
@@ -179,17 +179,17 @@
                             <table class="table table-row-bordered table-striped gy-5" id="kt_datatable_rdvs">
                                 <thead>
                                 <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
-                                    <th>E.</th>
-                                    <th>Etat</th>
-                                    <th>Nom de naissance</th>
-                                    <th>Nom marital</th>
-                                    <th>Prénom</th>
-                                    <th>Ville</th>
-                                    <th>Tél.</th>
-                                    <th>Heure</th>
-                                    <th>Motif</th>
-                                    <th>Praticien</th>
-                                    <th class="w-200px">Actions</th>
+                                    <th>{% trans "E." %}</th>
+                                    <th>{% trans "Etat" %}</th>
+                                    <th>{% trans "Nom de naissance" %}</th>
+                                    <th>{% trans "Nom marital" %}</th>
+                                    <th>{% trans "Prénom" %}</th>
+                                    <th>{% trans "Ville" %}</th>
+                                    <th>{% trans "Tél." %}</th>
+                                    <th>{% trans "Heure" %}</th>
+                                    <th>{% trans "Motif" %}</th>
+                                    <th>{% trans "Praticien" %}</th>
+                                    <th class="w-200px">{% trans "Actions" %}</th>
                                 </tr>
                                 </thead>
                                 <tbody class="text-gray-600 fw-semibold">
@@ -202,18 +202,18 @@
                                 <thead>
                                 <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
                                     <th class="w-30px">#</th>
-                                    <th>E.</th>
-                                    <th class="w-150px">Nom de naissance</th>
-                                    <th class="w-150px">Nom marital</th>
-                                    <th class="w-150px">Prénom</th>
-                                    <th>Age</th>
-                                    <th class="w-100px">Ville</th>
-                                    <th>Tél.</th>
-                                    <th>Admission</th>
-                                    <th>Attente</th>
-                                    <th>Motif</th>
-                                    <th class="w-200px">Praticien</th>
-                                    <th class="w-200px">Actions</th>
+                                    <th>{% trans "E." %}</th>
+                                    <th class="w-150px">{% trans "Nom de naissance" %}</th>
+                                    <th class="w-150px">{% trans "Nom marital" %}</th>
+                                    <th class="w-150px">{% trans "Prénom" %}</th>
+                                    <th>{% trans "Age" %}</th>
+                                    <th class="w-100px">{% trans "Ville" %}</th>
+                                    <th>{% trans "Tél." %}</th>
+                                    <th>{% trans "Admission" %}</th>
+                                    <th>{% trans "Attente" %}</th>
+                                    <th>{% trans "Motif" %}</th>
+                                    <th class="w-200px">{% trans "Praticien" %}</th>
+                                    <th class="w-200px">{% trans "Actions" %}</th>
                                 </tr>
                                 </thead>
                                 <tbody class="text-gray-600 fw-semibold">
@@ -226,17 +226,17 @@
                                 <thead>
                                 <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
                                     <th>#</th>
-                                    <th>E.</th>
-                                    <th>Nom de naissance</th>
-                                    <th>Nom marital</th>
-                                    <th>Prénom</th>
-                                    <th>Age</th>
-                                    <th>Ville</th>
-                                    <th>Tél.</th>
-                                    <th>Heure</th>
-                                    <th>Motif</th>
-                                    <th class="w-200px">Praticien</th>
-                                    <th class="w-200px">Actions</th>
+                                    <th>{% trans "E." %}</th>
+                                    <th>{% trans "Nom de naissance" %}</th>
+                                    <th>{% trans "Nom marital" %}</th>
+                                    <th>{% trans "Prénom" %}</th>
+                                    <th>{% trans "Age" %}</th>
+                                    <th>{% trans "Ville" %}</th>
+                                    <th>{% trans "Tél." %}</th>
+                                    <th>{% trans "Heure" %}</th>
+                                    <th>{% trans "Motif" %}</th>
+                                    <th class="w-200px">{% trans "Praticien" %}</th>
+                                    <th class="w-200px">{% trans "Actions" %}</th>
                                 </tr>
                                 </thead>
                                 <tbody class="text-gray-600 fw-semibold">
@@ -249,14 +249,14 @@
                                 <table class="table table-row-bordered table-striped gy-5" id="kt_datatable_consultations">
                                     <thead>
                                     <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
-                                        <th>Nom de naissance</th>
-                                        <th>Nom marital</th>
-                                        <th>Prénom</th>
-                                        <th>Age</th>
-                                        <th>Ville</th>
-                                        <th>Motif</th>
-                                        <th class="w-200px">Praticien</th>
-                                        <th class="w-200px">Actions</th>
+                                        <th>{% trans "Nom de naissance" %}</th>
+                                        <th>{% trans "Nom marital" %}</th>
+                                        <th>{% trans "Prénom" %}</th>
+                                        <th>{% trans "Age" %}</th>
+                                        <th>{% trans "Ville" %}</th>
+                                        <th>{% trans "Motif" %}</th>
+                                        <th class="w-200px">{% trans "Praticien" %}</th>
+                                        <th class="w-200px">{% trans "Actions" %}</th>
                                     </tr>
                                     </thead>
                                     <tbody class="text-gray-600 fw-semibold">
@@ -269,16 +269,16 @@
                             <table class="table table-row-bordered table-striped gy-5" id="kt_datatable_modifies_annules">
                                 <thead>
                                 <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
-                                    <th>Etat</th>
-                                    <th>Nom de naissance</th>
-                                    <th>Nom marital</th>
-                                    <th>Prénom</th>
-                                    <th>Ville</th>
-                                    <th>Tél.</th>
-                                    <th>Heure</th>
-                                    <th>Motif</th>
-                                    <th class="w-200px">Praticien</th>
-                                    <th class="w-200px">Actions</th>
+                                    <th>{% trans "Etat" %}</th>
+                                    <th>{% trans "Nom de naissance" %}</th>
+                                    <th>{% trans "Nom marital" %}</th>
+                                    <th>{% trans "Prénom" %}</th>
+                                    <th>{% trans "Ville" %}</th>
+                                    <th>{% trans "Tél." %}</th>
+                                    <th>{% trans "Heure" %}</th>
+                                    <th>{% trans "Motif" %}</th>
+                                    <th class="w-200px">{% trans "Praticien" %}</th>
+                                    <th class="w-200px">{% trans "Actions" %}</th>
                                 </tr>
                                 </thead>
                                 <tbody class="text-gray-600 fw-semibold">
@@ -294,27 +294,27 @@
 
     <script id="actions-rdv-template" type="text/html">
         <a href="/patients/recherche/?rdv=<%- id %>" class="btn btn-icon btn-sm btn-primary <%- admission %>"
-           title="Admission">
+           title="{% trans 'Admission' %}">
             <i class="la la-folder-plus icon-md"></i>
         </a>
 
         <a onclick="javascript:afficherRdvModal('/rdvs/<%- id %>/modifier/?next=accueil')" class="btn btn-warning btn-icon btn-sm"
-           title="Modifier le rendez-vous">
+           title="{% trans 'Modifier le rendez-vous' %}">
             <i class="la la-edit icon-md"></i>
         </a>
         <a onclick="annulerRdv(<%- id %>)" class="btn btn-icon btn-sm btn-danger <%- annulation %>"
-           title="Annuler le rendez-vous">
+           title="{% trans 'Annuler le rendez-vous' %}">
             <i class="la la-trash icon-md"></i>
         </a>
 
         <div class="rappel-container d-inline">
             <% if (rappele) { %>
-            <a onclick="rappel(this, <%- id %>, 0)" class="btn btn-icon btn-sm btn-success" title="Patient rappelé">
+            <a onclick="rappel(this, <%- id %>, 0)" class="btn btn-icon btn-sm btn-success" title="{% trans 'Patient rappelé' %}">
                 <i class="la la-phone icon-md"></i>
             </a>
             <% } else { %>
             <a onclick="rappel(this, <%- id %>, 1)" class="btn btn-icon btn-sm btn-outline-danger"
-               title="Patient non rappelé">
+               title="{% trans 'Patient non rappelé' %}">
                 <i class="la la-phone-slash icon-md"></i>
             </a>
             <% } %>
@@ -331,16 +331,16 @@
 
     <script id="actions-rdv-modif-template" type="text/html">
         <a href="/patients/recherche/?rdv=<%- id %>" class="btn btn-icon btn-sm btn-primary <%- admission %>"
-           title="Admission">
+           title="{% trans 'Admission' %}">
             <i class="la la-folder-plus icon-md"></i>
         </a>
 
         <a onclick="javascript:afficherRdvModal('/rdvs/<%- id %>/modifier/?next=accueil')" class="btn btn-warning btn-icon btn-sm"
-           title="Modifier le rendez-vous">
+           title="{% trans 'Modifier le rendez-vous' %}">
             <i class="la la-edit icon-md"></i>
         </a>
         <a onclick="annulerRdv(<%- id %>)" class="btn btn-icon btn-sm btn-danger <%- annulation %>"
-           title="Annuler le rendez-vous">
+           title="{% trans 'Annuler le rendez-vous' %}">
             <i class="la la-trash icon-md"></i>
         </a>
 
@@ -348,38 +348,38 @@
 
     <script id="actions-consultation-template" type="text/html">
         {% if user.profil.groupe == 'Médecin' %}
-            <a href="/patients/<%- id %>" class="btn btn-primary btn-icon btn-sm" title="Dossier patient">
+            <a href="/patients/<%- id %>" class="btn btn-primary btn-icon btn-sm" title="{% trans 'Dossier patient' %}">
                 <i class="la la-eye icon-md"></i>
             </a>
         {% endif %}
         <button type="button"
                 onclick="afficherTelechargerFichierModal(<%- id %>)"
-                class="btn btn-info btn-icon btn-sm" title="Télécharger fichier">
+                class="btn btn-info btn-icon btn-sm" title="{% trans 'Télécharger fichier' %}">
             <i class="la la-upload icon-md"></i>
         </button>
     </script>
 
     <script id="actions-attente-template" type="text/html">
-        <!--<a href="/patients/<%- id %>" class="btn btn-sm btn-clean btn-icon" title="Dossier patient">
+        <!--<a href="/patients/<%- id %>" class="btn btn-sm btn-clean btn-icon" title="{% trans 'Dossier patient' %}">
             <i class="la la-eye icon-xl text-primary"></i>
         </a>-->
         <a href="/patients/<%- id %>/?action=demarrer_consultation" class="btn btn-sm btn-primary btn-icon"
-           title="Démarrer la consultation">
+           title="{% trans 'Démarrer la consultation' %}">
             <i class="fa fa-play icon-sm"></i>
         </a>
         <a onclick="annulerAdmission(<%- admission_id %>)" class="btn btn-icon btn-sm btn-danger"
-           title="Annuler l'admission">
+           title="{% trans 'Annuler l\'admission' %}">
             <i class="la la-trash icon-md"></i>
         </a>
         <button type="button"
                 onclick="afficherTelechargerFichierModal(<%- id %>)"
-                class="btn btn-info btn-icon btn-sm" title="Télécharger fichier">
+                class="btn btn-info btn-icon btn-sm" title="{% trans 'Télécharger fichier' %}">
             <i class="la la-upload icon-md"></i>
         </button>
 
         <button type="button"
                 onclick="afficherMesuresModal(<%- id %>, <%= mesuresId %>)"
-                class="btn btn-light-dark btn-icon btn-sm" title="Saisir des mesures">
+                class="btn btn-light-dark btn-icon btn-sm" title="{% trans 'Saisir des mesures' %}">
             <i class="la la-pen icon-md"></i>
         </button>
     </script>
@@ -399,14 +399,14 @@
 
     <script type="text/html" id="praticien-template">
         <%= nom %>
-        <span class="dropup dropdown-inline" title="Modifier praticien">
+        <span class="dropup dropdown-inline" title="{% trans 'Modifier praticien' %}">
             <a href="javascript:void(0)" class="btn btn-sm btn-secondary btn-icon praticien-dropdown"
                data-bs-toggle="dropdown">
                 <i class="fa fa-pen icon-sm"></i>
             </a>
             <ul class="dropdown-menu">
                 {% for p in praticiens %}
-                    <li class="dropdown-item" title="Modifier praticien">
+                    <li class="dropdown-item" title="{% trans 'Modifier praticien' %}">
                         <a href="javascript:void(0)" onclick="modifierPraticien(this, <%= id %>, {{ p.id }})">
                             <span class="navi-text">{{ p.nom }}</span>
                         </a>
@@ -418,7 +418,7 @@
 
     <script type="text/html" id="motif-rdv-template">
         <%= motif %>
-        <span class="dropup dropdown-inline" title="Modifier motif">
+        <span class="dropup dropdown-inline" title="{% trans 'Modifier motif' %}">
             <a href="javascript:void(0)" class="btn btn-sm btn-secondary btn-icon motif-rdv-dropdown"
                data-bs-toggle="dropdown">
                 <i class="fa fa-pen icon-sm"></i>
@@ -426,7 +426,7 @@
 
             <ul class="dropdown-menu">
                 {% for p in motifs_rdv %}
-                    <li class="dropdown-item" title="Modifier motif rendez-vous">
+                    <li class="dropdown-item" title="{% trans 'Modifier motif rendez-vous' %}">
                         <a href="javascript:void(0)" onclick="modifierMotifRdv(this, <%= id %>, {{ p.id }})"
                            class="">
                             <span class="">{{ p.libelle }}</span>

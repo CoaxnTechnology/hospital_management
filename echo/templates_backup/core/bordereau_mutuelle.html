@@ -1,0 +1,25 @@
+{% load i18n %}
+<table class="table table-row-bordered table-checkable" id="datatable_bordereau">
+    <thead>
+    <tr class="text-center text-gray-500 fw-bold fs-7 text-uppercase gs-0">
+        <th>{% trans "N°" %}</th>
+        <th>{% trans "Nom" %} du médecin</th>
+        <th>{% trans "Code conventionnel" %}</th>
+        <th>{% trans "Période" %}</th>
+        <th>{% trans "Action" %}</th>
+    </tr>
+    </thead>
+    <tbody class="text-gray-600 fw-semibold">
+    </tbody>
+</table>
+
+<script type="text/html" id="actions-bordereau-template">
+    <a href="/bordereau/<%- id %>/detail" class="btn btn-warning btn-icon btn-sm" title="Consulter">
+        <i class="la la-list icon-lg"></i>
+    </a>
+    <a href="/bordereau/<%- id %>/supprimer" class="btn btn-danger btn-icon btn-sm" title="Supprimer">
+        <i class="la la-trash icon-lg"></i>
+    </a>
+</script>
+
+

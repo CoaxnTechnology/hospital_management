@@ -1,0 +1,748 @@
+{% load i18n %}
+<script type="text/html" id="template-product-footer"</script>
+
+<script type="text/html" id="template-examen"</script>
+
+<script type="text/html" id="template-signature" style="font-family: arial, sans-serif"</script>
+
+<script type="text/html" id="template-page-number" style="font-family: arial, sans-serif"</script>
+
+<script type="text/html" id="edition-patient-template"</script>
+
+<script type="text/html" id="consultation-template"</script>
+
+<script type="text/html" id="consultation-template-no-date"</script>
+
+<script id="pma-interro-template" type="text/html"</script>
+
+<script type="text/html" id="grossesse-info-template"</script>
+
+<script type="text/html" id="notes-template"</script>
+
+<script type="text/html" id="antecedents-template"</script>
+
+
+<script type="text/html" id="doppler-uterin-template"</script>
+
+<script type="text/html" id="doppler-ombi-template"</script>
+
+<script type="text/html" id="doppler-acm-template"</script>
+
+<script type="text/html" id="doppler-dv-template"</script>
+
+<div class="modal fade" id="rdv-modal" tabindex="-1" role="dialog" aria-labelledby="Rendez-vous"
+     aria-hidden="true">
+    <div class="modal-dialog modal-xl" style="height: 90%" role="document">
+        <div class="modal-content" style="height: 560px">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Rendez-vous</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0" style="visibility:hidden;"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="absence-modal" tabindex="-1" role="dialog" aria-labelledby="Absence_medecin"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" style="height: 90%" role="document">
+        <div class="modal-content h-100">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Absence Medecin</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0" style="visibility:hidden;"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="grossesse-modal" tabindex="-1" aria-labelledby="Grossesse" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen m-auto mw-1500px p-9">
+        <div class="modal-content h-100 modal-rounded">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>{% trans "Grossesse" %}</h2></h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mesures-modal" tabindex="-1" aria-labelledby="Mesures" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="height: 90%">
+        <div class="modal-content h-300px">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Mesures patient</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="patient-form-modal" tabindex="-1" aria-labelledby="Patient" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen p-9 m-auto mw-1500px" style="height: 90%">
+        <div class="modal-content h-100 modal-rounded">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Patient</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="antecedent-obstetrique-modal" tabindex="-1" aria-labelledby="Antécédent obstétrical"
+     aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen m-auto mw-1500px p-9">
+        <div class="modal-content h-100 modal-rounded">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Antécédent obstétrical</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ms-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="calendrier-grossesse-modal" tabindex="-1" aria-labelledby="Calendrier de grossesse"
+     aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 600px; height:50%;">
+        <div class="modal-content h-100 modal-rounded">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>{% trans "Calendrier de grossesse" %}</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ms-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="600px" height="400px" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="prescription-analyses-modal" tabindex="-1" aria-labelledby="Analyses"
+     aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen p-9 m-auto mw-1500px">
+        <div class="modal-content h-100 modal-rounded">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Analyses biologiques</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="fichiers-patient-modal" tabindex="-1" aria-labelledby="Fichiers" aria-hidden="true">
+    <div class="modal-dialog " style="height: 40%">
+        <div class="modal-content h-100">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Fichiers patient</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ordonnances-modal" tabindex="-1" aria-labelledby="Ordonnances" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen m-auto mw-1500px p-9">
+        <div class="modal-content h-100 modal-rounded">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>{% trans "Ordonnances" %}</h2></h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="historique-consultations-modal" tabindex="-1" aria-labelledby="Historique des consultations" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen m-auto mw-1500px p-9">
+        <div class="modal-content h-100 modal-rounded">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>{% trans "Historique des consultations" %}</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="antecedents-modal" tabindex="-1" aria-labelledby="Antécédents" aria-hidden="true">
+    <div class="modal-dialog m-auto mw-1000px p-9">
+        <div class="modal-content h-100 modal-rounded">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Antécédents</h2></h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-8">
+                {%  include "core/partials/antecedents.html" %}
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="etablissements-modal" tabindex="-1" aria-labelledby="Etablissement" aria-hidden="true">
+    <div class="modal-dialog modal-md" style="height: 50%">
+        <div class="modal-content h-100">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Etablissements</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="liste-choix-modal" tabindex="-1" aria-labelledby="Listes" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="height: 80%">
+        <div class="modal-content h-100">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Listes</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-fs fade" id="certificats-modal" tabindex="-1" aria-labelledby="Courriers" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen p-9 m-auto mw-1500px">
+        <div class="modal-content h-100 modal-rounded">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Courriers</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="dispo-rdv-modal" tabindex="-1" aria-labelledby="Rendez-vous"
+     aria-hidden="true">
+    <div class="modal-dialog modal-md" style="height: 95%">
+        <div class="modal-content  h-100">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Prise de rendez-vous</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0" style="visibility:hidden;"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="traitements-modal" tabindex="-1" aria-labelledby="Traitements" aria-hidden="true">
+    <div class="modal-dialog" style="height: 75%">
+        <div class="modal-content h-100 modal-rounded">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Traitements</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal" data-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="pa-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="prescriptions-modal" tabindex="-1" aria-labelledby="Prescriptions" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="height: 75%">
+        <div class="modal-content h-100">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Prescriptions</h2></h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="pa-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-2"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="consultation-modal" tabindex="-1" aria-labelledby="Consultation" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen p-9 m-auto mw-1500px" style="height: 90%">
+        <div class="modal-content h-100 modal-rounded">
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>Consultation</h2>
+                <!--end::Modal title-->
+                <!--begin::Close-->
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                    <span class="svg-icon svg-icon-1">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+									<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                          transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+									<rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                          transform="rotate(45 7.41422 6)" fill="currentColor"/>
+								</svg>
+							</span>
+                    <!--end::Svg Icon-->
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body p-0">
+                <div class="d-flex justify-content-center h-100 loading bg-white">
+                    <div class="d-flex flex-center">
+                        <div class="spinner spinner-primary"></div>
+                        <div class="text-primary ml-10">Chargement</div>
+                    </div>
+                </div>
+                <iframe src="" width="100%" height="100%" frameBorder="0" class="p-0"></iframe>
+            </div>
+            <div class="modal-footer border-0 p-1"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="image-grid-4-template"</script>

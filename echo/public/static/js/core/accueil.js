@@ -1,13 +1,14 @@
 let statutTemplate;
 
 function annulerRdv(pk) {
+    const _swal = (typeof SWAL_RDV !== 'undefined') ? SWAL_RDV : {};
     swal.fire({
-        title: "Etes vous sûr ?",
+        title: _swal.titre || "Etes vous sûr ?",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
-        confirmButtonText: "Oui, annuler le rendez-vous!",
-        cancelButtonText: "Non, conserver le rendez-vous",
+        confirmButtonText: _swal.confirmer_annuler || "Oui, annuler le rendez-vous!",
+        cancelButtonText: _swal.conserver || "Non, conserver le rendez-vous",
         closeOnConfirm: false
     }).then(function (result) {
         if (result.value) {
@@ -144,9 +145,7 @@ jQuery(document).ready(function () {
         const _t = _.template($('#actions-rdv-template').html());
 
         tableRdvs = $('#kt_datatable_rdvs').DataTable({
-            language: {
-                "url": "/static/plugins/custom/datatables/French.json"
-            },
+            language: window.DT_LANGUAGE || {},
             responsive: true,
             fixedColumns: true,
             // Pagination settings
@@ -221,9 +220,7 @@ jQuery(document).ready(function () {
         const _motifRdvTemp = _.template($('#motif-rdv-template').html());
 
         const tab = $('#kt_datatable_salle').DataTable({
-            language: {
-                "url": "/static/plugins/custom/datatables/French.json"
-            },
+            language: window.DT_LANGUAGE || {},
             responsive: true,
             // Pagination settings
 
@@ -346,9 +343,7 @@ jQuery(document).ready(function () {
         const _t = _.template($('#actions-consultation-template').html());
 
         const tab = $('#kt_datatable_en_consultation').DataTable({
-            language: {
-                "url": "/static/plugins/custom/datatables/French.json"
-            },
+            language: window.DT_LANGUAGE || {},
             responsive: true,
             // Pagination settings
 
@@ -420,9 +415,7 @@ jQuery(document).ready(function () {
         const _t = _.template($('#actions-consultation-template').html());
 
         const tab = $('#kt_datatable_consultations').DataTable({
-            language: {
-                "url": "/static/plugins/custom/datatables/French.json"
-            },
+            language: window.DT_LANGUAGE || {},
             responsive: true,
             // Pagination settings
 
@@ -477,9 +470,7 @@ jQuery(document).ready(function () {
         const _t = _.template($('#actions-rdv-modif-template').html());
 
         const tab = $('#kt_datatable_modifies_annules').DataTable({
-            language: {
-                "url": "/static/plugins/custom/datatables/French.json"
-            },
+            language: window.DT_LANGUAGE || {},
             responsive: true,
             // Pagination settings
 

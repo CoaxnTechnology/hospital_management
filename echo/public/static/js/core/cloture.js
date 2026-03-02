@@ -6,9 +6,7 @@ $(document).ready(() => {
     const initTableCloture = function () {
 
         const table = $('#datatable_detail_cloture').DataTable({
-            language: {
-                "url": "/static/plugins/custom/datatables/French.json"
-            },
+            language: window.DT_LANGUAGE || {},
             responsive: true,
             // Pagination settings
             dom: `<'row'<'col-sm-12'tr>>

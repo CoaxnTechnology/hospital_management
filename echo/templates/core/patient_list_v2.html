@@ -24,9 +24,9 @@
                 </span>
                 <h3 class="card-label">
                     {% if rdv %}
-                        Recherche patient
+                        {% trans "Recherche patient" %}
                     {% else %}
-                        Liste des patients
+                        {% trans "Liste des patients" %}
                     {% endif %}
                 </h3>
             </div>
@@ -39,50 +39,50 @@
             <form class="form mb-5">
                 <div class="row">
                     <div class="mt-4 col-sm-6 col-lg-2">
-                        <label class="form-label">Nom de naissance</label>
+                        <label class="form-label">{% trans "Nom de naissance" %}</label>
                         <input data-search-key="nom_naissance" type="text"
                                value="{% if rdv and rdv.nom_naissance %}{{ rdv.nom_naissance }}{% endif %}"
                                class="form-control form-control-sm datatable-input" placeholder="" data-col-index="1"/>
                     </div>
                     <div class="mt-4 col-sm-6 col-lg-2">
-                        <label class="form-label">Nom marital</label>
+                        <label class="form-label">{% trans "Nom marital" %}</label>
                         <input data-search-key="nom" type="text" class="form-control form-control-sm datatable-input"
                                placeholder="" data-col-index="2"
                                value="{% if rdv and rdv.nom %}{{ rdv.nom }}{% endif %}"/>
                     </div>
                     <div class="mt-4 col-sm-6 col-lg-2">
-                        <label class="form-label">Prénom</label>
+                        <label class="form-label">{% trans "Prénom" %}</label>
                         <input data-search-key="prenom" type="text" class="form-control form-control-sm datatable-input"
                                placeholder="" data-col-index="3"
                                value="{% if rdv %}{{ rdv.prenom }}{% endif %}"/>
                     </div>
                     <div class="mt-4 col-sm-6 col-lg-2">
-                        <label class="form-label">Date de naissance</label>
+                        <label class="form-label">{% trans "Date de naissance" %}</label>
                         <input data-search-key="date_naissance" type="text"
                                class="date_naissance form-control form-control-sm datatable-input" placeholder=""
                                data-col-index="4"/>
                     </div>
                     <div class="mt-4 col-sm-6 col-lg-2">
-                        <label class="form-label">Téléphone</label>
+                        <label class="form-label">{% trans "Téléphone" %}</label>
                         <input data-search-key="telephone" type="text"
                                class="form-control form-control-sm datatable-input" placeholder=""
                                value="{% if rdv and rdv.telephone %}{{ rdv.telephone }}{% endif %}"
                                data-col-index="6"/>
                     </div>
                     <div class="mt-4 col-sm-6 col-lg-2">
-                        <label class="form-label">Ville</label>
+                        <label class="form-label">{% trans "Ville" %}</label>
                         <input data-search-key="ville" type="text" class="form-control form-control-sm datatable-input"
                                placeholder="" data-col-index="5"
                                value="{% if rdv and rdv.ville is not None %}{{ rdv.ville }}{% endif %}"/>
                     </div>
                     <div class="mt-4 col-sm-6 col-lg-2">
-                        <label class="form-label">Ancien numéro</label>
+                        <label class="form-label">{% trans "Ancien numéro" %}</label>
                         <input data-search-key="ancien_numero" type="text"
                                class="form-control form-control-sm datatable-input"
                                placeholder="" data-col-index="8"/>
                     </div>
                     <!--<div class="col-lg-3 mb-lg-0 mb-6">
-                        <label>CIN:</label>
+                        <label>{% trans "CIN" %}:</label>
                         <input type="text" class="form-control form-control-sm datatable-input" placeholder="" data-col-index="3"/>
                     </div>-->
                 </div>
@@ -92,13 +92,13 @@
                         <button class="btn btn-primary btn-sm btn-primary--icon" id="kt_search">
 													<span>
 														<i class="la la-search"></i>
-														<span>Chercher</span>
+														<span>{% trans "Chercher" %}</span>
 													</span>
                         </button>&nbsp;&nbsp;
                         <button class="btn btn-secondary btn-sm btn-secondary--icon" id="kt_reset">
 													<span>
 														<i class="la la-close"></i>
-														<span>Annuler</span>
+														<span>{% trans "Annuler" %}</span>
 													</span>
                         </button>
                     </div>
@@ -111,16 +111,16 @@
                 <thead>
 
                 <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
-                    <th>IPP</th>
-                    <th>Nom de naissance</th>
-                    <th>Nom marital</th>
-                    <th>Prénom</th>
-                    <th>Date de naissance</th>
-                    <th class="w-150px">Ville</th>
-                    <th>Téléphone</th>
-                    <th>Infos</th>
-                    <th class="w-100px">Ancien n°</th>
-                    <th class="w-250px">Actions</th>
+                    <th>{% trans "IPP" %}</th>
+                    <th>{% trans "Nom de naissance" %}</th>
+                    <th>{% trans "Nom marital" %}</th>
+                    <th>{% trans "Prénom" %}</th>
+                    <th>{% trans "Date de naissance" %}</th>
+                    <th class="w-150px">{% trans "Ville" %}</th>
+                    <th>{% trans "Téléphone" %}</th>
+                    <th>{% trans "Informations" %}</th>
+                    <th class="w-100px">{% trans "Ancien numéro" %}</th>
+                    <th class="w-250px">{% trans "Actions" %}</th>
                 </tr>
                 </thead>
                 <tbody class="text-gray-600 fw-semibold">
@@ -148,16 +148,16 @@
                 <i class="la la-folder-plus icon-md"></i>
             </a>
             {% if user.profil.groupe == 'Médecin' %}
-                <a href="/patients/<%- id %>" class="btn btn-info btn-icon btn-sm" title="Consulter">
+                <a href="/patients/<%- id %>" class="btn btn-info btn-icon btn-sm" title="{% trans 'Consulter' %}">
                     <i class="la la-eye icon-md"></i>
                 </a>
             {% endif %}
             <button type="button"
                     onclick="creerPatient('/patients/<%- id %>/modifier')"
-                    class="btn btn-warning btn-icon btn-sm" title="Modifier">
+                    class="btn btn-warning btn-icon btn-sm" title="{% trans 'Modifier' %}">
                 <i class="la la-edit icon-md"></i>
             </button>
-            <!--<a onclick="supprimer(<%- id %>)" class="btn btn-danger btn-icon btn-sm" title="Supprimer">
+            <!--<a onclick="supprimer(<%- id %>)" class="btn btn-danger btn-icon btn-sm" title="{% trans 'Supprimer' %}">
                 <i class="la la-trash icon-md"></i>
             </a>-->
 
@@ -169,7 +169,7 @@
             <button type="button"
                     data-bs-toggle="popover" data-bs-placement="left" data-bs-html="true"
                     data-bs-trigger="hover"
-                    data-bs-title="Historique des règlements"
+                    data-bs-title="{% trans 'Historique des règlements' %}"
                     data-bs-content="<%- reglements %>"
                     class="btn btn-light-primary btn-icon btn-sm">
                 <i class="la la-history icon-md"></i>
@@ -212,13 +212,13 @@
                 <button type="button"
                         onclick="creerPatient('/patients/ajouter/?action=admission&rdv={{ rdv.pk }}<%= params %>')"
                         class="btn btn-primary font-weight-bold ml-2">
-                    <i class="fa fa-plus"></i> Créer un patient
+                    <i class="fa fa-plus"></i> {% trans "Créer un patient" %}
                 </button>
             {% else %}
                 <button type="button"
                         onclick="creerPatient('/patients/ajouter/?action=admission<%= params %>')"
                         class="btn btn-primary font-weight-bold ml-2">
-                    <i class="fa fa-plus"></i> Créer un patient
+                    <i class="fa fa-plus"></i> {% trans "Créer un patient" %}
                 </button>
             {% endif %}
         </div>

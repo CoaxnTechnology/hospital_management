@@ -1,4 +1,4 @@
-moment.locale('fr');
+moment.locale(currentLang);
 
 let minDate = moment().subtract(100, 'days');
 let maxDate = moment().add(500, 'days');
@@ -17,21 +17,19 @@ $.fn.dataTable.ext.search.push(
 
 jQuery(document).ready(function () {
 
-    const initTableAccouchement = function () {
+    const initTableAccangement = function () {
         // begin first table
-        const _t = _.template(unescapeTemplate($('#actions-rapport-accouchement-template').html()));
+        const _t = _.template(unescapeTemplate($('#actions-rapport-accoucher_ent-template').html()));
 
-        var table = $('#rapport_accouchement_datatable').DataTable({
-            language: {
-                "url": "/static/plugins/custom/datatables/French.json"
-            },
+        var table = $('#rapport_accoucher_ent_datatable').DataTable({
+            language: window.DT_LANGUAGE || {},
             responsive: true,
 
             // read more: https://datatables.net/examples/basic_init/dom.html
             buttons: [
                 {
                     extend: 'excel',
-                    text: 'Export Excel',
+                    text: currentLang === 'fr' ? 'Export Excel' : currentLang === 'en' ? 'Export Excel' : currentLang === 'ar' ? 'تصدير Excel' : 'Exportar Excel',
                     exportOptions: {
                         columns: [0, 3, 4, 5, 6, 7, 8, 9]
                     }
@@ -131,8 +129,8 @@ $('#daterangepicker').daterangepicker({
     applyClass: 'btn-primary',
     cancelClass: 'btn-light-primary',
     "locale": {
-        "applyLabel": "Appliquer",
-        "cancelLabel": "Fermer",
+        "applyLabel": currentLang === 'fr' ? 'Appliquer' : currentLang === 'en' ? 'Apply' : currentLang === 'ar' ? 'تطبيق' : 'Aplicar',
+        "cancelLabel": currentLang === 'fr' ? 'Fermer' : currentLang === 'en' ? 'Close' : currentLang === 'ar' ? 'إغلاق' : 'Cerrar',
     }
 }, function (start, end, label) {
     $('#daterangepicker .form-control').val(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'));

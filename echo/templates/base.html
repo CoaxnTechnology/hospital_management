@@ -130,14 +130,14 @@
                                     aria-haspopup="true">
                                     <a href="/rdvs" class="menu-link">
                                         <i class="menu-icon flaticon-calendar-1"></i>
-                                        <span class="menu-text">Agenda</span>
+                                        <span class="menu-text">{% trans "Agenda" %}</span>
                                     </a>
                                 </li>
                                 <li class="menu-item {% if "/accueil" in request.path or "/" == request.path %}menu-item-active{% endif %}"
                                     aria-haspopup="true">
                                     <a href="/accueil" class="menu-link">
                                         <i class="menu-icon flaticon-home"></i>
-                                        <span class="menu-text">Tableau de bord</span>
+                                        <span class="menu-text">{% trans "Tableau de bord" %}</span>
                                     </a>
                                 </li>
                             {% else %}
@@ -145,14 +145,14 @@
                                     aria-haspopup="true">
                                     <a href="/accueil" class="menu-link">
                                         <i class="menu-icon flaticon-home"></i>
-                                        <span class="menu-text">Tableau de bord</span>
+                                        <span class="menu-text">{% trans "Tableau de bord" %}</span>
                                     </a>
                                 </li>
                                 <li class="menu-item {% if "/rdvs" in request.path %}menu-item-active{% endif %}"
                                     aria-haspopup="true">
                                     <a href="/rdvs" class="menu-link">
                                         <i class="menu-icon flaticon-calendar-1"></i>
-                                        <span class="menu-text">Agenda</span>
+                                        <span class="menu-text">{% trans "Agenda" %}</span>
                                     </a>
                                 </li>
                             {% endif %}
@@ -162,7 +162,7 @@
                                 <a href="/patients" class="menu-link">
                                     <i class="menu-icon fas fa-file-medical"
                                        style="font-size: 1.7rem; padding-left: 2px"></i>
-                                    <span class="menu-text">Patients</span>
+                                    <span class="menu-text">{% trans "Patients" %}</span>
                                 </a>
                             </li>
                             <li class="menu-item {% if "/rapports" in request.path %}menu-item-active{% endif %}"
@@ -170,7 +170,7 @@
                                 {% if user.profil.responsable %}
                                     <a href="/rapports/consultation/" class="menu-link">
                                         <i class="menu-icon la la-bar-chart"></i>
-                                        <span class="menu-text">Rapports</span>
+                                        <span class="menu-text">{% trans "Rapports" %}</span>
                                     </a>
                                 {% endif %}
                             </li>
@@ -179,7 +179,7 @@
                                 {% if user.profil.responsable %}
                                     <a href="/mutuelle" class="menu-link">
                                         <i class="menu-icon la la-bar-chart"></i>
-                                        <span class="menu-text">Mutuelle</span>
+                                        <span class="menu-text">{% trans "Mutuelle" %}</span>
                                     </a>
                                 {% endif %}
                             </li>
@@ -188,7 +188,7 @@
                                 {% if user.profil.responsable %}
                                     <a href="/utilisateurs" class="menu-link">
                                         <i class="menu-icon flaticon-users"></i>
-                                        <span class="menu-text">Utilisateurs</span>
+                                        <span class="menu-text">{% trans "Utilisateurs" %}</span>
                                     </a>
                                 {% endif %}
                             </li>
@@ -198,7 +198,7 @@
                                     <a href="/parametres/{{ user.profil.compte.parametrescompte.id }}"
                                        class="menu-link">
                                         <i class="menu-icon flaticon-settings"></i>
-                                        <span class="menu-text">Paramètres</span>
+                                        <span class="menu-text">{% trans "Paramètres" %}</span>
                                     </a>
                                 {% endif %}
                             </li>
@@ -210,7 +210,7 @@
                             <li class="menu-item" aria-haspopup="true">
                                 <button type="default" class="menu-link btn-link btn" onclick="afficherSupportModal()">
                                     <i class="menu-icon flaticon-support"></i>
-                                    <span class="menu-text">Support</span>
+                                    <span class="menu-text">{% trans "Support" %}</span>
                                 </button>
                             </li>
                         </ul>
@@ -276,15 +276,44 @@
                                     </svg>
                                     <!--end::Svg Icon-->
                                     </span>
-                                <span class="ml-2">Discussions</span>
+                                <span class="ml-2">{% trans "Discussions" %}</span>
                                 <span id="msg_non_lus" class="label label-warning ml-1 font-weight-bold"></span>
                             </button>
                         </div>
+                        <!--begin::Language Switcher-->
+                        <div class="topbar-item dropdown">
+                            {% get_current_language as CURRENT_LANGUAGE %}
+                            <button class="btn btn-clean btn-icon w-auto d-flex align-items-center btn-lg px-2 font-weight-bold mr-2"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="svg-icon svg-icon-xl svg-icon-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24"/>
+                                            <path d="M12,2 C17.5228475,2 22,6.4771525 22,12 C22,17.5228475 17.5228475,22 12,22 C6.4771525,22 2,17.5228475 2,12 C2,6.4771525 6.4771525,2 12,2 Z M12,4 C7.581722,4 4,7.581722 4,12 C4,16.418278 7.581722,20 12,20 C16.418278,20 20,16.418278 20,12 C20,7.581722 16.418278,4 12,4 Z" fill="#000000" fill-rule="nonzero"/>
+                                            <path d="M12,2 C14.7614237,2 17,6.4771525 17,12 C17,17.5228475 14.7614237,22 12,22 C9.23857625,22 7,17.5228475 7,12 C7,6.4771525 9.23857625,2 12,2 Z M12,4 C10.3431458,4 9,7.581722 9,12 C9,16.418278 10.3431458,20 12,20 C13.6568542,20 15,16.418278 15,12 C15,7.581722 13.6568542,4 12,4 Z" fill="#000000" opacity="0.3"/>
+                                            <line x1="3" y1="12" x2="21" y2="12" stroke="#000000" stroke-width="2" opacity="0.3"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="ml-2">{{ CURRENT_LANGUAGE|upper }}</span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right py-2">
+                                {% get_available_languages as LANGUAGES %}
+                                {% get_current_language as CURRENT_LANGUAGE %}
+                                {% for lang_code, lang_name in LANGUAGES %}
+                                <a href="javascript:switchLanguage('{{ lang_code }}')" 
+                                    class="dropdown-item {% if lang_code == CURRENT_LANGUAGE %}active{% endif %}">
+                                    {{ lang_name }}
+                                </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!--end::Language Switcher-->
                         <!--begin::User-->
                         <div class="topbar-item">
                             <div class="btn btn-icon w-auto btn-clean d-flex align-items-center btn-lg px-2"
                                  id="kt_quick_user_toggle">
-                                <span class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">Bonjour,</span>
+                                <span class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">{% trans "Bonjour," %}</span>
                                 <span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3">
                                             {{ user.profil.titre_nom }}
                                 </span>
@@ -340,7 +369,7 @@
 <div id="kt_quick_user" class="offcanvas offcanvas-right p-10 bg-light">
     <!--begin::Header-->
     <div class="offcanvas-header d-flex align-items-center justify-content-between pb-5">
-        <h3 class="font-weight-bold m-0">Profil utilisateur
+        <h3 class="font-weight-bold m-0">{% trans "Profil utilisateur" %}
             <small class="text-muted font-size-sm ml-2">&nbsp;</small></h3>
         <a href="#" class="btn btn-xs btn-icon btn-light btn-hover-primary" id="kt_quick_user_close">
             <i class="ki ki-close icon-xs text-muted"></i>
@@ -418,7 +447,7 @@
                         </div>
                     </div>
                     <div class="navi-text">
-                        <div class="font-weight-bold">Déconnexion</div>
+                        <div class="font-weight-bold">{% trans "Déconnexion" %}</div>
                     </div>
                 </div>
             </a>
@@ -452,7 +481,7 @@
 <div id="chat_panel" class="offcanvas offcanvas-right p-10 bg-light">
     <!--begin::Header-->
     <div class="offcanvas-header d-flex align-items-center justify-content-between pb-5">
-        <h3 class="font-weight-bold m-0">Discussions</h3>
+        <h3 class="font-weight-bold m-0">{% trans "Discussions" %}</h3>
         <a href="#" class="btn btn-xs btn-icon btn-light btn-hover-primary" id="chat_close">
             <i class="ki ki-close icon-xs text-muted"></i>
         </a>
@@ -518,15 +547,15 @@
                             <div style="margin-top: -5px;">
                                 <% if (enligne) { %>
                                 <span class="label label-dot label-success"></span>
-                                <span class="font-weight-bold text-muted font-size-xs">En ligne</span>
+                                <span class="font-weight-bold text-muted font-size-xs">{% trans "En ligne" %}</span>
                                 <% } else { %>
                                 <span class="label label-dot label-danger"></span>
-                                <span class="font-weight-bold text-muted font-size-xs">Hors ligne</span>
+                                <span class="font-weight-bold text-muted font-size-xs">{% trans "Hors ligne" %}</span>
                                 <% } %>
                             </div>
                             <!--<div>
                                 <span class="label label-dot label-success"></span>
-                                <span class="font-weight-bold text-muted font-size-sm">Active</span>
+                                <span class="font-weight-bold text-muted font-size-sm">{% trans "Active" %}</span>
                             </div>-->
                         </div>
                         <div class="text-right flex-grow-1">
@@ -556,7 +585,7 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <input type="text" class="message-text form-control border-0"
                                    data-id="<%- id %>"
-                                   placeholder="Ecrire un message"/>
+                                   placeholder="{% trans 'Ecrire un message' %}"/>
                         </div>
                         <!--begin::Compose-->
                     </div>
@@ -590,7 +619,7 @@
     <div class="d-flex flex-column mb-5 align-items-end">
         <div class="d-flex align-items-center">
             <div>
-                <span class="mr-1 text-dark-75 font-size-xs">Moi</span>
+                <span class="mr-1 text-dark-75 font-size-xs">{% trans "Moi" %}</span>
             </div>
         </div>
         <div class="mt-1 rounded p-2 bg-light-dark-75 text-dark-75 font-weight-bold font-size-sm text-right max-w-200px">
@@ -606,21 +635,21 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content h-100">
             <div class="modal-header">
-                <h5 class="modal-title">Support</h5>
+                <h5 class="modal-title">{% trans "Support" %}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
             <div class="modal-body p-4">
                 <div class="form-group">
-                    <label for="support-msg-desc">Veuillez saisir votre requête</label>
+                    <label for="support-msg-desc">{% trans "Veuillez saisir votre requête" %}</label>
                     <textarea name="support-msg-desc" id="support-msg-desc" cols="30" rows="10"
                               class="form-control"></textarea>
                 </div>
                 <div class="d-flex justify-content-between">
-                    <span>Version {{ APP_VERSION }}</span>
+                    <span>{% trans "Version" %} {{ APP_VERSION }}</span>
                     <button type="button" class="btn btn-primary" onclick="envoyerMessageSupport()">
-                        Envoyer
+                        {% trans "Envoyer" %}
                     </button>
                 </div>
             </div>
@@ -633,7 +662,7 @@
     <div class="modal-dialog modal-lg reglement_modal" style="height:90%">
         <div class="modal-content h-100">
             <div class="modal-header">
-                <h5 class="modal-title">Règlements & Encaissements</h5>
+                <h5 class="modal-title">{% trans "Règlements & Encaissements" %}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
@@ -711,11 +740,95 @@ const user = {{ request.user.profil.pk }};
 <!--begin::Page Vendors(used by this page)-->
 <script src="{% static "plugins/custom/fullcalendar/fullcalendar.bundle.js" %}"></script>
 <!--end::Page Vendors-->
+<script src="{% static "plugins/custom/datatables/datatables.bundle.js" %}"></script>
 <!--begin::Page Scripts(used by this page)-->
 <script type="text/javascript">
     const APP_VERSION = '{{ APP_VERSION }}';
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var currentLang = getCookie('django_language') || '{{ LANGUAGE_CODE|default:"fr" }}' || 'fr';
+    var dtLang = {
+        fr: {
+            sEmptyTable:     "Aucune donnée disponible dans le tableau",
+            sInfo:           "Affichage de l'élément _START_ à _END_ sur _TOTAL_ éléments",
+            sInfoEmpty:      "Affichage de l'élément 0 à 0 sur 0 élément",
+            sInfoFiltered:   "(filtré depuis _MAX_ éléments au total)",
+            sLengthMenu:     "Afficher _MENU_ éléments",
+            sLoadingRecords: "Chargement...",
+            sProcessing:     "Traitement...",
+            sSearch:         "Rechercher :",
+            sZeroRecords:    "Aucune donnée disponible dans le tableau",
+            oPaginate: {sFirst: "Premier", sLast: "Dernier", sNext: "Suivant", sPrevious: "Précédent"}
+        },
+        en: {
+            sEmptyTable:     "No data available in table",
+            sInfo:           "Showing element _START_ to _END_ of _TOTAL_ elements",
+            sInfoEmpty:      "Showing element 0 to 0 of 0 element",
+            sInfoFiltered:   "(filtered from _MAX_ elements total)",
+            sLengthMenu:     "Show _MENU_ elements",
+            sLoadingRecords: "Loading...",
+            sProcessing:     "Processing...",
+            sSearch:         "Search :",
+            sZeroRecords:    "No data available in table",
+            oPaginate: {sFirst: "First", sLast: "Last", sNext: "Next", sPrevious: "Previous"}
+        },
+        ar: {
+            sEmptyTable:     "لا توجد بيانات متاحة في الجدول",
+            sInfo:           "عرض العنصر _START_ إلى _END_ من _TOTAL_ عنصر",
+            sInfoEmpty:      "عرض العنصر 0 إلى 0 من 0 عنصر",
+            sInfoFiltered:   "(مُصفى من _MAX_ عناصر إجمالي)",
+            sLengthMenu:     "عرض _MENU_ عناصر",
+            sLoadingRecords: "جاري التحميل...",
+            sProcessing:     "معالجة...",
+            sSearch:         "بحث :",
+            sZeroRecords:    "لا توجد بيانات متاحة في الجدول",
+            oPaginate: {sFirst: "الأول", sLast: "الأخير", sNext: "التالي", sPrevious: "السابق"}
+        },
+        es: {
+            sEmptyTable:     "No hay datos disponibles en la tabla",
+            sInfo:           "Mostrando elemento _START_ a _END_ de _TOTAL_ elementos",
+            sInfoEmpty:      "Mostrando elemento 0 a 0 de 0 elemento",
+            sInfoFiltered:   "(filtrado de _MAX_ elementos total)",
+            sLengthMenu:     "Mostrar _MENU_ elementos",
+            sLoadingRecords: "Cargando...",
+            sProcessing:     "Procesando...",
+            sSearch:         "Buscar :",
+            sZeroRecords:    "No hay datos disponibles en la tabla",
+            oPaginate: {sFirst: "Primero", sLast: "Último", sNext: "Siguiente", sPrevious: "Anterior"}
+        }
+    };
+    window.DT_LANGUAGE = dtLang[currentLang] || dtLang.fr;
+    if ($.fn.dataTable) {
+        $.extend(true, $.fn.dataTable.defaults, { language: window.DT_LANGUAGE });
+    }
 </script>
 <script src="{% static "js/core/common.js" %}"></script>
+<script>
+{% trans "Etes vous sûr ?" as s_swal_title %}
+{% trans "Oui, annuler le rendez-vous!" as s_swal_confirm_annuler %}
+{% trans "Non, conserver le rendez-vous" as s_swal_cancel %}
+{% trans "Oui, déplacer le rendez-vous" as s_swal_confirm_deplacer %}
+{% trans "Déplacer le rendez-vous au" as s_swal_deplacer_au %}
+window.SWAL_RDV = {
+    titre: '{{ s_swal_title|escapejs }}',
+    confirmer_annuler: '{{ s_swal_confirm_annuler|escapejs }}',
+    conserver: '{{ s_swal_cancel|escapejs }}',
+    confirmer_deplacer: '{{ s_swal_confirm_deplacer|escapejs }}',
+    deplacer_au: '{{ s_swal_deplacer_au|escapejs }}',
+};
+</script>
 <script src="{% static "js/core/logger.js" %}"></script>
 <script src="{% static "js/chat/chat.js" %}"></script>
 <script type="text/javascript">
@@ -762,6 +875,50 @@ const user = {{ request.user.profil.pk }};
 <!--end::Page Scripts-->
 {% block extra_js %}{% endblock %}
 {% block scripts %}{% endblock %}
+
+<!--begin::Floating Language Switcher-->
+<div class="language-switcher" style="position: fixed; left: 0; top: 50%; transform: translateY(-50%); z-index: 10000; pointer-events: auto;">
+    <div class="d-flex flex-column shadow rounded-end bg-white">
+        {% get_available_languages as LANGUAGES %}
+        {% get_current_language as CURRENT_LANGUAGE %}
+        {% for lang_code, lang_name in LANGUAGES %}
+        <a href="javascript:void(0)" onclick="switchLanguage('{{ lang_code }}'); return false;"
+           class="px-3 py-2 text-decoration-none {% if lang_code == CURRENT_LANGUAGE %}bg-primary text-white{% else %}text-dark{% endif %}"
+           title="{{ lang_name }}" style="display: block;">
+            {{ lang_code|upper }}
+        </a>
+        {% endfor %}
+    </div>
+</div>
+<!--end::Floating Language Switcher-->
+
+<script>
+function switchLanguage(langCode) {
+    fetch(`/i18n/setlang/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: `language=${langCode}&next=${window.location.pathname}`
+    }).then(() => window.location.reload());
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
 </body>
 <!--end::Body-->
 </html>

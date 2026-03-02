@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from django.utils.translation import gettext_lazy as _
 
 APP_VERSION = '2.0.0'
 os.environ["EE_VERSION"] = APP_VERSION
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -139,6 +141,17 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 
 LANGUAGE_CODE = 'fr'
+
+LANGUAGES = [
+    ('fr', _('Français')),
+    ('en', _('English')),
+    ('ar', _('العربية')),
+    ('es', _('Español')),
+]
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
 
 TIME_ZONE = 'Africa/Tunis'
 

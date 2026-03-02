@@ -25,9 +25,7 @@ jQuery(document).ready(function () {
     const initTableProgrammeOperatoire = function () {
 
         var table = $('#datatable_programme_operatoire').DataTable({
-            language: {
-                "url": "/static/plugins/custom/datatables/French.json"
-            },
+            language: window.DT_LANGUAGE || {},
             responsive: true,
             // Pagination settings
             dom: `<'row'<'col-sm-6 text-left'f><'col-sm-6 text-right'B>>

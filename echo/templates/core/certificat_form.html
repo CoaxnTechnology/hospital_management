@@ -22,18 +22,18 @@
         <div class="card-header fixed-header d-flex align-content-between align-items-center w-100 zindex-2 shadow-xs bg-white">
             <div class="card-title pl-2">
                 <h3 class="m-0">
-                    {% if object %}Modifier{% else %}Créer{% endif %} un courrier
+                    {% if object %}{% trans "Modifier" %}{% else %}{% trans "Créer" %}{% endif %} {% trans "un courrier" %}
                 </h3>
             </div>
             <div class="card-toolbar">
                 <button type="submit" id="btn-enregistrer" class="ml-2 btn btn-primary font-weight-bolder">
                     <i class="ki ki-check icon-sm"></i>
-                    Enregistrer
+                    {% trans "Enregistrer" %}
                 </button>
                 <a id="btn-imprimer" href="javascript:void(0)"
                    class="ml-2 btn btn-warning font-weight-bolder">
                     <i class="flaticon2-printer"></i>
-                    Imprimer
+                    {% trans "Imprimer" %}
                 </a>
             </div>
         </div>
@@ -60,7 +60,7 @@
                             <div>
                                 <div class="row">
                                     <div class="form-group col-12">
-                                        <label>Type</label>
+                                        <label>{% trans "Type" %}</label>
                                         {% render_field form.type class+="form-control form-control-sm" %}
                                     </div>
                                 </div>
@@ -85,7 +85,7 @@
                                 <div class="row form-group mt-4">
                                     <div id="id_duree_container" class="col-12">
                                         <div class="form-group">
-                                            <label>Durée (jours)</label>
+                                           <label>{% trans "Durée (jours)" %}</label>
                                             {% render_field form.duree class+="form-control form-control-sm" %}
                                         </div>
                                     </div>
@@ -96,7 +96,7 @@
                                     <a href="/patients/{{ patient.pk }}/certificats"
                                        class="btn btn-light-primary font-weight-bolder mr-2">
                                         <i class="fa fa-history icon-sm"></i>
-                                        Historique des courriers
+                                        {% trans "Historique des courriers" %}
                                     </a>
                                 </div>
                             </div>
@@ -383,7 +383,7 @@
         impressionEntetes['attestation_grossesse'] = {% if user.profil.compte.parametrescompte.ajouter_entete_attestation_grossesse %}true{% else %}false{% endif %};
         impressionEntetes['lettre_fittofly'] = {% if user.profil.compte.parametrescompte.ajouter_entete_lettre_fittofly %}true{% else %}false{% endif %};
 
-        const ajouterDateLieuEdition = {% if user.profil.compte.parametrescompte.ajouter_date_courriers %}true{% else %}false{% endif %};
+        const ajouter{% trans "Date" %}LieuEdition = {% if user.profil.compte.parametrescompte.ajouter_date_courriers %}true{% else %}false{% endif %};
 
         let titres = {};
         {% for type in types_certificats %}

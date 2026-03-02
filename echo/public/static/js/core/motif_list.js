@@ -21,9 +21,7 @@ $(document).ready(() => {
         const _t = _.template($('#actions-template').html());
 
         const table = $('#datatable_motif').DataTable({
-            language: {
-                "url": "/static/plugins/custom/datatables/French.json"
-            },
+            language: window.DT_LANGUAGE || {},
             responsive: true,
             // Pagination settings
             dom: `<'row'<'col-sm-12'tr>>

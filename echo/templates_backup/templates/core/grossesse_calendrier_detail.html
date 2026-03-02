@@ -1,0 +1,111 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="d-flex flex-row-reverse p-2">
+        <button id="btn-imprimer" type="button" class="btn btn-primary font-weight-bolder">
+            <i class="flaticon2-printer icon-sm"></i>
+            Imprimer
+        </button>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div id="calendrier" style="padding: 6px">
+            <table>
+                <tr>
+                    <td style="background-color: #E1E9FF; border:0; padding: 10px; width: 500px">
+                        <p style="background-color: #E1E9FF">
+                            <strong>DDG : </strong> <span class="ddg"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <strong>DDR : </strong> <span class="ddr"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <strong>Terme actuel : </strong> <span class="terme"></span>
+                        </p>
+                        <p class="m-0">
+                            <strong>Terme prévu : </strong> <span class="accouchement"></span>
+                        </p>
+
+                    </td>
+                </tr>
+            </table>
+
+            <table style="margin-top: 12px">
+                <tr>
+                    <td style="border:0; width: 240px">
+                        <h6 style="font-size: 14px; font-weight: bold">Echographies</h6>
+                        <p>
+                            Écho. de datation : <span id="cal-echo-datation-int"></span><br>
+                            1ère écho. : <span id="cal-echo-1-int"></span><br>
+                            2ème écho. : <span id="cal-echo-2-int"></span><br>
+                            3ème écho. : <span id="cal-echo-3-int"></span><br>
+                            12 SA : <span id="cal-12-sa"></span><br>
+                            22 SA : <span id="cal-22-sa"></span><br>
+                            32 SA : <span id="cal-32-sa"></span><br>
+                            34 SA : <span id="cal-34-sa"></span><br>
+                            35 SA : <span id="cal-35-sa"></span><br>
+                        </p>
+                    </td>
+                    <td style="border:0; padding-left: 10px; width: 240px; vertical-align: top">
+                        <h6 style="font-size: 14px; font-weight: bold">Dépistage de la trisomie 21</h6>
+                        <p>Combiné 1er trimestre : <span id="cal-triso-1-int"></span><br>
+                            2ème trimestre : <span id="cal-triso-2-int"></span><br>
+                        </p>
+
+                        <h6 style="font-size: 14px; font-weight: bold" class="mt-4">Dépistage diabète gestationnel</h6>
+                        <p>
+                            Glycémie à jeun 1er trimestre<br>
+                            HGPO 75g : <span id="cal-gly-int"></span>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <script type="text/html" id="template-header">
+        <div style="text-align: right;">
+            <span><%= date %></span>
+        </div>
+        <span style="margin-top: 10px">&nbsp;</span>
+        <div style="text-align: center;">
+            <h4 style="font-size: 14pt">Calendrier de grossesse</h4>
+        </div>
+        <p>
+            <span style="margin-top: 10px">&nbsp;</span><br>
+            <strong>{{ grossesse.patient.civilite|title }} {{ grossesse.patient.nom_complet }}</strong>
+            <span>{% if grossesse.patient.sexe == 'F' %} née {% else %} né {% endif %}
+                le {{ grossesse.patient.date_naissance }}</span>
+        </p>
+        <br>
+    </script>
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script type="text/javascript">
+        const logo_url = {% if user.profil.compte.parametrescompte.logo %}
+            '{{ user.profil.compte.parametrescompte.logo.url }}'
+        {% else %} ''
+        {% endif  %};
+        const footer_url =
+            {% if user.profil.compte.parametrescompte.footer %}
+                '{{ user.profil.compte.parametrescompte.footer.url }}'
+            {% else %} ''
+            {% endif  %};
+
+        const signature_url =
+            {% if user.profil.signature and user.profil.ajouter_signature_edition %}
+                '{{ user.profil.signature.url }}'
+            {% else %} ''
+            {% endif  %};
+        const grossesse = {{ grossesse_json|safe }};
+
+        const dureeGrossesse = {{ user.profil.compte.parametrescompte.duree_grossesse }};
+
+    </script>
+    <script src="{% static "plugins/custom/datatables/datatables.bundle.js" %}"></script>
+    <script src="{% static "js/core/editique.js" %}"></script>
+    <script src="{% static "js/core/obstetrique.js" %}"></script>
+    <script src="{% static "js/core/grossesse_calendrier_detail.js" %}"></script>
+{% endblock %}

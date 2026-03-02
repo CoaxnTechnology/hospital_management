@@ -268,7 +268,7 @@ $(document).ready(e => {
     const analyseTpl = _.template($('#analyse-template').html());
 
     $('#table-analyses').DataTable({
-        language: {"url": "/static/plugins/custom/datatables/French.json"},
+            language: window.DT_LANGUAGE || {},
         responsive: true,
         // Pagination settings
         dom: "<'row'<'col-sm-12 col-md-6'f>>" +
@@ -310,7 +310,7 @@ $(document).ready(e => {
 
     collectionAnalyses = collections.length > 0 ? collections[0].analyses_list : [];
     $('#table-collection-analyse').DataTable({
-        language: {"url": "/static/plugins/custom/datatables/French.json"},
+            language: window.DT_LANGUAGE || {},
         responsive: true,
         // Pagination settings
         dom: "<'row'<'col-sm-12 col-md-6'f>>" +

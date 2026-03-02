@@ -1,5 +1,6 @@
 {% load widget_tweaks %}
 {% load common %}
+{% load i18n %}
 <div class="card">
     <div class="card-body">
         <div class="d-flex justify-content-between">
@@ -61,7 +62,7 @@
                          id="f_{{ forloop.counter }}" role="tabpanel">
 
                         <div class="group-vitalite">
-                            <h5 class="text-primary font-size-h5">Vitalité</h5>
+                            <h5 class="text-primary font-size-h5">{% trans "Vitalité" %}</h5>
 
                             <div class="row">
                                 <div class="mb-3 col-12 col-lg-3">
@@ -78,7 +79,7 @@
                                 </div>
 
                                 <div class="mb-3 col-12 col-xl-3">
-                                    <label class="form-label">Mobilité</label>
+                                    <label class="form-label">{% trans "Mobilité" %}</label>
                                     {% render_field f.mobilite data-form="consultation_obs_foetus" data-champ="mobilite" class+="form-select form-select-solid form-select-sm" %}
                                 </div>
 
@@ -86,12 +87,12 @@
                         </div>
 
                         <div class="group-biometrie mt-3">
-                            <h5 class="text-primary font-size-h5">Biométrie</h5>
+                            <h5 class="text-primary font-size-h5">{% trans "Biométrie" %}</h5>
 
                             <div class="row">
                                 <div class="mb-3 col-12 col-lg-3">
                                     <div class="input-group input-group-solid input-group-sm">
-                                        <span class="input-group-text w-50px">Poids</span>
+                                        <span class="input-group-text w-50px">{% trans "Poids" %}</span>
                                         {% render_field f.poids class+="form-control form-control-solid form-control-sm poids" data-champ="poids" data-unit="g" %}
                                         <span class="input-group-text">g</span>
                                     </div>
@@ -167,11 +168,11 @@
                         </div>
 
                         <div class="group-morpho mt-3">
-                            <h5 class="text-primary font-size-h5">Morphologie</h5>
+                            <h5 class="text-primary font-size-h5">{% trans "Morphologie" %}</h5>
 
                             <div class="row">
                                 <div class="mb-3 col-12 col-lg-3">
-                                    <label class="form-label">Coeur</label>
+                                    <label class="form-label">{% trans "Coeur" %}</label>
                                     {% render_field f.morpho_coeur data-form="consultation_obs_foetus" data-champ="morpho_coeur" class+="form-select form-select-solid form-select-sm" %}
                                 </div>
 
@@ -191,7 +192,7 @@
                                 </div>
 
                                 <div class="mb-3 col-12 col-lg-3">
-                                    <label class="form-label">Membres</label>
+                                    <label class="form-label">{% trans "Membres" %}</label>
                                     {% render_field f.morpho_membres data-form="consultation_obs_foetus" data-champ="morpho_membres" class+="form-select form-select-solid form-select-sm" %}
                                 </div>
 
@@ -200,7 +201,7 @@
                         </div>
 
                         <div class="group-annexes mt-3">
-                            <h5 class="text-primary font-size-h5">Annexes</h5>
+                            <h5 class="text-primary font-size-h5">{% trans "Annexes" %}</h5>
 
                             <div class="row">
                                 <div class="mb-3 col-12 col-lg-3">
@@ -219,14 +220,14 @@
                                 </div>
 
                                 <div class="mb-3 col-12 col-lg-3">
-                                    <label class="form-label">Décollement</label>
+                                    <label class="form-label">{% trans "Décollement" %}</label>
                                     {% render_field f.morpho_decol data-form="consultation_obs_foetus" data-champ="morpho_decol" class+="form-select form-select-solid form-select-sm" %}
                                 </div>
                             </div>
                         </div>
 
                         <div class="mt-3">
-                            <h5 class="text-primary font-size-h5">Commentaires</h5>
+                            <h5 class="text-primary font-size-h5">{% trans "Commentaires" %}</h5>
                             {% render_field f.commentaires class+="form-control form-control-solid form-control-sm h-60px" %}
                         </div>
 

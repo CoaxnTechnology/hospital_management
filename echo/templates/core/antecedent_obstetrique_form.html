@@ -30,11 +30,11 @@
                     {% endif %}
                 </div>
                 <div class="card-toolbar">
-                    <button type="button" class="btn btn-default" onclick="window.parent.fermerModals()">Annuler
+                    <button type="button" class="btn btn-default" onclick="window.parent.fermerModals()">{% trans "Annuler" %}
                     </button>
                     <button type="submit" id="btn_enregistrer" class="ml-2 btn btn-primary font-weight-bolder">
                         <i class="ki ki-check icon-sm"></i>
-                        Enregistrer
+                        {% trans "Enregistrer" %}
                     </button>
                 </div>
             </div>
@@ -77,7 +77,7 @@
 
                     <div class="row mt-2">
                         <div class="form-group col-5">
-                            <label>Issue de grossesse</label>
+                            <label>{% trans "Issue de grossesse" %}</label>
                             {% if object and object.sous_categorie.id != 19 %}
                             {% render_field form.sous_categorie class+="form-control form-control-sm" %}
                             <div class="invalid-feedback"
@@ -90,7 +90,7 @@
                         </div>
 
                         <div class="form-group col-2">
-                            <label>Nb de Fœtus</label>
+                           <label>{% trans "Nb de Fœtus" %}</label>
                             {% render_field form.nb_foetus class+="form-control form-control-sm" %}
                             <div class="invalid-feedback"
                                  {% if form.nb_foetus.errors %}style="display: block"{% endif %}>
@@ -99,7 +99,7 @@
                         </div>
 
                         <div class="form-group col-2">
-                            <label>Date d'accouchement</label>
+                            <label>{% trans "Date" %} d'accouchement</label>
                             {% render_field form.date_accouchement class+="form-control form-control-sm" %}
                             <div class="invalid-feedback"
                                  {% if form.date_accouchement.errors %}style="display: block"{% endif %}>
@@ -107,7 +107,7 @@
                             </div>
                         </div>
                         <div class="form-group col-3">
-                            <label>Evacuation</label>
+                            <label>{% trans "Evacuation" %}</label>
                             {% render_field form.evacuation_grossesse class+="form-control form-control-sm" data-form="antecedent_obstetrique" data-champ="evacuation_grossesse" %}
                             <div class="invalid-feedback"
                                  {% if form.evacuation_grossesse.errors %}style="display: block"{% endif %}>
@@ -180,7 +180,7 @@
                             </div>
 
                             <div class="form-group mb-0 row">
-                                <label class="col-5 col-form-label text-right">Prénom</label>
+                                <label class="col-5 col-form-label text-right">{% trans "Prénom" %}</label>
                                 <div class="col-7">
                                     {% render_field form.prenom_1 class+="form-control form-control-sm" %}
                                     <div class="invalid-feedback"
@@ -265,7 +265,7 @@
                             </div>
 
                             <div class="form-group mb-0 row">
-                                <label class="col-5 col-form-label text-right">Prénom</label>
+                                <label class="col-5 col-form-label text-right">{% trans "Prénom" %}</label>
                                 <div class="col-7">
                                     {% render_field form.prenom_2 class+="form-control form-control-sm" %}
                                     <div class="invalid-feedback"
@@ -350,7 +350,7 @@
                             </div>
 
                             <div class="form-group mb-0 row">
-                                <label class="col-5 col-form-label text-right">Prénom</label>
+                                <label class="col-5 col-form-label text-right">{% trans "Prénom" %}</label>
                                 <div class="col-7">
                                     {% render_field form.prenom_3 class+="form-control form-control-sm" %}
                                     <div class="invalid-feedback"
@@ -376,7 +376,7 @@
 
                     <div class="row mt-4">
                         <div class="form-group col-3">
-                            <label>Périnée</label>
+                            <label>{% trans "Périnée" %}</label>
                             {% render_field form.perinee class+="form-control form-control-sm" data-form="antecedent_obstetrique" data-champ="perinee" %}
                             <div class="invalid-feedback"
                                  {% if form.perinee.errors %}style="display: block"{% endif %}>
@@ -386,7 +386,7 @@
 
                         <div class="form-group col-6 row">
                             <div class="col-6 pr-0">
-                                <label>Suite de couche</label>
+                                <label>{% trans "Suite de couche" %}</label>
                                 {% render_field form.suite_couche_type class+="form-control form-control-sm" data-form="antecedent_obstetrique" data-champ="suite_couche_type" %}
                                 <div class="invalid-feedback"
                                      {% if form.suite_couche_type.errors %}style="display: block"{% endif %}>
@@ -394,7 +394,7 @@
                                 </div>
                             </div>
                             <div class="col-6 pl-0">
-                                <label>&nbsp;</label>
+                                <label>{% trans "&nbsp;" %}</label>
                                 {% render_field form.suite_couche_detail class+="form-control form-control-sm" data-form="antecedent_obstetrique" data-champ="suite_couche_detail" %}
                                 <div class="invalid-feedback"
                                      {% if form.suite_couche_detail.errors %}style="display: block"{% endif %}>
@@ -406,7 +406,7 @@
 
                     <div class="row mt-4">
                         <div class="form-group col-12">
-                            <label>ATCD à surligner</label>
+                            <label>{% trans "ATCD à surligner" %}</label>
                             {% render_field form.atcd_surligner class+="form-control form-control-sm h-80px" %}
                             <div class="invalid-feedback"
                                  {% if form.atcd_surligner.errors %}style="display: block"{% endif %}>
@@ -417,23 +417,23 @@
 
                     <div class="row mt-4">
                         <div class="form-group col-5">
-                            <label>Lieu d'accouchement</label>
+                            <label>{% trans "Lieu d'accouchement" %}</label>
                             {% render_field form.lieu_accouchement_principal class+="form-control form-control-sm" %}
                         </div>
                         <div class="col-5">
                             <div id="lieu_accouch_precis" class="form-group d-none">
                                 {% if object and object.lieu_accouchement %}
-                                    <label>Nom de l'établissement</label>
+                                    <label>{% trans "Nom" %} de l'établissement</label>
                                     <div class="d-flex">
                                         <input id="lieu_disp" type="text" disabled
                                                value="{{ object.lieu_accouchement.nom }}"
                                                class="w-200px form-control form-control-sm">
                                         <button type="button" onclick="selectionnerEtablissement()"
-                                                class="btn btn-primary btn-sm">Modifier
+                                                class="btn btn-primary btn-sm">{% trans "Modifier" %}
                                         </button>
                                     </div>
                                 {% else %}
-                                    <label>&nbsp;</label>
+                                    <label>{% trans "&nbsp;" %}</label>
                                     <div class="d-flex">
                                         <div><input id="lieu_disp" type="text" disabled
                                                     class="w-200px form-control form-control-sm d-none"></div>
@@ -447,7 +447,7 @@
                                 {% endif %}
                             </div>
                             <div id="lieu_accouch_libre" class="form-group d-none">
-                                <label>Préciser</label>
+                                <label>{% trans "Préciser" %}</label>
                                 {% render_field form.lieu_accouchement_libre class+="form-control form-control-sm" %}
                             </div>
                         </div>
@@ -456,7 +456,7 @@
                     {% if ddr or object and object.grossesse_patient %}
                         <div class="row mt-4">
                             <div class="form-group col-5">
-                                <label>Honoraires</label>
+                                <label>{% trans "Honoraires" %}</label></label>
                                 {% render_field form.honoraires class+="form-control form-control-sm" %}
                             </div>
                         </div>

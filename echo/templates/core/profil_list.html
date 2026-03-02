@@ -10,19 +10,19 @@
             <!--begin::Page title-->
             <div class="page-title d-flex flex-column me-3">
                 <!--begin::Title-->
-                <h1 class="d-flex text-white fw-bold my-1 fs-3">Utilisateurs</h1>
+                <h1 class="d-flex text-white fw-bold my-1 fs-3">{% trans "Utilisateurs" %}</h1>
                 <!--end::Title-->
             </div>
             <!--end::Page title-->
-            <!--begin::Actions-->
+            <!--begin::{% trans "Actions" %}-->
             <div class="d-flex align-items-center py-3 py-md-1">
                 <!--begin::Button-->
                 <a href="/utilisateurs/ajouter" data-theme="light" class="btn btn-bg-white btn-active-color-primary">
-                    Ajouter un utilisateur
+                    {% trans "Ajouter un utilisateur" %}
                 </a>
                 <!--end::Button-->
             </div>
-            <!--end::Actions-->
+            <!--end::{% trans "Actions" %}-->
         </div>
         <!--end::Container-->
     </div>
@@ -66,26 +66,27 @@
                             {% if not user.user.is_active %}
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <span class="text-dark-75 font-weight-bolder me-2"></span>
-                                    <span class="label label-warning label-pill label-inline">Désactivé</span>
+                                    <span class="label label-warning label-pill label-inline">{% trans "Désactivé" %}</span>
                                 </div>
                             {% endif %}
+                            {% trans "Non renseigné" as nr %}
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="text-dark-75 font-weight-bolder me-2">Email:</span>
-                                <span class="text-muted text-hover-primary">{{ user.user.email|default:"Non renseigné" }}</span>
+                                <span class="text-muted text-hover-primary">{{ user.user.email|default:nr }}</span>
                             </div>
                             <div class="d-flex justify-content-between align-items-cente my-2">
-                                <span class="text-dark-75 font-weight-bolder me-2">Téléphone:</span>
-                                <span class="text-muted text-hover-primary">{{ user.telephone_principal|default:"Non renseigné" }}</span>
+                                <span class="text-dark-75 font-weight-bolder me-2">{% trans "Téléphone" %}:</span>
+                                <span class="text-muted text-hover-primary">{{ user.telephone_principal|default:nr }}</span>
                             </div>
 
                         </div>
                         <!--end::Info-->
                         <a href="/utilisateurs/{{ user.user.pk }}/modifier"
                            class="btn btn-block btn-sm btn-light-primary font-weight-bolder text-uppercase py-4">
-                            Modifier</a>
+                            {% trans "Modifier" %}</a>
                         <a onclick="supprimer({{ user.user.pk }})"
                            class="btn btn-block btn-sm btn-hover-danger text-uppercase py-4">
-                            Supprimer</a>
+                            {% trans "Supprimer" %}</a>
 
                     </div>
                     <!--end::Body-->

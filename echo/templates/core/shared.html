@@ -1,330 +1,34 @@
-<script type="text/html" id="template-product-footer">
-    <div style="margin-left: 100px; color: #777; font-size: 10px">
+{% load i18n %}
+<script type="text/html" id="template-product-footer"></script>
 
-    </div>
-</script>
+<script type="text/html" id="template-examen"></script>
 
-<script type="text/html" id="template-examen">
-    {% if user.profil.compte.parametrescompte.logo and user.profil.compte.parametrescompte.logo.url %}
-        <img data-pdfmake="{&quot;fit&quot;:[500,75]}" src="<%= logo %>" style="margin-bottom: 50px">
-    {% endif %}
-</script>
+<script type="text/html" id="template-signature" style="font-family: arial, sans-serif"></script>
 
-<script type="text/html" id="template-signature" style="font-family: arial, sans-serif">
-    <div style="margin-top: 10px; width: 100%; text-align: right; margin-right: 20px">
-        <%= signature_titre %> <br>
-        <% if (signature_img) { %>
-        <img data-pdfmake="{&quot;fit&quot;:[75,75]}" src="<%= signature_img %>">
-        <% } %>
-    </div>
-    <div>&nbsp;</div>
-</script>
+<script type="text/html" id="template-page-number" style="font-family: arial, sans-serif"></script>
 
-<script type="text/html" id="template-page-number" style="font-family: arial, sans-serif">
-    <div style="margin-right: 100px;color: #777; font-size: 10px;">
-        Page <%= page %> <span style="color: white">>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-    </div>
-</script>
+<script type="text/html" id="edition-patient-template"></script>
 
-<script type="text/html" id="edition-patient-template">
-    <div style="text-align: right;">
-        <span>
-            {% if user.profil.ville %}
-                {{ user.profil.ville }}<% if (date) { %>, <% } %>
-            {% endif %}
-            <% if (date) { %> le <%= date %><% } %>
-        </span>
-    </div>
-    <br>
-    <div style="text-align: center">
-        <h4 style="font-size: 14pt"><%= motif %></h4>
-    </div>
+<script type="text/html" id="consultation-template"></script>
 
-    <br>
-    <p>
-        <strong><%= _.capitalize(patient.civilite) %> <%= formatNomPatient(patient.nom_naissance, patient.nom, patient.prenom) %></strong> &nbsp;
-        <% if (patient.sexe == 'F') { %> née <% } else { %> né <% } %> le <%= moment(patient.date_naissance).format('DD/MM/yyyy') %> (<%= patient.age %> ans)
-        <% if (patient.taille) { %>
-            <br>Taille: <%= patient.taille %> cm
-        <% } %>
-    </p>
-    <p>
-        <%= data %>
-    </p>
-</script>
+<script type="text/html" id="consultation-template-no-date"></script>
 
-<script type="text/html" id="consultation-template">
-    <div style="text-align: right;">
-        <span>{% if user.profil.compte.adresse.ville %}{{ user.profil.compte.adresse.ville }}, le {% endif %}<%= date %></span>
-    </div>
-    <br>
-    <div style="text-align: center">
-        <h4 style="font-size: 14pt">{{ motif }}</h4>
-    </div>
-    <br>
-    <p>
-        <strong>{{ patient.civilite|title }} {{ patient.nom_complet }}</strong>
-        {% if patient.sexe == 'F' %} née {% else %} né {% endif %} le
-        {{ patient.date_naissance }} ({{ patient.age }} ans)
-        {% if patient.taille %}
-            <br>Taille: {{ patient.taille|floatformat }} cm
-        {% endif %}
-    </p>
+<script id="pma-interro-template" type="text/html"></script>
 
-    <div id="grossesse"></div>
+<script type="text/html" id="grossesse-info-template"></script>
 
-    <div id="antecedents"></div>
+<script type="text/html" id="notes-template"></script>
 
-    <div id="notes"></div>
-
-    <% if (data) { %>
-        <p>
-            <%= data %>
-        </p>
-    <% } %>
-
-    <p></p>
-
-</script>
-
-<script type="text/html" id="consultation-template-no-date">
-    <div style="text-align: right;">
-        &nbsp;
-    </div>
-    <br>
-    <div style="text-align: center">
-        <h4 style="font-size: 14pt">{{ motif }}</h4>
-    </div>
-
-    <br>
-    <p>
-        <strong>{{ patient.civilite|title }} {{ patient.nom_complet }}</strong>
-        {% if patient.sexe == 'F' %} née {% else %} né {% endif %} le
-        {{ patient.date_naissance }} ({{ patient.age }} ans)
-        {% if patient.taille %}
-            <br>Taille: {{ patient.taille|floatformat }} cm
-        {% endif %}
-    </p>
-
-    <p id="grossesse"></p>
-
-    <p id="antecedents"></p>
-
-    <p id="notes"></p>
-
-    <% if (data) { %>
-        <p>
-            <%= data %>
-        </p>
-    <% } %>
-
-    <p></p>
-
-</script>
-
-<script id="pma-interro-template" type="text/html">
-    <table style="border-collapse: collapse; width: 100%; height: 43px; border-color: #000000; border-style: solid;" border="1">
-        <th>
-            <tr>
-                <td style="font-weight: bold">Date</td>
-                <td style="font-weight: bold">Acte</td>
-                <td style="font-weight: bold">Résultats</td>
-                <td style="font-weight: bold">Remarques</td>
-            </tr>
+<script type="text/html" id="antecedents-template"></script>
 
 
-        </th>
-        <tr>
-            <td style="width: 100px">
-                <input id="tent_1_date" type="text" value="" class="date">
-            </td>
-            <td>
-                <select id="tent_1_acte" style="width: 100%">
-                    <option value="IAC">IAC</option>
-                    <option value="FIV">FIV</option>
-                    <option value="DPI">DPI</option>
-                </select>
-            </td>
-            <td>
-                <select id="tent_1_result" style="width: 100%">
-                    <option value="Succès">Succès</option>
-                    <option value="Echec">Echec</option>
-                </select>
-            </td>
-            <td></td>
-        </tr>
-    </table>
-</script>
+<script type="text/html" id="doppler-uterin-template"></script>
 
-<script type="text/html" id="grossesse-info-template">
-    <div id="grossesse-container">
-        {% if patient.grossesse_encours %}
-                DDR: {{ patient.grossesse_encours.get_ddr|date:'d/m/Y' }} - DDG: {{ patient.grossesse_encours.get_ddg|date:'d/m/Y' }}, soit un terme théorique de {{ patient.grossesse_encours.terme_disp }}
-                {% if patient.poids %}<br>Poids: {{ patient.poids|floatformat }} Kg{% endif %}
-                {% if ta %}&nbsp;&nbsp;&nbsp;TA: {{ ta }}{% endif %}
-        {% endif %}
-    </div>
-</script>
+<script type="text/html" id="doppler-ombi-template"></script>
 
-<script type="text/html" id="notes-template">
-    <div id="notes-container">
-        {% if patient.notes %}
-            <strong>Notes</strong> <br>
-            {{ patient.notes|safe }}
-        {% endif %}
-    </div>
-</script>
+<script type="text/html" id="doppler-acm-template"></script>
 
-<script type="text/html" id="antecedents-template">
-    <div id="antecedents-container">
-        {% if patient.antecedents_familiaux %}
-            <br>
-            <strong>Antécédents Familiaux</strong> <br>
-                {{ patient.antecedents_familiaux|safe }}
-        {% endif %}
-
-        {% if patient.antecedents_medico_chirurgicaux %}
-            <br>
-            <strong>Antécédents Médico-chirurgicaux</strong> <br>
-                {{ patient.antecedents_medico_chirurgicaux|safe }}
-        {% endif %}
-
-        {% if patient.antecedents_gynecologiques %}
-            <br>
-            <strong>Antécédents Gynécologiques</strong> <br>
-                {{ patient.antecedents_gynecologiques|safe }}
-        {% endif %}
-
-        {% if patient.antecedents_obstetriques.all %}
-            <br>
-            <strong>Antécédents Obstétricaux</strong>
-            {% for obs in patient.antecedents_obstetriques.all %}
-                <br>
-                {% if obs.grossesse %}Grossesse {{ forloop.counter }}: {{ obs.grossesse_disp }}<br>{% endif %}
-                {% if obs.sous_categorie and obs.sous_categorie.id != 19 %} > Issue de grossesse:
-                    {{ obs.sous_categorie }}<br>{% endif %}
-                {% if obs.issue_grossesse %} > Issue de grossesse: {{ obs.issue_grossesse }}<br>{% endif %}
-                {% if obs.mise_en_travail %} > Mise en travail: {{ obs.mise_en_travail }}<br>{% endif %}
-                {% if obs.indications %} > Indications: {{ obs.indications }}<br>{% endif %}
-                {% if obs.analgesie %} > Analgesie: {{ obs.analgesie }}<br>{% endif %}
-                {% if obs.date_accouchement %} > Date d'accouchement: {{ obs.date_accouchement|date:'d/m/Y' }}
-                    <br>{% endif %}
-                {% if obs.lieu_accouchement_disp %} > Lieu d'accouchement: {{ obs.lieu_accouchement_disp }}<br>{% endif %}
-                {% if obs.evacuation_grossesse %} > Evacuation: {{ obs.evacuation_grossesse }}<br>{% endif %}
-                {% if obs.perinee %} > Périnée: {{ obs.perinee }}<br>{% endif %}
-                {% if obs.suite_couche_type %} > Suite de couche: {{ obs.suite_couche_type }}
-                    {% if obs.suite_couche_detail %} - {{ obs.suite_couche_detail }}{% endif %}<br>{% endif %}
-                {% if obs.atcd_surligner %} > A surligner: {{ obs.atcd_surligner }}<br>{% endif %}
-                {% if obs.nb_foetus %} > Nb de foetus: {{ obs.nb_foetus }}<br>{% endif %}
-
-                {% if obs.nb_foetus >= 1 %}
-                    <!-- Foetus 1 -->
-                    {% if obs.terme_1 or obs.sexe_1 or obs.prenom_1 or obs.poids_naissance_1 %}
-                         > > Foetus 1: {% if obs.terme_1 %}{{ obs.terme_1 }} SA, {% endif %}
-                            {% if obs.prenom_1 %}{{ obs.prenom_1 }}{% endif %}
-                            {% if obs.sexe_1 %}({{ obs.sexe_1 }}){% endif %}
-                            {% if obs.poids_naissance_1 %}, {{ obs.poids_naissance_1|floatformat }}
-                                gr{% endif %}
-                            {% if obs.etat_sante_1 %}, {{ obs.etat_sante_1 }}{% endif %}
-                            {% if obs.t21_1 %}, T21 {{ obs.t21_1 }}{% endif %}
-                            {% if obs.allaitement_1 == True %}, Allaité{% endif %}
-                            <br>
-
-                    {% endif %}
-                {% endif %}
-                {% if obs.nb_foetus >= 2 %}
-                    <!-- Foetus 2 -->
-                    {% if obs.terme_2 or obs.sexe_2 or obs.prenom_2 or obs.poids_naissance_2 %}
-                        > > Foetus 2: {% if obs.terme_2 %}{{ obs.terme_2 }} SA, {% endif %}
-                            {% if obs.prenom_2 %}{{ obs.prenom_2 }}{% endif %}
-                            {% if obs.sexe_2 %}({{ obs.sexe_2 }}){% endif %}
-                            {% if obs.poids_naissance_2 %}, {{ obs.poids_naissance_2|floatformat }}
-                                gr{% endif %}
-                            {% if obs.etat_sante_2 %}, {{ obs.etat_sante_2 }}{% endif %}
-                            {% if obs.t21_2 %}, T21 {{ obs.t21_2 }}{% endif %}
-                            {% if obs.allaitement_2 == True %}, Allaité{% endif %}
-                            <br>
-
-                    {% endif %}
-                {% endif %}
-                {% if obs.nb_foetus >= 3 %}
-                    <!-- Foetus 3 -->
-                    {% if obs.terme_3 or obs.sexe_3 or obs.prenom_3 or obs.poids_naissance_3 %}
-                        > > Foetus 3: {% if obs.terme_3 %}{{ obs.terme_3 }} SA, {% endif %}
-                            {% if obs.prenom_3 %}{{ obs.prenom_3 }}{% endif %}
-                            {% if obs.sexe_3 %}({{ obs.sexe_3 }}){% endif %}
-                            {% if obs.poids_naissance_3 %}, {{ obs.poids_naissance_3|floatformat }}
-                                gr{% endif %}
-                            {% if obs.etat_sante_3 %}, {{ obs.etat_sante_3 }}{% endif %}
-                            {% if obs.t21_3 %}, T21 {{ obs.t21_3 }}{% endif %}
-                            {% if obs.allaitement_3 == True %}, Allaité{% endif %}
-                            <br>
-                    {% endif %}
-                {% endif %}
-            {% endfor %}
-        {% endif %}
-
-        {% if patient.allergies %}
-            <br>
-                <strong>Allergies</strong> <br>
-                {{ patient.allergies|safe }}
-        {% endif %}
-
-    </div>
-
-</script>
-
-
-<script type="text/html" id="doppler-uterin-template">
-    <table style="border:0">
-        <tr style="border: 0">
-            <td style="padding-left: 0">Droit</td>
-            <td>IP: <%- ip_droit %></td>
-            <td>IR: <%- ir_droit %></td>
-            <td><%- notch_droit %></td>
-        </tr>
-        <tr style="border: 0">
-            <td style="padding-left: 0">Gauche</td>
-            <td>IP: <%- ip_gauche %></td>
-            <td>IR: <%- ir_gauche %></td>
-            <td><%- notch_gauche %></td>
-        </tr>
-    </table>
-</script>
-
-<script type="text/html" id="doppler-ombi-template">
-    <table style="border:0">
-        <tr style="border: 0">
-            <td style="padding-left: 0"><strong>Doppler Ombilical</strong></td>
-            <td>IP: <%- doppler_cordon_ip %></td>
-            <td>IR: <%- doppler_cordon_ir %></td>
-            <td>Flux en diastole: <%- doppler_cordon_diastole %></td>
-        </tr>
-    </table>
-</script>
-
-<script type="text/html" id="doppler-acm-template">
-    <table style="border:0">
-        <tr style="border: 0">
-            <td style="padding-left: 0"><strong>Artère Cérébrale Moy.</strong></td>
-            <td>IP: <%- doppler_acm_ip %></td>
-            <td>IR: <%- doppler_acm_ir %></td>
-            <td>Vitesse: <%- doppler_acm_vitesse %> cm/s</td>
-            <td><%- doppler_acm_mom %> MoM</td>
-        </tr>
-    </table>
-</script>
-
-<script type="text/html" id="doppler-dv-template">
-    <table style="border:0">
-        <tr style="border: 0">
-            <td style="padding-left: 0"><strong>Ductus Venosus</strong></td>
-            <td>IP: <%- doppler_dv_ip %></td>
-            <td>IR: <%- doppler_dv_ir %></td>
-            <td>Onde: <%- doppler_dv_onde %></td>
-        </tr>
-    </table>
-</script>
+<script type="text/html" id="doppler-dv-template"></script>
 
 <div class="modal fade" id="rdv-modal" tabindex="-1" role="dialog" aria-labelledby="Rendez-vous"
      aria-hidden="true">
@@ -332,7 +36,7 @@
         <div class="modal-content" style="height: 560px">
             <div class="modal-header py-7 d-flex justify-content-between">
                 <!--begin::Modal title-->
-                <h2>Rendez-vous</h2>
+                <h2>{% trans "Rendez-vous" %}</h2>
                 <!--end::Modal title-->
                 <!--begin::Close-->
                 <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -405,7 +109,7 @@
         <div class="modal-content h-100 modal-rounded">
             <div class="modal-header py-7 d-flex justify-content-between">
                 <!--begin::Modal title-->
-                <h2>Grossesse</h2>
+                <h2>{% trans "Grossesse" %}</h2>
                 <!--end::Modal title-->
                 <!--begin::Close-->
                 <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -556,7 +260,7 @@
         <div class="modal-content h-100 modal-rounded">
             <div class="modal-header py-7 d-flex justify-content-between">
                 <!--begin::Modal title-->
-                <h2>Calendrier de grossesse</h2>
+                <h2>{% trans "Calendrier de grossesse" %}</h2>
                 <!--end::Modal title-->
                 <!--begin::Close-->
                 <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -671,7 +375,7 @@
         <div class="modal-content h-100 modal-rounded">
             <div class="modal-header py-7 d-flex justify-content-between">
                 <!--begin::Modal title-->
-                <h2>Ordonnances</h2>
+                <h2>{% trans "Ordonnances" %}</h2></h2>
                 <!--end::Modal title-->
                 <!--begin::Close-->
                 <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -709,7 +413,7 @@
         <div class="modal-content h-100 modal-rounded">
             <div class="modal-header py-7 d-flex justify-content-between">
                 <!--begin::Modal title-->
-                <h2>Historique des consultations</h2>
+                <h2>{% trans "Historique des consultations" %}</h2>
                 <!--end::Modal title-->
                 <!--begin::Close-->
                 <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -746,7 +450,7 @@
         <div class="modal-content h-100 modal-rounded">
             <div class="modal-header py-7 d-flex justify-content-between">
                 <!--begin::Modal title-->
-                <h2>Antécédents</h2>
+                <h2>Antécédents</h2></h2>
                 <!--end::Modal title-->
                 <!--begin::Close-->
                 <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -897,7 +601,7 @@
         <div class="modal-content  h-100">
             <div class="modal-header py-7 d-flex justify-content-between">
                 <!--begin::Modal title-->
-                <h2>Prise de rendez-vous</h2>
+                <h2>{% trans "Prise de rendez-vous" %}</h2>
                 <!--end::Modal title-->
                 <!--begin::Close-->
                 <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -971,7 +675,7 @@
         <div class="modal-content h-100">
             <div class="modal-header py-7 d-flex justify-content-between">
                 <!--begin::Modal title-->
-                <h2>Prescriptions</h2>
+                <h2>Prescriptions</h2></h2>
                 <!--end::Modal title-->
                 <!--begin::Close-->
                 <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -1008,7 +712,7 @@
         <div class="modal-content h-100 modal-rounded">
             <div class="modal-header py-7 d-flex justify-content-between">
                 <!--begin::Modal title-->
-                <h2>Consultation</h2>
+                <h2>{% trans "Consultation" %}</h2>
                 <!--end::Modal title-->
                 <!--begin::Close-->
                 <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -1041,14 +745,4 @@
     </div>
 </div>
 
-<script type="text/html" id="image-grid-4-template">
-    <table style="border:0;" class="pdf-pagebreak-before">
-        <% for(let row=0; row<rows; row++) { %>
-            <tr style="border: 0">
-                <% for(let col=0; col<3 && row*3+col<images.length; col++) { %>
-                <td>Image</td>
-                <% } %>
-            </tr>
-        <% } %>
-    </table>
-</script>
+<script type="text/html" id="image-grid-4-template"></script>

@@ -224,9 +224,7 @@ $(document).ready(function () {
         let messageBottom = `\nTotal à payer ${totalPEC.toFixed(3)} DT \n ${montantLettres(totalPEC.toFixed(3))}`;
 
         let table = $('#kt_datatable').DataTable({
-            language: {
-                "url": "/static/plugins/custom/datatables/French.json"
-            },
+            language: window.DT_LANGUAGE || {},
             responsive: true,
             // Pagination settings
             dom: `<'row'<'col-sm-6 text-left'f><'col-sm-6 text-right'B>>

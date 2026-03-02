@@ -31,7 +31,7 @@
             <!--begin::Card header-->
             <div class="card-header">
                 <!--begin::Card title-->
-                <div class="card-title fs-3 fw-bold">{% if object %}Modifier{% else %}Créer{% endif %} un utilisateur
+                <div class="card-title fs-3 fw-bold">{% if object %}{% trans "Modifier" %}{% else %}{% trans "Créer" %}{% endif %} {% trans "un utilisateur" %}
                 </div>
                 <!--end::Card title-->
             </div>
@@ -72,7 +72,7 @@
                         <div class="row mb-8">
                             <!--begin::Col-->
                             <div class="col-xl-3">
-                                <div class="fs-6 fw-semibold mt-2 mb-3">Nom</div>
+                                <div class="fs-6 fw-semibold mt-2 mb-3">{% trans "Nom" %}</div>
                             </div>
                             <!--end::Col-->
                             <!--begin::Col-->
@@ -83,7 +83,7 @@
                         <div class="row mb-8">
                             <!--begin::Col-->
                             <div class="col-xl-3">
-                                <div class="fs-6 fw-semibold mt-2 mb-3">Prénom</div>
+                                <div class="fs-6 fw-semibold mt-2 mb-3">{% trans "Prénom" %}</div>
                             </div>
                             <!--end::Col-->
                             <!--begin::Col-->
@@ -95,7 +95,7 @@
                         <div class="row mb-8">
                             <!--begin::Col-->
                             <div class="col-xl-3">
-                                <div class="fs-6 fw-semibold mt-2 mb-3">Date de naissance</div>
+                                <div class="fs-6 fw-semibold mt-2 mb-3">{% trans "Date de naissance" %}</div>
                             </div>
                             <!--end::Col-->
                             <!--begin::Col-->
@@ -125,7 +125,7 @@
                         <div class="row mb-8">
                             <!--begin::Col-->
                             <div class="col-xl-3">
-                                <div class="fs-6 fw-semibold mt-2 mb-3">Téléphone principal</div>
+                                <div class="fs-6 fw-semibold mt-2 mb-3">{% trans "Téléphone" %} principal</div>
                             </div>
                             <!--end::Col-->
                             <!--begin::Col-->
@@ -137,7 +137,7 @@
                         <div class="row mb-8">
                             <!--begin::Col-->
                             <div class="col-xl-3">
-                                <div class="fs-6 fw-semibold mt-2 mb-3">Téléphone secondaire</div>
+                                <div class="fs-6 fw-semibold mt-2 mb-3">{% trans "Téléphone" %} secondaire</div>
                             </div>
                             <!--end::Col-->
                             <!--begin::Col-->
@@ -228,7 +228,7 @@
                         <div class="row mb-8">
                             <!--begin::Col-->
                             <div class="col-xl-3">
-                                <div class="fs-6 fw-semibold mt-2 mb-3">Ajouter la signature aux éditions</div>
+                                <div class="fs-6 fw-semibold mt-2 mb-3">{% trans "Ajouter la signature aux éditions" %}</div>
                             </div>
                             <!--end::Col-->
                             <!--begin::Col-->
@@ -270,7 +270,7 @@
                         <div class="row mb-8">
                             <!--begin::Col-->
                             <div class="col-xl-3">
-                                <div class="fs-6 fw-semibold mt-2 mb-3">Nom d'utilisateur</div>
+                                <div class="fs-6 fw-semibold mt-2 mb-3">{% trans "Nom" %} d'utilisateur</div>
                             </div>
                             <!--end::Col-->
                             <!--begin::Col-->
@@ -290,7 +290,7 @@
                                 {% if object %}
                                     <button type="button" id="btn-modifier-mdp"
                                             class="btn btn-light-primary font-weight-bold">
-                                        Modifier le mot de passe
+                                        {% trans "Modifier le mot de passe" %}
                                     </button>
                                 {% else %}
                                     {% render_field form.password type='password' class+="form-control " %}
@@ -331,12 +331,12 @@
 
                     <a href="/utilisateurs" class="btn btn-light btn-active-light-primary me-2">
                         <i class="ki ki-long-arrow-back icon-sm"></i>
-                        Annuler
+                        {% trans "Annuler" %}
                     </a>
                     <div class="btn-group">
                         <button class="btn btn-primary">
                             <i class="ki ki-check icon-sm"></i>
-                            Enregistrer
+                            {% trans "Enregistrer" %}
                         </button>
                     </div>
                 </div>

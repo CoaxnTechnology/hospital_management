@@ -31,7 +31,7 @@
             </div>
             <div class="row">
                 <div class="form-group required col-3">
-                    <label>Prix total TTC</label>
+                    <label>{% trans "Prix total TTC" %}</label>
                     {% render_field form.prix_ttc class+="form-control" %}
                     <div class="invalid-feedback"
                          {% if form.prix_ttc.errors %}style="display: block"{% endif %}>
@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="form-group required col-3">
-                    <label>Ticket modérateur</label>
+                    <label>{% trans "Ticket modérateur" %}</label></label>
                     {% render_field form.prix_pec class+="form-control" %}
                     <div class="invalid-feedback"
                          {% if form.prix_pec.errors %}style="display: block"{% endif %}>
@@ -57,10 +57,10 @@
             </div>
 
             <div class="d-flex mt-4 justify-content-end">
-                <a href="/prestations/" class="btn btn-default">Annuler</a>
+                <a href="/prestations/" class="btn btn-default">{% trans "Annuler" %}</a>
                 <button type="submit" id="btn_enregistrer" class="ml-2 btn btn-primary font-weight-bolder">
                     <i class="ki ki-check icon-sm"></i>
-                    Enregistrer
+                    {% trans "Enregistrer" %}
                 </button>
             </div>
 

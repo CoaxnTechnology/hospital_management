@@ -102,9 +102,7 @@ jQuery(document).ready(function () {
         const _t = _.template(unescapeTemplate($('#actions-rapport-template').html()));
 
         var table = $('#rapport_consultation_datatable').DataTable({
-            language: {
-                "url": "/static/plugins/custom/datatables/French.json"
-            },
+            language: window.DT_LANGUAGE || {},
             responsive: true,
             // Pagination settings
             /*dom: `<'row'<'col-sm-6 text-left'f><'col-sm-6 text-right'B>>

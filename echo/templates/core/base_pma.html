@@ -119,7 +119,7 @@
                                         {% if patient.grossesse_encours != None %}
                                             <button type="button" class="btn btn-sm btn-success"
                                                     onclick="modifierGrossesse()">
-                                                Grossesse
+                                               {% trans "Grossesse" %}
                                             </button>
                                             <button type="button"
                                                     class="btn btn-sm btn-success dropdown-toggle dropdown-toggle-split"
@@ -128,10 +128,10 @@
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li><a class="dropdown-item" href="#"
-                                                       onclick="afficherCalendrierGrossesse()">Calendrier</a>
+                                                       onclick="afficherCalendrierGrossesse()">{% trans "Calendrier" %}</a>
                                                 </li>
                                                 <li><a class="dropdown-item" href="#"
-                                                       onclick="cloturerGrossesse()">Clôturer</a>
+                                                       onclick="cloturerGrossesse()">{% trans "Clôturer" %}</a>
                                                 </li>
                                             </ul>
                                         {% else %}
@@ -147,7 +147,7 @@
                             <span>
                                    <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" data-kt-menu-trigger="click"
                                       data-kt-menu-placement="bottom-end">
-                                       Biologie
+                                       {% trans "Biologie" %}
                                    </a>
                                    <div class="menu menu-sub menu-sub-dropdown w-350px w-md-350px" data-kt-menu="true"
                                         id="kt_menu_633e7ca49aaa3">
@@ -172,7 +172,7 @@
                                            <div class="d-flex justify-content-end">
                                                <button type="reset"
                                                        class="btn btn-sm btn-light btn-active-light-primary me-2"
-                                                       data-kt-menu-dismiss="true">Fermer
+                                                       data-kt-menu-dismiss="true">{% trans "Fermer" %}
                                                </button>
                                                <button type="submit" class="btn btn-sm btn-primary"
                                                        data-kt-menu-dismiss="true"
@@ -186,19 +186,19 @@
                                    </div>
                                </span>
                                 <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" id="ouvrir_liste_ordonnances">
-                                    Ordonnances
+                                    {% trans "Ordonnances" %}
                                 </a>
                                 <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" id="ouvrir_liste_certificats">
-                                    Courriers
+                                    {% trans "Courriers" %}
                                 </a>
                                 <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" onclick="priseRdv()">
-                                    Rendez-vous
+                                    {% trans "Rendez-vous" %}
                                 </a>
                                 <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" id="ouvrir_historique_consultations">
-                                    Historique
+                                    {% trans "Historique" %}
                                 </a>
                                 <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" id="ouvrir_antecedents">
-                                    Antécédents
+                                    {% trans "Antécédents"%}
                                 </a>
                             </div>
 
@@ -429,12 +429,12 @@
                     <a href="/patients/{{ patient.pk }}/#tab-pma"
                        class="btn btn-sm btn-light-primary font-weight-bolder me-2">
                         <i class="ki ki-long-arrow-back icon-sm"></i>
-                        Précédent
+                        {% trans "Précédent" %}
                     </a>
                     <button id="btn_enregistrer" class="btn btn-sm btn-primary font-weight-bolder me-2 enregistrer"
                             type="button">
                         <i class="bi bi-save icon-sm"></i>
-                        Enregistrer
+                        {% trans "Enregistrer" %}
                     </button>
 
                     <a id="btn_terminer" href="/patients/{{ patient.pk }}/#tab-pma"
@@ -448,7 +448,7 @@
                         <a onclick="imprimerClick()" href="javascript:void(0)"
                            class="btn btn-sm btn-warning font-weight-bolder">
                             <i class="bi bi-printer"></i>
-                            Imprimer
+                            {% trans "Imprimer" %}
                         </a>
                     {% else %}
                         <a onclick="editionClick()" href="javascript:void(0)"
@@ -475,7 +475,7 @@
         <div class="modal-dialog modal-xl h-100 my-0">
             <div class="modal-content h-100">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Impression</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{% trans "Impression" %}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i aria-hidden="true" class="ki ki-close icon-md"></i>
                     </button>
@@ -484,8 +484,8 @@
                     <iframe src="" id="pdf-frame" width="100%" height="100%"></iframe>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                    <button id="btn-demarrer-impression" type="button" class="btn btn-primary">Imprimer</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Annuler" %}</button>
+                    <button id="btn-demarrer-impression" type="button" class="btn btn-primary">{% trans "Imprimer" %}</button>
                 </div>
             </div>
         </div>
@@ -496,7 +496,7 @@
             <div class="modal-content h-100 modal-rounded">
                 <div class="modal-header py-7 d-flex justify-content-between">
                     <!--begin::Modal title-->
-                    <h2>Edition</h2>
+                    <h2>{% trans "Edition" %}</h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
                     <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
@@ -536,19 +536,19 @@
                             <div class="me-8 py-2">
                                 <label class="form-check form-check-inline form-check-custom form-check-solid">
                                     <input type="checkbox" id="cb-inserer-antecedents" class="form-check-input h-20px w-20px">
-                                    <span class="form-check-label fw-semibold">Ajouter les antécédents</span>
+                                    <span class="form-check-label fw-semibold">{% trans "Ajouter les antécédents" %}</span>
                                 </label>
                             </div>
                             <div class="me-8 py-2">
                                 <label class="form-check form-check-inline form-check-custom form-check-solid">
                                     <input type="checkbox" id="cb-inserer-notes" class="form-check-input h-20px w-20px">
-                                    <span class="form-check-label fw-semibold">Ajouter les notes</span>
+                                    <span class="form-check-label fw-semibold">{% trans "Ajouter les notes" %}</span>
                                 </label>
                             </div>
                         </div>
                         <div>
                                 <a onclick="demarrerImpression()" class="btn btn-sm btn-warning font-weight-bolder">
-                                <i class="bi bi-printer"></i> Imprimer
+                                <i class="bi bi-printer"></i> {% trans "Imprimer" %}
                             </a>
                         </div>
                     </div>
@@ -601,7 +601,7 @@
                                                                     <span class="navi-icon">
                                                                         <i class="flaticon2-delete icon-sm"></i>
                                                                     </span>
-                                            <span class="navi-text">Supprimer</span>
+                                            <span class="navi-text">{% trans "Supprimer" %}</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -632,7 +632,7 @@
                 </button>
                 <button type="button" onClick="dissocierEtablissement(event, <%= patient_id %>)"
                         class="btn btn-icon btn-clean btn-hover-danger btn-sm"
-                        title="Supprimer le lieu d'accouchement">
+                        title="{% trans 'Supprimer le lieu d\'accouchement' %}">
                     <i class="la la-trash icon-md"></i>
                 </button>
             </div>

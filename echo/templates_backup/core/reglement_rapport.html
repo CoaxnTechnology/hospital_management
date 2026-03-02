@@ -1,0 +1,81 @@
+{% load i18n %}
+<div class="p-4">
+
+    <form class="form mb-1">
+        <div class="row">
+            <div class="col-6 form-group">
+                <div class='input-group' id='daterangepicker'>
+                    <input type='text' class="form-control" readonly="readonly" id="date_range_input"
+                           placeholder="intervalle de dates"/>
+                    <div class="input-group-append">
+															<span class="input-group-text">
+																<i class="la la-calendar-check-o"></i>
+															</span>
+                    </div>
+                </div>
+            </div>
+             <div class="col-6 form-group">
+                <input placeholder="" data-col-index="4"
+                       class="form-control form-control-sm" name="tags" type="text"
+                       id="tags" value=""/>
+            </div>
+        </div>
+        <div class="row">
+             <div class="col-4 form-group">
+               <label>{% trans "Mutuelle" %}</label>
+                <select name="mutuelle" id="mutuelle" class="form-control form-control-sm"
+                        data-col-index="5">
+                    <option value="">{% trans "Tous" %}</option>
+                    <option value="true">{% trans "Oui" %}</option>
+                    <option value="false">{% trans "Non" %}</option>
+                </select>
+
+            </div>
+            <div class="col-4 form-group">
+                <label>{% trans "Contenant une prestation" %}</label>
+                <select name="prestation" id="prestation" class="form-control form-control-sm"
+                                                data-col-index="2" data-search-key="categorie">
+                                            <option value="">---------</option>
+                                            {% for prestation in prestations %}
+                                                <option value="{{ prestation.prestation }}">{{ prestation.prestation }}</option>
+                                            {% endfor %}
+                                        </select>
+            </div>
+            <div class="col-4 form-group">
+                <label>{% trans "Nom" %} du patient</label>
+                <input type="text"
+                       class="form-control form-control-sm datatable-input" placeholder=""
+                       data-col-index="3"
+                       value=""/>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <button onclick="resetSearch()" class="btn btn-light-primary" type="button">
+                    Réinitialiser
+                </button>
+            </div>
+        </div>
+    </form>
+    <table class="table table-bordered table-checkable table-striped" id="datatable_rapport">
+        <thead>
+        <tr>
+            <th>{% trans "Montant Total" %}</th>
+            <th>{% trans "Prestations" %}</th>
+            <th>{% trans "Nom" %} & {% trans "Prénom" %} patient</th>
+            <th>{% trans "Mot clé" %}</th>
+            <th>{% trans "mutuelle" %}</th>
+            <th>{% trans "Action" %}</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+<template id="actions-rapport-template">
+    <a href="reglements/<%- id %>/modifier" class="btn btn-warning btn-icon btn-sm"
+       title="Modifier">
+        <i class="la la-edit icon-lg"></i>
+    </a>
+</template>
+
+

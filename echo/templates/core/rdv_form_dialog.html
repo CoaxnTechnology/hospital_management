@@ -18,7 +18,7 @@
                 <div class="card-header">
                     <div class="card-title">
                         <h3 class="card-label">
-                            Formulaire de {% if object %}modification{% else %}création{% endif %} <i class="mr-2"></i>
+                            {% trans "Formulaire de" %} {% if object %}{% trans "modification" %}{% else %}{% trans "création" %}{% endif %} <i class="mr-2"></i>
                         </h3>
 
                         <span class="label label-pill label-inline" id="libelle_statut"></span>
@@ -29,7 +29,7 @@
                                 <button class="btn btn-sm btn-danger font-weight-bolder"
                                         onclick="supprimer(event, {{ object.pk }})">
                                     <i class="flaticon2-delete icon-sm"></i>
-                                    Annuler le rendez-vous
+                                    {% trans "Annuler le rendez-vous" %}
                                 </button>
                             </div>
                         {% endif %}
@@ -37,7 +37,7 @@
                             <div class="btn-group">
                                 <button class="btn btn-sm btn-primary font-weight-bolder">
                                     <i class="ki ki-check icon-sm"></i>
-                                    Confirmer le rendez-vous
+                                    {% trans "Confirmer le rendez-vous" %}
                                 </button>
                             </div>
                         {% endif %}
@@ -57,7 +57,7 @@
                         <div class="col-12 col-md-6">
                             <div class="row">
                                 <div class="form-group required col-lg-5 col-md-12 required">
-                                    <label>Nom de naissance</label>
+                                    <label>{% trans "Nom de naissance" %}</label>
                                     <div class="typeahead">
                                         {% render_field form.nom_naissance class+="form-control form-control-sm " %}
                                     </div>
@@ -67,7 +67,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-5 col-md-12">
-                                    <label>Nom marital</label>
+                                    <label>{% trans "Nom marital" %}</label>
                                     <div class="typeahead">
                                         {% render_field form.nom class+="form-control form-control-sm " %}
                                     </div>
@@ -78,7 +78,7 @@
                                 </div>
 
                                 <div class="form-group required col-lg-5 col-md-12 required">
-                                    <label>Prénom</label>
+                                    <label>{% trans "Prénom" %}</label>
                                     <div class="typeahead">
                                         {% render_field form.prenom class+="form-control form-control-sm " %}
                                     </div>
@@ -92,7 +92,7 @@
                             <div class="row">
 
                                 <div class="form-group col-lg-3 col-md-12">
-                                    <label>Ville</label>
+                                    <label>{% trans "Ville" %}</label>
                                     <div class="typeahead">
                                         {% render_field form.ville class+="form-control form-control-sm " %}
                                     </div>
@@ -102,7 +102,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-3 col-md-12">
-                                    <label>Code postal</label>
+                                    <label>{% trans "Code postal" %}</label>
                                     <div class="typeahead">
                                         {% render_field form.cp class+="form-control form-control-sm " %}
                                     </div>
@@ -112,7 +112,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-4 col-md-12">
-                                    <label>Gouvernorat</label>
+                                    <label>{% trans "Gouvernorat" %}</label>
                                     <div class="typeahead">
                                         {% render_field form.gouvernorat class+="form-control form-control-sm " %}
                                     </div>
@@ -125,7 +125,7 @@
 
                             <div class="row">
                                 <div class="form-group required col-lg-3 col-md-12">
-                                    <label>Téléphone</label>
+                                    <label>{% trans "Téléphone" %}</label>
                                     {% render_field form.telephone class+="form-control form-control-sm" %}
                                     <div class="{% if form.telephone.errors %} invalid text-danger {% endif %}">
                                         {% for error in form.telephone.errors %}
@@ -135,7 +135,7 @@
                                 </div>
                                 <div class="form-group col-lg-4 col-md-12 d-flex flex-row align-items-center pt-4">
                                     <label class="checkbox">
-                                        {% render_field form.nouveau %} Nouveau patient
+                                        {% render_field form.nouveau %} {% trans "Nouveau patient" %}
                                         <span></span>
                                     </label>
                                     <div class="invalid-feedback"
@@ -149,7 +149,7 @@
                         <div class="col-12 col-md-6">
                             <div class="form-group row">
                                 <div class="col-12 col-md-3">
-                                    <label>Date</label>
+                                    <label>{% trans "Date" %}</label>
                                     {% render_field form.date_debut id="date_debut" class+="form-control form-control-sm " required="" value=" " readonly="" %}
                                     <div class="invalid-feedback"
                                          {% if form.date_debut.errors %}style="display: block"{% endif %}>
@@ -157,7 +157,7 @@
                                     </div>
                                 </div>
                                 <div class="col-6 col-md-3">
-                                    <label>Heure début</label>
+                                    <label>{% trans "Heure début" %}</label>
                                     {% render_field form.heure_debut id="heure_debut" class+="form-control form-control-sm " required="" value=" " readonly="" %}
                                     <div class="invalid-feedback"
                                          {% if form.heure_debut.errors %}style="display: block"{% endif %}>
@@ -165,7 +165,7 @@
                                     </div>
                                 </div>
                                 <div class="col-6 col-md-3">
-                                    <label>Heure fin</label>
+                                    <label>{% trans "Heure fin" %}</label>
                                     {% render_field form.heure_fin id="heure_fin" class+="form-control form-control-sm " required="" value=" " readonly="" %}
                                     <div class="invalid-feedback"
                                          {% if form.heure_fin.errors %}style="display: block"{% endif %}>
@@ -174,11 +174,11 @@
                                 </div>
                             </div>
                                     <div id="invalide_date" class="invalid-feedback">
-               La date est dans le passé
+               {% trans "La date est dans le passé" %}
             </div>
                             <div class="form-group row">
                                 <div class="col-lg-3">
-                                    <label>{{ form.motif.label }}</label>
+                                    <label>{% trans "Motif" %}</label>
                                     {% render_field form.motif class+="form-control form-control-sm " %}
                                     <div class="invalid-feedback"
                                          {% if form.motif.errors %}style="display: block"{% endif %}>
@@ -186,7 +186,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <label>Praticien</label>
+                                    <label>{% trans "Praticien" %}</label>
                                     {% render_field form.praticien class+="form-control form-control-sm " %}
                                     <div class="invalid-feedback"
                                          {% if form.praticien.errors %}style="display: block"{% endif %}>
@@ -219,23 +219,46 @@
 
 
 {% block scripts %}
+    {% trans "Non confirmé" as s_non_confirme %}
+    {% trans "Confirmé" as s_confirme %}
+    {% trans "En salle d'attente" as s_salle_attente %}
+    {% trans "Consultation terminée" as s_consultation_terminee %}
+    {% trans "Annulé" as s_annule %}
+    {% trans "Etes vous sûr ?" as s_swal_title %}
+    {% trans "Oui, annuler le rendez-vous!" as s_swal_confirm_annuler %}
+    {% trans "Non, conserver le rendez-vous" as s_swal_cancel %}
+    {% trans "Prénom est obligatoire" as s_prenom_obligatoire %}
+    {% trans "Nom naissance est obligatoire" as s_nom_naissance_obligatoire %}
+    {% trans "Téléphone est obligatoire" as s_telephone_obligatoire %}
+    {% trans "Téléphone doit contenir des chiffres uniquement" as s_telephone_chiffres %}
     <script type="text/javascript">
-        let statut = 'Non confirmé';
+        let statut = '{{ s_non_confirme|escapejs }}';
         let rdv_id = {% if object %}{{ object.pk }}{% else %}-1{% endif %};
+        window.SWAL_RDV = {
+            titre: '{{ s_swal_title|escapejs }}',
+            confirmer_annuler: '{{ s_swal_confirm_annuler|escapejs }}',
+            conserver: '{{ s_swal_cancel|escapejs }}',
+        };
+        const RDV_MESSAGES = {
+            prenom_obligatoire: '{{ s_prenom_obligatoire|escapejs }}',
+            nom_naissance_obligatoire: '{{ s_nom_naissance_obligatoire|escapejs }}',
+            telephone_obligatoire: '{{ s_telephone_obligatoire|escapejs }}',
+            telephone_chiffres: '{{ s_telephone_chiffres|escapejs }}',
+        };
         {%if object %}
             const st = '{{ object.statut }}';
             switch (st) {
                 case '1':
-                    statut = 'Confirmé';
+                    statut = '{{ s_confirme|escapejs }}';
                     break;
                 case '2':
-                    statut = 'En salle d\'attente';
+                    statut = '{{ s_salle_attente|escapejs }}';
                     break;
                 case '3':
-                    statut = 'Consultation terminée';
+                    statut = '{{ s_consultation_terminee|escapejs }}';
                     break;
                 case '10':
-                    statut = 'Annulé';
+                    statut = '{{ s_annule|escapejs }}';
             }
         {% endif %}
         const codes_postaux = {{ codes_postaux|safe|escape }};

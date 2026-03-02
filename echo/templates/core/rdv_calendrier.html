@@ -41,22 +41,22 @@
             <!--begin:::Tab item-->
             <li class="nav-item">
                 <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab"
-                   href="#calendrier">Calendrier</a>
+                   href="#calendrier">{% trans "Calendrier" %}</a>
             </li>
             <!--end:::Tab item-->
             <!--begin:::Tab item-->
             <li class="nav-item">
-                <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#liste">Liste</a>
+                <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#liste">{% trans "Liste" %}</a>
             </li>
             <!--end:::Tab item-->
             <!--begin:::Tab item-->
             <li class="nav-item ms-auto">
                 <!--begin::Action menu-->
                 <a onclick="afficherRdvModal('/rdvs/ajouter')" class="btn btn-primary font-weight-bold ms-2">
-                    Nouveau rendez-vous
+                    {% trans "Nouveau rendez-vous" %}
                 </a>
                 <a onclick="afficherAbsenceModal('/absence/ajouter/')" class="btn btn-primary font-weight-bold ms-2">
-                    Nouvelle absence
+                    {% trans "Nouvelle absence" %}
                 </a>
 
             </li>
@@ -112,27 +112,27 @@
                                 <div class="d-flex align-items-start flex-column">
                                     <div class="datepicker p-0"></div>
                                     <div class="ps-0 pe-4 mt-4">
-                                        <p class="text-muted">Légende</p>
+                                        <p class="text-muted">{% trans "Légende" %}</p>
                                         <div class="fc-event-type-1 rounded-sm w-200px p-1 mt-1 ps-3">
-                                            <div class="fc-title font-size-sm">RDV Confirmé</div>
+                                            <div class="fc-title font-size-sm">{% trans "RDV Confirmé" %}</div>
                                         </div>
                                         <div class="fc-event-type-2 rounded-sm w-200px p-1 mt-1 ps-3">
-                                            <div class="fc-title font-size-sm">Patient en salle d'attente</div>
+                                            <div class="fc-title font-size-sm">{% trans "Patient en salle d'attente" %}</div>
                                         </div>
                                         <div class="fc-event-type-3 rounded-sm w-200px p-1 mt-1 ps-3">
-                                            <div class="fc-title font-size-sm">Consultation terminée</div>
+                                            <div class="fc-title font-size-sm">{% trans "Consultation terminée" %}</div>
                                         </div>
                                         <div class="fc-event-type-10 rounded-sm w-200px p-1 mt-1 ps-3">
-                                            <div class="fc-title font-size-sm">RDV Annulé</div>
+                                            <div class="fc-title font-size-sm">{% trans "RDV Annulé" %}</div>
                                         </div>
                                         <div class="fc-event-thick-border rounded-sm w-200px p-1 mt-2 ps-3">
-                                            <div class="fc-title font-size-sm">Consultation</div>
+                                            <div class="fc-title font-size-sm">{% trans "Consultation" %}</div>
                                         </div>
                                         <div class="fc-event-type-absence rounded-sm w-200px p-1 mt-2 ps-3">
-                                            <div class="fc-title font-size-sm">Absence médecin</div>
+                                            <div class="fc-title font-size-sm">{% trans "Absence médecin" %}</div>
                                         </div>
                                         <div class="fc-event-type-programme-operatoire rounded-sm w-200px p-1 mt-2 ps-3">
-                                            <div class="fc-title font-size-sm">Programme opératoire</div>
+                                            <div class="fc-title font-size-sm">{% trans "Programme opératoire" %}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -156,7 +156,7 @@
                                             <a onclick="filtrerDate(this, event, 0)"
                                                class="nav-link py-2 py-md-4 mx-xs-1 mx-md-2 px-2 px-md-4 active"
                                                href="javascript:void(0)">
-                                                <span class="nav-text">Tous</span>
+                                                <span class="nav-text">{% trans "Tous" %}</span>
                                             </a>
                                         </li>
 
@@ -164,7 +164,7 @@
                                             <a onclick="filtrerDate(this, event, 1)"
                                                class="nav-link py-2 py-md-4 mx-xs-1 mx-md-2 px-2 px-md-4"
                                                href="javascript:void(0)">
-                                                <span class="nav-text">Aujourd'hui</span>
+                                                <span class="nav-text">{% trans "Aujourd'hui" %}</span>
                                             </a>
                                         </li>
 
@@ -172,7 +172,7 @@
                                             <a onclick="filtrerDate(this, event, 2)"
                                                class="nav-link py-2 py-md-4 mx-xs-1 mx-md-2 px-2 px-md-4"
                                                href="javascript:void(0)">
-                                                <span class="nav-text">Demain</span>
+                                                <span class="nav-text">{% trans "Demain" %}</span>
                                             </a>
                                         </li>
 
@@ -180,7 +180,7 @@
                                             <a onclick="filtrerDate(this, event, 3)"
                                                class="nav-link py-2 py-md-4 mx-xs-1 mx-md-2 px-2 px-md-4"
                                                href="javascript:void(0)">
-                                                <span class="nav-text">Après-demain</span>
+                                                <span class="nav-text">{% trans "Après-demain" %}</span>
                                             </a>
                                         </li>
 
@@ -188,7 +188,7 @@
                                             <a onclick="filtrerDate(this, event, 4)"
                                                class="nav-link py-2 py-md-4 mx-xs-1 mx-md-2 px-2 px-md-4"
                                                href="javascript:void(0)">
-                                                <span class="nav-text">Cette semaine</span>
+                                                <span class="nav-text">{% trans "Cette semaine" %}</span>
                                             </a>
                                         </li>
 
@@ -196,7 +196,7 @@
                                             <a onclick="filtrerDate(this, event, 5)"
                                                class="nav-link py-2 py-md-4 mx-xs-1 mx-md-2 px-2 px-md-4"
                                                href="javascript:void(0)">
-                                                <span class="nav-text">Semaine prochaine</span>
+                                                <span class="nav-text">{% trans "Semaine prochaine" %}</span>
                                             </a>
                                         </li>
                                     </ul>
@@ -210,31 +210,31 @@
                         <form class="form mb-1">
                             <div class="row">
                                 <div class="form-group col-4 col-md-2">
-                                    <label>Nom</label>
+                                    <label>{% trans "Nom" %}</label>
                                     <input type="text" class="form-control form-control-sm datatable-input"
                                            placeholder=""
                                            data-col-index="2"/>
                                 </div>
                                 <div class="form-group col-4 col-md-2">
-                                    <label>Prénom</label>
+                                    <label>{% trans "Prénom" %}</label>
                                     <input type="text" class="form-control form-control-sm datatable-input"
                                            placeholder=""
                                            data-col-index="3"/>
                                 </div>
                                 <div class="form-group col-4 col-md-2">
-                                    <label>Ville</label>
+                                    <label>{% trans "Ville" %}</label>
                                     <input type="text" class="form-control form-control-sm datatable-input"
                                            placeholder=""
                                            data-col-index="4"/>
                                 </div>
                                 <div class="form-group col-4 col-md-2">
-                                    <label>Téléphone</label>
+                                    <label>{% trans "Téléphone" %}</label>
                                     <input type="text" class="form-control form-control-sm datatable-input"
                                            placeholder=""
                                            data-col-index="5"/>
                                 </div>
                                 <div class="form-group col-4 col-md-2">
-                                    <label>Date rendez-vous</label>
+                                    <label>{% trans "Date rendez-vous" %}</label>
                                     <input type="text" class="date form-control form-control-sm datatable-input"
                                            placeholder=""
                                            data-col-index="0"/>
@@ -246,13 +246,13 @@
                                     <button class="btn btn-sm btn-primary btn-primary--icon" id="kt_search">
 									<span>
 										<i class="la la-search"></i>
-                                        <span>Chercher</span>
+                                        <span>{% trans "Chercher" %}</span>
                                     </span>
                                     </button>&nbsp;
                                     <button class="btn btn-sm btn-secondary btn-secondary--icon" id="kt_reset">
                                     <span>
                                         <i class="la la-close"></i>
-                                        <span>Annuler</span>
+                                        <span>{% trans "Annuler" %}</span>
                                     </span>
                                     </button>
                                 </div>
@@ -264,13 +264,13 @@
                             <thead>
 
                             <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
-                                <th>Date</th>
-                                <th>Heure</th>
-                                <th>Nom</th>
-                                <th>Prénom</th>
-                                <th>Ville</th>
-                                <th>Téléphone</th>
-                                <th>Actions</th>
+                                <th>{% trans "Date" %}</th>
+                                <th>{% trans "Heure" %}</th>
+                                <th>{% trans "Nom" %}</th>
+                                <th>{% trans "Prénom" %}</th>
+                                <th>{% trans "Ville" %}</th>
+                                <th>{% trans "Téléphone" %}</th>
+                                <th>{% trans "Actions" %}</th>
                             </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-semibold">
@@ -295,19 +295,19 @@
         <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="dialog-title">Nouveau rendez-vous</h5>
+                    <h5 class="modal-title" id="dialog-title">{% trans "Nouveau rendez-vous" %}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i aria-hidden="true" class="ki ki-close icon-md"></i>
                     </button>
                 </div>
                 <div class="modal-body">
-                    Le <span id="date"></span> de <span id="from"></span> à <span id="to"></span>
+                    {% trans "Le" %} <span id="date"></span> {% trans "de" %} <span id="from"></span> {% trans "à" %} <span id="to"></span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">
-                        Annuler
+                        {% trans "Annuler" %}
                     </button>
-                    <a id="lien_creer" href="" class="btn btn-primary font-weight-bold">Créer</a>
+                    <a id="lien_creer" href="" class="btn btn-primary font-weight-bold">{% trans "Créer" %}</a>
                 </div>
             </div>
         </div>
@@ -327,11 +327,11 @@
         <button type="button"
                 onclick="afficherRdvModal('/rdvs/<%- id %>/modifier/?next=/rdvs/#liste')"
                 class="btn btn-icon btn-sm btn-warning"
-                title="Modifier le rendez-vous">
+                title="{% trans 'Modifier le rendez-vous' %}">
             <i class="la la-edit icon-md"></i>
         </button>
         <a onclick="supprimer(<%- id %>)" class="btn btn-icon btn-sm btn-danger"
-           title="Annuler le rendez-vous">
+           title="{% trans 'Annuler le rendez-vous' %}">
             <i class="la la-trash icon-md"></i>
         </a>
     </script>
@@ -363,6 +363,7 @@
         rdvs_futurs = _.filter(rdvs, rdv => moment(rdv.debut).isAfter(moment().startOf('day')));
         // Duree est en minutes en base, donc on transforme en millisecondes pour Fullcalendar
         const duree_defaut = 1000 * 60 * '{{ user.profil.compte.parametrescompte.duree_rdv_defaut }}'
+        const currentLanguage = '{{ LANGUAGE_CODE }}';
     </script>
 
     <script src="{% static "js/core/rdv_calendrier.js" %}"></script>

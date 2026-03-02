@@ -79,7 +79,7 @@ $(document).ready(function () {
     var initTable1 = function () {
 
         var table = $('#kt_datatable').DataTable({
-            language: { "url": "/static/plugins/custom/datatables/French.json"},
+            language: window.DT_LANGUAGE || {},
             responsive: true,
             // dom: `<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
             // read more: https://datatables.net/examples/basic_init/dom.html

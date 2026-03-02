@@ -16,7 +16,7 @@
             <!--begin::Details-->
             <div class="d-flex align-items-center flex-wrap mr-2">
                 <!--begin::Title-->
-                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Ajouter un rendez-vous</h5>
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">{% trans "Ajouter un rendez-vous" %}</h5>
                 <!--end::Title-->
             </div>
             <!--end::Details-->
@@ -41,7 +41,7 @@
             <div class="card-header">
                 <div class="card-title">
                     <h3 class="card-label">
-                        Formulaire de {% if object %}modification{% else %}création{% endif %} <i class="mr-2"></i>
+                        {% trans "Formulaire de" %} {% if object %}{% trans "modification" %}{% else %}{% trans "création" %}{% endif %} <i class="mr-2"></i>
                     </h3>
 
                     <span class="label label-pill label-inline" id="libelle_statut"></span>
@@ -49,14 +49,14 @@
                 <div class="card-toolbar">
                     <a href="/rdvs" class="btn btn-sm btn-light-primary font-weight-bolder mr-2">
                         <i class="ki ki-long-arrow-back icon-sm"></i>
-                        Précédent
+                        {% trans "Précédent" %}
                     </a>
                     {% if object and object.statut == '1' %}
                         <div class="btn-group mr-2">
                             <button class="btn btn-sm btn-danger font-weight-bolder"
                                     onclick="supprimer(event, {{ object.pk }})">
                                 <i class="flaticon2-delete icon-sm"></i>
-                                Annuler le rendez-vous
+                                {% trans "Annuler le rendez-vous" %}
                             </button>
                         </div>
                     {% endif %}
@@ -64,7 +64,7 @@
                         <div class="btn-group">
                             <button class="btn btn-sm btn-primary font-weight-bolder">
                                 <i class="ki ki-check icon-sm"></i>
-                                Confirmer le rendez-vous
+                                {% trans "Confirmer le rendez-vous" %}
                             </button>
                         </div>
                     {% endif %}
@@ -85,7 +85,7 @@
                     <div class="col-6">
                         <div class="row">
                             <div class="form-group required col-lg-5 col-md-12 required">
-                                <label>Nom de naissance</label>
+                                <label>{% trans "Nom de naissance" %}</label>
                                 <div class="typeahead">
                                     {% render_field form.nom_naissance class+="form-control form-control-sm " %}
                                 </div>
@@ -95,7 +95,7 @@
                                 </div>
                             </div>
                             <div class="form-group required col-lg-5 col-md-12 required">
-                                <label>Nom marital</label>
+                                <label>{% trans "Nom marital" %}</label>
                                 <div class="typeahead">
                                     {% render_field form.nom class+="form-control form-control-sm " %}
                                 </div>
@@ -106,7 +106,7 @@
                             </div>
 
                             <div class="form-group required col-lg-5 col-md-12 required">
-                                <label>Prénom</label>
+                                <label>{% trans "Prénom" %}</label>
                                 <div class="typeahead">
                                     {% render_field form.prenom class+="form-control form-control-sm " %}
                                 </div>
@@ -120,7 +120,7 @@
                         <div class="row">
 
                             <div class="form-group col-lg-3 col-md-12">
-                                <label>Ville</label>
+                                <label>{% trans "Ville" %}</label>
                                 <div class="typeahead">
                                     {% render_field form.ville class+="form-control form-control-sm " %}
                                 </div>
@@ -130,7 +130,7 @@
                                 </div>
                             </div>
                             <div class="form-group col-lg-3 col-md-12">
-                                <label>Code postal</label>
+                                <label>{% trans "Code postal" %}</label>
                                 <div class="typeahead">
                                     {% render_field form.cp class+="form-control form-control-sm " %}
                                 </div>
@@ -140,7 +140,7 @@
                                 </div>
                             </div>
                             <div class="form-group col-lg-4 col-md-12">
-                                <label>Gouvernorat</label>
+                                <label>{% trans "Gouvernorat" %}</label>
                                 <div class="typeahead">
                                     {% render_field form.gouvernorat class+="form-control form-control-sm " %}
                                 </div>
@@ -153,7 +153,7 @@
 
                         <div class="row">
                             <div class="form-group required col-lg-3 col-md-12">
-                                <label>Téléphone</label>
+                                <label>{% trans "Téléphone" %}</label>
                                 {% render_field form.telephone class+="form-control form-control-sm" %}
                                 <div class="{% if form.telephone.errors %} invalid text-danger {% endif %}">
                                     {% for error in form.telephone.errors %}
@@ -163,7 +163,7 @@
                             </div>
                             <div class="form-group col-lg-4 col-md-12 d-flex flex-row align-items-center pt-4">
                                 <label class="checkbox">
-                                    {% render_field form.nouveau %} Nouveau patient
+                                    {% render_field form.nouveau %} {% trans "Nouveau patient" %}
                                     <span></span>
                                 </label>
                                 <div class="invalid-feedback"
@@ -177,7 +177,7 @@
                     <div class="col-6">
                         <div class="form-group row">
                             <div class="col-lg-3">
-                                <label>Date</label>
+                                <label>{% trans "Date" %}</label>
                                 {% render_field form.date_debut id="date_debut" class+="form-control form-control-sm " required="" value=" " readonly="" %}
                                 <div class="invalid-feedback"
                                      {% if form.date_debut.errors %}style="display: block"{% endif %}>
@@ -185,7 +185,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-3">
-                                <label>Heure début</label>
+                                <label>{% trans "Heure début" %}</label>
                                 {% render_field form.heure_debut id="heure_debut" class+="form-control form-control-sm " required="" value=" " readonly="" %}
                                 <div class="invalid-feedback"
                                      {% if form.heure_debut.errors %}style="display: block"{% endif %}>
@@ -193,7 +193,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-3">
-                                <label>Heure fin</label>
+                                <label>{% trans "Heure fin" %}</label>
                                 {% render_field form.heure_fin id="heure_fin" class+="form-control form-control-sm " required="" value=" " readonly="" %}
                                 <div class="invalid-feedback"
                                      {% if form.heure_fin.errors %}style="display: block"{% endif %}>
@@ -211,7 +211,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <label>Praticien</label>
+                                <label>{% trans "Praticien" %}</label>
                                 {% render_field form.praticien class+="form-control form-control-sm " %}
                                 <div class="invalid-feedback"
                                      {% if form.praticien.errors %}style="display: block"{% endif %}>

@@ -2254,7 +2254,7 @@ msgstr "تاريخ الرعاية"
 #: echo/templates_backup/templates/core/bordereau_detail.html:71
 #: echo/templates_backup/templates/core/mutuelle_list.html:79
 msgid "IU de l'assuré"
-msgstr "IU de l'assuré"
+msgstr "رمز المؤمن عليه"
 
 #: echo/templates/core/bordereau_detail.html:73
 #: echo/templates/core/mutuelle_list.html:80
@@ -2263,7 +2263,7 @@ msgstr "IU de l'assuré"
 #: echo/templates_backup/templates/core/bordereau_detail.html:73
 #: echo/templates_backup/templates/core/mutuelle_list.html:80
 msgid "L'identité du bénéficiaire"
-msgstr "L'identité du bénéficiaire"
+msgstr "هوية المستفيد"
 
 #: echo/templates/core/bordereau_detail.html:74
 #: echo/templates/core/mutuelle_list.html:81
@@ -2272,7 +2272,7 @@ msgstr "L'identité du bénéficiaire"
 #: echo/templates_backup/templates/core/bordereau_detail.html:74
 #: echo/templates_backup/templates/core/mutuelle_list.html:81
 msgid "Acte effectué"
-msgstr "Acte effectué"
+msgstr "الفعل المنجز"
 
 #: echo/templates/core/bordereau_detail.html:76
 #: echo/templates/core/cloture_detail.html:41
@@ -2296,7 +2296,7 @@ msgstr "المبلغ الإجمالي"
 #: echo/templates_backup/templates/core/bordereau_detail.html:77
 #: echo/templates_backup/templates/core/mutuelle_list.html:84
 msgid "Montant à la charge de la CNAM"
-msgstr "Montant à la charge de la CNAM"
+msgstr "المبلغ على عاتق الصندوق الوطني للتأمين"
 
 #: echo/templates/core/bordereau_detail.html:78
 #: echo/templates/core/mutuelle_list.html:83
@@ -2305,7 +2305,7 @@ msgstr "Montant à la charge de la CNAM"
 #: echo/templates_backup/templates/core/bordereau_detail.html:78
 #: echo/templates_backup/templates/core/mutuelle_list.html:83
 msgid "Ticket modérateur perçu de l'assuré"
-msgstr "Ticket modérateur perçu de l'assuré"
+msgstr "التذكرة التعديلية المستوفاة من المؤمن"
 
 #: echo/templates/core/bordereau_detail.html:79
 #: echo/templates/core/mutuelle_list.html:85
@@ -2314,7 +2314,7 @@ msgstr "Ticket modérateur perçu de l'assuré"
 #: echo/templates_backup/templates/core/bordereau_detail.html:79
 #: echo/templates_backup/templates/core/mutuelle_list.html:85
 msgid "Code conventionnel du médecin traitant"
-msgstr "Code conventionnel du médecin traitant"
+msgstr "الرمز الاتفاقي للطبيب المعالج"
 
 #: echo/templates/core/bordereau_detail.html:83
 #: echo/templates/core/mutuelle_list.html:90
@@ -2323,7 +2323,7 @@ msgstr "Code conventionnel du médecin traitant"
 #: echo/templates_backup/templates/core/bordereau_detail.html:83
 #: echo/templates_backup/templates/core/mutuelle_list.html:90
 msgid "Nom et prénom patient"
-msgstr "Nom et prénom patient"
+msgstr "اسم ولقب المريض"
 
 #: echo/templates/core/bordereau_detail.html:84
 #: echo/templates/core/mutuelle_list.html:91
@@ -2332,7 +2332,7 @@ msgstr "Nom et prénom patient"
 #: echo/templates_backup/templates/core/bordereau_detail.html:84
 #: echo/templates_backup/templates/core/mutuelle_list.html:91
 msgid "Qualité"
-msgstr "Qualité"
+msgstr "الصفة"
 
 #: echo/templates/core/bordereau_detail.html:85
 #: echo/templates/core/mutuelle_list.html:92
@@ -2341,7 +2341,7 @@ msgstr "Qualité"
 #: echo/templates_backup/templates/core/bordereau_detail.html:85
 #: echo/templates_backup/templates/core/mutuelle_list.html:92
 msgid "Code APCI"
-msgstr "Code APCI"
+msgstr "رمز APCI"
 
 #: echo/templates/core/bordereau_detail.html:86
 #: echo/templates/core/mutuelle_list.html:93
@@ -2350,7 +2350,7 @@ msgstr "Code APCI"
 #: echo/templates_backup/templates/core/bordereau_detail.html:86
 #: echo/templates_backup/templates/core/mutuelle_list.html:93
 msgid "Code acte"
-msgstr "Code acte"
+msgstr "رمز الفعل"
 
 #: echo/templates/core/bordereau_detail.html:87
 #: echo/templates/core/mutuelle_list.html:94
@@ -2359,7 +2359,7 @@ msgstr "Code acte"
 #: echo/templates_backup/templates/core/bordereau_detail.html:87
 #: echo/templates_backup/templates/core/mutuelle_list.html:94
 msgid "Cotation"
-msgstr "Cotation"
+msgstr "التقييم"
 
 #: echo/templates/core/bordereau_detail.html:97
 #: echo/templates_backup/core/bordereau_detail.html:97
@@ -4286,7 +4286,7 @@ msgstr "الاستشارات"
 #: echo/templates_backup/core/partials/header_rapport.html:11
 #: echo/templates_backup/templates/core/partials/header_rapport.html:11
 msgid "Accouchements previstos"
-msgstr "Accouchements previstos"
+msgstr "الولادات المتوقعة"
 
 #: echo/templates/core/patient_detail.html:26
 #: echo/templates/core/patient_form.html:7
@@ -4507,7 +4507,7 @@ msgstr "قائمة المرضى"
 #: echo/templates_backup/templates/core/patient_list_v2.html:79
 #: echo/templates_backup/templates/core/patient_list_v2.html:122
 msgid "Ancien numéro"
-msgstr "Ancien numéro"
+msgstr "رقم قديم"
 
 #: echo/templates/core/patient_list.html:77
 #: echo/templates_backup/core/patient_list.html:77

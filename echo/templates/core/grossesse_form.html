@@ -158,12 +158,14 @@
 <label>{% trans "Caryotype" %}</label>
 {% render_field form.caryotype_type class+="form-control form-control-sm" %}
 
-{% render_field form.caryotype_val class+="form-control form-control-sm" placeholder=_("Résultat") %}
+{% trans "Résultat" as t_resultat %}
+{% render_field form.caryotype_val class+="form-control form-control-sm" placeholder=t_resultat %}
 
 <label>{% trans "DPNI" %}</label>
-{% render_field form.dpni class+="form-control form-control-sm" placeholder=_("Résultat") %}
+{% render_field form.dpni class+="form-control form-control-sm" placeholder=t_resultat %}
 
-{% render_field form.dpni_comment class+="form-control form-control-sm" placeholder=_("Commentaire") %}
+{% trans "Commentaire" as t_commentaire %}
+{% render_field form.dpni_comment class+="form-control form-control-sm" placeholder=t_commentaire %}
 
 <label>{% trans "Diabète" %}</label>
 {% render_field form.diabete_v2 class+="form-control form-control-sm" %}
@@ -216,7 +218,8 @@
 {% render_field form.lieu_accouchement_libre class+="form-control form-control-sm" %}
 
 <h5>{% trans "Informations complémentaires" %}</h5>
-{% render_field form.infos_complemenatires class+="form-control" placeholder=_("Autres informations") %}
+{% trans "Autres informations" as t_autres_infos %}
+{% render_field form.infos_complemenatires class+="form-control" placeholder=t_autres_infos %}
 
 <h5>{% trans "Notes" %}</h5>
 {% render_field form.notes class+="form-control" %}

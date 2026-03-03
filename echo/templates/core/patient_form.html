@@ -4,7 +4,8 @@
 {% load widget_tweaks %}
 
 {% block header %}
-    {% include "core/form_header.html" with module=_("Patient") %}
+    {% trans "Patient" as t_patient %}
+    {% include "core/form_header.html" with module=t_patient %}
 {% endblock %}
 
 {% block content %}

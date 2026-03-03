@@ -334,7 +334,7 @@ def main() -> None:
 def run_server():
     print('Running Worklist and MPPS server')
     config = ServiceClassProviderConfig(implementation_class_uid=generate_uid(), port=os.environ.get('EE_WL_MPPS_SCP_PORT', 11112))
-    server = ServiceClassProvider("EXPERTECHO", config)
+    server = ServiceClassProvider("CABINETPRO", config)
     server.start()
 
 

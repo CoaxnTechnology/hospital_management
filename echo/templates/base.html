@@ -44,14 +44,14 @@
     <!--begin::Logo-->
     <a href="/accueil">
         {% if user.profil.compte.is_gyneco %}
-            <img alt="{{ user.profil.compte.product_brand }}" src="{% static "media/logos/logo-expert-echo.png" %}"/>
+            <img alt="CabinetPro" src="{% static "media/logos/logo-expert-echo.png" %}"/>
         {% endif %}
         {% if user.profil.compte.is_cardio %}
-            <img alt="{{ user.profil.compte.product_brand }}"
+            <img alt="CabinetPro"
                  src="{% static "media/logos/logo-expert-echo-cardio.png" %}"/>
         {% endif %}
         {% if user.profil.compte.is_general %}
-            <img alt="{{ user.profil.compte.product_brand }}" src="{% static "media/logos/logo-expert-medical.png" %}"/>
+            <img alt="CabinetPro" src="{% static "media/logos/logo-cabinetpro.png" %}"/>
         {% endif %}
         <h4 class="d-none text-white m-0">{{ user.profil.compte.raison_sociale }}</h4>
     </a>
@@ -231,102 +231,55 @@
         <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
             <!--begin::Header-->
             <div id="kt_header" class="header header-fixed">
-                <!--begin::Container-->
-                <div class="container-fluid d-flex align-items-stretch justify-content-between">
-                    <!--begin::Header Menu Wrapper-->
-                    <div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
-                        <!--begin::Header Menu-->
-                        <div id="kt_header_menu" class="header-menu header-menu-mobile header-menu-layout-default">
-                            <!--begin::Header Nav-->
-                            <ul class="menu-nav">
-                                <li class="menu-item text-light-dark">
-                                    {% if user.profil.compte.is_gyneco %}
-                                    <img alt="{{ user.profil.compte.product_brand}}" src="{% static "media/logos/logo-expert-echo.png" %}"/>
-                                    {% endif %}
-                                    {% if user.profil.compte.is_cardio %}
-                                    <img alt="{{ user.profil.compte.product_brand}}" src="{% static "media/logos/logo-expert-echo-cardio.png" %}"/>
-                                    {% endif %}
-                                    {% if user.profil.compte.is_general %}
-                                    <img alt="{{ user.profil.compte.product_brand}}" src="{% static "media/logos/logo-expert-medical.png" %}"/>
-                                    {% endif %}
-                                </li>
-                            </ul>
-                            <!--end::Header Nav-->
-                        </div>
-                        <!--end::Header Menu-->
-                    </div>
-                    <!--end::Header Menu Wrapper-->
-                    <!--begin::Topbar-->
+                <div class="container-fluid d-flex align-items-center justify-content-end">
+
+                    <!--begin::Topbar Only-->
                     <div class="topbar">
+
+                        <!-- Chat -->
                         <div class="topbar-item">
                             <button id="chat_toggle"
-                                    class="btn btn-clean btn-icon w-auto btn-clean d-flex align-items-center btn-lg px-2 font-weight-bold mr-2">
-                                <span class="svg-icon svg-icon-xl svg-icon-primary">
-                                    <!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Group-chat.svg-->
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                         xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
-                                         viewBox="0 0 24 24" version="1.1">
-                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <rect x="0" y="0" width="24" height="24"/>
-                                            <path d="M16,15.6315789 L16,12 C16,10.3431458 14.6568542,9 13,9 L6.16183229,9 L6.16183229,5.52631579 C6.16183229,4.13107011 7.29290239,3 8.68814808,3 L20.4776218,3 C21.8728674,3 23.0039375,4.13107011 23.0039375,5.52631579 L23.0039375,13.1052632 L23.0206157,17.786793 C23.0215995,18.0629336 22.7985408,18.2875874 22.5224001,18.2885711 C22.3891754,18.2890457 22.2612702,18.2363324 22.1670655,18.1421277 L19.6565168,15.6315789 L16,15.6315789 Z"
-                                                  fill="#000000"/>
-                                            <path d="M1.98505595,18 L1.98505595,13 C1.98505595,11.8954305 2.88048645,11 3.98505595,11 L11.9850559,11 C13.0896254,11 13.9850559,11.8954305 13.9850559,13 L13.9850559,18 C13.9850559,19.1045695 13.0896254,20 11.9850559,20 L4.10078614,20 L2.85693427,21.1905292 C2.65744295,21.3814685 2.34093638,21.3745358 2.14999706,21.1750444 C2.06092565,21.0819836 2.01120804,20.958136 2.01120804,20.8293182 L2.01120804,18.32426 C1.99400175,18.2187196 1.98505595,18.1104045 1.98505595,18 Z M6.5,14 C6.22385763,14 6,14.2238576 6,14.5 C6,14.7761424 6.22385763,15 6.5,15 L11.5,15 C11.7761424,15 12,14.7761424 12,14.5 C12,14.2238576 11.7761424,14 11.5,14 L6.5,14 Z M9.5,16 C9.22385763,16 9,16.2238576 9,16.5 C9,16.7761424 9.22385763,17 9.5,17 L11.5,17 C11.7761424,17 12,16.7761424 12,16.5 C12,16.2238576 11.7761424,16 11.5,16 L9.5,16 Z"
-                                                  fill="#000000" opacity="0.3"/>
-                                        </g>
-                                    </svg>
-                                    <!--end::Svg Icon-->
-                                    </span>
+                                    class="btn btn-clean btn-icon w-auto d-flex align-items-center btn-lg px-2 font-weight-bold mr-2">
                                 <span class="ml-2">{% trans "Discussions" %}</span>
                                 <span id="msg_non_lus" class="label label-warning ml-1 font-weight-bold"></span>
                             </button>
                         </div>
-                        <!--begin::Language Switcher-->
+
+                        <!-- Language Switch -->
                         <div class="topbar-item dropdown">
                             {% get_current_language as CURRENT_LANGUAGE %}
                             <button class="btn btn-clean btn-icon w-auto d-flex align-items-center btn-lg px-2 font-weight-bold mr-2"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="svg-icon svg-icon-xl svg-icon-primary">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <rect x="0" y="0" width="24" height="24"/>
-                                            <path d="M12,2 C17.5228475,2 22,6.4771525 22,12 C22,17.5228475 17.5228475,22 12,22 C6.4771525,22 2,17.5228475 2,12 C2,6.4771525 6.4771525,2 12,2 Z M12,4 C7.581722,4 4,7.581722 4,12 C4,16.418278 7.581722,20 12,20 C16.418278,20 20,16.418278 20,12 C20,7.581722 16.418278,4 12,4 Z" fill="#000000" fill-rule="nonzero"/>
-                                            <path d="M12,2 C14.7614237,2 17,6.4771525 17,12 C17,17.5228475 14.7614237,22 12,22 C9.23857625,22 7,17.5228475 7,12 C7,6.4771525 9.23857625,2 12,2 Z M12,4 C10.3431458,4 9,7.581722 9,12 C9,16.418278 10.3431458,20 12,20 C13.6568542,20 15,16.418278 15,12 C15,7.581722 13.6568542,4 12,4 Z" fill="#000000" opacity="0.3"/>
-                                            <line x1="3" y1="12" x2="21" y2="12" stroke="#000000" stroke-width="2" opacity="0.3"/>
-                                        </g>
-                                    </svg>
-                                </span>
+                                    data-toggle="dropdown">
                                 <span class="ml-2">{{ CURRENT_LANGUAGE|upper }}</span>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right py-2">
                                 {% get_available_languages as LANGUAGES %}
-                                {% get_current_language as CURRENT_LANGUAGE %}
                                 {% for lang_code, lang_name in LANGUAGES %}
-                                <a href="javascript:switchLanguage('{{ lang_code }}')" 
-                                    class="dropdown-item {% if lang_code == CURRENT_LANGUAGE %}active{% endif %}">
+                                <a href="javascript:switchLanguage('{{ lang_code }}')"
+                                class="dropdown-item {% if lang_code == CURRENT_LANGUAGE %}active{% endif %}">
                                     {{ lang_name }}
                                 </a>
                                 {% endfor %}
                             </div>
                         </div>
-                        <!--end::Language Switcher-->
-                        <!--begin::User-->
+
+                        <!-- User -->
                         <div class="topbar-item">
                             <div class="btn btn-icon w-auto btn-clean d-flex align-items-center btn-lg px-2"
-                                 id="kt_quick_user_toggle">
-                                <span class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">{% trans "Bonjour," %}</span>
-                                <span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3">
-                                            {{ user.profil.titre_nom }}
+                                id="kt_quick_user_toggle">
+                                <span class="text-muted font-weight-bold d-none d-md-inline mr-1">
+                                    {% trans "Bonjour," %}
                                 </span>
-                                <span class="symbol symbol-35 symbol-light-primary">
-                                    <span class="symbol-label font-size-h5 font-weight-bold">{{ user.profil.initiales }}</span>
+                                <span class="text-dark-50 font-weight-bolder d-none d-md-inline mr-3">
+                                    {{ user.profil.titre_nom }}
                                 </span>
                             </div>
                         </div>
-                        <!--end::User-->
+
                     </div>
                     <!--end::Topbar-->
+
                 </div>
-                <!--end::Container-->
             </div>
             <!--end::Header-->
             <!--begin::Content-->
@@ -861,8 +814,8 @@ window.SWAL_RDV = {
 
     let productBrand = '';
     {% if user.profil.compte.is_general %}productBrand = 'Medeasy';{% endif %}
-    {% if user.profil.compte.is_gyneco %}productBrand = 'Gyneasy';{% endif %}
-    {% if user.profil.compte.is_cardio %}productBrand = 'Gyneasy';{% endif %}
+    {% if user.profil.compte.is_gyneco %}productBrand = 'CabinetPro';{% endif %}
+    {% if user.profil.compte.is_cardio %}productBrand = 'CabinetPro';{% endif %}
 
     let nom_client = '';
     {% if user and user.profil %}nom_client='{{ user.profil.compte.raison_sociale }}'{% endif %}

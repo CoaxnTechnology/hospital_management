@@ -362,7 +362,8 @@
         //console.log('Start of day', moment().startOf('day'));
         rdvs_futurs = _.filter(rdvs, rdv => moment(rdv.debut).isAfter(moment().startOf('day')));
         // Duree est en minutes en base, donc on transforme en millisecondes pour Fullcalendar
-        const duree_defaut = 1000 * 60 * '{{ user.profil.compte.parametrescompte.duree_rdv_defaut }}'
+        // Use stringformat:"d" to force ASCII digits regardless of active locale (Arabic numerals would break JS arithmetic)
+        const duree_defaut = 1000 * 60 * {{ user.profil.compte.parametrescompte.duree_rdv_defaut|stringformat:"d" }};
         const currentLanguage = '{{ LANGUAGE_CODE }}';
     </script>
 

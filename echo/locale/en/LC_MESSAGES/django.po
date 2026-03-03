@@ -1904,7 +1904,7 @@ msgstr "Pregnancy"
 #: echo/templates_backup/templates/core/base_consultation_v2.html:107
 #: echo/templates_backup/templates/core/rdv_calendrier.html:44
 msgid "Calendrier"
-msgstr "Calendrier"
+msgstr "Calender"
 
 #: echo/templates/core/base_consultation_v2.html:110
 #: echo/templates/core/base_pma.html:134

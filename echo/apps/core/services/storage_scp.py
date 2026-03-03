@@ -166,7 +166,7 @@ def run_server():
     print('Running Storage server')
     config = ServiceClassProviderConfig(implementation_class_uid=generate_uid(),
                                         port=os.environ.get('EE_STORE_SCP_PORT', 11113))
-    server = ServiceClassProvider("EXPERTECHO", config)
+    server = ServiceClassProvider("CABINETPRO", config)
     server.start()
 
 

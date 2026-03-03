@@ -4,7 +4,9 @@ let g_cal;
 const FC_SUPPORTED_LOCALES = ['fr', 'es', 'en'];
 const fcLocale = FC_SUPPORTED_LOCALES.includes(currentLanguage) ? currentLanguage : 'en';
 
-moment.locale(currentLanguage);
+// Use a supported moment locale to avoid Arabic numeral formatting breaking date parsing
+const momentLocale = FC_SUPPORTED_LOCALES.includes(currentLanguage) ? currentLanguage : 'en';
+moment.locale(momentLocale);
 
 let minDate = moment().startOf('day');
 let maxDate = moment().add(180, 'days');
@@ -142,7 +144,7 @@ jQuery(document).ready(function () {
         //plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid', 'list', 'momentTimezonePlugin '],
         //themeSystem: 'bootstrap',
         locale: fcLocale,
-        isRTL: KTUtil.isRTL(),
+        direction: 'ltr',
 
         headerToolbar: {
             left: 'prev,next today',

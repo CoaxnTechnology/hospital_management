@@ -6,7 +6,7 @@
 <head>
     <base href="../../">
     <meta charset="utf-8"/>
-    <title>Gyneasy</title>
+    <title>CabinetPro</title>
     <meta name="description" content="Page with empty content"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <!--begin::Fonts-->
@@ -174,8 +174,8 @@ $.extend(true, $.fn.dataTable.defaults, {language: window.DT_LANGUAGE});
 
     let productBrand = '';
     {% if user.profil.compte.is_general %}productBrand = 'Medeasy';{% endif %}
-    {% if user.profil.compte.is_gyneco %}productBrand = 'Gyneasy';{% endif %}
-    {% if user.profil.compte.is_cardio %}productBrand = 'Gyneasy';{% endif %}
+    {% if user.profil.compte.is_gyneco %}productBrand = 'CabinetPro';{% endif %}
+    {% if user.profil.compte.is_cardio %}productBrand = 'CabinetPro';{% endif %}
 
     const parametresCompte = {{ PARAMETRES_COMPTE|safe }};
 

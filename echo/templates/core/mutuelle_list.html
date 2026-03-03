@@ -118,4 +118,14 @@
         let bordereaux = {{  bordereaux|safe }};
     </script>
     <script src="{% static "js/core/mutuelle_list.js" %}"></script>
+    <script>
+        // Auto-activate tab based on URL hash (#bordereau or #mutuelle)
+        document.addEventListener('DOMContentLoaded', function() {
+            var hash = window.location.hash;
+            if (hash === '#bordereau') {
+                var tab = document.querySelector('a[href="#bordereau"]');
+                if (tab) bootstrap.Tab.getOrCreateInstance(tab).show();
+            }
+        });
+    </script>
 {% endblock %}

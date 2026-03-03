@@ -151,9 +151,25 @@ class ServiceClassProvider:
         else:
             post_data['date'] = datetime.today().strftime('%Y%m%d')
 
-        response = requests.post(f'{web_url}:{web_port}/worklists/', data=post_data)
-        res = response.json()
-        #matching = [m1, m2]
+        try:
+            response = requests.post(
+                f'{web_url}:{web_port}/worklists/',
+                data=post_data,
+                allow_redirects=False,
+                timeout=10,
+            )
+            if response.status_code in (301, 302):
+                logger.error(
+                    f"handle_c_find - Django redirected /worklists/ to HTTPS "
+                    f"(status {response.status_code}). "
+                    f"Ensure SECURE_REDIRECT_EXEMPT contains r'^worklists/' "
+                    f"and restart Gunicorn/supervisor."
+                )
+                return 0xA700  # Refused: out of resources
+            res = response.json()
+        except Exception as e:
+            logger.error(f"handle_c_find - HTTP request to Django failed: {e}")
+            return 0xA700  # Refused: out of resources
 
         items = json.loads(res['items'])
         print('items', items)

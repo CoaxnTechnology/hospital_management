@@ -56,6 +56,7 @@ MIDDLEWARE = [
     'apps.chat.middleware.middleware.ChatMiddleware',
     'apps.core.middleware.timezone.middleware.TimezoneMiddleware',
     'apps.core.middleware.request_provider.middleware.RequestMiddleware',
+    'apps.core.middleware.profil_check.ProfilRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'echo.urls'

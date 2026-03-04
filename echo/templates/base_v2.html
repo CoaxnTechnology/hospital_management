@@ -36,7 +36,7 @@
 
             /* Replace header-bg.jpg with gradient, same area (top 530px) */
             body {
-                background-image: linear-gradient(135deg, #1a6fb5 0%, #0d9488 100%) !important;
+                background-image: linear-gradient(#25D366, #25D366) !important;
                 background-size: 100% 530px !important;
                 background-repeat: no-repeat !important;
             }
@@ -46,18 +46,25 @@
             #kt_aside {
                 width: 260px;
                 min-width: 260px;
-                background: #000000;
+                height: 100vh;
+                position: sticky;
+                top: 0;
+                background: #1e1e2d;
                 display: flex;
                 flex-direction: column;
                 flex-shrink: 0;
                 transition: width 0.3s ease, min-width 0.3s ease;
                 overflow: hidden;
-                position: relative;
                 z-index: 98;
             }
             body.aside-collapsed #kt_aside {
                 width: 0;
                 min-width: 0;
+            }
+            #kt_wrapper {
+                flex: 1;
+                min-width: 0;
+                overflow: hidden;
             }
             /* Aside logo/brand area */
             #kt_aside_logo {
@@ -157,6 +164,50 @@
             /* Hamburger toggle - only visible when sidebar is collapsed */
             #kt_aside_desktop_toggle { display: none; }
             body.aside-collapsed #kt_aside_desktop_toggle { display: flex; align-items: center; margin-right: 12px; }
+            /* Hide Metronic's full-page drawer overlay by default */
+            .drawer-overlay { display: none !important; }
+            .drawer-overlay.active { display: block !important; }
+
+            /* ── Responsive ── */
+            /* Tablet & mobile: hide sidebar by default, show as drawer */
+            @media (max-width: 991.98px) {
+                #kt_aside {
+                    position: fixed;
+                    top: 0; left: 0; bottom: 0;
+                    width: 260px !important;
+                    min-width: 260px !important;
+                    z-index: 110;
+                    transform: translateX(-100%);
+                    transition: transform 0.3s ease;
+                }
+                #kt_aside.drawer-on {
+                    transform: translateX(0);
+                }
+                #kt_wrapper {
+                    padding-left: 0 !important;
+                    width: 100% !important;
+                }
+                /* Overlay behind open drawer */
+                .drawer-overlay {
+                    display: none;
+                    position: fixed;
+                    inset: 0;
+                    background: rgba(0,0,0,0.4);
+                    z-index: 109;
+                }
+                .drawer-overlay.active { display: block; }
+                /* Smaller logo on mobile */
+                .header-logo img { height: 45px !important; }
+                /* Reduce toolbar padding */
+                .toolbar { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
+                #kt_content_container { padding-left: 12px !important; padding-right: 12px !important; }
+            }
+
+            @media (max-width: 575.98px) {
+                .header-logo img { height: 36px !important; }
+                .container-xxl { padding-left: 10px !important; padding-right: 10px !important; }
+                body { background-size: 100% 200px !important; }
+            }
         </style>
         <!--end::Aside Custom Styles-->
 		<!--end::Global Stylesheets Bundle-->
@@ -173,11 +224,11 @@
 			<!--begin::Page-->
 			<div class="page d-flex flex-row flex-column-fluid">
 				<!--begin::Aside-->
-				<div id="kt_aside" class="aside aside-dark aside-hoverable" data-kt-drawer="true" data-kt-drawer-name="aside" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_aside_mobile_toggle">
+				<div id="kt_aside" class="aside aside-dark aside-hoverable">
 					<!--begin::Brand-->
 					<div class="aside-logo flex-column-auto" id="kt_aside_logo">
 						<a href="/" class="d-flex align-items-center text-decoration-none">
-							<span style="color:#ffffff; font-size:16px; font-weight:700; white-space:nowrap;">CabinetPro</span>
+							<span style="color:#9d9da6; font-size:25px; font-weight:600; white-space:nowrap;">CabinetPro</span>
 						</a>
 						<div id="kt_aside_toggle" class="btn btn-icon w-auto px-0 aside-toggle ms-2" onclick="toggleAside()" title="Toggle sidebar">
 							<span class="svg-icon svg-icon-1">
@@ -328,15 +379,6 @@
 								</div>
 							</div>
 							<!--end::Aside desktop toggle-->
-							<!--begin::Header Logo-->
-							<div class="header-logo me-5 me-md-10 flex-grow-1 flex-lg-grow-0 d-flex align-items-center" style="height:100%;">
-								<a href="/" class="d-flex align-items-center text-decoration-none" style="height:100%;">
-									<img alt="CabinetPro"
-										 style="height:105px; width:auto; object-fit:contain; display:block;"
-										 src="{% static "media/logos/logo-cabinetpro.png" %}"/>
-								</a>
-							</div>
-							<!--end::Header Logo-->
 							<!--begin::Wrapper-->
 							<div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1">
 								<!--begin::Navbar-->
@@ -702,6 +744,9 @@
 			<!--end::Svg Icon-->
 		</div>
 		<!--end::Scrolltop-->
+
+    <!-- Mobile drawer overlay -->
+    <div class="drawer-overlay" id="aside_overlay" onclick="closeMobileAside()"></div>
 
         <div id="kt_drawer_chat" class="bg-body" data-kt-drawer="true" data-kt-drawer-name="chat" data-kt-drawer-activate="true" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'300px', 'md': '500px'}" data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_drawer_chat_toggle" data-kt-drawer-close="#kt_drawer_chat_close">
 			<!--begin::Messenger-->
@@ -1136,21 +1181,6 @@
         {% block scripts %}{% endblock %}
 		<!--end::Javascript-->
 
-        <!--begin::Floating Language Switcher-->
-        <div class="language-switcher" style="position: fixed; left: 0; top: 50%; transform: translateY(-50%); z-index: 10000; pointer-events: auto;">
-            <div class="d-flex flex-column shadow rounded-end bg-white">
-                {% get_available_languages as LANGUAGES %}
-                {% get_current_language as CURRENT_LANGUAGE %}
-                {% for lang_code, lang_name in LANGUAGES %}
-                <a href="javascript:void(0)" onclick="switchLanguage('{{ lang_code }}'); return false;"
-                   class="px-3 py-2 text-decoration-none {% if lang_code == CURRENT_LANGUAGE %}bg-primary text-white{% else %}text-dark{% endif %}"
-                   title="{{ lang_name }}" style="display: block;">
-                    {{ lang_code|upper }}
-                </a>
-                {% endfor %}
-            </div>
-        </div>
-        <!--end::Floating Language Switcher-->
 
         <script>
         function openReglementsList() {
@@ -1161,11 +1191,29 @@
         }
 
         function toggleAside() {
-            document.body.classList.toggle('aside-collapsed');
-            localStorage.setItem('aside-collapsed', document.body.classList.contains('aside-collapsed') ? '1' : '0');
+            if (window.innerWidth < 992) {
+                // Mobile: slide-in drawer
+                var aside = document.getElementById('kt_aside');
+                var overlay = document.getElementById('aside_overlay');
+                aside.classList.toggle('drawer-on');
+                overlay.classList.toggle('active');
+            } else {
+                // Desktop: collapse sidebar
+                document.body.classList.toggle('aside-collapsed');
+                localStorage.setItem('aside-collapsed', document.body.classList.contains('aside-collapsed') ? '1' : '0');
+            }
         }
-        // Restore sidebar state on page load
-        if (localStorage.getItem('aside-collapsed') === '1') {
+        function closeMobileAside() {
+            document.getElementById('kt_aside').classList.remove('drawer-on');
+            document.getElementById('aside_overlay').classList.remove('active');
+        }
+        // Mobile toggle button
+        document.addEventListener('DOMContentLoaded', function() {
+            var mobileToggle = document.getElementById('kt_aside_mobile_toggle');
+            if (mobileToggle) mobileToggle.addEventListener('click', toggleAside);
+        });
+        // Restore sidebar state on page load (desktop only)
+        if (window.innerWidth >= 992 && localStorage.getItem('aside-collapsed') === '1') {
             document.body.classList.add('aside-collapsed');
         }
         // Aside accordion menu toggle

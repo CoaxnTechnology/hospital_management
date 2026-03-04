@@ -38,10 +38,28 @@ CHANNEL_LAYERS = {
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "public/static")]
 
+TEMPLATES[0]['APP_DIRS'] = False
+TEMPLATES[0]['OPTIONS']['loaders'] = [
+    ('django.template.loaders.cached.Loader', [
+        'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.app_directories.Loader',
+    ]),
+]
+
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 #print(STATIC_ROOT)
 
 MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, "../", "data"))
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+    },
+    "select2": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "select2",
+    }
+}
 
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 

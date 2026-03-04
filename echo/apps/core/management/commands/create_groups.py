@@ -37,6 +37,13 @@ groups = {
         'prestation': ['view', 'add', 'change'],
         'absence medecin': ['view', 'add', 'change'],
         'programme operatoire': ['view', 'add', 'change'],
+    },
+    'Réceptionniste': {
+        'rdv': ['view', 'add', 'change', 'delete'],
+        'motif rdv': ['view'],
+        'patient': ['view'],
+        'absence medecin': ['view'],
+        'programme operatoire': ['view'],
     }
 }
 

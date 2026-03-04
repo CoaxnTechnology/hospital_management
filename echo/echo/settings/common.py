@@ -196,7 +196,7 @@ LOGGING = {
     },
     'root': {
         'handlers': ['console'],# 'graypy'],
-        'level': 'DEBUG',
+        'level': 'WARNING',
         'propagate': True,
     },
 

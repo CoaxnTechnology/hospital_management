@@ -26,14 +26,14 @@
         </table>
     </div>
 
-    <template id="actions-template">
+    <script type="text/html" id="actions-template">
         <a href="/devices/<%- id %>/modifier" class="btn btn-warning btn-icon btn-sm" title="{% trans 'Modifier' %}">
             <i class="la la-edit icon-lg"></i>
         </a>
         <a onclick="supprimer(<%- id %>)" class="btn btn-danger btn-icon btn-sm" title="{% trans 'Supprimer' %}">
             <i class="la la-trash icon-lg"></i>
         </a>
-    </template>
+    </script>
 {% endblock %}
 
 {% block scripts %}

@@ -5,14 +5,10 @@
 
 {% block styles %}
     <link href="{% static "css/core/rdv_calendrier.css" %}" rel="stylesheet" type="text/css"/>
-    <style>
-        #kt_toolbar h1, #kt_toolbar .text-white { color: #1e2a4a !important; }
-    </style>
 {% endblock %}
 
 {% block header %}
-    <div class="toolbar py-5 py-lg-15 bgi-no-repeat bgi-size-cover bgi-position-x-end" id="kt_toolbar"
-         style="background-image: url({% static 'v2/media/misc/bg-2.jpg' %}); background-position: right center;">
+    <div class="toolbar py-3 py-lg-5" id="kt_toolbar">
         <!--begin::Container-->
         <div id="kt_toolbar_container" class="container-xxl d-flex flex-stack flex-wrap">
             <!--begin::Page title-->

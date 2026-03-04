@@ -34,6 +34,13 @@
             /* Global font size increase (+3px from Metronic default 13px) */
             html, body { font-size: 14px !important; }
 
+            /* Replace header-bg.jpg with gradient, same area (top 530px) */
+            body {
+                background-image: linear-gradient(135deg, #1a6fb5 0%, #0d9488 100%) !important;
+                background-size: 100% 530px !important;
+                background-repeat: no-repeat !important;
+            }
+
 
             /* Sidebar layout */
             #kt_aside {
@@ -146,6 +153,7 @@
             #kt_aside_menu .menu-item.here .bullet-dot { opacity: 1; }
             /* Wrapper adjusts when sidebar collapses */
             #kt_wrapper { transition: padding-left 0.3s ease; }
+            #kt_content_container { padding-top: 10px !important; }
             /* Hamburger toggle - only visible when sidebar is collapsed */
             #kt_aside_desktop_toggle { display: none; }
             body.aside-collapsed #kt_aside_desktop_toggle { display: flex; align-items: center; margin-right: 12px; }
@@ -169,8 +177,7 @@
 					<!--begin::Brand-->
 					<div class="aside-logo flex-column-auto" id="kt_aside_logo">
 						<a href="/" class="d-flex align-items-center text-decoration-none">
-							<img alt="CabinetPro" src="{% static 'media/logos/logo-cabinetpro.png' %}" style="height:45px; object-fit:contain; flex-shrink:0;" />
-							<span style="color:#ffffff; font-size:16px; font-weight:700; margin-left:10px; white-space:nowrap;">CabinetPro</span>
+							<span style="color:#ffffff; font-size:16px; font-weight:700; white-space:nowrap;">CabinetPro</span>
 						</a>
 						<div id="kt_aside_toggle" class="btn btn-icon w-auto px-0 aside-toggle ms-2" onclick="toggleAside()" title="Toggle sidebar">
 							<span class="svg-icon svg-icon-1">

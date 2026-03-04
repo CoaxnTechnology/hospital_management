@@ -5,7 +5,7 @@ import random
 from datetime import datetime
 from dataclasses import dataclass
 from typing import Callable, Dict, List, Optional, Union, cast
-from logging import getLogger, basicConfig, DEBUG
+from logging import getLogger, DEBUG
 
 import requests
 from pydicom.datadict import dictionary_VM, dictionary_VR
@@ -16,7 +16,7 @@ from pydicom.sequence import Sequence
 from pydicom.sr.codedict import codes
 from pydicom.uid import generate_uid
 from pydicom import sr
-from pynetdicom import events, AE, DEFAULT_TRANSFER_SYNTAXES, ALL_TRANSFER_SYNTAXES, debug_logger, \
+from pynetdicom import events, AE, DEFAULT_TRANSFER_SYNTAXES, ALL_TRANSFER_SYNTAXES, \
     AllStoragePresentationContexts
 from pynetdicom.events import Event
 from pynetdicom import sop_class
@@ -24,10 +24,10 @@ from pynetdicom import sop_class
 from apps.core.services.sr_parser import parse_ds
 from apps.core.services.utils import *
 
-basicConfig(filename='./logs/storage_scp.log', level=DEBUG)
-logger = getLogger()
-logger.setLevel("DEBUG")
-debug_logger()
+logger = getLogger('dicom.storage')
+logger.setLevel(DEBUG)
+_handler = __import__('logging').FileHandler('./logs/storage_scp.log')
+logger.addHandler(_handler)
 logger.info("-----------------------------------------------------------------------------------")
 
 archive_dicom_files = True

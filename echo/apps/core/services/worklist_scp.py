@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 from dataclasses import dataclass
 from typing import Callable, Dict, List, Optional, Union, cast
-from logging import getLogger, basicConfig, DEBUG
+from logging import getLogger, DEBUG
 
 import requests
 from pydicom.datadict import dictionary_VM, dictionary_VR
@@ -11,14 +11,14 @@ from pydicom.dataset import FileDataset, Dataset
 from pydicom.multival import MultiValue
 from pydicom.sequence import Sequence
 from pydicom.uid import generate_uid
-from pynetdicom import events, AE, DEFAULT_TRANSFER_SYNTAXES, ALL_TRANSFER_SYNTAXES, debug_logger
+from pynetdicom import events, AE, ALL_TRANSFER_SYNTAXES
 from pynetdicom.events import Event
 from pynetdicom import sop_class
 
-basicConfig(filename='./logs/worklist_scp.log', level=DEBUG)
-logger = getLogger()
-logger.setLevel("DEBUG")
-debug_logger()
+logger = getLogger('dicom.worklist')
+logger.setLevel(DEBUG)
+_handler = __import__('logging').FileHandler('./logs/worklist_scp.log')
+logger.addHandler(_handler)
 logger.info("-----------------------------------------------------------------------------------")
 
 m1 = Dataset()

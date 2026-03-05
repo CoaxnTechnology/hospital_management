@@ -6,7 +6,7 @@
 {% block content %}
     <div class="p-4">
         <div class="form-group">
-            <label for="dossier">Dossier</label>
+            <label for="dossier">{% trans "Dossier" %}</label>
             <select name="dossier" class="form-control">
                 {% for dossier in dossiers %}
                     <option value="{{ dossier.id }}">{{ dossier.nom }}</option>
@@ -19,8 +19,8 @@
 
         <div class="dropzone dropzone-default h-200px" id="kt_dropzone_1">
             <div class="dropzone-msg dz-message needsclick">
-                <h3 class="dropzone-msg-title">Déposer un fichier ou cliquer pour télécharger.</h3>
-                <span class="dropzone-msg-desc">Le fichier sera  ajouté au dossier sélectionné.</span>
+                <h3 class="dropzone-msg-title">{% trans "Déposer un fichier ou cliquer pour télécharger" %}.</h3>
+                <span class="dropzone-msg-desc">{% trans "Le fichier sera  ajouté au dossier sélectionné" %}.</span>
             </div>
         </div>
     </div>

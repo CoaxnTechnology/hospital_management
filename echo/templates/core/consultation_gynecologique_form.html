@@ -157,7 +157,7 @@
                             </div>
                             <div class="row gy-5">
                                 <div class="form-group col-3">
-                                    <label class="form-label">Age ménarche (ans)</label>
+                                    <label class="form-label">{% trans "Age ménarche (ans)" %}</label>
                                     <div>
                                         {% render_field form.age_menarche data-form="consultation_gynecologique" data-champ="age_menarche" data-unit="ans" class+="form-control form-control-solid form-control-sm" %}
                                         <div class="invalid-feedback"
@@ -168,7 +168,7 @@
                                 </div>
 
                                 <div class="form-group col-3">
-                                    <label class="form-label">Cycles</label>
+                                    <label class="form-label">{% trans "Cycles" %}</label>
                                     <div>
                                         {% render_field form.cycles data-form="consultation_gynecologique" data-champ="cycles" class+="form-select form-select-solid form-select-sm" %}
                                         <div class="invalid-feedback"
@@ -403,7 +403,7 @@
                             </div>
                             <div class="mt-4">
                                 <div class="form-group">
-                                    <label class="form-label">Commentaires</label>
+                                    <label class="form-label">{% trans "Commentaires" %}</label>
                                     {% render_field form.commentaire class+="form-control form-control-solid form-control-sm h-100px" %}
                                     <div class="invalid-feedback"
                                          {% if form.commentaire.errors %}style="display: block"{% endif %}>
@@ -417,7 +417,7 @@
                         <div class="separator my-3"></div>
                             <div class="row gy-4">
                                 <div class="form-group col-3">
-                                    <label class="form-label">Endométriose</label>
+                                    <label class="form-label">{% trans "Endométriose" %}</label>
                                     {% render_field form.endometriose class+="form-select form-select-solid form-select-sm" %}
                                     <div class="invalid-feedback"
                                          {% if form.endometriose.errors %}style="display: block"{% endif %}>

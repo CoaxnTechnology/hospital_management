@@ -62,7 +62,7 @@
                         </div>
                     {% endif %}
                     <div class="row mb-2">
-                        <span class="col-4 font-weight-bolder text-left">Terme :</span>
+                        <span class="col-4 font-weight-bolder text-left">{% trans "Terme" %} :</span>
                         <div class="terme label label-inline label-lg label-success label-pill"></div>
                     </div>
                     <div class="row mb-2">
@@ -80,12 +80,12 @@
 
                     {% with g=patient.grossesse_encours %}
                         <div class="row mb-2">
-                            <span class="col-4 font-weight-bolder text-left">Risque T21 :</span>
+                            <span class="col-4 font-weight-bolder text-left">{% trans "Risque" %} T21 :</span>
                             <span class="col-8 text-dark text-left">
                                 {% if g.risque %}
                                     1/{{ g.risque|floatformat }}
                                 {% else %}
-                                    Non défini
+                                    {% trans "Non défini" %}
                                 {% endif %}
                             </span>
                         </div>
@@ -95,13 +95,13 @@
                                 {% if g.toxoplasmose_v2 %}
                                     {{ g.get_toxoplasmose_v2_display }}
                                 {% else %}
-                                    Non défini
+                                    {% trans "Non défini" %}
                                 {% endif %}
                             </span>
                         </div>
                         {% if g.diabete_v2 %}
                         <div class="row mb-2">
-                            <span class="col-4 font-weight-bolder text-left">Diabète :</span>
+                            <span class="col-4 font-weight-bolder text-left">{% trans "Diabète" %} :</span>
                             <span class="col-8 text-dark text-left">
                                 {{ g.diabete_v2 }}
                             </span>
@@ -109,7 +109,7 @@
                         {% endif %}
                         {% if g.aspegic %}
                         <div class="row mb-2">
-                            <span class="col-4 font-weight-bolder text-left">Aspegic :</span>
+                            <span class="col-4 font-weight-bolder text-left">{% trans "Aspegic" %} :</span>
                             <span class="col-8 text-dark text-left">
                                 {% if g.aspegic %}Oui{% else %}Non{% endif %}
                             </span>
@@ -117,7 +117,7 @@
                         {% endif %}
                         {% if g.notes %}
                             <div class="row mb-2">
-                                <span class="col-4 font-weight-bolder text-left">Notes :</span>
+                                <span class="col-4 font-weight-bolder text-left">{% trans "Notes" %} :</span>
                                 <span class="col-8 text-dark text-left">
                                 {{ g.notes|linebreaks }}
                             </span>
@@ -129,7 +129,7 @@
 
             <div class="pt-3 pt-xxl-4 pb-1 pb-xxl-4">
                 <div class="d-flex align-items-center justify-content-between mb-2">
-                    <span class="font-weight-bold mr-2">Date naissance:</span>
+                    <span class="font-weight-bold mr-2">{% tans "Date" %} {% trans "naissance" %}:</span>
                     <span class="text-muted text-hover-primary">{{ object.date_naissance|date:'d/m/Y'|default:"-" }}</span>
                 </div>
                 <!--<div class="d-flex align-items-center justify-content-between mb-2">
@@ -229,7 +229,7 @@
             {% endif %}
             <div class="row">
                 <div class="col-12 pl-1 pr-1 d-flex flex-column mb-1 mb-xxl-4">
-                    <span class="d-block font-weight-bold mb-1 mb-xxl-1">Mots clé patient </span>
+                    <span class="d-block font-weight-bold mb-1 mb-xxl-1">{% trans "Mots clé patient" %} </span>
                     <input class="form-control tagify form-control-sm" name='tags'
                            id="tags" value='{{ object.mot_cle|default:'' }}'>
 
@@ -341,7 +341,7 @@
                                 <div class="font-size-sm text-weight-bold">{{ rdv.debut|date:'d/m/Y' }} - &nbsp;&nbsp;</div>
                                 <div class="font-size-sm font-weight-bolder {% if rdv.is_missed %}text-danger{% endif %}">
                                     {{ rdv.motif.libelle }}
-                                    {% if rdv.is_missed %}<span class="label label-pill label-inline label-danger ml-2">Manqué</span>{% endif %}</div>
+                                    {% if rdv.is_missed %}<span class="label label-pill label-inline label-danger ml-2">{% trans "Manqué" %}</span>{% endif %}</div>
                             </div>
                             <div class="rdv_action">
                                 <button data-id="{{ rdv.pk }}" type="button"
@@ -421,7 +421,7 @@
                         </div>
                     {% else %}
                         <li id="etablissements-vide" class="list-item">
-                            <span class="small">Aucun lieu défini</span>
+                            <span class="small">{% trans "Aucun lieu défini" %}</span>
                         </li>
                     {% endif %}
 
@@ -473,7 +473,7 @@
             <div class="card-title">
                 <h5 class="card-label">
                             <span class="font-weight-bolder">
-                            Courriers
+                            {% trans "Courriers" %} 
                             </span>
                 </h5>
             </div>
@@ -553,7 +553,7 @@
                 </div>
                 <% } %>
                 <div class="row mb-2">
-                    <span class="col-4 font-weight-bolder text-left">Terme :</span>
+                    <span class="col-4 font-weight-bolder text-left">{% trans "Terme" %} :</span>
                     <div class="terme label label-inline label-lg label-success label-pill"></div>
                 </div>
                 <div class="row mb-2">
@@ -571,12 +571,12 @@
 
                 {% with g=patient.grossesse_encours %}
                     <div class="row mb-2">
-                        <span class="col-4 font-weight-bolder text-left">Risque T21 :</span>
+                        <span class="col-4 font-weight-bolder text-left">{% trans "Risque" %} T21 :</span>
                         <span class="col-8 text-dark text-left">
                             {% if g.risque %}
                                 1/{{ g.risque|floatformat }}
                             {% else %}
-                                Non défini
+                                {% trans "Non défini" %}
                             {% endif %}
                         </span>
                     </div>
@@ -586,13 +586,13 @@
                             {% if g.toxoplasmose_v2 %}
                                 {{ g.get_toxoplasmose_v2_display }}
                             {% else %}
-                                Non défini
+                                {% trans "Non défini" %]
                             {% endif %}
                         </span>
                     </div>
                     {% if g.diabete_v2 %}
                         <div class="row mb-2">
-                            <span class="col-4 font-weight-bolder text-left">Diabète :</span>
+                            <span class="col-4 font-weight-bolder text-left">{% trans "Diabète" %} :</span>
                             <span class="col-8 text-dark text-left">
                                 {{ g.diabete_v2 }}
                             </span>
@@ -600,7 +600,7 @@
                     {% endif %}
                     {% if g.aspegic %}
                         <div class="row mb-2">
-                            <span class="col-4 font-weight-bolder text-left">Aspegic :</span>
+                            <span class="col-4 font-weight-bolder text-left">{% trans "Aspegic" %} :</span>
                             <span class="col-8 text-dark text-left">
                                 {% if g.aspegic %}Oui{% else %}Non{% endif %}
                             </span>
@@ -608,7 +608,7 @@
                     {% endif %}
                     {% if g.notes %}
                         <div class="row mb-2">
-                            <span class="col-4 font-weight-bolder text-left">Notes :</span>
+                            <span class="col-4 font-weight-bolder text-left">{% trans "Notes" %} :</span>
                             <span class="col-8 text-dark text-left">
                                 {{ g.notes }}
                             </span>
@@ -646,7 +646,7 @@
 
                 <% if (patient.adresse.ville) { %>
                 <div class="align-items-center justify-content-between d-none d-xxl-flex">
-                    <span class="font-weight-bold mr-2">Adresse:</span>
+                    <span class="font-weight-bold mr-2">{% trans "Adresse" %}:</span>
                     <span class="text-right">
                             <% if (patient.adresse.rue) { %>
                                 <span class="text-muted text-hover-primary"><%= patient.adresse.numero %> rue <%= patient.adresse.rue %></span>
@@ -710,7 +710,7 @@
             <% } %>
             <div class="row">
                 <div class="col-12 pl-1 pr-1 d-flex flex-column mb-1 mb-xxl-4">
-                    <span class="d-block font-weight-bold mb-1 mb-xxl-1">Mots clé patient </span>
+                    <span class="d-block font-weight-bold mb-1 mb-xxl-1">{% trans "Mots clé patient" %} </span>
                     <input class="form-control tagify form-control-sm" name='tags'
                            id="tags" value='<%= disp(patient.mot_cle, "") %>'>
                 </div>

@@ -92,8 +92,8 @@
                                        maxlength="{{ form.username.max_length }}"
                                        name="{{ form.username.html_name }}"
                                        value="{{ form.username.value|default:"" }}">
-                                <div class="invalid-feedback">{% trans "Nom" %} d'utilisateur ou mot de passe incorrect.
-                                    Merci de réessayer.
+                                <div class="invalid-feedback">{% trans "Nom d'utilisateur ou mot de passe incorrect" %}.
+                                    {% trans "Merci de réessayer" %}.
                                 </div>
                             </div>
                             <!--end::Email-->

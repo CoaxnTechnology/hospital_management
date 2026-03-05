@@ -171,14 +171,14 @@
     <script type="text/html" id="modele-lettre-confidentielle-defaut">
         <br>
         <p style="font-size: 12pt;">
-            Je soussignée, <%= nom_praticien %>, certifie avoir examiné ce jour <%= civilite %> <%= nom_patient %>,
-            âgée de <%= age %>, enceinte à <%= terme %>, qui s’est présentée pour <br>
+            {% trans "Je soussignée" %}, <%= nom_praticien %>, {% trans "certifie avoir examiné ce jour" %} <%= civilite %> <%= nom_patient %>,
+            {% trans "âgée de" %} <%= age %>, {% trans "enceinte à" %} <%= terme %>, {% trans "qui s’est présentée pour" %} <br>
 
 
             <br>
-            Compte tenu de son état de santé, un repos a été prescrit.
-            Lettre délivrée à la demande de l’intéressée et remis en mains propres pour servir et valoir ce que de
-            droit.
+            {% trans "Compte tenu de son état de santé, un repos a été prescrit" %}.
+            {% trans "Lettre délivrée à la demande de l’intéressée et remis en mains propres pour servir et valoir ce que de
+            droit" %}.
         </p>
     </script>
 
@@ -204,13 +204,13 @@
                data-pdfmake="{&quot;layout&quot;:&quot;noBorders&quot;}">
             <tbody>
             <tr style="">
-                <td style="width: 23.4578%;font-size: 10pt; "><strong>GROSSESSE ACTUELLE</strong>
+                <td style="width: 23.4578%;font-size: 10pt; "><strong>{% trans "GROSSESSE ACTUELLE" %}</strong>
                 </td>
                 <td style="width: 23.4578%;font-size: 10pt; "><strong>DDR</strong>: <%= ddr %>
                 </td>
                 <td style="width: 23.4578%;font-size: 10pt; "><strong>DPA</strong>: <%= date_accouchement %>
                 </td>
-                <td style="width: 23.4578%;font-size: 10pt; "><strong>Terme actuel</strong>: <%= terme %>
+                <td style="width: 23.4578%;font-size: 10pt; "><strong>{% trans "Terme actuel" %}</strong>: <%= terme %>
                 </td>
             </tr>
             </tbody>
@@ -317,24 +317,24 @@
     <script type="text/html" id="modele-attestation-grossesse-defaut">
         <br>
         <p style="font-size: 12pt;">
-            Je soussignée, <%= nom_praticien %>, certifie que <%= civilite %> <%= nom_patient %>,
-            âgée de <%= age %> est actuellement enceinte à <%= terme %>, et que la date prévue de l’accouchement correspond au <%= date_accouchement %>.
+            {% trans "Je soussignée" %}, <%= nom_praticien %>, {% trans "certifie que" %} <%= civilite %> <%= nom_patient %>,
+            {% trans "âgée de" %} <%= age %> {% trans "est actuellement enceinte à" %} <%= terme %>, {% trans "et que ladate prévue de l’accouchement correspond au" %} <%= date_accouchement %>.
         </p>
         <p style="font-size: 12pt;">
-            Certificat délivré à la demande de l’intéressée et remis en mains propres pour servir et valoir ce que de droit.
+            {% trans "Certificat délivré à la demande de l’intéressée et remis en mains propres pour servir et valoir ce que de droit" %}.
         </p>
     </script>
 
     <script type="text/html" id="modele-lettre-fittofly-defaut">
         <br>
         <p style="font-size: 12pt;">
-            Je soussignée, <%= nom_praticien %>, certifie que <%= civilite %> <%= nom_patient %>,
-            âgée de <%= age %>, actuellement enceinte à <%= terme %>.
-            Son état de santé lui permet d’emprunter l’avion en direction de
+            {% trans "Je soussignée" %}, <%= nom_praticien %>, {% trans "certifie que" %} <%= civilite %> <%= nom_patient %>,
+            {% trans "âgée de" %} <%= age %>, {% trans "actuellement enceinte à" %} <%= terme %>.
+            {% trans "Son état de santé lui permet d’emprunter l’avion en direction de" %}
 
         </p>
         <p style="font-size: 12pt;">
-            Certificat délivré à la demande de l’intéressée et remis en mains propres pour servir et valoir ce que de droit.
+            {% trans "Certificat délivré à la demande de l’intéressée et remis en mains propres pour servir et valoir ce que de droit." %}
         </p>
     </script>
 

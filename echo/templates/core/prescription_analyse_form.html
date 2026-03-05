@@ -131,7 +131,7 @@
 
                                         {% empty %}
                                             <div id="collection-msg-vide" class="list-group-item list-group-item-action py-1">
-                                                <span class="small">Aucun pack disponible</span>
+                                                <span class="small">{% trans "Aucun pack disponible" %}</span>
                                             </div>
                                         {% endfor %}
                                     </div>
@@ -143,9 +143,9 @@
                                        style="margin: 0 !important;">
                                     <thead>
                                     <tr>
-                                        <th>Code</th>
-                                        <th>Libellé</th>
-                                        <th>&nbsp</th>
+                                        <th>{% trans "Code" %}</th>
+                                        <th>{% trans "Libellé" %}</th>
+                                        <th>{% trans "&nbsp" %}</th>
                                     </tr>
                                     </thead>
                                 </table>
@@ -191,12 +191,12 @@
                     <div class="py-4">
                         <div class="row px-2 bg-light m-0 pt-6">
                             <div class="col-12 col-md-3 form-group">
-                                <label>{% trans "Date" %} prescription</label>
+                                <label>{% trans "Date" %} {% trans "prescription" %}</label>
                                 <input type="text" class="form-control form-control-sm date" id="date_prescription"
                                        value="{% if prescription %}{{ prescription.date_prescription|date:"d/m/Y" }}{% endif %}">
                             </div>
                             <div class="col-12 col-md-3 form-group">
-                                <label>{% trans "Date" %} résultats</label>
+                                <label>{% trans "Date" %} {% trans "résultats" %}</label>
                                 <input type="text" class="form-control form-control-sm date" id="date_resultat"
                                     value="{% if prescription %}{{ prescription.date_resultat|date:"d/m/Y" }}{% endif %}">
                             </div>
@@ -257,7 +257,7 @@
                             {% else %}
                                 <tr id="msg-vide">
                                     <td colspan="3">
-                                        Veuillez ajouter des analyses
+                                        {% trans "Veuillez ajouter des analyses" %}
                                     </td>
                                 </tr>
                             {% endif %}

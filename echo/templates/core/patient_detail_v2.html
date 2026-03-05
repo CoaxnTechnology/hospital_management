@@ -26,9 +26,9 @@
 {% endblock %}
 
 {% block content %}
-
-    <a href="/#liste_salle_attente" class="btn btn-color-light"><i class="bi bi-caret-left-fill"></i> Salle
-        d'attente</a>
+{% trans "Masquer" as t_masquer %}
+    <a href="/#liste_salle_attente" class="btn btn-color-light"><i class="bi bi-caret-left-fill"></i> {% trans "Salle
+        d'attente" %}</a>
     <div class="card mb-5 mb-xxl-8 mt-6">
         <div class="card-body pt-9 pb-0">
             <!--begin::Details-->
@@ -89,14 +89,14 @@
                                     <a href="#" class="btn btn-sm btn-primary me-2"
                                        data-kt-menu-trigger="click"
                                        data-kt-menu-placement="bottom-end">
-                                        Nouvelle consultation
+                                        {% trans "Nouvelle consultation" %}
                                     </a>
                                     <div class="menu menu-sub menu-sub-dropdown w-250px menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold py-3"
                                          data-kt-menu="true"
                                          id="kt_menu_633e7ca49aabh3">
                                         <!--begin::Header-->
                                         <div class="px-5 py-3">
-                                            <div class="fs-5 text-dark fw-bold">Nouvelle consultation</div>
+                                            <div class="fs-5 text-dark fw-bold">{% trans "Nouvelle consultation" %}</div>
                                         </div>
                                         <!--end::Header-->
                                         <!--begin::Menu separator-->
@@ -108,25 +108,25 @@
                                             <!--begin::Form-->
                                             <div class="menu-item px-3">
                                                 <div class="menu-content text-primary pb-2 px-3 fs-7 text-uppercase">
-                                                    Gynécologie
+                                                    {% trans "Gynécologie" %}
                                                 </div>
                                             </div>
 
                                             <div class="menu-item px-3">
                                                 <a href="/patients/{{ object.pk }}/consultation_gynecologique/ajouter"
-                                                   class="menu-link px-3">Consultation gynécologique</a>
+                                                   class="menu-link px-3">{% trans "Consultation gynécologique" %}</a>
                                             </div>
                                             <div class="menu-item px-3 d-none">
                                                 <a href="/patients/{{ object.pk }}/consultation_colposcopie/ajouter"
-                                                   class="menu-link px-3">Colposcopie</a>
+                                                   class="menu-link px-3">{% trans "Colposcopie" %}</a>
                                             </div>
                                             <div class="menu-item px-3">
                                                 <a href="/patients/{{ object.pk }}/consultation_echo_pelvienne/ajouter"
-                                                   class="menu-link px-3">Echo pelvienne</a>
+                                                   class="menu-link px-3">{% trans "Echo pelvienne" %}</a>
                                             </div>
                                             <div class="menu-item px-3">
                                                 <a href="/patients/{{ object.pk }}/consultation/ajouter?motif=gyneco-libre"
-                                                   class="menu-link px-3">Consultation libre</a>
+                                                   class="menu-link px-3">{% trans "Consultation libre" %}</a>
                                             </div>
                                         {% endif %}
 
@@ -137,39 +137,39 @@
                                             <!--begin::Form-->
                                             <div class="menu-item px-3">
                                                 <div class="menu-content text-primary pb-2 px-3 fs-7 text-uppercase">
-                                                    Obstétrique
+                                                    {% trans "Obstétrique" %}
                                                 </div>
                                             </div>
 
                                             {% if patient.grossesse_encours != None %}
                                                 <div class="menu-item px-3">
                                                     <a href="/patients/{{ object.pk }}/consultation_obs_echo_11SA/ajouter"
-                                                       class="menu-link px-3">Echo < 11 SA</a>
+                                                       class="menu-link px-3">{% trans "Echo" %} < 11 SA</a>
                                                 </div>
                                                 <div class="menu-item px-3">
                                                     <a href="/patients/{{ object.pk }}/consultation_obs_echo_premier_trimestre/ajouter"
-                                                       class="menu-link px-3">1er trimestre</a>
+                                                       class="menu-link px-3">{% trans "1er trimestre" %}</a>
                                                 </div>
                                                 <div class="menu-item px-3">
                                                     <a href="/patients/{{ object.pk }}/consultation_obs_echo_deuxieme_trimestre/ajouter"
-                                                       class="menu-link px-3">2ème trimestre</a>
+                                                       class="menu-link px-3">{% trans "2ème trimestre" %}</a>
                                                 </div>
                                                 <div class="menu-item px-3">
                                                     <a href="/patients/{{ object.pk }}/consultation_obs_echo_troisieme_trimestre/ajouter"
-                                                       class="menu-link px-3">3ème trimestre</a>
+                                                       class="menu-link px-3">{% trans "3ème trimestre" %}</a>
                                                 </div>
                                                 <div class="menu-item px-3">
                                                     <a href="/patients/{{ object.pk }}/consultation_obs_echo_croissance/ajouter"
-                                                       class="menu-link px-3">Echo de croissance</a>
+                                                       class="menu-link px-3">{% trans "Echo de croissance" %}</a>
                                                 </div>
                                                 <div class="menu-item px-3">
                                                     <a href="/patients/{{ object.pk }}/consultation/ajouter?motif=obs-libre"
-                                                       class="menu-link px-3">Consultation libre</a>
+                                                       class="menu-link px-3">{% trans "Consultation libre" %}</a>
                                                 </div>
                                             {% else %}
                                                 <div class="menu-item px-3">
                                                     <div class="menu-content pb-2 px-3 fs-7">
-                                                        Pas de grossesse en cours
+                                                        {% trans "Pas de grossesse en cours" %}
                                                     </div>
                                                 </div>
                                             {% endif %}
@@ -190,19 +190,19 @@
                                                 {% if patient.interrogatoire_pma %}
                                                     <div class="menu-item px-3">
                                                         <a href="/interrogatoire-pma/{{ patient.interrogatoire_pma.pk }}/modifier/"
-                                                           class="menu-link px-3">Interrogatoire</a>
+                                                           class="menu-link px-3">{% trans "Interrogatoire" %}</a>
                                                     </div>
                                                 {% else %}
                                                     <div class="menu-item px-3">
                                                         <a href="/patients/{{ object.pk }}/interrogatoire-pma/ajouter/"
-                                                           class="menu-link px-3">Interrogatoire</a>
+                                                           class="menu-link px-3">{% trans "Interrogatoire" %}</a>
                                                     </div>
                                                 {% endif %}
 
                                                 {% if not patient.pma_encours %}
                                                     <div class="menu-item px-3">
                                                         <a href="/patients/{{ object.pk }}/tentative-pma/ajouter/"
-                                                           class="menu-link px-3">Nouvelle tentative</a>
+                                                           class="menu-link px-3">{% trans "Nouvelle tentative" %}</a>
                                                     </div>
                                                 {% endif %}
                                             </div>
@@ -213,13 +213,13 @@
 
                                             <div class="menu-item px-3">
                                                 <div class="menu-content text-primary pb-2 px-3 fs-7 text-uppercase">
-                                                    Examen libre
+                                                    {% trans "Examen libre" %}
                                                 </div>
                                             </div>
 
                                             <div class="menu-item px-3">
                                                 <a href="/patients/{{ object.pk }}/consultation/ajouter?motif=libre-defaut"
-                                                   class="menu-link px-3">Nouvel examen libre</a>
+                                                   class="menu-link px-3">{% trans "Nouvel examen libre" %}</a>
                                             </div>
 
                                         {% endif %}
@@ -230,20 +230,20 @@
 
                                         <div class="menu-item px-3">
                                             <div class="menu-content text-primary pb-2 px-3 fs-7 text-uppercase">
-                                                Compte-rendu opératoire
+                                                {% trans "Compte-rendu opératoire" %}
                                             </div>
                                         </div>
 
                                         <div class="menu-item px-3">
                                             <a href="/patients/{{ object.pk }}/consultation/ajouter?motif=cr_op"
-                                               class="menu-link px-3">Nouveau compte-rendu</a>
+                                               class="menu-link px-3">{% trans "Nouveau compte-rendu" %}</a>
                                         </div>
 
                                         <!--begin::Actions-->
                                         <div class="d-flex justify-content-end">
                                             <button type="reset"
                                                     class="btn btn-sm btn-light btn-active-light-primary me-2"
-                                                    data-kt-menu-dismiss="true">Fermer
+                                                    data-kt-menu-dismiss="true">{% trans "Fermer" %}
                                             </button>
                                         </div>
                                         <!--end::Actions-->
@@ -255,25 +255,25 @@
                                         {% if patient.grossesse_encours != None %}
                                             <button type="button" class="btn btn-sm btn-success"
                                                     onclick="modifierGrossesse()">
-                                                Grossesse
+                                                {% trans "Grossesse" %}
                                             </button>
                                             <button type="button"
                                                     class="btn btn-sm btn-success dropdown-toggle dropdown-toggle-split"
                                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                                <span class="visually-hidden">Menu</span>
+                                                <span class="visually-hidden">{% trans "Menu" %}</span>
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li><a class="dropdown-item" href="#"
-                                                       onclick="afficherCalendrierGrossesse()">Calendrier</a>
+                                                       onclick="afficherCalendrierGrossesse()">{% trans "Calendrier" %}</a>
                                                 </li>
                                                 <li><a class="dropdown-item" href="#"
-                                                       onclick="cloturerGrossesse()">Clôturer</a>
+                                                       onclick="cloturerGrossesse()">{% trans "Clôturer" %}</a>
                                                 </li>
                                             </ul>
                                         {% else %}
                                             <button type="button" class="btn btn-sm btn-success"
                                                     onclick="nouvelleGrossesse()">
-                                                Nouvelle grossesse
+                                                {% trans "Nouvelle grossesse" %}
                                             </button>
                                         {% endif %}
                                     </div>
@@ -283,13 +283,13 @@
                             <span>
                                    <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" data-kt-menu-trigger="click"
                                       data-kt-menu-placement="bottom-end">
-                                       Biologie
+                                       {% trans "Biologie" %}
                                    </a>
                                    <div class="menu menu-sub menu-sub-dropdown w-350px w-md-350px" data-kt-menu="true"
                                         id="kt_menu_633e7ca49aaa3">
                                        <!--begin::Header-->
                                        <div class="px-7 py-5">
-                                           <div class="fs-5 text-dark fw-bold">Dernières analyses</div>
+                                           <div class="fs-5 text-dark fw-bold">{% trans "Dernières analyses" %}</div>
                                        </div>
                                        <!--end::Header-->
                                        <!--begin::Menu separator-->
@@ -308,12 +308,12 @@
                                            <div class="d-flex justify-content-end">
                                                <button type="reset"
                                                        class="btn btn-sm btn-light btn-active-light-primary me-2"
-                                                       data-kt-menu-dismiss="true">Fermer
+                                                       data-kt-menu-dismiss="true">{% trans "Fermer" %}
                                                </button>
                                                <button type="submit" class="btn btn-sm btn-primary"
                                                        data-kt-menu-dismiss="true"
                                                        onclick="ajouterPrescriptionAnalyses()">
-                                                   Nouveau
+                                                   {% trans "Nouveau" %}
                                                </button>
                                            </div>
                                            <!--end::Actions-->
@@ -322,19 +322,19 @@
                                    </div>
                                </span>
                                 <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" id="ouvrir_liste_ordonnances">
-                                    Ordonnances
+                                    {% trans "Ordonnances" %}
                                 </a>
                                 <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" id="ouvrir_liste_certificats">
-                                    Courriers
+                                    {% trans "Courriers" %}
                                 </a>
                                 <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" onclick="priseRdv()">
-                                    Rendez-vous
+                                    {% trans "Rendez-vous" %}
                                 </a>
                                 <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" id="ouvrir_historique_consultations">
-                                    Historique
+                                    {% trans "Historique" %}
                                 </a>
                                 <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" id="ouvrir_antecedents">
-                                    Antécédents
+                                    {% trans "Antécédents" %}
                                 </a>
                             </div>
 
@@ -355,7 +355,7 @@
                                         <table class="table table-flush fw-semibold gy-1">
                                             {% if object.adresse.ville %}
                                                 <tr>
-                                                    <td class="text-muted min-w-125px w-125px">Adresse</td>
+                                                    <td class="text-muted min-w-125px w-125px">{% trans "Adresse" %}</td>
                                                     <td class="text-gray-800">
                                                         {% if object.adresse.rue %}
                                                             {{ object.adresse.numero }} rue {{ object.adresse.rue }}
@@ -383,22 +383,22 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="text-muted min-w-125px w-125px">Origine</td>
+                                                <td class="text-muted min-w-125px w-125px">{% trans "Origine" %}</td>
                                                 <td class="text-gray-800 min-w-175px w-175px">
                                                     {{ object.get_origine_display|default:"-" }}
                                                 </td>
                                             </tr>
 
                                             <tr>
-                                                <td class="text-muted min-w-125px w-125px">Fumeur
+                                                <td class="text-muted min-w-125px w-125px">{% trans "Fumeur" %}
                                                 </td>
                                                 <td class="text-gray-800">
-                                                    {% if object.fumeur %}Oui{% else %}Non{% endif %}
+                                                    {% if object.fumeur %}{% trans "Oui" %}{% else %}{% trans "Non" %}{% endif %}
                                                 </td>
                                             </tr>
 
                                             <tr>
-                                                <td class="text-muted min-w-125px w-125px align-middle">Mots clés
+                                                <td class="text-muted min-w-125px w-125px align-middle">{% trans "Mots clés" %}
                                                 </td>
                                                 <td class="text-gray-800">
                                                     <input class="form-control form-control-solid tagify form-control-sm"
@@ -415,7 +415,7 @@
                                         <table class="table table-flush fw-semibold gy-1">
 
                                             <tr>
-                                                <td class="text-muted min-w-125px w-125px">Taille <small>(cm)</small>
+                                                <td class="text-muted min-w-125px w-125px">{% trans "Taille" %} <small>(cm)</small>
                                                 </td>
                                                 <td class="text-gray-800">
                                                     {{ object.taille|floatformat|default:"-" }}
@@ -423,7 +423,7 @@
                                             </tr>
 
                                             <tr>
-                                                <td class="text-muted min-w-125px w-125px">Poids<small>(kg)</small>
+                                                <td class="text-muted min-w-125px w-125px">{% trans "Poids" %}<small>(kg)</small>
                                                 </td>
                                                 <td class="text-gray-800">
                                                     {{ object.poids|floatformat|default:"-" }}
@@ -448,7 +448,7 @@
                                             <div class="flex-equal me-10">
                                                 <table class="table table-flush fw-semibold gy-1">
                                                     <tr>
-                                                        <td class="text-muted min-w-125px w-125px">Terme</td>
+                                                        <td class="text-muted min-w-125px w-125px">{% trans "Terme" %}</td>
                                                         <td class="">
                                                             <span class="terme badge text-bg-warning"></span>
                                                         </td>
@@ -479,46 +479,46 @@
                                                 {% with g=patient.grossesse_encours %}
                                                     <table class="table table-flush fw-semibold gy-1">
                                                         <tr>
-                                                            <td class="text-muted min-w-125px w-125px">Risque T21</td>
+                                                            <td class="text-muted min-w-125px w-125px">{% trans "Risque" %} T21</td>
                                                             <td class="text-gray-800 min-w-125px w-125px">
                                                                 {% if g.risque %}
                                                                     1/{{ g.risque|floatformat }}
                                                                 {% else %}
-                                                                    Non défini
+                                                                    {% trans "Non défini" %}
                                                                 {% endif %}
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td class="text-muted min-w-125px w-125px">Toxo</td>
+                                                            <td class="text-muted min-w-125px w-125px">{% trans "Toxo" %}</td>
                                                             <td class="text-gray-800 min-w-175px w-175px">
                                                                 {% if g.toxoplasmose_v2 %}
                                                                     {{ g.get_toxoplasmose_v2_display }}
                                                                 {% else %}
-                                                                    Non défini
+                                                                    {% trans "Non défini" %}
                                                                 {% endif %}
                                                             </td>
                                                         </tr>
 
                                                         <tr>
-                                                            <td class="text-muted min-w-125px w-125px">Diabète</td>
+                                                            <td class="text-muted min-w-125px w-125px">{% trans "Diabète" %}</td>
                                                             <td class="text-gray-800 min-w-175px w-175px">
                                                                 {% if g.diabete_v2 %}
                                                                     {{ g.diabete_v2 }}
                                                                 {% else %}
-                                                                    Non défini
+                                                                    {% trans "Non défini" %}
                                                                 {% endif %}
                                                             </td>
                                                         </tr>
 
                                                         <tr>
-                                                            <td class="text-muted min-w-125px w-125px">Aspegic</td>
+                                                            <td class="text-muted min-w-125px w-125px">{% trans "Aspegic" %}</td>
                                                             <td class="text-gray-800 min-w-175px w-175px">
-                                                                {% if g.aspegic %}Oui{% else %}Non{% endif %}
+                                                                {% if g.aspegic %}{% trans "Oui" %}{% else %}{% trans "Non" %}{% endif %}
                                                             </td>
                                                         </tr>
                                                         {% if g.notes %}
                                                             <tr>
-                                                                <td class="text-muted min-w-125px w-125px">Notes</td>
+                                                                <td class="text-muted min-w-125px w-125px">{% trans "Notes" %}</td>
                                                                 <td class="text-gray-800 min-w-175px w-175px">
                                                                     {{ g.notes|linebreaks }}
                                                                 </td>
@@ -551,12 +551,12 @@
                 <!--begin:::Tab item-->
                 <li class="nav-item">
                     <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab"
-                       href="#tab-accueil">Accueil</a>
+                       href="#tab-accueil">{% trans "Accueil" %}</a>
                 </li>
                 <!--end:::Tab item-->
                 <!--begin:::Tab item-->
                 <li class="nav-item">
-                    <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-consultations">Consultations</a>
+                    <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-consultations">{% trans "Consultations" %}</a>
                 </li>
 
                 {% if 3 in user.profil.compte.categories %}
@@ -567,12 +567,12 @@
 
                 <li class="nav-item">
                     <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab"
-                       href="#tab-historique">Historique</a>
+                       href="#tab-historique">{% trans "Historique" %}</a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab"
-                       href="#tab-documents">Documents</a>
+                       href="#tab-documents">{% trans "Documents" %}</a>
                 </li>
                 <!--end:::Tab item-->
             </ul>
@@ -593,7 +593,7 @@
                         <div class="card-header pt-7">
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-gray-800">Alertes</span>
+                                <span class="card-label fw-bold text-gray-800">{% trans "Alertes" %}</span>
                             </h3>
                         </div>
                         <!--end::Header-->
@@ -611,7 +611,7 @@
                                             </div>
                                             <div>
                                                 <button type="button" class="btn btn-sm btn-icon btn-danger"
-                                                        title="Masquer" onclick="dismissAlerte({{ alerte.id }})">
+                                                        title="{{ t_masquer }}" onclick="dismissAlerte({{ alerte.id }})">
                                                     <i class="la la-eye-slash icon-md"></i>
                                                 </button>
                                             </div>
@@ -646,7 +646,7 @@
                         <div class="card-header pt-7">
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-gray-800">Notes</span>
+                                <span class="card-label fw-bold text-gray-800">{% trans "Notes" %}</span>
                             </h3>
                         </div>
                         <!--end::Header-->
@@ -705,7 +705,7 @@
                         <div class="card-header pt-7">
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-gray-800">Rendez-vous</span>
+                                <span class="card-label fw-bold text-gray-800">{% trans "Rendez-vous" %}</span>
                             </h3>
                         </div>
                         <!--end::Header-->
@@ -723,7 +723,7 @@
                                                     <div class="font-size-sm font-weight-bolder {% if rdv.is_missed %}text-danger{% endif %}">
                                                         {{ rdv.motif.libelle }}
                                                         {% if rdv.is_missed %}
-                                                            <span class="label label-pill label-inline label-danger ml-2">Manqué</span>{% endif %}
+                                                            <span class="label label-pill label-inline label-danger ml-2">{% trans "Manqué" %}</span>{% endif %}
                                                     </div>
                                                 </div>
                                                 <div class="rdv_action">
@@ -735,7 +735,7 @@
                                             </li>
                                         {% empty %}
                                             <li id="rdv-msg-vide" class="list-item">
-                                                <span class="small">Pas de rendez-vous prévus</span>
+                                                <span class="small">{% trans "Pas de rendez-vous prévus" %}</span>
                                             </li>
                                         {% endfor %}
                                     </ul>
@@ -748,7 +748,7 @@
             </div>
 
             <div class="mt-4">
-                <h1 class="d-flex fw-bold fs-3">Antécédents</h1>
+                <h1 class="d-flex fw-bold fs-3">{% trans "Antécédents" %}</h1>
             </div>
 
             <div class="row mt-4">
@@ -758,7 +758,7 @@
                         <div class="card-header pt-7">
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-gray-800">Familiaux</span>
+                                <span class="card-label fw-bold text-gray-800">{% trans "Familiaux" %}</span>
                             </h3>
                             <div class="my-0">
                                 <button type="button"
@@ -777,7 +777,7 @@
                                                                       rx="1" fill="currentColor"></rect>
 															</svg>
 														</span>
-                                    Ajouter
+                                    {% trans "Ajouter" %}
                                     <!--end::Svg Icon-->
                                 </button>
                                 <!--begin::Menu 2-->
@@ -841,7 +841,7 @@
                         <div class="card-header pt-7">
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-gray-800">Médico-chirurgicaux</span>
+                                <span class="card-label fw-bold text-gray-800">{% trans "Médico-chirurgicaux" %}</span>
                             </h3>
                             <div class="my-0">
                                 <button type="button"
@@ -860,7 +860,7 @@
                                                                       rx="1" fill="currentColor"></rect>
 															</svg>
 														</span>
-                                    Ajouter
+                                    {% trans "Ajouter" %}
                                     <!--end::Svg Icon-->
                                 </button>
                                 <!--begin::Menu 2-->
@@ -922,7 +922,7 @@
                         <div class="card-header pt-7">
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-gray-800">Gynécologiques</span>
+                                <span class="card-label fw-bold text-gray-800">{% trans "Gynécologiques" %}</span>
                             </h3>
                             <div class="my-0">
                                 <button type="button"
@@ -941,7 +941,7 @@
                                                                       rx="1" fill="currentColor"></rect>
 															</svg>
 														</span>
-                                    Ajouter
+                                    {% trans "Ajouter" %}
                                     <!--end::Svg Icon-->
                                 </button>
                                 <!--begin::Menu 2-->
@@ -1003,7 +1003,7 @@
                         <div class="card-header pt-7">
                             <!--begin::Title-->
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fw-bold text-gray-800">Allergies</span>
+                                <span class="card-label fw-bold text-gray-800">{% trans "Allergies" %}</span>
                             </h3>
                             <div class="my-0">
                                 <button type="button"
@@ -1022,7 +1022,7 @@
                                                                       rx="1" fill="currentColor"></rect>
 															</svg>
 														</span>
-                                    Ajouter
+                                    {% trans "Ajouter" %}
                                     <!--end::Svg Icon-->
                                 </button>
                                 <!--begin::Menu 2-->
@@ -1098,7 +1098,7 @@
                                                     aria-haspopup="true" aria-expanded="false"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
                                                     data-form="antecedents" data-champ="FCV">
-                                                Ajouter
+                                                {% trans "Ajouter" %}
                                             </button>
                                             <div id="fcv"
                                                  class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px"
@@ -1152,7 +1152,7 @@
                                             </div>
                                         {% empty %}
                                             <div id="fcv-timeline-empty" class="font-size-sm">
-                                                Pas d'historique
+                                                {% trans "Pas d'historique" %}
                                             </div>
                                         {% endfor %}
                                     </div>
@@ -1164,7 +1164,7 @@
                             <div class="card card-custom card-stretch gutter-b px-2  border border-1 border-primary">
                                 <div class="card-header align-items-center border-0 mt-0">
                                     <h3 class="card-title align-items-start flex-column">
-                                        <span class="font-weight-bolder text-dark">Mammographie</span>
+                                        <span class="font-weight-bolder text-dark">{% trans "Mammographie" %}</span>
                                     </h3>
 
                                     <div class="card-toolbar">
@@ -1174,7 +1174,7 @@
                                                     aria-haspopup="true" aria-expanded="false"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
                                                     data-form="antecedents" data-champ="Mammographie">
-                                                Ajouter
+                                                {% trans "Ajouter" %}
                                             </button>
                                             <div id="mammographie"
                                                  class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px"
@@ -1186,7 +1186,7 @@
                                     <div id="mammographie-date-container"
                                          class="antecedent-date-container form-group" style="display:none">
                                         <div class="form-group row">
-                                            <label class="col-3 col-form-label">Date</label>
+                                            <label class="col-3 col-form-label">{% trans "Date" %}</label>
                                             <div class="col-9">
                                                 <div class="input-group">
                                                     <input id="mammographie-date" type="text"
@@ -1227,8 +1227,8 @@
                                                 </div>
                                             </div>
                                         {% empty %}
-                                            <div id="mammographie-timeline-empty" class="font-size-sm">Pas
-                                                d'historique
+                                            <div id="mammographie-timeline-empty" class="font-size-sm">{% trans "Pas
+                                                d'historique" %}
                                             </div>
                                         {% endfor %}
                                     </div>
@@ -1240,7 +1240,7 @@
                             <div class="card card-custom card-stretch gutter-b px-2  border border-1 border-primary">
                                 <div class="card-header align-items-center border-0 mt-0">
                                     <h3 class="card-title align-items-start flex-column">
-                                        <span class="font-weight-bolder text-dark">Echo Mammaire</span>
+                                        <span class="font-weight-bolder text-dark">{% trans "Echo Mammaire" %}</span>
                                     </h3>
 
                                     <div class="card-toolbar">
@@ -1250,7 +1250,7 @@
                                                     aria-haspopup="true" aria-expanded="false"
                                                     data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"
                                                     data-form="antecedents" data-champ="Echo Mammaire">
-                                                Ajouter
+                                                {% trans "Ajouter" %}
                                             </button>
                                             <div id="echo-mammaire"
                                                  class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px"
@@ -1262,7 +1262,7 @@
                                     <div id="echo-mammaire-date-container"
                                          class="antecedent-date-container form-group" style="display:none">
                                         <div class="form-group row">
-                                            <label class="col-3 col-form-label">Date</label>
+                                            <label class="col-3 col-form-label">{% trans "Date"%}</label>
                                             <div class="col-9">
                                                 <div class="input-group">
                                                     <input id="echo-mammaire-date" type="text"
@@ -1303,8 +1303,8 @@
                                                 </div>
                                             </div>
                                         {% empty %}
-                                            <div id="echo-mammaire-timeline-empty" class="font-size-sm">Pas
-                                                d'historique
+                                            <div id="echo-mammaire-timeline-empty" class="font-size-sm">{% trans "Pas
+                                                d'historique" %}
                                             </div>
                                         {% endfor %}
                                     </div>
@@ -1339,7 +1339,7 @@
                             <div class="card-header pt-7">
                                 <!--begin::Title-->
                                 <h3 class="card-title align-items-start flex-column">
-                                    <span class="card-label fw-bold text-gray-800">Obstétricaux</span>
+                                    <span class="card-label fw-bold text-gray-800">{% trans "Obstétricaux" %}</span>
                                 </h3>
                                 <div class="my-0">
                                     <button type="button"
@@ -1358,7 +1358,7 @@
                                                                       rx="1" fill="currentColor"></rect>
 															</svg>
 														</span>
-                                        Ajouter
+                                        {% trans "Ajouter" %}
                                         <!--end::Svg Icon-->
                                     </button>
 
@@ -1409,13 +1409,13 @@
                                                                         {% if antecedent.issue_grossesse %}
                                                                             {{ antecedent.issue_grossesse }}
                                                                         {% else %}
-                                                                            Issue de grossesse à compléter
+                                                                            {% trans "Issue de grossesse à compléter" %}
                                                                         {% endif %}
                                                                     {% else %}
                                                                         {% if antecedent.sous_categorie %}
                                                                             {{ antecedent.sous_categorie }}
                                                                         {% else %}
-                                                                            Issue de grossesse à compléter
+                                                                            {% trans "Issue de grossesse à compléter" %}
                                                                         {% endif %}
                                                                     {% endif %}
                                                                 </a>
@@ -1425,7 +1425,7 @@
                                                                   data-bs-html="true" title="Foetus"
                                                                   data-bs-content="{{ antecedent.resume_foetus }}"
                                                                   class="label label-light-info label-pill label-inline me-2 w-80px">
-                                                                {{ antecedent.nb_foetus }} foetus
+                                                                {{ antecedent.nb_foetus }} {% trans "foetus" %}
                                                             </span>
                                                                 <!-- {% if antecedent.prenom_1 %}
                                                                 {{ antecedent.prenom_1 }}
@@ -1463,11 +1463,11 @@
                                                                     style="margin: 0 !important;">
                                                                 <thead>
                                                                 <tr>
-                                                                    <th>Date</th>
-                                                                    <th>Terme</th>
-                                                                    <th>Motif</th>
-                                                                    <th>Praticien</th>
-                                                                    <th>Actions</th>
+                                                                    <th>{% trans "Date" %}</th>
+                                                                    <th>{% trans "Terme" %}</th>
+                                                                    <th>{% trans "Motif" %}</th>
+                                                                    <th>{% trans "Praticien" %}</th>
+                                                                    <th>{% trans "Actions" %}</th>
                                                                 </tr>
                                                                 </thead>
                                                             </table>
@@ -1586,6 +1586,7 @@
 
 
 {% block scripts %}
+{% trans "La DDR n'est pas renseignée pour la grossesse en cours" as t_ddr_warning %}
     <script src="{% static "plugins/custom/tinymce/tinymce.bundle.js" %}"></script>
     <script type="text/javascript">
 
@@ -1606,7 +1607,7 @@
         let grossesse = {% if grossesse_encours %}{{ grossesse_encours_json|safe }}{% else %}null{% endif %};
 
         if (grossesse && _.isNil(grossesse.ddr)) {
-            toastr.warning("La DDR n'est pas renseignée pour la grossesse en cours", '', {
+            toastr.warning("{{ t_ddr_warning }}", '', {
                 timeOut: 0,
                 extendedTimeOut: 0,
                 closeButton: true

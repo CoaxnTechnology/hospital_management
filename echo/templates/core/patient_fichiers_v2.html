@@ -33,8 +33,8 @@
 
                         <div class="dropzone dropzone-default" id="kt_dropzone_1">
                             <div class="dropzone-msg dz-message needsclick d-block">
-                                <h3 class="dropzone-msg-title">Déposer un fichier ou cliquer pour télécharger.</h3> <br>
-                                <span class="dropzone-msg-desc">Le fichier sera  ajouté au dossier sélectionné.</span>
+                                <h3 class="dropzone-msg-title">{% trans "Déposer un fichier ou cliquer pour télécharger" %}.</h3> <br>
+                                <span class="dropzone-msg-desc">{% trans "Le fichier sera  ajouté au dossier sélectionné" %}.</span>
                             </div>
                         </div>
 
@@ -73,7 +73,7 @@
                                                                    data-id="{{ fichier.pk }}"
                                                                    data-patient="{{ patient.pk }}"
                                                                    href="#">
-                                                                    Déplacer
+                                                                    {% trans "Déplacer" %}
                                                                 </a>
                                                             </li>
                                                             <li>
@@ -113,7 +113,7 @@
                                     </div>
                                     {% endif %}
                                 {%  empty %}
-                                    Pas de fichiers
+                                   {% trans "Pas de fichiers" %}
                                 {% endfor %}
                             </div>
                         </div>

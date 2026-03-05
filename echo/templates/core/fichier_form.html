@@ -8,7 +8,7 @@
 
     <div class="modal-header">
 
-        <h5 class="modal-title"> Déplacer un fichier </h5>
+        <h5 class="modal-title"> {% trans "Déplacer un fichier" %} </h5>
         <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
             <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
             <span class="svg-icon svg-icon-1">
@@ -26,7 +26,7 @@
 
     <div class="modal-body">
         <div class="form-group row">
-            <label class="col-xl-3 col-lg-3 col-form-label">Destination</label>
+            <label class="col-xl-3 col-lg-3 col-form-label">{% trans "Destination" %}</label>
             <div class="col-lg-9 col-xl-6">
                 <select name="dossier_fichier_patient" class="form-control form-control-lg ">
                     {% for dossier in dossier_patient %}

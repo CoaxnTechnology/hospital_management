@@ -119,10 +119,10 @@
                     <div class="row mt-2">
                         <div id="foetus_1" class="col-4">
                             <div class="form-group mb-0 row">
-                                <label class="col-5 font-size-h5 text-right">Fœtus 1</label>
+                                <label class="col-5 font-size-h5 text-right">{% trans "Fœtus" %} 1</label>
                             </div>
                             <div class="form-group mb-0 row">
-                                <label class="col-5 col-form-label text-right">Terme</label>
+                                <label class="col-5 col-form-label text-right">{% trans "Terme" %}</label>
                                 <div class="col-7">
                                     <div class="input-group input-group-sm">
                                         {% render_field form.terme_1 class+="form-control form-control-sm terme" %}
@@ -137,7 +137,7 @@
                                 </div>
                             </div>
                             <div class="form-group mb-0 row">
-                                <label class="col-5 col-form-label text-right">Sexe</label>
+                                <label class="col-5 col-form-label text-right">{% trans "Sexe" %}</label>
                                 <div class="col-7">
                                     {% render_field form.sexe_1 class+="form-control form-control-sm" %}
                                     <div class="invalid-feedback"
@@ -147,7 +147,7 @@
                                 </div>
                             </div>
                             <div class="form-group mb-0 row">
-                                <label class="col-5 col-form-label text-right">Poids de naissance</label>
+                                <label class="col-5 col-form-label text-right">{% trans "Poids de naissance" %}</label>
                                 <div class="col-7">
                                     <div class="input-group input-group-sm">
                                         {% render_field form.poids_naissance_1 class+="form-control form-control-sm" %}
@@ -162,7 +162,7 @@
                                 </div>
                             </div>
                             <div class="form-group mb-0 row">
-                                <label class="col-5 col-form-label text-right">Etat de santé</label>
+                                <label class="col-5 col-form-label text-right">{% trans "Etat de santé" %}</label>
                                 <div class="col-7">
                                     {% render_field form.etat_sante_1 class+="form-control form-control-sm" data-form="antecedent_obstetrique" data-champ="etat_sante" %}
                                     <div class="invalid-feedback"
@@ -173,7 +173,7 @@
                             </div>
 
                             <div class="form-group mb-0 row">
-                                <label class="col-5 col-form-label text-right">Trisomie 21</label>
+                                <label class="col-5 col-form-label text-right">{% trans "Trisomie" %} 21</label>
                                 <div class="col-7">
                                     {% render_field form.t21_1 class+="form-control form-control-sm" %}
                                 </div>
@@ -191,7 +191,7 @@
                             </div>
 
                             <div class="form-group mb-0 row">
-                                <label class="col-5 col-form-label text-right">Allaitement</label>
+                                <label class="col-5 col-form-label text-right">{% trans "Allaitement" %}</label>
                                 <div class="col-7">
                                     {% render_field form.allaitement_1 class+="form-control form-control-sm" %}
                                     <div class="invalid-feedback"
@@ -204,10 +204,10 @@
 
                         <div id="foetus_2" class="col-4" style="display:none">
                             <div class="form-group mb-0 row">
-                                <label class="col-5 font-size-h5 text-right">Fœtus 2</label>
+                                <label class="col-5 font-size-h5 text-right">{% trans "Fœtus" %} 2</label>
                             </div>
                             <div class="form-group mb-0 row">
-                                <label class="col-5 col-form-label text-right">Terme</label>
+                                <label class="col-5 col-form-label text-right">{% trans "Terme" %}</label>
                                 <div class="col-7">
                                     <div class="input-group input-group-sm">
                                         {% render_field form.terme_2 class+="form-control form-control-sm terme" %}
@@ -222,7 +222,7 @@
                                 </div>
                             </div>
                             <div class="form-group mb-0 row">
-                                <label class="col-5 col-form-label text-right">Sexe</label>
+                                <label class="col-5 col-form-label text-right">{% trans "Sexe" %}</label>
                                 <div class="col-7">
                                     {% render_field form.sexe_2 class+="form-control form-control-sm" %}
                                     <div class="invalid-feedback"
@@ -232,7 +232,7 @@
                                 </div>
                             </div>
                             <div class="form-group mb-0 row">
-                                <label class="col-5 col-form-label text-right">Poids de naissance</label>
+                                <label class="col-5 col-form-label text-right">{% trans "Poids de naissance" %}</label>
                                 <div class="col-7">
                                     <div class="input-group input-group-sm">
                                         {% render_field form.poids_naissance_2 class+="form-control form-control-sm" %}
@@ -247,7 +247,7 @@
                                 </div>
                             </div>
                             <div class="form-group mb-0 row">
-                                <label class="col-5 col-form-label text-right">Etat de santé</label>
+                                <label class="col-5 col-form-label text-right">{% trans "Etat de santé" %}</label>
                                 <div class="col-7">
                                     {% render_field form.etat_sante_2 class+="form-control form-control-sm" data-form="antecedent_obstetrique" data-champ="etat_sante" %}
                                     <div class="invalid-feedback"
@@ -258,7 +258,7 @@
                             </div>
 
                             <div class="form-group mb-0 row">
-                                <label class="col-5 col-form-label text-right">Trisomie 21</label>
+                                <label class="col-5 col-form-label text-right">{% trans "Trisomie" %} 21</label>
                                 <div class="col-7">
                                     {% render_field form.t21_2 class+="form-control form-control-sm" %}
                                 </div>
@@ -276,7 +276,7 @@
                             </div>
 
                             <div class="form-group mb-0 row">
-                                <label class="col-5 col-form-label text-right">Allaitement</label>
+                                <label class="col-5 col-form-label text-right">{% trans "Allaitement" %}</label>
                                 <div class="col-7">
                                     {% render_field form.allaitement_2 class+="form-control form-control-sm" %}
                                     <div class="invalid-feedback"
@@ -289,10 +289,10 @@
 
                         <div id="foetus_3" class="col-4" style="display:none">
                             <div class="form-group mb-0 row">
-                                <label class="col-5 font-size-h5 text-right">Fœtus 3</label>
+                                <label class="col-5 font-size-h5 text-right">{% trans "Fœtus" %} 3</label>
                             </div>
                             <div class="form-group mb-0 row">
-                                <label class="col-5 col-form-label text-right">Terme</label>
+                                <label class="col-5 col-form-label text-right">{% trans "Terme" %}</label>
                                 <div class="col-7">
                                     <div class="input-group input-group-sm">
                                         {% render_field form.terme_3 class+="form-control form-control-sm terme" %}
@@ -307,7 +307,7 @@
                                 </div>
                             </div>
                             <div class="form-group mb-0 row">
-                                <label class="col-5 col-form-label text-right">Sexe</label>
+                                <label class="col-5 col-form-label text-right">{% trans "Sexe" %}</label>
                                 <div class="col-7">
                                     {% render_field form.sexe_3 class+="form-control form-control-sm" %}
                                     <div class="invalid-feedback"
@@ -317,7 +317,7 @@
                                 </div>
                             </div>
                             <div class="form-group mb-0 row">
-                                <label class="col-5 col-form-label text-right">Poids de naissance</label>
+                                <label class="col-5 col-form-label text-right">{% trans "Poids de naissance" %}</label>
                                 <div class="col-7">
                                     <div class="input-group input-group-sm">
                                         {% render_field form.poids_naissance_3 class+="form-control form-control-sm" %}
@@ -332,7 +332,7 @@
                                 </div>
                             </div>
                             <div class="form-group mb-0 row">
-                                <label class="col-5 col-form-label text-right">Etat de santé</label>
+                                <label class="col-5 col-form-label text-right">{% trans "Etat de santé" %}</label>
                                 <div class="col-7">
                                     {% render_field form.etat_sante_3 class+="form-control form-control-sm" data-form="antecedent_obstetrique" data-champ="etat_sante" %}
                                     <div class="invalid-feedback"
@@ -343,7 +343,7 @@
                             </div>
 
                             <div class="form-group mb-0 row">
-                                <label class="col-5 col-form-label text-right">Trisomie 21</label>
+                                <label class="col-5 col-form-label text-right">{% trans "Trisomie" %} 21</label>
                                 <div class="col-7">
                                     {% render_field form.t21_3 class+="form-control form-control-sm" %}
                                 </div>
@@ -361,7 +361,7 @@
                             </div>
 
                             <div class="form-group mb-0 row">
-                                <label class="col-5 col-form-label text-right">Allaitement</label>
+                                <label class="col-5 col-form-label text-right">{% trans "Allaitement" %}</label>
                                 <div class="col-7">
                                     {% render_field form.allaitement_3 class+="form-control form-control-sm" %}
                                     <div class="invalid-feedback"

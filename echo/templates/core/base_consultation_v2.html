@@ -100,7 +100,7 @@
                                             <button type="button"
                                                     class="btn btn-sm btn-success dropdown-toggle dropdown-toggle-split"
                                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                                <span class="visually-hidden">Menu</span>
+                                                <span class="visually-hidden">{% trans "Menu" %}</span>
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li><a class="dropdown-item" href="#"
@@ -129,7 +129,7 @@
                                         id="kt_menu_633e7ca49aaa3">
                                        <!--begin::Header-->
                                        <div class="px-7 py-5">
-                                           <div class="fs-5 text-dark fw-bold">Dernières analyses</div>
+                                           <div class="fs-5 text-dark fw-bold">{% trans "Dernières analyses" %}</div>
                                        </div>
                                        <!--end::Header-->
                                        <!--begin::Menu separator-->
@@ -238,7 +238,7 @@
                                             </tr>
 
                                             <tr>
-                                                <td class="text-muted min-w-125px w-125px align-middle">Mots clés
+                                                <td class="text-muted min-w-125px w-125px align-middle">{% trans "Mots clés" %}
                                                 </td>
                                                 <td class="text-gray-800">
                                                     <input class="form-control form-control-solid tagify form-control-sm"
@@ -317,12 +317,12 @@
                                                 {% with g=patient.grossesse_encours %}
                                                     <table class="table table-flush fw-semibold gy-1">
                                                         <tr>
-                                                            <td class="text-muted min-w-125px w-125px">Risque T21</td>
+                                                            <td class="text-muted min-w-125px w-125px">{% trans "Risque" %} T21</td>
                                                             <td class="text-gray-800 min-w-125px w-125px">
                                                                 {% if g.risque %}
                                                                     1/{{ g.risque|floatformat }}
                                                                 {% else %}
-                                                                    Non défini
+                                                                    {% trans "Non défini" %}
                                                                 {% endif %}
                                                             </td>
                                                         </tr>
@@ -332,7 +332,7 @@
                                                                 {% if g.toxoplasmose_v2 %}
                                                                     {{ g.get_toxoplasmose_v2_display }}
                                                                 {% else %}
-                                                                    Non défini
+                                                                    {% trans "Non défini" %}
                                                                 {% endif %}
                                                             </td>
                                                         </tr>
@@ -343,7 +343,7 @@
                                                                 {% if g.diabete_v2 %}
                                                                     {{ g.diabete_v2 }}
                                                                 {% else %}
-                                                                    Non défini
+                                                                    {% trans "Non défini" %}
                                                                 {% endif %}
                                                             </td>
                                                         </tr>

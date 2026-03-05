@@ -53,7 +53,7 @@
              style="top: 0;left: 0;z-index: 100;">
             <div class="d-flex flex-center">
                 <div class="spinner spinner-primary"></div>
-                <div class="text-primary ml-10">Chargement</div>
+                <div class="text-primary ml-10">{% trans "Chargement" %}</div>
             </div>
         </div>
     {% endif %}
@@ -137,7 +137,7 @@
                                         {% else %}
                                             <button type="button" class="btn btn-sm btn-success"
                                                     onclick="nouvelleGrossesse()">
-                                                Nouvelle grossesse
+                                                {% trans "Nouvelle grossesse" %}
                                             </button>
                                         {% endif %}
                                     </div>
@@ -153,7 +153,7 @@
                                         id="kt_menu_633e7ca49aaa3">
                                        <!--begin::Header-->
                                        <div class="px-7 py-5">
-                                           <div class="fs-5 text-dark fw-bold">Dernières analyses</div>
+                                           <div class="fs-5 text-dark fw-bold">{% trans "Dernières analyses" %}</div>
                                        </div>
                                        <!--end::Header-->
                                        <!--begin::Menu separator-->
@@ -219,7 +219,7 @@
                                         <table class="table table-flush fw-semibold gy-1">
                                             {% if patient.adresse.ville %}
                                                 <tr>
-                                                    <td class="text-muted min-w-125px w-125px">Adresse</td>
+                                                    <td class="text-muted min-w-125px w-125px">{% trans "Adresse" %}</td>
                                                     <td class="text-gray-800">
                                                         {% if patient.adresse.rue %}
                                                             {{ patient.adresse.numero }} rue {{ patient.adresse.rue }}
@@ -247,22 +247,22 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="text-muted min-w-125px w-125px">Origine</td>
+                                                <td class="text-muted min-w-125px w-125px">{% trans "Origine" %}</td>
                                                 <td class="text-gray-800 min-w-175px w-175px">
                                                     {{ patient.get_origine_display|default:"-" }}
                                                 </td>
                                             </tr>
 
                                             <tr>
-                                                <td class="text-muted min-w-125px w-125px">Fumeur
+                                                <td class="text-muted min-w-125px w-125px">{% trans "Fumeur" %}
                                                 </td>
                                                 <td class="text-gray-800">
-                                                    {% if patient.fumeur %}Oui{% else %}Non{% endif %}
+                                                    {% if patient.fumeur %}{% trans "Oui" %}{% else %}Non{% endif %}
                                                 </td>
                                             </tr>
 
                                             <tr>
-                                                <td class="text-muted min-w-125px w-125px align-middle">Mots clés
+                                                <td class="text-muted min-w-125px w-125px align-middle">{% trans "Mots clés" %}
                                                 </td>
                                                 <td class="text-gray-800">
                                                     <input class="form-control form-control-solid tagify form-control-sm"
@@ -279,7 +279,7 @@
                                         <table class="table table-flush fw-semibold gy-1">
 
                                             <tr>
-                                                <td class="text-muted min-w-125px w-125px">Taille <small>(cm)</small>
+                                                <td class="text-muted min-w-125px w-125px">{% trans "Taille" %} <small>(cm)</small>
                                                 </td>
                                                 <td class="text-gray-800">
                                                     {{ patient.taille|floatformat|default:"-" }}
@@ -287,7 +287,7 @@
                                             </tr>
 
                                             <tr>
-                                                <td class="text-muted min-w-125px w-125px">Poids<small>(kg)</small>
+                                                <td class="text-muted min-w-125px w-125px">{% trans "Poids" %}<small>(kg)</small>
                                                 </td>
                                                 <td class="text-gray-800">
                                                     {{ patient.poids|floatformat|default:"-" }}
@@ -312,7 +312,7 @@
                                             <div class="flex-equal me-10">
                                                 <table class="table table-flush fw-semibold gy-1">
                                                     <tr>
-                                                        <td class="text-muted min-w-125px w-125px">Terme</td>
+                                                        <td class="text-muted min-w-125px w-125px">{% trans "Terme" %}</td>
                                                         <td class="">
                                                             <span class="terme badge text-bg-warning"></span>
                                                         </td>
@@ -328,7 +328,7 @@
                                                        </td>
                                                    </tr>
                                                     <tr>
-                                                        <td class="text-muted min-w-125px w-125px">Accouchement</td>
+                                                        <td class="text-muted min-w-125px w-125px">{% trans "Accouchement" %}</td>
                                                         <td class="accouchement text-gray-800 min-w-100px w-100px">
                                                         </td>
                                                     </tr>
@@ -341,7 +341,7 @@
                                                 {% with g=patient.grossesse_encours %}
                                                     <table class="table table-flush fw-semibold gy-1">
                                                         <tr>
-                                                            <td class="text-muted min-w-125px w-125px">Risque T21</td>
+                                                            <td class="text-muted min-w-125px w-125px">{% trans "Risque" %} T21</td>
                                                             <td class="text-gray-800 min-w-125px w-125px">
                                                                 {% if g.risque %}
                                                                     1/{{ g.risque|floatformat }}
@@ -351,36 +351,36 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td class="text-muted min-w-125px w-125px">Toxo</td>
+                                                            <td class="text-muted min-w-125px w-125px">{% trans "Toxo" %}</td>
                                                             <td class="text-gray-800 min-w-175px w-175px">
                                                                 {% if g.toxoplasmose_v2 %}
                                                                     {{ g.get_toxoplasmose_v2_display }}
                                                                 {% else %}
-                                                                    Non défini
+                                                                    {% trans "Non défini" %}
                                                                 {% endif %}
                                                             </td>
                                                         </tr>
 
                                                         <tr>
-                                                            <td class="text-muted min-w-125px w-125px">Diabète</td>
+                                                            <td class="text-muted min-w-125px w-125px">{% trans "Diabète" %}</td>
                                                             <td class="text-gray-800 min-w-175px w-175px">
                                                                 {% if g.diabete_v2 %}
                                                                     {{ g.diabete_v2 }}
                                                                 {% else %}
-                                                                    Non défini
+                                                                    {% trans "Non défini" %}
                                                                 {% endif %}
                                                             </td>
                                                         </tr>
 
                                                         <tr>
-                                                            <td class="text-muted min-w-125px w-125px">Aspegic</td>
+                                                            <td class="text-muted min-w-125px w-125px">{% trans "Aspegic" %}</td>
                                                             <td class="text-gray-800 min-w-175px w-175px">
-                                                                {% if g.aspegic %}Oui{% else %}Non{% endif %}
+                                                                {% if g.aspegic %}Oui{% else %}{% trans "Non" %}{% endif %}
                                                             </td>
                                                         </tr>
                                                         {% if g.notes %}
                                                             <tr>
-                                                                <td class="text-muted min-w-125px w-125px">Notes</td>
+                                                                <td class="text-muted min-w-125px w-125px">{% trans "Notes" %}</td>
                                                                 <td class="text-gray-800 min-w-175px w-175px">
                                                                     {{ g.notes|linebreaks }}
                                                                 </td>
@@ -440,7 +440,7 @@
                     <a id="btn_terminer" href="/patients/{{ patient.pk }}/#tab-pma"
                        class="btn btn-sm btn-success font-weight-bolder d-none me-4">
                         <i class="bi bi-x icon-sm"></i>
-                        Terminer
+                        {% trans "Terminer" %}
                     </a>
                 <!--
 
@@ -520,7 +520,7 @@
                         <div class="d-flex">
                             {% if templates %}
                                 <div class="row me-8">
-                                    <label for="id_template_edition_obs" class="col-4 col-form-label py-2">Modèle</label>
+                                    <label for="id_template_edition_obs" class="col-4 col-form-label py-2">{% trans "Modèle" %}</label>
                                     <div class="col-8">
                                         <select name="template_edition_obs" id="id_template_edition_obs"
                                                 class="form-select form-select-solid form-select-sm">

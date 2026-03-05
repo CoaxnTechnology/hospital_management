@@ -1,3 +1,4 @@
+{% load i18n %}
 <table class="table align-middle table-row-dashed gy-5" id="kt_table_users_login_session">
     <!--begin::Table body-->
     <tbody class="fs-6 fw-semibold text-gray-600">
@@ -44,7 +45,7 @@
     {% empty %}
         <tr id="prescription-msg-vide" class="list-item">
             <td colspan="2">
-                <span class="small">Pas d'analyses</span>
+                <span class="small">{% trans "Pas d'analyses" %}</span>
             </td>
         </tr>
     {% endfor %}

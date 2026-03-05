@@ -15,7 +15,7 @@
 																	<span class="nav-icon">
 																		<i class="flaticon2-edit"></i>
 																	</span>
-                            <span class="nav-text">Edition</span>
+                            <span class="nav-text">{% trans "Edition" %}</span>
                         </a>
                     </li>
 
@@ -37,7 +37,7 @@
                 <a id="btn_terminer" href="/patients/{{ patient.pk }}/consultation/terminer"
                    class="btn btn-sm btn-success font-weight-bolder d-none mr-4">
                     <i class="ki ki-bold-close icon-sm"></i>
-                    Terminer la consultation
+                    {% trans "Terminer la consultation" %}
                 </a>
 
                 <a id="btn_imprimer" href="javascript:void(0)"
@@ -75,20 +75,20 @@
                     {% if patient.grossesse_encours %}
                     <div class="mr-2">
                         <label class="checkbox">
-                            <input type="checkbox" id="cb-inserer-grossesse-info"> Informations de grossesse
+                            <input type="checkbox" id="cb-inserer-grossesse-info"> {% trans "Informations de grossesse" %}
                             <span></span>
                         </label>
                     </div>
                     {% endif %}
                     <div>
                         <label class="checkbox">
-                            <input type="checkbox" id="cb-inserer-antecedents"> Antécédents
+                            <input type="checkbox" id="cb-inserer-antecedents"> {% trans "Antécédents" %}
                             <span></span>
                         </label>
                     </div>
                     <div class="ml-8">
                         <label class="checkbox">
-                            <input type="checkbox" id="cb-inserer-notes"> Notes
+                            <input type="checkbox" id="cb-inserer-notes"> {% trans "Notes" %}
                             <span></span>
                         </label>
                     </div>
@@ -100,7 +100,7 @@
                             <span class="nav-icon">
                                 <i class="flaticon2-edit"></i>
                             </span>
-                            <span class="nav-text">Edition</span>
+                            <span class="nav-text">{% trans "Edition" %}</span>
                         </a>
                     </li>
                 </ul>

@@ -242,22 +242,27 @@
 
 
 {% block scripts %}
+    {% trans "Non confirmé" as t_non_confirme %}
+    {% trans "Confirmé" as t_confirme %}
+    {% trans "En salle d'attente" as t_salle_attente %}
+    {% trans "Consultation terminée" as t_consultation_terminee %}
+    {% trans "Annulé" as t_annule %}
     <script type="text/javascript">
-        let statut = 'Non confirmé';
+        let statut = '{{ t_non_confirme }}';
         {%if object %}
             const st = '{{ object.statut }}';
             switch (st) {
                 case '1':
-                    statut = 'Confirmé';
+                    statut = '{{ t_confirme }}';
                     break;
                 case '2':
-                    statut = 'En salle d\'attente';
+                    statut = '{{ t_salle_attente }}';
                     break;
                 case '3':
-                    statut = 'Consultation terminée';
+                    statut = '{{ t_consultation_terminee }}';
                     break;
                 case '10':
-                    statut = 'Annulé';
+                    statut = '{{ t_annule }}';
             }
         {% endif %}
         const codes_postaux = {{ codes_postaux|safe|escape }};

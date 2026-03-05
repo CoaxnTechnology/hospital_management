@@ -131,7 +131,7 @@
         {% if rdv %}
             <a onclick="admissionPatient(event, <%= id %>)"
                class="btn btn-primary font-weight-bold">
-                <i class="la la-check icon-md"></i> Sélectionner
+                <i class="la la-check icon-md"></i> {% trans "Sélectionner" %}
             </a>
         {% else %}
             <a onclick="admissionPatient(event, <%= id %>)"
@@ -196,7 +196,7 @@
             <% }); %>
         </ul>
         <% } else { %>
-        Pas d'historique
+        {% trans "Pas d'historique" %}
         <% } %>
     </script>
 

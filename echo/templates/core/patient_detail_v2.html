@@ -27,8 +27,7 @@
 
 {% block content %}
 {% trans "Masquer" as t_masquer %}
-    <a href="/#liste_salle_attente" class="btn btn-color-light"><i class="bi bi-caret-left-fill"></i> {% trans "Salle
-        d'attente" %}</a>
+    <a href="/#liste_salle_attente" class="btn btn-color-light"><i class="bi bi-caret-left-fill"></i> {% trans "Salle d'attente" %}</a>
     <div class="card mb-5 mb-xxl-8 mt-6">
         <div class="card-body pt-9 pb-0">
             <!--begin::Details-->
@@ -1227,9 +1226,7 @@
                                                 </div>
                                             </div>
                                         {% empty %}
-                                            <div id="mammographie-timeline-empty" class="font-size-sm">{% trans "Pas
-                                                d'historique" %}
-                                            </div>
+                                            <div id="mammographie-timeline-empty" class="font-size-sm">{% trans "Pas d'historique" %}</div>
                                         {% endfor %}
                                     </div>
                                 </div>
@@ -1303,9 +1300,7 @@
                                                 </div>
                                             </div>
                                         {% empty %}
-                                            <div id="echo-mammaire-timeline-empty" class="font-size-sm">{% trans "Pas
-                                                d'historique" %}
-                                            </div>
+                                            <div id="echo-mammaire-timeline-empty" class="font-size-sm">{% trans "Pas d'historique" %}</div>
                                         {% endfor %}
                                     </div>
                                 </div>
@@ -1512,6 +1507,8 @@
 
 
     </div>
+
+    {% include 'core/shared.html' %}
 
     <script type="text/html" id="actions-template">
         <a href="<%- modifUrl %>" class="btn btn-icon btn-primary btn-sm" title="Consulter">

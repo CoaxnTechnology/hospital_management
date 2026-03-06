@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-05 08:31+0100\n"
+"POT-Creation-Date: 2026-03-05 11:26+0100\n"
 "PO-Revision-Date: 2026-02-26 07:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -291,8 +291,6 @@ msgid "Liste des règlements"
 msgstr "List of regulations"
 
 #: templates/base_v2.html:314
-#, fuzzy
-#| msgid "Liste des Bordereaux"
 msgid "Liste des bordereaux"
 msgstr "List of bordereaux"
 
@@ -2049,7 +2047,7 @@ msgstr "History"
 #: templates_backup/templates/core/base_consultation_v2.html:177
 #: templates_backup/templates/core/base_pma.html:201
 msgid "Antécédents"
-msgstr "History"
+msgstr "Medical History"
 
 #: templates/core/base_consultation_v2.html:198
 #: templates/core/base_pma.html:222 templates/core/parametres_base.html:55
@@ -2129,7 +2127,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Aucun lieu défini"
 msgid "Non défini"
-msgstr "No defined place"
+msgstr "Not defined"
 
 #: templates/core/base_consultation_v2.html:330
 #: templates/core/base_pma.html:354 templates/core/patient_detail_v2.html:492
@@ -4938,7 +4936,7 @@ msgstr "Close"
 msgid "Titre"
 msgstr "Title"
 
-#: templates/core/partials/prescription_list.html:47
+#: templates/core/partials/prescription_list.html:48
 #, fuzzy
 #| msgid "Pas d'analyses disponibles"
 msgid "Pas d'analyses"
@@ -4969,7 +4967,17 @@ msgstr "Patient"
 
 #: templates/core/patient_detail_v2.html:29
 msgid "Masquer"
+msgstr "Hide"
+
+#: templates/core/patient_detail_v2.html:30
+msgid "Salle"
 msgstr ""
+
+#: templates/core/patient_detail_v2.html:31
+#, fuzzy
+#| msgid "Salle d'attente"
+msgid "d'attente"
+msgstr "Waiting room"
 
 #: templates/core/patient_detail_v2.html:92
 #: templates/core/patient_detail_v2.html:99
@@ -5132,7 +5140,7 @@ msgstr "Pregnancy outcome"
 
 #: templates/core/patient_detail_v2.html:1428
 msgid "foetus"
-msgstr ""
+msgstr "fetus"
 
 #: templates/core/patient_detail_v2.html:1589
 msgid "La DDR n'est pas renseignée pour la grossesse en cours"
@@ -5565,28 +5573,20 @@ msgid "Ajouter la signature aux éditions"
 msgstr "Add signature to editions"
 
 #: templates/core/profil_form.html:249
-#, fuzzy
-#| msgid "Echographe"
 msgid "Echographe par défaut"
-msgstr "Ultrasound machine"
+msgstr "Default ultrasound machine"
 
 #: templates/core/profil_form.html:261
-#, fuzzy
-#| msgid "Profession"
 msgid "Profil"
-msgstr "Profession"
+msgstr "Profile"
 
 #: templates/core/profil_form.html:273
-#, fuzzy
-#| msgid "d'utilisateur"
 msgid "Nom d'utilisateur"
-msgstr "username"
+msgstr "Username"
 
 #: templates/core/profil_form.html:285
-#, fuzzy
-#| msgid "Modifier Mot de passe"
 msgid "Mot de passe"
-msgstr "Change password"
+msgstr "Password"
 
 #: templates/core/profil_form.html:293
 msgid "Modifier le mot de passe"
@@ -6249,6 +6249,12 @@ msgstr "Identifier"
 #: templates_backup/templates/core/patient_detail_v2.html:41
 msgid "ans"
 msgstr "years"
+
+msgid "Assistant"
+msgstr "Assistant"
+
+msgid "Réceptionniste"
+msgstr "Receptionist"
 
 #~ msgid "Prise de rendez-vous"
 #~ msgstr "Book an appointment"

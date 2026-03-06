@@ -2,7 +2,7 @@
 {% load i18n %}
 
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ LANGUAGE_CODE|default:'fr' }}">
 	<!--begin::Head-->
 	<head><base href=""/>
 		<title>CabinetPro</title>
@@ -295,7 +295,7 @@
 								</div>
 								<!--end:Menu item-->
 								<!--begin:Menu item - Mutuelle-->
-								<div data-aside-accordion class="menu-item menu-accordion {% if '/mutuelle' in request.path or '/reglements/rapport' in request.path %}here show{% endif %}">
+								<div data-aside-accordion class="menu-item menu-accordion {% if '/mutuelle' in request.path %}here show{% endif %}">
 									<span class="menu-link">
 										<span class="menu-icon"><span class="svg-icon svg-icon-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path opacity="0.3" d="M3 6C2.4 6 2 5.6 2 5V3C2 2.4 2.4 2 3 2H5C5.6 2 6 2.4 6 3C6 3.6 5.6 4 5 4H4V5C4 5.6 3.6 6 3 6ZM22 5V3C22 2.4 21.6 2 21 2H19C18.4 2 18 2.4 18 3C18 3.6 18.4 4 19 4H20V5C20 5.6 20.4 6 21 6C21.6 6 22 5.6 22 5ZM6 21C6 20.4 5.6 20 5 20H4V19C4 18.4 3.6 18 3 18C2.4 18 2 18.4 2 19V21C2 21.6 2.4 22 3 22H5C5.6 22 6 21.6 6 21ZM22 21V19C22 18.4 21.6 18 21 18C20.4 18 20 18.4 20 19V20H19C18.4 20 18 20.4 18 21C18 21.6 18.4 22 19 22H21C21.6 22 22 21.6 22 21Z" fill="currentColor"/><path d="M16 11H8C7.4 11 7 10.6 7 10V8C7 7.4 7.4 7 8 7H16C16.6 7 17 7.4 17 8V10C17 10.6 16.6 11 16 11ZM17 16V14C17 13.4 16.6 13 16 13H8C7.4 13 7 13.4 7 14V16C7 16.6 7.4 17 8 17H16C16.6 17 17 16.6 17 16Z" fill="currentColor"/></svg></span></span>
 										<span class="menu-title">{% trans "Mutuelle" %}</span>
@@ -303,13 +303,13 @@
 									</span>
 									<div class="menu-sub menu-sub-accordion">
 										<div class="menu-item">
-											<a class="menu-link" href="/mutuelle/">
+											<a class="menu-link {% if '/mutuelle' in request.path %}active{% endif %}" href="/mutuelle/#mutuelle">
 												<span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
 												<span class="menu-title">{% trans "Liste des règlements" %}</span>
 											</a>
 										</div>
 										<div class="menu-item">
-											<a class="menu-link" href="/mutuelle/#bordereau">
+											<a class="menu-link {% if '/mutuelle' in request.path %}active{% endif %}" href="/mutuelle/#bordereau">
 												<span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
 												<span class="menu-title">{% trans "Liste des bordereaux" %}</span>
 											</a>

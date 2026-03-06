@@ -40,10 +40,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "public/static")]
 
 TEMPLATES[0]['APP_DIRS'] = False
 TEMPLATES[0]['OPTIONS']['loaders'] = [
-    ('django.template.loaders.cached.Loader', [
-        'django.template.loaders.filesystem.Loader',
-        'django.template.loaders.app_directories.Loader',
-    ]),
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")

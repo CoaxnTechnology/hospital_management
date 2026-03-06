@@ -46,7 +46,7 @@ $(document).ready(() => {
                 {data: 'date'},
                 {data: 'patient.nom'},
                 {data: 'patient.prenom'},
-                {data: 'type.libelle'},
+                {data: 'type', render: (data) => data ? data.libelle : ''},
                 {data: 'praticien.nom'},
                 {data: null},
             ],

@@ -73,10 +73,11 @@ def rechercher_prescription(request):
         except Exception as x:
             print(x)
             pass
-
+    if not request.POST.get('draw'):                                             
+             return JsonResponse([], safe=False)  
     # Data table request
     draw = request.POST.get('draw', None)
-    start = int(request.POST.get('start', None))
+    start = int(request.POST.get('start', 0)) 
     length = int(request.POST.get('length', None))
     order_col = int(request.POST.get('order[0][column]', None))
     order_col_name = request.POST.get('columns[{}][data]'.format(order_col))

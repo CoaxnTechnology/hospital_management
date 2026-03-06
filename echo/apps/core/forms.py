@@ -6,6 +6,7 @@ from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import User, Group
 from django.forms import inlineformset_factory, BaseInlineFormSet, Select, ModelMultipleChoiceField
+from django.utils.translation import gettext_lazy as _
 from django_select2 import forms as s2forms
 from apps.core.data import adresses
 from django.forms.formsets import BaseFormSet, formset_factory
@@ -22,22 +23,27 @@ ProfilFormset = inlineformset_factory(
 )
 
 
+class TranslatedGroupChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return _(obj.name)
+
+
 class UserForm(forms.ModelForm):
-    group = forms.ModelChoiceField(queryset=Group.objects.all(), required=True)
+    group = TranslatedGroupChoiceField(queryset=Group.objects.all(), required=True)
 
     class Meta:
         model = User
         fields = ['is_active', 'first_name', 'last_name', 'email', 'group', 'username', 'password']
-        labels = {'group': 'Profil'}
+        labels = {'group': _('Profil')}
 
 
 class UserUpdateForm(forms.ModelForm):
-    group = forms.ModelChoiceField(queryset=Group.objects.all(), required=True)
+    group = TranslatedGroupChoiceField(queryset=Group.objects.all(), required=True)
 
     class Meta:
         model = User
         fields = ['is_active', 'first_name', 'last_name', 'email', 'group', 'username']
-        labels = {'group': 'Profil'}
+        labels = {'group': _('Profil')}
 
 
 class MdpForm(BSModalForm):

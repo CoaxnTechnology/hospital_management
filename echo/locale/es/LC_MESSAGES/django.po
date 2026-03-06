@@ -291,8 +291,6 @@ msgid "Liste des règlements"
 msgstr "Lista de pagos"
 
 #: templates/base_v2.html:314
-#, fuzzy
-#| msgid "Liste des Bordereaux"
 msgid "Liste des bordereaux"
 msgstr "Lista de bourdeaux"
 
@@ -2130,7 +2128,7 @@ msgstr ""
 #: templates/core/patient_info_panel.html:98
 #: templates/core/patient_info_panel.html:579
 msgid "Non défini"
-msgstr ""
+msgstr "No definido"
 
 #: templates/core/base_consultation_v2.html:330
 #: templates/core/base_pma.html:354 templates/core/patient_detail_v2.html:492
@@ -2245,7 +2243,7 @@ msgstr "Eliminar lugar de parto"
 #: templates_backup/core/reglement_rapport.html:29
 #: templates_backup/templates/core/reglement_rapport.html:29
 msgid "Oui"
-msgstr "Oui"
+msgstr "Sí"
 
 #: templates/core/base_pma.html:378 templates/core/patient_detail_v2.html:396
 #: templates/core/patient_detail_v2.html:516
@@ -2253,7 +2251,7 @@ msgstr "Oui"
 #: templates_backup/core/reglement_rapport.html:30
 #: templates_backup/templates/core/reglement_rapport.html:30
 msgid "Non"
-msgstr "Non"
+msgstr "No"
 
 #: templates/core/base_pma.html:432 templates/core/bordereau_detail.html:28
 #: templates/core/certificat_list.html:11 templates/core/cloture_detail.html:13
@@ -4961,7 +4959,7 @@ msgstr "Patient"
 
 #: templates/core/patient_detail_v2.html:29
 msgid "Masquer"
-msgstr ""
+msgstr "Ocultar"
 
 #: templates/core/patient_detail_v2.html:92
 #: templates/core/patient_detail_v2.html:99
@@ -5033,7 +5031,7 @@ msgstr "Nouveau compte-rendu"
 #, fuzzy
 #| msgid "Nouveau patient"
 msgid "Nouveau"
-msgstr "Nouveau patient"
+msgstr "Nuevo"
 
 #: templates/core/patient_detail_v2.html:554
 msgid "Accueil"
@@ -5125,7 +5123,7 @@ msgstr "Resultado del embarazo"
 
 #: templates/core/patient_detail_v2.html:1428
 msgid "foetus"
-msgstr ""
+msgstr "feto"
 
 #: templates/core/patient_detail_v2.html:1589
 msgid "La DDR n'est pas renseignée pour la grossesse en cours"
@@ -5558,28 +5556,20 @@ msgid "Ajouter la signature aux éditions"
 msgstr "Añadir firma a las ediciones"
 
 #: templates/core/profil_form.html:249
-#, fuzzy
-#| msgid "Echographe"
 msgid "Echographe par défaut"
-msgstr "Echographe"
+msgstr "Ecógrafo por defecto"
 
 #: templates/core/profil_form.html:261
-#, fuzzy
-#| msgid "Profession"
 msgid "Profil"
-msgstr "Profesión"
+msgstr "Perfil"
 
 #: templates/core/profil_form.html:273
-#, fuzzy
-#| msgid "d'utilisateur"
 msgid "Nom d'utilisateur"
-msgstr "de usuario"
+msgstr "Nombre de usuario"
 
 #: templates/core/profil_form.html:285
-#, fuzzy
-#| msgid "Modifier Mot de passe"
 msgid "Mot de passe"
-msgstr "Cambiar contraseña"
+msgstr "Contraseña"
 
 #: templates/core/profil_form.html:293
 msgid "Modifier le mot de passe"
@@ -6241,6 +6231,12 @@ msgstr "Identificador"
 #: templates_backup/templates/core/patient_detail_v2.html:41
 msgid "ans"
 msgstr "años"
+
+msgid "Assistant"
+msgstr "Asistente"
+
+msgid "Réceptionniste"
+msgstr "Recepcionista"
 
 #~ msgid "Prise de rendez-vous"
 #~ msgstr "Tomar una cita"

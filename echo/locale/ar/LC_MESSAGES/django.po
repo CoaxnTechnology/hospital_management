@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-05 08:31+0100\n"
+"POT-Creation-Date: 2026-03-05 11:17+0100\n"
 "PO-Revision-Date: 2026-02-26 07:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: Arabic\n"
@@ -292,8 +292,6 @@ msgid "Liste des règlements"
 msgstr "قائمة الدفعات"
 
 #: templates/base_v2.html:314
-#, fuzzy
-#| msgid "Liste des Bordereaux"
 msgid "Liste des bordereaux"
 msgstr "قائمة الحوافظ"
 
@@ -2131,7 +2129,7 @@ msgstr ""
 #: templates/core/patient_info_panel.html:98
 #: templates/core/patient_info_panel.html:579
 msgid "Non défini"
-msgstr ""
+msgstr "غير محدد"
 
 #: templates/core/base_consultation_v2.html:330
 #: templates/core/base_pma.html:354 templates/core/patient_detail_v2.html:492
@@ -2246,7 +2244,7 @@ msgstr "حذف مكان الولادة"
 #: templates_backup/core/reglement_rapport.html:29
 #: templates_backup/templates/core/reglement_rapport.html:29
 msgid "Oui"
-msgstr "Oui"
+msgstr "نعم"
 
 #: templates/core/base_pma.html:378 templates/core/patient_detail_v2.html:396
 #: templates/core/patient_detail_v2.html:516
@@ -2254,7 +2252,7 @@ msgstr "Oui"
 #: templates_backup/core/reglement_rapport.html:30
 #: templates_backup/templates/core/reglement_rapport.html:30
 msgid "Non"
-msgstr "Non"
+msgstr "لا"
 
 #: templates/core/base_pma.html:432 templates/core/bordereau_detail.html:28
 #: templates/core/certificat_list.html:11 templates/core/cloture_detail.html:13
@@ -4931,7 +4929,7 @@ msgstr "إغلاق"
 msgid "Titre"
 msgstr "العنوان"
 
-#: templates/core/partials/prescription_list.html:47
+#: templates/core/partials/prescription_list.html:48
 #, fuzzy
 #| msgid "Pas d'analyses disponibles"
 msgid "Pas d'analyses"
@@ -4962,7 +4960,7 @@ msgstr "Patient"
 
 #: templates/core/patient_detail_v2.html:29
 msgid "Masquer"
-msgstr ""
+msgstr "إخفاء"
 
 #: templates/core/patient_detail_v2.html:92
 #: templates/core/patient_detail_v2.html:99
@@ -5034,7 +5032,7 @@ msgstr "Nouveau compte-rendu"
 #, fuzzy
 #| msgid "Nouveau patient"
 msgid "Nouveau"
-msgstr "Nouveau patient"
+msgstr "جديد"
 
 #: templates/core/patient_detail_v2.html:554
 msgid "Accueil"
@@ -5122,11 +5120,11 @@ msgstr "Antécédents obstétricaux"
 #, fuzzy
 #| msgid "Issue de grossesse"
 msgid "Issue de grossesse à compléter"
-msgstr "نتيجة الحمل"
+msgstr "نتيجة الحمل للإكمال"
 
 #: templates/core/patient_detail_v2.html:1428
 msgid "foetus"
-msgstr ""
+msgstr "جنين"
 
 #: templates/core/patient_detail_v2.html:1589
 msgid "La DDR n'est pas renseignée pour la grossesse en cours"
@@ -5559,28 +5557,20 @@ msgid "Ajouter la signature aux éditions"
 msgstr "إضافة التوقيع للمطبوعات"
 
 #: templates/core/profil_form.html:249
-#, fuzzy
-#| msgid "Echographe"
 msgid "Echographe par défaut"
-msgstr "Echographe"
+msgstr "جهاز الموجات فوق الصوتية الافتراضي"
 
 #: templates/core/profil_form.html:261
-#, fuzzy
-#| msgid "Profession"
 msgid "Profil"
-msgstr "المهنة"
+msgstr "الملف الشخصي"
 
 #: templates/core/profil_form.html:273
-#, fuzzy
-#| msgid "d'utilisateur"
 msgid "Nom d'utilisateur"
-msgstr "المستخدم"
+msgstr "اسم المستخدم"
 
 #: templates/core/profil_form.html:285
-#, fuzzy
-#| msgid "Modifier Mot de passe"
 msgid "Mot de passe"
-msgstr "تغيير كلمة المرور"
+msgstr "كلمة المرور"
 
 #: templates/core/profil_form.html:293
 msgid "Modifier le mot de passe"
@@ -6242,6 +6232,12 @@ msgstr "المعرف"
 #: templates_backup/templates/core/patient_detail_v2.html:41
 msgid "ans"
 msgstr "سنوات"
+
+msgid "Assistant"
+msgstr "مساعد"
+
+msgid "Réceptionniste"
+msgstr "موظف الاستقبال"
 
 #~ msgid "Prise de rendez-vous"
 #~ msgstr "حجز موعد"

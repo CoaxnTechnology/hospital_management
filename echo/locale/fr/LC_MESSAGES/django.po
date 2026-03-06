@@ -2180,7 +2180,7 @@ msgstr ""
 #: templates/core/patient_info_panel.html:98
 #: templates/core/patient_info_panel.html:579
 msgid "Non défini"
-msgstr ""
+msgstr "Non défini"
 
 #: templates/core/base_consultation_v2.html:330
 #: templates/core/base_pma.html:354 templates/core/patient_detail_v2.html:492
@@ -5073,7 +5073,7 @@ msgstr "Patient"
 
 #: templates/core/patient_detail_v2.html:29
 msgid "Masquer"
-msgstr ""
+msgstr "Masquer"
 
 #: templates/core/patient_detail_v2.html:92
 #: templates/core/patient_detail_v2.html:99
@@ -5145,7 +5145,7 @@ msgstr "Nouveau compte-rendu"
 #, fuzzy
 #| msgid "Nouveau patient"
 msgid "Nouveau"
-msgstr "Nouveau patient"
+msgstr "Nouveau"
 
 #: templates/core/patient_detail_v2.html:554
 msgid "Accueil"
@@ -5239,7 +5239,7 @@ msgstr "Durée de grossesse"
 
 #: templates/core/patient_detail_v2.html:1428
 msgid "foetus"
-msgstr ""
+msgstr "fœtus"
 
 #: templates/core/patient_detail_v2.html:1589
 msgid "La DDR n'est pas renseignée pour la grossesse en cours"
@@ -5717,23 +5717,23 @@ msgstr "Ajouter les antécédents aux éditions"
 #, fuzzy
 #| msgid "Echographe"
 msgid "Echographe par défaut"
-msgstr "Echographe"
+msgstr "Echographe par défaut"
 
 #: templates/core/profil_form.html:261
 msgid "Profil"
-msgstr ""
+msgstr "Profil"
 
 #: templates/core/profil_form.html:273
 #, fuzzy
 #| msgid "d'utilisateur"
 msgid "Nom d'utilisateur"
-msgstr "d'utilisateur"
+msgstr "Nom d'utilisateur"
 
 #: templates/core/profil_form.html:285
 #, fuzzy
 #| msgid "ou mot de passe incorrect."
 msgid "Mot de passe"
-msgstr "ou mot de passe incorrect."
+msgstr "Mot de passe"
 
 #: templates/core/profil_form.html:293
 #, fuzzy
@@ -6444,6 +6444,12 @@ msgstr "Identifiant patient"
 #: templates_backup/templates/core/patient_detail_v2.html:41
 msgid "ans"
 msgstr ""
+
+msgid "Assistant"
+msgstr "Assistant"
+
+msgid "Réceptionniste"
+msgstr "Réceptionniste"
 
 #, fuzzy
 #~| msgid "Confirmer le rendez-vous"

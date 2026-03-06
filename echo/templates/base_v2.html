@@ -56,6 +56,9 @@
                 transition: width 0.3s ease, min-width 0.3s ease;
                 overflow: hidden;
                 z-index: 98;
+                will-change: width;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
             }
             body.aside-collapsed #kt_aside {
                 width: 0;

@@ -1,5 +1,4 @@
 import json
-import os
 from datetime import date, datetime, timedelta
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -34,9 +33,6 @@ class Accueil(PermissionRequiredMixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
-        compte = self.request.user.profil.compte.raison_sociale.replace(' ', '+')
-        os.system(f'echo "export EE_COMPTE={compte}" >> ~/.bashrc')
-
         reinitialiser_ordre_passage(self.request)
 
         if 'msg' in self.request.GET:

@@ -49,11 +49,11 @@ function ajouterPraticien(praticien) {
         'praticien': praticien.id,
     })
         .done(function (result) {
-            console.log("Praticien ajouté avec succès");
             const html = _.template($('#praticien-template').html())({praticien});
-            $('.praticiens-list').append(html);
-            $('#praticiens-msg-vide').css('display', 'none');
-            creerFormModifierPraticien($('.modifier_praticien').last());
+            const $list = $('.praticiens-list');
+            $list.append(html);
+            $list.siblings('#praticiens-msg-vide').hide();
+            creerFormModifierPraticien($list.find('.modifier_praticien').last());
             toastr.success('Praticien ajouté');
         })
         .fail(function () {

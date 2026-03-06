@@ -81,7 +81,6 @@ class CompteModelBase(BaseModel):
                 self.compte = get_request().user.profil.compte
         except:
             pass
-        print('Saving', self.__str__())
         super().save(*args, **kwargs)
 
     class Meta:
@@ -138,7 +137,6 @@ class Compte(models.Model):
 
     @staticmethod
     def storage_path(instance, filename):
-        print('Storage path', 'comptes/compte_{0}/{1}'.format(instance.compte.pk, filename))
         return 'comptes/compte_{0}/{1}'.format(instance.compte.pk, filename)
 
     def categories(self):
@@ -162,9 +160,7 @@ class Compte(models.Model):
             return 'Expert Médical'
 
 def repertoire_utilisateur(instance, filename):
-    path = 'comptes/compte_{0}/utilisateurs/{1}/{2}'.format(instance.compte.pk, instance.user.pk, filename)
-    print('Enregistrement dans ', path)
-    return path
+    return 'comptes/compte_{0}/utilisateurs/{1}/{2}'.format(instance.compte.pk, instance.user.pk, filename)
 
 
 class Profil(CompteModelBase):
@@ -856,6 +852,10 @@ class Rdv(CompteModelBase):
 
     class Meta:
         ordering = ['-debut']
+        indexes = [
+            models.Index(fields=['compte', 'debut']),
+            models.Index(fields=['compte', 'ancien_debut']),
+        ]
 
     def __str__(self):
         return "{}-{} - {}".format(self.debut, self.fin, self.motif)
@@ -917,6 +917,9 @@ class Consultation(CompteModelBase):
 
     class Meta:
         ordering = ['-date', '-id']
+        indexes = [
+            models.Index(fields=['patient', 'date']),
+        ]
 
     def __str__(self):
         return f"{self.motif.libelle} - {self.patient.nom_complet} - {self.date}"
@@ -960,6 +963,11 @@ class Admission(models.Model):
     statut = models.CharField(max_length=2, default=1,
                               choices=[(1, 'En attente'), (2, 'En consultation'), (3, 'Consultation terminée'),
                                        (10, 'Annulé')])
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['patient', 'date']),
+        ]
 
     def numero_admission(self):
         return "{}/{}".format(str(self.numero).zfill(5), self.date.year)

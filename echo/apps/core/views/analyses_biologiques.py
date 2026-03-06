@@ -88,8 +88,12 @@ def ajouter_resultats_analyses(request):
     analyses = request.POST.get('analyses', None)
     if analyses is None:
         return JsonResponse({'msg': "Au moins un résultat est obligatoire"}, status=400)
-    for analyse in json.loads(analyses):
-        analyse_bio = AnalyseBiologique.objects.get(pk=analyse['id'])
+    analyses_data = json.loads(analyses)
+    analyses_map = AnalyseBiologique.objects.in_bulk([a['id'] for a in analyses_data])
+    for analyse in analyses_data:
+        analyse_bio = analyses_map.get(analyse['id'])
+        if not analyse_bio:
+            continue
         res = ResultatAnalyseBiologique.objects.create(prescription=presc, analyse=analyse_bio,
                                                        valeur=analyse_bio.modele_resultat)
         resultats.append(res)

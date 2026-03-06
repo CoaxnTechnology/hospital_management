@@ -60,24 +60,21 @@ def fichiers_telecharger(request, pk):
 
 
 def charger_info_panel_context(request, context, patient):
-    print("Mots clé patient", patient)
     context['patient_json'] = json.dumps(PatientSerializer(patient).data)
     praticiens = Praticien.objects.filter(compte=request.user.profil.compte)
     praticiens_json = PraticienSerializer(praticiens, many=True)
     context['praticiens_json'] = json.dumps(praticiens_json.data)
-    patients = Patient.objects.exclude(pk=patient.pk)
     etablissement = serializers.serialize('json', Etablissement.objects.all(), use_natural_foreign_keys=True,
                                           fields=('pk', 'nom', 'adresse'))
     context['etablissements_json'] = etablissement
     lst = []
-    for p in patients:
-        if p.mot_cle and p.mot_cle is not None:
-            mots = json.loads(p.mot_cle)
-            cles = map(lambda m: m['value'], mots)
-            lst.extend(cles)
-    mots_cles = list(set(lst))
-    print("Mots clés patient", mots_cles)
-    context['mot_patient'] = mots_cles
+    mot_cle_values = Patient.objects.exclude(pk=patient.pk) \
+        .exclude(mot_cle__isnull=True).exclude(mot_cle='') \
+        .values_list('mot_cle', flat=True)
+    for mot_cle in mot_cle_values:
+        mots = json.loads(mot_cle)
+        lst.extend(m['value'] for m in mots)
+    context['mot_patient'] = list(set(lst))
 
     #logger.error('Mots cle patient %s', pformat(mots_cles))
 

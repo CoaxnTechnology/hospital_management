@@ -63,3 +63,25 @@ jobs:
             supervisorctl restart echo-store
             
             echo "Deployment completed!"
+
+      - name: Health check
+        run: |
+          if [ -z "$SUBDOMAIN" ]; then
+            echo "SUBDOMAIN secret not set, skipping health check"
+            exit 0
+          fi
+          echo "Waiting for server to be ready..."
+          sleep 20
+          for i in 1 2 3 4 5; do
+            STATUS=$(curl -o /dev/null -s -w "%{http_code}" --max-time 10 "https://${SUBDOMAIN}" || echo "000")
+            echo "Attempt $i: HTTP $STATUS"
+            if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 400 ]; then
+              echo "Health check passed (HTTP $STATUS)"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "Health check failed after 5 attempts"
+          exit 1
+        env:
+          SUBDOMAIN: ${{ secrets.SUBDOMAIN }}

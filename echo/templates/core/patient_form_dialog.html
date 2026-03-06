@@ -7,6 +7,10 @@
 <form method="post">
 {% csrf_token %}
 
+{% for hidden in patient.hidden_fields %}
+    {{ hidden }}
+{% endfor %}
+
 <div class="card card-custom bg-white shadow-none">
 
 <div class="card-header">
@@ -30,17 +34,165 @@
 
 <div class="card-body">
 
-<button type="button" class="btn btn-sm btn-outline-info"
-        data-toggle="collapse" href="#blocMutuelle">
-    {% trans "Mutuelle" %}
-</button>
+<div class="row">
+    <div class="col-md-4">
+        <label>{% trans "Civilité" %}</label>
+        {% render_field patient.civilite class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-4">
+        <label>{% trans "Sexe" %}</label>
+        {% render_field patient.sexe class+="form-control form-control-sm" %}
+    </div>
+</div>
 
+<div class="row mt-2">
+    <div class="col-md-6">
+        <label>{% trans "Prénom" %}</label>
+        {% render_field patient.prenom class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-6">
+        <label>{% trans "Nom de famille" %}</label>
+        {% render_field patient.nom class+="form-control form-control-sm" %}
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-md-6">
+        <label>{% trans "Nom de naissance" %}</label>
+        {% render_field patient.nom_naissance class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-6">
+        <label>{% trans "Date de naissance" %}</label>
+        {% render_field patient.date_naissance class+="form-control form-control-sm" %}
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-md-6">
+        <label>{% trans "Téléphone" %}</label>
+        {% render_field patient.telephone class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-6">
+        <label>{% trans "Téléphone secondaire" %}</label>
+        {% render_field patient.telephone_secondaire class+="form-control form-control-sm" %}
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-md-6">
+        <label>{% trans "Téléphone autre" %}</label>
+        {% render_field patient.telephone_autre class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-6">
+        <label>{% trans "Email" %}</label>
+        {% render_field patient.email class+="form-control form-control-sm" %}
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-md-6">
+        <label>{% trans "Profession" %}</label>
+        {% render_field patient.profession class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-6">
+        <label>{% trans "Praticien principal" %}</label>
+        {% render_field patient.praticien_principal class+="form-control form-control-sm" %}
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-md-4">
+        <label>{% trans "Taille (cm)" %}</label>
+        {% render_field patient.taille class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-4">
+        <label>{% trans "Poids (kg)" %}</label>
+        {% render_field patient.poids class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-4">
+        <label>{% trans "Groupe sanguin" %}</label>
+        {% render_field patient.groupe_sanguin class+="form-control form-control-sm" %}
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-md-6">
+        <label>{% trans "Fumeur" %}</label>
+        {% render_field patient.fumeur class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-6">
+        <label>{% trans "Nombre de cigarettes" %}</label>
+        {% render_field patient.nombre_cigarettes class+="form-control form-control-sm" %}
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-md-6">
+        <label>{% trans "Numéro d'identité" %}</label>
+        {% render_field patient.numero_identite class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-6">
+        <label>{% trans "Code de sécurité sociale" %}</label>
+        {% render_field patient.code_securite_sociale class+="form-control form-control-sm" %}
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-md-6">
+        <label>{% trans "Origine" %}</label>
+        {% render_field patient.origine class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-6">
+        <label>{% trans "Ancien numéro" %}</label>
+        {% render_field patient.ancien_numero class+="form-control form-control-sm" %}
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-12">
+        <label>{% trans "Observation" %}</label>
+        {% render_field patient.observation class+="form-control form-control-sm" rows="2" %}
+    </div>
+</div>
+
+<hr class="mt-3 mb-2">
+<h6 class="text-muted">{% trans "Adresse" %}</h6>
+
+<div class="row mt-2">
+    <div class="col-md-6">
+        <label>{% trans "Ville" %}</label>
+        {% render_field adresse.ville class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-6">
+        <label>{% trans "Code postal" %}</label>
+        {% render_field adresse.cp class+="form-control form-control-sm" %}
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-md-6">
+        <label>{% trans "Gouvernorat" %}</label>
+        {% render_field adresse.gouvernorat class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-6">
+        <label>{% trans "Pays" %}</label>
+        {% render_field adresse.pays class+="form-control form-control-sm" %}
+    </div>
+</div>
+
+<div class="mt-3">
 <button type="button" class="btn btn-sm btn-outline-info"
         data-toggle="collapse" href="#blocConjoint">
     {% trans "Informations sur le conjoint" %}
 </button>
 
-<div class="collapse" id="blocConjoint">
+<button type="button" class="btn btn-sm btn-outline-info"
+        data-toggle="collapse" href="#blocMutuelle">
+    {% trans "Mutuelle" %}
+</button>
+</div>
+
+<div class="collapse mt-2" id="blocConjoint">
 <h5>{% trans "Conjoint" %}</h5>
 
 <label>{% trans "Date de mariage" %}</label>
@@ -59,7 +211,7 @@
 {% render_field patient.etat_sante_conjoint class+="form-control form-control-sm" %}
 </div>
 
-<div class="collapse" id="blocMutuelle">
+<div class="collapse mt-2" id="blocMutuelle">
 <h5>{% trans "Mutuelle" %}</h5>
 
 <label>{% trans "Désignation mutuelle" %}</label>

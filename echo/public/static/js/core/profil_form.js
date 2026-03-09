@@ -47,21 +47,23 @@ jQuery(document).ready(function () {
     var signature = new KTImageInput('signature');
 
     signature.on('change', function (imageInput) {
+        const _sm = (typeof SWAL_MESSAGES !== 'undefined') ? SWAL_MESSAGES : {};
         swal.fire({
-            title: 'Signature ajoutée',
+            title: _sm.signature_ajoutee || 'Signature ajoutée',
             type: 'success',
             buttonsStyling: false,
-            confirmButtonText: 'Ok',
+            confirmButtonText: _sm.ok || 'Ok',
             confirmButtonClass: 'btn btn-primary font-weight-bold'
         });
     });
 
     signature.on('remove', function (imageInput) {
+        const _sm = (typeof SWAL_MESSAGES !== 'undefined') ? SWAL_MESSAGES : {};
         swal.fire({
-            title: 'Signature supprimée',
+            title: _sm.signature_supprimee || 'Signature supprimée',
             type: 'error',
             buttonsStyling: false,
-            confirmButtonText: 'Ok',
+            confirmButtonText: _sm.ok || 'Ok',
             confirmButtonClass: 'btn btn-primary font-weight-bold'
         });
     });*/

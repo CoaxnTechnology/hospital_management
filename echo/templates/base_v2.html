@@ -1134,6 +1134,66 @@
             confirmer_deplacer: '{{ s_swal_confirm_deplacer|escapejs }}',
             deplacer_au: '{{ s_swal_deplacer_au|escapejs }}',
         };
+        {% trans "Etes vous sûr ?" as sm_titre %}
+        {% trans "Attention" as sm_attention %}
+        {% trans "Message important" as sm_message_important %}
+        {% trans "La suppression est définitive!" as sm_suppression_definitive %}
+        {% trans "Oui, supprimer!" as sm_confirmer_supprimer %}
+        {% trans "Non, annuler" as sm_annuler %}
+        {% trans "Non" as sm_non %}
+        {% trans "Oui" as sm_oui %}
+        {% trans "Ok" as sm_ok %}
+        {% trans "Oui, annuler l'admission!" as sm_confirmer_annuler_admission %}
+        {% trans "Non, conserver l'admission" as sm_conserver_admission %}
+        {% trans "Oui, supprimer le praticien!" as sm_confirmer_supprimer_praticien %}
+        {% trans "Non, conserver le praticien" as sm_conserver_praticien %}
+        {% trans "Oui, supprimer la prescription!" as sm_confirmer_supprimer_prescription %}
+        {% trans "Non, conserver la prescription" as sm_conserver_prescription %}
+        {% trans "Voulez vous supprimer cette consultation ?" as sm_supprimer_consultation %}
+        {% trans "Voulez vous supprimer cette tentative PMA ?" as sm_supprimer_tentative_pma %}
+        {% trans "Voulez vous supprimer cet antécédent ?" as sm_supprimer_antecedent %}
+        {% trans "Voulez vous archiver ce patient ?" as sm_archiver_patient %}
+        {% trans "Oui, archiver!" as sm_confirmer_archiver %}
+        {% trans "Une autre admission est en cours pour ce patient, souhaitez vous faire une nouvelle admission?" as sm_admission_en_cours %}
+        {% trans "Oui, faire une nouvelle admission" as sm_confirmer_nouvelle_admission %}
+        {% trans "Non, garder l'admission en cours" as sm_conserver_admission_en_cours %}
+        {% trans "Une autre consultation du même patient avec le même motif existe, souhaitez vous l'afficher avant d'en créer une nouvelle?" as sm_consultation_doublon %}
+        {% trans "Oui, afficher la consultation existante" as sm_afficher_consultation_existante %}
+        {% trans "Non, créer une nouvelle consultation" as sm_creer_nouvelle_consultation %}
+        {% trans "Remplacer la saisie ?" as sm_remplacer_saisie %}
+        {% trans "Signature ajoutée" as sm_signature_ajoutee %}
+        {% trans "Signature supprimée" as sm_signature_supprimee %}
+        window.SWAL_MESSAGES = {
+            titre: '{{ sm_titre|escapejs }}',
+            attention: '{{ sm_attention|escapejs }}',
+            message_important: '{{ sm_message_important|escapejs }}',
+            suppression_definitive: '{{ sm_suppression_definitive|escapejs }}',
+            confirmer_supprimer: '{{ sm_confirmer_supprimer|escapejs }}',
+            annuler: '{{ sm_annuler|escapejs }}',
+            non: '{{ sm_non|escapejs }}',
+            oui: '{{ sm_oui|escapejs }}',
+            ok: '{{ sm_ok|escapejs }}',
+            confirmer_annuler_admission: '{{ sm_confirmer_annuler_admission|escapejs }}',
+            conserver_admission: '{{ sm_conserver_admission|escapejs }}',
+            confirmer_supprimer_praticien: '{{ sm_confirmer_supprimer_praticien|escapejs }}',
+            conserver_praticien: '{{ sm_conserver_praticien|escapejs }}',
+            confirmer_supprimer_prescription: '{{ sm_confirmer_supprimer_prescription|escapejs }}',
+            conserver_prescription: '{{ sm_conserver_prescription|escapejs }}',
+            supprimer_consultation: '{{ sm_supprimer_consultation|escapejs }}',
+            supprimer_tentative_pma: '{{ sm_supprimer_tentative_pma|escapejs }}',
+            supprimer_antecedent: '{{ sm_supprimer_antecedent|escapejs }}',
+            archiver_patient: '{{ sm_archiver_patient|escapejs }}',
+            confirmer_archiver: '{{ sm_confirmer_archiver|escapejs }}',
+            admission_en_cours: '{{ sm_admission_en_cours|escapejs }}',
+            confirmer_nouvelle_admission: '{{ sm_confirmer_nouvelle_admission|escapejs }}',
+            conserver_admission_en_cours: '{{ sm_conserver_admission_en_cours|escapejs }}',
+            consultation_doublon: '{{ sm_consultation_doublon|escapejs }}',
+            afficher_consultation_existante: '{{ sm_afficher_consultation_existante|escapejs }}',
+            creer_nouvelle_consultation: '{{ sm_creer_nouvelle_consultation|escapejs }}',
+            remplacer_saisie: '{{ sm_remplacer_saisie|escapejs }}',
+            signature_ajoutee: '{{ sm_signature_ajoutee|escapejs }}',
+            signature_supprimee: '{{ sm_signature_supprimee|escapejs }}',
+        };
         </script>
         <script src="{% static "js/core/logger.js" %}"></script>
         <script src="{% static "js/chat/chat.js" %}"></script>

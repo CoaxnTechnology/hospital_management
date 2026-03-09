@@ -71,13 +71,13 @@ function getConsultationDeleteUrl(id) {
 
 function supprimerConsultation(id) {
     swal.fire({
-        title: "Attention",
-        text: "Voulez vous supprimer cette consultation ?",
+        title: _sm.attention || "Attention",
+        text: _sm.supprimer_consultation || "Voulez vous supprimer cette consultation ?",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
-        confirmButtonText: "Oui, supprimer!",
-        cancelButtonText: "Non, annuler",
+        confirmButtonText: _sm.confirmer_supprimer || "Oui, supprimer!",
+        cancelButtonText: _sm.annuler || "Non, annuler",
         closeOnConfirm: false
     }).then(function (result) {
         if (result.value) {
@@ -88,13 +88,13 @@ function supprimerConsultation(id) {
 
 function supprimerPMA(id) {
     swal.fire({
-        title: "Attention",
-        text: "Voulez vous supprimer cette tentative PMA ?",
+        title: _sm.attention || "Attention",
+        text: _sm.supprimer_tentative_pma || "Voulez vous supprimer cette tentative PMA ?",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
-        confirmButtonText: "Oui, supprimer!",
-        cancelButtonText: "Non, annuler",
+        confirmButtonText: _sm.confirmer_supprimer || "Oui, supprimer!",
+        cancelButtonText: _sm.annuler || "Non, annuler",
         closeOnConfirm: false
     }).then(function (result) {
         if (result.value) {
@@ -436,13 +436,13 @@ function modifierAntecedentObstetrique(id) {
 
 function supprimerAntecedentObstetrique(id) {
     swal.fire({
-        title: "Attention",
-        text: "Voulez vous supprimer cet antécédent ?",
+        title: _sm.attention || "Attention",
+        text: _sm.supprimer_antecedent || "Voulez vous supprimer cet antécédent ?",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
-        confirmButtonText: "Oui, supprimer!",
-        cancelButtonText: "Non, annuler",
+        confirmButtonText: _sm.confirmer_supprimer || "Oui, supprimer!",
+        cancelButtonText: _sm.annuler || "Non, annuler",
         closeOnConfirm: false
     }).then(function (result) {
         if (result.value) {
@@ -854,7 +854,7 @@ $(document).ready(() => {
     $('#debut').datepicker({
         todayHighlight: true,
         autoclose: true,
-        language: 'fr',
+        language: currentLang,
         weekStart: 1,
         format: 'dd/mm/yyyy',
         orientation: 'bottom',
@@ -863,7 +863,7 @@ $(document).ready(() => {
     $('#fin').datepicker({
         todayHighlight: true,
         autoclose: true,
-        language: 'fr',
+        language: currentLang,
         weekStart: 1,
         format: 'dd/mm/yyyy',
         orientation: 'bottom'

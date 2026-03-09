@@ -2183,7 +2183,7 @@ msgstr "Notes"
 #: templates_backup/templates/core/consultation_colposcopie_form.html:32
 #: templates_backup/templates/core/parametres_base.html:82
 msgid "Edition"
-msgstr "Edition"
+msgstr "Configuración de impresión"
 
 #: templates/core/base_consultation_v2.html:466
 #: templates/core/base_pma.html:523
@@ -3875,7 +3875,7 @@ msgstr "Parámetros generales"
 #: templates/core/parametres.html:33 templates_backup/core/parametres.html:33
 #: templates_backup/templates/core/parametres.html:33
 msgid "Modifier les paramètres du compte"
-msgstr "Modifier les paramètres du compte"
+msgstr "Editar configuración de la cuenta"
 
 #: templates/core/parametres.html:45 templates_backup/core/parametres.html:45
 #: templates_backup/templates/core/parametres.html:45
@@ -5081,7 +5081,7 @@ msgstr "Agregar"
 #, fuzzy
 #| msgid "Antécédents médico-chirurgicaux"
 msgid "Médico-chirurgicaux"
-msgstr "Antécédents médico-chirurgicaux"
+msgstr "Médico-quirúrgicos"
 
 #: templates/core/patient_detail_v2.html:925
 #, fuzzy
@@ -5098,7 +5098,7 @@ msgstr "Allergies"
 #, fuzzy
 #| msgid "Pas d'historique de paiements"
 msgid "Pas d'historique"
-msgstr "Sin historial de pagos"
+msgstr "Sin historial"
 
 #: templates/core/patient_detail_v2.html:1167
 msgid "Mammographie"
@@ -5106,13 +5106,13 @@ msgstr "Mammographie"
 
 #: templates/core/patient_detail_v2.html:1243
 msgid "Echo Mammaire"
-msgstr "Echo Mammaire"
+msgstr "Ecografía mamaria"
 
 #: templates/core/patient_detail_v2.html:1342
 #, fuzzy
 #| msgid "Antécédents obstétricaux"
 msgid "Obstétricaux"
-msgstr "Antécédents obstétricaux"
+msgstr "Obstétricos"
 
 #: templates/core/patient_detail_v2.html:1412
 #: templates/core/patient_detail_v2.html:1418
@@ -6399,3 +6399,82 @@ msgstr "Recepcionista"
 
 #~ msgid "Accouchements prévus"
 #~ msgstr "Entregas esperadas"
+
+msgid "La suppression est définitive!"
+msgstr "¡La eliminación es definitiva!"
+
+msgid "Oui, supprimer!"
+msgstr "¡Sí, eliminar!"
+
+msgid "Non, annuler"
+msgstr "No, cancelar"
+
+msgid "Oui, annuler l'admission!"
+msgstr "¡Sí, cancelar la admisión!"
+
+msgid "Non, conserver l'admission"
+msgstr "No, conservar la admisión"
+
+msgid "Oui, supprimer le praticien!"
+msgstr "¡Sí, eliminar el médico!"
+
+msgid "Non, conserver le praticien"
+msgstr "No, conservar el médico"
+
+msgid "Oui, supprimer la prescription!"
+msgstr "¡Sí, eliminar la prescripción!"
+
+msgid "Non, conserver la prescription"
+msgstr "No, conservar la prescripción"
+
+msgid "Voulez vous supprimer cette consultation ?"
+msgstr "¿Desea eliminar esta consulta?"
+
+msgid "Voulez vous supprimer cette tentative PMA ?"
+msgstr "¿Desea eliminar este intento FIV?"
+
+msgid "Voulez vous supprimer cet antécédent ?"
+msgstr "¿Desea eliminar este antecedente?"
+
+msgid "Voulez vous archiver ce patient ?"
+msgstr "¿Desea archivar este paciente?"
+
+msgid "Oui, archiver!"
+msgstr "¡Sí, archivar!"
+
+msgid "Une autre admission est en cours pour ce patient, souhaitez vous faire une nouvelle admission?"
+msgstr "Hay otra admisión en curso para este paciente, ¿desea crear una nueva admisión?"
+
+msgid "Oui, faire une nouvelle admission"
+msgstr "Sí, crear una nueva admisión"
+
+msgid "Non, garder l'admission en cours"
+msgstr "No, conservar la admisión actual"
+
+msgid "Une autre consultation du même patient avec le même motif existe, souhaitez vous l'afficher avant d'en créer une nouvelle?"
+msgstr "Existe otra consulta del mismo paciente con el mismo motivo, ¿desea verla antes de crear una nueva?"
+
+msgid "Oui, afficher la consultation existante"
+msgstr "Sí, mostrar la consulta existente"
+
+msgid "Non, créer une nouvelle consultation"
+msgstr "No, crear una nueva consulta"
+
+msgid "Remplacer la saisie ?"
+msgstr "¿Reemplazar el contenido?"
+
+msgid "Signature ajoutée"
+msgstr "Firma añadida"
+
+msgid "Signature supprimée"
+msgstr "Firma eliminada"
+
+msgid "Attention"
+msgstr "Atención"
+
+msgid "Message important"
+msgstr "Mensaje importante"
+
+
+msgid "Nom du médecin"
+msgstr "Nombre del médico"

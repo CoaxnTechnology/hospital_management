@@ -2182,7 +2182,7 @@ msgstr "Notes"
 #: templates_backup/templates/core/consultation_colposcopie_form.html:32
 #: templates_backup/templates/core/parametres_base.html:82
 msgid "Edition"
-msgstr "Edition"
+msgstr "Print Settings"
 
 #: templates/core/base_consultation_v2.html:466
 #: templates/core/base_pma.html:523
@@ -5100,7 +5100,7 @@ msgstr "Add"
 #, fuzzy
 #| msgid "Antécédents Médico-chirurgicaux"
 msgid "Médico-chirurgicaux"
-msgstr "Medical-surgical history"
+msgstr "Medical-surgical"
 
 #: templates/core/patient_detail_v2.html:925
 msgid "Gynécologiques"
@@ -5115,7 +5115,7 @@ msgstr "Allergies"
 #, fuzzy
 #| msgid "Pas d'historique de paiements"
 msgid "Pas d'historique"
-msgstr "No payment history"
+msgstr "No history"
 
 #: templates/core/patient_detail_v2.html:1167
 msgid "Mammographie"
@@ -5123,13 +5123,13 @@ msgstr "Mammography"
 
 #: templates/core/patient_detail_v2.html:1243
 msgid "Echo Mammaire"
-msgstr ""
+msgstr "Mammary Ultrasound"
 
 #: templates/core/patient_detail_v2.html:1342
 #, fuzzy
 #| msgid "Obstétrique"
 msgid "Obstétricaux"
-msgstr "Obstetrics"
+msgstr "Obstetrical"
 
 #: templates/core/patient_detail_v2.html:1412
 #: templates/core/patient_detail_v2.html:1418
@@ -6747,3 +6747,82 @@ msgstr "Receptionist"
 
 #~ msgid "d'accouchements"
 #~ msgstr "of delivery"
+
+msgid "La suppression est définitive!"
+msgstr "This deletion is permanent!"
+
+msgid "Oui, supprimer!"
+msgstr "Yes, delete!"
+
+msgid "Non, annuler"
+msgstr "No, cancel"
+
+msgid "Oui, annuler l'admission!"
+msgstr "Yes, cancel the admission!"
+
+msgid "Non, conserver l'admission"
+msgstr "No, keep the admission"
+
+msgid "Oui, supprimer le praticien!"
+msgstr "Yes, remove the practitioner!"
+
+msgid "Non, conserver le praticien"
+msgstr "No, keep the practitioner"
+
+msgid "Oui, supprimer la prescription!"
+msgstr "Yes, delete the prescription!"
+
+msgid "Non, conserver la prescription"
+msgstr "No, keep the prescription"
+
+msgid "Voulez vous supprimer cette consultation ?"
+msgstr "Do you want to delete this consultation?"
+
+msgid "Voulez vous supprimer cette tentative PMA ?"
+msgstr "Do you want to delete this IVF attempt?"
+
+msgid "Voulez vous supprimer cet antécédent ?"
+msgstr "Do you want to delete this antecedent?"
+
+msgid "Voulez vous archiver ce patient ?"
+msgstr "Do you want to archive this patient?"
+
+msgid "Oui, archiver!"
+msgstr "Yes, archive!"
+
+msgid "Une autre admission est en cours pour ce patient, souhaitez vous faire une nouvelle admission?"
+msgstr "Another admission is in progress for this patient, do you want to create a new admission?"
+
+msgid "Oui, faire une nouvelle admission"
+msgstr "Yes, create a new admission"
+
+msgid "Non, garder l'admission en cours"
+msgstr "No, keep the current admission"
+
+msgid "Une autre consultation du même patient avec le même motif existe, souhaitez vous l'afficher avant d'en créer une nouvelle?"
+msgstr "Another consultation for this patient with the same reason exists, do you want to view it before creating a new one?"
+
+msgid "Oui, afficher la consultation existante"
+msgstr "Yes, show the existing consultation"
+
+msgid "Non, créer une nouvelle consultation"
+msgstr "No, create a new consultation"
+
+msgid "Remplacer la saisie ?"
+msgstr "Replace the content?"
+
+msgid "Signature ajoutée"
+msgstr "Signature added"
+
+msgid "Signature supprimée"
+msgstr "Signature removed"
+
+msgid "Attention"
+msgstr "Warning"
+
+msgid "Message important"
+msgstr "Important message"
+
+
+msgid "Nom du médecin"
+msgstr "Doctor's name"

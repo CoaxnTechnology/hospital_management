@@ -617,7 +617,7 @@
                                         </div>
                                     {% endfor %}
                                 </div>
-                                <input type="text" placeholder="Ajouter une alerte" id="new-alerte"
+                                <input type="text" placeholder="{% trans 'Ajouter une alerte' %}" id="new-alerte"
                                        class="mt-2 form-control form-control-sm bg-light-danger">
                             </div>
                         </div>
@@ -1143,7 +1143,7 @@
                                                                     <button type="button"
                                                                             onclick="supprimerAntecedent(event, {{ antecedent.id }})"
                                                                             class="btn btn-icon btn-clean btn-hover-danger btn-sm"
-                                                                            title="Supprimer">
+                                                                            title="{% trans 'Supprimer' %}">
                                                                         <i class="la la-trash icon-md"></i>
                                                                     </button>
                                                                 </span>
@@ -1219,7 +1219,7 @@
                                                                     <button type="button"
                                                                             onclick="supprimerAntecedent(event, {{ antecedent.id }})"
                                                                             class="btn btn-icon btn-clean btn-hover-danger btn-sm"
-                                                                            title="Supprimer">
+                                                                            title="{% trans 'Supprimer' %}">
                                                                         <i class="la la-trash icon-md"></i>
                                                                     </button>
                                                                 </span>
@@ -1293,7 +1293,7 @@
                                                                     <button type="button"
                                                                             onclick="supprimerAntecedent(event, {{ antecedent.id }})"
                                                                             class="btn btn-icon btn-clean btn-hover-danger btn-sm"
-                                                                            title="Supprimer">
+                                                                            title="{% trans 'Supprimer' %}">
                                                                         <i class="la la-trash icon-md"></i>
                                                                     </button>
                                                                 </span>
@@ -1437,12 +1437,12 @@
                                                             <div class="col-1">
                                                                 <a onclick="modifierAntecedentObstetrique({{ antecedent.pk }})"
                                                                    class="btn btn-icon btn-primary btn-sm"
-                                                                   title="Modifier">
+                                                                   title="{% trans 'Modifier' %}">
                                                                     <i class="la la-pen"></i>
                                                                 </a>
                                                                 <a onclick="supprimerAntecedentObstetrique({{ antecedent.pk }})"
                                                                    class="btn btn-icon btn-danger btn-sm"
-                                                                   title="Supprimer">
+                                                                   title="{% trans 'Supprimer' %}">
                                                                     <i class="la la-trash"></i>
                                                                 </a>
                                                             </div>
@@ -1511,21 +1511,21 @@
     {% include 'core/shared.html' %}
 
     <script type="text/html" id="actions-template">
-        <a href="<%- modifUrl %>" class="btn btn-icon btn-primary btn-sm" title="Consulter">
+        <a href="<%- modifUrl %>" class="btn btn-icon btn-primary btn-sm" title="{% trans 'Consulter' %}">
             <i class="la la-eye"></i>
         </a>
         <a onclick="supprimerConsultation(<%= id %>)" href="javascript:void(0)" class="btn btn-icon btn-danger btn-sm"
-           title="Supprimer">
+           title="{% trans 'Supprimer' %}">
             <i class="la la-trash"></i>
         </a>
     </script>
 
     <script type="text/html" id="actions-pma-template">
-        <a href="<%- modifUrl %>" class="btn btn-icon btn-primary btn-sm" title="Consulter">
+        <a href="<%- modifUrl %>" class="btn btn-icon btn-primary btn-sm" title="{% trans 'Consulter' %}">
             <i class="la la-eye"></i>
         </a>
         <a onclick="supprimerPMA(<%= id %>)" href="javascript:void(0)" class="btn btn-icon btn-danger btn-sm"
-           title="Supprimer">
+           title="{% trans 'Supprimer' %}">
             <i class="la la-trash"></i>
         </a>
     </script>
@@ -1555,7 +1555,7 @@
             <i class="la la-file"></i>
         </a>
         <a href="<%- modifUrl %>"
-           class="btn btn-icon btn-info btn-sm" title="Modifier consultation">
+           class="btn btn-icon btn-info btn-sm" title="{% trans 'Modifier consultation' %}">
             <i class="la la-pen"></i>
         </a>
     </script>
@@ -1573,7 +1573,7 @@
                 </button>
                 <button type="button" onClick="dissocierEtablissement(event, <%= patient_id %>)"
                         class="btn btn-icon btn-clean btn-hover-danger btn-sm"
-                        title="Supprimer">
+                        title="{% trans 'Supprimer' %}">
                     <i class="la la-trash icon-md"></i>
                 </button>
             </div>

@@ -2184,7 +2184,7 @@ msgstr "Notes"
 #: templates_backup/templates/core/consultation_colposcopie_form.html:32
 #: templates_backup/templates/core/parametres_base.html:82
 msgid "Edition"
-msgstr "Edition"
+msgstr "إعدادات الطباعة"
 
 #: templates/core/base_consultation_v2.html:466
 #: templates/core/base_pma.html:523
@@ -3876,7 +3876,7 @@ msgstr "الإعدادات العامة"
 #: templates/core/parametres.html:33 templates_backup/core/parametres.html:33
 #: templates_backup/templates/core/parametres.html:33
 msgid "Modifier les paramètres du compte"
-msgstr "Modifier les paramètres du compte"
+msgstr "تعديل إعدادات الحساب"
 
 #: templates/core/parametres.html:45 templates_backup/core/parametres.html:45
 #: templates_backup/templates/core/parametres.html:45
@@ -5082,7 +5082,7 @@ msgstr "إضافة"
 #, fuzzy
 #| msgid "Antécédents médico-chirurgicaux"
 msgid "Médico-chirurgicaux"
-msgstr "Antécédents médico-chirurgicaux"
+msgstr "طبية وجراحية"
 
 #: templates/core/patient_detail_v2.html:925
 #, fuzzy
@@ -5099,7 +5099,7 @@ msgstr "Allergies"
 #, fuzzy
 #| msgid "Pas d'historique de paiements"
 msgid "Pas d'historique"
-msgstr "لا يوجد سجل مدفوعات"
+msgstr "لا يوجد سجل"
 
 #: templates/core/patient_detail_v2.html:1167
 msgid "Mammographie"
@@ -5107,13 +5107,13 @@ msgstr "Mammographie"
 
 #: templates/core/patient_detail_v2.html:1243
 msgid "Echo Mammaire"
-msgstr "Echo Mammaire"
+msgstr "صدى الثدي"
 
 #: templates/core/patient_detail_v2.html:1342
 #, fuzzy
 #| msgid "Antécédents obstétricaux"
 msgid "Obstétricaux"
-msgstr "Antécédents obstétricaux"
+msgstr "التوليديات"
 
 #: templates/core/patient_detail_v2.html:1412
 #: templates/core/patient_detail_v2.html:1418
@@ -6388,3 +6388,82 @@ msgstr "موظف الاستقبال"
 
 #~ msgid "Accouchements prévus"
 #~ msgstr "الولادات المتوقعة"
+
+msgid "La suppression est définitive!"
+msgstr "الحذف نهائي!"
+
+msgid "Oui, supprimer!"
+msgstr "نعم، احذف!"
+
+msgid "Non, annuler"
+msgstr "لا، إلغاء"
+
+msgid "Oui, annuler l'admission!"
+msgstr "نعم، إلغاء الدخول!"
+
+msgid "Non, conserver l'admission"
+msgstr "لا، الاحتفاظ بالدخول"
+
+msgid "Oui, supprimer le praticien!"
+msgstr "نعم، احذف الطبيب!"
+
+msgid "Non, conserver le praticien"
+msgstr "لا، الاحتفاظ بالطبيب"
+
+msgid "Oui, supprimer la prescription!"
+msgstr "نعم، احذف الوصفة!"
+
+msgid "Non, conserver la prescription"
+msgstr "لا، الاحتفاظ بالوصفة"
+
+msgid "Voulez vous supprimer cette consultation ?"
+msgstr "هل تريد حذف هذه الاستشارة؟"
+
+msgid "Voulez vous supprimer cette tentative PMA ?"
+msgstr "هل تريد حذف هذه المحاولة؟"
+
+msgid "Voulez vous supprimer cet antécédent ?"
+msgstr "هل تريد حذف هذا السابقة؟"
+
+msgid "Voulez vous archiver ce patient ?"
+msgstr "هل تريد أرشفة هذا المريض؟"
+
+msgid "Oui, archiver!"
+msgstr "نعم، أرشف!"
+
+msgid "Une autre admission est en cours pour ce patient, souhaitez vous faire une nouvelle admission?"
+msgstr "يوجد دخول آخر جارٍ لهذا المريض، هل تريد إنشاء دخول جديد؟"
+
+msgid "Oui, faire une nouvelle admission"
+msgstr "نعم، إنشاء دخول جديد"
+
+msgid "Non, garder l'admission en cours"
+msgstr "لا، الاحتفاظ بالدخول الحالي"
+
+msgid "Une autre consultation du même patient avec le même motif existe, souhaitez vous l'afficher avant d'en créer une nouvelle?"
+msgstr "توجد استشارة أخرى لنفس المريض بنفس السبب، هل تريد عرضها قبل إنشاء استشارة جديدة؟"
+
+msgid "Oui, afficher la consultation existante"
+msgstr "نعم، عرض الاستشارة الموجودة"
+
+msgid "Non, créer une nouvelle consultation"
+msgstr "لا، إنشاء استشارة جديدة"
+
+msgid "Remplacer la saisie ?"
+msgstr "استبدال المحتوى؟"
+
+msgid "Signature ajoutée"
+msgstr "تمت إضافة التوقيع"
+
+msgid "Signature supprimée"
+msgstr "تم حذف التوقيع"
+
+msgid "Attention"
+msgstr "تحذير"
+
+msgid "Message important"
+msgstr "رسالة مهمة"
+
+
+msgid "Nom du médecin"
+msgstr "اسم الطبيب"

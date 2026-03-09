@@ -1,12 +1,13 @@
 function supprimer(pk) {
+    const _sm = (typeof SWAL_MESSAGES !== 'undefined') ? SWAL_MESSAGES : {};
     swal.fire({
-        title: "Etes vous sûr ?",
-        text: "La suppression est définitive!",
+        title: _sm.titre || "Etes vous sûr ?",
+        text: _sm.suppression_definitive || "La suppression est définitive!",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
-        confirmButtonText: "Oui, supprimer!",
-        cancelButtonText: "Non, annuler",
+        confirmButtonText: _sm.confirmer_supprimer || "Oui, supprimer!",
+        cancelButtonText: _sm.annuler || "Non, annuler",
         closeOnConfirm: false
     }).then(function (result) {
         if (result.value) {

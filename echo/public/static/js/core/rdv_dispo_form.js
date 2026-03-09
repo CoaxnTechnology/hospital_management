@@ -58,7 +58,7 @@ $(document).ready(() => {
     $('#date-debut').datepicker({
         todayHighlight: true,
         autoclose: true,
-        language: 'fr',
+        language: currentLang,
         weekStart: 1,
         format: 'dd/mm/yyyy',
         startDate: '1d',

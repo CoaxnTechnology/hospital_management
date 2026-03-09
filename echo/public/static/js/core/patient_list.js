@@ -1,12 +1,12 @@
 function archiverPatient(pk) {
     swal.fire({
-        title: "Attention",
-        text: "Voulez vous archiver ce patient ?",
+        title: _sm.attention || "Attention",
+        text: _sm.archiver_patient || "Voulez vous archiver ce patient ?",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
-        confirmButtonText: "Oui, archiver!",
-        cancelButtonText: "Non, annuler",
+        confirmButtonText: _sm.confirmer_archiver || "Oui, archiver!",
+        cancelButtonText: _sm.annuler || "Non, annuler",
         closeOnConfirm: false
     }).then(function (result) {
         if (result.value) {
@@ -37,13 +37,13 @@ function admissionPatient(event, patientId) {
             console.info('Admissions', adm);
             if (adm.length > 0) {
                 swal.fire({
-                    title: "Message important",
-                    text: "Une autre admission est en cours pour ce patient, souhaitez vous faire une nouvelle admission?",
+                    title: _sm.message_important || "Message important",
+                    text: _sm.admission_en_cours || "Une autre admission est en cours pour ce patient, souhaitez vous faire une nouvelle admission?",
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonClass: "btn-primary",
-                    confirmButtonText: "Oui, faire une nouvelle admission",
-                    cancelButtonText: "Non, garder l'admission en cours",
+                    confirmButtonText: _sm.confirmer_nouvelle_admission || "Oui, faire une nouvelle admission",
+                    cancelButtonText: _sm.conserver_admission_en_cours || "Non, garder l'admission en cours",
                     closeOnConfirm: false
                 }).then(function (result) {
                     if (result.value) {

@@ -688,14 +688,15 @@ function demarrerImpression() {
 $(document).ready(function () {
 
     if (doublon_url != null)  {
+        const _sm = (typeof SWAL_MESSAGES !== \'undefined\') ? SWAL_MESSAGES : {};
         swal.fire({
-            title: "Message important",
-            text: "Une autre consultation du même patient avec le même motif existe, souhaitez vous l'afficher avant d'en créer une nouvelle?",
+            title: _sm.message_important || "Message important",
+            text: _sm.consultation_doublon || "Une autre consultation du même patient avec le même motif existe, souhaitez vous l'afficher avant d'en créer une nouvelle?",
             type: "warning",
             showCancelButton: true,
             confirmButtonClass: "btn-primary",
-            confirmButtonText: "Oui, afficher la consultation existante",
-            cancelButtonText: "Non, créer une nouvelle consultation",
+            confirmButtonText: _sm.afficher_consultation_existante || "Oui, afficher la consultation existante",
+            cancelButtonText: _sm.creer_nouvelle_consultation || "Non, créer une nouvelle consultation",
             closeOnConfirm: false
         }).then(function (result) {
             if (result.value) {
@@ -827,12 +828,12 @@ $(document).ready(function () {
     $('#id_template_edition').change(e => {
         if (!isConsultationEnregistree() && touched) {
             swal.fire({
-                text: "Remplacer la saisie ?",
+                text: _sm.remplacer_saisie || "Remplacer la saisie ?",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-danger",
-                confirmButtonText: "Oui",
-                cancelButtonText: "Non",
+                confirmButtonText: _sm.oui || "Oui",
+                cancelButtonText: _sm.non || "Non",
                 closeOnConfirm: false
             }).then(function (result) {
                 if (result.value) {

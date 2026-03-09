@@ -6513,3 +6513,82 @@ msgstr "Réceptionniste"
 
 #~ msgid "Veuillez saisir tous les champs liés au paiement chèque"
 #~ msgstr "Veuillez saisir tous les champs liés au paiement chèque"
+
+msgid "La suppression est définitive!"
+msgstr "La suppression est définitive!"
+
+msgid "Oui, supprimer!"
+msgstr "Oui, supprimer!"
+
+msgid "Non, annuler"
+msgstr "Non, annuler"
+
+msgid "Oui, annuler l'admission!"
+msgstr "Oui, annuler l'admission!"
+
+msgid "Non, conserver l'admission"
+msgstr "Non, conserver l'admission"
+
+msgid "Oui, supprimer le praticien!"
+msgstr "Oui, supprimer le praticien!"
+
+msgid "Non, conserver le praticien"
+msgstr "Non, conserver le praticien"
+
+msgid "Oui, supprimer la prescription!"
+msgstr "Oui, supprimer la prescription!"
+
+msgid "Non, conserver la prescription"
+msgstr "Non, conserver la prescription"
+
+msgid "Voulez vous supprimer cette consultation ?"
+msgstr "Voulez vous supprimer cette consultation ?"
+
+msgid "Voulez vous supprimer cette tentative PMA ?"
+msgstr "Voulez vous supprimer cette tentative PMA ?"
+
+msgid "Voulez vous supprimer cet antécédent ?"
+msgstr "Voulez vous supprimer cet antécédent ?"
+
+msgid "Voulez vous archiver ce patient ?"
+msgstr "Voulez vous archiver ce patient ?"
+
+msgid "Oui, archiver!"
+msgstr "Oui, archiver!"
+
+msgid "Une autre admission est en cours pour ce patient, souhaitez vous faire une nouvelle admission?"
+msgstr "Une autre admission est en cours pour ce patient, souhaitez vous faire une nouvelle admission?"
+
+msgid "Oui, faire une nouvelle admission"
+msgstr "Oui, faire une nouvelle admission"
+
+msgid "Non, garder l'admission en cours"
+msgstr "Non, garder l'admission en cours"
+
+msgid "Une autre consultation du même patient avec le même motif existe, souhaitez vous l'afficher avant d'en créer une nouvelle?"
+msgstr "Une autre consultation du même patient avec le même motif existe, souhaitez vous l'afficher avant d'en créer une nouvelle?"
+
+msgid "Oui, afficher la consultation existante"
+msgstr "Oui, afficher la consultation existante"
+
+msgid "Non, créer une nouvelle consultation"
+msgstr "Non, créer une nouvelle consultation"
+
+msgid "Remplacer la saisie ?"
+msgstr "Remplacer la saisie ?"
+
+msgid "Signature ajoutée"
+msgstr "Signature ajoutée"
+
+msgid "Signature supprimée"
+msgstr "Signature supprimée"
+
+msgid "Attention"
+msgstr "Attention"
+
+msgid "Message important"
+msgstr "Message important"
+
+
+msgid "Nom du médecin"
+msgstr "Nom du médecin"

@@ -53,7 +53,7 @@
         <div class="row">
             <div class="col-12">
                 <button onclick="resetSearch()" class="btn btn-light-primary" type="button">
-                    Réinitialiser
+                    {% trans "Réinitialiser" %}
                 </button>
             </div>
         </div>
@@ -71,11 +71,11 @@
         </thead>
     </table>
 </div>
-<template id="actions-rapport-template">
-    <a href="reglements/<%- id %>/modifier" class="btn btn-warning btn-icon btn-sm"
+<script type="text/html" id="actions-rapport-template">
+    <a href="/reglements/<%- id %>/modifier" class="btn btn-warning btn-icon btn-sm"
        title="{% trans 'Modifier' %}">
         <i class="la la-edit icon-lg"></i>
     </a>
-</template>
+</script>
 
 

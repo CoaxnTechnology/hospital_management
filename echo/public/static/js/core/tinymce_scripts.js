@@ -4,7 +4,7 @@ $(document).ready(() => {
 $('.date').datepicker({
     todayHighlight: true,
     autoclose: true,
-    language: 'fr',
+    language: currentLang,
     weekStart: 1,
     format: 'dd/mm/yyyy',
     onSelect: function (dateText, inst) {

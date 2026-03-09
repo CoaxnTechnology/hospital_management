@@ -18,13 +18,14 @@ function annulerRdv(pk) {
 }
 
 function annulerAdmission(pk) {
+    const _sm = (typeof SWAL_MESSAGES !== 'undefined') ? SWAL_MESSAGES : {};
     swal.fire({
-        title: "Etes vous sûr ?",
+        title: _sm.titre || "Etes vous sûr ?",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
-        confirmButtonText: "Oui, annuler l'admission!",
-        cancelButtonText: "Non, conserver l'admission",
+        confirmButtonText: _sm.confirmer_annuler_admission || "Oui, annuler l'admission!",
+        cancelButtonText: _sm.conserver_admission || "Non, conserver l'admission",
         closeOnConfirm: false
     }).then(function (result) {
         if (result.value) {
@@ -589,7 +590,7 @@ jQuery(document).ready(function () {
     $('#date_courante_picker').datepicker({
         todayHighlight: true,
         autoclose: true,
-        language: 'fr',
+        language: currentLang,
         weekStart: 1,
         format: 'dd/mm/yyyy',
         startDate: '-10d',

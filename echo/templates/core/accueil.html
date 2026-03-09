@@ -319,12 +319,12 @@
     </div>
 
     <script id="actions-rdv-template" type="text/html">
-        <a href="patients/recherche/?rdv=<%- id %>" class="btn btn-icon btn-sm btn-primary <%- admission %>"
+        <a href="/patients/recherche/?rdv=<%- id %>" class="btn btn-icon btn-sm btn-primary <%- admission %>"
            title="{% trans 'Admission' %}">
             <i class="la la-folder-plus icon-md"></i>
         </a>
 
-        <a onclick="javascript:afficherRdvModal('rdvs/<%- id %>/modifier/?next=accueil')" class="btn btn-warning btn-icon btn-sm"
+        <a onclick="javascript:afficherRdvModal('/rdvs/<%- id %>/modifier/?next=accueil')" class="btn btn-warning btn-icon btn-sm"
            title="{% trans 'Modifier le rendez-vous' %}">
             <i class="la la-edit icon-md"></i>
         </a>
@@ -356,12 +356,12 @@
     </script>
 
     <script id="actions-rdv-modif-template" type="text/html">
-        <a href="patients/recherche/?rdv=<%- id %>" class="btn btn-icon btn-sm btn-primary <%- admission %>"
+        <a href="/patients/recherche/?rdv=<%- id %>" class="btn btn-icon btn-sm btn-primary <%- admission %>"
            title="{% trans 'Admission' %}">
             <i class="la la-folder-plus icon-md"></i>
         </a>
 
-        <a onclick="javascript:afficherRdvModal('rdvs/<%- id %>/modifier/?next=accueil')" class="btn btn-warning btn-icon btn-sm"
+        <a onclick="javascript:afficherRdvModal('/rdvs/<%- id %>/modifier/?next=accueil')" class="btn btn-warning btn-icon btn-sm"
            title="{% trans 'Modifier le rendez-vous' %}">
             <i class="la la-edit icon-md"></i>
         </a>
@@ -374,7 +374,7 @@
 
     <script id="actions-consultation-template" type="text/html">
         {% if user.profil.groupe == 'Médecin' %}
-            <a href="patients/<%- id %>" class="btn btn-primary btn-icon btn-sm" title="{% trans 'Dossier patient' %}">
+            <a href="/patients/<%- id %>" class="btn btn-primary btn-icon btn-sm" title="{% trans 'Dossier patient' %}">
                 <i class="la la-eye icon-md"></i>
             </a>
         {% endif %}
@@ -386,10 +386,10 @@
     </script>
 
     <script id="actions-attente-template" type="text/html">
-        <!--<a href="patients/<%- id %>" class="btn btn-sm btn-clean btn-icon" title="{% trans 'Dossier patient' %}">
+        <!--<a href="/patients/<%- id %>" class="btn btn-sm btn-clean btn-icon" title="{% trans 'Dossier patient' %}">
             <i class="la la-eye icon-xl text-primary"></i>
         </a>-->
-        <a href="patients/<%- id %>/?action=demarrer_consultation" class="btn btn-sm btn-primary btn-icon"
+        <a href="/patients/<%- id %>/?action=demarrer_consultation" class="btn btn-sm btn-primary btn-icon"
            title="{% trans 'Démarrer la consultation' %}">
             <i class="fa fa-play icon-sm"></i>
         </a>

@@ -40,7 +40,7 @@ $(document).ready(() => {
     $('#id_date_accouchement').datepicker({
         todayHighlight: true,
         autoclose: true,
-        language: 'fr',
+        language: currentLang,
         weekStart: 1,
         format: 'dd/mm/yyyy'
     }).on('changeDate', function (e) {

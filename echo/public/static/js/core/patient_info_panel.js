@@ -2,13 +2,14 @@ let patientId = _.isObject(patient) ? patient.id : patient;
 let selectionEtablissement = false;
 
 function supprimer_praticen(pk) {
+    const _sm = (typeof SWAL_MESSAGES !== 'undefined') ? SWAL_MESSAGES : {};
     swal.fire({
-        title: "Etes vous sûr ?",
+        title: _sm.titre || "Etes vous sûr ?",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
-        confirmButtonText: "Oui, supprimer le praticien!",
-        cancelButtonText: "Non, conserver le praticien",
+        confirmButtonText: _sm.confirmer_supprimer_praticien || "Oui, supprimer le praticien!",
+        cancelButtonText: _sm.conserver_praticien || "Non, conserver le praticien",
         closeOnConfirm: false
     }).then(function (result) {
             if (result.value) {
@@ -79,13 +80,14 @@ function modifierPrescription(id) {
 }
 
 function supprimerPrescription(id) {
+        const _sm2 = (typeof SWAL_MESSAGES !== 'undefined') ? SWAL_MESSAGES : {};
     swal.fire({
-        title: "Etes vous sûr ?",
+        title: _sm2.titre || "Etes vous sûr ?",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-danger",
-        confirmButtonText: "Oui, supprimer la prescription!",
-        cancelButtonText: "Non, conserver la prescription",
+        confirmButtonText: _sm2.confirmer_supprimer_prescription || "Oui, supprimer la prescription!",
+        cancelButtonText: _sm2.conserver_prescription || "Non, conserver la prescription",
         closeOnConfirm: false
     }).then(function (result) {
             if (result.value) {

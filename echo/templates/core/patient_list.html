@@ -135,16 +135,16 @@
             </a>
         {% else %}
             <a onclick="admissionPatient(event, <%= id %>)"
-               class="btn btn-primary btn-icon btn-xs" title="Admission">
+               class="btn btn-primary btn-icon btn-xs" title="{% trans 'Admission' %}">
                 <i class="la la-folder-plus icon-md"></i>
             </a>
             {% if user.profil.groupe == 'Médecin' %}
-                <a href="patients/<%- id %>" class="btn btn-info btn-icon btn-xs" title="{% trans 'Consulter' %}">
+                <a href="/patients/<%- id %>" class="btn btn-info btn-icon btn-xs" title="{% trans 'Consulter' %}">
                     <i class="la la-eye icon-md"></i>
                 </a>
             {% endif %}
             <button type="button"
-                    onclick="creerPatient('patients/<%- id %>/modifier')"
+                    onclick="creerPatient('/patients/<%- id %>/modifier')"
                     class="btn btn-warning btn-icon btn-xs" title="{% trans 'Modifier' %}">
                 <i class="la la-edit icon-md"></i>
             </button>
@@ -154,7 +154,7 @@
 
             <button type="button"
                     onclick="afficherTelechargerFichierModal(<%- id %>)"
-                    class="btn btn-light-info btn-icon btn-xs" title="Télécharger fichier">
+                    class="btn btn-light-info btn-icon btn-xs" title="{% trans 'Télécharger fichier' %}">
                 <i class="la la-upload icon-md"></i>
             </button>
             <button type="button"
@@ -165,19 +165,19 @@
                     class="btn btn-light-primary btn-icon btn-xs">
                 <i class="la la-history icon-md"></i>
             </button>
-            <div class="dropdown dropdown-inline" title="Archiver patient">
+            <div class="dropdown dropdown-inline" title="{% trans 'Archiver patient' %}">
                 <a href="javascript:void(0)" class="btn btn-xs btn-secondary btn-icon" data-toggle="dropdown">
                     <i class="flaticon-more"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                     <ul class="navi flex-column navi-hover py-2">
                         <li class="navi-header font-weight-bolder text-uppercase font-size-xs text-primary pb-2">
-                            Autres actions:
+                            {% trans "Autres actions" %}:
                         </li>
-                        <li class="navi-item" title="Archiver patient">
+                        <li class="navi-item" title="{% trans 'Archiver patient' %}">
                             <a href="javascript:void(0)" onclick="archiverPatient(<%= id %>)" class="navi-link">
                                 <span class="navi-icon"><i class="la la-archive"></i></span>
-                                <span class="navi-text">Archiver</span>
+                                <span class="navi-text">{% trans "Archiver" %}</span>
                             </a>
                         </li>
                     </ul>
@@ -202,16 +202,16 @@
 
     <script type="text/html" id="creer-patient-template">
         <div class="my-12">
-            Le patient n'existe pas <br><br>
+            {% trans "Le patient n'existe pas" %} <br><br>
             {% if rdv %}
                 <button type="button"
-                        onclick="creerPatient('patients/ajouter/?action=admission&rdv={{ rdv.pk }}<%= params %>')"
+                        onclick="creerPatient('/patients/ajouter/?action=admission&rdv={{ rdv.pk }}<%= params %>')"
                         class="btn btn-primary font-weight-bold ml-2">
                     <i class="fa fa-plus"></i> {% trans "Créer un patient" %}
                 </button>
             {% else %}
                 <button type="button"
-                        onclick="creerPatient('patients/ajouter/?action=admission<%= params %>')"
+                        onclick="creerPatient('/patients/ajouter/?action=admission<%= params %>')"
                         class="btn btn-primary font-weight-bold ml-2">
                     <i class="fa fa-plus"></i> {% trans "Créer un patient" %}
                 </button>
@@ -221,7 +221,7 @@
 
     <script type="text/html" id="lien-patient-template">
         {% if user.profil.groupe == 'Médecin' %}
-            <a href="patients/<%- id %>"><%- val %></a>
+            <a href="/patients/<%- id %>"><%- val %></a>
         {% else %}
             <%- val %>
         {% endif %}

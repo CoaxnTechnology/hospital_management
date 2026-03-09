@@ -248,7 +248,7 @@ jQuery(document).ready(function () {
                 showCancelButton: true,
                 confirmButtonClass: "btn-danger",
                 confirmButtonText: _swal.confirmer_deplacer || "Oui, déplacer le rendez-vous",
-                cancelButtonText: "Non",
+                cancelButtonText: _sm.non || "Non",
                 closeOnConfirm: false
             }).then(function (result) {
                 if (result.value) {
@@ -326,7 +326,7 @@ jQuery(document).ready(function () {
         rtl: KTUtil.isRTL(),
         todayHighlight: true,
         templates: arrows,
-        language: 'fr',
+        language: currentLang,
         weekStart: 1
     }).on('changeDate', (e) => {
         calendar.gotoDate(e.format('yyyy-mm-dd'));
@@ -336,7 +336,7 @@ jQuery(document).ready(function () {
         rtl: KTUtil.isRTL(),
         todayHighlight: true,
         templates: arrows,
-        language: 'fr',
+        language: currentLang,
         format: 'dd/mm/yyyy',
         weekStart: 1,
         autoclose: true,

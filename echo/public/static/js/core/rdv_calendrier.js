@@ -294,7 +294,7 @@ jQuery(document).ready(function () {
     const url = window.location.href;
     const activeTab = url.substring(url.indexOf("#") + 1);
     if (activeTab) {
-        //ole.log('Active tab', activeTab);
+        //console.log('Active tab', activeTab);
         // Activer le calendrier ou la liste en fonction de l'url
         $('a[href="#' + activeTab + '"]').tab('show');
 
@@ -360,7 +360,7 @@ jQuery(document).ready(function () {
     $('#btn_jour_precedent').click(() => {
         date_selectionnee = date_selectionnee.subtract(1, 'days');
         const jour = date_selectionnee.format('DD/MM/yyyy');
-        //ole.log('Date ', jour);
+        //console.log('Date ', jour);
         $('#mobile-datepicker').datepicker('update', jour);
         calendar.gotoDate(date_selectionnee.format('YYYY-MM-DD'));
     });

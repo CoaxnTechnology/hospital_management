@@ -18,8 +18,8 @@
         <table class="table table-bordered table-checkable table-striped" id="datatable_rdv">
             <thead>
             <tr>
-                <th>{% trans "Prestation" %}</th></th>
-                <th>{% trans "Code" %}</th></th>
+                <th>{% trans "Prestation" %}</th>
+                <th>{% trans "Code" %}</th>
                 <th>Prix TTC</th>
                 <th>Prix PEC</th>
                 <th>{% trans "Actions" %}</th>
@@ -28,14 +28,14 @@
         </table>
     </div>
 
-    <template id="actions-template">
-        <a href="prestations/<%- id %>/modifier" class="btn btn-warning btn-icon btn-sm" title="{% trans 'Modifier' %}">
+    <script id="actions-template" type="text/html">
+        <a href="/prestations/<%- id %>/modifier" class="btn btn-warning btn-icon btn-sm" title="{% trans 'Modifier' %}">
             <i class="la la-edit icon-lg"></i>
         </a>
         <a onclick="supprimer(<%- id %>)" class="btn btn-danger btn-icon btn-sm" title="{% trans 'Supprimer' %}">
             <i class="la la-trash icon-lg"></i>
         </a>
-    </template>
+    </script>
 {% endblock %}
 
 {% block scripts %}

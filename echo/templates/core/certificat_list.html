@@ -39,14 +39,14 @@
         </table>
     </div>
 
-    <template id="actions-template">
-        <a href="certificats/<%- id %>/modifier" class="btn btn-info btn-icon btn-sm" title="{% trans 'Consulter' %}">
+    <script id="actions-template" type="text/html">
+        <a href="/certificats/<%- id %>/modifier" class="btn btn-info btn-icon btn-sm" title="{% trans 'Consulter' %}">
             <i class="la la-eye icon-lg"></i>
         </a>
         <a onclick="supprimer(<%- id %>)" class="btn btn-danger btn-icon btn-sm" title="{% trans 'Supprimer' %}">
             <i class="la la-trash icon-lg"></i>
         </a>
-    </template>
+    </script>
 {% endblock %}
 
 {% block scripts %}

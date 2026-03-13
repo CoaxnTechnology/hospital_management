@@ -47,8 +47,9 @@ function afficherConsultation(id, motif) {
         return;
     }
     showFrameLoading();
-    $('#consultation-modal iframe').attr('src', `/consultation/${id}`);
-    bootstrap.Modal.getOrCreateInstance('#consultation-modal').show();
+    $('#historique-modal iframe').one('load', hideFrameLoading);
+    $('#historique-modal iframe').attr('src', `/consultation/${id}/rapport`);
+    bootstrap.Modal.getOrCreateInstance('#historique-modal').show();
 }
 
 

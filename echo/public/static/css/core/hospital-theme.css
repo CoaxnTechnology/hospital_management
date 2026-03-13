@@ -2715,6 +2715,47 @@ html[data-hp-theme="dark"] .card-custom.bg-white {
   background-color: var(--hp-card-bg) !important;
 }
 
+/* Fix hardcoded #fff on fixed-header (line 1551 specificity match) */
+html[data-hp-theme="dark"] .card-header.fixed-header {
+  background: var(--hp-card-bg) !important;
+  border-bottom-color: var(--hp-border) !important;
+}
+
+/* Fix form card headers — match specificity of the light-mode rule */
+html[data-hp-theme="dark"] form[method="post"] > .card.card-custom.bg-white > .card-header,
+html[data-hp-theme="dark"] .patient-form-dialog .card-header {
+  background: var(--hp-card-bg) !important;
+  background-color: var(--hp-card-bg) !important;
+  border-bottom-color: var(--hp-border) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+}
+html[data-hp-theme="dark"] form[method="post"] > .card.card-custom.bg-white > .card-header .btn-default {
+  background: rgba(255,255,255,0.07) !important;
+  color: var(--hp-text) !important;
+  border-color: var(--hp-border) !important;
+}
+
+/* Fix .bg-light card headers used in dialog forms */
+html[data-hp-theme="dark"] .card-header.bg-light,
+html[data-hp-theme="dark"] .card-header.bg-light-primary {
+  background: rgba(255,255,255,0.05) !important;
+  background-color: rgba(255,255,255,0.05) !important;
+  border-bottom-color: var(--hp-border) !important;
+}
+
+/* Fix sticky card headers (patient_form.html card-sticky) */
+html[data-hp-theme="dark"] .card-custom.card-sticky .card-header {
+  background: var(--hp-card-bg) !important;
+  background-color: var(--hp-card-bg) !important;
+  border-bottom-color: var(--hp-border) !important;
+}
+
+/* btn-group inside card-toolbar dark styling */
+html[data-hp-theme="dark"] .card-toolbar .btn-group .btn-primary {
+  background: var(--hp-primary) !important;
+  border-color: var(--hp-primary) !important;
+}
+
 /* List group items in forms */
 html[data-hp-theme="dark"] .list-group-item {
   background-color: var(--hp-card-bg) !important;

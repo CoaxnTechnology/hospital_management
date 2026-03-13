@@ -101,10 +101,10 @@ class ServiceClassProvider:
                 print(result)
                 post_data = {'study_uid': studyId, 'data': json.dumps(result)}
                 response = requests.post(f'{web_url}:{web_port}/worklists/sr/', data=post_data)
-            if code_value == '125100':
+            elif code_value == '125100':
                 # Vascular Ultrasound Procedure Report
                 print('Vascular Ultrasound Procedure Report')
-            if code_value == '125200':
+            elif code_value == '125200':
                 # Adult Echocardiography Procedure Report
                 print('Adult Echocardiography Procedure Report')
             for item in content_sequence:
@@ -134,8 +134,8 @@ class ServiceClassProvider:
                 post_data = {'study_uid': studyId, 'path': os.path.abspath(out_img_file)}
                 response = requests.post(f'{web_url}:{web_port}/worklists/image/', data=post_data)
                 # res = response.json()
-            except:
-                logger.info(f"Received an animated image sequence")
+            except Exception as e:
+                logger.error(f"Failed to save image for study {studyId}: {e}")
 
         if archive_dicom_files:
             with open(outfile + '.dcm', 'wb') as f:

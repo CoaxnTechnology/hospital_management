@@ -1,0 +1,367 @@
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compte-rendu — {{ patient.nom_complet }}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 11pt;
+            color: #1a1a1a;
+            background: #f0f0f0;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 20px auto;
+            background: #fff;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+            padding: 0;
+            position: relative;
+        }
+
+        /* ── Header ── */
+        .report-header {
+            padding: 18px 30px 14px;
+            border-bottom: 2px solid #1565C0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .header-logo img {
+            max-height: 70px;
+            max-width: 180px;
+            object-fit: contain;
+        }
+        .header-clinic {
+            text-align: right;
+            max-width: 260px;
+        }
+        .header-clinic .clinic-name {
+            font-size: 13pt;
+            font-weight: 700;
+            color: #1565C0;
+            white-space: pre-line;
+        }
+
+        /* ── Title bar ── */
+        .report-title-bar {
+            background: #1565C0;
+            color: #fff;
+            text-align: center;
+            padding: 8px 30px;
+            font-size: 13pt;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+
+        /* ── Patient info ── */
+        .patient-info {
+            margin: 18px 30px 0;
+            background: #F0F4FF;
+            border-left: 4px solid #1565C0;
+            border-radius: 0 6px 6px 0;
+            padding: 10px 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 24px;
+        }
+        .patient-info .info-item {
+            font-size: 10.5pt;
+        }
+        .patient-info .info-label {
+            font-weight: 700;
+            color: #555;
+            font-size: 9pt;
+            text-transform: uppercase;
+        }
+        .patient-info .info-value {
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        /* ── Meta row (date, praticien, motif) ── */
+        .consultation-meta {
+            margin: 14px 30px 0;
+            display: flex;
+            gap: 12px;
+        }
+        .meta-card {
+            flex: 1;
+            border: 1px solid #dde3f0;
+            border-radius: 6px;
+            padding: 8px 12px;
+            background: #fafbff;
+        }
+        .meta-card .meta-label {
+            font-size: 8.5pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #777;
+            letter-spacing: 0.06em;
+        }
+        .meta-card .meta-value {
+            font-size: 11pt;
+            font-weight: 600;
+            color: #1565C0;
+            margin-top: 2px;
+        }
+
+        /* ── Report body ── */
+        .report-body {
+            margin: 20px 30px 0;
+            min-height: 160mm;
+        }
+        .report-body .section-title {
+            font-size: 10pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #1565C0;
+            letter-spacing: 0.06em;
+            border-bottom: 1px solid #dde3f0;
+            padding-bottom: 4px;
+            margin-bottom: 10px;
+        }
+        .report-body .consultation-text {
+            font-size: 11pt;
+            line-height: 1.65;
+            color: #1a1a1a;
+        }
+        .report-body .consultation-text p { margin-bottom: 6px; }
+
+        /* ── Conclusion / Conduite ── */
+        .conclusion-block {
+            margin: 18px 30px 0;
+            padding: 12px 16px;
+            border: 1px solid #c8d8f0;
+            border-radius: 6px;
+            background: #F0F4FF;
+        }
+        .conclusion-block .block-title {
+            font-size: 9.5pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #1565C0;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+        .conclusion-block .block-content {
+            font-size: 11pt;
+            line-height: 1.6;
+        }
+
+        /* ── Signature ── */
+        .report-signature {
+            margin: 24px 30px 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .signature-box {
+            text-align: center;
+            min-width: 160px;
+        }
+        .signature-box img {
+            max-height: 60px;
+            max-width: 160px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto 4px;
+        }
+        .signature-box .sig-name {
+            font-size: 10pt;
+            font-weight: 700;
+            color: #1a1a1a;
+            border-top: 1px solid #333;
+            padding-top: 4px;
+        }
+        .signature-box .sig-title {
+            font-size: 9pt;
+            color: #555;
+        }
+
+        /* ── Footer ── */
+        .report-footer {
+            margin-top: 24px;
+            border-top: 1.5px solid #1565C0;
+            padding: 8px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .report-footer img {
+            max-height: 50px;
+            max-width: 100%;
+            object-fit: contain;
+        }
+        .report-footer .page-info {
+            font-size: 8.5pt;
+            color: #888;
+        }
+
+        /* ── Print toolbar ── */
+        .print-toolbar {
+            position: fixed;
+            top: 12px;
+            right: 16px;
+            display: flex;
+            gap: 8px;
+            z-index: 100;
+        }
+        .print-toolbar button {
+            background: #1565C0;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 18px;
+            font-size: 11pt;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 8px rgba(21,101,192,0.25);
+        }
+        .print-toolbar button:hover { background: #0d47a1; }
+
+        @media print {
+            body { background: #fff; }
+            .page { margin: 0; box-shadow: none; width: 100%; }
+            .print-toolbar { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="print-toolbar">
+    <button onclick="window.print()">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M6 9V3h12v6M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v7H6v-7z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {% trans "Imprimer" %}
+    </button>
+</div>
+
+<div class="page">
+
+    <!-- Header -->
+    <div class="report-header">
+        <div class="header-logo">
+            {% if parametres.logo_a4 %}
+                <img src="{{ parametres.logo_a4.url }}" alt="Logo">
+            {% elif parametres.logo %}
+                <img src="{{ parametres.logo.url }}" alt="Logo">
+            {% endif %}
+        </div>
+        <div class="header-clinic">
+            {% if parametres.nom_entete %}
+                <div class="clinic-name">{{ parametres.nom_entete }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Title -->
+    <div class="report-title-bar">{% trans "Compte-rendu de consultation" %}</div>
+
+    <!-- Patient info -->
+    <div class="patient-info">
+        <div class="info-item">
+            <div class="info-label">{% trans "Patient" %}</div>
+            <div class="info-value">{{ patient.civilite|upper }} {{ patient.nom_complet }}</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">{% trans "IPP" %}</div>
+            <div class="info-value">{{ patient.identifiant_unique }}</div>
+        </div>
+        {% if patient.date_naissance %}
+        <div class="info-item">
+            <div class="info-label">{% trans "Date de naissance" %}</div>
+            <div class="info-value">{{ patient.date_naissance|date:"d/m/Y" }} ({{ patient.age }} ans)</div>
+        </div>
+        {% endif %}
+        {% if patient.telephone %}
+        <div class="info-item">
+            <div class="info-label">{% trans "Téléphone" %}</div>
+            <div class="info-value">{{ patient.telephone }}</div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Consultation meta -->
+    <div class="consultation-meta">
+        <div class="meta-card">
+            <div class="meta-label">{% trans "Date" %}</div>
+            <div class="meta-value">{{ object.date|date:"d/m/Y" }}</div>
+        </div>
+        <div class="meta-card">
+            <div class="meta-label">{% trans "Motif" %}</div>
+            <div class="meta-value">{{ object.motif.libelle }}</div>
+        </div>
+        {% if praticien %}
+        <div class="meta-card">
+            <div class="meta-label">{% trans "Praticien" %}</div>
+            <div class="meta-value">{{ praticien.nom_complet }}</div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Consultation text -->
+    <div class="report-body">
+        <div class="section-title">{% trans "Compte-rendu" %}</div>
+        <div class="consultation-text">
+            {% if object.text %}
+                {{ object.text|safe }}
+            {% else %}
+                <p style="color:#aaa;font-style:italic;">{% trans "Aucun contenu rédigé." %}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Conclusion -->
+    {% if object.conclusion %}
+    <div class="conclusion-block">
+        <div class="block-title">{% trans "Conclusion" %}</div>
+        <div class="block-content">{{ object.conclusion|safe }}</div>
+    </div>
+    {% endif %}
+
+    <!-- Conduite -->
+    {% if object.conduite %}
+    <div class="conclusion-block" style="margin-top:10px;">
+        <div class="block-title">{% trans "Conduite à tenir" %}</div>
+        <div class="block-content">{{ object.conduite|safe }}</div>
+    </div>
+    {% endif %}
+
+    <!-- Signature -->
+    {% if praticien %}
+    <div class="report-signature">
+        <div class="signature-box">
+            {% if praticien.signature %}
+                <img src="{{ praticien.signature.url }}" alt="Signature">
+            {% endif %}
+            <div class="sig-name">{{ praticien.nom_complet }}</div>
+            <div class="sig-title">{% trans "Praticien" %}</div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Footer -->
+    <div class="report-footer">
+        {% if parametres.footer_a4 %}
+            <img src="{{ parametres.footer_a4.url }}" alt="Footer">
+        {% elif parametres.footer %}
+            <img src="{{ parametres.footer.url }}" alt="Footer">
+        {% else %}
+            <span></span>
+        {% endif %}
+        <span class="page-info">{{ object.date|date:"d/m/Y" }}</span>
+    </div>
+
+</div>
+
+</body>
+</html>

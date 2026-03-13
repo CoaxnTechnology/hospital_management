@@ -44,7 +44,6 @@
 <div class="card mt-3">
 <div class="card-body">
 
-<h5>{% trans "Conjoint" %}</h5>
 
 <label>{% trans "Nom" %}</label>
 {% render_field form.nom_conjoint class+="form-control form-control-sm" %}
@@ -99,7 +98,6 @@
 
 <!-- ================= Données grossesse ================= -->
 
-<h5>{% trans "Données de la grossesse" %}</h5>
 
 <label>{% trans "Nb de Fœtus" %}</label>
 {% render_field form.nb_foetus class+="form-control form-control-sm" %}
@@ -112,7 +110,6 @@
 
 <!-- ================= Echo ================= -->
 
-<h5>{% trans "Echographie du 1er trimestre" %}</h5>
 
 <label>{% trans "Date de l'écho" %}</label>
 {% render_field form.date_echo class+="form-control form-control-sm" %}
@@ -126,7 +123,6 @@
 <label>{% trans "Score de Herman" %}</label>
 {% render_field form.score_herman_1_v2 class+="form-control form-control-sm" %}
 
-<h5>{% trans "Trisomie" %}</h5>
 
 <label>
     {% render_field form.test_t21_fait class+="form-check-input" %}
@@ -147,7 +143,6 @@
 
 <!-- ================= Screening ================= -->
 
-<h5>{% trans "Screening" %}</h5>
 
 <label>{% trans "1er trimestre" %}</label>
 {% render_field form.screening_premier_trimestre class+="form-control form-control-sm" %}
@@ -172,7 +167,6 @@
 
 <!-- ================= Infos complémentaires ================= -->
 
-<h5>{% trans "Informations complémentaires" %}</h5>
 
 <label>
     {% render_field form.listeria class+="form-check-input" %}
@@ -199,7 +193,6 @@
 
 <!-- ================= Projet accouchement ================= -->
 
-<h5>{% trans "Projet d'accouchement" %}</h5>
 
 <label>
     {% render_field form.allaitement_maternel class+="form-check-input" %}
@@ -217,11 +210,9 @@
 <label>{% trans "Préciser" %}</label>
 {% render_field form.lieu_accouchement_libre class+="form-control form-control-sm" %}
 
-<h5>{% trans "Informations complémentaires" %}</h5>
 {% trans "Autres informations" as t_autres_infos %}
 {% render_field form.infos_complemenatires class+="form-control" placeholder=t_autres_infos %}
 
-<h5>{% trans "Notes" %}</h5>
 {% render_field form.notes class+="form-control" %}
 
 </div>

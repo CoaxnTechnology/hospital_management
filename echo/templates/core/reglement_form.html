@@ -52,7 +52,6 @@
 </div>
 {% endif %}
 
-<h5>{% trans "Paiement" %}</h5>
 
 <div id="somme-erreur" class="invalid-feedback">
     {% trans "La somme répartie est différente du montant total" %}
@@ -96,7 +95,6 @@
 
 <div class="col-4">
 <div class="bg-light p-4">
-<h5>{% trans "Historique des règlements" %}</h5>
 
 <ul class="list-group">
 {% for reg in patient.reglement_set.all|slice:":10" %}

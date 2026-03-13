@@ -191,3 +191,17 @@ class ConsultationView(PermissionRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+
+class ConsultationRapportView(PermissionRequiredMixin, DetailView):
+    model = Consultation
+    template_name = "core/consultation_rapport.html"
+    permission_required = "core.view_patient"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        consultation = self.get_object()
+        context['patient'] = consultation.patient
+        context['parametres'] = self.request.user.profil.compte.parametrescompte
+        context['praticien'] = consultation.praticien
+        return context

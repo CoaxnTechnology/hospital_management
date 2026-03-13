@@ -167,19 +167,15 @@ def parse_umbilical_artery(seq, result):
                 unit = units_seq[0][code_val_tag].value
                 print('Unit', unit)
                 value = seq_item[0x0040A30A].value
-                # print('Value', value)
-                #if foetus is not None:
-                cpt = codes_concept_label[cd]
-                #print(, value)
-                foetus['arteres'].cpt = value
-        except:
-            pass
+                if foetus is not None and cd in codes_concept_label:
+                    cpt = codes_concept_label[cd]
+                    foetus['arteres'][cpt] = value
+        except Exception as e:
+            print(f'parse_umbilical_artery error: {e}')
     print('===========================================')
 
 
 def parse_follicule(seq, result):
-    #print(seq)
-    return
     for it in seq:
         cd = it[c_name_code_seq][0][code_val_tag].value
         print(cd)
@@ -248,6 +244,7 @@ def parse_doppler_samsung(dataset, result):
                         if innercncs == "T-F1810":
                             print('<<<<< Umbilical Artery >>>>>>')
                             doppler_ombilical = {}
+                            foetusId = None
                             if "ContentSequence" in innerds:
                                 for _ds in innerds.ContentSequence:
                                     if "ConceptNameCodeSequence" in _ds:
@@ -380,7 +377,7 @@ def parse_ds(ds):
                             try:
                                 if v == '11951-1':
                                     foetus['id'] = c[0x0040A160].value
-                                if v == '99005-4':
+                                if v == '11888-5':
                                     foetus['age_gest'] = c[0x0040A300][0][0x0040A30A].value
                                 if v == '11727-5':
                                     foetus['poids'] = c[0x0040A300][0][0x0040A30A].value
@@ -452,16 +449,13 @@ def parse_ds(ds):
                     # Doppler uterin/maternel
                     c_seq = seq[0x0040A730]
                     dop = {}
-                    counter = 0
                     for it in c_seq:
                         _c = it[c_name_code_seq][0][code_val_tag].value
-                        # print('Code', _c)
                         if (0x0040, 0xA168) in it:
                             cd = it[0x0040A168][0][code_val_tag].value
                             print(cd)
                         if _c == '99100':
                             if 0x0040A730 in it:
-                                # print('Group not empty')
                                 for el in it[0x0040A730]:
                                     lat = None
                                     if 0x0040A730 in el:
@@ -473,28 +467,23 @@ def parse_ds(ds):
                                                     if 'G-C171' == safe_get(item[0x0040A730][0][c_name_code_seq][0], code_val_tag):
                                                         lat = safe_get(item[0x0040A730][0][0x0040A168][0], code_val_tag)
                                                         if lat == 'G-A101':
-                                                            # Ovaire gauche
                                                             lat = 'gauche'
                                                         if lat == 'G-A100':
-                                                            # Ovaire droit
                                                             lat = 'droit'
-                                                        #print(v)
-                                                except :
-                                                    print("Uterus laterality can't be evaluated")
-
+                                                except Exception as e:
+                                                    print(f"Uterus laterality can't be evaluated: {e}")
 
                                     if lat:
                                         param = el[c_name_code_seq][0][code_val_tag].value
-                                        # print_attrib(code, el)
                                         for v in allowed_codes:
                                             if param == v:
                                                 if param == '12023-8':
                                                     dop['ir_' + lat] = el[0x0040A300][0][0x0040A30A].value
                                                 if param == '12008-9':
                                                     dop['ip_' + lat] = el[0x0040A300][0][0x0040A30A].value
-
-                        print('Doppler utérin', dop)
-                        result[f'doppler_uterin'] = dop
+                    # After loop: store final result once
+                    print('Doppler utérin', dop)
+                    result['doppler_uterin'] = dop
 
             if code == '99000':
                 if 0x0040A730 in seq:

@@ -486,13 +486,13 @@ function updateSR(data) {
             }
 
             let dop_acm = f.doppler_acm;
-            if (dop) {
+            if (dop_acm) {
                 console.log('Doppler acm', dop_acm);
                 _.each(dop_acm, (v, k) => $(selector + k).val(v));
             }
 
             let dop_dv = f.doppler_dv;
-            if (dop) {
+            if (dop_dv) {
                 console.log('Doppler dv', dop_dv);
                 _.each(dop_dv, (v, k) => $(selector + k).val(v));
             }
@@ -530,7 +530,11 @@ function checkReceptionDonnees() {
 
     $.get(`/consultations/${consultation_pk}/sr/`)
         .done(function (result) {
-            let data = JSON.parse(result.data);
+            let data = result.data;
+            // data may be a JSON string or already an object depending on backend
+            if (typeof data === 'string') {
+                data = JSON.parse(data);
+            }
             console.info('Received data', data);
 
             if (_.isEqual(consultationSR, data)){
@@ -538,7 +542,7 @@ function checkReceptionDonnees() {
             } else {
                 toastr.success("Nouvelles mesures reçue de l'échographe");
                 consultationSR = data;
-                updateSR(JSON.parse(data.data));
+                updateSR(data);
             }
         })
         .fail(function () {

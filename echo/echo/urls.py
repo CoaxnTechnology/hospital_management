@@ -19,6 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path, re_path, include
+from django.views.generic.base import RedirectView
 
 from apps.core import debug
 from apps.core.debug import test
@@ -56,6 +57,8 @@ from apps.core.views.consultations import base, gynecologique, obstetrique, imag
 from apps.core.views.devices import worklists, devices
 
 urlpatterns = [
+    # Favicon at root (browsers auto-request /favicon.ico)
+    path("favicon.ico", RedirectView.as_view(url="/static/media/logos/favicon.ico", permanent=True)),
     # i18n language switcher
     path("i18n/", include("django.conf.urls.i18n")),
     # Toolbar

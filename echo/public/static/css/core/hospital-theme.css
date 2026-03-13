@@ -338,7 +338,7 @@ body {
 
 /* Menu links — default */
 #kt_aside_menu .menu-item > .menu-link {
-  color: #6B7A99 !important;
+  color: #ffffff !important;
   border-radius: 8px !important;
   margin: 1px 10px !important;
   padding: 9px 14px !important;
@@ -368,7 +368,7 @@ body {
 #kt_aside_menu .menu-item.here > .menu-link,
 #kt_aside_menu .menu-item.active > .menu-link {
   background: rgba(99, 179, 237, 0.12) !important;
-  color: #ffffff !important;
+  color: #6B7A99 !important;
   border-left: none !important;
 }
 #kt_aside_menu .menu-item.here > .menu-link .menu-icon,
@@ -381,7 +381,7 @@ body {
 }
 #kt_aside_menu .menu-item.here > .menu-link .menu-title,
 #kt_aside_menu .menu-item.active > .menu-link .menu-title {
-  color: #ffffff !important;
+  color: #6B7A99 !important;
   font-weight: 600 !important;
 }
 

@@ -11,8 +11,11 @@ from django.urls import reverse
 from django.views import View
 from django.views.generic import DetailView
 
+import json
+
 from apps.core.models import (
     Consultation,
+    SRConsultation,
     CategorieConsultation,
     MotifConsultation,
     Praticien,
@@ -204,4 +207,14 @@ class ConsultationRapportView(PermissionRequiredMixin, DetailView):
         context['patient'] = consultation.patient
         context['parametres'] = self.request.user.profil.compte.parametrescompte
         context['praticien'] = consultation.praticien
+
+        sr = consultation.srconsultation_set.last()
+        if sr and sr.data:
+            try:
+                context['sr'] = json.loads(sr.data)
+            except (json.JSONDecodeError, TypeError):
+                context['sr'] = None
+        else:
+            context['sr'] = None
+
         return context

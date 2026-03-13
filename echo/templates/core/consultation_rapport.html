@@ -185,6 +185,52 @@
             color: #555;
         }
 
+        /* ── SR measurements ── */
+        .sr-section {
+            margin: 20px 30px 0;
+        }
+        .sr-group {
+            margin-bottom: 14px;
+        }
+        .sr-group-title {
+            font-size: 9.5pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #1565C0;
+            letter-spacing: 0.06em;
+            border-bottom: 1px solid #dde3f0;
+            padding-bottom: 3px;
+            margin-bottom: 8px;
+        }
+        .sr-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10pt;
+        }
+        .sr-table td {
+            padding: 3px 8px;
+            border: 1px solid #e8eef8;
+        }
+        .sr-table td:first-child {
+            color: #555;
+            font-weight: 600;
+            width: 46%;
+            background: #f7f9ff;
+        }
+        .sr-table td:last-child {
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        .foetus-header {
+            background: #1565C0;
+            color: #fff;
+            font-weight: 700;
+            font-size: 10pt;
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin: 10px 0 6px;
+        }
+
         /* ── Footer ── */
         .report-footer {
             margin-top: 24px;
@@ -319,6 +365,152 @@
             {% endif %}
         </div>
     </div>
+
+    <!-- DICOM SR Measurements -->
+    {% if sr %}
+    <div class="sr-section">
+        <div class="section-title" style="margin:0 0 10px;">{% trans "Mesures échographiques (DICOM SR)" %}</div>
+
+        {% comment %}Uterus{% endcomment %}
+        {% if sr.uterus_longueur or sr.uterus_largeur or sr.uterus_hauteur or sr.uterus_volume or sr.endometre_epaisseur or sr.col_longueur %}
+        <div class="sr-group">
+            <div class="sr-group-title">{% trans "Utérus & Col" %}</div>
+            <table class="sr-table">
+                {% if sr.uterus_longueur %}<tr><td>{% trans "Longueur utérus" %}</td><td>{{ sr.uterus_longueur }} mm</td></tr>{% endif %}
+                {% if sr.uterus_largeur %}<tr><td>{% trans "Largeur utérus" %}</td><td>{{ sr.uterus_largeur }} mm</td></tr>{% endif %}
+                {% if sr.uterus_hauteur %}<tr><td>{% trans "Hauteur utérus" %}</td><td>{{ sr.uterus_hauteur }} mm</td></tr>{% endif %}
+                {% if sr.uterus_volume %}<tr><td>{% trans "Volume utérin" %}</td><td>{{ sr.uterus_volume }} cm³</td></tr>{% endif %}
+                {% if sr.endometre_epaisseur %}<tr><td>{% trans "Épaisseur endomètre" %}</td><td>{{ sr.endometre_epaisseur }} mm</td></tr>{% endif %}
+                {% if sr.col_longueur %}<tr><td>{% trans "Longueur col" %}</td><td>{{ sr.col_longueur }} mm</td></tr>{% endif %}
+            </table>
+        </div>
+        {% endif %}
+
+        {% comment %}Ovaires{% endcomment %}
+        {% if sr.ovaire_gauche_longueur or sr.ovaire_gauche_largeur or sr.ovaire_droit_longueur or sr.ovaire_droit_largeur %}
+        <div class="sr-group">
+            <div class="sr-group-title">{% trans "Ovaires" %}</div>
+            <table class="sr-table">
+                {% if sr.ovaire_gauche_longueur %}<tr><td>{% trans "Ovaire gauche — Longueur" %}</td><td>{{ sr.ovaire_gauche_longueur }} mm</td></tr>{% endif %}
+                {% if sr.ovaire_gauche_largeur %}<tr><td>{% trans "Ovaire gauche — Largeur" %}</td><td>{{ sr.ovaire_gauche_largeur }} mm</td></tr>{% endif %}
+                {% if sr.ovaire_gauche_hauteur %}<tr><td>{% trans "Ovaire gauche — Hauteur" %}</td><td>{{ sr.ovaire_gauche_hauteur }} mm</td></tr>{% endif %}
+                {% if sr.ovaire_gauche_volume %}<tr><td>{% trans "Ovaire gauche — Volume" %}</td><td>{{ sr.ovaire_gauche_volume }} cm³</td></tr>{% endif %}
+                {% if sr.ovaire_droit_longueur %}<tr><td>{% trans "Ovaire droit — Longueur" %}</td><td>{{ sr.ovaire_droit_longueur }} mm</td></tr>{% endif %}
+                {% if sr.ovaire_droit_largeur %}<tr><td>{% trans "Ovaire droit — Largeur" %}</td><td>{{ sr.ovaire_droit_largeur }} mm</td></tr>{% endif %}
+                {% if sr.ovaire_droit_hauteur %}<tr><td>{% trans "Ovaire droit — Hauteur" %}</td><td>{{ sr.ovaire_droit_hauteur }} mm</td></tr>{% endif %}
+                {% if sr.ovaire_droit_volume %}<tr><td>{% trans "Ovaire droit — Volume" %}</td><td>{{ sr.ovaire_droit_volume }} cm³</td></tr>{% endif %}
+            </table>
+        </div>
+        {% endif %}
+
+        {% comment %}Doppler utérin{% endcomment %}
+        {% if sr.doppler_uterin %}
+        <div class="sr-group">
+            <div class="sr-group-title">{% trans "Doppler utérin" %}</div>
+            <table class="sr-table">
+                {% if sr.doppler_uterin.ir_gauche %}<tr><td>{% trans "IR gauche" %}</td><td>{{ sr.doppler_uterin.ir_gauche }}</td></tr>{% endif %}
+                {% if sr.doppler_uterin.ir_droit %}<tr><td>{% trans "IR droit" %}</td><td>{{ sr.doppler_uterin.ir_droit }}</td></tr>{% endif %}
+                {% if sr.doppler_uterin.ip_gauche %}<tr><td>{% trans "IP gauche" %}</td><td>{{ sr.doppler_uterin.ip_gauche }}</td></tr>{% endif %}
+                {% if sr.doppler_uterin.ip_droit %}<tr><td>{% trans "IP droit" %}</td><td>{{ sr.doppler_uterin.ip_droit }}</td></tr>{% endif %}
+            </table>
+        </div>
+        {% endif %}
+
+        {% comment %}Grossesse (DDR, terme){% endcomment %}
+        {% if sr.ddr or sr.date_accouchement or sr.age_gestationnel %}
+        <div class="sr-group">
+            <div class="sr-group-title">{% trans "Grossesse" %}</div>
+            <table class="sr-table">
+                {% if sr.ddr %}<tr><td>{% trans "DDR" %}</td><td>{{ sr.ddr }}</td></tr>{% endif %}
+                {% if sr.date_accouchement %}<tr><td>{% trans "Date d'accouchement prévue" %}</td><td>{{ sr.date_accouchement }}</td></tr>{% endif %}
+                {% if sr.age_gestationnel %}<tr><td>{% trans "Âge gestationnel" %}</td><td>{{ sr.age_gestationnel }}</td></tr>{% endif %}
+            </table>
+        </div>
+        {% endif %}
+
+        {% comment %}Fœtus{% endcomment %}
+        {% if sr.foetus %}
+        {% for f in sr.foetus %}
+        <div class="sr-group">
+            <div class="foetus-header">{% trans "Fœtus" %} {{ f.id }}{% if f.age_gest %} — {% trans "Âge gestationnel" %}: {{ f.age_gest }} SA{% endif %}{% if f.poids %} — {% trans "Poids estimé" %}: {{ f.poids }} g{% endif %}</div>
+
+            {% if f.biometrie %}
+            <div class="sr-group-title" style="margin-top:6px;">{% trans "Biométrie" %}</div>
+            <table class="sr-table">
+                {% if f.biometrie.bip %}<tr><td>BIP</td><td>{{ f.biometrie.bip }} mm</td></tr>{% endif %}
+                {% if f.biometrie.pc %}<tr><td>PC</td><td>{{ f.biometrie.pc }} mm</td></tr>{% endif %}
+                {% if f.biometrie.pa %}<tr><td>PA</td><td>{{ f.biometrie.pa }} mm</td></tr>{% endif %}
+                {% if f.biometrie.femur %}<tr><td>{% trans "Fémur" %}</td><td>{{ f.biometrie.femur }} mm</td></tr>{% endif %}
+                {% if f.biometrie.lcc %}<tr><td>LCC</td><td>{{ f.biometrie.lcc }} mm</td></tr>{% endif %}
+                {% if f.biometrie.sac_gestationnel_diametre %}<tr><td>{% trans "Sac gestationnel" %}</td><td>{{ f.biometrie.sac_gestationnel_diametre }} mm</td></tr>{% endif %}
+                {% if f.biometrie.cn %}<tr><td>CN</td><td>{{ f.biometrie.cn }} mm</td></tr>{% endif %}
+                {% if f.biometrie.epn %}<tr><td>{% trans "Épaisseur nuque" %}</td><td>{{ f.biometrie.epn }} mm</td></tr>{% endif %}
+                {% if f.fc %}<tr><td>{% trans "Fréquence cardiaque" %}</td><td>{{ f.fc }} bpm</td></tr>{% endif %}
+            </table>
+            {% endif %}
+
+            {% if f.os %}
+            <div class="sr-group-title" style="margin-top:6px;">{% trans "Os longs" %}</div>
+            <table class="sr-table">
+                {% if f.os.humerus %}<tr><td>{% trans "Humérus" %}</td><td>{{ f.os.humerus }} mm</td></tr>{% endif %}
+                {% if f.os.radius %}<tr><td>{% trans "Radius" %}</td><td>{{ f.os.radius }} mm</td></tr>{% endif %}
+                {% if f.os.cubitus %}<tr><td>{% trans "Cubitus" %}</td><td>{{ f.os.cubitus }} mm</td></tr>{% endif %}
+                {% if f.os.tibia %}<tr><td>{% trans "Tibia" %}</td><td>{{ f.os.tibia }} mm</td></tr>{% endif %}
+                {% if f.os.perone %}<tr><td>{% trans "Péroné" %}</td><td>{{ f.os.perone }} mm</td></tr>{% endif %}
+                {% if f.os.clavicule %}<tr><td>{% trans "Clavicule" %}</td><td>{{ f.os.clavicule }} mm</td></tr>{% endif %}
+                {% if f.os.pied %}<tr><td>{% trans "Pied" %}</td><td>{{ f.os.pied }} mm</td></tr>{% endif %}
+            </table>
+            {% endif %}
+
+            {% if f.crane %}
+            <div class="sr-group-title" style="margin-top:6px;">{% trans "Crâne" %}</div>
+            <table class="sr-table">
+                {% if f.crane.cervelet %}<tr><td>{% trans "Cervelet" %}</td><td>{{ f.crane.cervelet }} mm</td></tr>{% endif %}
+                {% if f.crane.dio %}<tr><td>DIO</td><td>{{ f.crane.dio }} mm</td></tr>{% endif %}
+                {% if f.crane.do %}<tr><td>DO</td><td>{{ f.crane.do }} mm</td></tr>{% endif %}
+            </table>
+            {% endif %}
+
+            {% if f.doppler_ombilical %}
+            <div class="sr-group-title" style="margin-top:6px;">{% trans "Doppler ombilical" %}</div>
+            <table class="sr-table">
+                {% if f.doppler_ombilical.doppler_cordon_ir %}<tr><td>IR</td><td>{{ f.doppler_ombilical.doppler_cordon_ir }}</td></tr>{% endif %}
+                {% if f.doppler_ombilical.doppler_cordon_ip %}<tr><td>IP</td><td>{{ f.doppler_ombilical.doppler_cordon_ip }}</td></tr>{% endif %}
+            </table>
+            {% endif %}
+
+            {% if f.doppler_acm %}
+            <div class="sr-group-title" style="margin-top:6px;">{% trans "Doppler ACM" %}</div>
+            <table class="sr-table">
+                {% if f.doppler_acm.doppler_acm_ir %}<tr><td>IR ACM</td><td>{{ f.doppler_acm.doppler_acm_ir }}</td></tr>{% endif %}
+                {% if f.doppler_acm.doppler_acm_ip %}<tr><td>IP ACM</td><td>{{ f.doppler_acm.doppler_acm_ip }}</td></tr>{% endif %}
+            </table>
+            {% endif %}
+
+            {% if f.doppler_dv %}
+            <div class="sr-group-title" style="margin-top:6px;">{% trans "Doppler DV" %}</div>
+            <table class="sr-table">
+                {% if f.doppler_dv.doppler_dv_ir %}<tr><td>IR DV</td><td>{{ f.doppler_dv.doppler_dv_ir }}</td></tr>{% endif %}
+                {% if f.doppler_dv.doppler_dv_ip %}<tr><td>IP DV</td><td>{{ f.doppler_dv.doppler_dv_ip }}</td></tr>{% endif %}
+            </table>
+            {% endif %}
+
+            {% if f.ratios %}
+            <div class="sr-group-title" style="margin-top:6px;">{% trans "Ratios biométriques" %}</div>
+            <table class="sr-table">
+                {% if f.ratios.hc_ac %}<tr><td>HC/AC</td><td>{{ f.ratios.hc_ac }}</td></tr>{% endif %}
+                {% if f.ratios.fl_ac %}<tr><td>FL/AC</td><td>{{ f.ratios.fl_ac }}</td></tr>{% endif %}
+                {% if f.ratios.fl_bpd %}<tr><td>FL/BPD</td><td>{{ f.ratios.fl_bpd }}</td></tr>{% endif %}
+                {% if f.ratios.cephalic_index %}<tr><td>{% trans "Indice céphalique" %}</td><td>{{ f.ratios.cephalic_index }}</td></tr>{% endif %}
+                {% if f.ratios.fl_hc %}<tr><td>FL/HC</td><td>{{ f.ratios.fl_hc }}</td></tr>{% endif %}
+            </table>
+            {% endif %}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+    </div>
+    {% endif %}
 
     <!-- Conclusion -->
     {% if object.conclusion %}

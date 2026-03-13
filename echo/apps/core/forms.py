@@ -18,7 +18,17 @@ ProfilFormset = inlineformset_factory(
         'titre', 'date_naissance', 'telephone_principal', 'telephone_secondaire', 'signature', 'code_securite_sociale',
         'code_conventionnel','ajouter_signature_edition', 'default_device'
     ),
-    labels={"date_naissance": "Date de naissance"},
+    labels={
+        "date_naissance": _("Date de naissance"),
+        "telephone_principal": _("Téléphone principal"),
+        "telephone_secondaire": _("Téléphone secondaire"),
+        "signature": _("Signature"),
+        "code_securite_sociale": _("Code sécurité sociale"),
+        "code_conventionnel": _("Code conventionnel"),
+        "ajouter_signature_edition": _("Ajouter la signature aux éditions"),
+        "default_device": _("Échographe par défaut"),
+        "titre": _("Titre"),
+    },
     extra=1
 )
 

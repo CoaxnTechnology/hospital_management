@@ -6505,9 +6505,6 @@ msgstr "Réceptionniste"
 #~ msgid "Echo du col"
 #~ msgstr "Echo du col"
 
-#~ msgid "PMA"
-#~ msgstr "PMA"
-
 #~ msgid "Rendez-vous du jour"
 #~ msgstr "Rendez-vous du jour"
 
@@ -6601,3 +6598,18 @@ msgstr "PMA"
 
 msgid "Dashboard"
 msgstr "Dashboard"
+
+msgid "Docteur"
+msgstr "Docteur"
+
+msgid "Professeur"
+msgstr "Professeur"
+
+msgid "Madame"
+msgstr "Madame"
+
+msgid "Mademoiselle"
+msgstr "Mademoiselle"
+
+msgid "Monsieur"
+msgstr "Monsieur"

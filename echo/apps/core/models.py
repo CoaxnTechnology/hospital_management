@@ -7,6 +7,7 @@ import uuid
 
 import django.utils.timezone
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 from django.contrib.postgres.forms import SimpleArrayField
 from django.db import models
 from collections import defaultdict
@@ -166,9 +167,9 @@ def repertoire_utilisateur(instance, filename):
 class Profil(CompteModelBase):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     compte = models.ForeignKey(Compte, on_delete=models.CASCADE)
-    titre = models.CharField(max_length=8, choices=[('dr', 'Docteur'), ('pr', 'Professeur'), ('mme', 'Madame'),
-                                                    ('mlle', 'Mademoiselle'),
-                                                    ('mr', 'Monsieur')])
+    titre = models.CharField(max_length=8, choices=[('dr', _('Docteur')), ('pr', _('Professeur')), ('mme', _('Madame')),
+                                                    ('mlle', _('Mademoiselle')),
+                                                    ('mr', _('Monsieur'))])
     code_conventionnel=models.CharField(max_length=128, blank=True, null=True)
     date_naissance = models.DateField(blank=True, null=True)
     telephone_principal = models.CharField(max_length=20, blank=True, null=True)

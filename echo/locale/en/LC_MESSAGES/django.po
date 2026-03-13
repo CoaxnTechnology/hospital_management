@@ -3715,17 +3715,13 @@ msgstr ""
 msgid "Enter your email to reset your password"
 msgstr ""
 
-#: templates/core/login_v2.html:95
-#, fuzzy
-#| msgid "ou mot de passe incorrect."
+
 msgid "Nom d'utilisateur ou mot de passe incorrect"
-msgstr "or password incorrect."
+msgstr "Incorrect username or password"
 
 #: templates/core/login_v2.html:96
-#, fuzzy
-#| msgid "Merci de réessayer."
 msgid "Merci de réessayer"
-msgstr "Please try again."
+msgstr "Please try again"
 
 #: templates/core/mdp_form.html:11 templates_backup/core/mdp_form.html:11
 #: templates_backup/templates/core/mdp_form.html:11
@@ -6832,3 +6828,36 @@ msgstr "Mutuelles"
 
 msgid "PMA"
 msgstr "PMA"
+
+msgid "Docteur"
+msgstr "Doctor"
+
+msgid "Professeur"
+msgstr "Professor"
+
+msgid "Madame"
+msgstr "Mrs."
+
+msgid "Mademoiselle"
+msgstr "Miss"
+
+msgid "Monsieur"
+msgstr "Mr."
+
+msgid "L'application de"
+msgstr "The"
+
+msgid "gestion médicale"
+msgstr "medical management"
+
+msgid "nouvelle génération."
+msgstr "next generation."
+
+msgid "Dossiers patients, consultations, ordonnances et planning — tout en un."
+msgstr "Patient records, consultations, prescriptions and scheduling — all in one."
+
+msgid "Planning"
+msgstr "Scheduling"
+
+msgid "Statistiques"
+msgstr "Statistics"

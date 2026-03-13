@@ -1,10 +1,10 @@
 {% load i18n %}
 {% load static %}
 
-<html lang="fr">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <base href=""/>
-    <title>CabinetPro — Connexion</title>
+    <title>CabinetPro — {% trans "Connexion" %}</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     
@@ -52,42 +52,99 @@
         .lang-toggle-btn {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 7px;
             background: #fff;
             border: 1.5px solid #E2EAF4;
-            border-radius: 20px;
-            padding: 6px 14px;
+            border-radius: 24px;
+            padding: 7px 13px 7px 10px;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             color: #1565C0;
             cursor: pointer;
-            transition: border-color 0.2s;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+            box-shadow: 0 2px 8px rgba(21,101,192,0.08);
+            letter-spacing: 0.04em;
         }
-        .lang-toggle-btn:hover { border-color: #2196F3; }
+        .lang-toggle-btn:hover {
+            border-color: #2196F3;
+            box-shadow: 0 4px 16px rgba(21,101,192,0.18);
+            background: #F5F9FF;
+        }
+        .lang-globe {
+            width: 26px;
+            height: 26px;
+            background: linear-gradient(135deg, #1565C0 0%, #2196F3 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .lang-globe svg { color: #fff; }
+        .lang-code {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: #1565C0;
+        }
+        .lang-chevron {
+            color: #B0BEC5;
+            font-size: 9px;
+            transition: transform 0.2s;
+        }
+        .lang-toggle-btn.open .lang-chevron { transform: rotate(180deg); }
+
         .lang-menu {
             display: none;
             position: absolute;
             right: 0;
-            top: calc(100% + 6px);
+            top: calc(100% + 8px);
             z-index: 1050;
-            min-width: 140px;
+            min-width: 160px;
             background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 8px 32px rgba(21,101,192,0.15);
-            padding: 6px 0;
+            border-radius: 14px;
+            box-shadow: 0 12px 40px rgba(21,101,192,0.18);
+            padding: 6px;
             border: 1px solid #E2EAF4;
         }
         .lang-menu a {
-            display: block;
-            padding: 8px 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
             text-decoration: none;
             font-size: 13px;
             font-weight: 500;
-            color: #333;
-            transition: background 0.15s;
+            color: #334155;
+            border-radius: 9px;
+            transition: background 0.15s, color 0.15s;
         }
         .lang-menu a:hover { background: #F0F4F8; color: #1565C0; }
-        .lang-menu a.active { color: #1565C0; font-weight: 700; }
+        .lang-menu a.active {
+            background: #EBF4FF;
+            color: #1565C0;
+            font-weight: 700;
+        }
+        .lang-menu a .lang-flag {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1565C0 0%, #2196F3 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0;
+            flex-shrink: 0;
+        }
+        .lang-menu a.active .lang-flag { background: linear-gradient(135deg, #0D47A1 0%, #1565C0 100%); }
+        .lang-menu-divider {
+            height: 1px;
+            background: #F0F4F8;
+            margin: 4px 0;
+        }
 
         /* ── Card ── */
         .login-card {
@@ -389,18 +446,20 @@
             {% get_current_language as CURRENT_LANGUAGE %}
             <div style="position:relative;">
                 <button type="button" id="lang-toggle-v2" class="lang-toggle-btn">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                        <path opacity="0.5" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 2c4.42 0 8 3.58 8 8s-3.58 8-8 8-8-3.58-8-8 3.58-8 8-8z" fill="currentColor"/>
-                        <path d="M12 2c2.76 0 5 4.48 5 10s-2.24 10-5 10-5-4.48-5-10S9.24 2 12 2z" fill="currentColor"/>
-                    </svg>
-                    {{ CURRENT_LANGUAGE|upper }}
-                    <i class="la la-angle-down" style="font-size:10px;"></i>
+                    <span class="lang-globe">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="white"/>
+                        </svg>
+                    </span>
+                    <span class="lang-code">{{ CURRENT_LANGUAGE|upper }}</span>
+                    <i class="la la-angle-down lang-chevron"></i>
                 </button>
                 <div id="lang-menu-v2" class="lang-menu">
                     {% get_available_languages as LANGUAGES %}
                     {% for lang_code, lang_name in LANGUAGES %}
                     <a href="javascript:switchLanguage('{{ lang_code }}')"
                        class="{% if lang_code == CURRENT_LANGUAGE %}active{% endif %}">
+                        <span class="lang-flag">{{ lang_code|upper|slice:":2" }}</span>
                         {{ lang_name }}
                     </a>
                     {% endfor %}
@@ -499,10 +558,10 @@
             </div>
 
             <div class="login-right-title">
-                L'application de<br/><span>gestion médicale</span><br/>nouvelle génération.
+                {% trans "L'application de" %}<br/><span>{% trans "gestion médicale" %}</span><br/>{% trans "nouvelle génération." %}
             </div>
             <div class="login-right-sub">
-                Dossiers patients, consultations,<br/>ordonnances et planning — tout en un.
+                {% trans "Dossiers patients, consultations, ordonnances et planning — tout en un." %}
             </div>
 
             <div class="login-features">
@@ -510,13 +569,13 @@
                     <i class="la la-user-md"></i> {% trans "Dossier patient" %}
                 </div>
                 <div class="login-feature-pill">
-                    <i class="la la-calendar-check"></i> Planning
+                    <i class="la la-calendar-check"></i> {% trans "Planning" %}
                 </div>
                 <div class="login-feature-pill">
                     <i class="la la-file-prescription"></i> {% trans "Ordonnances" %}
                 </div>
                 <div class="login-feature-pill">
-                    <i class="la la-chart-line"></i> Statistiques
+                    <i class="la la-chart-line"></i> {% trans "Statistiques" %}
                 </div>
             </div>
         </div>
@@ -532,9 +591,14 @@ var langToggle = document.getElementById('lang-toggle-v2');
 var langMenu = document.getElementById('lang-menu-v2');
 langToggle.addEventListener('click', function(e) {
     e.stopPropagation();
-    langMenu.style.display = langMenu.style.display === 'none' ? 'block' : 'none';
+    var isOpen = langMenu.style.display === 'block';
+    langMenu.style.display = isOpen ? 'none' : 'block';
+    langToggle.classList.toggle('open', !isOpen);
 });
-document.addEventListener('click', function() { langMenu.style.display = 'none'; });
+document.addEventListener('click', function() {
+    langMenu.style.display = 'none';
+    langToggle.classList.remove('open');
+});
 
 function switchLanguage(langCode) {
     var csrftoken = document.cookie.split(';').map(c => c.trim()).find(c => c.startsWith('csrftoken='));
@@ -543,7 +607,7 @@ function switchLanguage(langCode) {
         method: 'POST',
         headers: {'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRFToken': csrftoken},
         body: 'language=' + langCode + '&next=' + window.location.pathname
-    }).then(() => window.location.reload());
+    }).then(() => window.location.replace(window.location.pathname));
 }
 
 // Password toggle

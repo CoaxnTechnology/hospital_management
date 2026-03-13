@@ -6476,3 +6476,36 @@ msgstr "PMA"
 
 msgid "Dashboard"
 msgstr "لوحة التحكم"
+
+msgid "Docteur"
+msgstr "دكتور"
+
+msgid "Professeur"
+msgstr "بروفيسور"
+
+msgid "Madame"
+msgstr "سيدة"
+
+msgid "Mademoiselle"
+msgstr "آنسة"
+
+msgid "Monsieur"
+msgstr "سيد"
+
+msgid "L'application de"
+msgstr "تطبيق"
+
+msgid "gestion médicale"
+msgstr "الإدارة الطبية"
+
+msgid "nouvelle génération."
+msgstr "الجيل الجديد."
+
+msgid "Dossiers patients, consultations, ordonnances et planning — tout en un."
+msgstr "ملفات المرضى، الاستشارات، الوصفات والجدولة — كل شيء في مكان واحد."
+
+msgid "Planning"
+msgstr "الجدولة"
+
+msgid "Statistiques"
+msgstr "الإحصائيات"

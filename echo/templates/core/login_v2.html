@@ -2,235 +2,532 @@
 {% load static %}
 
 <html lang="fr">
-<!--begin::Head-->
 <head>
     <base href=""/>
-    <title>CabinetPro</title>
+    <title>CabinetPro — Connexion</title>
     <meta charset="utf-8"/>
-    <meta name="description" content=""/>
-    <meta name="keywords" content=""/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta property="og:locale" content="fr_FR"/>
-    <meta property="og:type" content="article"/>
-    <meta property="og:title" content=""/>
-    <meta property="og:url" content=""/>
-    <meta property="og:site_name" content=""/>
-    <link rel="canonical" href=""/>
-    <link rel="shortcut icon" href="{% static "media/logos/favicon.ico" %}"/>
-    <!--begin::Fonts(mandatory for all pages)-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"/>
-    <!--end::Fonts-->
-    <!--end::Vendor Stylesheets-->
-    <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet"/>
     <link href="{% static "v2/plugins/global/plugins.bundle.css" %}" rel="stylesheet" type="text/css"/>
     <link href="{% static "v2/css/style.bundle.css" %}" rel="stylesheet" type="text/css"/>
-    {% block styles %}
-    {% endblock %}
-    <!--end::Global Stylesheets Bundle-->
+    {% block styles %}{% endblock %}
+    <style>
+        /* ── Reset & Base ── */
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: 'DM Sans', sans-serif;
+            background: #0D2137;
+        }
+
+        /* ── Layout ── */
+        .login-root {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* ── Left Panel ── */
+        .login-left {
+            width: 50%;
+            background: #F0F4F8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 32px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Top-right language switcher */
+        .login-lang {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .lang-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #fff;
+            border: 1.5px solid #E2EAF4;
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #1565C0;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        .lang-toggle-btn:hover { border-color: #2196F3; }
+        .lang-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: calc(100% + 6px);
+            z-index: 1050;
+            min-width: 140px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(21,101,192,0.15);
+            padding: 6px 0;
+            border: 1px solid #E2EAF4;
+        }
+        .lang-menu a {
+            display: block;
+            padding: 8px 18px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+            transition: background 0.15s;
+        }
+        .lang-menu a:hover { background: #F0F4F8; color: #1565C0; }
+        .lang-menu a.active { color: #1565C0; font-weight: 700; }
+
+        /* ── Card ── */
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            background: #fff;
+            border-radius: 20px;
+            padding: 44px 40px 40px;
+            box-shadow: 0 4px 40px rgba(21,101,192,0.11);
+        }
+
+        /* Brand header */
+        .login-brand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+        .login-brand-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #0D2137 0%, #1565C0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+            box-shadow: 0 6px 20px rgba(21,101,192,0.28);
+        }
+        .login-brand-icon svg { color: #fff; }
+        .login-brand-name {
+            font-size: 24px;
+            font-weight: 800;
+            color: #0D2137;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+        .login-brand-name span { color: #1565C0; }
+        .login-brand-sub {
+            font-size: 13px;
+            color: #7B8FA6;
+            font-weight: 400;
+        }
+
+        /* Inputs */
+        .login-field {
+            margin-bottom: 16px;
+        }
+        .login-field label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #7B8FA6;
+            margin-bottom: 6px;
+        }
+        .login-input-wrap {
+            position: relative;
+        }
+        .login-input-wrap .field-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #B0BEC5;
+            font-size: 16px;
+            pointer-events: none;
+            transition: color 0.2s;
+        }
+        .login-input-wrap input {
+            width: 100%;
+            height: 46px;
+            border: 1.5px solid #E2EAF4;
+            border-radius: 10px;
+            padding: 0 14px 0 42px;
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            color: #1a2a3a;
+            background: #FAFCFF;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+        .login-input-wrap input:focus {
+            border-color: #2196F3;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(33,150,243,0.12);
+        }
+        .login-input-wrap input:focus ~ .field-icon,
+        .login-input-wrap input:focus + .field-icon { color: #2196F3; }
+        .login-input-wrap input.is-invalid {
+            border-color: #e53935;
+            background: #fff5f5;
+        }
+        .login-input-wrap .invalid-feedback {
+            display: none;
+            font-size: 12px;
+            color: #e53935;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+        .login-input-wrap input.is-invalid ~ .invalid-feedback { display: block; }
+
+        /* Toggle password visibility */
+        .toggle-pw {
+            position: absolute;
+            right: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #B0BEC5;
+            font-size: 15px;
+            background: none;
+            border: none;
+            padding: 0;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+        .toggle-pw:hover { color: #1565C0; }
+        .pw-input { padding-right: 42px !important; }
+
+        /* Submit button */
+        .login-submit {
+            width: 100%;
+            height: 48px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #1565C0 0%, #2196F3 100%);
+            color: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            cursor: pointer;
+            margin-top: 8px;
+            box-shadow: 0 4px 18px rgba(21,101,192,0.30);
+            transition: box-shadow 0.2s, transform 0.15s, opacity 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .login-submit:hover {
+            box-shadow: 0 8px 24px rgba(21,101,192,0.40);
+            transform: translateY(-1px);
+            opacity: 0.96;
+        }
+        .login-submit:active { transform: translateY(0); }
+
+        /* Error alert */
+        .login-error-alert {
+            background: #fff5f5;
+            border: 1px solid #ffcdd2;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 13px;
+            color: #c62828;
+            font-weight: 500;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .login-error-alert i { font-size: 15px; }
+
+        /* ── Right Panel ── */
+        .login-right {
+            width: 50%;
+            background: #0D2137;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 48px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Background cross pattern */
+        .login-right-bg {
+            position: absolute;
+            inset: 0;
+            opacity: 0.04;
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 48px, rgba(255,255,255,0.6) 48px, rgba(255,255,255,0.6) 50px),
+                repeating-linear-gradient(90deg, transparent, transparent 48px, rgba(255,255,255,0.6) 48px, rgba(255,255,255,0.6) 50px);
+            pointer-events: none;
+        }
+
+        /* Glow orbs */
+        .login-orb {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(60px);
+            opacity: 0.18;
+        }
+        .login-orb-1 {
+            width: 320px; height: 320px;
+            background: #2196F3;
+            top: -80px; right: -80px;
+        }
+        .login-orb-2 {
+            width: 240px; height: 240px;
+            background: #1565C0;
+            bottom: -60px; left: -60px;
+        }
+
+        /* Right content */
+        .login-right-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 400px;
+        }
+        .login-right-logo {
+            margin-bottom: 32px;
+        }
+        .login-right-logo img {
+            height: 56px;
+            filter: brightness(0) invert(1);
+            opacity: 0.9;
+        }
+
+        /* Big medical cross illustration */
+        .login-cross-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 32px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 32px;
+            backdrop-filter: blur(10px);
+            animation: floatBadge 4s ease-in-out infinite;
+        }
+        @keyframes floatBadge {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .login-right-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.25;
+            letter-spacing: -0.5px;
+            margin-bottom: 14px;
+        }
+        .login-right-title span { color: #64B5F6; }
+        .login-right-sub {
+            font-size: 15px;
+            color: rgba(255,255,255,0.55);
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* Feature pills */
+        .login-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 32px;
+        }
+        .login-feature-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px;
+            padding: 7px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.75);
+        }
+        .login-feature-pill i { color: #64B5F6; font-size: 13px; }
+
+        /* Responsive */
+        @media (max-width: 991px) {
+            .login-right { display: none; }
+            .login-left { width: 100%; min-height: 100vh; }
+        }
+    </style>
 </head>
-<!--end::Head-->
-<!--begin::Body-->
 <body id="kt_body" class="app-blank">
 
-<div class="d-flex flex-column flex-root">
-    <!--begin::Authentication - Sign-in -->
-    <div class="d-flex flex-column flex-lg-row flex-column-fluid">
-        <!--begin::Body-->
-        <div class="d-flex flex-column flex-lg-row-fluid w-lg-50 p-10 order-2 order-lg-1">
-            <!--begin::Language Switcher-->
-            <div class="d-flex justify-content-end mb-3">
-                {% get_current_language as CURRENT_LANGUAGE %}
-                <div style="position:relative;">
-                    <button type="button" id="lang-toggle-v2"
-                            class="btn btn-icon btn-active-light-primary btn-custom w-auto h-40px px-3 d-flex align-items-center gap-1">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path opacity="0.3" d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20C7.58 20 4 16.42 4 12Z" fill="currentColor"/>
-                            <path d="M12 2C14.76 2 17 6.48 17 12C17 17.52 14.76 22 12 22C9.24 22 7 17.52 7 12C7 6.48 9.24 2 12 2ZM12 4C10.34 4 9 7.58 9 12C9 16.42 10.34 20 12 20C13.66 20 15 16.42 15 12C15 7.58 13.66 4 12 4Z" fill="currentColor"/>
-                            <path opacity="0.3" d="M3 12H21" stroke="currentColor" stroke-width="2"/>
-                        </svg>
-                        <span class="fw-semibold fs-7">{{ CURRENT_LANGUAGE|upper }}</span>
-                    </button>
-                    <div id="lang-menu-v2"
-                         style="display:none; position:absolute; right:0; top:calc(100% + 4px); z-index:1050; min-width:150px; background:#fff; border-radius:8px; box-shadow:0 4px 24px rgba(0,0,0,.12); padding:8px 0;">
-                        {% get_available_languages as LANGUAGES %}
-                        {% for lang_code, lang_name in LANGUAGES %}
-                        <a href="javascript:switchLanguage('{{ lang_code }}')"
-                           style="display:block; padding:8px 16px; text-decoration:none; color:{% if lang_code == CURRENT_LANGUAGE %}#6993FF{% else %}#333{% endif %}; font-weight:{% if lang_code == CURRENT_LANGUAGE %}600{% else %}400{% endif %};">
-                            {{ lang_name }}
-                        </a>
-                        {% endfor %}
+<div class="login-root">
+
+    <!-- ── Left: Login Form ── -->
+    <div class="login-left">
+
+        <!-- Language Switcher -->
+        <div class="login-lang">
+            {% get_current_language as CURRENT_LANGUAGE %}
+            <div style="position:relative;">
+                <button type="button" id="lang-toggle-v2" class="lang-toggle-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                        <path opacity="0.5" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 2c4.42 0 8 3.58 8 8s-3.58 8-8 8-8-3.58-8-8 3.58-8 8-8z" fill="currentColor"/>
+                        <path d="M12 2c2.76 0 5 4.48 5 10s-2.24 10-5 10-5-4.48-5-10S9.24 2 12 2z" fill="currentColor"/>
+                    </svg>
+                    {{ CURRENT_LANGUAGE|upper }}
+                    <i class="la la-angle-down" style="font-size:10px;"></i>
+                </button>
+                <div id="lang-menu-v2" class="lang-menu">
+                    {% get_available_languages as LANGUAGES %}
+                    {% for lang_code, lang_name in LANGUAGES %}
+                    <a href="javascript:switchLanguage('{{ lang_code }}')"
+                       class="{% if lang_code == CURRENT_LANGUAGE %}active{% endif %}">
+                        {{ lang_name }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Card -->
+        <div class="login-card">
+
+            <!-- Brand -->
+            <div class="login-brand">
+                <div class="login-brand-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                        <path d="M10 3H14V10H21V14H14V21H10V14H3V10H10V3Z" fill="white" opacity="0.9"/>
+                    </svg>
+                </div>
+                <div class="login-brand-name">Cabinet<span>Pro</span></div>
+                <div class="login-brand-sub">{% trans "L'application de gestion de cabinet de médecine." %}</div>
+            </div>
+
+            <!-- Error -->
+            {% if form.errors %}
+            <div class="login-error-alert">
+                <i class="la la-exclamation-circle"></i>
+                {% trans "Nom d'utilisateur ou mot de passe incorrect" %}. {% trans "Merci de réessayer" %}.
+            </div>
+            {% endif %}
+
+            <!-- Form -->
+            <form class="form w-100" method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+
+                <!-- Username -->
+                <div class="login-field">
+                    <label>{{ form.username.label }}</label>
+                    <div class="login-input-wrap">
+                        <input type="text"
+                               class="{% if form.errors %}is-invalid{% endif %}"
+                               placeholder="ex: dr.dupont"
+                               autocomplete="off"
+                               id="{{ form.username.id_for_label }}"
+                               maxlength="{{ form.username.max_length }}"
+                               name="{{ form.username.html_name }}"
+                               value="{{ form.username.value|default:"" }}"/>
+                        <i class="la la-user field-icon"></i>
+                        <div class="invalid-feedback">{% trans "Nom d'utilisateur ou mot de passe incorrect" %}. {% trans "Merci de réessayer" %}.</div>
                     </div>
                 </div>
-            </div>
-            <!--end::Language Switcher-->
-            <!--begin::Form-->
-            <div class="d-flex flex-center flex-column flex-lg-row-fluid">
-                <!--begin::Wrapper-->
-                <div class="w-lg-500px p-10">
-                    <!--begin::Form-->
-                    <form class="form w-100" method="post" action="{% url 'login' %}">
-                        {% csrf_token %}
-                        <!--begin::Heading-->
-                        <div class="text-center mb-11">
-                            <!--begin::Title-->
-                            <h1 class="text-dark fw-bolder mb-3">{% trans "Connexion" %}</h1>
-                            <!--end::Title-->
-                        </div>
-                        <!--begin::Heading-->
-                        <!--begin::Login options-->
 
-                        <!--end::Separator-->
-                        <!--begin::Input group=-->
-                        <div class="fv-row mb-8">
-                            <!--begin::Email-->
-                            <div class="form-group">
-                                <input class="form-control bg-transparent  h-auto py-5 px-6 {% if form.errors %}is-invalid{% endif %}"
-                                       type="text"
-                                       required
-                                       placeholder="{{ form.username.label }}"
-                                       autocomplete="off" id="{{ form.username.id_for_label }}"
-                                       maxlength="{{ form.username.max_length }}"
-                                       name="{{ form.username.html_name }}"
-                                       value="{{ form.username.value|default:"" }}">
-                                <div class="invalid-feedback">{% trans "Nom d'utilisateur ou mot de passe incorrect" %}.
-                                    {% trans "Merci de réessayer" %}.
-                                </div>
-                            </div>
-                            <!--end::Email-->
-                        </div>
-                        <!--end::Input group=-->
-                        <div class="fv-row mb-3">
-                            <!--begin::Password-->
-                            <div class="form-group">
-                                <input class="form-control bg-transparent  h-auto py-5 px-6"
-                                       type="password"
-                                       required
-                                       placeholder="{{ form.password.label }}"
-                                       autocomplete="off" id="{{ form.password.id_for_label }}"
-                                       maxlength="{{ form.password.max_length }}"
-                                       name="{{ form.password.html_name }}"
-                                       value="{{ form.password.value|default:"" }}">
-                            </div>
-                            <!--end::Password-->
-                        </div>
-                        <!--end::Input group=-->
-                        <!--begin::Submit button-->
-                        <div class="d-grid mb-10">
-                            <button type="submit" id="kt_sign_in_submit" class="btn btn-primary">
-                                <!--begin::Indicator label-->
-                                <span class="indicator-label">{% trans "Connexion" %}</span>
-                                <!--end::Indicator label-->
-                            </button>
-                        </div>
-                        <!--end::Submit button-->
-
-                    </form>
-                    <!--end::Form-->
+                <!-- Password -->
+                <div class="login-field">
+                    <label>{{ form.password.label }}</label>
+                    <div class="login-input-wrap">
+                        <input type="password"
+                               class="pw-input"
+                               placeholder="••••••••"
+                               autocomplete="off"
+                               id="{{ form.password.id_for_label }}"
+                               maxlength="{{ form.password.max_length }}"
+                               name="{{ form.password.html_name }}"
+                               value="{{ form.password.value|default:"" }}"/>
+                        <i class="la la-lock field-icon"></i>
+                        <button type="button" class="toggle-pw" id="toggle-pw-btn" tabindex="-1">
+                            <i class="la la-eye" id="pw-eye-icon"></i>
+                        </button>
+                    </div>
                 </div>
-                <!--end::Wrapper-->
-            </div>
-            <!--end::Form-->
-            <!--begin::Footer-->
 
-            <!--end::Footer-->
-        </div>
-        <!--end::Body-->
-        <!--begin::Aside-->
-        <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2"
-             style="background-image: url({% static "v2/media/misc/auth-bg.png" %})">
-            <!--begin::Content-->
-            <div class="d-flex flex-column flex-center py-7 py-lg-15 px-5 px-md-15 w-100">
-                <!--begin::Logo-->
-                <a href="#" class="mb-0 mb-lg-12">
-                    <img alt="CabinetPro" src="{% static "media/logos/logo-cabinetpro.png" %}" class="h-60px h-lg-75px"/>
-                </a>
-                <!--end::Logo-->
-                <!--begin::Image-->
-                <img class="d-none d-lg-block mx-auto w-275px w-md-50 w-xl-500px mb-10 mb-lg-20"
-                     src="{% static "media/illustrations/doctor.png" %}" alt=""/>
-                <!--end::Image-->
-                <!--begin::Title-->
-                <h1 class="d-none d-lg-block text-white fs-2qx fw-bolder text-center mb-7">
-                    L'application de gestion de cabinet de médecine.
-                </h1>
-                <!--end::Title-->
-                <!--begin::Text-->
+                <!-- Submit -->
+                <button type="submit" id="kt_sign_in_submit" class="login-submit">
+                    <i class="la la-sign-in-alt" style="font-size:17px;"></i>
+                    {% trans "Connexion" %}
+                </button>
 
-                <!--end::Text-->
-            </div>
-            <!--end::Content-->
+            </form>
         </div>
-        <!--end::Aside-->
     </div>
-    <!--end::Authentication - Sign-in-->
+
+    <!-- ── Right: Branding Panel ── -->
+    <div class="login-right">
+        <div class="login-right-bg"></div>
+        <div class="login-orb login-orb-1"></div>
+        <div class="login-orb login-orb-2"></div>
+
+        <div class="login-right-content">
+            <div class="login-right-logo">
+                <img src="{% static "media/logos/logo-cabinetpro.png" %}" alt="CabinetPro"
+                     onerror="this.style.display='none'"/>
+            </div>
+
+            <div class="login-cross-icon">
+                <svg width="56" height="56" viewBox="0 0 24 24" fill="none">
+                    <path d="M10 3H14V10H21V14H14V21H10V14H3V10H10V3Z" fill="#64B5F6" opacity="0.9"/>
+                </svg>
+            </div>
+
+            <div class="login-right-title">
+                L'application de<br/><span>gestion médicale</span><br/>nouvelle génération.
+            </div>
+            <div class="login-right-sub">
+                Dossiers patients, consultations,<br/>ordonnances et planning — tout en un.
+            </div>
+
+            <div class="login-features">
+                <div class="login-feature-pill">
+                    <i class="la la-user-md"></i> {% trans "Dossier patient" %}
+                </div>
+                <div class="login-feature-pill">
+                    <i class="la la-calendar-check"></i> Planning
+                </div>
+                <div class="login-feature-pill">
+                    <i class="la la-file-prescription"></i> {% trans "Ordonnances" %}
+                </div>
+                <div class="login-feature-pill">
+                    <i class="la la-chart-line"></i> Statistiques
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
-<!--end::Global Config-->
-<!--begin::Global Theme Bundle(used by all pages)-->
-<script type="text/javascript">
-    var HOST_URL = "https://keenthemes.com/metronic/tools/preview";
 
-    var KTAppSettings = {
-        "breakpoints": {"sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1200},
-        "colors": {
-            "theme": {
-                "base": {
-                    "white": "#ffffff",
-                    "primary": "#6993FF",
-                    "secondary": "#E5EAEE",
-                    "success": "#1BC5BD",
-                    "info": "#8950FC",
-                    "warning": "#FFA800",
-                    "danger": "#F64E60",
-                    "light": "#F3F6F9",
-                    "dark": "#212121"
-                },
-                "light": {
-                    "white": "#ffffff",
-                    "primary": "#E1E9FF",
-                    "secondary": "#ECF0F3",
-                    "success": "#C9F7F5",
-                    "info": "#EEE5FF",
-                    "warning": "#FFF4DE",
-                    "danger": "#FFE2E5",
-                    "light": "#F3F6F9",
-                    "dark": "#D6D6E0"
-                },
-                "inverse": {
-                    "white": "#ffffff",
-                    "primary": "#ffffff",
-                    "secondary": "#212121",
-                    "success": "#ffffff",
-                    "info": "#ffffff",
-                    "warning": "#ffffff",
-                    "danger": "#ffffff",
-                    "light": "#464E5F",
-                    "dark": "#ffffff"
-                }
-            },
-            "gray": {
-                "gray-100": "#F3F6F9",
-                "gray-200": "#ECF0F3",
-                "gray-300": "#E5EAEE",
-                "gray-400": "#D6D6E0",
-                "gray-500": "#B5B5C3",
-                "gray-600": "#80808F",
-                "gray-700": "#464E5F",
-                "gray-800": "#1B283F",
-                "gray-900": "#212121"
-            }
-        },
-        "font-family": "Poppins"
-    };
-</script>
-<!--end::Global Theme Bundle-->
 <script src="{% static "plugins/global/plugins.bundle.js" %}"></script>
-<script src="{% static "plugins/custom/prismjs/prismjs.bundle.js" %}"></script>
 <script src="{% static "js/scripts.bundle.js" %}"></script>
-<!--end::Global Theme Bundle-->
-<!--begin::Page Scripts(used by this page)-->
-<script src="{% static "js/pages/custom/login/login.js" %}"></script>
-
 <script>
+// Language switcher
 var langToggle = document.getElementById('lang-toggle-v2');
 var langMenu = document.getElementById('lang-menu-v2');
 langToggle.addEventListener('click', function(e) {
@@ -248,7 +545,34 @@ function switchLanguage(langCode) {
         body: 'language=' + langCode + '&next=' + window.location.pathname
     }).then(() => window.location.reload());
 }
+
+// Password toggle
+var pwInput = document.getElementById('{{ form.password.id_for_label }}');
+var pwBtn = document.getElementById('toggle-pw-btn');
+var pwIcon = document.getElementById('pw-eye-icon');
+if (pwBtn) {
+    pwBtn.addEventListener('click', function() {
+        if (pwInput.type === 'password') {
+            pwInput.type = 'text';
+            pwIcon.className = 'la la-eye-slash';
+        } else {
+            pwInput.type = 'password';
+            pwIcon.className = 'la la-eye';
+        }
+    });
+}
+
+// Input focus — update icon color
+document.querySelectorAll('.login-input-wrap input').forEach(function(inp) {
+    inp.addEventListener('focus', function() {
+        var icon = this.parentElement.querySelector('.field-icon');
+        if (icon) icon.style.color = '#2196F3';
+    });
+    inp.addEventListener('blur', function() {
+        var icon = this.parentElement.querySelector('.field-icon');
+        if (icon) icon.style.color = '';
+    });
+});
 </script>
 </body>
-<!--end::Body-->
 </html>

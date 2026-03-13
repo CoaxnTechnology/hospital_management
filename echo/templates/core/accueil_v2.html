@@ -10,50 +10,40 @@
 {% block header %}
     <div class="toolbar py-3 py-lg-5" id="kt_toolbar">
         <!--begin::Container-->
-        <div id="kt_toolbar_container" class="container-xxl d-flex flex-stack flex-wrap">
+        <div id="kt_toolbar_container" class="container-xxl d-flex align-items-center flex-wrap gap-3">
             <!--begin::Page title-->
-            <div class="page-title d-flex flex-column me-3">
-                <!--begin::Title-->
-                <h1 class="d-flex text-white fw-bold my-1 fs-3">{% trans "Tableau de bord" %}</h1>
-                <!--end::Title-->
+            <div class="page-title me-auto">
+                <h1 class="d-flex text-white fw-bold my-0 fs-3">{% trans "Tableau de bord" %}</h1>
             </div>
             <!--end::Page title-->
-            <div class=" py-3 py-md-1">
-                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                    <div class="btn-group btn-group-sm me-2" role="group" aria-label="First group">
-                        <button id="btn_jour_precedent" type="button" class="btn btn-light"
-                                aria-label="prev"><span class="fc-icon fc-icon-chevron-left"></span>
-                        </button>
-                        <button id="btn_jour_suivant" type="button" class="btn btn-light"
-                                aria-label="next"><span class="fc-icon fc-icon-chevron-right"></span>
-                        </button>
-                    </div>
-                    <div class="btn-group btn-group-sm me-2" role="group" aria-label="Second group">
-                        <button id="btn_aujourdhui" type="button" class="btn btn-primary">
-                            {% trans "Aujourd'hui" %}
-                        </button>
-                    </div>
-                    <div class="btn-group btn-group-sm me-2 col-lg-3" role="group" aria-label="Third group">
-                        <div class="input-group date">
-                            <input type="text" class="form-control form-control-sm" readonly="readonly" value=""
-                                   id="date_courante_picker"/>
-                            <span class="input-group-text"><i class="la la-calendar"></i></span>
-                        </div>
-                    </div>
-
-                    <div class="btn-group col-lg-4" role="group" aria-label="Third group">
-                        <select class="form-select form-select-sm form-select-solid" data-kt-select2="true" id="praticien">
-                            <option value="-1">{% trans "Tous les praticiens" %}</option>
-                            {% for p in praticiens %}
-                                <option value="{{ p.id }}"
-                                        {% if user.profil.groupe == 'Médecin' and user.profil.id == p.id %}selected{% endif %}>
-                                    {{ p.nom }}
-                                </option>
-                            {% endfor %}
-                        </select>
-                    </div>
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <div class="btn-group btn-group-sm" role="group">
+                    <button id="btn_jour_precedent" type="button" class="btn btn-light"
+                            aria-label="prev"><span class="fc-icon fc-icon-chevron-left"></span>
+                    </button>
+                    <button id="btn_aujourdhui" type="button" class="btn btn-primary px-4">
+                        {% trans "Aujourd'hui" %}
+                    </button>
+                    <button id="btn_jour_suivant" type="button" class="btn btn-light"
+                            aria-label="next"><span class="fc-icon fc-icon-chevron-right"></span>
+                    </button>
                 </div>
-
+                <div class="input-group input-group-sm" style="width:160px">
+                    <input type="text" class="form-control form-control-sm" readonly="readonly" value=""
+                           id="date_courante_picker"/>
+                    <span class="input-group-text"><i class="la la-calendar"></i></span>
+                </div>
+                <div style="min-width:200px">
+                    <select class="form-select form-select-sm form-select-solid" data-kt-select2="true" id="praticien">
+                        <option value="-1">{% trans "Tous les praticiens" %}</option>
+                        {% for p in praticiens %}
+                            <option value="{{ p.id }}"
+                                    {% if user.profil.groupe == 'Médecin' and user.profil.id == p.id %}selected{% endif %}>
+                                {{ p.nom }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
         </div>
         <!--end::Container-->
@@ -61,10 +51,49 @@
 {% endblock %}
 
 {% block content %}
+    <!-- KPI Summary Cards -->
+    <div class="kpi-row mb-6">
+        <a href="#liste_complete" class="kpi-card kpi-primary" id="kpi_rdvs" data-bs-toggle="tab" onclick="document.getElementById('link_rdv_jour').click()">
+            <div class="kpi-icon"><i class="la la-calendar-check fs-2"></i></div>
+            <div class="kpi-body">
+                <div class="kpi-value" id="kpi_nb_rdvs">0</div>
+                <div class="kpi-label">{% trans "RDV du jour" %}</div>
+            </div>
+        </a>
+        <a href="#liste_salle_attente" class="kpi-card kpi-warning" id="kpi_attente" data-bs-toggle="tab" onclick="document.getElementById('link_salle').click()">
+            <div class="kpi-icon"><i class="la la-user-clock fs-2"></i></div>
+            <div class="kpi-body">
+                <div class="kpi-value" id="kpi_nb_attente">0</div>
+                <div class="kpi-label">{% trans "Salle d'attente" %}</div>
+            </div>
+        </a>
+        <a href="#liste_en_consultation" class="kpi-card kpi-purple" data-bs-toggle="tab" onclick="document.getElementById('link_en_consultation').click()">
+            <div class="kpi-icon"><i class="la la-first-aid fs-2"></i></div>
+            <div class="kpi-body">
+                <div class="kpi-value" id="kpi_nb_en_cours">0</div>
+                <div class="kpi-label">{% trans "En examen" %}</div>
+            </div>
+        </a>
+        <a href="#liste_consultations" class="kpi-card kpi-success" data-bs-toggle="tab" onclick="document.getElementById('link_consultations').click()">
+            <div class="kpi-icon"><i class="la la-user-check fs-2"></i></div>
+            <div class="kpi-body">
+                <div class="kpi-value" id="kpi_nb_realises">0</div>
+                <div class="kpi-label">{% trans "Réalisés" %}</div>
+            </div>
+        </a>
+        <a href="#liste_modifies_annules" class="kpi-card kpi-secondary" data-bs-toggle="tab" onclick="document.getElementById('link_modifications').click()">
+            <div class="kpi-icon"><i class="la la-edit fs-2"></i></div>
+            <div class="kpi-body">
+                <div class="kpi-value" id="kpi_nb_modifies_card">0</div>
+                <div class="kpi-label">{% trans "Modifications" %}</div>
+            </div>
+        </a>
+    </div>
+
     <div class="row">
         <div class="col-lg-12">
             <div class="card card-custom gutter-bs">
-                <div class="card-header card-header-tabs-line">
+                <div class="card-header card-header-tabs-line d-none">
                     <div class="card-toolbar py-4">
                         <div class="">
                             <ul class="nav nav-pills nav-tabs-bold" role="tablist">
@@ -85,7 +114,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a id="link_salle" class="nav-link px-3 py-3 mx-xs-1 mx-md-2" data-bs-toggle="tab"
+                                    <a id="link_en_consultation" class="nav-link px-3 py-3 mx-xs-1 mx-md-2" data-bs-toggle="tab"
                                        href="#liste_en_consultation">
                                         <span class="nav-text font-weight-bold">{% trans "En examen" %}</span>
                                         <span id="nb_consultations_en_cours" class="badge badge-square badge-light-primary ms-2">0</span>

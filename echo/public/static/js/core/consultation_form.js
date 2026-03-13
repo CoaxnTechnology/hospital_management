@@ -688,7 +688,7 @@ function demarrerImpression() {
 $(document).ready(function () {
 
     if (doublon_url != null)  {
-        const _sm = (typeof SWAL_MESSAGES !== \'undefined\') ? SWAL_MESSAGES : {};
+        const _sm = (typeof SWAL_MESSAGES !== 'undefined') ? SWAL_MESSAGES : {};
         swal.fire({
             title: _sm.message_important || "Message important",
             text: _sm.consultation_doublon || "Une autre consultation du même patient avec le même motif existe, souhaitez vous l'afficher avant d'en créer une nouvelle?",

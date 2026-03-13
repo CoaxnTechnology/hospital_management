@@ -1,3 +1,24 @@
+/**
+ * showToast — Toastify wrapper with graceful fallback to toastr/console
+ * type: 'success' | 'error' | 'info' | 'warning'
+ */
+window.showToast = function(msg, type) {
+    if (typeof Toastify !== 'undefined') {
+        Toastify({
+            text: msg,
+            duration: 3000,
+            className: type === 'error' ? 'toast-error' : type === 'success' ? 'toast-success' : '',
+            gravity: 'top',
+            position: 'right'
+        }).showToast();
+    } else if (typeof toastr !== 'undefined') {
+        var method = ['success','error','info','warning'].includes(type) ? type : 'info';
+        toastr[method](msg);
+    } else {
+        console.log('[showToast] ' + (type || 'info') + ': ' + msg);
+    }
+};
+
 toastr.options = {
     "closeButton": false,
     "debug": false,

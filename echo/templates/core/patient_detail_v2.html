@@ -9,11 +9,11 @@
         }
 
         .tagify .tagify__tag.tagify--notAllowed {
-            background-color: #ECF0F3;
+            background-color: var(--hp-input-bg);
         }
 
         .tagify .tagify__tag.tagify--notAllowed div .tagify__tag-text {
-            color: #80808F;
+            color: var(--hp-text-muted);
             font-weight: 400;
         }
 
@@ -22,7 +22,7 @@
 {% endblock %}
 
 {% block header %}
-    {% include "core/basic_header.html" with module="" %}
+    {% include "core/basic_header.html" with module=object.nom_complet %}
 {% endblock %}
 
 {% block content %}
@@ -77,6 +77,8 @@
                                         class="bi bi-briefcase text-primary"></i> &nbsp;&nbsp;{{ object.profession }}</span>{% endif %}
                                 {% if object.mutuelle %}
                                     <span class="badge badge-light-primary me-2"><i class="bi bi-plus text-primary"></i> &nbsp;&nbsp;{{ object.designation }}</span>{% endif %}
+                                {% if object.poids %}<span class="badge badge-light-info me-2"><i class="bi bi-activity text-info"></i> &nbsp;&nbsp;{{ object.poids }} kg{% if object.imc %} · IMC {{ object.imc }}{% endif %}</span>{% endif %}
+                                {% if patient.grossesse_encours %}<span class="badge badge-light-success me-2"><i class="bi bi-heart text-success"></i> &nbsp;&nbsp;{% trans "Grossesse en cours" %}</span>{% endif %}
                             </div>
                             <!--end::Info-->
                         </div>
@@ -278,9 +280,9 @@
                                     </div>
                                 {% endif %}
                             </div>
-                            <div class="d-flex mt-6">
+                            <div class="d-flex flex-wrap gap-2 mt-6">
                             <span>
-                                   <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" data-kt-menu-trigger="click"
+                                   <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary" data-kt-menu-trigger="click"
                                       data-kt-menu-placement="bottom-end">
                                        {% trans "Biologie" %}
                                    </a>
@@ -320,19 +322,19 @@
                                        <!--end::Form-->
                                    </div>
                                </span>
-                                <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" id="ouvrir_liste_ordonnances">
+                                <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary" id="ouvrir_liste_ordonnances">
                                     {% trans "Ordonnances" %}
                                 </a>
-                                <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" id="ouvrir_liste_certificats">
+                                <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary" id="ouvrir_liste_certificats">
                                     {% trans "Courriers" %}
                                 </a>
-                                <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" onclick="priseRdv()">
+                                <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary" onclick="priseRdv()">
                                     {% trans "Rendez-vous" %}
                                 </a>
-                                <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" id="ouvrir_historique_consultations">
+                                <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary" id="ouvrir_historique_consultations">
                                     {% trans "Historique" %}
                                 </a>
-                                <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary me-2" id="ouvrir_antecedents">
+                                <a href="#" class="btn btn-sm btn-outline btn-outline-primary btn-active-light-primary" id="ouvrir_antecedents">
                                     {% trans "Antécédents" %}
                                 </a>
                             </div>

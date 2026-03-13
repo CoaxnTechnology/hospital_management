@@ -6826,3 +6826,9 @@ msgstr "Important message"
 
 msgid "Nom du médecin"
 msgstr "Doctor's name"
+
+msgid "Mutuelles"
+msgstr "Mutuelles"
+
+msgid "PMA"
+msgstr "PMA"

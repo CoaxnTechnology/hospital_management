@@ -27,6 +27,7 @@ const graphs = {
 };
 
 function updateGraph(graph, points) {
+    const isDark = document.documentElement.getAttribute('data-hp-theme') === 'dark';
     let options = {
         xaxes: [
             {position: 'bottom', axisLabel: 'SA'},
@@ -39,8 +40,12 @@ function updateGraph(graph, points) {
             show: true,
             noColumns: 1,
             backgroundOpacity: 0.5,
-            backgroundColor: 'green',
+            backgroundColor: isDark ? 'rgba(26,29,43,0.85)' : 'rgba(255,255,255,0.85)',
             container: null
+        },
+        grid: {
+            color: isDark ? 'rgba(255,255,255,0.15)' : '#aaa',
+            backgroundColor: isDark ? '#1A1D2B' : '#fff',
         }
     };
 
@@ -50,20 +55,20 @@ function updateGraph(graph, points) {
         {
             label: "3ème",
             data: graphs[graph]['p3'],
-            color: '#29b6f6',
+            color: isDark ? '#60B4FF' : '#29b6f6',
         },
         {
             label: "97ème",
             data: graphs[graph]['p97'],
-            color: '#29b6f6',
+            color: isDark ? '#60B4FF' : '#29b6f6',
         },
         {
             label: "50ème",
             data: graphs[graph]['p50'],
-            color: '#78002e'
+            color: isDark ? '#F87171' : '#78002e'
         }
     ];
-    const fColors = ["#80e27e", "#ffad42", "#7953d2"];
+    const fColors = isDark ? ["#2DD4BF", "#FB923C", "#A78BFA"] : ["#80e27e", "#ffad42", "#7953d2"];
     let i=0;
     _.each(points, (p, k) => data.push({
         label: k, data: p, color: fColors[i],

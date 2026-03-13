@@ -6467,3 +6467,12 @@ msgstr "رسالة مهمة"
 
 msgid "Nom du médecin"
 msgstr "اسم الطبيب"
+
+msgid "Mutuelles"
+msgstr "التأمينات"
+
+msgid "PMA"
+msgstr "PMA"
+
+msgid "Dashboard"
+msgstr "لوحة التحكم"

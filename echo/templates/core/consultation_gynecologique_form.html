@@ -62,7 +62,8 @@
                             <div class="form-group col-4">
                                 <label class="form-label">{% trans "Motif de consultation" %}</label>
                                 {% render_field form.motif_consultation data-form="consultation_gynecologique" data-champ="motif_consultation" class+="form-select form-select-solid form-select-sm" %}
-                                {% render_field form.motif_autre class+="form-control form-control-solid form-control-sm" placeholder="{% trans 'Autre motif' %}" %}
+                                {% trans 'Autre motif' as ph_autre_motif %}
+                                {% render_field form.motif_autre class+="form-control form-control-solid form-control-sm" placeholder=ph_autre_motif %}
                             </div>
                             <div class="form-group col-3">
                                 <label class="form-label">{{ form.praticien.label }}</label>

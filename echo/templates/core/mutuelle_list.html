@@ -15,7 +15,7 @@
 
 {% endblock %}
 {% block header %}
-    {% include "core/basic_header.html" with module="" %}
+    {% include "core/basic_header.html" with module="Mutuelle" %}
 {% endblock %}
 
 {% block content %}
@@ -120,12 +120,13 @@
     <script src="{% static "js/core/mutuelle_list.js" %}"></script>
     <script>
         // Auto-activate tab based on URL hash (#bordereau or #mutuelle)
-        document.addEventListener('DOMContentLoaded', function() {
+        function activateTabFromHash() {
             var hash = window.location.hash;
-            if (hash === '#bordereau') {
-                var tab = document.querySelector('a[href="#bordereau"]');
-                if (tab) bootstrap.Tab.getOrCreateInstance(tab).show();
-            }
-        });
+            var target = (hash === '#bordereau') ? '#bordereau' : '#mutuelle';
+            var tab = document.querySelector('a[href="' + target + '"]');
+            if (tab) bootstrap.Tab.getOrCreateInstance(tab).show();
+        }
+        document.addEventListener('DOMContentLoaded', activateTabFromHash);
+        window.addEventListener('hashchange', activateTabFromHash);
     </script>
 {% endblock %}

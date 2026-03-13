@@ -27,14 +27,19 @@
     <link href="{% static "css/themes/layout/brand/dark.css" %}" rel="stylesheet" type="text/css"/>
     <link href="{% static "css/themes/layout/aside/dark.css" %}" rel="stylesheet" type="text/css"/>
     <!--end::Layout Themes-->
-    <link rel="shortcut icon" href="{% static "media/logos/favicon.ico" %}"/>
+    
     {% block styles %}
     {% endblock %}
+    <!-- Toastify -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+    <!-- Hospital Theme -->
+    <link href="{% static 'css/core/hospital-theme.css' %}" rel="stylesheet" />
 </head>
 <!--end::Head-->
 <!--begin::Body-->
 <body id="kt_body"
       class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed page-loading">
+<script>(function(){if(localStorage.getItem('hp-dark')==='1')document.documentElement.setAttribute('data-hp-theme','dark');})();</script>
 <!--begin::Main-->
 <!--begin::Header Mobile-->
 <div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
@@ -931,6 +936,36 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script>
+    window.showToast = window.showToast || function(msg, type) {
+        Toastify({
+            text: msg,
+            duration: 3000,
+            className: type === 'error' ? 'toast-error' : type === 'success' ? 'toast-success' : '',
+            gravity: 'top',
+            position: 'right'
+        }).showToast();
+    };
+    // Dark mode apply
+    (function(){
+        var html = document.documentElement;
+        var btn = document.getElementById('dark-mode-toggle');
+        function applyTheme(dark){
+            html[dark?'setAttribute':'removeAttribute']('data-hp-theme','dark');
+            var moon = btn && btn.querySelector('.dm-icon-moon');
+            var sun  = btn && btn.querySelector('.dm-icon-sun');
+            if(moon) moon.hidden = dark;
+            if(sun)  sun.hidden  = !dark;
+        }
+        applyTheme(localStorage.getItem('hp-dark')==='1');
+        if(btn) btn.addEventListener('click',function(){
+            var dark = html.getAttribute('data-hp-theme')!=='dark';
+            localStorage.setItem('hp-dark', dark?'1':'0');
+            applyTheme(dark);
+        });
+    })();
 </script>
 </body>
 <!--end::Body-->

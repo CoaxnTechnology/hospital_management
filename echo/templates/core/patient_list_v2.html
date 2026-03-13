@@ -4,7 +4,7 @@
 {% load widget_tweaks %}
 
 {% block header %}
-    {% include "core/basic_header.html" with module="" %}
+    {% include "core/basic_header.html" with module="Patients" %}
 {% endblock %}
 
 {% block styles %}
@@ -112,7 +112,7 @@
 
                 <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
                     <th>{% trans "IPP" %}</th>
-                    <th>{% trans "Nom de naissance" %}</th>
+                    <th>{% trans "Patient" %}</th>
                     <th>{% trans "Nom marital" %}</th>
                     <th>{% trans "Prénom" %}</th>
                     <th>{% trans "Date de naissance" %}</th>

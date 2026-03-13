@@ -10,14 +10,14 @@
             <!--begin::Page title-->
             <div class="page-title d-flex flex-column me-3">
                 <!--begin::Title-->
-                <h1 class="d-flex text-white fw-bold my-1 fs-3">{% trans "Utilisateurs" %}</h1>
+                <h1 class="d-flex fw-bold my-1 fs-3">{% trans "Utilisateurs" %}</h1>
                 <!--end::Title-->
             </div>
             <!--end::Page title-->
             <!--begin::{% trans "Actions" %}-->
             <div class="d-flex align-items-center py-3 py-md-1">
                 <!--begin::Button-->
-                <a href="/utilisateurs/ajouter" data-theme="light" class="btn btn-bg-white btn-active-color-primary">
+                <a href="/utilisateurs/ajouter" class="btn btn-bg-white btn-active-color-primary">
                     {% trans "Ajouter un utilisateur" %}
                 </a>
                 <!--end::Button-->
@@ -30,9 +30,9 @@
 
 {% block content %}
 
-    <div class="row">
+    <div class="users-page row g-4">
         {% for user in object_list %}
-            <div class="col-3">
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-3" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:0 }}0">
                 <!--begin::Card-->
                 <div class="card">
                     <!--begin::Body-->
@@ -42,20 +42,13 @@
                         <div class="d-flex align-items-center mb-7">
                             <!--begin::Pic-->
                             <div class="flex-shrink-0 me-4 mt-lg-0 mt-3">
-                                <div class="symbol symbol-lg-75 d-none">
-                                    <img alt="Pic" src="{% static "media/users/300_10.jpg" %}"/>
-                                </div>
-                                <div class="symbol symbol-lg-75 symbol-primary">
-                                    <span class="symbol-label font-size-h3 font-weight-boldest">{{ user.initiales }}</span>
-                                </div>
+                                <div class="user-card-avatar">{{ user.initiales }}</div>
                             </div>
                             <!--end::Pic-->
                             <!--begin::Title-->
                             <div class="d-flex flex-column">
-                                <span class="text-dark font-weight-bold text-hover-primary font-size-h4 mb-0">
-                                    {{ user.titre_nom }}
-                                </span>
-                                <span class="text-muted font-weight-bold">{{ user.groupe|capfirst }}</span>
+                                <span class="user-card-name mb-0">{{ user.titre_nom }}</span>
+                                <span class="user-card-role">{{ user.groupe|capfirst }}</span>
                             </div>
                             <!--end::Title-->
                         </div>

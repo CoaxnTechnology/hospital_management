@@ -53,7 +53,7 @@ class Accueil(PermissionRequiredMixin, TemplateView):
         now = datetime.now()
         periode_debut = now - timedelta(days=10)
         periode_debut = periode_debut.replace(hour=0, minute=0)
-        periode_fin = now + timedelta(days=10)
+        periode_fin = now + timedelta(days=60)
         periode_fin = periode_fin.replace(hour=23, minute=59)
         jour_min = now.replace(hour=0, minute=0)
         jour_max = now.replace(hour=23, minute=59)

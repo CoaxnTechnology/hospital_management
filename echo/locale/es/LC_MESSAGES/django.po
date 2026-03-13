@@ -6478,3 +6478,12 @@ msgstr "Mensaje importante"
 
 msgid "Nom du médecin"
 msgstr "Nombre del médico"
+
+msgid "Mutuelles"
+msgstr "Mutuelles"
+
+msgid "PMA"
+msgstr "PMA"
+
+msgid "Dashboard"
+msgstr "Dashboard"

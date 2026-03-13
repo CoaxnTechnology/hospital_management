@@ -67,10 +67,11 @@
                             <div id="sac_gest_dim_form" class="mb-3 col-12 col-lg-3">
                                 <label class="form-label">{% trans "Dimensions" %}</label>
                                 <div class="input-group input-group-sm input-group-solid">
-                                    {% render_field form.sac_gestationnel_largeur class+="form-control dorm-control-solid form-control-sm" placeholder="{% trans 'Larg.' %}" %}
-                                    {% render_field form.sac_gestationnel_longueur class+="form-control dorm-control-solid form-control-sm" placeholder="{% trans 'Long.' %}" %}
-                                    {% render_field form.sac_gestationnel_hauteur class+="form-control dorm-control-solid form-control-sm" placeholder="{% trans 'Haut.' %}" %}
-                                    {% render_field form.sac_gestationnel_diametre class+="form-control dorm-control-solid form-control-sm" placeholder="{% trans 'Diam.' %}" %}
+                                    {% trans 'Larg.' as ph_larg %}{% trans 'Long.' as ph_long %}{% trans 'Haut.' as ph_haut %}{% trans 'Diam.' as ph_diam %}
+                                    {% render_field form.sac_gestationnel_largeur class+="form-control dorm-control-solid form-control-sm" placeholder=ph_larg %}
+                                    {% render_field form.sac_gestationnel_longueur class+="form-control dorm-control-solid form-control-sm" placeholder=ph_long %}
+                                    {% render_field form.sac_gestationnel_hauteur class+="form-control dorm-control-solid form-control-sm" placeholder=ph_haut %}
+                                    {% render_field form.sac_gestationnel_diametre class+="form-control dorm-control-solid form-control-sm" placeholder=ph_diam %}
                                 </div>
                             </div>
                             <div class="mb-3 col-12 col-lg-3">

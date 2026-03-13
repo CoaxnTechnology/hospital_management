@@ -16,7 +16,7 @@
 		<meta property="og:url" content="" />
 		<meta property="og:site_name" content="" />
 		<link rel="canonical" href="" />
-		<link rel="shortcut icon" href="{% static "media/logos/favicon.ico" %}" />
+		
 		<!--begin::Fonts(mandatory for all pages)-->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
 		<!--end::Fonts-->
@@ -29,199 +29,21 @@
 		<link href="{% static "v2/css/style.bundle.css" %}" rel="stylesheet" type="text/css" />
         {% block styles %}
         {% endblock %}
-        <!--begin::Aside Custom Styles-->
-        <style>
-            /* Global font size increase (+3px from Metronic default 13px) */
-            html, body { font-size: 14px !important; }
-
-            /* Replace header-bg.jpg with gradient, same area (top 530px) */
-            body {
-                background-image: linear-gradient(#25D366, #25D366) !important;
-                background-size: 100% 530px !important;
-                background-repeat: no-repeat !important;
-            }
-
-
-            /* Sidebar layout */
-            #kt_aside {
-                width: 260px;
-                min-width: 260px;
-                height: 100vh;
-                position: sticky;
-                top: 0;
-                background: #1e1e2d;
-                display: flex;
-                flex-direction: column;
-                flex-shrink: 0;
-                transition: width 0.3s ease, min-width 0.3s ease;
-                overflow: hidden;
-                z-index: 98;
-                will-change: width;
-                -webkit-backface-visibility: hidden;
-                backface-visibility: hidden;
-            }
-            body.aside-collapsed #kt_aside {
-                width: 0;
-                min-width: 0;
-            }
-            #kt_wrapper {
-                flex: 1;
-                min-width: 0;
-                overflow: hidden;
-            }
-            /* Aside logo/brand area */
-            #kt_aside_logo {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 16px 20px;
-                min-height: 65px;
-                border-bottom: 1px solid rgba(255,255,255,0.07);
-            }
-            #kt_aside_logo img { max-height: 90px; max-width: 180px; object-fit: contain; }
-            #kt_aside_toggle {
-                color: #6d6d80;
-                cursor: pointer;
-                flex-shrink: 0;
-            }
-            #kt_aside_toggle:hover { color: #fff; }
-            /* Aside menu scrollable area */
-            #kt_aside_menu_wrapper {
-                flex: 1;
-                overflow-y: auto;
-                overflow-x: hidden;
-                padding: 8px 0;
-                scrollbar-width: thin;
-                scrollbar-color: rgba(255,255,255,0.1) transparent;
-            }
-            /* Menu items */
-            #kt_aside_menu .menu-item > .menu-link {
-                display: flex;
-                align-items: center;
-                padding: 9px 16px;
-                margin: 2px 10px;
-                border-radius: 8px;
-                color: #9d9da6;
-                text-decoration: none;
-                white-space: nowrap;
-                cursor: pointer;
-                transition: background 0.15s, color 0.15s;
-            }
-            #kt_aside_menu .menu-item > .menu-link:hover,
-            #kt_aside_menu .menu-item.here > .menu-link {
-                background: rgba(255,255,255,0.1);
-                color: #ffffff;
-            }
-            #kt_aside_menu .menu-icon {
-                margin-right: 10px;
-                flex-shrink: 0;
-                color: inherit;
-            }
-            #kt_aside_menu .menu-title {
-                font-size: 13px;
-                font-weight: 600;
-                color: inherit;
-                flex: 1;
-            }
-            #kt_aside_menu .menu-arrow {
-                flex-shrink: 0;
-                display: inline-block;
-                width: 10px;
-                height: 10px;
-                border-right: 2px solid currentColor;
-                border-bottom: 2px solid currentColor;
-                transform: rotate(-45deg);
-                transition: transform 0.2s;
-                margin-left: 4px;
-            }
-            #kt_aside_menu .menu-accordion.show > .menu-link .menu-arrow {
-                transform: rotate(45deg);
-            }
-            /* Sub-menu */
-            #kt_aside_menu .menu-sub-accordion {
-                display: none;
-                padding-left: 5px;
-            }
-            #kt_aside_menu .menu-accordion.show > .menu-sub-accordion {
-                display: block;
-            }
-            #kt_aside_menu .menu-sub-accordion .menu-item > .menu-link {
-                padding: 7px 16px 7px 36px;
-            }
-            #kt_aside_menu .menu-bullet {
-                margin-right: 8px;
-                flex-shrink: 0;
-            }
-            #kt_aside_menu .bullet-dot {
-                display: inline-block;
-                width: 5px;
-                height: 5px;
-                border-radius: 50%;
-                background: currentColor;
-                opacity: 0.5;
-            }
-            #kt_aside_menu .menu-item.here .bullet-dot { opacity: 1; }
-            /* Wrapper adjusts when sidebar collapses */
-            #kt_wrapper { transition: padding-left 0.3s ease; }
-            #kt_content_container { padding-top: 10px !important; }
-            /* Hamburger toggle - only visible when sidebar is collapsed */
-            #kt_aside_desktop_toggle { display: none; }
-            body.aside-collapsed #kt_aside_desktop_toggle { display: flex; align-items: center; margin-right: 12px; }
-            /* Hide Metronic's full-page drawer overlay by default */
-            .drawer-overlay { display: none !important; }
-            .drawer-overlay.active { display: block !important; }
-
-            /* ── Responsive ── */
-            /* Tablet & mobile: hide sidebar by default, show as drawer */
-            @media (max-width: 991.98px) {
-                #kt_aside {
-                    position: fixed;
-                    top: 0; left: 0; bottom: 0;
-                    width: 260px !important;
-                    min-width: 260px !important;
-                    z-index: 110;
-                    transform: translateX(-100%);
-                    transition: transform 0.3s ease;
-                }
-                #kt_aside.drawer-on {
-                    transform: translateX(0);
-                }
-                #kt_wrapper {
-                    padding-left: 0 !important;
-                    width: 100% !important;
-                }
-                /* Overlay behind open drawer */
-                .drawer-overlay {
-                    display: none;
-                    position: fixed;
-                    inset: 0;
-                    background: rgba(0,0,0,0.4);
-                    z-index: 109;
-                }
-                .drawer-overlay.active { display: block; }
-                /* Smaller logo on mobile */
-                .header-logo img { height: 45px !important; }
-                /* Reduce toolbar padding */
-                .toolbar { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
-                #kt_content_container { padding-left: 12px !important; padding-right: 12px !important; }
-            }
-
-            @media (max-width: 575.98px) {
-                .header-logo img { height: 36px !important; }
-                .container-xxl { padding-left: 10px !important; padding-right: 10px !important; }
-                body { background-size: 100% 200px !important; }
-            }
-        </style>
-        <!--end::Aside Custom Styles-->
+        <!--begin::Hospital Theme & Animations-->
+        <!-- AOS Animation -->
+        <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+        <!-- Toastify -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+        <!-- Hospital Theme -->
+        <link href="{% static 'css/core/hospital-theme.css' %}" rel="stylesheet" />
+        <!--end::Hospital Theme & Animations-->
 		<!--end::Global Stylesheets Bundle-->
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->
 	<body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled aside-enabled aside-fixed">
-		<!--begin::Theme mode setup on page load-->
-		<script>var defaultThemeMode = "light"; var themeMode; if ( document.documentElement ) { if ( document.documentElement.hasAttribute("data-theme-mode")) { themeMode = document.documentElement.getAttribute("data-theme-mode"); } else { if ( localStorage.getItem("data-theme") !== null ) { themeMode = localStorage.getItem("data-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-theme", themeMode); }</script>
-		<!--end::Theme mode setup on page load-->
-		<!--begin::Main-->
+		<script>(function(){if(localStorage.getItem('hp-dark')==='1'){document.documentElement.setAttribute('data-hp-theme','dark');document.documentElement.setAttribute('data-theme','dark');}})();</script>
+			<!--begin::Main-->
 		<!--begin::Root-->
 		<div class="d-flex flex-column flex-root">
 			<!--begin::Page-->
@@ -230,8 +52,13 @@
 				<div id="kt_aside" class="aside aside-dark aside-hoverable">
 					<!--begin::Brand-->
 					<div class="aside-logo flex-column-auto" id="kt_aside_logo">
-						<a href="/" class="d-flex align-items-center text-decoration-none">
-							<span style="color:#9d9da6; font-size:25px; font-weight:600; white-space:nowrap;">CabinetPro</span>
+						<a href="/" class="d-flex align-items-center text-decoration-none gap-2">
+							<div class="sidebar-brand-icon">
+								<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+									<path d="M19 9h-4V5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v4H5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h4v4a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-4h4a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1z"/>
+								</svg>
+							</div>
+							<span class="sidebar-brand-text">CabinetPro</span>
 						</a>
 						<div id="kt_aside_toggle" class="btn btn-icon w-auto px-0 aside-toggle ms-2" onclick="toggleAside()" title="Toggle sidebar">
 							<span class="svg-icon svg-icon-1">
@@ -247,6 +74,7 @@
 					<div class="aside-menu flex-column-fluid">
 						<div class="hover-scroll-overlay-y my-5 my-lg-5" id="kt_aside_menu_wrapper" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_aside_logo, #kt_aside_footer" data-kt-scroll-wrappers="#kt_aside_menu, #kt_wrapper" data-kt-scroll-offset="0">
 							<div id="kt_aside_menu" class="menu menu-column">
+								<div class="menu-section-label">{% trans "Menu" %}</div>
 								<!--begin:Menu item - Tableau de bord-->
 								<div class="menu-item {% if '/accueil' in request.path or '/' == request.path %}here{% endif %}">
 									<a class="menu-link" href="/accueil">
@@ -282,14 +110,14 @@
 									<div class="menu-sub menu-sub-accordion">
 										<div class="menu-item {% if 'consultation' in request.path %}here{% endif %}">
 											<a class="menu-link" href="/rapports/consultation/">
-												<span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+												<span class="menu-icon"><i class="la la-chart-bar fs-5"></i></span>
 												<span class="menu-title">{% trans "Consultations" %}</span>
 											</a>
 										</div>
 										{% if user.profil.compte.is_gyneco %}
 										<div class="menu-item {% if 'accoucher_ent' in request.path %}here{% endif %}">
 											<a class="menu-link" href="/rapports/accoucher_ent/">
-												<span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+												<span class="menu-icon"><i class="la la-baby fs-5"></i></span>
 												<span class="menu-title">{% trans "Accouchements previstos" %}</span>
 											</a>
 										</div>
@@ -307,19 +135,20 @@
 									<div class="menu-sub menu-sub-accordion">
 										<div class="menu-item">
 											<a class="menu-link {% if '/mutuelle' in request.path %}active{% endif %}" href="/mutuelle/#mutuelle">
-												<span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+												<span class="menu-icon"><i class="la la-list fs-5"></i></span>
 												<span class="menu-title">{% trans "Liste des règlements" %}</span>
 											</a>
 										</div>
 										<div class="menu-item">
 											<a class="menu-link {% if '/mutuelle' in request.path %}active{% endif %}" href="/mutuelle/#bordereau">
-												<span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+												<span class="menu-icon"><i class="la la-file-alt fs-5"></i></span>
 												<span class="menu-title">{% trans "Liste des bordereaux" %}</span>
 											</a>
 										</div>
 									</div>
 								</div>
 								<!--end:Menu item-->
+								<div class="menu-section-label">{% trans "Administration" %}</div>
 								<!--begin:Menu item - Administration-->
 								<div data-aside-accordion class="menu-item menu-accordion {% if '/utilisateurs' in request.path or '/parametres' in request.path %}here show{% endif %}">
 									<span class="menu-link">
@@ -330,13 +159,13 @@
 									<div class="menu-sub menu-sub-accordion">
 										<div class="menu-item {% if '/utilisateurs' in request.path %}here{% endif %}">
 											<a class="menu-link" href="/utilisateurs">
-												<span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+												<span class="menu-icon"><i class="la la-user fs-5"></i></span>
 												<span class="menu-title">{% trans "Utilisateurs" %}</span>
 											</a>
 										</div>
 										<div class="menu-item {% if '/parametres' in request.path %}here{% endif %}">
 											<a class="menu-link" href="/parametres/{{ user.profil.compte.parametrescompte.id }}">
-												<span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
+												<span class="menu-icon"><i class="la la-cog fs-5"></i></span>
 												<span class="menu-title">{% trans "Paramètres" %}</span>
 											</a>
 										</div>
@@ -349,7 +178,21 @@
 						</div>
 					</div>
 					<!--end::Aside menu-->
-					<div class="aside-footer flex-column-auto pb-5 px-5" id="kt_aside_footer"></div>
+					<div class="aside-footer flex-column-auto" id="kt_aside_footer">
+						<div class="sidebar-user-footer">
+							<div class="sidebar-user-avatar">{{ user.profil.initiales }}</div>
+							<div class="sidebar-user-info">
+								<div class="sidebar-user-name">{{ user.profil.titre_nom }}</div>
+								<div class="sidebar-user-role">{{ user.profil.groupe }}</div>
+							</div>
+							<a href="/accounts/logout" class="sidebar-logout-btn" title="{% trans 'Déconnexion' %}">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+									<path opacity="0.3" d="M4 4h11v4h2V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h11v-4h-2v4H4V4z"/>
+									<path d="M20.3 12.7l-3-3a1 1 0 0 0-1.4 1.4l1.3 1.3H9a1 1 0 0 0 0 2h8.2l-1.3 1.3a1 1 0 1 0 1.4 1.4l3-3a1 1 0 0 0 0-1.4z"/>
+								</svg>
+							</a>
+						</div>
+					</div>
 				</div>
 				<!--end::Aside-->
 				<!--begin::Wrapper-->
@@ -598,43 +441,38 @@
 								<div class="topbar d-flex align-items-stretch flex-shrink-0">
 									<!--begin::Chat-->
 									<div class="d-flex align-items-center ms-1 ms-lg-3">
-										<!--begin::Menu wrapper-->
-										<div id="kt_drawer_chat_toggle" class="btn btn-icon btn-active-light-primary position-relative btn btn-icon btn-active-light-primary btn-custom w-30px h-30px w-md-40px h-md-40px">
-											<!--begin::Svg Icon | path: icons/duotune/communication/com012.svg-->
-											<span class="svg-icon svg-icon-1">
-												<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path opacity="0.3" d="M20 3H4C2.89543 3 2 3.89543 2 5V16C2 17.1046 2.89543 18 4 18H4.5C5.05228 18 5.5 18.4477 5.5 19V21.5052C5.5 22.1441 6.21212 22.5253 6.74376 22.1708L11.4885 19.0077C12.4741 18.3506 13.6321 18 14.8167 18H20C21.1046 18 22 17.1046 22 16V5C22 3.89543 21.1046 3 20 3Z" fill="currentColor" />
-													<rect x="6" y="12" width="7" height="2" rx="1" fill="currentColor" />
-													<rect x="6" y="7" width="12" height="2" rx="1" fill="currentColor" />
-												</svg>
-											</span>
-											<!--end::Svg Icon-->
-											<span class="bullet bullet-dot bg-success h-6px w-6px position-absolute translate-middle top-0 start-50 animation-blink"></span>
+										<div id="kt_drawer_chat_toggle" class="hp-topbar-btn position-relative" title="Messages">
+											<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+												<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+											</svg>
+											<span class="hp-topbar-badge"></span>
 										</div>
-										<!--end::Menu wrapper-->
 									</div>
 									<!--end::Chat-->
 									<!--begin::Language Switcher-->
 									<div class="d-flex align-items-center ms-1 ms-lg-3">
 										{% get_current_language as CURRENT_LANGUAGE %}
-										<div class="btn btn-icon btn-active-light-primary btn-custom w-auto h-30px h-md-40px px-3 position-relative"
-											 data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-											<span class="svg-icon svg-icon-1 me-1">
-												<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-													<path opacity="0.3" d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20C7.58 20 4 16.42 4 12Z" fill="currentColor"/>
-													<path d="M12 2C14.76 2 17 6.48 17 12C17 17.52 14.76 22 12 22C9.24 22 7 17.52 7 12C7 6.48 9.24 2 12 2ZM12 4C10.34 4 9 7.58 9 12C9 16.42 10.34 20 12 20C13.66 20 15 16.42 15 12C15 7.58 13.66 4 12 4Z" fill="currentColor"/>
-													<path opacity="0.3" d="M3 12H21" stroke="currentColor" stroke-width="2"/>
-												</svg>
-											</span>
-											<span class="fw-semibold fs-7">{{ CURRENT_LANGUAGE|upper }}</span>
+										<div class="hp-topbar-btn hp-lang-btn"
+											 data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end"
+											 title="Language">
+											<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+												<circle cx="12" cy="12" r="10"/>
+												<line x1="2" y1="12" x2="22" y2="12"/>
+												<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+											</svg>
+											<span class="hp-lang-code">{{ CURRENT_LANGUAGE|upper }}</span>
+											<svg class="hp-lang-chevron" xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+												<polyline points="6 9 12 15 18 9"/>
+											</svg>
 										</div>
-										<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-3 fs-6 w-175px" data-kt-menu="true">
+										<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded fw-semibold py-2 fs-7 w-140px hp-lang-menu" data-kt-menu="true">
 											{% get_available_languages as LANGUAGES %}
 											{% get_current_language as CURRENT_LANGUAGE %}
 											{% for lang_code, lang_name in LANGUAGES %}
-											<div class="menu-item px-3">
-												<a href="javascript:switchLanguage('{{ lang_code }}')" 
-                                                   class="menu-link px-3 w-100 {% if lang_code == CURRENT_LANGUAGE %}active{% endif %}">
+											<div class="menu-item px-2">
+												<a href="javascript:switchLanguage('{{ lang_code }}')"
+												   class="menu-link px-3 rounded gap-2 {% if lang_code == CURRENT_LANGUAGE %}hp-lang-active{% endif %}">
+													<span class="hp-lang-dot {% if lang_code == CURRENT_LANGUAGE %}hp-lang-dot-active{% endif %}"></span>
 													{{ lang_name }}
 												</a>
 											</div>
@@ -642,11 +480,25 @@
 										</div>
 									</div>
 									<!--end::Language Switcher-->
-									<!--begin::User-->
+									<!--begin::Dark Mode Toggle-->
+									<div class="d-flex align-items-center ms-1 ms-lg-3">
+										<button id="dark-mode-toggle"
+												class="btn btn-icon btn-active-light-primary btn-custom w-30px h-30px w-md-40px h-md-40px"
+												title="Toggle dark mode" aria-label="Toggle dark mode">
+											<span class="dm-icon-moon">
+												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+											</span>
+											<span class="dm-icon-sun" hidden>
+												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+											</span>
+										</button>
+									</div>
+									<!--end::Dark Mode Toggle-->
+										<!--begin::User-->
 									<div class="d-flex align-items-center me-n3 ms-1 ms-lg-3" id="kt_header_user_menu_toggle">
 										<!--begin::Menu wrapper-->
-										<div class="btn btn-icon btn-active-light-primary btn btn-icon btn-active-light-primary btn-custom w-30px h-30px w-md-40px h-md-40px" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-											<img class="h-30px w-30px rounded" src="{%  static "v2/media/avatars/blank.png" %}" alt="" />
+										<div class="btn btn-icon btn-active-light-primary btn-custom" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+											<div class="header-user-avatar">{{ user.profil.initiales }}</div>
 										</div>
 										<!--begin::User account menu-->
 										<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px" data-kt-menu="true">
@@ -712,8 +564,6 @@
 						<div class="container-xxl d-flex flex-column flex-md-row align-items-center justify-content-between">
 							<!--begin::Copyright-->
 							<div class="text-dark order-2 order-md-1">
-								<span class="text-muted fw-semibold me-1">2023&copy;</span>
-								<a href="" target="_blank" class="text-gray-800 text-hover-primary">Compixia</a>
 							</div>
 							<!--end::Copyright-->
 							<!--begin::Menu-->
@@ -1319,6 +1169,40 @@
             return cookieValue;
         }
         </script>
+    <!-- AOS & Toastify init -->
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script>
+        AOS.init({ duration: 400, once: true, offset: 40 });
+        window.showToast = function(msg, type) {
+            Toastify({
+                text: msg,
+                duration: 3000,
+                className: type === 'error' ? 'toast-error' : type === 'success' ? 'toast-success' : '',
+                gravity: 'top',
+                position: 'right'
+            }).showToast();
+        };
+        // Dark mode toggle
+        (function() {
+            var html = document.documentElement;
+            var btn  = document.getElementById('dark-mode-toggle');
+            var moon = btn && btn.querySelector('.dm-icon-moon');
+            var sun  = btn && btn.querySelector('.dm-icon-sun');
+            function applyTheme(dark) {
+                html[dark ? 'setAttribute' : 'removeAttribute']('data-hp-theme', 'dark');
+                html[dark ? 'setAttribute' : 'removeAttribute']('data-theme', 'dark');
+                if (moon) moon.hidden = dark;
+                if (sun)  sun.hidden  = !dark;
+            }
+            applyTheme(localStorage.getItem('hp-dark') === '1');
+            if (btn) btn.addEventListener('click', function() {
+                var dark = html.getAttribute('data-hp-theme') !== 'dark';
+                localStorage.setItem('hp-dark', dark ? '1' : '0');
+                applyTheme(dark);
+            });
+        })();
+    </script>
 	</body>
 	<!--end::Body-->
 </html>

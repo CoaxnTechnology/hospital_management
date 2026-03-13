@@ -137,22 +137,19 @@ $(document).ready(function () {
                 },
                 {
                     targets: 1,
-                    width: '150px',
+                    width: '200px',
                     render: (data, type, full, meta) => {
-                        return full.nom_naissance ? _p({id: full.id, val: full.nom_naissance}) : _p({id: full.id, val: full.nom});
+                        const parts = [full.nom_naissance, full.nom !== full.nom_naissance ? full.nom : null, full.prenom].filter(Boolean);
+                        return _p({id: full.id, val: parts.join(' ')});
                     },
                 },
                 {
                     targets: 2,
-                    width: '150px',
-                    render: (data, type, full, meta) => {
-                        return full.nom ? _p({id: full.id, val: full.nom}) : _p({id: full.id, val: full.nom_naissance});
-                    }
+                    visible: false,
                 },
                 {
                     targets: 3,
-                    width: '150px',
-                    render: (data, type, full, meta) => _p({id: full.id, val: full.prenom}),
+                    visible: false,
                 },
                 {
                     targets: 4,

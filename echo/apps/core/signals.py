@@ -45,7 +45,7 @@ def creer_worklist_item(sender, instance, **kwargs):
         item.study_instance_uid = generate_uid()
         item.requested_procedure_description = 'US'
         item.requested_procedure_id = 'US'
-        item.mpps_status = 0
+        item.mpps_status = WorklistItem.MPPS_STATUS_PENDING
         if instance.praticien and instance.praticien.default_device:
             item.device = instance.praticien.default_device
         item.save()

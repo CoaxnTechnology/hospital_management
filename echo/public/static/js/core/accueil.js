@@ -336,6 +336,7 @@ jQuery(document).ready(function () {
 
     let tableSalleAttente = initTableSalleAttente();
     $('#nb_attente').text(patients_en_attente.length);
+    $('#kpi_nb_attente').text(patients_en_attente.length);
 
     // -----------------------------------------------------------------------------------------------
 
@@ -408,6 +409,7 @@ jQuery(document).ready(function () {
 
     let tableConsultationsEnCours = initTableConsultationEnCours();
     $('#nb_consultations_en_cours').text(consultations_en_cours.length);
+    $('#kpi_nb_en_cours').text(consultations_en_cours.length);
 
     // -----------------------------------------------------------------------------------------------
 
@@ -463,6 +465,7 @@ jQuery(document).ready(function () {
 
     let tableConsultationsRealisees = initTableConsultationsRealisees();
     $('#nb_realises').text(consultations.length);
+    $('#kpi_nb_realises').text(consultations.length);
 
     // -----------------------------------------------------------------------------------------------
 
@@ -536,6 +539,7 @@ jQuery(document).ready(function () {
 
     let tableRdvsModifiesAnnules = initTableRdvsModifiesAnnules();
     $('#nb_modifies').text(rdvs_modifies_annules.length);
+    $('#kpi_nb_modifies_card').text(rdvs_modifies_annules.length);
 
     // -----------------------------------------------------------------------------------------------
 
@@ -556,6 +560,7 @@ jQuery(document).ready(function () {
             data = _.filter(data, rdv => rdv.praticien ? rdv.praticien.id == filterPraticienId : false);
         changeDonneesTable(tableRdvs, data);
         $('#nb_rdvs').text(data.length);
+        $('#kpi_nb_rdvs').text(data.length);
     }
 
     let date_selectionnee = moment();
@@ -636,6 +641,12 @@ jQuery(document).ready(function () {
         console.log('Nb en cours', encours.length);
         $('#nb_realises').text(realises.length);
         $('#nb_modifies').text(modifies.length);
+        // Sync KPI cards
+        $('#kpi_nb_rdvs').text(rdvs.length);
+        $('#kpi_nb_attente').text(salle.length);
+        $('#kpi_nb_en_cours').text(encours.length);
+        $('#kpi_nb_realises').text(realises.length);
+        $('#kpi_nb_modifies_card').text(modifies.length);
     }
     filtrerPraticien(filterPraticienId);
     filtreDate = moment();

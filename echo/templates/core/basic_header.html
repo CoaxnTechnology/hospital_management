@@ -1,8 +1,8 @@
-<div class="subheader py-2 py-lg-4 subheader-solid mb-0" id="kt_subheader">
-    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
-        <!--begin::Details-->
-        <div class="d-flex align-items-center flex-wrap mr-2">
-            <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">{{ module }}</h5>
+{% load i18n %}
+<div class="toolbar py-3 py-lg-4" id="kt_subheader">
+    <div class="container-fluid d-flex align-items-center flex-wrap">
+        <div class="page-title d-flex flex-column">
+            <h1 class="d-flex fw-bold my-1 fs-3">{% if module %}{% trans module %}{% endif %}</h1>
         </div>
     </div>
 </div>

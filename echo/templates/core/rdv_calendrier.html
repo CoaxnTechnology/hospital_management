@@ -25,11 +25,19 @@
         .fc-event-type-programme-operatoire .fc-time, .fc-event-type-programme-operatoire .fc-title {
             color: #808080 !important;
         }
+
+        /* Dark mode — calendar event types */
+        html[data-hp-theme="dark"] .fc-event-type-absence { background: #475569 !important; }
+        html[data-hp-theme="dark"] .fc-event-type-absence .fc-time,
+        html[data-hp-theme="dark"] .fc-event-type-absence .fc-title { color: #E2E8F0 !important; }
+        html[data-hp-theme="dark"] .fc-event-type-programme-operatoire { background: #CA8A04 !important; }
+        html[data-hp-theme="dark"] .fc-event-type-programme-operatoire .fc-time,
+        html[data-hp-theme="dark"] .fc-event-type-programme-operatoire .fc-title { color: #FEF3C7 !important; }
     </style>
 {% endblock %}
 
 {% block header %}
-    {% include "core/basic_header.html" with module="" %}
+    {% include "core/basic_header.html" with module="Agenda" %}
 {% endblock %}
 
 {% block content %}

@@ -6592,3 +6592,12 @@ msgstr "Message important"
 
 msgid "Nom du médecin"
 msgstr "Nom du médecin"
+
+msgid "Mutuelles"
+msgstr "Mutuelles"
+
+msgid "PMA"
+msgstr "PMA"
+
+msgid "Dashboard"
+msgstr "Dashboard"

@@ -27,13 +27,16 @@
     <link href="{% static "css/themes/layout/brand/dark.css" %}" rel="stylesheet" type="text/css"/>
     <link href="{% static "css/themes/layout/aside/dark.css" %}" rel="stylesheet" type="text/css"/>
     <!--end::Layout Themes-->
-    <link rel="shortcut icon" href="{% static "media/logos/favicon.ico" %}"/>
+    
     {% block styles %}
     {% endblock %}
+    <!-- Hospital Theme -->
+    <link href="{% static 'css/core/hospital-theme.css' %}" rel="stylesheet" />
 </head>
 <!--end::Head-->
 <!--begin::Body-->
 <body id="kt_body" class="bg-white">
+<script>(function(){if(localStorage.getItem('hp-dark')==='1'){document.documentElement.setAttribute('data-hp-theme','dark');document.documentElement.setAttribute('data-theme','dark');}})();</script>
 <!--begin::Main-->
 <div class="d-flex flex-column flex-root ">
     <!--begin::Page-->
@@ -245,6 +248,27 @@ window.SWAL_MESSAGES = {
 <!--end::Page Scripts-->
 {% block scripts %}{% endblock %}
 {% block extra_js %}{% endblock extra_js %}
+<script>
+    // Dark mode apply
+    (function(){
+        var html = document.documentElement;
+        var btn = document.getElementById('dark-mode-toggle');
+        function applyTheme(dark){
+            html[dark?'setAttribute':'removeAttribute']('data-hp-theme','dark');
+            html[dark?'setAttribute':'removeAttribute']('data-theme','dark');
+            var moon = btn && btn.querySelector('.dm-icon-moon');
+            var sun  = btn && btn.querySelector('.dm-icon-sun');
+            if(moon) moon.hidden = dark;
+            if(sun)  sun.hidden  = !dark;
+        }
+        applyTheme(localStorage.getItem('hp-dark')==='1');
+        if(btn) btn.addEventListener('click',function(){
+            var dark = html.getAttribute('data-hp-theme')!=='dark';
+            localStorage.setItem('hp-dark', dark?'1':'0');
+            applyTheme(dark);
+        });
+    })();
+</script>
 </body>
 <!--end::Body-->
 </html>

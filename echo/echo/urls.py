@@ -922,6 +922,11 @@ urlpatterns = [
         rapports.ConsultationRapportView.as_view(),
         name="consultation_rapport",
     ),
+    path(
+        "consultation/<int:pk>/mesures",
+        rapports.MesuresEditView.as_view(),
+        name="consultation_mesures",
+    ),
     # module mutuelle
     path("mutuelle/", mutuelle.List.as_view(), name="mutuelle_list"),
     path("bordereau/creation", mutuelle.bordereau_creation, name="bordereau_creation"),

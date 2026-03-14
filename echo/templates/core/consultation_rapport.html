@@ -1,553 +1,350 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compte-rendu — {{ patient.nom_complet }}</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Report — {{ patient.nom_complet }}</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: Arial, sans-serif; font-size:10pt; color:#1a1a1a; background:#e8e8e8; }
 
-        body {
-            font-family: Arial, sans-serif;
-            font-size: 11pt;
-            color: #1a1a1a;
-            background: #f0f0f0;
-        }
+/* ── Toolbar (hidden on print) ── */
+.toolbar {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:#1A1D2B; padding:8px 20px;
+  display:flex; align-items:center; gap:10px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.3);
+}
+@media print { .toolbar { display:none; } }
+.toolbar-title { color:#fff; font-size:13px; font-weight:700; flex:1; }
+.toolbar-badge { font-size:10px; padding:3px 10px; border-radius:12px; font-weight:600; }
+.badge-dicom  { background:#1565C0; color:#fff; }
+.badge-manual { background:#166534; color:#fff; }
+.btn-tb { padding:7px 16px; border-radius:8px; border:none; font-size:12px; font-weight:600; cursor:pointer; }
+.btn-print  { background:#2196F3; color:#fff; }
+.btn-edit   { background:#4CAF50; color:#fff; }
 
-        .page {
-            width: 210mm;
-            min-height: 297mm;
-            margin: 20px auto;
-            background: #fff;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.15);
-            padding: 0;
-            position: relative;
-        }
+/* ── Page ── */
+.page { width:210mm; min-height:297mm; margin:56px auto 30px; background:#fff; box-shadow:0 4px 24px rgba(0,0,0,0.18); }
+@media print { body{background:#fff;} .page{margin:0;box-shadow:none;width:100%;} }
 
-        /* ── Header ── */
-        .report-header {
-            padding: 18px 30px 14px;
-            border-bottom: 2px solid #1565C0;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-        .header-logo img {
-            max-height: 70px;
-            max-width: 180px;
-            object-fit: contain;
-        }
-        .header-clinic {
-            text-align: right;
-            max-width: 260px;
-        }
-        .header-clinic .clinic-name {
-            font-size: 13pt;
-            font-weight: 700;
-            color: #1565C0;
-            white-space: pre-line;
-        }
+/* ── Header ── */
+.report-header { padding:16px 28px 12px; border-bottom:2.5px solid #1565C0; display:flex; justify-content:space-between; align-items:flex-start; }
+.header-logo img { max-height:65px; max-width:160px; object-fit:contain; }
+.header-clinic { text-align:right; }
+.clinic-name { font-size:13pt; font-weight:700; color:#1565C0; white-space:pre-line; }
+.clinic-sub { font-size:8pt; color:#546E7A; margin-top:3px; line-height:1.5; }
 
-        /* ── Title bar ── */
-        .report-title-bar {
-            background: #1565C0;
-            color: #fff;
-            text-align: center;
-            padding: 8px 30px;
-            font-size: 13pt;
-            font-weight: 700;
-            letter-spacing: 0.04em;
-        }
+/* ── Title ── */
+.title-bar { background:linear-gradient(90deg,#0D2137,#1565C0); color:#fff; text-align:center; padding:7px 28px; font-size:12pt; font-weight:700; letter-spacing:0.05em; }
 
-        /* ── Patient info ── */
-        .patient-info {
-            margin: 18px 30px 0;
-            background: #F0F4FF;
-            border-left: 4px solid #1565C0;
-            border-radius: 0 6px 6px 0;
-            padding: 10px 16px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px 24px;
-        }
-        .patient-info .info-item {
-            font-size: 10.5pt;
-        }
-        .patient-info .info-label {
-            font-weight: 700;
-            color: #555;
-            font-size: 9pt;
-            text-transform: uppercase;
-        }
-        .patient-info .info-value {
-            font-weight: 600;
-            color: #1a1a1a;
-        }
+/* ── Patient ── */
+.patient-row { display:flex; background:#F7F9FC; border-bottom:1px solid #E0E0E0; }
+.patient-col { flex:1; padding:9px 14px; border-right:1px solid #E0E0E0; }
+.patient-col:last-child { border-right:none; }
+.lbl { font-size:7.5pt; font-weight:700; color:#7B8FA6; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:2px; }
+.val { font-size:10pt; font-weight:600; color:#1a1a1a; }
 
-        /* ── Meta row (date, praticien, motif) ── */
-        .consultation-meta {
-            margin: 14px 30px 0;
-            display: flex;
-            gap: 12px;
-        }
-        .meta-card {
-            flex: 1;
-            border: 1px solid #dde3f0;
-            border-radius: 6px;
-            padding: 8px 12px;
-            background: #fafbff;
-        }
-        .meta-card .meta-label {
-            font-size: 8.5pt;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: #777;
-            letter-spacing: 0.06em;
-        }
-        .meta-card .meta-value {
-            font-size: 11pt;
-            font-weight: 600;
-            color: #1565C0;
-            margin-top: 2px;
-        }
+/* ── Meta row ── */
+.meta-row { display:flex; border-bottom:1px solid #E0E0E0; }
+.meta-item { flex:1; border-right:1px solid #E0E0E0; padding:7px 14px; }
+.meta-item:last-child { border-right:none; }
+.meta-item .lbl { font-size:7.5pt; font-weight:700; color:#7B8FA6; text-transform:uppercase; }
+.meta-item .val { font-size:9.5pt; font-weight:500; color:#1a2a3a; margin-top:1px; }
 
-        /* ── Report body ── */
-        .report-body {
-            margin: 20px 30px 0;
-            min-height: 160mm;
-        }
-        .report-body .section-title {
-            font-size: 10pt;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: #1565C0;
-            letter-spacing: 0.06em;
-            border-bottom: 1px solid #dde3f0;
-            padding-bottom: 4px;
-            margin-bottom: 10px;
-        }
-        .report-body .consultation-text {
-            font-size: 11pt;
-            line-height: 1.65;
-            color: #1a1a1a;
-        }
-        .report-body .consultation-text p { margin-bottom: 6px; }
+/* ── Section headers ── */
+.sec { background:#1565C0; color:#fff; padding:5px 16px; font-size:8.5pt; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; margin-top:12px; }
+.sec.sub { background:#E3F0FF; color:#0D2137; font-size:8pt; padding:4px 16px; margin-top:0; border-left:3px solid #1565C0; }
 
-        /* ── Conclusion / Conduite ── */
-        .conclusion-block {
-            margin: 18px 30px 0;
-            padding: 12px 16px;
-            border: 1px solid #c8d8f0;
-            border-radius: 6px;
-            background: #F0F4FF;
-        }
-        .conclusion-block .block-title {
-            font-size: 9.5pt;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: #1565C0;
-            letter-spacing: 0.05em;
-            margin-bottom: 6px;
-        }
-        .conclusion-block .block-content {
-            font-size: 11pt;
-            line-height: 1.6;
-        }
+/* ── Report text ── */
+.report-text { padding:12px 18px; font-size:10pt; line-height:1.7; min-height:40px; }
 
-        /* ── Signature ── */
-        .report-signature {
-            margin: 24px 30px 0;
-            display: flex;
-            justify-content: flex-end;
-        }
-        .signature-box {
-            text-align: center;
-            min-width: 160px;
-        }
-        .signature-box img {
-            max-height: 60px;
-            max-width: 160px;
-            object-fit: contain;
-            display: block;
-            margin: 0 auto 4px;
-        }
-        .signature-box .sig-name {
-            font-size: 10pt;
-            font-weight: 700;
-            color: #1a1a1a;
-            border-top: 1px solid #333;
-            padding-top: 4px;
-        }
-        .signature-box .sig-title {
-            font-size: 9pt;
-            color: #555;
-        }
+/* ── Tables ── */
+table { width:100%; border-collapse:collapse; }
+th { background:#E3F0FF; color:#0D2137; font-size:8pt; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; padding:5px 10px; border:1px solid #CFDCE8; text-align:left; }
+td { font-size:9.5pt; padding:4px 10px; border:1px solid #E8EFF5; }
+tr:nth-child(even) td { background:#F7FAFD; }
+.v { font-weight:600; color:#0D2137; text-align:right; white-space:nowrap; }
+.u { font-size:8pt; color:#7B8FA6; white-space:nowrap; }
 
-        /* ── SR measurements ── */
-        .sr-section {
-            margin: 20px 30px 0;
-        }
-        .sr-group {
-            margin-bottom: 14px;
-        }
-        .sr-group-title {
-            font-size: 9.5pt;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: #1565C0;
-            letter-spacing: 0.06em;
-            border-bottom: 1px solid #dde3f0;
-            padding-bottom: 3px;
-            margin-bottom: 8px;
-        }
-        .sr-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 10pt;
-        }
-        .sr-table td {
-            padding: 3px 8px;
-            border: 1px solid #e8eef8;
-        }
-        .sr-table td:first-child {
-            color: #555;
-            font-weight: 600;
-            width: 46%;
-            background: #f7f9ff;
-        }
-        .sr-table td:last-child {
-            font-weight: 700;
-            color: #1a1a1a;
-        }
-        .foetus-header {
-            background: #1565C0;
-            color: #fff;
-            font-weight: 700;
-            font-size: 10pt;
-            padding: 5px 10px;
-            border-radius: 4px;
-            margin: 10px 0 6px;
-        }
+/* ── Two columns ── */
+.two-col { display:flex; }
+.two-col > div { flex:1; overflow:hidden; }
+.two-col > div + div { border-left:1px solid #CFDCE8; }
 
-        /* ── Footer ── */
-        .report-footer {
-            margin-top: 24px;
-            border-top: 1.5px solid #1565C0;
-            padding: 8px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .report-footer img {
-            max-height: 50px;
-            max-width: 100%;
-            object-fit: contain;
-        }
-        .report-footer .page-info {
-            font-size: 8.5pt;
-            color: #888;
-        }
+/* ── Fetus header ── */
+.fetus-hd { background:linear-gradient(90deg,#0D2137,#1565C0); color:#fff; padding:6px 16px; display:flex; align-items:center; gap:18px; margin-top:14px; }
+.fetus-hd .fid { font-size:11pt; font-weight:700; }
+.fetus-hd .fm  { font-size:8.5pt; opacity:0.85; }
 
-        /* ── Print toolbar ── */
-        .print-toolbar {
-            position: fixed;
-            top: 12px;
-            right: 16px;
-            display: flex;
-            gap: 8px;
-            z-index: 100;
-        }
-        .print-toolbar button {
-            background: #1565C0;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 8px 18px;
-            font-size: 11pt;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 2px 8px rgba(21,101,192,0.25);
-        }
-        .print-toolbar button:hover { background: #0d47a1; }
+/* ── Signature ── */
+.sign-row { display:flex; justify-content:flex-end; padding:12px 20px 4px; }
+.sign-box { text-align:center; }
+.sign-box img { max-height:60px; object-fit:contain; margin-bottom:4px; display:block; margin:0 auto 4px; }
+.sign-name { font-size:9pt; font-weight:700; color:#1565C0; }
+.sign-title { font-size:8pt; color:#546E7A; }
 
-        @media print {
-            body { background: #fff; }
-            .page { margin: 0; box-shadow: none; width: 100%; }
-            .print-toolbar { display: none; }
-        }
-    </style>
+/* ── Footer ── */
+.footer { border-top:1px solid #E0E0E0; margin:10px 28px 0; padding:6px 0 12px; text-align:center; font-size:7.5pt; color:#9E9E9E; }
+
+/* ── No data ── */
+.no-data { padding:22px 20px; text-align:center; }
+.no-data-title { font-size:11pt; font-weight:600; color:#546E7A; margin-bottom:8px; }
+.no-data-sub { font-size:9pt; color:#9E9E9E; margin-bottom:16px; }
+.btn-add-meas { display:inline-block; background:#1565C0; color:#fff; padding:9px 22px; border-radius:8px; font-size:11pt; font-weight:600; text-decoration:none; }
+
+.dicom-badge { font-size:8pt; font-weight:600; color:#1565C0; background:#EBF4FF; padding:2px 8px; border-radius:10px; margin-left:8px; vertical-align:middle; }
+</style>
 </head>
 <body>
 
-<div class="print-toolbar">
-    <button onclick="window.print()">
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M6 9V3h12v6M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v7H6v-7z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Print
-    </button>
+<!-- Toolbar -->
+<div class="toolbar">
+  <span class="toolbar-title">Report — {{ patient.civilite|upper }} {{ patient.nom_complet }}</span>
+  {% if sr_source == 'dicom'  %}<span class="toolbar-badge badge-dicom">DICOM Auto-imported</span>{% endif %}
+  {% if sr_source == 'manual' %}<span class="toolbar-badge badge-manual" style="background:#166534;color:#fff;">Manually edited</span>{% endif %}
+  <button class="btn-tb btn-edit" onclick="window.open('/consultation/{{ object.pk }}/mesures','_blank')">✏ Edit Measurements</button>
+  <button class="btn-tb btn-print" onclick="window.print()">🖨 Print / PDF</button>
 </div>
 
 <div class="page">
 
-    <!-- Header -->
-    <div class="report-header">
-        <div class="header-logo">
-            {% if parametres.logo_a4 %}
-                <img src="{{ parametres.logo_a4.url }}" alt="Logo">
-            {% elif parametres.logo %}
-                <img src="{{ parametres.logo.url }}" alt="Logo">
-            {% endif %}
-        </div>
-        <div class="header-clinic">
-            {% if parametres.nom_entete %}
-                <div class="clinic-name">{{ parametres.nom_entete }}</div>
-            {% endif %}
-        </div>
+  <!-- Header -->
+  <div class="report-header">
+    <div class="header-logo">
+      {% if parametres.logo_a4 %}<img src="{{ parametres.logo_a4.url }}" alt=""/>
+      {% elif parametres.logo   %}<img src="{{ parametres.logo.url }}"   alt=""/>
+      {% else %}<svg width="44" height="44" viewBox="0 0 24 24"><path d="M10 3H14V10H21V14H14V21H10V14H3V10H10V3Z" fill="#1565C0"/></svg>
+      {% endif %}
     </div>
-
-    <!-- Title -->
-    <div class="report-title-bar">Consultation Report</div>
-
-    <!-- Patient info -->
-    <div class="patient-info">
-        <div class="info-item">
-            <div class="info-label">Patient</div>
-            <div class="info-value">{{ patient.civilite|upper }} {{ patient.nom_complet }}</div>
-        </div>
-        <div class="info-item">
-            <div class="info-label">ID</div>
-            <div class="info-value">{{ patient.identifiant_unique }}</div>
-        </div>
-        {% if patient.date_naissance %}
-        <div class="info-item">
-            <div class="info-label">Date of Birth</div>
-            <div class="info-value">{{ patient.date_naissance|date:"d/m/Y" }} ({{ patient.age }} yrs)</div>
-        </div>
-        {% endif %}
-        {% if patient.telephone %}
-        <div class="info-item">
-            <div class="info-label">Phone</div>
-            <div class="info-value">{{ patient.telephone }}</div>
-        </div>
-        {% endif %}
+    <div class="header-clinic">
+      <div class="clinic-name">{% if parametres.nom_entete %}{{ parametres.nom_entete }}{% else %}Medical Center{% endif %}</div>
+      {% if parametres.adresse   %}<div class="clinic-sub">{{ parametres.adresse }}</div>{% endif %}
+      {% if parametres.telephone %}<div class="clinic-sub">Tel: {{ parametres.telephone }}</div>{% endif %}
     </div>
+  </div>
 
-    <!-- Consultation meta -->
-    <div class="consultation-meta">
-        <div class="meta-card">
-            <div class="meta-label">Date</div>
-            <div class="meta-value">{{ object.date|date:"d/m/Y" }}</div>
-        </div>
-        <div class="meta-card">
-            <div class="meta-label">Reason</div>
-            <div class="meta-value">{{ object.motif.libelle }}</div>
-        </div>
-        {% if praticien %}
-        <div class="meta-card">
-            <div class="meta-label">Physician</div>
-            <div class="meta-value">{{ praticien.nom_complet }}</div>
-        </div>
-        {% endif %}
+  <div class="title-bar">CONSULTATION REPORT</div>
+
+  <!-- Patient -->
+  <div class="patient-row">
+    <div class="patient-col"><div class="lbl">Patient</div><div class="val">{{ patient.civilite|upper }} {{ patient.nom_complet }}</div></div>
+    <div class="patient-col"><div class="lbl">Date of Birth</div><div class="val">{{ patient.date_naissance|date:"d/m/Y"|default:"—" }}</div></div>
+    <div class="patient-col"><div class="lbl">Patient ID</div><div class="val">{{ patient.identifiant_unique|default:"—" }}</div></div>
+    <div class="patient-col"><div class="lbl">Phone</div><div class="val">{{ patient.telephone|default:"—" }}</div></div>
+  </div>
+
+  <!-- Meta -->
+  <div class="meta-row">
+    <div class="meta-item"><div class="lbl">Date</div><div class="val">{{ object.date|date:"d/m/Y" }}</div></div>
+    <div class="meta-item"><div class="lbl">Reason</div><div class="val">{{ object.motif.libelle|default:"—" }}</div></div>
+    <div class="meta-item"><div class="lbl">Physician</div><div class="val">{% if praticien %}{{ praticien.nom_complet }}{% else %}—{% endif %}</div></div>
+  </div>
+
+  <!-- Report text -->
+  {% if object.text %}
+  <div class="sec">Clinical Report</div>
+  <div class="report-text">{{ object.text|safe }}</div>
+  {% endif %}
+
+  <!-- ══ MEASUREMENTS ══ -->
+  {% if sr %}
+  <div class="sec">Ultrasound Measurements{% if sr_source == 'dicom' %}<span class="dicom-badge">DICOM</span>{% endif %}</div>
+
+  <!-- Pregnancy -->
+  {% if sr.ddr or sr.date_accouchement or sr.age_gestationnel %}
+  <div class="sec sub">Pregnancy</div>
+  <table>
+    <tr>
+      {% if sr.ddr                %}<td>Last Menstrual Period (LMP)</td><td class="v">{{ sr.ddr }}</td>{% endif %}
+      {% if sr.date_accouchement  %}<td>Estimated Due Date</td><td class="v">{{ sr.date_accouchement }}</td>{% endif %}
+      {% if sr.age_gestationnel   %}<td>Gestational Age</td><td class="v">{{ sr.age_gestationnel }}</td><td class="u">weeks</td>{% endif %}
+    </tr>
+  </table>
+  {% endif %}
+
+  <!-- Uterus -->
+  {% if sr.uterus_longueur or sr.uterus_largeur or sr.uterus_hauteur or sr.uterus_volume or sr.endometre_epaisseur %}
+  <div class="sec sub">Uterus &amp; Endometrium</div>
+  <table>
+    {% if sr.uterus_longueur    %}<tr><td>Length</td><td class="v">{{ sr.uterus_longueur }}</td><td class="u">mm</td></tr>{% endif %}
+    {% if sr.uterus_largeur     %}<tr><td>Width</td><td class="v">{{ sr.uterus_largeur }}</td><td class="u">mm</td></tr>{% endif %}
+    {% if sr.uterus_hauteur     %}<tr><td>Height</td><td class="v">{{ sr.uterus_hauteur }}</td><td class="u">mm</td></tr>{% endif %}
+    {% if sr.uterus_volume      %}<tr><td>Volume</td><td class="v">{{ sr.uterus_volume }}</td><td class="u">cm³</td></tr>{% endif %}
+    {% if sr.endometre_epaisseur%}<tr><td>Endometrial Thickness</td><td class="v">{{ sr.endometre_epaisseur }}</td><td class="u">mm</td></tr>{% endif %}
+  </table>
+  {% endif %}
+
+  <!-- Cervix -->
+  {% if sr.col_longueur or sr.col_largeur or sr.col_hauteur or sr.col_volume %}
+  <div class="sec sub">Cervix</div>
+  <table>
+    {% if sr.col_longueur %}<tr><td>Length</td><td class="v">{{ sr.col_longueur }}</td><td class="u">mm</td></tr>{% endif %}
+    {% if sr.col_largeur  %}<tr><td>Width</td><td class="v">{{ sr.col_largeur }}</td><td class="u">mm</td></tr>{% endif %}
+    {% if sr.col_hauteur  %}<tr><td>Height</td><td class="v">{{ sr.col_hauteur }}</td><td class="u">mm</td></tr>{% endif %}
+    {% if sr.col_volume   %}<tr><td>Volume</td><td class="v">{{ sr.col_volume }}</td><td class="u">cm³</td></tr>{% endif %}
+  </table>
+  {% endif %}
+
+  <!-- Ovaries -->
+  {% if sr.ovaire_gauche_longueur or sr.ovaire_droit_longueur or sr.ovaire_gauche_volume or sr.ovaire_droit_volume %}
+  <div class="sec sub">Ovaries</div>
+  <table>
+    <tr><th>Measurement</th><th>Left</th><th>Right</th><th>Unit</th></tr>
+    {% if sr.ovaire_gauche_longueur or sr.ovaire_droit_longueur %}
+    <tr><td>Length</td><td class="v">{{ sr.ovaire_gauche_longueur|default:"—" }}</td><td class="v">{{ sr.ovaire_droit_longueur|default:"—" }}</td><td class="u">mm</td></tr>{% endif %}
+    {% if sr.ovaire_gauche_largeur or sr.ovaire_droit_largeur %}
+    <tr><td>Width</td><td class="v">{{ sr.ovaire_gauche_largeur|default:"—" }}</td><td class="v">{{ sr.ovaire_droit_largeur|default:"—" }}</td><td class="u">mm</td></tr>{% endif %}
+    {% if sr.ovaire_gauche_hauteur or sr.ovaire_droit_hauteur %}
+    <tr><td>Height</td><td class="v">{{ sr.ovaire_gauche_hauteur|default:"—" }}</td><td class="v">{{ sr.ovaire_droit_hauteur|default:"—" }}</td><td class="u">mm</td></tr>{% endif %}
+    {% if sr.ovaire_gauche_volume or sr.ovaire_droit_volume %}
+    <tr><td>Volume</td><td class="v">{{ sr.ovaire_gauche_volume|default:"—" }}</td><td class="v">{{ sr.ovaire_droit_volume|default:"—" }}</td><td class="u">cm³</td></tr>{% endif %}
+  </table>
+  {% endif %}
+
+  <!-- Uterine Doppler -->
+  {% if sr.doppler_uterin %}{% with d=sr.doppler_uterin %}
+  {% if d.ir_gauche or d.ir_droit or d.ip_gauche or d.ip_droit %}
+  <div class="sec sub">Uterine Doppler</div>
+  <table>
+    <tr><th>Index</th><th>Left</th><th>Right</th></tr>
+    {% if d.ir_gauche or d.ir_droit %}<tr><td>Resistive Index (RI)</td><td class="v">{{ d.ir_gauche|default:"—" }}</td><td class="v">{{ d.ir_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.ip_gauche or d.ip_droit %}<tr><td>Pulsatility Index (PI)</td><td class="v">{{ d.ip_gauche|default:"—" }}</td><td class="v">{{ d.ip_droit|default:"—" }}</td></tr>{% endif %}
+  </table>
+  {% endif %}{% endwith %}{% endif %}
+
+  <!-- ── FETUSES ── -->
+  {% for fetus in sr.foetus %}
+  <div class="fetus-hd">
+    <span class="fid">FETUS {% if sr.foetus|length > 1 %}{{ forloop.counter }}{% endif %}</span>
+    {% if fetus.age_gest            %}<span class="fm">GA: {{ fetus.age_gest }} wks</span>{% endif %}
+    {% if fetus.poids               %}<span class="fm">EFW: {{ fetus.poids }} g</span>{% endif %}
+    {% if fetus.fc                  %}<span class="fm">FHR: {{ fetus.fc }} bpm</span>{% endif %}
+    {% if fetus.date_accouchement   %}<span class="fm">EDD: {{ fetus.date_accouchement }}</span>{% endif %}
+  </div>
+
+  <!-- Biometry + Long Bones side-by-side -->
+  <div class="two-col">
+    <div>
+      {% with b=fetus.biometrie %}
+      {% if b %}
+      <div class="sec sub">Biometry</div>
+      <table>
+        {% if b.bip    %}<tr><td>BPD (BIP)</td><td class="v">{{ b.bip }}</td><td class="u">mm</td></tr>{% endif %}
+        {% if b.pc     %}<tr><td>HC (PC)</td><td class="v">{{ b.pc }}</td><td class="u">mm</td></tr>{% endif %}
+        {% if b.pa     %}<tr><td>AC (PA)</td><td class="v">{{ b.pa }}</td><td class="u">mm</td></tr>{% endif %}
+        {% if b.femur  %}<tr><td>FL (Femur)</td><td class="v">{{ b.femur }}</td><td class="u">mm</td></tr>{% endif %}
+        {% if b.lcc    %}<tr><td>CRL (LCC)</td><td class="v">{{ b.lcc }}</td><td class="u">mm</td></tr>{% endif %}
+        {% if b.sac_gestationnel_diametre %}<tr><td>Gestational Sac</td><td class="v">{{ b.sac_gestationnel_diametre }}</td><td class="u">mm</td></tr>{% endif %}
+        {% if b.cn     %}<tr><td>Nuchal Translucency (NT)</td><td class="v">{{ b.cn }}</td><td class="u">mm</td></tr>{% endif %}
+        {% if b.epn    %}<tr><td>Nuchal Fold</td><td class="v">{{ b.epn }}</td><td class="u">mm</td></tr>{% endif %}
+      </table>
+      {% endif %}{% endwith %}
     </div>
-
-    <!-- Consultation text -->
-    <div class="report-body">
-        <div class="section-title">Report</div>
-        <div class="consultation-text">
-            {% if object.text %}
-                {{ object.text|safe }}
-            {% else %}
-                <p style="color:#aaa;font-style:italic;">No content available.</p>
-            {% endif %}
-        </div>
+    <div>
+      {% with o=fetus.os %}
+      {% if o %}
+      <div class="sec sub">Long Bones</div>
+      <table>
+        {% if o.humerus  %}<tr><td>Humerus</td><td class="v">{{ o.humerus }}</td><td class="u">mm</td></tr>{% endif %}
+        {% if o.radius   %}<tr><td>Radius</td><td class="v">{{ o.radius }}</td><td class="u">mm</td></tr>{% endif %}
+        {% if o.cubitus  %}<tr><td>Ulna</td><td class="v">{{ o.cubitus }}</td><td class="u">mm</td></tr>{% endif %}
+        {% if o.tibia    %}<tr><td>Tibia</td><td class="v">{{ o.tibia }}</td><td class="u">mm</td></tr>{% endif %}
+        {% if o.perone   %}<tr><td>Fibula</td><td class="v">{{ o.perone }}</td><td class="u">mm</td></tr>{% endif %}
+        {% if o.clavicule%}<tr><td>Clavicle</td><td class="v">{{ o.clavicule }}</td><td class="u">mm</td></tr>{% endif %}
+        {% if o.pied     %}<tr><td>Foot Length</td><td class="v">{{ o.pied }}</td><td class="u">mm</td></tr>{% endif %}
+      </table>
+      {% endif %}{% endwith %}
     </div>
+  </div>
 
-    <!-- DICOM SR Measurements -->
-    {% if sr %}
-    <div class="sr-section">
-        <div class="section-title" style="margin:0 0 10px;">Ultrasound Measurements (DICOM SR)</div>
-
-        {% if sr.uterus_longueur or sr.uterus_largeur or sr.uterus_hauteur or sr.uterus_volume or sr.endometre_epaisseur or sr.col_longueur %}
-        <div class="sr-group">
-            <div class="sr-group-title">Uterus &amp; Cervix</div>
-            <table class="sr-table">
-                {% if sr.uterus_longueur %}<tr><td>Uterus Length</td><td>{{ sr.uterus_longueur }} mm</td></tr>{% endif %}
-                {% if sr.uterus_largeur %}<tr><td>Uterus Width</td><td>{{ sr.uterus_largeur }} mm</td></tr>{% endif %}
-                {% if sr.uterus_hauteur %}<tr><td>Uterus Height</td><td>{{ sr.uterus_hauteur }} mm</td></tr>{% endif %}
-                {% if sr.uterus_volume %}<tr><td>Uterine Volume</td><td>{{ sr.uterus_volume }} cm³</td></tr>{% endif %}
-                {% if sr.endometre_epaisseur %}<tr><td>Endometrial Thickness</td><td>{{ sr.endometre_epaisseur }} mm</td></tr>{% endif %}
-                {% if sr.col_longueur %}<tr><td>Cervical Length</td><td>{{ sr.col_longueur }} mm</td></tr>{% endif %}
-            </table>
-        </div>
-        {% endif %}
-
-        {% if sr.ovaire_gauche_longueur or sr.ovaire_gauche_largeur or sr.ovaire_droit_longueur or sr.ovaire_droit_largeur %}
-        <div class="sr-group">
-            <div class="sr-group-title">Ovaries</div>
-            <table class="sr-table">
-                {% if sr.ovaire_gauche_longueur %}<tr><td>Left Ovary — Length</td><td>{{ sr.ovaire_gauche_longueur }} mm</td></tr>{% endif %}
-                {% if sr.ovaire_gauche_largeur %}<tr><td>Left Ovary — Width</td><td>{{ sr.ovaire_gauche_largeur }} mm</td></tr>{% endif %}
-                {% if sr.ovaire_gauche_hauteur %}<tr><td>Left Ovary — Height</td><td>{{ sr.ovaire_gauche_hauteur }} mm</td></tr>{% endif %}
-                {% if sr.ovaire_gauche_volume %}<tr><td>Left Ovary — Volume</td><td>{{ sr.ovaire_gauche_volume }} cm³</td></tr>{% endif %}
-                {% if sr.ovaire_droit_longueur %}<tr><td>Right Ovary — Length</td><td>{{ sr.ovaire_droit_longueur }} mm</td></tr>{% endif %}
-                {% if sr.ovaire_droit_largeur %}<tr><td>Right Ovary — Width</td><td>{{ sr.ovaire_droit_largeur }} mm</td></tr>{% endif %}
-                {% if sr.ovaire_droit_hauteur %}<tr><td>Right Ovary — Height</td><td>{{ sr.ovaire_droit_hauteur }} mm</td></tr>{% endif %}
-                {% if sr.ovaire_droit_volume %}<tr><td>Right Ovary — Volume</td><td>{{ sr.ovaire_droit_volume }} cm³</td></tr>{% endif %}
-            </table>
-        </div>
-        {% endif %}
-
-        {% if sr.doppler_uterin %}
-        <div class="sr-group">
-            <div class="sr-group-title">Uterine Doppler</div>
-            <table class="sr-table">
-                {% if sr.doppler_uterin.ir_gauche %}<tr><td>RI Left</td><td>{{ sr.doppler_uterin.ir_gauche }}</td></tr>{% endif %}
-                {% if sr.doppler_uterin.ir_droit %}<tr><td>RI Right</td><td>{{ sr.doppler_uterin.ir_droit }}</td></tr>{% endif %}
-                {% if sr.doppler_uterin.ip_gauche %}<tr><td>PI Left</td><td>{{ sr.doppler_uterin.ip_gauche }}</td></tr>{% endif %}
-                {% if sr.doppler_uterin.ip_droit %}<tr><td>PI Right</td><td>{{ sr.doppler_uterin.ip_droit }}</td></tr>{% endif %}
-            </table>
-        </div>
-        {% endif %}
-
-        {% if sr.ddr or sr.date_accouchement or sr.age_gestationnel %}
-        <div class="sr-group">
-            <div class="sr-group-title">Pregnancy</div>
-            <table class="sr-table">
-                {% if sr.ddr %}<tr><td>LMP</td><td>{{ sr.ddr }}</td></tr>{% endif %}
-                {% if sr.date_accouchement %}<tr><td>Estimated Due Date</td><td>{{ sr.date_accouchement }}</td></tr>{% endif %}
-                {% if sr.age_gestationnel %}<tr><td>Gestational Age</td><td>{{ sr.age_gestationnel }}</td></tr>{% endif %}
-            </table>
-        </div>
-        {% endif %}
-
-        {% if sr.foetus %}
-        {% for f in sr.foetus %}
-        <div class="sr-group">
-            <div class="foetus-header">Fetus {{ f.id }}{% if f.age_gest %} — Gestational Age: {{ f.age_gest }} wks{% endif %}{% if f.poids %} — Est. Weight: {{ f.poids }} g{% endif %}</div>
-
-            {% if f.biometrie %}
-            <div class="sr-group-title" style="margin-top:6px;">Biometry</div>
-            <table class="sr-table">
-                {% if f.biometrie.bip %}<tr><td>BPD</td><td>{{ f.biometrie.bip }} mm</td></tr>{% endif %}
-                {% if f.biometrie.pc %}<tr><td>HC</td><td>{{ f.biometrie.pc }} mm</td></tr>{% endif %}
-                {% if f.biometrie.pa %}<tr><td>AC</td><td>{{ f.biometrie.pa }} mm</td></tr>{% endif %}
-                {% if f.biometrie.femur %}<tr><td>FL (Femur)</td><td>{{ f.biometrie.femur }} mm</td></tr>{% endif %}
-                {% if f.biometrie.lcc %}<tr><td>CRL</td><td>{{ f.biometrie.lcc }} mm</td></tr>{% endif %}
-                {% if f.biometrie.sac_gestationnel_diametre %}<tr><td>Gestational Sac</td><td>{{ f.biometrie.sac_gestationnel_diametre }} mm</td></tr>{% endif %}
-                {% if f.biometrie.cn %}<tr><td>NT</td><td>{{ f.biometrie.cn }} mm</td></tr>{% endif %}
-                {% if f.biometrie.epn %}<tr><td>Nuchal Fold</td><td>{{ f.biometrie.epn }} mm</td></tr>{% endif %}
-                {% if f.fc %}<tr><td>Heart Rate</td><td>{{ f.fc }} bpm</td></tr>{% endif %}
-            </table>
-            {% endif %}
-
-            {% if f.os %}
-            <div class="sr-group-title" style="margin-top:6px;">Long Bones</div>
-            <table class="sr-table">
-                {% if f.os.humerus %}<tr><td>Humerus</td><td>{{ f.os.humerus }} mm</td></tr>{% endif %}
-                {% if f.os.radius %}<tr><td>Radius</td><td>{{ f.os.radius }} mm</td></tr>{% endif %}
-                {% if f.os.cubitus %}<tr><td>Ulna</td><td>{{ f.os.cubitus }} mm</td></tr>{% endif %}
-                {% if f.os.tibia %}<tr><td>Tibia</td><td>{{ f.os.tibia }} mm</td></tr>{% endif %}
-                {% if f.os.perone %}<tr><td>Fibula</td><td>{{ f.os.perone }} mm</td></tr>{% endif %}
-                {% if f.os.clavicule %}<tr><td>Clavicle</td><td>{{ f.os.clavicule }} mm</td></tr>{% endif %}
-                {% if f.os.pied %}<tr><td>Foot</td><td>{{ f.os.pied }} mm</td></tr>{% endif %}
-            </table>
-            {% endif %}
-
-            {% if f.crane %}
-            <div class="sr-group-title" style="margin-top:6px;">Cranium</div>
-            <table class="sr-table">
-                {% if f.crane.cervelet %}<tr><td>Cerebellum</td><td>{{ f.crane.cervelet }} mm</td></tr>{% endif %}
-                {% if f.crane.dio %}<tr><td>IOD</td><td>{{ f.crane.dio }} mm</td></tr>{% endif %}
-                {% if f.crane.do %}<tr><td>OOD</td><td>{{ f.crane.do }} mm</td></tr>{% endif %}
-            </table>
-            {% endif %}
-
-            {% if f.doppler_ombilical %}
-            <div class="sr-group-title" style="margin-top:6px;">Umbilical Doppler</div>
-            <table class="sr-table">
-                {% if f.doppler_ombilical.doppler_cordon_ir %}<tr><td>RI</td><td>{{ f.doppler_ombilical.doppler_cordon_ir }}</td></tr>{% endif %}
-                {% if f.doppler_ombilical.doppler_cordon_ip %}<tr><td>PI</td><td>{{ f.doppler_ombilical.doppler_cordon_ip }}</td></tr>{% endif %}
-            </table>
-            {% endif %}
-
-            {% if f.doppler_acm %}
-            <div class="sr-group-title" style="margin-top:6px;">MCA Doppler</div>
-            <table class="sr-table">
-                {% if f.doppler_acm.doppler_acm_ir %}<tr><td>MCA RI</td><td>{{ f.doppler_acm.doppler_acm_ir }}</td></tr>{% endif %}
-                {% if f.doppler_acm.doppler_acm_ip %}<tr><td>MCA PI</td><td>{{ f.doppler_acm.doppler_acm_ip }}</td></tr>{% endif %}
-            </table>
-            {% endif %}
-
-            {% if f.doppler_dv %}
-            <div class="sr-group-title" style="margin-top:6px;">Ductus Venosus Doppler</div>
-            <table class="sr-table">
-                {% if f.doppler_dv.doppler_dv_ir %}<tr><td>DV RI</td><td>{{ f.doppler_dv.doppler_dv_ir }}</td></tr>{% endif %}
-                {% if f.doppler_dv.doppler_dv_ip %}<tr><td>DV PI</td><td>{{ f.doppler_dv.doppler_dv_ip }}</td></tr>{% endif %}
-            </table>
-            {% endif %}
-
-            {% if f.ratios %}
-            <div class="sr-group-title" style="margin-top:6px;">Biometric Ratios</div>
-            <table class="sr-table">
-                {% if f.ratios.hc_ac %}<tr><td>HC/AC</td><td>{{ f.ratios.hc_ac }}</td></tr>{% endif %}
-                {% if f.ratios.fl_ac %}<tr><td>FL/AC</td><td>{{ f.ratios.fl_ac }}</td></tr>{% endif %}
-                {% if f.ratios.fl_bpd %}<tr><td>FL/BPD</td><td>{{ f.ratios.fl_bpd }}</td></tr>{% endif %}
-                {% if f.ratios.cephalic_index %}<tr><td>Cephalic Index</td><td>{{ f.ratios.cephalic_index }}</td></tr>{% endif %}
-                {% if f.ratios.fl_hc %}<tr><td>FL/HC</td><td>{{ f.ratios.fl_hc }}</td></tr>{% endif %}
-            </table>
-            {% endif %}
-        </div>
-        {% endfor %}
-        {% endif %}
-
+  <!-- Cranium + Ratios side-by-side -->
+  <div class="two-col">
+    <div>
+      {% with c=fetus.crane %}
+      {% if c %}
+      <div class="sec sub">Cranium</div>
+      <table>
+        {% if c.cervelet %}<tr><td>Cerebellum (TCD)</td><td class="v">{{ c.cervelet }}</td><td class="u">mm</td></tr>{% endif %}
+        {% if c.dio      %}<tr><td>Inner Orbital Diameter</td><td class="v">{{ c.dio }}</td><td class="u">mm</td></tr>{% endif %}
+        {% if c.do       %}<tr><td>Outer Orbital Diameter</td><td class="v">{{ c.do }}</td><td class="u">mm</td></tr>{% endif %}
+      </table>
+      {% endif %}{% endwith %}
     </div>
-    {% endif %}
-
-    <!-- Conclusion -->
-    {% if object.conclusion %}
-    <div class="conclusion-block">
-        <div class="block-title">Conclusion</div>
-        <div class="block-content">{{ object.conclusion|safe }}</div>
+    <div>
+      {% with r=fetus.ratios %}
+      {% if r %}
+      <div class="sec sub">Biometric Ratios</div>
+      <table>
+        {% if r.hc_ac          %}<tr><td>HC / AC</td><td class="v">{{ r.hc_ac }}</td></tr>{% endif %}
+        {% if r.fl_ac          %}<tr><td>FL / AC</td><td class="v">{{ r.fl_ac }}</td></tr>{% endif %}
+        {% if r.fl_bpd         %}<tr><td>FL / BPD</td><td class="v">{{ r.fl_bpd }}</td></tr>{% endif %}
+        {% if r.cephalic_index %}<tr><td>Cephalic Index</td><td class="v">{{ r.cephalic_index }}</td></tr>{% endif %}
+        {% if r.fl_hc          %}<tr><td>FL / HC</td><td class="v">{{ r.fl_hc }}</td></tr>{% endif %}
+      </table>
+      {% endif %}{% endwith %}
     </div>
-    {% endif %}
+  </div>
 
-    <!-- Conduite -->
-    {% if object.conduite %}
-    <div class="conclusion-block" style="margin-top:10px;">
-        <div class="block-title">Management Plan</div>
-        <div class="block-content">{{ object.conduite|safe }}</div>
-    </div>
-    {% endif %}
+  <!-- Doppler -->
+  {% with do=fetus.doppler_ombilical da=fetus.doppler_acm dv=fetus.doppler_dv %}
+  {% if do or da or dv %}
+  <div class="sec sub">Doppler</div>
+  <table>
+    <tr><th>Vessel</th><th>RI</th><th>PI</th></tr>
+    {% if do %}{% if do.doppler_cordon_ir or do.doppler_cordon_ip %}
+    <tr><td>Umbilical Artery</td><td class="v">{{ do.doppler_cordon_ir|default:"—" }}</td><td class="v">{{ do.doppler_cordon_ip|default:"—" }}</td></tr>
+    {% endif %}{% endif %}
+    {% if da %}{% if da.doppler_acm_ir or da.doppler_acm_ip %}
+    <tr><td>Middle Cerebral Artery (MCA)</td><td class="v">{{ da.doppler_acm_ir|default:"—" }}</td><td class="v">{{ da.doppler_acm_ip|default:"—" }}</td></tr>
+    {% endif %}{% endif %}
+    {% if dv %}{% if dv.doppler_dv_ir or dv.doppler_dv_ip %}
+    <tr><td>Ductus Venosus</td><td class="v">{{ dv.doppler_dv_ir|default:"—" }}</td><td class="v">{{ dv.doppler_dv_ip|default:"—" }}</td></tr>
+    {% endif %}{% endif %}
+  </table>
+  {% endif %}{% endwith %}
 
-    <!-- Signature -->
-    {% if praticien %}
-    <div class="report-signature">
-        <div class="signature-box">
-            {% if praticien.signature %}
-                <img src="{{ praticien.signature.url }}" alt="Signature">
-            {% endif %}
-            <div class="sig-name">{{ praticien.nom_complet }}</div>
-            <div class="sig-title">Physician</div>
-        </div>
-    </div>
-    {% endif %}
+  {% empty %}
+  <!-- No fetuses in SR -->
+  {% endfor %}
 
-    <!-- Footer -->
-    <div class="report-footer">
-        {% if parametres.footer_a4 %}
-            <img src="{{ parametres.footer_a4.url }}" alt="Footer">
-        {% elif parametres.footer %}
-            <img src="{{ parametres.footer.url }}" alt="Footer">
-        {% else %}
-            <span></span>
-        {% endif %}
-        <span class="page-info">{{ object.date|date:"d/m/Y" }}</span>
+  {% else %}
+  <!-- ══ NO MEASUREMENTS ══ -->
+  <div class="sec">Ultrasound Measurements</div>
+  <div class="no-data">
+    <div class="no-data-title">No measurements available for this consultation.</div>
+    <div class="no-data-sub">Either no DICOM SR has been received yet, or measurements have not been entered manually.</div>
+    <a href="/consultation/{{ object.pk }}/mesures" target="_blank" class="btn-add-meas">✏ Enter Measurements Manually</a>
+  </div>
+  {% endif %}
+
+  <!-- Conclusion -->
+  {% if object.conclusion %}
+  <div class="sec">Conclusion</div>
+  <div class="report-text">{{ object.conclusion|safe }}</div>
+  {% endif %}
+
+  <!-- Management -->
+  {% if object.conduite %}
+  <div class="sec">Management Plan</div>
+  <div class="report-text">{{ object.conduite|safe }}</div>
+  {% endif %}
+
+  <!-- Signature -->
+  <div class="sign-row">
+    <div class="sign-box">
+      {% if praticien and praticien.signature %}<img src="{{ praticien.signature.url }}" alt="signature"/>{% endif %}
+      <div class="sign-name">{% if praticien %}{{ praticien.nom_complet }}{% endif %}</div>
+      {% if praticien and praticien.titre %}<div class="sign-title">{{ praticien.get_titre_display }}</div>{% endif %}
     </div>
+  </div>
+
+  <div class="footer">
+    {% if parametres.pied_de_page %}<img src="{{ parametres.pied_de_page.url }}" style="max-height:40px;"/><br/>{% endif %}
+    Printed {{ object.date|date:"d/m/Y" }} &nbsp;·&nbsp; Confidential medical document
+  </div>
 
 </div>
-
 </body>
 </html>

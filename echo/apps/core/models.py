@@ -2016,6 +2016,33 @@ class SRConsultation(BaseModel):
     data = models.TextField(null=True, blank=True)
 
 
+class MesuresConsultation(models.Model):
+    """
+    Final measurement set for a consultation.
+    Auto-populated from DICOM SR and manually editable.
+    Overrides SR raw data when present — SR is never modified.
+    """
+    consultation = models.OneToOneField(
+        Consultation, on_delete=models.CASCADE, related_name='mesures'
+    )
+    data = models.TextField(null=True, blank=True)  # JSON — same schema as SRConsultation.data
+    updated_at = models.DateTimeField(auto_now=True)
+    updated_by = models.ForeignKey(
+        'auth.User', on_delete=models.SET_NULL, null=True, blank=True
+    )
+
+    class Meta:
+        verbose_name = "Mesures de consultation"
+        verbose_name_plural = "Mesures de consultations"
+
+    def get_data(self):
+        import json
+        try:
+            return json.loads(self.data) if self.data else {}
+        except (json.JSONDecodeError, TypeError):
+            return {}
+
+
 ##################################################################################################
 
 class AnalyseBiologique(CompteModelBase):

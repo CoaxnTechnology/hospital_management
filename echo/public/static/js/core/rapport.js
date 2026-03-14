@@ -49,6 +49,7 @@ function afficherConsultation(id, motif) {
     showFrameLoading();
     $('#historique-modal iframe').one('load', hideFrameLoading);
     $('#historique-modal iframe').attr('src', `/consultation/${id}/rapport`);
+    $('#mesures-edit-btn').attr('href', `/consultation/${id}/mesures`);
     bootstrap.Modal.getOrCreateInstance('#historique-modal').show();
 }
 

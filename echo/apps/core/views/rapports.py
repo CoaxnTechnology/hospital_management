@@ -16,6 +16,7 @@ import json
 from apps.core.models import (
     Consultation,
     SRConsultation,
+    MesuresConsultation,
     CategorieConsultation,
     MotifConsultation,
     Praticien,
@@ -196,6 +197,35 @@ class ConsultationView(PermissionRequiredMixin, DetailView):
         return context
 
 
+def _get_measurements(consultation):
+    """
+    Returns the final measurement dict for a consultation.
+    Priority: MesuresConsultation (manual edits) > SRConsultation (raw DICOM).
+    """
+    # 1. Try manual overrides first
+    try:
+        m = consultation.mesures
+        if m and m.data:
+            data = json.loads(m.data)
+            if data:
+                return data, 'manual'
+    except Exception:
+        # RelatedObjectDoesNotExist, DoesNotExist, JSONDecodeError, DB errors, etc.
+        pass
+
+    # 2. Fall back to raw DICOM SR
+    try:
+        sr = consultation.srconsultation_set.last()
+        if sr and sr.data:
+            data = json.loads(sr.data)
+            if data:
+                return data, 'dicom'
+    except Exception:
+        pass
+
+    return None, None
+
+
 class ConsultationRapportView(PermissionRequiredMixin, DetailView):
     model = Consultation
     template_name = "core/consultation_rapport.html"
@@ -208,13 +238,40 @@ class ConsultationRapportView(PermissionRequiredMixin, DetailView):
         context['parametres'] = self.request.user.profil.compte.parametrescompte
         context['praticien'] = consultation.praticien
 
-        sr = consultation.srconsultation_set.last()
-        if sr and sr.data:
-            try:
-                context['sr'] = json.loads(sr.data)
-            except (json.JSONDecodeError, TypeError):
-                context['sr'] = None
-        else:
-            context['sr'] = None
-
+        data, source = _get_measurements(consultation)
+        context['sr'] = data
+        context['sr_source'] = source  # 'manual' | 'dicom' | None
         return context
+
+
+class MesuresEditView(PermissionRequiredMixin, View):
+    """
+    GET  /consultation/<pk>/mesures/  — edit form pre-filled with DICOM/manual data
+    POST /consultation/<pk>/mesures/  — save manual overrides
+    """
+    permission_required = "core.view_patient"
+
+    def get(self, request, pk):
+        consultation = get_object_or_404(Consultation, pk=pk)
+        data, source = _get_measurements(consultation)
+        return render(request, "core/mesures_consultation.html", {
+            'consultation': consultation,
+            'patient': consultation.patient,
+            'mesures_json': json.dumps(data or {}),
+            'sr_source': source,
+        })
+
+    def post(self, request, pk):
+        consultation = get_object_or_404(Consultation, pk=pk)
+        raw = request.POST.get('mesures_data', '{}')
+        try:
+            parsed = json.loads(raw)
+        except (json.JSONDecodeError, ValueError):
+            parsed = {}
+
+        obj, _ = MesuresConsultation.objects.get_or_create(consultation=consultation)
+        obj.data = json.dumps(parsed)
+        obj.updated_by = request.user
+        obj.save()
+
+        return JsonResponse({'status': 'ok', 'redirect': f'/consultation/{pk}/rapport'})

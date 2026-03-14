@@ -1,0 +1,524 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Measurements — {{ patient.nom_complet }}</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"/>
+<style>
+:root {
+  --primary:    #1565C0;
+  --primary-lt: #1976D2;
+  --primary-bg: #E8F0FE;
+  --accent:     #2196F3;
+  --dark:       #0D2137;
+  --text:       #1E293B;
+  --muted:      #64748B;
+  --border:     #E2E8F0;
+  --bg:         #F1F5F9;
+  --card:       #FFFFFF;
+  --sub-bg:     #F8FAFC;
+  --radius:     10px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 13px; }
+
+/* ── Top bar ── */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--dark);
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 24px; height: 52px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+.topbar-icon { width: 32px; height: 32px; background: linear-gradient(135deg,var(--primary),var(--accent)); border-radius: 8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.topbar-icon svg { fill: #fff; }
+.topbar-info { flex: 1; }
+.topbar-title { font-size: 14px; font-weight: 700; color: #fff; }
+.topbar-sub   { font-size: 11px; color: #94A3B8; margin-top: 1px; }
+.badge { display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:600; padding:4px 10px; border-radius:20px; }
+.badge-dicom  { background:rgba(33,150,243,0.18); color:#90CAF9; }
+.badge-manual { background:rgba(76,175,80,0.18); color:#A5D6A7; }
+.badge-none   { background:rgba(255,183,77,0.18); color:#FFD54F; }
+.btn-top { display:inline-flex; align-items:center; gap:6px; padding:7px 14px; border-radius:8px; border:none; font-size:12px; font-weight:600; cursor:pointer; transition:opacity 0.15s; }
+.btn-top:hover { opacity: 0.88; }
+.btn-save-top   { background: var(--accent); color: #fff; }
+.btn-report-top { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.18); }
+
+/* ── Layout ── */
+.layout { display: flex; max-width: 1200px; margin: 0 auto; padding: 20px 16px 80px; gap: 20px; }
+
+/* ── Sidebar nav ── */
+.sidebar {
+  width: 210px; flex-shrink: 0;
+  position: sticky; top: 70px; align-self: flex-start;
+}
+.sidebar-card { background: var(--card); border-radius: var(--radius); border: 1px solid var(--border); overflow:hidden; }
+.sidebar-head { background: var(--primary); color:#fff; font-size:11px; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; padding:10px 14px; }
+.nav-link {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 14px; font-size: 12px; font-weight: 500; color: var(--muted);
+  border-left: 3px solid transparent; cursor: pointer; transition: all 0.15s;
+  border-bottom: 1px solid var(--border);
+}
+.nav-link:last-child { border-bottom: none; }
+.nav-link:hover { background: var(--primary-bg); color: var(--primary); border-left-color: var(--primary); }
+.nav-link.active { background: var(--primary-bg); color: var(--primary); border-left-color: var(--primary); font-weight: 600; }
+.nav-link svg { width:14px; height:14px; flex-shrink:0; fill: currentColor; opacity:0.7; }
+
+/* ── Main content ── */
+.main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+
+/* ── Section cards ── */
+.section { background: var(--card); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; }
+.section-head {
+  background: var(--primary); color: #fff;
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 18px; cursor: pointer;
+}
+.section-head svg { width:16px; height:16px; fill:#fff; opacity:0.9; flex-shrink:0; }
+.section-head h2 { font-size:12px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; flex:1; }
+.section-head .toggle { font-size:16px; opacity:0.7; transition: transform 0.2s; }
+.section.collapsed .toggle { transform: rotate(-90deg); }
+.section-body { display: block; }
+.section.collapsed .section-body { display: none; }
+
+/* ── Sub-section ── */
+.subsec { border-top: 1px solid var(--border); }
+.subsec-title {
+  background: var(--sub-bg); font-size:11px; font-weight:700;
+  color: var(--primary); text-transform:uppercase; letter-spacing:0.07em;
+  padding: 7px 18px; border-bottom: 1px solid var(--border);
+}
+
+/* ── Fields grid ── */
+.fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(175px,1fr)); gap: 1px; background: var(--border); }
+.field { background: var(--card); padding: 10px 14px; }
+.field label { display:block; font-size:10px; font-weight:700; color: var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:5px; }
+.field-wrap { position:relative; }
+.field-wrap input {
+  width:100%; height:36px; border:1.5px solid var(--border); border-radius:7px;
+  padding:0 36px 0 10px; font-size:13px; font-weight:500; color: var(--text);
+  background: var(--card); outline:none; transition: border-color 0.15s, box-shadow 0.15s;
+  font-family: 'Inter', sans-serif;
+}
+.field-wrap input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(33,150,243,0.12); }
+.field-wrap input:not(:placeholder-shown) { border-color: var(--primary); background: var(--primary-bg); }
+.unit-tag {
+  position:absolute; right:8px; top:50%; transform:translateY(-50%);
+  font-size:10px; font-weight:600; color: var(--muted); pointer-events:none;
+}
+
+/* ── Fetus tabs ── */
+.fetus-tabs { display:flex; align-items:center; gap:6px; padding:10px 18px; background: var(--sub-bg); border-bottom:1px solid var(--border); flex-wrap:wrap; }
+.ftab { padding:5px 16px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer; border:1.5px solid var(--border); color: var(--muted); background: var(--card); transition:all 0.15s; }
+.ftab.active { background: var(--primary); color:#fff; border-color: var(--primary); }
+.ftab:hover:not(.active) { border-color: var(--primary); color: var(--primary); }
+.btn-add-fetus { margin-left:auto; padding:5px 12px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer; border:1.5px dashed var(--accent); color: var(--accent); background:transparent; transition:all 0.15s; }
+.btn-add-fetus:hover { background: var(--primary-bg); }
+.fpanel { display:none; }
+.fpanel.active { display:block; }
+.fetus-meta { display:flex; align-items:center; gap:6px; padding:8px 18px; background:#F0F7FF; border-bottom:1px solid var(--border); font-size:11px; color: var(--primary); font-weight:600; }
+.fetus-meta svg { width:14px; height:14px; fill: var(--primary); }
+.btn-remove-fetus { margin-left:auto; padding:3px 10px; border-radius:5px; font-size:11px; font-weight:600; cursor:pointer; border:none; background:rgba(239,68,68,0.1); color:#EF4444; }
+.btn-remove-fetus:hover { background:rgba(239,68,68,0.2); }
+
+/* ── Save bar ── */
+.save-bar {
+  position:fixed; bottom:0; left:0; right:0;
+  background: var(--dark); border-top:1px solid rgba(255,255,255,0.07);
+  display:flex; align-items:center; gap:10px;
+  padding:10px 24px; z-index:200;
+}
+.save-status { font-size:12px; color:#94A3B8; margin-left:auto; }
+.btn-save { padding:9px 24px; border-radius:8px; border:none; background: var(--accent); color:#fff; font-size:13px; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:6px; }
+.btn-save:disabled { opacity:0.6; cursor:not-allowed; }
+.btn-cancel { padding:9px 16px; border-radius:8px; border:1px solid rgba(255,255,255,0.12); background:transparent; color:#94A3B8; font-size:12px; font-weight:600; cursor:pointer; }
+.btn-report { padding:9px 18px; border-radius:8px; border:none; background:rgba(255,255,255,0.08); color:#fff; font-size:12px; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:6px; }
+.btn-report:hover { background:rgba(255,255,255,0.14); }
+</style>
+</head>
+<body>
+
+<!-- Top bar -->
+<div class="topbar">
+  <div class="topbar-icon">
+    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M10 3H14V10H21V14H14V21H10V14H3V10H10V3Z"/></svg>
+  </div>
+  <div class="topbar-info">
+    <div class="topbar-title">{{ patient.civilite|upper }} {{ patient.nom_complet }}</div>
+    <div class="topbar-sub">{{ consultation.date|date:"d/m/Y" }} &nbsp;·&nbsp; {{ consultation.motif.libelle }}</div>
+  </div>
+  {% if sr_source == 'dicom'  %}<span class="badge badge-dicom">⚡ DICOM</span>{% endif %}
+  {% if sr_source == 'manual' %}<span class="badge badge-manual">✎ Manual</span>{% endif %}
+  {% if not sr_source         %}<span class="badge badge-none">○ No data</span>{% endif %}
+  <button class="btn-top btn-report-top" onclick="openReport()">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/></svg>
+    View Report
+  </button>
+  <button class="btn-top btn-save-top" onclick="saveAll()">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
+    Save
+  </button>
+</div>
+
+<div class="layout">
+
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sidebar-card">
+      <div class="sidebar-head">Sections</div>
+      <div class="nav-link active" onclick="scrollTo('sec-pregnancy')">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+        Pregnancy
+      </div>
+      <div class="nav-link" onclick="scrollTo('sec-uterus')">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+        Uterus &amp; Cervix
+      </div>
+      <div class="nav-link" onclick="scrollTo('sec-ovaries')">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg>
+        Ovaries
+      </div>
+      <div class="nav-link" onclick="scrollTo('sec-doppler-ut')">
+        <svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>
+        Uterine Doppler
+      </div>
+      <div class="nav-link" onclick="scrollTo('sec-fetus')">
+        <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 100 10A5 5 0 0012 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg>
+        Fetal Measurements
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- Pregnancy -->
+    <div class="section" id="sec-pregnancy">
+      <div class="section-head" onclick="toggleSection(this)">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+        <h2>Pregnancy</h2>
+        <span class="toggle">›</span>
+      </div>
+      <div class="section-body">
+        <div class="fields">
+          <div class="field"><label>LMP (DDR)</label><div class="field-wrap"><input type="date" data-key="ddr"/></div></div>
+          <div class="field"><label>Estimated Due Date</label><div class="field-wrap"><input type="date" data-key="date_accouchement"/></div></div>
+          <div class="field"><label>Gestational Age</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-key="age_gestationnel"/><span class="unit-tag">wks</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Uterus & Cervix -->
+    <div class="section" id="sec-uterus">
+      <div class="section-head" onclick="toggleSection(this)">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+        <h2>Uterus &amp; Cervix</h2>
+        <span class="toggle">›</span>
+      </div>
+      <div class="section-body">
+        <div class="subsec-title">Uterus</div>
+        <div class="fields">
+          <div class="field"><label>Length</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-key="uterus_longueur"/><span class="unit-tag">mm</span></div></div>
+          <div class="field"><label>Width</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-key="uterus_largeur"/><span class="unit-tag">mm</span></div></div>
+          <div class="field"><label>Height</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-key="uterus_hauteur"/><span class="unit-tag">mm</span></div></div>
+          <div class="field"><label>Volume</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-key="uterus_volume"/><span class="unit-tag">cm³</span></div></div>
+        </div>
+        <div class="subsec subsec-title">Endometrium</div>
+        <div class="fields">
+          <div class="field"><label>Thickness</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-key="endometre_epaisseur"/><span class="unit-tag">mm</span></div></div>
+        </div>
+        <div class="subsec subsec-title">Cervix</div>
+        <div class="fields">
+          <div class="field"><label>Length</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-key="col_longueur"/><span class="unit-tag">mm</span></div></div>
+          <div class="field"><label>Width</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-key="col_largeur"/><span class="unit-tag">mm</span></div></div>
+          <div class="field"><label>Height</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-key="col_hauteur"/><span class="unit-tag">mm</span></div></div>
+          <div class="field"><label>Volume</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-key="col_volume"/><span class="unit-tag">cm³</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ovaries -->
+    <div class="section" id="sec-ovaries">
+      <div class="section-head" onclick="toggleSection(this)">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg>
+        <h2>Ovaries</h2>
+        <span class="toggle">›</span>
+      </div>
+      <div class="section-body">
+        <div class="subsec-title">Left Ovary</div>
+        <div class="fields">
+          <div class="field"><label>Length</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-key="ovaire_gauche_longueur"/><span class="unit-tag">mm</span></div></div>
+          <div class="field"><label>Width</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-key="ovaire_gauche_largeur"/><span class="unit-tag">mm</span></div></div>
+          <div class="field"><label>Height</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-key="ovaire_gauche_hauteur"/><span class="unit-tag">mm</span></div></div>
+          <div class="field"><label>Volume</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-key="ovaire_gauche_volume"/><span class="unit-tag">cm³</span></div></div>
+        </div>
+        <div class="subsec subsec-title">Right Ovary</div>
+        <div class="fields">
+          <div class="field"><label>Length</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-key="ovaire_droit_longueur"/><span class="unit-tag">mm</span></div></div>
+          <div class="field"><label>Width</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-key="ovaire_droit_largeur"/><span class="unit-tag">mm</span></div></div>
+          <div class="field"><label>Height</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-key="ovaire_droit_hauteur"/><span class="unit-tag">mm</span></div></div>
+          <div class="field"><label>Volume</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-key="ovaire_droit_volume"/><span class="unit-tag">cm³</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Uterine Doppler -->
+    <div class="section" id="sec-doppler-ut">
+      <div class="section-head" onclick="toggleSection(this)">
+        <svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>
+        <h2>Uterine Doppler</h2>
+        <span class="toggle">›</span>
+      </div>
+      <div class="section-body">
+        <div class="subsec-title">Left Uterine Artery</div>
+        <div class="fields">
+          <div class="field"><label>RI Left</label><div class="field-wrap"><input type="number" step="0.01" placeholder="—" data-key="doppler_uterin.ir_gauche"/></div></div>
+          <div class="field"><label>PI Left</label><div class="field-wrap"><input type="number" step="0.01" placeholder="—" data-key="doppler_uterin.ip_gauche"/></div></div>
+        </div>
+        <div class="subsec subsec-title">Right Uterine Artery</div>
+        <div class="fields">
+          <div class="field"><label>RI Right</label><div class="field-wrap"><input type="number" step="0.01" placeholder="—" data-key="doppler_uterin.ir_droit"/></div></div>
+          <div class="field"><label>PI Right</label><div class="field-wrap"><input type="number" step="0.01" placeholder="—" data-key="doppler_uterin.ip_droit"/></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fetal Measurements -->
+    <div class="section" id="sec-fetus">
+      <div class="section-head" onclick="toggleSection(this)">
+        <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 100 10A5 5 0 0012 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg>
+        <h2>Fetal Measurements</h2>
+        <span class="toggle">›</span>
+      </div>
+      <div class="section-body">
+        <div class="fetus-tabs" id="fetus-tabs">
+          <button class="btn-add-fetus" onclick="addFetus()">+ Add Fetus</button>
+        </div>
+        <div id="fetus-panels"></div>
+      </div>
+    </div>
+
+  </div><!-- end .main -->
+</div>
+
+<!-- Save bar -->
+<div class="save-bar">
+  <button class="btn-save" id="save-btn" onclick="saveAll()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
+    Save Measurements
+  </button>
+  <button class="btn-cancel" onclick="window.close()">Cancel</button>
+  <span class="save-status" id="save-status"></span>
+  <button class="btn-report" onclick="openReport()">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/></svg>
+    View Report
+  </button>
+</div>
+
+<script>
+const PK = {{ consultation.pk }};
+const CSRF = (document.cookie.split(';').map(c=>c.trim()).find(c=>c.startsWith('csrftoken='))||'').split('=')[1]||'';
+let mesures = {{ mesures_json|safe }};
+if (!mesures.foetus) mesures.foetus = [];
+
+/* ── Flat get/set ── */
+function flatGet(obj, key) {
+  return key.split('.').reduce((o,k) => (o && o[k] != null ? o[k] : ''), obj);
+}
+function flatSet(obj, key, val) {
+  const keys = key.split('.');
+  let cur = obj;
+  for (let i=0; i<keys.length-1; i++) {
+    if (!cur[keys[i]] || typeof cur[keys[i]] !== 'object') cur[keys[i]] = {};
+    cur = cur[keys[i]];
+  }
+  const last = keys[keys.length-1];
+  cur[last] = val === '' ? null : (isNaN(Number(val)) || val==='' ? val : Number(val));
+}
+
+/* ── Bind flat inputs (skip fkey ones) ── */
+function bindFlat(container, obj) {
+  container.querySelectorAll('[data-key]').forEach(inp => {
+    const k = inp.dataset.key;
+    const v = flatGet(obj, k);
+    inp.value = (v != null && v !== '') ? v : '';
+    inp.addEventListener('input', () => flatSet(obj, k, inp.value));
+  });
+}
+
+/* ── Section toggle ── */
+function toggleSection(head) {
+  head.closest('.section').classList.toggle('collapsed');
+  const t = head.querySelector('.toggle');
+  if (t) t.style.transform = head.closest('.section').classList.contains('collapsed') ? 'rotate(-90deg)' : 'rotate(90deg)';
+}
+/* start with toggle pointing down */
+document.querySelectorAll('.section-head .toggle').forEach(t => { t.style.transform = 'rotate(90deg)'; });
+
+/* ── Scroll nav ── */
+function scrollTo(id) {
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth', block:'start'});
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+
+/* ── Fetus panel template ── */
+function fetusTpl(idx) {
+  return `
+  <div class="fpanel" id="fpanel-${idx}">
+    <div class="fetus-meta">
+      <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 100 10A5 5 0 0012 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg>
+      Fetus ${idx+1}
+      <button class="btn-remove-fetus" onclick="removeFetus(${idx})">✕ Remove</button>
+    </div>
+
+    <div class="subsec-title">General</div>
+    <div class="fields">
+      <div class="field"><label>Fetus ID</label><div class="field-wrap"><input type="text" placeholder="F${idx+1}" data-fkey="id"/></div></div>
+      <div class="field"><label>GA (weeks)</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-fkey="age_gest"/><span class="unit-tag">wks</span></div></div>
+      <div class="field"><label>Est. Weight</label><div class="field-wrap"><input type="number" step="1" placeholder="—" data-fkey="poids"/><span class="unit-tag">g</span></div></div>
+      <div class="field"><label>Heart Rate</label><div class="field-wrap"><input type="number" step="1" placeholder="—" data-fkey="fc"/><span class="unit-tag">bpm</span></div></div>
+      <div class="field"><label>Due Date</label><div class="field-wrap"><input type="date" data-fkey="date_accouchement"/></div></div>
+    </div>
+
+    <div class="subsec subsec-title">Biometry</div>
+    <div class="fields">
+      <div class="field"><label>BPD (BIP)</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-fkey="biometrie.bip"/><span class="unit-tag">mm</span></div></div>
+      <div class="field"><label>HC (PC)</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-fkey="biometrie.pc"/><span class="unit-tag">mm</span></div></div>
+      <div class="field"><label>AC (PA)</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-fkey="biometrie.pa"/><span class="unit-tag">mm</span></div></div>
+      <div class="field"><label>FL (Femur)</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-fkey="biometrie.femur"/><span class="unit-tag">mm</span></div></div>
+      <div class="field"><label>CRL (LCC)</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-fkey="biometrie.lcc"/><span class="unit-tag">mm</span></div></div>
+      <div class="field"><label>Gest. Sac</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-fkey="biometrie.sac_gestationnel_diametre"/><span class="unit-tag">mm</span></div></div>
+      <div class="field"><label>NT (Nuchal)</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-fkey="biometrie.cn"/><span class="unit-tag">mm</span></div></div>
+      <div class="field"><label>Nuchal Fold</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-fkey="biometrie.epn"/><span class="unit-tag">mm</span></div></div>
+    </div>
+
+    <div class="subsec subsec-title">Long Bones</div>
+    <div class="fields">
+      <div class="field"><label>Humerus</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-fkey="os.humerus"/><span class="unit-tag">mm</span></div></div>
+      <div class="field"><label>Radius</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-fkey="os.radius"/><span class="unit-tag">mm</span></div></div>
+      <div class="field"><label>Ulna</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-fkey="os.cubitus"/><span class="unit-tag">mm</span></div></div>
+      <div class="field"><label>Tibia</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-fkey="os.tibia"/><span class="unit-tag">mm</span></div></div>
+      <div class="field"><label>Fibula</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-fkey="os.perone"/><span class="unit-tag">mm</span></div></div>
+      <div class="field"><label>Clavicle</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-fkey="os.clavicule"/><span class="unit-tag">mm</span></div></div>
+      <div class="field"><label>Foot</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-fkey="os.pied"/><span class="unit-tag">mm</span></div></div>
+    </div>
+
+    <div class="subsec subsec-title">Cranium</div>
+    <div class="fields">
+      <div class="field"><label>Cerebellum</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-fkey="crane.cervelet"/><span class="unit-tag">mm</span></div></div>
+      <div class="field"><label>Inner Orbital Diam.</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-fkey="crane.dio"/><span class="unit-tag">mm</span></div></div>
+      <div class="field"><label>Outer Orbital Diam.</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-fkey="crane.do"/><span class="unit-tag">mm</span></div></div>
+    </div>
+
+    <div class="subsec subsec-title">Doppler — Umbilical</div>
+    <div class="fields">
+      <div class="field"><label>RI</label><div class="field-wrap"><input type="number" step="0.01" placeholder="—" data-fkey="doppler_ombilical.doppler_cordon_ir"/></div></div>
+      <div class="field"><label>PI</label><div class="field-wrap"><input type="number" step="0.01" placeholder="—" data-fkey="doppler_ombilical.doppler_cordon_ip"/></div></div>
+    </div>
+
+    <div class="subsec subsec-title">Doppler — MCA</div>
+    <div class="fields">
+      <div class="field"><label>RI</label><div class="field-wrap"><input type="number" step="0.01" placeholder="—" data-fkey="doppler_acm.doppler_acm_ir"/></div></div>
+      <div class="field"><label>PI</label><div class="field-wrap"><input type="number" step="0.01" placeholder="—" data-fkey="doppler_acm.doppler_acm_ip"/></div></div>
+    </div>
+
+    <div class="subsec subsec-title">Doppler — Ductus Venosus</div>
+    <div class="fields">
+      <div class="field"><label>RI</label><div class="field-wrap"><input type="number" step="0.01" placeholder="—" data-fkey="doppler_dv.doppler_dv_ir"/></div></div>
+      <div class="field"><label>PI</label><div class="field-wrap"><input type="number" step="0.01" placeholder="—" data-fkey="doppler_dv.doppler_dv_ip"/></div></div>
+    </div>
+
+    <div class="subsec subsec-title">Biometric Ratios</div>
+    <div class="fields">
+      <div class="field"><label>HC / AC</label><div class="field-wrap"><input type="number" step="0.01" placeholder="—" data-fkey="ratios.hc_ac"/></div></div>
+      <div class="field"><label>FL / AC</label><div class="field-wrap"><input type="number" step="0.01" placeholder="—" data-fkey="ratios.fl_ac"/></div></div>
+      <div class="field"><label>FL / BPD</label><div class="field-wrap"><input type="number" step="0.01" placeholder="—" data-fkey="ratios.fl_bpd"/></div></div>
+      <div class="field"><label>Cephalic Index</label><div class="field-wrap"><input type="number" step="0.1" placeholder="—" data-fkey="ratios.cephalic_index"/></div></div>
+      <div class="field"><label>FL / HC</label><div class="field-wrap"><input type="number" step="0.01" placeholder="—" data-fkey="ratios.fl_hc"/></div></div>
+    </div>
+  </div>`;
+}
+
+function renderFetuses() {
+  const tabs   = document.getElementById('fetus-tabs');
+  const panels = document.getElementById('fetus-panels');
+  // Keep add-button, remove other tabs
+  const addBtn = tabs.querySelector('.btn-add-fetus');
+  tabs.innerHTML = '';
+  tabs.appendChild(addBtn);
+  panels.innerHTML = '';
+
+  mesures.foetus.forEach((f, idx) => {
+    const tab = document.createElement('button');
+    tab.className = 'ftab' + (idx===0?' active':'');
+    tab.textContent = 'Fetus ' + (idx+1);
+    tab.onclick = () => switchFetus(idx);
+    tabs.insertBefore(tab, addBtn);
+
+    panels.insertAdjacentHTML('beforeend', fetusTpl(idx));
+    const panel = document.getElementById('fpanel-'+idx);
+    if (idx===0) panel.classList.add('active');
+
+    panel.querySelectorAll('[data-fkey]').forEach(inp => {
+      const k = inp.dataset.fkey;
+      const v = flatGet(f, k);
+      inp.value = (v != null && v !== '') ? v : '';
+      inp.addEventListener('input', () => flatSet(f, k, inp.value));
+    });
+  });
+}
+
+function switchFetus(idx) {
+  document.querySelectorAll('.ftab').forEach((t,i)  => t.classList.toggle('active', i===idx));
+  document.querySelectorAll('.fpanel').forEach((p,i) => p.classList.toggle('active', i===idx));
+}
+function addFetus() {
+  mesures.foetus.push({id:'F'+(mesures.foetus.length+1), biometrie:{}, os:{}, crane:{}, doppler_ombilical:{}, doppler_acm:{}, doppler_dv:{}, ratios:{}});
+  renderFetuses();
+  switchFetus(mesures.foetus.length-1);
+}
+function removeFetus(idx) {
+  if (!confirm('Remove Fetus '+(idx+1)+'?')) return;
+  mesures.foetus.splice(idx,1);
+  renderFetuses();
+  if (mesures.foetus.length) switchFetus(0);
+}
+
+/* ── Init ── */
+document.addEventListener('DOMContentLoaded', () => {
+  bindFlat(document.querySelector('.main'), mesures);
+  renderFetuses();
+});
+
+/* ── Save ── */
+function saveAll() {
+  const btn = document.getElementById('save-btn');
+  const status = document.getElementById('save-status');
+  btn.disabled = true;
+  status.textContent = 'Saving…';
+  fetch(`/consultation/${PK}/mesures`, {
+    method:'POST',
+    headers:{'Content-Type':'application/x-www-form-urlencoded','X-CSRFToken':CSRF},
+    body:'mesures_data='+encodeURIComponent(JSON.stringify(mesures))
+  })
+  .then(r=>r.json())
+  .then(()=>{
+    status.textContent = '✓ Saved successfully';
+    status.style.color = '#4CAF50';
+    setTimeout(()=>{ status.textContent=''; status.style.color=''; }, 3000);
+  })
+  .catch(()=>{ status.textContent='Error — please retry'; status.style.color='#EF4444'; })
+  .finally(()=>{ btn.disabled=false; });
+}
+
+function openReport() {
+  window.location.href = `/consultation/${PK}/rapport`;
+}
+</script>
+</body>
+</html>

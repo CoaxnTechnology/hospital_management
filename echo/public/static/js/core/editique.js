@@ -47,29 +47,28 @@ function defaultMargins() {
 }
 
 function impressionGenerique(content, pageSize = 'A5') {
-    let makeDoc = [];
-    cleanPDF(htmlToPdfmake(content, defaultHtml2PDFOptions), makeDoc);
-    console.log(makeDoc[0]);
+    const headerImg = (addEntetes && logoB64)   ? `<div style="text-align:center;margin-bottom:6px;"><img src="${logoB64}" style="max-width:100%;max-height:80px;"/></div>` : '';
+    const footerImg = (addEntetes && footerB64) ? `<div style="text-align:center;margin-top:10px;"><img src="${footerB64}" style="max-width:100%;max-height:60px;"/></div>` : '';
+    const margins   = defaultMargins();
+    const marginCss = `${margins[1]}pt ${margins[2]}pt ${margins[3]}pt ${margins[0]}pt`;
+    const pageW     = pageSize === 'A4' ? 'A4' : 'A5';
 
-    const dd = {
-        pageMargins: defaultMargins(),
-        pageSize: pageSize,
-        header: defaultHeader,
-        footer: defaultFooter,
-        content: [
-            makeDoc[0]
-            //htmlToPdfmake(templateSignature(signatureData))
-        ],
-        defaultStyle: {
-            fontSize: 10
-        }
-    };
-
-    pdfDoc = pdfMake.createPdf(dd);
-    pdfDoc.getBlob(blob => {
-        const url = URL.createObjectURL(blob);
-        window.open(url, '_blank');
-    });
+    const win = window.open('', '_blank');
+    win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
+<style>
+  @page { size: ${pageW}; margin: ${marginCss}; }
+  * { box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; font-size: 11pt; margin: 0; padding: 10mm; }
+  p { margin: 0 0 4px; }
+  strong { font-weight: bold; }
+</style>
+</head><body>
+${headerImg}
+${content}
+${footerImg}
+</body></html>`);
+    win.document.close();
+    setTimeout(() => { win.print(); }, 300);
 }
 
 function cleanPDF(el, parent) {

@@ -257,39 +257,38 @@ $(document).ready(() => {
 
     $('#btn-imprimer').click(eve => {
         const praticien = _.find(praticiens, p => p.id == $('#id_praticien').val());
-        const signatureData = {
-            signature_titre: praticien ? praticien.nom : '',
-            signature_img: signatureB64
-        };
-
         const editorContent = tinymce.activeEditor ? tinymce.activeEditor.getContent() : '';
-        let makeDoc = [];
-        let html = htmlToPdfmake(editorContent || '<p> </p>', defaultHtml2PDFOptions);
-        cleanPDF(html, makeDoc);
 
-        const content = makeDoc[0] ? [makeDoc[0]] : [{text: ' '}];
-        const sigHtml = templateSignature(signatureData);
-        if (sigHtml && sigHtml.trim() !== '') {
-            content.push(htmlToPdfmake(sigHtml));
-        }
+        const headerImg  = (addEntetes && logoB64)    ? `<div style="text-align:center;margin-bottom:6px;"><img src="${logoB64}" style="max-width:100%;max-height:80px;"/></div>` : '';
+        const footerImg  = (addEntetes && footerB64)  ? `<div style="text-align:center;margin-top:10px;"><img src="${footerB64}" style="max-width:100%;max-height:60px;"/></div>` : '';
+        const sigImg     = signatureB64 ? `<img src="${signatureB64}" style="max-height:55px;display:block;margin-bottom:4px;"/>` : '';
+        const sigName    = praticien ? `<div style="font-size:10pt;font-weight:bold;">${praticien.nom}</div>` : '';
+        const sigBlock   = (sigImg || sigName) ? `<div style="text-align:right;margin-top:16px;">${sigImg}${sigName}</div>` : '';
 
-        const docDefinition = {
-            pageSize: 'A5',
-            pageMargins: defaultMargins(),
-            header: defaultHeader,
-            footer: defaultFooter,
-            content: content
-        };
+        const margins = defaultMargins();  // [left, top, right, bottom] in pt
+        const marginCss = `${margins[1]}pt ${margins[2]}pt ${margins[3]}pt ${margins[0]}pt`;
 
-        pdfDoc = pdfMake.createPdf(docDefinition, defaultHtml2PDFOptions);
-        pdfDoc.getBlob(blob => {
-            const url = URL.createObjectURL(blob);
-            window.open(url, '_blank');
-        });
+        const win = window.open('', '_blank');
+        win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
+<style>
+  @page { size: A5; margin: ${marginCss}; }
+  * { box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; font-size: 11pt; margin: 0; padding: 10mm; }
+  p { margin: 0 0 4px; }
+  strong { font-weight: bold; }
+</style>
+</head><body>
+${headerImg}
+${editorContent}
+${sigBlock}
+${footerImg}
+</body></html>`);
+        win.document.close();
+        setTimeout(() => { win.print(); }, 300);
 
         setTimeout(() => {
             $('#form_1').submit();
-        }, 500);
+        }, 800);
     });
 
     $('id_text').css('display', 'none');

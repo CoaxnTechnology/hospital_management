@@ -16,6 +16,16 @@ function getFormeDisplay(forme, many=false) {
     }
 }
 
+function _insertIntoEditor(edt, html) {
+    // Try to insert inside #content-container if it exists, otherwise just append
+    const container = edt.dom.get('content-container');
+    if (container) {
+        edt.dom.add('content-container', 'p', {}, html);
+    } else {
+        edt.insertContent('<p>' + html + '</p>');
+    }
+}
+
 function insererTraitement() {
     const edt = tinymce.activeEditor;
     const prises_par_jour = $("#prises_par_jour").val();
@@ -24,9 +34,7 @@ function insererTraitement() {
     const forme = getFormeDisplay(traitementSelectionne.forme, parseInt(qte_par_prise) > 1);
     let posologie = `${qte_par_prise} ${forme} ${prises_par_jour} fois par jour`;
     if (nb_jours != '') posologie += ` pendant ${nb_jours} jours`;
-    //edt.setContent(`${edt.getContent()} <br><p><strong>${traitementSelectionne.text}</strong> : ${posologie}</p>`);
-    edt.dom.add('content-container', 'p', {}, `<strong>${traitementSelectionne.text}</strong> : ${posologie}`);
-    //console.log('Posologie', posologie);
+    _insertIntoEditor(edt, `<strong>${traitementSelectionne.text}</strong> : ${posologie}`);
     $('[name="traitement"]').typeahead('val', '');
     $('#prises_par_jour, #nb_jours').val('');
     $('#qte_par_prise').val('1');
@@ -34,7 +42,7 @@ function insererTraitement() {
 
 function insererPrescription(prescription) {
     const edt = tinymce.activeEditor;
-    edt.dom.add('content-container', 'p', {}, `${prescription.text}`);
+    _insertIntoEditor(edt, prescription.text);
 }
 
 function ajouterTraitement() {
@@ -206,11 +214,11 @@ $(document).ready(() => {
         minLength: 2
     }).on('typeahead:select', (e, suggestion) => {
         traitementSelectionne = suggestion;
-        $('.traitement-champs').addClass('d-block');
+        $('.traitement-champs').removeClass('d-none').addClass('d-flex');
         //console.log(suggestion);
     }).on('typeahead:autocomplete', (e, suggestion) => {
         traitementSelectionne = suggestion;
-        $('.traitement-champs').addClass('d-block');
+        $('.traitement-champs').removeClass('d-none').addClass('d-flex');
     });
 
     ['biologie', 'examen_complementaire'].forEach(categorie => {

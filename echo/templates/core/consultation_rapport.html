@@ -95,6 +95,23 @@ tr:nth-child(even) td { background:#F7FAFD; }
 .btn-add-meas { display:inline-block; background:#1565C0; color:#fff; padding:9px 22px; border-radius:8px; font-size:11pt; font-weight:600; text-decoration:none; }
 
 .dicom-badge { font-size:8pt; font-weight:600; color:#1565C0; background:#EBF4FF; padding:2px 8px; border-radius:10px; margin-left:8px; vertical-align:middle; }
+
+/* ── Print optimizations ── */
+@page { size: A4; margin: 12mm 15mm; }
+@media print {
+  body { background: #fff; font-size: 9pt; }
+  .toolbar { display: none !important; }
+  .page { margin: 0; box-shadow: none; width: 100%; min-height: auto; }
+  .sec { page-break-after: avoid; }
+  .sec.sub { page-break-after: avoid; }
+  table { page-break-inside: avoid; }
+  .two-col { page-break-inside: avoid; }
+  .fetus-hd { page-break-after: avoid; page-break-before: auto; }
+  .sign-row { page-break-inside: avoid; }
+  .report-text { page-break-inside: avoid; }
+  .no-data { display: none; }
+  .btn-add-meas { display: none; }
+}
 </style>
 </head>
 <body>

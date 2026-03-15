@@ -257,27 +257,32 @@ $(document).ready(() => {
 
     $('#btn-imprimer').click(eve => {
         const praticien = _.find(praticiens, p => p.id == $('#id_praticien').val());
-        const signatureData = {signature_titre: praticien.nom, signature_img: signatureB64};
-        console.log(tinymce.activeEditor.getContent());
+        const signatureData = {
+            signature_titre: praticien ? praticien.nom : '',
+            signature_img: signatureB64
+        };
+
+        const editorContent = tinymce.activeEditor ? tinymce.activeEditor.getContent() : '';
         let makeDoc = [];
-        let html = htmlToPdfmake(tinymce.activeEditor.getContent(), defaultHtml2PDFOptions);
-        console.log('PDF', html);
+        let html = htmlToPdfmake(editorContent || '<p> </p>', defaultHtml2PDFOptions);
         cleanPDF(html, makeDoc);
-        console.log('Cleaned', makeDoc);
+
+        const content = makeDoc[0] ? [makeDoc[0]] : [{text: ' '}];
+        const sigHtml = templateSignature(signatureData);
+        if (sigHtml && sigHtml.trim() !== '') {
+            content.push(htmlToPdfmake(sigHtml));
+        }
+
         const docDefinition = {
             pageSize: 'A5',
             pageMargins: defaultMargins(),
             header: defaultHeader,
             footer: defaultFooter,
-            content: [
-                makeDoc[0],
-                htmlToPdfmake(templateSignature(signatureData))
-            ]
+            content: content
         };
 
         pdfDoc = pdfMake.createPdf(docDefinition, defaultHtml2PDFOptions);
-        console.log(pdfDoc);
-        pdfDoc.open();
+        pdfDoc.print();
 
         setTimeout(() => {
             $('#form_1').submit();

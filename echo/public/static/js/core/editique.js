@@ -53,8 +53,17 @@ function impressionGenerique(content, pageSize = 'A5') {
     const marginCss = `${margins[1]}pt ${margins[2]}pt ${margins[3]}pt ${margins[0]}pt`;
     const pageW     = pageSize === 'A4' ? 'A4' : 'A5';
 
-    const win = window.open('', '_blank');
-    win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
+    let iframe = document.getElementById('gen-print-frame');
+    if (!iframe) {
+        iframe = document.createElement('iframe');
+        iframe.id = 'gen-print-frame';
+        iframe.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:0;height:0;border:none;';
+        document.body.appendChild(iframe);
+    }
+
+    const doc = iframe.contentDocument || iframe.contentWindow.document;
+    doc.open();
+    doc.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
 <style>
   @page { size: ${pageW}; margin: ${marginCss}; }
   * { box-sizing: border-box; }
@@ -67,8 +76,12 @@ ${headerImg}
 ${content}
 ${footerImg}
 </body></html>`);
-    win.document.close();
-    setTimeout(() => { win.print(); }, 300);
+    doc.close();
+
+    setTimeout(() => {
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print();
+    }, 300);
 }
 
 function cleanPDF(el, parent) {

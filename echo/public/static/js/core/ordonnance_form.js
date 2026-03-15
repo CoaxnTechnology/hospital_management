@@ -259,17 +259,25 @@ $(document).ready(() => {
         const praticien = _.find(praticiens, p => p.id == $('#id_praticien').val());
         const editorContent = tinymce.activeEditor ? tinymce.activeEditor.getContent() : '';
 
-        const headerImg  = (addEntetes && logoB64)    ? `<div style="text-align:center;margin-bottom:6px;"><img src="${logoB64}" style="max-width:100%;max-height:80px;"/></div>` : '';
-        const footerImg  = (addEntetes && footerB64)  ? `<div style="text-align:center;margin-top:10px;"><img src="${footerB64}" style="max-width:100%;max-height:60px;"/></div>` : '';
-        const sigImg     = signatureB64 ? `<img src="${signatureB64}" style="max-height:55px;display:block;margin-bottom:4px;"/>` : '';
-        const sigName    = praticien ? `<div style="font-size:10pt;font-weight:bold;">${praticien.nom}</div>` : '';
-        const sigBlock   = (sigImg || sigName) ? `<div style="text-align:right;margin-top:16px;">${sigImg}${sigName}</div>` : '';
-
-        const margins = defaultMargins();  // [left, top, right, bottom] in pt
+        const headerImg = (addEntetes && logoB64)   ? `<div style="text-align:center;margin-bottom:6px;"><img src="${logoB64}" style="max-width:100%;max-height:80px;"/></div>` : '';
+        const footerImg = (addEntetes && footerB64) ? `<div style="text-align:center;margin-top:10px;"><img src="${footerB64}" style="max-width:100%;max-height:60px;"/></div>` : '';
+        const sigImg    = signatureB64 ? `<img src="${signatureB64}" style="max-height:55px;display:block;margin-bottom:4px;"/>` : '';
+        const sigName   = praticien ? `<div style="font-size:10pt;font-weight:bold;">${praticien.nom}</div>` : '';
+        const sigBlock  = (sigImg || sigName) ? `<div style="text-align:right;margin-top:16px;">${sigImg}${sigName}</div>` : '';
+        const margins   = defaultMargins();
         const marginCss = `${margins[1]}pt ${margins[2]}pt ${margins[3]}pt ${margins[0]}pt`;
 
-        const win = window.open('', '_blank');
-        win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
+        let iframe = document.getElementById('ord-print-frame');
+        if (!iframe) {
+            iframe = document.createElement('iframe');
+            iframe.id = 'ord-print-frame';
+            iframe.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:0;height:0;border:none;';
+            document.body.appendChild(iframe);
+        }
+
+        const doc = iframe.contentDocument || iframe.contentWindow.document;
+        doc.open();
+        doc.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
 <style>
   @page { size: A5; margin: ${marginCss}; }
   * { box-sizing: border-box; }
@@ -283,12 +291,14 @@ ${editorContent}
 ${sigBlock}
 ${footerImg}
 </body></html>`);
-        win.document.close();
-        setTimeout(() => { win.print(); }, 300);
+        doc.close();
 
         setTimeout(() => {
-            $('#form_1').submit();
-        }, 800);
+            iframe.contentWindow.focus();
+            iframe.contentWindow.print();
+        }, 300);
+
+        setTimeout(() => { $('#form_1').submit(); }, 800);
     });
 
     $('id_text').css('display', 'none');

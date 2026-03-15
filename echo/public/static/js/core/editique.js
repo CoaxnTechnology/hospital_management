@@ -66,7 +66,10 @@ function impressionGenerique(content, pageSize = 'A5') {
     };
 
     pdfDoc = pdfMake.createPdf(dd);
-    pdfDoc.print();
+    pdfDoc.getBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+    });
 }
 
 function cleanPDF(el, parent) {

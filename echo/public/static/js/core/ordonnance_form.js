@@ -282,11 +282,14 @@ $(document).ready(() => {
         };
 
         pdfDoc = pdfMake.createPdf(docDefinition, defaultHtml2PDFOptions);
-        pdfDoc.print();
+        pdfDoc.getBlob(blob => {
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+        });
 
         setTimeout(() => {
             $('#form_1').submit();
-        }, 2000);
+        }, 500);
     });
 
     $('id_text').css('display', 'none');

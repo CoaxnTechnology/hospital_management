@@ -271,7 +271,22 @@ body {
     radial-gradient(ellipse 700px 500px at 100% 100%, rgba(21, 101, 192, 0.03) 0%, transparent 70%) !important;
   background-attachment: fixed !important;
   background-size: 100% 100% !important;
+  color: var(--hp-text) !important;
 }
+
+/* Light mode — ensure all text is visible */
+body, .card, .card-body, .card-header, .card-footer,
+.modal-content, .modal-body, .tab-content, .tab-pane,
+.form-group, .form-check {
+  color: var(--hp-text) !important;
+}
+label, .form-label, .col-form-label {
+  color: var(--hp-text) !important;
+}
+p, span:not(.badge):not(.btn):not([class*="text-"]), h1, h2, h3, h4, h5, h6 {
+  color: inherit;
+}
+.text-muted { color: var(--hp-text-muted) !important; }
 
 /* Sidebar, header, modals stay clean */
 #kt_aside,
@@ -1448,7 +1463,7 @@ html[data-hp-theme="dark"] #kt_header .btn-active-light-primary.active {
 .consult-patient-name {
   font-size: 20px !important;
   font-weight: 800 !important;
-  color: #1a2a3a !important;
+  color: var(--hp-text) !important;
   letter-spacing: -0.02em;
 }
 .consult-patient-name:hover { color: var(--hp-primary) !important; }
@@ -1610,7 +1625,7 @@ body#kt_body.bg-white {
   font-size: 12px !important;
 }
 .consultation-hero-card .table-flush td.text-gray-800 {
-  color: #1a2a3a !important;
+  color: var(--hp-text) !important;
   font-weight: 500 !important;
 }
 
@@ -1641,7 +1656,7 @@ body#kt_body.bg-white {
 .parametres-page .card-body .d-flex.align-items-center h3 {
   font-size: 15px !important;
   font-weight: 700 !important;
-  color: #1a2a3a !important;
+  color: var(--hp-text) !important;
 }
 .parametres-page .card-body .d-flex.align-items-center .symbol-label {
   width: 48px;
@@ -1665,7 +1680,7 @@ body#kt_body.bg-white {
 .parametres-page .card-body .py-9 .text-muted {
   font-size: 12px !important;
   font-weight: 500 !important;
-  color: #1a2a3a !important;
+  color: var(--hp-text) !important;
 }
 
 /* Settings sidebar nav pills */
@@ -1676,7 +1691,7 @@ body#kt_body.bg-white {
   padding: 10px 14px !important;
   font-size: 13px !important;
   font-weight: 500 !important;
-  color: #4a5568 !important;
+  color: var(--hp-text-secondary) !important;
   transition: background 0.18s, color 0.18s;
   margin-bottom: 2px;
 }
@@ -1748,7 +1763,7 @@ body#kt_body.bg-white {
 .user-card-name {
   font-size: 15px !important;
   font-weight: 700 !important;
-  color: #1a2a3a !important;
+  color: var(--hp-text) !important;
 }
 .user-card-name:hover { color: var(--hp-primary) !important; }
 .user-card-role {
@@ -1768,7 +1783,7 @@ body#kt_body.bg-white {
 .users-page .card-body .text-muted {
   font-size: 12px !important;
   font-weight: 500 !important;
-  color: #1a2a3a !important;
+  color: var(--hp-text) !important;
 }
 
 /* Disabled badge */
@@ -1987,7 +2002,7 @@ html[data-hp-theme="dark"] .subheader-toolbar {
 .fc-toolbar.fc-header-toolbar h2 {
   font-size: 17px !important;
   font-weight: 800 !important;
-  color: #1a2a3a !important;
+  color: var(--hp-text) !important;
   letter-spacing: -0.3px;
 }
 
@@ -2112,7 +2127,7 @@ html[data-hp-theme="dark"] .subheader-toolbar {
 .swal2-title {
   font-size: 18px !important;
   font-weight: 800 !important;
-  color: #1a2a3a !important;
+  color: var(--hp-text) !important;
   padding: 0 0 8px !important;
 }
 .swal2-html-container,

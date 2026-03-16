@@ -522,12 +522,32 @@ p, span:not(.badge):not(.btn):not([class*="text-"]), h1, h2, h3, h4, h5, h6 {
   border-bottom: 2px solid var(--hp-border) !important;
 }
 
-.table-striped tbody tr:nth-of-type(odd) {
-  background-color: #F8FAFD !important;
+/* Table body — force white background in light mode */
+.table tbody tr,
+.table tbody td,
+.dataTables_wrapper tbody tr,
+.dataTables_wrapper tbody td,
+table.dataTable tbody tr,
+table.dataTable tbody td {
+  background-color: var(--hp-card-bg) !important;
+  color: var(--hp-text) !important;
 }
 
-.table tbody tr:hover {
-  background-color: rgba(33, 150, 243, 0.04) !important;
+.table-striped tbody tr:nth-of-type(odd),
+table.dataTable.table-striped tbody tr:nth-of-type(odd) {
+  background-color: var(--hp-table-stripe) !important;
+}
+
+.table tbody tr:hover,
+table.dataTable tbody tr:hover {
+  background-color: var(--hp-table-hover) !important;
+}
+
+/* Empty state */
+.dataTables_wrapper .dataTables_empty,
+table.dataTable tbody td.dataTables_empty {
+  background-color: var(--hp-card-bg) !important;
+  color: var(--hp-text-muted) !important;
 }
 
 .table td,

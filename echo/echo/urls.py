@@ -55,8 +55,13 @@ from django.conf import settings
 
 from apps.core.views.consultations import base, gynecologique, obstetrique, images, pma
 from apps.core.views.devices import worklists, devices
+from apps.core.views import super_admin
 
 urlpatterns = [
+    # Super Admin
+    path("super-admin/", super_admin.dashboard, name="super_admin_dashboard"),
+    path("super-admin/create-doctor/", super_admin.create_doctor, name="super_admin_create_doctor"),
+    path("super-admin/delete-compte/<int:pk>/", super_admin.delete_compte, name="super_admin_delete_compte"),
     # Favicon at root (browsers auto-request /favicon.ico)
     path("favicon.ico", RedirectView.as_view(url="/static/media/logos/favicon.ico", permanent=True)),
     # i18n language switcher

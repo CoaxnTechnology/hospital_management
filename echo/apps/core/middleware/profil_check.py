@@ -1,18 +1,39 @@
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+
+
+def _is_super_admin(user):
+    if not user.is_authenticated:
+        return False
+    try:
+        return user.super_admin_profile is not None
+    except ObjectDoesNotExist:
+        return False
 
 
 class ProfilRequiredMiddleware:
     """
     Catches RelatedObjectDoesNotExist when a logged-in user has no Profil,
     and returns a clear error page instead of a 500 crash.
+    Super-admin users (with SuperAdminProfile) are allowed through without a Profil.
     """
 
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
+        # Super-admin users have no Profil — only allow /super-admin/ and /admin/ and /accounts/
+        if _is_super_admin(request.user):
+            allowed = ('/super-admin/', '/admin/', '/accounts/', '/i18n/', '/__debug__/')
+            if not any(request.path.startswith(p) for p in allowed):
+                return HttpResponseRedirect('/super-admin/')
+            return self.get_response(request)
+
+        # Block /super-admin/ for non-super-admin users
+        if request.path.startswith('/super-admin/'):
+            return HttpResponseRedirect('/')
+
         try:
             response = self.get_response(request)
         except ObjectDoesNotExist as e:

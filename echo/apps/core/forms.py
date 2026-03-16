@@ -39,7 +39,7 @@ class TranslatedGroupChoiceField(forms.ModelChoiceField):
 
 
 class UserForm(forms.ModelForm):
-    group = TranslatedGroupChoiceField(queryset=Group.objects.all(), required=True)
+    group = TranslatedGroupChoiceField(queryset=Group.objects.exclude(name='Médecin'), required=True)
 
     class Meta:
         model = User
@@ -48,7 +48,7 @@ class UserForm(forms.ModelForm):
 
 
 class UserUpdateForm(forms.ModelForm):
-    group = TranslatedGroupChoiceField(queryset=Group.objects.all(), required=True)
+    group = TranslatedGroupChoiceField(queryset=Group.objects.exclude(name='Médecin'), required=True)
 
     class Meta:
         model = User

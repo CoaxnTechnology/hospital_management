@@ -75,7 +75,29 @@ class CategorieConsultation(models.Model):
         return self.libelle
 
 
+class CompteManager(models.Manager):
+    """
+    Auto-scopes all querysets to the current request's compte.
+    Falls back to unfiltered for management commands, migrations, and signals.
+    """
+    def get_queryset(self):
+        qs = super().get_queryset()
+        try:
+            request = get_request()
+            user = request.user
+            if user.is_authenticated and hasattr(user, 'profil'):
+                qs = qs.filter(compte=user.profil.compte)
+        except Exception:
+            pass
+        return qs
+
+
 class CompteModelBase(BaseModel):
+    # objects is the scoped manager (auto-filters by compte)
+    objects = CompteManager()
+    # all_objects bypasses the scope — use only in signals/admin/management commands
+    all_objects = models.Manager()
+
     def save(self, *args, **kwargs):
         try:
             if hasattr(get_request().user, 'profil'):
@@ -220,13 +242,15 @@ class Profil(CompteModelBase):
 
     @property
     def initiales(self):
-        return self.user.first_name[0] + self.user.last_name[0]
+        f = self.user.first_name[0] if self.user.first_name else self.user.username[0]
+        l = self.user.last_name[0] if self.user.last_name else ''
+        return (f + l).upper()
 
     @property
     def groupe(self):
         res = []
         for g in self.user.groups.all():
-            res.append(g.name)
+            res.append(str(_(g.name)))
         return " ".join(res)
 
     @property
@@ -315,6 +339,9 @@ class ParametresCompte(models.Model):
     ajouter_entete_lettre_fittofly = models.BooleanField(default=True)
     ajouter_date_courriers = models.BooleanField(default=True)
     ajouter_date_cro = models.BooleanField(default=True)
+
+    # DICOM AE Title for this compte (used for multi-tenant DICOM routing)
+    ae_title = models.CharField(max_length=16, unique=True, blank=True, null=True)
 
     # Grossesse
     duree_gross_sa = models.PositiveSmallIntegerField(default=40)
@@ -512,11 +539,11 @@ class InformationsMutuelle(models.Model):
 class Patient(CompteModelBase, InformationsConjoint, InformationsMutuelle):
     compte = models.ForeignKey(Compte, on_delete=models.CASCADE)
     civilite = models.CharField(max_length=8, default='mme',
-                                choices=[('mme', 'Madame'), ('mlle', 'Mademoiselle'), ('mr', 'Monsieur')])
+                                choices=[('mme', _('Madame')), ('mlle', _('Mademoiselle')), ('mr', _('Monsieur'))])
     prenom = models.CharField(max_length=128)
     nom = models.CharField(max_length=128, blank=True, null=True)
     nom_naissance = models.CharField(max_length=128, blank=True, null=True)
-    sexe = models.CharField(max_length=1, default='F', choices=[('F', 'Femme'), ('H', 'Homme')])
+    sexe = models.CharField(max_length=1, default='F', choices=[('F', _('Femme')), ('H', _('Homme'))])
     date_naissance = models.DateField()
     numero_identite = models.CharField(max_length=128, blank=True, null=True)
     code_securite_sociale = models.CharField(max_length=128, blank=True, null=True)
@@ -530,17 +557,17 @@ class Patient(CompteModelBase, InformationsConjoint, InformationsMutuelle):
     taille = models.FloatField(blank=True, null=True)  # Taille en cm
     poids = models.FloatField(blank=True, null=True)  # Poids en kg
     groupe_sanguin = models.CharField(
-        choices=[('A-', 'A négatif'), ('A+', 'A positif'),
-                 ('B-', 'B négatif'), ('B+', 'B positif'),
-                 ('AB-', 'AB négatif'), ('AB+', 'AB positif'),
-                 ('O-', 'O négatif'), ('O+', 'O positif')],
+        choices=[('A-', _('A négatif')), ('A+', _('A positif')),
+                 ('B-', _('B négatif')), ('B+', _('B positif')),
+                 ('AB-', _('AB négatif')), ('AB+', _('AB positif')),
+                 ('O-', _('O négatif')), ('O+', _('O positif'))],
         max_length=3, blank=True, null=True
     )
     fumeur = models.BooleanField(default=False)
     nombre_cigarettes = models.PositiveSmallIntegerField(blank=True, null=True)
     origine = models.CharField(max_length=128, blank=True, null=True,
-                               choices=[('1', 'Europe/Afrique du nord'), ('2', 'Afrique sud-saharienne'),
-                                        ('3', 'Amérique latine'), ('4', 'Asie'), ('10', 'Autre')])
+                               choices=[('1', _('Europe/Afrique du nord')), ('2', _('Afrique sud-saharienne')),
+                                        ('3', _('Amérique latine')), ('4', _('Asie')), ('10', _('Autre'))])
     antecedents_familiaux = models.TextField(blank=True, null=True)
     antecedents_medico_chirurgicaux = models.TextField(blank=True, null=True)
     antecedents_gynecologiques = models.TextField(blank=True, null=True)
@@ -2220,3 +2247,11 @@ class AlertePatient(BaseModel):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     text = models.CharField(max_length=512)
     lien = models.CharField(max_length=512)
+
+
+class SuperAdminProfile(models.Model):
+    """Marks a user as a super-admin who can create and manage doctor comptes."""
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='super_admin_profile')
+
+    def __str__(self):
+        return f"SuperAdmin: {self.user.username}"

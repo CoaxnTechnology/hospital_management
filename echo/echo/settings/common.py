@@ -172,6 +172,10 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/data/'
 
 LOGIN_URL = '/accounts/login'
+
+AUTHENTICATION_BACKENDS = [
+    'apps.core.backends.EmailOrUsernameBackend',
+]
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 

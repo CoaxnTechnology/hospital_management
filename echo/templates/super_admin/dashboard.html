@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Super Admin — Doctor Management</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0F1117; color: #E2E8F0; min-height: 100vh; }
+
+  /* Header */
+  .header { background: #1A1D2B; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .header-brand { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 700; color: #4A9EFF; }
+  .header-brand span { color: #E2E8F0; font-weight: 400; font-size: 14px; }
+  .header-actions { display: flex; align-items: center; gap: 12px; }
+  .btn-logout { color: #9BAFCA; text-decoration: none; font-size: 14px; padding: 6px 12px; border-radius: 6px; transition: color .15s; }
+  .btn-logout:hover { color: #F87171; }
+
+  /* Main */
+  .main { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+  .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+  .page-title { font-size: 24px; font-weight: 700; }
+  .page-subtitle { color: #9BAFCA; font-size: 14px; margin-top: 4px; }
+
+  /* Button */
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all .15s; text-decoration: none; }
+  .btn-primary { background: #4A9EFF; color: #fff; }
+  .btn-primary:hover { background: #60B4FF; }
+  .btn-danger { background: rgba(248,113,113,0.15); color: #F87171; }
+  .btn-danger:hover { background: rgba(248,113,113,0.25); }
+  .btn-sm { padding: 6px 12px; font-size: 13px; }
+
+  /* Stats bar */
+  .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+  .stat-card { background: #1A1D2B; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px 24px; }
+  .stat-label { font-size: 13px; color: #9BAFCA; margin-bottom: 6px; }
+  .stat-value { font-size: 28px; font-weight: 700; color: #4A9EFF; }
+
+  /* Table */
+  .card { background: #1A1D2B; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden; }
+  .card-header { padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; }
+  .card-header h3 { font-size: 16px; font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; }
+  th { padding: 12px 16px; text-align: left; font-size: 12px; font-weight: 600; color: #9BAFCA; text-transform: uppercase; letter-spacing: .5px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  td { padding: 14px 16px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .badge-gyneco { background: rgba(74,158,255,0.15); color: #4A9EFF; }
+  .badge-cardio { background: rgba(167,139,250,0.15); color: #A78BFA; }
+  .badge-general { background: rgba(45,212,191,0.15); color: #2DD4BF; }
+  .ae-tag { font-family: monospace; font-size: 13px; background: rgba(255,255,255,0.06); padding: 2px 8px; border-radius: 4px; color: #E2E8F0; }
+  .empty-state { text-align: center; padding: 60px 24px; color: #6B7A99; }
+  .empty-state p { margin-top: 8px; font-size: 14px; }
+
+  /* Modal */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity .2s; }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal { background: #1A1D2B; border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 32px; width: 100%; max-width: 480px; transform: translateY(16px); transition: transform .2s; }
+  .modal-overlay.open .modal { transform: translateY(0); }
+  .modal h2 { font-size: 20px; font-weight: 700; margin-bottom: 24px; }
+  .form-group { margin-bottom: 18px; }
+  label { display: block; font-size: 13px; font-weight: 600; color: #9BAFCA; margin-bottom: 6px; }
+  input, select { width: 100%; padding: 10px 14px; background: #252836; border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; color: #E2E8F0; font-size: 14px; outline: none; transition: border-color .15s; }
+  input:focus, select:focus { border-color: #4A9EFF; }
+  select option { background: #252836; }
+  .modal-footer { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+  .btn-cancel { background: rgba(255,255,255,0.06); color: #9BAFCA; }
+  .btn-cancel:hover { background: rgba(255,255,255,0.1); }
+
+  /* Credentials popup */
+  .cred-box { background: #252836; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+  .cred-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .cred-row:last-child { border-bottom: none; }
+  .cred-label { font-size: 13px; color: #9BAFCA; }
+  .cred-value { font-family: monospace; font-size: 14px; color: #E2E8F0; font-weight: 600; }
+  .warning-note { font-size: 13px; color: #FB923C; display: flex; align-items: center; gap: 6px; margin-bottom: 20px; }
+  .copy-btn { background: rgba(74,158,255,0.12); color: #4A9EFF; border: none; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; }
+  .copy-btn:hover { background: rgba(74,158,255,0.2); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-brand">
+    &#9670; CabinetPro
+    <span>Super Admin</span>
+  </div>
+  <div class="header-actions">
+    <span style="font-size:14px;color:#9BAFCA;">{{ request.user.username }}</span>
+    <a href="/accounts/logout" class="btn-logout">Logout</a>
+  </div>
+</div>
+
+<div class="main">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Doctor Accounts</div>
+      <div class="page-subtitle">Manage isolated doctor comptes and DICOM settings</div>
+    </div>
+    <button class="btn btn-primary" onclick="openCreateModal()">&#43; Add Doctor</button>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-label">Total Accounts</div>
+      <div class="stat-value">{{ comptes.count }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">With DICOM AE Title</div>
+      <div class="stat-value">{{ comptes|length }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Active Today</div>
+      <div class="stat-value">—</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h3>All Doctor Accounts</h3>
+    </div>
+    {% if comptes %}
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name / Clinic</th>
+          <th>Email</th>
+          <th>Distribution</th>
+          <th>AE Title</th>
+          <th>Login</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for compte in comptes %}
+        <tr>
+          <td style="color:#6B7A99;">{{ compte.pk }}</td>
+          <td style="font-weight:600;">{{ compte.raison_sociale }}</td>
+          <td style="color:#9BAFCA;">{{ compte.email|default:"—" }}</td>
+          <td>
+            <span class="badge {% if compte.distribution == 'gynecologie' %}badge-gyneco{% elif compte.distribution == 'cardiologie' %}badge-cardio{% else %}badge-general{% endif %}">
+              {{ compte.distribution }}
+            </span>
+          </td>
+          <td>
+            {% if compte.parametrescompte.ae_title %}
+              <span class="ae-tag">{{ compte.parametrescompte.ae_title }}</span>
+            {% else %}
+              <span style="color:#6B7A99;">—</span>
+            {% endif %}
+          </td>
+          <td style="color:#9BAFCA;font-size:13px;">
+            {% if compte.responsable %}{{ compte.responsable.username }}{% else %}—{% endif %}
+          </td>
+          <td>
+            <button class="btn btn-danger btn-sm" onclick="deleteCompte({{ compte.pk }}, '{{ compte.raison_sociale|escapejs }}')">Delete</button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+      <div style="font-size:48px;">&#128100;</div>
+      <p>No doctor accounts yet. Click "Add Doctor" to create one.</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Create Doctor Modal -->
+<div class="modal-overlay" id="createModal">
+  <div class="modal">
+    <h2>Add Doctor Account</h2>
+    <div class="form-group">
+      <label>Full Name / Clinic Name</label>
+      <input type="text" id="field-name" placeholder="Dr. Ahmed Ben Ali"/>
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="field-email" placeholder="dr.benali@example.com"/>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <div style="position:relative;">
+        <input type="password" id="field-password" placeholder="Leave blank to auto-generate" autocomplete="new-password"/>
+        <button type="button" onclick="togglePwd()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#9BAFCA;cursor:pointer;font-size:13px;" id="btn-toggle-pwd">Show</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Distribution</label>
+      <select id="field-distribution">
+        <option value="gynecologie">Gynécologie / Obstétrique</option>
+        <option value="generaliste">Médecine Générale</option>
+        <option value="cardiologie">Cardiologie</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeCreateModal()">Cancel</button>
+      <button class="btn btn-primary" id="btn-create" onclick="submitCreate()">Create Account</button>
+    </div>
+  </div>
+</div>
+
+<!-- Credentials Modal -->
+<div class="modal-overlay" id="credModal">
+  <div class="modal">
+    <h2>&#10003; Account Created</h2>
+    <div class="warning-note">&#9888; Save these credentials — they will not be shown again.</div>
+    <div class="cred-box">
+      <div class="cred-row">
+        <span class="cred-label">Username</span>
+        <span class="cred-value" id="cred-username"></span>
+      </div>
+      <div class="cred-row">
+        <span class="cred-label">Password</span>
+        <span class="cred-value" id="cred-password"></span>
+      </div>
+      <div class="cred-row">
+        <span class="cred-label">DICOM AE Title</span>
+        <span class="cred-value" id="cred-ae"></span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel copy-btn" style="padding:10px 20px;font-size:14px;" onclick="copyAll()">&#128203; Copy All</button>
+      <button class="btn btn-primary" onclick="closeCredModal()">Done</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const CSRF = '{{ csrf_token }}';
+  let lastCreds = {};
+
+  function openCreateModal() {
+    document.getElementById('createModal').classList.add('open');
+    document.getElementById('field-name').focus();
+  }
+  function closeCreateModal() {
+    document.getElementById('createModal').classList.remove('open');
+    document.getElementById('field-name').value = '';
+    document.getElementById('field-email').value = '';
+    document.getElementById('field-password').value = '';
+  }
+
+  function togglePwd() {
+    const f = document.getElementById('field-password');
+    const b = document.getElementById('btn-toggle-pwd');
+    if (f.type === 'password') { f.type = 'text'; b.textContent = 'Hide'; }
+    else { f.type = 'password'; b.textContent = 'Show'; }
+  }
+  function closeCredModal() {
+    document.getElementById('credModal').classList.remove('open');
+    location.reload();
+  }
+
+  function submitCreate() {
+    const name = document.getElementById('field-name').value.trim();
+    const email = document.getElementById('field-email').value.trim();
+    const password = document.getElementById('field-password').value.trim();
+    const distribution = document.getElementById('field-distribution').value;
+    if (!name || !email) { alert('Name and email are required.'); return; }
+
+    const btn = document.getElementById('btn-create');
+    btn.disabled = true;
+    btn.textContent = 'Creating…';
+
+    fetch('/super-admin/create-doctor/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF },
+      body: JSON.stringify({ name, email, password, distribution })
+    })
+    .then(r => r.json())
+    .then(data => {
+      btn.disabled = false;
+      btn.textContent = 'Create Account';
+      if (data.error) { alert(data.error); return; }
+      lastCreds = data;
+      closeCreateModal();
+      document.getElementById('cred-username').textContent = data.username;
+      document.getElementById('cred-password').textContent = data.password;
+      document.getElementById('cred-ae').textContent = data.ae_title;
+      document.getElementById('credModal').classList.add('open');
+    })
+    .catch(() => {
+      btn.disabled = false;
+      btn.textContent = 'Create Account';
+      alert('An error occurred. Please try again.');
+    });
+  }
+
+  function copyAll() {
+    const text = `Username: ${lastCreds.username}\nPassword: ${lastCreds.password}\nAE Title: ${lastCreds.ae_title}`;
+    navigator.clipboard.writeText(text).then(() => alert('Copied to clipboard!'));
+  }
+
+  function deleteCompte(pk, name) {
+    if (!confirm(`Delete account for "${name}"? This cannot be undone.`)) return;
+    fetch(`/super-admin/delete-compte/${pk}/`, {
+      method: 'POST',
+      headers: { 'X-CSRFToken': CSRF }
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) { alert(data.error); return; }
+      location.reload();
+    });
+  }
+
+  // Close modal on overlay click
+  document.getElementById('createModal').addEventListener('click', function(e) {
+    if (e.target === this) closeCreateModal();
+  });
+</script>
+</body>
+</html>

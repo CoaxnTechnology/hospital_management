@@ -16,6 +16,7 @@ DEBUG = os.environ.get('DEBUG', 'False').lower() in ('true', '1', 'yes')
 ALLOWED_HOSTS = [
     os.environ.get('SUBDOMAIN', 'localhost'),
     os.environ.get('VPS_IP', '127.0.0.1'),
+    'admin.clinicalgynecologists.space',
     'localhost',
     '127.0.0.1',
 ]

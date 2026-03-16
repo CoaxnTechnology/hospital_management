@@ -6459,11 +6459,11 @@ msgstr "Receptionist"
 #~ msgid "Certificat"
 #~ msgstr "Certificate"
 
-#~ msgid "Femme"
-#~ msgstr "Female"
+msgid "Femme"
+msgstr "Female"
 
-#~ msgid "Homme"
-#~ msgstr "Male"
+msgid "Homme"
+msgstr "Male"
 
 #~ msgid "Normale"
 #~ msgstr "Normal"
@@ -6480,8 +6480,8 @@ msgstr "Receptionist"
 #~ msgid "Aucun"
 #~ msgstr "None"
 
-#~ msgid "Autre"
-#~ msgstr "Other"
+msgid "Autre"
+msgstr "Other"
 
 #~ msgid "Choisir"
 #~ msgstr "Choose"
@@ -6843,6 +6843,42 @@ msgstr "Miss"
 
 msgid "Monsieur"
 msgstr "Mr."
+
+msgid "A négatif"
+msgstr "A negative"
+
+msgid "A positif"
+msgstr "A positive"
+
+msgid "B négatif"
+msgstr "B negative"
+
+msgid "B positif"
+msgstr "B positive"
+
+msgid "AB négatif"
+msgstr "AB negative"
+
+msgid "AB positif"
+msgstr "AB positive"
+
+msgid "O négatif"
+msgstr "O negative"
+
+msgid "O positif"
+msgstr "O positive"
+
+msgid "Europe/Afrique du nord"
+msgstr "Europe/North Africa"
+
+msgid "Afrique sud-saharienne"
+msgstr "Sub-Saharan Africa"
+
+msgid "Amérique latine"
+msgstr "Latin America"
+
+msgid "Asie"
+msgstr "Asia"
 
 msgid "L'application de"
 msgstr "The"

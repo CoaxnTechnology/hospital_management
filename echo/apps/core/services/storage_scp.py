@@ -68,8 +68,10 @@ class ServiceClassProvider:
         ds = event.dataset
         ds.file_meta = event.file_meta
 
+        called_aet = cast(str, event.assoc.acceptor.ae_title.strip()) if hasattr(event.assoc, 'acceptor') else ''
         metadata: Dict[str, Optional[ParsedElementValue]] = {
             "CallingAET": cast(str, event.assoc.requestor.ae_title.strip()),
+            "CalledAET": called_aet,
             "SopInstanceUID": safe_get(ds, 0x00080018),
             "StudyInstanceUID": safe_get(ds, 0x0020000D),
             "Modality": safe_get(ds, 0x00080060),
@@ -99,7 +101,7 @@ class ServiceClassProvider:
                 print('OB-GYN Ultrasound Procedure Report')
                 result = parse_ds(ds)
                 print(result)
-                post_data = {'study_uid': studyId, 'data': json.dumps(result)}
+                post_data = {'study_uid': studyId, 'data': json.dumps(result), 'called_aet': called_aet}
                 response = requests.post(f'{web_url}:{web_port}/worklists/sr/', data=post_data)
             elif code_value == '125100':
                 # Vascular Ultrasound Procedure Report
@@ -131,7 +133,7 @@ class ServiceClassProvider:
             out_img_file = outfile + '.jpg'
             try:
                 ds_to_jpeg(ds, out_img_file)
-                post_data = {'study_uid': studyId, 'path': os.path.abspath(out_img_file)}
+                post_data = {'study_uid': studyId, 'path': os.path.abspath(out_img_file), 'called_aet': called_aet}
                 response = requests.post(f'{web_url}:{web_port}/worklists/image/', data=post_data)
                 # res = response.json()
             except Exception as e:

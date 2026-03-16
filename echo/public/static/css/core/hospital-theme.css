@@ -556,6 +556,45 @@ table.dataTable tbody td.dataTables_empty {
 }
 
 /* --------------------------------------------------------------------------
+   7b. Dashboard toolbar — light mode fixes
+   -------------------------------------------------------------------------- */
+
+/* Left/right nav arrows and btn-light in light mode */
+.btn-light,
+.btn-bg-light {
+  background-color: #fff !important;
+  border-color: var(--hp-border) !important;
+  color: var(--hp-text) !important;
+}
+.btn-light:hover,
+.btn-bg-light:hover {
+  background-color: var(--hp-bg) !important;
+  color: var(--hp-primary) !important;
+}
+
+/* form-select-solid (doctor dropdown) */
+.form-select-solid,
+.form-control-solid {
+  background-color: var(--hp-input-bg) !important;
+  color: var(--hp-text) !important;
+  border-color: var(--hp-border) !important;
+}
+
+/* input-group-text (calendar icon area) */
+.input-group-text {
+  background-color: var(--hp-bg) !important;
+  border-color: var(--hp-border) !important;
+  color: var(--hp-text-secondary) !important;
+}
+
+/* Dashboard header title (text-white becomes visible in light mode) */
+.header .page-title h1.text-white,
+#kt_header .page-title h1,
+.page-title h1 {
+  color: var(--hp-text) !important;
+}
+
+/* --------------------------------------------------------------------------
    8. Form Controls
    -------------------------------------------------------------------------- */
 .form-control,
@@ -2574,6 +2613,33 @@ html[data-hp-theme="dark"] .text-muted,
 html[data-hp-theme="dark"] .text-gray-500,
 html[data-hp-theme="dark"] .text-gray-400 {
   color: var(--hp-text-muted) !important;
+}
+
+/* Dark mode — btn-light, input-group-text, form-select-solid */
+html[data-hp-theme="dark"] .btn-light,
+html[data-hp-theme="dark"] .btn-bg-light {
+  background-color: rgba(255,255,255,0.07) !important;
+  border-color: var(--hp-border) !important;
+  color: var(--hp-text) !important;
+}
+html[data-hp-theme="dark"] .btn-light:hover,
+html[data-hp-theme="dark"] .btn-bg-light:hover {
+  background-color: rgba(255,255,255,0.12) !important;
+  color: var(--hp-primary) !important;
+}
+html[data-hp-theme="dark"] .form-select-solid,
+html[data-hp-theme="dark"] .form-control-solid {
+  background-color: var(--hp-input-bg) !important;
+  border-color: var(--hp-input-border) !important;
+  color: var(--hp-text) !important;
+}
+html[data-hp-theme="dark"] .input-group-text {
+  background-color: var(--hp-input-bg) !important;
+  border-color: var(--hp-input-border) !important;
+  color: var(--hp-text-muted) !important;
+}
+html[data-hp-theme="dark"] .page-title h1 {
+  color: var(--hp-text) !important;
 }
 
 /* Dark mode — inputs */

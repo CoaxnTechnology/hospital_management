@@ -529,6 +529,8 @@ select,
 textarea {
   border-radius: 8px !important;
   border-color: var(--hp-border) !important;
+  background-color: var(--hp-input-bg) !important;
+  color: var(--hp-text) !important;
   transition: border-color 0.15s, box-shadow 0.15s !important;
 }
 

@@ -6861,3 +6861,24 @@ msgstr "Scheduling"
 
 msgid "Statistiques"
 msgstr "Statistics"
+
+msgid "Nom de famille"
+msgstr "Last name"
+
+msgid "Téléphone secondaire"
+msgstr "Secondary phone"
+
+msgid "Téléphone autre"
+msgstr "Other phone"
+
+msgid "Nombre de cigarettes"
+msgstr "Number of cigarettes"
+
+msgid "Numéro d'identité"
+msgstr "Identity number"
+
+msgid "Code de sécurité sociale"
+msgstr "Social security code"
+
+msgid "Praticien principal"
+msgstr "Primary physician"

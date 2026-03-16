@@ -232,8 +232,14 @@ window.SWAL_MESSAGES = {
         hideFrameLoading();
     });
     function fermerModals() {
-        console.log('Fermer modals dialog base');
-        $('.modal').modal('hide');
+        document.querySelectorAll('.modal.show').forEach(el => {
+            const m = window.parent.bootstrap && window.parent.bootstrap.Modal.getInstance(el);
+            if (m) m.hide();
+        });
+        window.parent.document.querySelectorAll('.modal.show').forEach(el => {
+            const m = window.parent.bootstrap && window.parent.bootstrap.Modal.getInstance(el);
+            if (m) m.hide();
+        });
     }
     EventManager = window.parent.EventManager;
 

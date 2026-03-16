@@ -34,12 +34,6 @@
                 <form class="form mb-1">
                 <div class="row">
                     <div class="col-sm-6 col-lg-2 form-group">
-                        <label>{% trans "Nom de naissance" %}</label>
-                        <input data-search-key="nom_naissance" type="text"
-                               value="{% if rdv and rdv.nom_naissance %}{{ rdv.nom_naissance }}{% endif %}"
-                               class="form-control form-control-sm datatable-input" placeholder="" data-col-index="1"/>
-                    </div>
-                    <div class="col-sm-6 col-lg-2 form-group">
                         <label>{% trans "Nom marital" %}</label>
                         <input data-search-key="nom" type="text" class="form-control form-control-sm datatable-input"
                                placeholder="" data-col-index="2"
@@ -63,17 +57,6 @@
                                class="form-control form-control-sm datatable-input" placeholder=""
                                value="{% if rdv and rdv.telephone %}{{ rdv.telephone }}{% endif %}"
                                data-col-index="6"/>
-                    </div>
-                    <div class="col-sm-6 col-lg-2 form-group">
-                        <label>{% trans "Ville" %}</label>
-                        <input data-search-key="ville" type="text" class="form-control form-control-sm datatable-input"
-                               placeholder="" data-col-index="5"
-                               value="{% if rdv and rdv.ville is not None %}{{ rdv.ville }}{% endif %}"/>
-                    </div>
-                    <div class="col-sm-6 col-lg-2 form-group">
-                        <label>{% trans "Ancien numéro" %}</label>
-                        <input data-search-key="ancien_numero" type="text" class="form-control form-control-sm datatable-input"
-                               placeholder="" data-col-index="8"/>
                     </div>
                     <!--<div class="col-lg-3 mb-lg-0 mb-6">
                         <label>{% trans "CIN:" %}</label>

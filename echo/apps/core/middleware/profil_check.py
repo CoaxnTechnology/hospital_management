@@ -1,6 +1,9 @@
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse, HttpResponseRedirect
+from django.conf import settings
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.urls import reverse
+
+ADMIN_DOMAIN = getattr(settings, 'ADMIN_DOMAIN', 'admin.clinicalgynecologists.space')
 
 
 def _is_super_admin(user):
@@ -23,6 +26,12 @@ class ProfilRequiredMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        # Block /super-admin/ from non-admin subdomain entirely (return 404)
+        if request.path.startswith('/super-admin/'):
+            host = request.get_host().split(':')[0]  # strip port if any
+            if host != ADMIN_DOMAIN:
+                raise Http404
+
         # Super-admin users have no Profil — only allow /super-admin/ and /admin/ and /accounts/
         if _is_super_admin(request.user):
             allowed = ('/super-admin/', '/admin/', '/accounts/', '/i18n/', '/__debug__/')

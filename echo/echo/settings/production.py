@@ -23,6 +23,8 @@ ALLOWED_HOSTS = [
 
 SECRET_KEY = os.environ.get('SECRET_KEY', ')s-7romvhcmfr^tyi0=owms#9(5#pj#s#so*yhz!t3_5tq)t&a')
 
+ADMIN_DOMAIN = 'admin.clinicalgynecologists.space'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

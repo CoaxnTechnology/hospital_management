@@ -38,13 +38,12 @@ def create_doctor(request):
         name = data.get('name', '').strip()
         email = data.get('email', '').strip()
         specialty = data.get('specialty', '').strip()
-        distribution = data.get('distribution', 'gyneco')
         password = data.get('password', '').strip()
 
         if not name or not email:
             return JsonResponse({'error': 'Name and email are required.'}, status=400)
 
-        result = create_doctor_compte(name=name, email=email, specialty=specialty, distribution=distribution, password=password)
+        result = create_doctor_compte(name=name, email=email, specialty=specialty, password=password)
         return JsonResponse(result)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)

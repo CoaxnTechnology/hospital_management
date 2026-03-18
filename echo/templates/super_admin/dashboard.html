@@ -127,7 +127,6 @@
           <th>#</th>
           <th>Name / Clinic</th>
           <th>Email</th>
-          <th>Distribution</th>
           <th>AE Title</th>
           <th>Login</th>
           <th></th>
@@ -139,11 +138,6 @@
           <td style="color:#6B7A99;">{{ compte.pk }}</td>
           <td style="font-weight:600;">{{ compte.raison_sociale }}</td>
           <td style="color:#9BAFCA;">{{ compte.email|default:"—" }}</td>
-          <td>
-            <span class="badge {% if compte.distribution == 'gyneco' %}badge-gyneco{% elif compte.distribution == 'cardio' %}badge-cardio{% else %}badge-general{% endif %}">
-              {{ compte.distribution }}
-            </span>
-          </td>
           <td>
             {% if compte.parametrescompte.ae_title %}
               <span class="ae-tag">{{ compte.parametrescompte.ae_title }}</span>
@@ -188,14 +182,6 @@
         <input type="password" id="field-password" placeholder="Leave blank to auto-generate" autocomplete="new-password"/>
         <button type="button" onclick="togglePwd()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#9BAFCA;cursor:pointer;font-size:13px;" id="btn-toggle-pwd">Show</button>
       </div>
-    </div>
-    <div class="form-group">
-      <label>Distribution</label>
-      <select id="field-distribution">
-        <option value="gyneco">Gynécologie / Obstétrique</option>
-        <option value="general">Médecine Générale</option>
-        <option value="cardio">Cardiologie</option>
-      </select>
     </div>
     <div class="modal-footer">
       <button class="btn btn-cancel" onclick="closeCreateModal()">Cancel</button>
@@ -270,7 +256,7 @@
     fetch('/super-admin/create-doctor/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF },
-      body: JSON.stringify({ name, email, password, distribution })
+      body: JSON.stringify({ name, email, password })
     })
     .then(r => r.json())
     .then(data => {

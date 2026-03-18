@@ -62,6 +62,7 @@ urlpatterns = [
     path("super-admin/", super_admin.dashboard, name="super_admin_dashboard"),
     path("super-admin/create-doctor/", super_admin.create_doctor, name="super_admin_create_doctor"),
     path("super-admin/delete-compte/<int:pk>/", super_admin.delete_compte, name="super_admin_delete_compte"),
+    path("super-admin/toggle-compte/<int:pk>/", super_admin.toggle_compte, name="super_admin_toggle_compte"),
     # Favicon at root (browsers auto-request /favicon.ico)
     path("favicon.ico", RedirectView.as_view(url="/static/media/logos/favicon.ico", permanent=True)),
     # i18n language switcher
@@ -80,8 +81,31 @@ urlpatterns = [
     ),
     path(
         "accounts/password_reset/",
-        auth_views.LoginView.as_view(template_name="core/login.html"),
+        auth_views.PasswordResetView.as_view(
+            template_name="core/password_reset.html",
+            email_template_name="core/password_reset_email.txt",
+            subject_template_name="core/password_reset_subject.txt",
+            success_url="/accounts/password_reset/done/",
+        ),
         name="password_reset",
+    ),
+    path(
+        "accounts/password_reset/done/",
+        auth_views.PasswordResetDoneView.as_view(template_name="core/password_reset_done.html"),
+        name="password_reset_done",
+    ),
+    path(
+        "accounts/reset/<uidb64>/<token>/",
+        auth_views.PasswordResetConfirmView.as_view(
+            template_name="core/password_reset_confirm.html",
+            success_url="/accounts/reset/done/",
+        ),
+        name="password_reset_confirm",
+    ),
+    path(
+        "accounts/reset/done/",
+        auth_views.PasswordResetCompleteView.as_view(template_name="core/password_reset_complete.html"),
+        name="password_reset_complete",
     ),
     path(
         "accounts/logout/",

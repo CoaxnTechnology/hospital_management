@@ -1,4 +1,5 @@
 import json
+import os
 
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -27,7 +28,15 @@ def dashboard(request):
         .select_related('parametrescompte', 'responsable')
         .order_by('-id')
     )
-    return render(request, 'super_admin/dashboard.html', {'comptes': comptes})
+    active_count = sum(1 for c in comptes if c.responsable and c.responsable.is_active)
+    storage_port = os.environ.get('EE_STORE_SCP_PORT', '11113')
+    mwl_port = os.environ.get('EE_WL_MPPS_SCP_PORT', '11112')
+    return render(request, 'super_admin/dashboard.html', {
+        'comptes': comptes,
+        'active_count': active_count,
+        'storage_port': storage_port,
+        'mwl_port': mwl_port,
+    })
 
 
 @super_admin_required
@@ -39,7 +48,6 @@ def create_doctor(request):
         email = data.get('email', '').strip()
         specialty = data.get('specialty', '').strip()
         password = data.get('password', '').strip()
-
         if not name or not email:
             return JsonResponse({'error': 'Name and email are required.'}, status=400)
 
@@ -56,5 +64,20 @@ def delete_compte(request, pk):
         compte = Compte.objects.get(pk=pk)
         compte.delete()
         return JsonResponse({'status': 'deleted'})
+    except Compte.DoesNotExist:
+        return JsonResponse({'error': 'Not found'}, status=404)
+
+
+@super_admin_required
+@require_POST
+def toggle_compte(request, pk):
+    try:
+        compte = Compte.objects.select_related('responsable').get(pk=pk)
+        user = compte.responsable
+        if user:
+            user.is_active = not user.is_active
+            user.save(update_fields=['is_active'])
+            return JsonResponse({'status': 'ok', 'is_active': user.is_active})
+        return JsonResponse({'error': 'No user linked to this account.'}, status=400)
     except Compte.DoesNotExist:
         return JsonResponse({'error': 'Not found'}, status=404)

@@ -1,9 +1,13 @@
+{% load i18n static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Super Admin — Doctor Management</title>
+<link rel="icon" type="image/x-icon" href="{% static 'media/logos/favicon.ico' %}"/>
+<link rel="icon" type="image/png" sizes="32x32" href="{% static 'media/logos/favicon-32x32.png' %}"/>
+<link rel="shortcut icon" href="{% static 'media/logos/favicon.ico' %}"/>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0F1117; color: #E2E8F0; min-height: 100vh; }
@@ -77,6 +81,27 @@
   .warning-note { font-size: 13px; color: #FB923C; display: flex; align-items: center; gap: 6px; margin-bottom: 20px; }
   .copy-btn { background: rgba(74,158,255,0.12); color: #4A9EFF; border: none; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; }
   .copy-btn:hover { background: rgba(74,158,255,0.2); }
+
+  /* Language switcher */
+  .lang-switcher { position: relative; }
+  .lang-btn { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 6px 12px; color: #E2E8F0; font-size: 13px; font-weight: 600; cursor: pointer; transition: background .15s; }
+  .lang-btn:hover { background: rgba(255,255,255,0.1); }
+  .lang-btn svg { flex-shrink: 0; }
+  .lang-menu { position: absolute; top: calc(100% + 6px); right: 0; background: #1E2235; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; min-width: 150px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.4); z-index: 999; display: none; }
+  .lang-menu a { display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: #9BAFCA; font-size: 13px; text-decoration: none; transition: background .12s; }
+  .lang-menu a:hover, .lang-menu a.active { background: rgba(74,158,255,0.12); color: #E2E8F0; }
+  .lang-menu a.active { font-weight: 600; }
+  .lang-flag { font-size: 11px; font-weight: 700; color: #4A9EFF; background: rgba(74,158,255,0.12); border-radius: 4px; padding: 2px 5px; }
+
+  /* Toggle switch */
+  .toggle-wrap { display: flex; align-items: center; gap: 8px; }
+  .toggle { position: relative; display: inline-block; width: 40px; height: 22px; }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider { position: absolute; cursor: pointer; inset: 0; background: rgba(255,255,255,0.12); border-radius: 22px; transition: .2s; }
+  .toggle-slider::before { content: ''; position: absolute; width: 16px; height: 16px; left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: .2s; }
+  .toggle input:checked + .toggle-slider { background: #22C55E; }
+  .toggle input:checked + .toggle-slider::before { transform: translateX(18px); }
+  .toggle-label { font-size: 12px; color: #9BAFCA; min-width: 48px; }
 </style>
 </head>
 <body>
@@ -88,47 +113,72 @@
   </div>
   <div class="header-actions">
     <span style="font-size:14px;color:#9BAFCA;">{{ request.user.username }}</span>
-    <a href="/accounts/logout" class="btn-logout">Logout</a>
+
+    <!-- Language Switcher -->
+    {% get_current_language as CURRENT_LANGUAGE %}
+    <div class="lang-switcher">
+      <button type="button" class="lang-btn" id="lang-btn" onclick="toggleLangMenu(event)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="#9BAFCA"/>
+        </svg>
+        {{ CURRENT_LANGUAGE|upper }}
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#9BAFCA" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="lang-menu" id="lang-menu">
+        {% get_available_languages as LANGUAGES %}
+        {% for lang_code, lang_name in LANGUAGES %}
+        <a href="javascript:switchLanguage('{{ lang_code }}')" class="{% if lang_code == CURRENT_LANGUAGE %}active{% endif %}">
+          <span class="lang-flag">{{ lang_code|upper }}</span>
+          {{ lang_name }}
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <a href="/accounts/logout" class="btn-logout">{% trans "Logout" %}</a>
   </div>
 </div>
 
 <div class="main">
   <div class="page-header">
     <div>
-      <div class="page-title">Doctor Accounts</div>
-      <div class="page-subtitle">Manage isolated doctor comptes and DICOM settings</div>
+      <div class="page-title">{% trans "Doctor Accounts" %}</div>
+      <div class="page-subtitle">{% trans "Manage isolated doctor accounts and DICOM settings" %}</div>
     </div>
-    <button class="btn btn-primary" onclick="openCreateModal()">&#43; Add Doctor</button>
+    <button class="btn btn-primary" onclick="openCreateModal()">&#43; {% trans "Add Doctor" %}</button>
   </div>
 
   <div class="stats-bar">
     <div class="stat-card">
-      <div class="stat-label">Total Accounts</div>
+      <div class="stat-label">{% trans "Total Accounts" %}</div>
       <div class="stat-value">{{ comptes.count }}</div>
     </div>
     <div class="stat-card">
-      <div class="stat-label">With DICOM AE Title</div>
+      <div class="stat-label">{% trans "With DICOM AE Title" %}</div>
       <div class="stat-value">{{ comptes|length }}</div>
     </div>
     <div class="stat-card">
-      <div class="stat-label">Active Today</div>
-      <div class="stat-value">—</div>
+      <div class="stat-label">{% trans "Active Accounts" %}</div>
+      <div class="stat-value">{{ active_count }}</div>
     </div>
   </div>
 
   <div class="card">
     <div class="card-header">
-      <h3>All Doctor Accounts</h3>
+      <h3>{% trans "All Doctor Accounts" %}</h3>
     </div>
     {% if comptes %}
     <table>
       <thead>
         <tr>
           <th>#</th>
-          <th>Name / Clinic</th>
-          <th>Email</th>
-          <th>AE Title</th>
-          <th>Login</th>
+          <th>{% trans "Name / Clinic" %}</th>
+          <th>{% trans "Email" %}</th>
+          <th>{% trans "AE Title" %}</th>
+          <th>{% trans "Storage Port" %}</th>
+          <th>{% trans "MWL Port" %}</th>
+          <th>{% trans "Login" %}</th>
+          <th>{% trans "Active" %}</th>
           <th></th>
         </tr>
       </thead>
@@ -145,11 +195,27 @@
               <span style="color:#6B7A99;">—</span>
             {% endif %}
           </td>
+          <td><span class="ae-tag">{{ storage_port }}</span></td>
+          <td><span class="ae-tag">{{ mwl_port }}</span></td>
           <td style="color:#9BAFCA;font-size:13px;">
             {% if compte.responsable %}{{ compte.responsable.username }}{% else %}—{% endif %}
           </td>
           <td>
-            <button class="btn btn-danger btn-sm" onclick="deleteCompte({{ compte.pk }}, '{{ compte.raison_sociale|escapejs }}')">Delete</button>
+            {% if compte.responsable %}
+            <div class="toggle-wrap">
+              <label class="toggle">
+                <input type="checkbox" {% if compte.responsable.is_active %}checked{% endif %}
+                       onchange="toggleCompte({{ compte.pk }}, this)"/>
+                <span class="toggle-slider"></span>
+              </label>
+              <span class="toggle-label" id="toggle-label-{{ compte.pk }}">
+                {% if compte.responsable.is_active %}{% trans "Active" %}{% else %}{% trans "Inactive" %}{% endif %}
+              </span>
+            </div>
+            {% else %}—{% endif %}
+          </td>
+          <td>
+            <button class="btn btn-danger btn-sm" onclick="deleteCompte({{ compte.pk }}, '{{ compte.raison_sociale|escapejs }}')">{% trans "Delete" %}</button>
           </td>
         </tr>
         {% endfor %}
@@ -158,7 +224,7 @@
     {% else %}
     <div class="empty-state">
       <div style="font-size:48px;">&#128100;</div>
-      <p>No doctor accounts yet. Click "Add Doctor" to create one.</p>
+      <p>{% trans "No doctor accounts yet. Click 'Add Doctor' to create one." %}</p>
     </div>
     {% endif %}
   </div>
@@ -167,25 +233,25 @@
 <!-- Create Doctor Modal -->
 <div class="modal-overlay" id="createModal">
   <div class="modal">
-    <h2>Add Doctor Account</h2>
+    <h2>{% trans "Add Doctor Account" %}</h2>
     <div class="form-group">
-      <label>Full Name / Clinic Name</label>
+      <label>{% trans "Full Name / Clinic Name" %}</label>
       <input type="text" id="field-name" placeholder="Dr. Ahmed Ben Ali"/>
     </div>
     <div class="form-group">
-      <label>Email</label>
+      <label>{% trans "Email" %}</label>
       <input type="email" id="field-email" placeholder="dr.benali@example.com"/>
     </div>
     <div class="form-group">
-      <label>Password</label>
+      <label>{% trans "Password" %}</label>
       <div style="position:relative;">
-        <input type="password" id="field-password" placeholder="Leave blank to auto-generate" autocomplete="new-password"/>
-        <button type="button" onclick="togglePwd()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#9BAFCA;cursor:pointer;font-size:13px;" id="btn-toggle-pwd">Show</button>
+        <input type="password" id="field-password" placeholder="{% trans "Leave blank to auto-generate" %}" autocomplete="new-password"/>
+        <button type="button" onclick="togglePwd()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#9BAFCA;cursor:pointer;font-size:13px;" id="btn-toggle-pwd">{% trans "Show" %}</button>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-cancel" onclick="closeCreateModal()">Cancel</button>
-      <button class="btn btn-primary" id="btn-create" onclick="submitCreate()">Create Account</button>
+      <button class="btn btn-cancel" onclick="closeCreateModal()">{% trans "Cancel" %}</button>
+      <button class="btn btn-primary" id="btn-create" onclick="submitCreate()">{% trans "Create Account" %}</button>
     </div>
   </div>
 </div>
@@ -193,25 +259,25 @@
 <!-- Credentials Modal -->
 <div class="modal-overlay" id="credModal">
   <div class="modal">
-    <h2>&#10003; Account Created</h2>
-    <div class="warning-note">&#9888; Save these credentials — they will not be shown again.</div>
+    <h2>&#10003; {% trans "Account Created" %}</h2>
+    <div class="warning-note">&#9888; {% trans "Save these credentials — they will not be shown again." %}</div>
     <div class="cred-box">
       <div class="cred-row">
-        <span class="cred-label">Username</span>
+        <span class="cred-label">{% trans "Username" %}</span>
         <span class="cred-value" id="cred-username"></span>
       </div>
       <div class="cred-row">
-        <span class="cred-label">Password</span>
+        <span class="cred-label">{% trans "Password" %}</span>
         <span class="cred-value" id="cred-password"></span>
       </div>
       <div class="cred-row">
-        <span class="cred-label">DICOM AE Title</span>
+        <span class="cred-label">{% trans "DICOM AE Title" %}</span>
         <span class="cred-value" id="cred-ae"></span>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-cancel copy-btn" style="padding:10px 20px;font-size:14px;" onclick="copyAll()">&#128203; Copy All</button>
-      <button class="btn btn-primary" onclick="closeCredModal()">Done</button>
+      <button class="btn btn-cancel copy-btn" style="padding:10px 20px;font-size:14px;" onclick="copyAll()">&#128203; {% trans "Copy All" %}</button>
+      <button class="btn btn-primary" onclick="closeCredModal()">{% trans "Done" %}</button>
     </div>
   </div>
 </div>
@@ -219,6 +285,30 @@
 <script>
   const CSRF = '{{ csrf_token }}';
   let lastCreds = {};
+  const STR_ACTIVE = '{% trans "Active" %}';
+  const STR_INACTIVE = '{% trans "Inactive" %}';
+  const STR_CREATING = '{% trans "Creating…" %}';
+  const STR_CREATE = '{% trans "Create Account" %}';
+
+  // Language switcher
+  function toggleLangMenu(e) {
+    e.stopPropagation();
+    const m = document.getElementById('lang-menu');
+    m.style.display = m.style.display === 'block' ? 'none' : 'block';
+  }
+  document.addEventListener('click', function() {
+    const m = document.getElementById('lang-menu');
+    if (m) m.style.display = 'none';
+  });
+  function switchLanguage(langCode) {
+    var csrftoken = document.cookie.split(';').map(c => c.trim()).find(c => c.startsWith('csrftoken='));
+    csrftoken = csrftoken ? csrftoken.split('=')[1] : '';
+    fetch('/i18n/setlang/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRFToken': csrftoken},
+      body: 'language=' + langCode + '&next=' + window.location.pathname
+    }).then(() => window.location.replace(window.location.pathname));
+  }
 
   function openCreateModal() {
     document.getElementById('createModal').classList.add('open');
@@ -250,7 +340,7 @@ if (!name || !email) { alert('Name and email are required.'); return; }
 
     const btn = document.getElementById('btn-create');
     btn.disabled = true;
-    btn.textContent = 'Creating…';
+    btn.textContent = STR_CREATING;
 
     fetch('/super-admin/create-doctor/', {
       method: 'POST',
@@ -260,7 +350,7 @@ if (!name || !email) { alert('Name and email are required.'); return; }
     .then(r => r.json())
     .then(data => {
       btn.disabled = false;
-      btn.textContent = 'Create Account';
+      btn.textContent = STR_CREATE;
       if (data.error) { alert(data.error); return; }
       lastCreds = data;
       closeCreateModal();
@@ -271,7 +361,7 @@ if (!name || !email) { alert('Name and email are required.'); return; }
     })
     .catch(() => {
       btn.disabled = false;
-      btn.textContent = 'Create Account';
+      btn.textContent = STR_CREATE;
       alert('An error occurred. Please try again.');
     });
   }
@@ -279,6 +369,20 @@ if (!name || !email) { alert('Name and email are required.'); return; }
   function copyAll() {
     const text = `Username: ${lastCreds.username}\nPassword: ${lastCreds.password}\nAE Title: ${lastCreds.ae_title}`;
     navigator.clipboard.writeText(text).then(() => alert('Copied to clipboard!'));
+  }
+
+  function toggleCompte(pk, checkbox) {
+    fetch(`/super-admin/toggle-compte/${pk}/`, {
+      method: 'POST',
+      headers: { 'X-CSRFToken': CSRF }
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) { alert(data.error); checkbox.checked = !checkbox.checked; return; }
+      const label = document.getElementById('toggle-label-' + pk);
+      if (label) label.textContent = data.is_active ? STR_ACTIVE : STR_INACTIVE;
+    })
+    .catch(() => { checkbox.checked = !checkbox.checked; alert('Error toggling status.'); });
   }
 
   function deleteCompte(pk, name) {

@@ -21,7 +21,7 @@ def generate_password(length: int = 14) -> str:
     return ''.join(random.choices(chars, k=length))
 
 
-def create_doctor_compte(name: str, email: str, specialty: str = '', distribution: str = 'gynecologie', password: str = '') -> dict:
+def create_doctor_compte(name: str, email: str, specialty: str = '', distribution: str = 'gyneco', password: str = '') -> dict:
     """
     Create a fully isolated Compte for a new doctor.
     Returns credentials dict: username, password, ae_title.

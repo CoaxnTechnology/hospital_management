@@ -140,7 +140,7 @@
           <td style="font-weight:600;">{{ compte.raison_sociale }}</td>
           <td style="color:#9BAFCA;">{{ compte.email|default:"—" }}</td>
           <td>
-            <span class="badge {% if compte.distribution == 'gynecologie' %}badge-gyneco{% elif compte.distribution == 'cardiologie' %}badge-cardio{% else %}badge-general{% endif %}">
+            <span class="badge {% if compte.distribution == 'gyneco' %}badge-gyneco{% elif compte.distribution == 'cardio' %}badge-cardio{% else %}badge-general{% endif %}">
               {{ compte.distribution }}
             </span>
           </td>
@@ -192,9 +192,9 @@
     <div class="form-group">
       <label>Distribution</label>
       <select id="field-distribution">
-        <option value="gynecologie">Gynécologie / Obstétrique</option>
-        <option value="generaliste">Médecine Générale</option>
-        <option value="cardiologie">Cardiologie</option>
+        <option value="gyneco">Gynécologie / Obstétrique</option>
+        <option value="general">Médecine Générale</option>
+        <option value="cardio">Cardiologie</option>
       </select>
     </div>
     <div class="modal-footer">

@@ -38,7 +38,7 @@ def create_doctor(request):
         name = data.get('name', '').strip()
         email = data.get('email', '').strip()
         specialty = data.get('specialty', '').strip()
-        distribution = data.get('distribution', 'gynecologie')
+        distribution = data.get('distribution', 'gyneco')
         password = data.get('password', '').strip()
 
         if not name or not email:

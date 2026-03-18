@@ -66,22 +66,35 @@ jobs:
 
       - name: Health check
         run: |
-          if [ -z "$SUBDOMAIN" ]; then
-            echo "SUBDOMAIN secret not set, skipping health check"
-            exit 0
-          fi
           echo "Waiting for server to be ready..."
           sleep 20
-          for i in 1 2 3 4 5; do
-            STATUS=$(curl -o /dev/null -s -w "%{http_code}" --max-time 10 "https://${SUBDOMAIN}" || echo "000")
-            echo "Attempt $i: HTTP $STATUS"
-            if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 400 ]; then
-              echo "Health check passed (HTTP $STATUS)"
-              exit 0
+          FAILED=0
+          for DOMAIN in "$MAIN_DOMAIN" "$ADMIN_DOMAIN"; do
+            if [ -z "$DOMAIN" ]; then
+              echo "Domain not set, skipping"
+              continue
             fi
-            sleep 10
+            echo "Checking https://${DOMAIN} ..."
+            OK=0
+            for i in 1 2 3 4 5; do
+              STATUS=$(curl -o /dev/null -s -w "%{http_code}" --max-time 10 "https://${DOMAIN}" || echo "000")
+              echo "  Attempt $i: HTTP $STATUS"
+              if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 400 ]; then
+                echo "  ✓ https://${DOMAIN} passed (HTTP $STATUS)"
+                OK=1
+                break
+              fi
+              sleep 10
+            done
+            if [ "$OK" -eq 0 ]; then
+              echo "  ✗ https://${DOMAIN} failed after 5 attempts"
+              FAILED=1
+            fi
           done
-          echo "Health check failed after 5 attempts"
-          exit 1
+          if [ "$FAILED" -eq 1 ]; then
+            exit 1
+          fi
+          echo "All health checks passed!"
         env:
-          SUBDOMAIN: ${{ secrets.SUBDOMAIN }}
+          MAIN_DOMAIN: ${{ secrets.MAIN_DOMAIN }}
+          ADMIN_DOMAIN: ${{ secrets.ADMIN_DOMAIN }}

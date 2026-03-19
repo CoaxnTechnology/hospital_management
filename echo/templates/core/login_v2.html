@@ -549,6 +549,15 @@
                 </button>
 
             </form>
+
+            <!-- Signup link -->
+            <div style="text-align:center;margin-top:20px;font-size:13px;color:#9BAFCA;">
+                {% trans "Pas encore de compte ?" %}
+                <a href="{% url 'doctor_signup' %}" style="color:#4A9EFF;text-decoration:none;font-weight:600;">
+                    {% trans "Faire une demande d'accès" %}
+                </a>
+            </div>
+
         </div>
     </div>
 

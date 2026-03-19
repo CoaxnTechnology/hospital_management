@@ -2,11 +2,13 @@ import json
 import os
 
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
 
-from apps.core.models import Compte, SuperAdminProfile
+from apps.core.models import Compte, SuperAdminProfile, DoctorSignupRequest
 from apps.core.services.doctor_setup import create_doctor_compte
 
 
@@ -29,11 +31,15 @@ def dashboard(request):
         .order_by('-id')
     )
     active_count = sum(1 for c in comptes if c.responsable and c.responsable.is_active)
+    signup_requests = DoctorSignupRequest.objects.filter(
+        status=DoctorSignupRequest.STATUS_PENDING
+    ).order_by('-created_at')
     storage_port = os.environ.get('EE_STORE_SCP_PORT', '11113')
     mwl_port = os.environ.get('EE_WL_MPPS_SCP_PORT', '11112')
     return render(request, 'super_admin/dashboard.html', {
         'comptes': comptes,
         'active_count': active_count,
+        'signup_requests': signup_requests,
         'storage_port': storage_port,
         'mwl_port': mwl_port,
     })
@@ -81,3 +87,99 @@ def toggle_compte(request, pk):
         return JsonResponse({'error': 'No user linked to this account.'}, status=400)
     except Compte.DoesNotExist:
         return JsonResponse({'error': 'Not found'}, status=404)
+
+
+@super_admin_required
+@require_POST
+def approve_signup(request, pk):
+    try:
+        signup = DoctorSignupRequest.objects.get(pk=pk, status=DoctorSignupRequest.STATUS_PENDING)
+    except DoctorSignupRequest.DoesNotExist:
+        return JsonResponse({'error': 'Request not found or already processed.'}, status=404)
+
+    try:
+        data = json.loads(request.body)
+        password = data.get('password', '').strip()
+        if not password:
+            return JsonResponse({'error': 'Password is required.'}, status=400)
+        result = create_doctor_compte(name=signup.full_name, email=signup.email, password=password)
+        signup.status = DoctorSignupRequest.STATUS_APPROVED
+        signup.save(update_fields=['status'])
+
+        login_url = f"{request.scheme}://{request.get_host()}/accounts/login/"
+        body = render_to_string('core/signup_approved_email.txt', {
+            'full_name': signup.full_name,
+            'username': result['username'],
+            'password': result['password'],
+            'login_url': login_url,
+        })
+        send_mail(
+            subject='Your CabinetPro access has been approved',
+            message=body,
+            from_email=None,  # uses DEFAULT_FROM_EMAIL
+            recipient_list=[signup.email],
+            fail_silently=True,
+        )
+        return JsonResponse({
+            'status': 'approved',
+            'username': result['username'],
+            'password': result['password'],
+            'ae_title': result['ae_title'],
+        })
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+@super_admin_required
+@require_POST
+def reject_signup(request, pk):
+    try:
+        signup = DoctorSignupRequest.objects.get(pk=pk, status=DoctorSignupRequest.STATUS_PENDING)
+    except DoctorSignupRequest.DoesNotExist:
+        return JsonResponse({'error': 'Request not found or already processed.'}, status=404)
+
+    signup.status = DoctorSignupRequest.STATUS_REJECTED
+    signup.save(update_fields=['status'])
+
+    body = render_to_string('core/signup_rejected_email.txt', {
+        'full_name': signup.full_name,
+    })
+    send_mail(
+        subject='Your CabinetPro access request',
+        message=body,
+        from_email=None,
+        recipient_list=[signup.email],
+        fail_silently=True,
+    )
+    return JsonResponse({'status': 'rejected'})
+
+
+def doctor_signup(request):
+    """Public page for doctors to submit a signup request."""
+    if request.method == 'POST':
+        full_name = request.POST.get('full_name', '').strip()
+        email = request.POST.get('email', '').strip()
+        phone = request.POST.get('phone', '').strip()
+
+        errors = {}
+        if not full_name:
+            errors['full_name'] = 'Le nom est requis.'
+        if not email:
+            errors['email'] = "L'adresse email est requise."
+        elif DoctorSignupRequest.objects.filter(email=email).exists():
+            errors['email'] = 'Une demande avec cet email existe déjà.'
+
+        if errors:
+            return render(request, 'core/doctor_signup.html', {
+                'errors': errors,
+                'form_data': {'full_name': full_name, 'email': email, 'phone': phone},
+            })
+
+        DoctorSignupRequest.objects.create(
+            full_name=full_name,
+            email=email,
+            phone=phone,
+        )
+        return render(request, 'core/doctor_signup.html', {'submitted': True})
+
+    return render(request, 'core/doctor_signup.html', {})

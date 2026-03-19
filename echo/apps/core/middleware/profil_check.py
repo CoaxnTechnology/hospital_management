@@ -26,10 +26,15 @@ class ProfilRequiredMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        # Public signup page — always allowed regardless of user
+        if request.path.startswith('/signup/'):
+            return self.get_response(request)
+
         # Block /super-admin/ from non-admin subdomain entirely (return 404)
         if request.path.startswith('/super-admin/'):
             host = request.get_host().split(':')[0]  # strip port if any
-            if host != ADMIN_DOMAIN:
+            allowed_hosts = {ADMIN_DOMAIN, 'localhost', '127.0.0.1'}
+            if host not in allowed_hosts:
                 raise Http404
 
         # Super-admin users have no Profil — only allow /super-admin/ and /admin/ and /accounts/

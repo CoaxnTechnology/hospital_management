@@ -124,18 +124,16 @@
         {% if rdv %}
             <a onclick="admissionPatient(event, <%= id %>)"
                class="btn btn-primary font-weight-bold">
-                <i class="la la-check icon-md"></i> Sélectionner
+                <i class="la la-check icon-md"></i> {% trans "Sélectionner" %}
             </a>
         {% else %}
             <a onclick="admissionPatient(event, <%= id %>)"
                class="btn btn-primary btn-icon btn-sm" title="Admission">
                 <i class="la la-folder-plus icon-md"></i>
             </a>
-            {% if user.profil.groupe == 'Médecin' %}
-                <a href="/patients/<%- id %>" class="btn btn-info btn-icon btn-sm" title="{% trans 'Consulter' %}">
-                    <i class="la la-eye icon-md"></i>
-                </a>
-            {% endif %}
+            <a href="/patients/<%- id %>" class="btn btn-info btn-icon btn-sm" title="{% trans 'Consulter' %}">
+                <i class="la la-eye icon-md"></i>
+            </a>
             <button type="button"
                     onclick="creerPatient('/patients/<%- id %>/modifier')"
                     class="btn btn-warning btn-icon btn-sm" title="{% trans 'Modifier' %}">
@@ -159,18 +157,20 @@
                 <i class="la la-history icon-md"></i>
             </button>
 
-            <button class="btn btn-secondary btn-sm px-3" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                <i class="bi bi-three-dots-vertical px-0"></i>
-            </button>
-            <ul class="dropdown-menu">
-                <li title="Archiver patient">
-                    <a href="javascript:void(0)" onclick="archiverPatient(<%= id %>)" class="dropdown-item">
-                        <span class="navi-icon"><i class="la la-archive"></i></span>
-                        <span class="navi-text">Archiver</span>
-                    </a>
-                </li>
-            </ul>
+            <div class="dropdown d-inline-block">
+                <button class="btn btn-secondary btn-sm px-3" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    <i class="bi bi-three-dots-vertical px-0"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li title="{% trans "Archiver patient" %}">
+                        <a href="javascript:void(0)" onclick="archiverPatient(<%= id %>)" class="dropdown-item">
+                            <span class="navi-icon"><i class="la la-archive"></i></span>
+                            <span class="navi-text">{% trans "Archiver" %}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
         {% endif %}
     </script>
@@ -185,13 +185,13 @@
             <% }); %>
         </ul>
         <% } else { %>
-        Pas d'historique
+        {% trans "Pas d'historique" %}
         <% } %>
     </script>
 
     <script type="text/html" id="creer-patient-template">
         <div class="my-12">
-            Le patient n'existe pas <br><br>
+            {% trans "Le patient n'existe pas" %} <br><br>
             {% if rdv %}
                 <button type="button"
                         onclick="creerPatient('/patients/ajouter/?action=admission&rdv={{ rdv.pk }}<%= params %>')"
@@ -209,11 +209,7 @@
     </script>
 
     <script type="text/html" id="lien-patient-template">
-        {% if user.profil.groupe == 'Médecin' %}
-            <a href="/patients/<%- id %>"><%- val %></a>
-        {% else %}
-            <%- val %>
-        {% endif %}
+        <a href="/patients/<%- id %>"><%- val %></a>
     </script>
 
 

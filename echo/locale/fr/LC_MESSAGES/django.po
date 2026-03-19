@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-18 07:27+0100\n"
+"POT-Creation-Date: 2026-03-19 07:41+0100\n"
 "PO-Revision-Date: 2026-02-26 07:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
@@ -363,9 +363,9 @@ msgid "Hors ligne"
 msgstr "Hors ligne"
 
 #: templates/base.html:520 templates/chat/chat.html:121
-#: templates/super_admin/dashboard.html:178
-#: templates/super_admin/dashboard.html:209
-#: templates/super_admin/dashboard.html:285 templates_backup/base.html:558
+#: templates/super_admin/dashboard.html:222
+#: templates/super_admin/dashboard.html:253
+#: templates/super_admin/dashboard.html:329 templates_backup/base.html:558
 #: templates_backup/chat/chat.html:121 templates_backup/templates/base.html:558
 #: templates_backup/templates/chat/chat.html:121
 msgid "Active"
@@ -1277,6 +1277,7 @@ msgstr "Motif"
 #: templates/core/template_edition_list.html:23
 #: templates/core/traitement_list.html:23
 #: templates/core/traitement_pma_list.html:23
+#: templates/super_admin/dashboard.html:180
 #: templates_backup/core/accueil.html:225
 #: templates_backup/core/accueil.html:247
 #: templates_backup/core/accueil.html:269
@@ -1427,7 +1428,7 @@ msgstr ""
 
 #: templates/core/accueil.html:377 templates/core/accueil.html:389
 #: templates/core/accueil_v2.html:380 templates/core/accueil_v2.html:392
-#: templates/core/login_v2.html:575 templates/core/parametres_base.html:75
+#: templates/core/login_v2.html:584 templates/core/parametres_base.html:75
 #: templates_backup/core/parametres_base.html:74
 #: templates_backup/templates/core/parametres_base.html:74
 msgid "Dossier patient"
@@ -1754,7 +1755,7 @@ msgstr "Code"
 #: templates/core/patient_form_dialog.html:19
 #: templates/core/patient_info_panel.html:41
 #: templates/core/patient_info_panel.html:535
-#: templates/core/patient_list.html:133 templates/core/patient_list_v2.html:141
+#: templates/core/patient_list.html:133 templates/core/patient_list_v2.html:139
 #: templates/core/praticien_form.html:10 templates/core/praticien_form.html:105
 #: templates/core/prescription_analyse_form.html:26
 #: templates/core/prescription_list.html:30
@@ -1829,7 +1830,7 @@ msgstr "Modifier"
 #: templates/core/patient_fichiers.html:317
 #: templates/core/patient_fichiers_v2.html:82
 #: templates/core/patient_fichiers_v2.html:161
-#: templates/core/patient_list.html:136 templates/core/patient_list_v2.html:144
+#: templates/core/patient_list.html:136 templates/core/patient_list_v2.html:142
 #: templates/core/prescription_list.html:33
 #: templates/core/prestation_list.html:35 templates/core/profil_list.html:82
 #: templates/core/template_edition_list.html:33
@@ -2376,7 +2377,7 @@ msgid "Nouveau"
 msgstr "Nouveau"
 
 #: templates/core/base_consultation_v2.html:164
-#: templates/core/base_pma.html:189 templates/core/login_v2.html:581
+#: templates/core/base_pma.html:189 templates/core/login_v2.html:590
 #: templates/core/parametres.html:690 templates/core/patient_detail_v2.html:326
 #: templates/core/patient_info_panel.html:459
 #: templates_backup/core/base_consultation_v2.html:165
@@ -2861,7 +2862,7 @@ msgstr "Action"
 #: templates/core/ordonnance_list.html:43 templates/core/partials/pma.html:29
 #: templates/core/patient_detail_v2.html:1516
 #: templates/core/patient_detail_v2.html:1526
-#: templates/core/patient_list.html:127 templates/core/patient_list_v2.html:135
+#: templates/core/patient_list.html:127 templates/core/patient_list_v2.html:134
 #: templates/core/reglement_caisses.html:68
 #: templates_backup/templates/core/bordereau_mutuelle.html:17
 #: templates_backup/templates/core/certificat_list.html:43
@@ -3308,6 +3309,7 @@ msgid "Informations conjoint"
 msgstr "Informations conjoint"
 
 #: templates/core/consultation_gynecologique_form.html:114
+#: templates/core/doctor_signup.html:67
 #: templates/core/etablissement_form.html:25
 #: templates/core/etablissement_list.html:19
 #: templates/core/grossesse_form.html:57 templates/core/parametres_base.html:47
@@ -3649,7 +3651,7 @@ msgstr "Référence"
 msgid "Informations"
 msgstr "Informations"
 
-#: templates/core/device_form.html:63 templates/super_admin/dashboard.html:174
+#: templates/core/device_form.html:63 templates/super_admin/dashboard.html:218
 #: templates_backup/core/device_form.html:63
 #: templates_backup/templates/core/device_form.html:63
 msgid "AE Title"
@@ -3674,6 +3676,45 @@ msgstr "Ajouter un matériel"
 #: templates_backup/templates/core/device_list.html:15
 msgid "Recherche matériel"
 msgstr "Recherche matériel"
+
+#: templates/core/doctor_signup.html:7 templates/core/doctor_signup.html:47
+msgid "Demande d'accès"
+msgstr "Demande d'accès"
+
+#: templates/core/doctor_signup.html:40
+msgid "Demande envoyée !"
+msgstr "Demande envoyée !"
+
+#: templates/core/doctor_signup.html:42
+msgid ""
+"Votre demande d'accès a bien été reçue. L'administrateur examinera votre "
+"demande et vous recevrez un email de confirmation."
+msgstr ""
+
+#: templates/core/doctor_signup.html:44 templates/core/password_reset.html:32
+#: templates/core/password_reset_done.html:23
+msgid "Retour à la connexion"
+msgstr "Retour à la connexion"
+
+#: templates/core/doctor_signup.html:48
+msgid "Remplissez ce formulaire pour demander un accès médecin."
+msgstr "Remplissez ce formulaire pour demander un accès médecin."
+
+#: templates/core/doctor_signup.html:57
+msgid "Nom complet"
+msgstr "Nom complet"
+
+#: templates/core/doctor_signup.html:62 templates/core/password_reset.html:28
+msgid "Adresse email"
+msgstr "Adresse email"
+
+#: templates/core/doctor_signup.html:70
+msgid "Envoyer la demande"
+msgstr "Envoyer la demande"
+
+#: templates/core/doctor_signup.html:73
+msgid "Déjà un compte ? Se connecter"
+msgstr "Déjà un compte ? Se connecter"
 
 #: templates/core/etablissement_list.html:12
 #, fuzzy
@@ -4054,7 +4095,7 @@ msgstr ""
 #: templates/core/login.html:179 templates/core/login.html:203
 #: templates/core/tentative_pma_form.html:228
 #: templates/core/traitement_pma_form.html:38
-#: templates/super_admin/dashboard.html:250
+#: templates/super_admin/dashboard.html:294
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -4082,33 +4123,41 @@ msgstr "Merci de réessayer."
 msgid "Mot de passe oublié ?"
 msgstr "Mot de passe oublié ?"
 
-#: templates/core/login_v2.html:567
+#: templates/core/login_v2.html:555
+msgid "Pas encore de compte ?"
+msgstr "Pas encore de compte ?"
+
+#: templates/core/login_v2.html:557
+msgid "Faire une demande d'accès"
+msgstr "Faire une demande d'accès"
+
+#: templates/core/login_v2.html:576
 #, fuzzy
 #| msgid "Satisfaction"
 msgid "L'application de"
 msgstr "Satisfaction"
 
-#: templates/core/login_v2.html:567
+#: templates/core/login_v2.html:576
 #, fuzzy
 #| msgid "Certificat médical"
 msgid "gestion médicale"
 msgstr "Certificat médical"
 
-#: templates/core/login_v2.html:567
+#: templates/core/login_v2.html:576
 #, fuzzy
 #| msgid "Nouvelle consultation"
 msgid "nouvelle génération."
 msgstr "Nouvelle consultation"
 
-#: templates/core/login_v2.html:570
+#: templates/core/login_v2.html:579
 msgid "Dossiers patients, consultations, ordonnances et planning — tout en un."
 msgstr ""
 
-#: templates/core/login_v2.html:578
+#: templates/core/login_v2.html:587
 msgid "Planning"
 msgstr ""
 
-#: templates/core/login_v2.html:584
+#: templates/core/login_v2.html:593
 msgid "Statistiques"
 msgstr ""
 
@@ -4721,8 +4770,9 @@ msgstr ""
 #: templates/core/parametres_base.html:42 templates/core/patient_form.html:101
 #: templates/core/patient_form_dialog.html:88
 #: templates/core/praticien_form.html:81 templates/core/profil_form.html:110
-#: templates/super_admin/dashboard.html:173
-#: templates/super_admin/dashboard.html:239
+#: templates/super_admin/dashboard.html:177
+#: templates/super_admin/dashboard.html:217
+#: templates/super_admin/dashboard.html:283
 #: templates_backup/core/patient_form.html:101
 #: templates_backup/core/praticien_form.html:81
 #: templates_backup/templates/core/patient_form.html:101
@@ -5381,18 +5431,9 @@ msgstr ""
 "Entrez votre adresse email et nous vous enverrons un lien de "
 "réinitialisation."
 
-#: templates/core/password_reset.html:28
-msgid "Adresse email"
-msgstr "Adresse email"
-
 #: templates/core/password_reset.html:30
 msgid "Envoyer le lien"
 msgstr "Envoyer le lien"
-
-#: templates/core/password_reset.html:32
-#: templates/core/password_reset_done.html:23
-msgid "Retour à la connexion"
-msgstr "Retour à la connexion"
 
 #: templates/core/password_reset_complete.html:7
 #, fuzzy
@@ -5620,11 +5661,9 @@ msgstr "Allergies"
 #: templates/core/patient_detail_v2.html:1156
 #: templates/core/patient_detail_v2.html:1231
 #: templates/core/patient_detail_v2.html:1305
-#: templates/core/patient_list.html:184
-#, fuzzy
-#| msgid "Historique des règlements"
+#: templates/core/patient_list.html:184 templates/core/patient_list_v2.html:188
 msgid "Pas d'historique"
-msgstr "Historique des règlements"
+msgstr "Pas d'historique"
 
 #: templates/core/patient_detail_v2.html:1168
 msgid "Mammographie"
@@ -6002,21 +6041,20 @@ msgstr "Chercher"
 msgid "IPP"
 msgstr "IPP"
 
-#: templates/core/patient_list.html:119
+#: templates/core/patient_list.html:119 templates/core/patient_list_v2.html:127
 msgid "Sélectionner"
-msgstr ""
+msgstr "Sélectionner"
 
-#: templates/core/patient_list.html:148 templates/core/patient_list_v2.html:156
+#: templates/core/patient_list.html:148 templates/core/patient_list_v2.html:154
 #: templates_backup/core/reglement_form.html:99
 #: templates_backup/templates/core/reglement_form.html:99
 msgid "Historique des règlements"
 msgstr "Historique des règlements"
 
 #: templates/core/patient_list.html:153 templates/core/patient_list.html:162
-#, fuzzy
-#| msgid "Recherche patient"
+#: templates/core/patient_list_v2.html:166
 msgid "Archiver patient"
-msgstr "Recherche patient"
+msgstr "Archiver patient"
 
 #: templates/core/patient_list.html:160
 #, fuzzy
@@ -6024,13 +6062,13 @@ msgstr "Recherche patient"
 msgid "Autres actions"
 msgstr "Informations"
 
-#: templates/core/patient_list.html:165
+#: templates/core/patient_list.html:165 templates/core/patient_list_v2.html:169
 msgid "Archiver"
 msgstr "Archiver"
 
-#: templates/core/patient_list.html:190
+#: templates/core/patient_list.html:190 templates/core/patient_list_v2.html:194
 msgid "Le patient n'existe pas"
-msgstr ""
+msgstr "Le patient n'existe pas"
 
 #: templates/core/patient_list.html:195 templates/core/patient_list.html:201
 #: templates/core/patient_list_v2.html:199
@@ -6844,118 +6882,147 @@ msgstr "Forme"
 msgid "Save"
 msgstr ""
 
-#: templates/super_admin/dashboard.html:135
+#: templates/super_admin/dashboard.html:138
 msgid "Logout"
 msgstr "Déconnexion"
 
-#: templates/super_admin/dashboard.html:142
+#: templates/super_admin/dashboard.html:145
 msgid "Doctor Accounts"
 msgstr "Comptes Médecins"
 
-#: templates/super_admin/dashboard.html:143
+#: templates/super_admin/dashboard.html:146
 msgid "Manage isolated doctor accounts and DICOM settings"
 msgstr "Gérer les comptes médecins isolés et les paramètres DICOM"
 
-#: templates/super_admin/dashboard.html:145
+#: templates/super_admin/dashboard.html:148
 msgid "Add Doctor"
 msgstr "Ajouter un médecin"
 
-#: templates/super_admin/dashboard.html:150
+#: templates/super_admin/dashboard.html:153
 msgid "Total Accounts"
 msgstr "Total des comptes"
 
-#: templates/super_admin/dashboard.html:154
-msgid "With DICOM AE Title"
-msgstr "Avec titre AE DICOM"
-
-#: templates/super_admin/dashboard.html:158
+#: templates/super_admin/dashboard.html:157
 msgid "Active Accounts"
 msgstr "Comptes actifs"
 
-#: templates/super_admin/dashboard.html:165
+#: templates/super_admin/dashboard.html:161
+msgid "Pending Requests"
+msgstr ""
+
+#: templates/super_admin/dashboard.html:170
+msgid "Pending Signup Requests"
+msgstr ""
+
+#: templates/super_admin/dashboard.html:171
+msgid "pending"
+msgstr ""
+
+#: templates/super_admin/dashboard.html:176
+msgid "Name"
+msgstr ""
+
+#: templates/super_admin/dashboard.html:178
+msgid "Phone"
+msgstr ""
+
+#: templates/super_admin/dashboard.html:179
+msgid "Submitted"
+msgstr ""
+
+#: templates/super_admin/dashboard.html:193
+msgid "Approve"
+msgstr ""
+
+#: templates/super_admin/dashboard.html:197
+msgid "Reject"
+msgstr ""
+
+#: templates/super_admin/dashboard.html:209
 msgid "All Doctor Accounts"
 msgstr "Tous les comptes médecins"
 
-#: templates/super_admin/dashboard.html:172
+#: templates/super_admin/dashboard.html:216
 msgid "Name / Clinic"
 msgstr "Nom / Clinique"
 
-#: templates/super_admin/dashboard.html:175
+#: templates/super_admin/dashboard.html:219
 msgid "Storage Port"
 msgstr "Port de stockage"
 
-#: templates/super_admin/dashboard.html:176
+#: templates/super_admin/dashboard.html:220
 msgid "MWL Port"
 msgstr "Port MWL"
 
-#: templates/super_admin/dashboard.html:177
+#: templates/super_admin/dashboard.html:221
 msgid "Login"
 msgstr "Identifiant"
 
-#: templates/super_admin/dashboard.html:209
-#: templates/super_admin/dashboard.html:286
+#: templates/super_admin/dashboard.html:253
+#: templates/super_admin/dashboard.html:330
 msgid "Inactive"
 msgstr "Inactif"
 
-#: templates/super_admin/dashboard.html:215
+#: templates/super_admin/dashboard.html:259
 msgid "Delete"
 msgstr "Supprimer"
 
-#: templates/super_admin/dashboard.html:224
+#: templates/super_admin/dashboard.html:268
 msgid "No doctor accounts yet. Click 'Add Doctor' to create one."
-msgstr "Aucun compte médecin. Cliquez sur 'Ajouter un médecin' pour en créer un."
+msgstr ""
+"Aucun compte médecin. Cliquez sur 'Ajouter un médecin' pour en créer un."
 
-#: templates/super_admin/dashboard.html:233
+#: templates/super_admin/dashboard.html:277
 msgid "Add Doctor Account"
 msgstr "Ajouter un compte médecin"
 
-#: templates/super_admin/dashboard.html:235
+#: templates/super_admin/dashboard.html:279
 msgid "Full Name / Clinic Name"
 msgstr "Nom complet / Nom de la clinique"
 
-#: templates/super_admin/dashboard.html:243
-#: templates/super_admin/dashboard.html:267
+#: templates/super_admin/dashboard.html:287
+#: templates/super_admin/dashboard.html:311
 msgid "Password"
 msgstr "Mot de passe"
 
-#: templates/super_admin/dashboard.html:245
+#: templates/super_admin/dashboard.html:289
 msgid "Leave blank to auto-generate"
 msgstr "Laisser vide pour générer automatiquement"
 
-#: templates/super_admin/dashboard.html:246
+#: templates/super_admin/dashboard.html:290
 msgid "Show"
 msgstr "Afficher"
 
-#: templates/super_admin/dashboard.html:251
-#: templates/super_admin/dashboard.html:288
+#: templates/super_admin/dashboard.html:295
+#: templates/super_admin/dashboard.html:332
 msgid "Create Account"
 msgstr "Créer le compte"
 
-#: templates/super_admin/dashboard.html:259
+#: templates/super_admin/dashboard.html:303
 msgid "Account Created"
 msgstr "Compte créé"
 
-#: templates/super_admin/dashboard.html:260
+#: templates/super_admin/dashboard.html:304
 msgid "Save these credentials — they will not be shown again."
 msgstr "Sauvegardez ces identifiants — ils ne seront plus affichés."
 
-#: templates/super_admin/dashboard.html:263
+#: templates/super_admin/dashboard.html:307
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
-#: templates/super_admin/dashboard.html:271
+#: templates/super_admin/dashboard.html:315
 msgid "DICOM AE Title"
 msgstr "Titre AE DICOM"
 
-#: templates/super_admin/dashboard.html:276
+#: templates/super_admin/dashboard.html:320
 msgid "Copy All"
 msgstr "Tout copier"
 
-#: templates/super_admin/dashboard.html:277
+#: templates/super_admin/dashboard.html:321
 msgid "Done"
 msgstr "Terminer"
 
-#: templates/super_admin/dashboard.html:287
+#: templates/super_admin/dashboard.html:331
 msgid "Creating…"
 msgstr "Création en cours…"
 
@@ -7087,6 +7154,9 @@ msgstr ""
 #: templates_backup/templates/core/reglement_form_2.html:33
 msgid "Paiement"
 msgstr "Paiement"
+
+#~ msgid "With DICOM AE Title"
+#~ msgstr "Avec titre AE DICOM"
 
 #, fuzzy
 #~| msgid "Historique des consultations"

@@ -154,14 +154,55 @@
       <div class="stat-value">{{ comptes.count }}</div>
     </div>
     <div class="stat-card">
-      <div class="stat-label">{% trans "With DICOM AE Title" %}</div>
-      <div class="stat-value">{{ comptes|length }}</div>
-    </div>
-    <div class="stat-card">
       <div class="stat-label">{% trans "Active Accounts" %}</div>
       <div class="stat-value">{{ active_count }}</div>
     </div>
+    <div class="stat-card" style="{% if signup_requests %}border-color:rgba(251,146,60,0.4);{% endif %}">
+      <div class="stat-label">{% trans "Pending Requests" %}</div>
+      <div class="stat-value" style="{% if signup_requests %}color:#FB923C;{% endif %}">{{ signup_requests|length }}</div>
+    </div>
   </div>
+
+  <!-- Signup Requests -->
+  {% if signup_requests %}
+  <div class="card" style="margin-bottom:24px;border-color:rgba(251,146,60,0.3);">
+    <div class="card-header" style="border-color:rgba(251,146,60,0.2);">
+      <h3 style="color:#FB923C;">&#9888; {% trans "Pending Signup Requests" %}</h3>
+      <span style="font-size:13px;color:#9BAFCA;">{{ signup_requests|length }} {% trans "pending" %}</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>{% trans "Name" %}</th>
+          <th>{% trans "Email" %}</th>
+          <th>{% trans "Phone" %}</th>
+          <th>{% trans "Submitted" %}</th>
+          <th>{% trans "Actions" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for req in signup_requests %}
+        <tr id="signup-row-{{ req.pk }}">
+          <td style="font-weight:600;">{{ req.full_name }}</td>
+          <td style="color:#9BAFCA;">{{ req.email }}</td>
+          <td style="color:#9BAFCA;">{{ req.phone|default:"—" }}</td>
+          <td style="color:#6B7A99;font-size:13px;">{{ req.created_at|date:"d/m/Y H:i" }}</td>
+          <td>
+            <button class="btn btn-sm" style="background:rgba(34,197,94,0.15);color:#22C55E;margin-right:6px;"
+                    onclick="approveSignup({{ req.pk }}, '{{ req.full_name|escapejs }}')">
+              &#10003; {% trans "Approve" %}
+            </button>
+            <button class="btn btn-danger btn-sm"
+                    onclick="rejectSignup({{ req.pk }}, '{{ req.full_name|escapejs }}')">
+              &#10005; {% trans "Reject" %}
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
 
   <div class="card">
     <div class="card-header">
@@ -252,6 +293,25 @@
     <div class="modal-footer">
       <button class="btn btn-cancel" onclick="closeCreateModal()">{% trans "Cancel" %}</button>
       <button class="btn btn-primary" id="btn-create" onclick="submitCreate()">{% trans "Create Account" %}</button>
+    </div>
+  </div>
+</div>
+
+<!-- Approve Signup Modal -->
+<div class="modal-overlay" id="approveModal">
+  <div class="modal">
+    <h2>&#10003; {% trans "Approve Request" %}</h2>
+    <p style="color:#9BAFCA;font-size:14px;margin-bottom:20px;" id="approve-doctor-name"></p>
+    <div class="form-group">
+      <label>{% trans "Password" %} *</label>
+      <div style="position:relative;">
+        <input type="password" id="approve-password" placeholder="{% trans "Enter password for doctor" %}" autocomplete="new-password"/>
+        <button type="button" onclick="toggleApprovePwd()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#9BAFCA;cursor:pointer;font-size:13px;" id="btn-toggle-approve-pwd">{% trans "Show" %}</button>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeApproveModal()">{% trans "Cancel" %}</button>
+      <button class="btn btn-primary" id="btn-approve-submit" onclick="submitApprove()" style="background:#22C55E;">&#10003; {% trans "Approve & Create" %}</button>
     </div>
   </div>
 </div>
@@ -383,6 +443,71 @@ if (!name || !email) { alert('Name and email are required.'); return; }
       if (label) label.textContent = data.is_active ? STR_ACTIVE : STR_INACTIVE;
     })
     .catch(() => { checkbox.checked = !checkbox.checked; alert('Error toggling status.'); });
+  }
+
+  let currentApprovePk = null;
+
+  function approveSignup(pk, name) {
+    currentApprovePk = pk;
+    document.getElementById('approve-doctor-name').textContent = name;
+    document.getElementById('approve-password').value = '';
+    document.getElementById('approveModal').classList.add('open');
+    setTimeout(() => document.getElementById('approve-password').focus(), 100);
+  }
+
+  function closeApproveModal() {
+    document.getElementById('approveModal').classList.remove('open');
+    currentApprovePk = null;
+  }
+
+  function toggleApprovePwd() {
+    const f = document.getElementById('approve-password');
+    const b = document.getElementById('btn-toggle-approve-pwd');
+    if (f.type === 'password') { f.type = 'text'; b.textContent = '{% trans "Hide" %}'; }
+    else { f.type = 'password'; b.textContent = '{% trans "Show" %}'; }
+  }
+
+  function submitApprove() {
+    const password = document.getElementById('approve-password').value.trim();
+    if (!password) { alert('{% trans "Password is required." %}'); return; }
+
+    const btn = document.getElementById('btn-approve-submit');
+    btn.disabled = true;
+
+    fetch(`/super-admin/approve-signup/${currentApprovePk}/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF },
+      body: JSON.stringify({ password })
+    })
+    .then(r => r.json())
+    .then(data => {
+      btn.disabled = false;
+      if (data.error) { alert(data.error); return; }
+      closeApproveModal();
+      const row = document.getElementById('signup-row-' + currentApprovePk);
+      if (row) row.remove();
+      lastCreds = data;
+      document.getElementById('cred-username').textContent = data.username;
+      document.getElementById('cred-password').textContent = data.password;
+      document.getElementById('cred-ae').textContent = data.ae_title;
+      document.getElementById('credModal').classList.add('open');
+    })
+    .catch(() => { btn.disabled = false; alert('Error approving request.'); });
+  }
+
+  function rejectSignup(pk, name) {
+    if (!confirm(`Reject signup request for "${name}"? They will be notified by email.`)) return;
+    fetch(`/super-admin/reject-signup/${pk}/`, {
+      method: 'POST',
+      headers: { 'X-CSRFToken': CSRF }
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) { alert(data.error); return; }
+      const row = document.getElementById('signup-row-' + pk);
+      if (row) row.remove();
+    })
+    .catch(() => alert('Error rejecting request.'));
   }
 
   function deleteCompte(pk, name) {

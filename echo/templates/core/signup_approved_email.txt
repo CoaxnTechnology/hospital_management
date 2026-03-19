@@ -1,0 +1,14 @@
+Hello {{ full_name }},
+
+Your CabinetPro access request has been approved!
+
+Here are your login credentials:
+
+  Username : {{ username }}
+  Password : {{ password }}
+
+Log in here: {{ login_url }}
+
+We recommend changing your password after your first login.
+
+— The CabinetPro Team

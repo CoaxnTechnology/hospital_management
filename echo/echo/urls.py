@@ -63,6 +63,9 @@ urlpatterns = [
     path("super-admin/create-doctor/", super_admin.create_doctor, name="super_admin_create_doctor"),
     path("super-admin/delete-compte/<int:pk>/", super_admin.delete_compte, name="super_admin_delete_compte"),
     path("super-admin/toggle-compte/<int:pk>/", super_admin.toggle_compte, name="super_admin_toggle_compte"),
+    path("super-admin/approve-signup/<int:pk>/", super_admin.approve_signup, name="super_admin_approve_signup"),
+    path("super-admin/reject-signup/<int:pk>/", super_admin.reject_signup, name="super_admin_reject_signup"),
+    path("signup/", super_admin.doctor_signup, name="doctor_signup"),
     # Favicon at root (browsers auto-request /favicon.ico)
     path("favicon.ico", RedirectView.as_view(url="/static/media/logos/favicon.ico", permanent=True)),
     # i18n language switcher

@@ -2255,3 +2255,24 @@ class SuperAdminProfile(models.Model):
 
     def __str__(self):
         return f"SuperAdmin: {self.user.username}"
+
+
+class DoctorSignupRequest(models.Model):
+    """A doctor's signup request waiting for super-admin approval."""
+    STATUS_PENDING = 'pending'
+    STATUS_APPROVED = 'approved'
+    STATUS_REJECTED = 'rejected'
+    STATUS_CHOICES = [
+        (STATUS_PENDING, 'Pending'),
+        (STATUS_APPROVED, 'Approved'),
+        (STATUS_REJECTED, 'Rejected'),
+    ]
+
+    full_name = models.CharField(max_length=128)
+    email = models.EmailField(unique=True)
+    phone = models.CharField(max_length=30, blank=True)
+    status = models.CharField(max_length=16, choices=STATUS_CHOICES, default=STATUS_PENDING)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.full_name} <{self.email}> [{self.status}]"

@@ -170,11 +170,12 @@
 
 <div class="modal-body p-0" style="flex:1;overflow:hidden;display:flex;flex-direction:column;">
 
+<div class="loading d-flex align-items-center justify-content-center" style="padding:40px;">
 <div class="spinner spinner-primary"></div>
-
 <div class="text-primary ml-10">{% trans "Loading" %}</div>
+</div>
 
-<iframe src="" width="100%" style="flex:1;border:none;min-height:0;" frameBorder="0"></iframe>
+<iframe src="" width="100%" style="flex:1;border:none;min-height:0;visibility:hidden;" frameBorder="0" id="patient-form-iframe"></iframe>
 
 </div>
 

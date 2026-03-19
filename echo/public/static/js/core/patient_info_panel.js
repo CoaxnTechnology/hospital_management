@@ -117,7 +117,7 @@ function modifierEtablissement(id) {
 
 function modifierPatient(id) {
     showFrameLoading();
-    $('#patient-form-modal iframe').attr('src', `/patients/${id}/modifier`);
+    $('#patient-form-modal iframe').one('load', hideFrameLoading).attr('src', `/patients/${id}/modifier`);
     bootstrap.Modal.getOrCreateInstance('#patient-form-modal').show();
 }
 

@@ -3,7 +3,14 @@ import string
 
 from django.contrib.auth.models import User, Group
 
-from apps.core.models import Compte, ParametresCompte, Profil, SuperAdminProfile
+from apps.core.models import Compte, CategorieConsultation, ParametresCompte, Profil, SuperAdminProfile
+
+# Category PKs per distribution
+DISTRIBUTION_CATEGORIES = {
+    'gyneco':  [1, 2, 4, 7],   # Obstétrique, Gynécologie, Examen libre, CR opératoire
+    'cardio':  [5, 6, 4, 7],   # Cardiologie, Vasculaire, Examen libre, CR opératoire
+    'general': [4, 7],          # Examen libre, CR opératoire
+}
 
 
 def generate_ae_title(name: str) -> str:
@@ -54,6 +61,11 @@ def create_doctor_compte(name: str, email: str, specialty: str = '', distributio
         user.groups.add(medecin_group)
     except Group.DoesNotExist:
         pass
+
+    # Assign consultation categories based on distribution
+    category_pks = DISTRIBUTION_CATEGORIES.get(distribution, DISTRIBUTION_CATEGORIES['gyneco'])
+    categories = CategorieConsultation.objects.filter(pk__in=category_pks)
+    compte.categories_consultations.set(categories)
 
     ae_title = generate_ae_title(name)
     # ParametresCompte is auto-created by a post_save signal on Compte

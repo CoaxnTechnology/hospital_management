@@ -7155,6 +7155,122 @@ msgstr ""
 msgid "Paiement"
 msgstr "Paiement"
 
+
+msgid "Edit Patient"
+msgstr "Modifier le patient"
+
+msgid "New Patient"
+msgstr "Nouveau patient"
+
+msgid "Identity"
+msgstr "Identité"
+
+msgid "Title"
+msgstr "Civilité"
+
+msgid "Sex"
+msgstr "Sexe"
+
+msgid "First Name"
+msgstr "Prénom"
+
+msgid "Last Name"
+msgstr "Nom de famille"
+
+msgid "Birth Name"
+msgstr "Nom de naissance"
+
+msgid "Date of Birth"
+msgstr "Date de naissance"
+
+msgid "ID Number"
+msgstr "Numéro d'identité"
+
+msgid "Social Security Code"
+msgstr "Code de sécurité sociale"
+
+msgid "Origin"
+msgstr "Origine"
+
+msgid "Old Number"
+msgstr "Ancien numéro"
+
+msgid "Occupation"
+msgstr "Profession"
+
+msgid "Primary Practitioner"
+msgstr "Praticien principal"
+
+msgid "Contact"
+msgstr "Contact"
+
+msgid "Secondary Phone"
+msgstr "Téléphone secondaire"
+
+msgid "Other Phone"
+msgstr "Téléphone autre"
+
+msgid "Address"
+msgstr "Adresse"
+
+msgid "City"
+msgstr "Ville"
+
+msgid "Postal Code"
+msgstr "Code postal"
+
+msgid "Governorate"
+msgstr "Gouvernorat"
+
+msgid "Country"
+msgstr "Pays"
+
+msgid "Health"
+msgstr "Santé"
+
+msgid "Height (cm)"
+msgstr "Taille (cm)"
+
+msgid "Weight (kg)"
+msgstr "Poids (kg)"
+
+msgid "Blood Type"
+msgstr "Groupe sanguin"
+
+msgid "Smoker"
+msgstr "Fumeur"
+
+msgid "Cigarettes / day"
+msgstr "Cigarettes / jour"
+
+msgid "Spouse Information"
+msgstr "Informations sur le conjoint"
+
+msgid "Marriage Date"
+msgstr "Date de mariage"
+
+msgid "Health Status"
+msgstr "Etat de santé"
+
+msgid "Insurance"
+msgstr "Mutuelle"
+
+msgid "Insurance Name"
+msgstr "Désignation mutuelle"
+
+msgid "Fund"
+msgstr "Caisse d'Affectation"
+
+msgid "Scheme"
+msgstr "Régime"
+
+msgid "Care Booklet No."
+msgstr "N° carnet de soin"
+
+msgid "Insurance Expiry"
+msgstr "Date validité mutuelle"
+
+
 #~ msgid "With DICOM AE Title"
 #~ msgstr "Avec titre AE DICOM"
 

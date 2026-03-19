@@ -6926,6 +6926,119 @@ msgstr "years"
 msgid "Paiement"
 msgstr "Payment"
 
+
+msgid "Edit Patient"
+msgstr "Edit Patient"
+
+msgid "New Patient"
+msgstr "New Patient"
+
+msgid "Identity"
+msgstr "Identity"
+
+msgid "Title"
+msgstr "Title"
+
+msgid "Sex"
+msgstr "Sex"
+
+msgid "First Name"
+msgstr "First Name"
+
+msgid "Last Name"
+msgstr "Last Name"
+
+msgid "Birth Name"
+msgstr "Birth Name"
+
+msgid "Date of Birth"
+msgstr "Date of Birth"
+
+msgid "ID Number"
+msgstr "ID Number"
+
+msgid "Social Security Code"
+msgstr "Social Security Code"
+
+msgid "Origin"
+msgstr "Origin"
+
+msgid "Old Number"
+msgstr "Old Number"
+
+msgid "Occupation"
+msgstr "Occupation"
+
+msgid "Primary Practitioner"
+msgstr "Primary Practitioner"
+
+msgid "Secondary Phone"
+msgstr "Secondary Phone"
+
+msgid "Other Phone"
+msgstr "Other Phone"
+
+msgid "Address"
+msgstr "Address"
+
+msgid "City"
+msgstr "City"
+
+msgid "Postal Code"
+msgstr "Postal Code"
+
+msgid "Governorate"
+msgstr "Governorate"
+
+msgid "Country"
+msgstr "Country"
+
+msgid "Health"
+msgstr "Health"
+
+msgid "Height (cm)"
+msgstr "Height (cm)"
+
+msgid "Weight (kg)"
+msgstr "Weight (kg)"
+
+msgid "Blood Type"
+msgstr "Blood Type"
+
+msgid "Smoker"
+msgstr "Smoker"
+
+msgid "Cigarettes / day"
+msgstr "Cigarettes / day"
+
+msgid "Spouse Information"
+msgstr "Spouse Information"
+
+msgid "Marriage Date"
+msgstr "Marriage Date"
+
+msgid "Health Status"
+msgstr "Health Status"
+
+msgid "Insurance"
+msgstr "Insurance"
+
+msgid "Insurance Name"
+msgstr "Insurance Name"
+
+msgid "Fund"
+msgstr "Fund"
+
+msgid "Scheme"
+msgstr "Scheme"
+
+msgid "Care Booklet No."
+msgstr "Care Booklet No."
+
+msgid "Insurance Expiry"
+msgstr "Insurance Expiry"
+
+
 #~ msgid "With DICOM AE Title"
 #~ msgstr "With DICOM AE Title"
 

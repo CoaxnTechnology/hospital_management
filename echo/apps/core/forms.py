@@ -147,12 +147,20 @@ class PatientForm(forms.ModelForm):
                   'groupe_sanguin_conjoint', 'consanguinite_conjoint', 'etat_sante_conjoint', 'profession_conjoint','mutuelle',
                   'designation','caisse_affectation','regime','lien_parente','num_carnet_soin','code_medecin_famille',
                   'date_validite_mutuelle','code_apci']
+        widgets = {
+            'date_naissance': forms.DateInput(attrs={'class': 'pf-date'}, format='%d/%m/%Y'),
+            'date_mariage': forms.DateInput(attrs={'class': 'pf-date'}, format='%d/%m/%Y'),
+            'date_validite_mutuelle': forms.DateInput(attrs={'class': 'pf-date'}, format='%d/%m/%Y'),
+            'date_naissance_conjoint': forms.DateInput(attrs={'class': 'pf-date'}, format='%d/%m/%Y'),
+        }
 
     def __init__(self, *args, **kwargs):
         compte = kwargs.pop('compte')
         super().__init__(*args, **kwargs)
         self.fields['praticien_principal'].queryset = Medecin.objects.filter(compte=compte)
         self.fields['praticien_principal'].required = True
+        for f in ('date_naissance', 'date_mariage', 'date_validite_mutuelle', 'date_naissance_conjoint'):
+            self.fields[f].input_formats = ['%d/%m/%Y', '%Y-%m-%d']
 
 
 class AdresseForm(forms.ModelForm):

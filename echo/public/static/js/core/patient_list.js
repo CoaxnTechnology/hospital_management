@@ -17,13 +17,13 @@ function archiverPatient(pk) {
 
 function modifierPatient(url) {
     showFrameLoading();
-    $('#patient-form-modal iframe').attr('src', url);
+    $('#patient-form-modal iframe').one('load', hideFrameLoading).attr('src', url);
     bootstrap.Modal.getOrCreateInstance('#patient-form-modal').show();
 }
 
 function creerPatient(url) {
     showFrameLoading();
-    $('#patient-form-modal iframe').attr('src', url);
+    $('#patient-form-modal iframe').one('load', hideFrameLoading).attr('src', url);
     bootstrap.Modal.getOrCreateInstance('#patient-form-modal').show();
 }
 

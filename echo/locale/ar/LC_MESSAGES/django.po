@@ -6934,6 +6934,122 @@ msgstr "سنوات"
 msgid "Paiement"
 msgstr "Paiement"
 
+
+msgid "Edit Patient"
+msgstr "تعديل المريض"
+
+msgid "New Patient"
+msgstr "مريض جديد"
+
+msgid "Identity"
+msgstr "الهوية"
+
+msgid "Title"
+msgstr "اللقب"
+
+msgid "Sex"
+msgstr "الجنس"
+
+msgid "First Name"
+msgstr "الاسم الأول"
+
+msgid "Last Name"
+msgstr "اسم العائلة"
+
+msgid "Birth Name"
+msgstr "الاسم عند الولادة"
+
+msgid "Date of Birth"
+msgstr "تاريخ الميلاد"
+
+msgid "ID Number"
+msgstr "رقم الهوية"
+
+msgid "Social Security Code"
+msgstr "رقم الضمان الاجتماعي"
+
+msgid "Origin"
+msgstr "الأصل"
+
+msgid "Old Number"
+msgstr "الرقم القديم"
+
+msgid "Occupation"
+msgstr "المهنة"
+
+msgid "Primary Practitioner"
+msgstr "الطبيب المعالج الرئيسي"
+
+msgid "Contact"
+msgstr "معلومات الاتصال"
+
+msgid "Secondary Phone"
+msgstr "الهاتف الثانوي"
+
+msgid "Other Phone"
+msgstr "هاتف آخر"
+
+msgid "Address"
+msgstr "العنوان"
+
+msgid "City"
+msgstr "المدينة"
+
+msgid "Postal Code"
+msgstr "الرمز البريدي"
+
+msgid "Governorate"
+msgstr "الولاية"
+
+msgid "Country"
+msgstr "البلد"
+
+msgid "Health"
+msgstr "الصحة"
+
+msgid "Height (cm)"
+msgstr "الطول (سم)"
+
+msgid "Weight (kg)"
+msgstr "الوزن (كغ)"
+
+msgid "Blood Type"
+msgstr "فصيلة الدم"
+
+msgid "Smoker"
+msgstr "مدخن"
+
+msgid "Cigarettes / day"
+msgstr "سجائر في اليوم"
+
+msgid "Spouse Information"
+msgstr "معلومات الزوج/الزوجة"
+
+msgid "Marriage Date"
+msgstr "تاريخ الزواج"
+
+msgid "Health Status"
+msgstr "الحالة الصحية"
+
+msgid "Insurance"
+msgstr "التأمين الصحي"
+
+msgid "Insurance Name"
+msgstr "اسم التأمين"
+
+msgid "Fund"
+msgstr "صندوق التأمين"
+
+msgid "Scheme"
+msgstr "النظام"
+
+msgid "Care Booklet No."
+msgstr "رقم دفتر العلاج"
+
+msgid "Insurance Expiry"
+msgstr "تاريخ انتهاء التأمين"
+
+
 #~ msgid "With DICOM AE Title"
 #~ msgstr "مع عنوان AE DICOM"
 

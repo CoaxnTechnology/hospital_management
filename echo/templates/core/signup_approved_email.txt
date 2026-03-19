@@ -9,6 +9,6 @@ Here are your login credentials:
 
 Log in here: {{ login_url }}
 
-We recommend changing your password after your first login.
+IMPORTANT: Please reset your password immediately after your first login for security reasons.
 
 — The CabinetPro Team

@@ -100,8 +100,6 @@ def approve_signup(request, pk):
     try:
         data = json.loads(request.body)
         password = data.get('password', '').strip()
-        if not password:
-            return JsonResponse({'error': 'Password is required.'}, status=400)
         result = create_doctor_compte(name=signup.full_name, email=signup.email, password=password)
         signup.status = DoctorSignupRequest.STATUS_APPROVED
         signup.save(update_fields=['status'])

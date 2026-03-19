@@ -305,7 +305,7 @@
     <div class="form-group">
       <label>{% trans "Password" %} *</label>
       <div style="position:relative;">
-        <input type="password" id="approve-password" placeholder="{% trans "Enter password for doctor" %}" autocomplete="new-password"/>
+        <input type="password" id="approve-password" placeholder="{% trans "Leave blank to auto-generate" %}" autocomplete="new-password"/>
         <button type="button" onclick="toggleApprovePwd()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#9BAFCA;cursor:pointer;font-size:13px;" id="btn-toggle-approve-pwd">{% trans "Show" %}</button>
       </div>
     </div>
@@ -469,7 +469,6 @@ if (!name || !email) { alert('Name and email are required.'); return; }
 
   function submitApprove() {
     const password = document.getElementById('approve-password').value.trim();
-    if (!password) { alert('{% trans "Password is required." %}'); return; }
 
     const btn = document.getElementById('btn-approve-submit');
     btn.disabled = true;

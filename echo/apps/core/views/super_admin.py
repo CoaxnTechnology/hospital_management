@@ -2,6 +2,7 @@ import json
 import os
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
@@ -98,9 +99,11 @@ def approve_signup(request, pk):
         return JsonResponse({'error': 'Request not found or already processed.'}, status=404)
 
     try:
-        data = json.loads(request.body)
-        password = data.get('password', '').strip()
-        result = create_doctor_compte(name=signup.full_name, email=signup.email, password=password)
+        result = create_doctor_compte(
+            name=signup.full_name,
+            email=signup.email,
+            hashed_password=signup.password,
+        )
         signup.status = DoctorSignupRequest.STATUS_APPROVED
         signup.save(update_fields=['status'])
 
@@ -108,20 +111,18 @@ def approve_signup(request, pk):
         body = render_to_string('core/signup_approved_email.txt', {
             'full_name': signup.full_name,
             'username': result['username'],
-            'password': result['password'],
             'login_url': login_url,
         })
         send_mail(
             subject='Your CabinetPro access has been approved',
             message=body,
-            from_email=None,  # uses DEFAULT_FROM_EMAIL
+            from_email=None,
             recipient_list=[signup.email],
             fail_silently=True,
         )
         return JsonResponse({
             'status': 'approved',
             'username': result['username'],
-            'password': result['password'],
             'ae_title': result['ae_title'],
         })
     except Exception as e:
@@ -158,14 +159,22 @@ def doctor_signup(request):
         full_name = request.POST.get('full_name', '').strip()
         email = request.POST.get('email', '').strip()
         phone = request.POST.get('phone', '').strip()
+        password = request.POST.get('password', '')
+        password2 = request.POST.get('password2', '')
 
         errors = {}
         if not full_name:
-            errors['full_name'] = 'Le nom est requis.'
+            errors['full_name'] = 'Full name is required.'
         if not email:
-            errors['email'] = "L'adresse email est requise."
+            errors['email'] = 'Email address is required.'
         elif DoctorSignupRequest.objects.filter(email=email).exists():
-            errors['email'] = 'Une demande avec cet email existe déjà.'
+            errors['email'] = 'A request with this email already exists.'
+        if not password:
+            errors['password'] = 'Password is required.'
+        elif len(password) < 8:
+            errors['password'] = 'Password must be at least 8 characters.'
+        elif password != password2:
+            errors['password2'] = 'Passwords do not match.'
 
         if errors:
             return render(request, 'core/doctor_signup.html', {
@@ -177,6 +186,7 @@ def doctor_signup(request):
             full_name=full_name,
             email=email,
             phone=phone,
+            password=make_password(password),
         )
         return render(request, 'core/doctor_signup.html', {'submitted': True})
 

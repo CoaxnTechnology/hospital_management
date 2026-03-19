@@ -1,6 +1,7 @@
 import random
 import string
 
+from django.contrib.auth.hashers import is_password_usable
 from django.contrib.auth.models import User, Group
 
 from apps.core.models import Compte, CategorieConsultation, ParametresCompte, Profil, SuperAdminProfile
@@ -28,10 +29,11 @@ def generate_password(length: int = 14) -> str:
     return ''.join(random.choices(chars, k=length))
 
 
-def create_doctor_compte(name: str, email: str, specialty: str = '', distribution: str = 'gyneco', password: str = '') -> dict:
+def create_doctor_compte(name: str, email: str, specialty: str = '', distribution: str = 'gyneco', password: str = '', hashed_password: str = '') -> dict:
     """
     Create a fully isolated Compte for a new doctor.
-    Returns credentials dict: username, password, ae_title.
+    Pass hashed_password (from signup request) or plain password. Falls back to auto-generate.
+    Returns credentials dict: username, ae_title.
     """
     base_username = email.split('@')[0].lower().replace('.', '_')
     username = base_username
@@ -40,8 +42,13 @@ def create_doctor_compte(name: str, email: str, specialty: str = '', distributio
         username = f"{base_username}{suffix}"
         suffix += 1
 
-    password = password or generate_password()
-    user = User.objects.create_user(username=username, email=email, password=password)
+    if hashed_password and is_password_usable(hashed_password):
+        user = User.objects.create_user(username=username, email=email, password=None)
+        user.password = hashed_password
+        user.save(update_fields=['password'])
+    else:
+        plain = password or generate_password()
+        user = User.objects.create_user(username=username, email=email, password=plain)
     user.first_name = name.split()[0] if name else ''
     user.last_name = ' '.join(name.split()[1:]) if len(name.split()) > 1 else ''
     user.save()
@@ -73,7 +80,6 @@ def create_doctor_compte(name: str, email: str, specialty: str = '', distributio
 
     return {
         'username': username,
-        'password': password,
         'ae_title': ae_title,
         'compte_id': compte.pk,
     }

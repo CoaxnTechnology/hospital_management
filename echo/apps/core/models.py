@@ -2271,6 +2271,7 @@ class DoctorSignupRequest(models.Model):
     full_name = models.CharField(max_length=128)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=30, blank=True)
+    password = models.CharField(max_length=256, blank=True)  # hashed via make_password
     status = models.CharField(max_length=16, choices=STATUS_CHOICES, default=STATUS_PENDING)
     created_at = models.DateTimeField(auto_now_add=True)
 

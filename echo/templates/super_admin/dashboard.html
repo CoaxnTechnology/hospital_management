@@ -302,16 +302,10 @@
   <div class="modal">
     <h2>&#10003; {% trans "Approve Request" %}</h2>
     <p style="color:#9BAFCA;font-size:14px;margin-bottom:20px;" id="approve-doctor-name"></p>
-    <div class="form-group">
-      <label>{% trans "Password" %} *</label>
-      <div style="position:relative;">
-        <input type="password" id="approve-password" placeholder="{% trans "Leave blank to auto-generate" %}" autocomplete="new-password"/>
-        <button type="button" onclick="toggleApprovePwd()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#9BAFCA;cursor:pointer;font-size:13px;" id="btn-toggle-approve-pwd">{% trans "Show" %}</button>
-      </div>
-    </div>
-    <div class="modal-footer">
+    <p style="color:#9BAFCA;font-size:13px;">{% trans "The doctor chose their own password during signup. Approving will create their account immediately and send them a notification email." %}</p>
+    <div class="modal-footer" style="margin-top:24px;">
       <button class="btn btn-cancel" onclick="closeApproveModal()">{% trans "Cancel" %}</button>
-      <button class="btn btn-primary" id="btn-approve-submit" onclick="submitApprove()" style="background:#22C55E;">&#10003; {% trans "Approve & Create" %}</button>
+      <button class="btn btn-primary" id="btn-approve-submit" onclick="submitApprove()" style="background:#22C55E;">&#10003; {% trans "Approve & Create Account" %}</button>
     </div>
   </div>
 </div>
@@ -320,13 +314,12 @@
 <div class="modal-overlay" id="credModal">
   <div class="modal">
     <h2>&#10003; {% trans "Account Created" %}</h2>
-    <div class="warning-note">&#9888; {% trans "Save these credentials — they will not be shown again." %}</div>
     <div class="cred-box">
       <div class="cred-row">
         <span class="cred-label">{% trans "Username" %}</span>
         <span class="cred-value" id="cred-username"></span>
       </div>
-      <div class="cred-row">
+      <div class="cred-row" id="cred-password-row">
         <span class="cred-label">{% trans "Password" %}</span>
         <span class="cred-value" id="cred-password"></span>
       </div>
@@ -414,6 +407,7 @@ if (!name || !email) { alert('Name and email are required.'); return; }
       if (data.error) { alert(data.error); return; }
       lastCreds = data;
       closeCreateModal();
+      document.getElementById('cred-password-row').style.display = '';
       document.getElementById('cred-username').textContent = data.username;
       document.getElementById('cred-password').textContent = data.password;
       document.getElementById('cred-ae').textContent = data.ae_title;
@@ -450,9 +444,7 @@ if (!name || !email) { alert('Name and email are required.'); return; }
   function approveSignup(pk, name) {
     currentApprovePk = pk;
     document.getElementById('approve-doctor-name').textContent = name;
-    document.getElementById('approve-password').value = '';
     document.getElementById('approveModal').classList.add('open');
-    setTimeout(() => document.getElementById('approve-password').focus(), 100);
   }
 
   function closeApproveModal() {
@@ -460,23 +452,14 @@ if (!name || !email) { alert('Name and email are required.'); return; }
     currentApprovePk = null;
   }
 
-  function toggleApprovePwd() {
-    const f = document.getElementById('approve-password');
-    const b = document.getElementById('btn-toggle-approve-pwd');
-    if (f.type === 'password') { f.type = 'text'; b.textContent = '{% trans "Hide" %}'; }
-    else { f.type = 'password'; b.textContent = '{% trans "Show" %}'; }
-  }
-
   function submitApprove() {
-    const password = document.getElementById('approve-password').value.trim();
-
     const btn = document.getElementById('btn-approve-submit');
     btn.disabled = true;
 
     fetch(`/super-admin/approve-signup/${currentApprovePk}/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF },
-      body: JSON.stringify({ password })
+      body: JSON.stringify({})
     })
     .then(r => r.json())
     .then(data => {
@@ -485,9 +468,8 @@ if (!name || !email) { alert('Name and email are required.'); return; }
       closeApproveModal();
       const row = document.getElementById('signup-row-' + currentApprovePk);
       if (row) row.remove();
-      lastCreds = data;
+      document.getElementById('cred-password-row').style.display = 'none';
       document.getElementById('cred-username').textContent = data.username;
-      document.getElementById('cred-password').textContent = data.password;
       document.getElementById('cred-ae').textContent = data.ae_title;
       document.getElementById('credModal').classList.add('open');
     })

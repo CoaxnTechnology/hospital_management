@@ -44,8 +44,10 @@ class ProfilRequiredMiddleware:
                 return HttpResponseRedirect('/super-admin/')
             return self.get_response(request)
 
-        # Block /super-admin/ for non-super-admin users
+        # Block /super-admin/ for non-super-admin users — send to login
         if request.path.startswith('/super-admin/'):
+            if not request.user.is_authenticated:
+                return HttpResponseRedirect(f'/accounts/login/?next={request.path}')
             return HttpResponseRedirect('/')
 
         try:

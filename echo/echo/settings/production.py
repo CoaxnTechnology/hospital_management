@@ -82,9 +82,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, "public/static")
 MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, "../", "data"))
 
 # Security settings for HTTPS
+# SSL redirect is handled by Nginx (HTTP → HTTPS 301 in server block).
+# Django must NOT also redirect or it creates an infinite loop.
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_SSL_REDIRECT = True
-SECURE_REDIRECT_EXEMPT = [r'^worklists/.*']
+SECURE_SSL_REDIRECT = False
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 

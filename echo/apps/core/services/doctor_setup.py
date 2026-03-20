@@ -1,10 +1,30 @@
+import csv
+import json
+import logging
+import os
 import random
 import string
 
 from django.contrib.auth.hashers import is_password_usable
 from django.contrib.auth.models import User, Group
 
-from apps.core.models import Compte, CategorieConsultation, ParametresCompte, Profil, SuperAdminProfile
+from apps.core.models import (
+    AnalyseBiologique,
+    CategorieConsultation,
+    Compte,
+    MotifConsultation,
+    ParametresCompte,
+    Prescription,
+    Profil,
+    SuperAdminProfile,
+    TemplateEdition,
+    Traitement,
+)
+
+logger = logging.getLogger(__name__)
+
+_DATA_DIR     = os.path.join(os.path.dirname(__file__), '..', 'data')
+_FIXTURES_DIR = os.path.join(os.path.dirname(__file__), '..', 'fixtures')
 
 # Category PKs per distribution
 DISTRIBUTION_CATEGORIES = {
@@ -83,3 +103,122 @@ def create_doctor_compte(name: str, email: str, specialty: str = '', distributio
         'ae_title': ae_title,
         'compte_id': compte.pk,
     }
+
+
+def load_default_templates(compte: Compte) -> dict:
+    """
+    Populate default templates (medications, lab tests, prescriptions, report templates)
+    for a newly created Compte. Skips entries that already exist.
+    Returns a summary dict with counts.
+    """
+    summary = {}
+
+    # --- Traitements ---
+    traitements_csv = os.path.join(_DATA_DIR, 'traitements.csv')
+    if os.path.exists(traitements_csv):
+        existing = set(Traitement.objects.filter(compte=compte).values_list('libelle', flat=True))
+        entries = []
+        with open(traitements_csv, encoding='cp1252', errors='replace') as f:
+            for row in csv.DictReader(f, delimiter=';'):
+                libelle = row['libelle'].strip()
+                if not libelle or libelle in existing:
+                    continue
+                entries.append(Traitement(
+                    compte=compte,
+                    libelle=libelle,
+                    text=row.get('text', '').strip(),
+                    forme=row.get('forme', 'comprime').strip().lower() or 'comprime',
+                ))
+        Traitement.objects.bulk_create(entries, ignore_conflicts=True)
+        summary['traitements'] = len(entries)
+    else:
+        logger.warning('load_default_templates: traitements.csv not found at %s', traitements_csv)
+        summary['traitements'] = 0
+
+    # --- Analyses biologiques ---
+    analyses_csv = os.path.join(_DATA_DIR, 'analyses.csv')
+    if os.path.exists(analyses_csv):
+        existing = set(AnalyseBiologique.objects.filter(compte=compte).values_list('code', flat=True))
+        entries = []
+        with open(analyses_csv, encoding='cp1252', errors='replace') as f:
+            for row in csv.DictReader(f, delimiter=';'):
+                code = row.get('code', '').strip()
+                if not code or code in existing:
+                    continue
+                entries.append(AnalyseBiologique(
+                    compte=compte,
+                    code=code,
+                    libelle=row.get('libelle', '').strip() or code,
+                    type=row.get('type', 'text').strip() or 'text',
+                    unite=row.get('unite', '').strip(),
+                ))
+        AnalyseBiologique.objects.bulk_create(entries, ignore_conflicts=True)
+        summary['analyses'] = len(entries)
+    else:
+        logger.warning('load_default_templates: analyses.csv not found at %s', analyses_csv)
+        summary['analyses'] = 0
+
+    # --- Prescriptions ---
+    prescriptions_csv = os.path.join(_DATA_DIR, 'prescriptions.csv')
+    if os.path.exists(prescriptions_csv):
+        existing = set(Prescription.objects.filter(compte=compte).values_list('libelle', flat=True))
+        entries = []
+        with open(prescriptions_csv, encoding='cp1252', errors='replace') as f:
+            for row in csv.DictReader(f, delimiter=';'):
+                libelle = row.get('libelle', '').strip()
+                if not libelle or libelle in existing:
+                    continue
+                categorie = row.get('categorie', '').strip()
+                if categorie not in ('examen_complementaire',):
+                    categorie = 'examen_complementaire'
+                entries.append(Prescription(
+                    compte=compte,
+                    libelle=libelle,
+                    categorie=categorie,
+                    text=row.get('text', libelle).strip(),
+                ))
+        Prescription.objects.bulk_create(entries, ignore_conflicts=True)
+        summary['prescriptions'] = len(entries)
+    else:
+        logger.warning('load_default_templates: prescriptions.csv not found at %s', prescriptions_csv)
+        summary['prescriptions'] = 0
+
+    # --- Report templates ---
+    templates_json = os.path.join(_FIXTURES_DIR, 'templates_data.json')
+    if os.path.exists(templates_json):
+        with open(templates_json, encoding='utf-8') as f:
+            data = json.load(f)
+        templates = data.get('template_editions', [])
+        existing = set(TemplateEdition.objects.filter(compte=compte).values_list('libelle', flat=True))
+        created = 0
+        for t in templates:
+            libelle = t.get('libelle', '').strip()
+            if not libelle or libelle in existing:
+                continue
+            cat_libelle = t.get('categorie_consultation__libelle')
+            motif_code = t.get('motif_consultation__code')
+            try:
+                categorie = CategorieConsultation.objects.get(libelle=cat_libelle)
+            except CategorieConsultation.DoesNotExist:
+                logger.warning('load_default_templates: categorie "%s" not found, skipping "%s"', cat_libelle, libelle)
+                continue
+            motif = None
+            if motif_code:
+                try:
+                    motif = MotifConsultation.objects.get(code=motif_code)
+                except MotifConsultation.DoesNotExist:
+                    pass
+            TemplateEdition.objects.create(
+                compte=compte,
+                libelle=libelle,
+                contenu=t.get('contenu', ''),
+                categorie_consultation=categorie,
+                motif_consultation=motif,
+            )
+            created += 1
+        summary['report_templates'] = created
+    else:
+        logger.warning('load_default_templates: templates_data.json not found at %s', templates_json)
+        summary['report_templates'] = 0
+
+    return summary

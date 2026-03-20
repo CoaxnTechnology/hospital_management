@@ -10,7 +10,7 @@ from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
 
 from apps.core.models import Compte, SuperAdminProfile, DoctorSignupRequest
-from apps.core.services.doctor_setup import create_doctor_compte
+from apps.core.services.doctor_setup import create_doctor_compte, load_default_templates
 
 
 def super_admin_required(view_func):
@@ -59,6 +59,14 @@ def create_doctor(request):
             return JsonResponse({'error': 'Name and email are required.'}, status=400)
 
         result = create_doctor_compte(name=name, email=email, specialty=specialty, password=password)
+
+        try:
+            compte = Compte.objects.get(pk=result['compte_id'])
+            load_default_templates(compte)
+        except Exception as tmpl_err:
+            import logging
+            logging.getLogger(__name__).warning('load_default_templates failed: %s', tmpl_err)
+
         return JsonResponse(result)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
@@ -104,6 +112,15 @@ def approve_signup(request, pk):
             email=signup.email,
             hashed_password=signup.password,
         )
+
+        # Load default templates (medications, labs, prescriptions, report templates)
+        try:
+            compte = Compte.objects.get(pk=result['compte_id'])
+            load_default_templates(compte)
+        except Exception as tmpl_err:
+            import logging
+            logging.getLogger(__name__).warning('load_default_templates failed: %s', tmpl_err)
+
         signup.status = DoctorSignupRequest.STATUS_APPROVED
         signup.save(update_fields=['status'])
 

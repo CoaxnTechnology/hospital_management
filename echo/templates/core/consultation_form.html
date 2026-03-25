@@ -36,8 +36,7 @@
                                             class="form-select form-select-solid form-select-sm">
                                         <option value="-1">---------</option>
                                         {% for temp in templates %}
-                                            <option value="{{ temp.id }}"
-                                                    {% if forloop.counter == 1 %}selected{% endif %}>{{ temp.libelle }}</option>
+                                            <option value="{{ temp.id }}">{{ temp.libelle }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>

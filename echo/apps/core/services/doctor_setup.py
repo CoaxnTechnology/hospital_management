@@ -55,7 +55,11 @@ def create_doctor_compte(name: str, email: str, specialty: str = '', distributio
     Pass hashed_password (from signup request) or plain password. Falls back to auto-generate.
     Returns credentials dict: username, ae_title.
     """
-    base_username = email.split('@')[0].lower().replace('.', '_')
+    import unicodedata
+    normalized = unicodedata.normalize('NFD', name.lower())
+    ascii_name = ''.join(c for c in normalized if unicodedata.category(c) != 'Mn')
+    base_username = ''.join(c if c.isalnum() else '_' for c in ascii_name).strip('_')
+    base_username = base_username or email.split('@')[0].lower().replace('.', '_')
     username = base_username
     suffix = 1
     while User.objects.filter(username=username).exists():

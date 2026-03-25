@@ -8,7 +8,7 @@
   .pf-section-title {
     font-size: 11px; font-weight: 700; text-transform: uppercase;
     letter-spacing: .8px; color: #b5b5c3;
-    margin: 22px 0 12px; padding-bottom: 6px;
+    margin: 20px 0 10px; padding-bottom: 6px;
     border-bottom: 1px solid #e5eaee;
     display: flex; align-items: center; gap: 6px;
   }
@@ -56,86 +56,72 @@
 
   <div class="card-body pt-3 pb-4" style="overflow-y:auto;flex:1;">
 
-    <!-- Identity -->
+    <!-- ── Identity ───────────────────────────────────────── -->
     <div class="pf-section-title"><i class="la la-id-card"></i>{% trans "Identity" %}</div>
-
     <div class="row g-3">
-      <div class="col-md-3">
-        <label class="form-label">{% trans "Title" %}{% if patient.civilite.field.required %} <span class="required-star">*</span>{% endif %}</label>
+      <div class="col-md-2">
+        <label class="form-label">{% trans "Title" %}{% if patient.civilite.field.required %}<span class="required-star">*</span>{% endif %}</label>
         {% render_field patient.civilite class+="form-control form-control-sm" %}
         {% if patient.civilite.errors %}<div class="field-error">{{ patient.civilite.errors|join:", " }}</div>{% endif %}
       </div>
-      <div class="col-md-3">
-        <label class="form-label">{% trans "Sex" %}{% if patient.sexe.field.required %} <span class="required-star">*</span>{% endif %}</label>
+      <div class="col-md-2">
+        <label class="form-label">{% trans "Sex" %}{% if patient.sexe.field.required %}<span class="required-star">*</span>{% endif %}</label>
         {% render_field patient.sexe class+="form-control form-control-sm" %}
         {% if patient.sexe.errors %}<div class="field-error">{{ patient.sexe.errors|join:", " }}</div>{% endif %}
       </div>
-      <div class="col-md-6">
-        <label class="form-label">{% trans "First Name" %}{% if patient.prenom.field.required %} <span class="required-star">*</span>{% endif %}</label>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "First Name" %}{% if patient.prenom.field.required %}<span class="required-star">*</span>{% endif %}</label>
         {% render_field patient.prenom class+="form-control form-control-sm" %}
         {% if patient.prenom.errors %}<div class="field-error">{{ patient.prenom.errors|join:", " }}</div>{% endif %}
       </div>
-    </div>
-
-    <div class="row g-3 mt-1">
       <div class="col-md-4">
-        <label class="form-label">{% trans "Last Name" %}{% if patient.nom.field.required %} <span class="required-star">*</span>{% endif %}</label>
+        <label class="form-label">{% trans "Last Name" %}{% if patient.nom.field.required %}<span class="required-star">*</span>{% endif %}</label>
         {% render_field patient.nom class+="form-control form-control-sm" %}
         {% if patient.nom.errors %}<div class="field-error">{{ patient.nom.errors|join:", " }}</div>{% endif %}
       </div>
       <div class="col-md-4">
-        <label class="form-label">{% trans "Birth Name" %}{% if patient.nom_naissance.field.required %} <span class="required-star">*</span>{% endif %}</label>
+        <label class="form-label">{% trans "Birth Name" %}{% if patient.nom_naissance.field.required %}<span class="required-star">*</span>{% endif %}</label>
         {% render_field patient.nom_naissance class+="form-control form-control-sm" %}
         {% if patient.nom_naissance.errors %}<div class="field-error">{{ patient.nom_naissance.errors|join:", " }}</div>{% endif %}
       </div>
       <div class="col-md-4">
-        <label class="form-label">{% trans "Date of Birth" %}{% if patient.date_naissance.field.required %} <span class="required-star">*</span>{% endif %}</label>
+        <label class="form-label">{% trans "Date of Birth" %}{% if patient.date_naissance.field.required %}<span class="required-star">*</span>{% endif %}</label>
         {% render_field patient.date_naissance class+="form-control form-control-sm" %}
         {% if patient.date_naissance.errors %}<div class="field-error">{{ patient.date_naissance.errors|join:", " }}</div>{% endif %}
       </div>
-    </div>
-
-    <div class="row g-3 mt-1">
       <div class="col-md-4">
-        <label class="form-label">{% trans "ID Number" %}{% if patient.numero_identite.field.required %} <span class="required-star">*</span>{% endif %}</label>
+        <label class="form-label">{% trans "Origin" %}{% if patient.origine.field.required %}<span class="required-star">*</span>{% endif %}</label>
+        {% render_field patient.origine class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "ID Number" %}</label>
         {% render_field patient.numero_identite class+="form-control form-control-sm" %}
       </div>
       <div class="col-md-4">
-        <label class="form-label">{% trans "Social Security Code" %}{% if patient.code_securite_sociale.field.required %} <span class="required-star">*</span>{% endif %}</label>
+        <label class="form-label">{% trans "Social Security Code" %}</label>
         {% render_field patient.code_securite_sociale class+="form-control form-control-sm" %}
       </div>
       <div class="col-md-4">
-        <label class="form-label">{% trans "Origin" %}{% if patient.origine.field.required %} <span class="required-star">*</span>{% endif %}</label>
-        {% render_field patient.origine class+="form-control form-control-sm" %}
-      </div>
-    </div>
-
-    <div class="row g-3 mt-1">
-      <div class="col-md-4">
-        <label class="form-label">{% trans "Old Number" %}{% if patient.ancien_numero.field.required %} <span class="required-star">*</span>{% endif %}</label>
+        <label class="form-label">{% trans "Old Number" %}</label>
         {% render_field patient.ancien_numero class+="form-control form-control-sm" %}
       </div>
       <div class="col-md-4">
-        <label class="form-label">{% trans "Occupation" %}{% if patient.profession.field.required %} <span class="required-star">*</span>{% endif %}</label>
+        <label class="form-label">{% trans "Occupation" %}</label>
         {% render_field patient.profession class+="form-control form-control-sm" %}
       </div>
       <div class="col-md-4">
-        <label class="form-label">{% trans "Primary Practitioner" %}{% if patient.praticien_principal.field.required %} <span class="required-star">*</span>{% endif %}</label>
+        <label class="form-label">{% trans "Primary Practitioner" %}{% if patient.praticien_principal.field.required %}<span class="required-star">*</span>{% endif %}</label>
         {% render_field patient.praticien_principal class+="form-control form-control-sm" %}
         {% if patient.praticien_principal.errors %}<div class="field-error">{{ patient.praticien_principal.errors|join:", " }}</div>{% endif %}
       </div>
-    </div>
-
-    <div class="row g-3 mt-1">
       <div class="col-12">
         <label class="form-label">{% trans "Notes" %}</label>
         {% render_field patient.observation class+="form-control form-control-sm" rows="2" %}
       </div>
     </div>
 
-    <!-- Contact -->
-    <div class="pf-section-title mt-2"><i class="la la-phone"></i>{% trans "Contact" %}</div>
-
+    <!-- ── Contact ────────────────────────────────────────── -->
+    <div class="pf-section-title"><i class="la la-phone"></i>{% trans "Contact" %}</div>
     <div class="row g-3">
       <div class="col-md-4">
         <label class="form-label">{% trans "Phone" %}</label>
@@ -149,19 +135,15 @@
         <label class="form-label">{% trans "Other Phone" %}</label>
         {% render_field patient.telephone_autre class+="form-control form-control-sm" %}
       </div>
-    </div>
-
-    <div class="row g-3 mt-1">
       <div class="col-md-6">
-        <label class="form-label">{% trans "Email" %}{% if patient.email.field.required %} <span class="required-star">*</span>{% endif %}</label>
+        <label class="form-label">{% trans "Email" %}{% if patient.email.field.required %}<span class="required-star">*</span>{% endif %}</label>
         {% render_field patient.email class+="form-control form-control-sm" placeholder="email@example.com" %}
         {% if patient.email.errors %}<div class="field-error">{{ patient.email.errors|join:", " }}</div>{% endif %}
       </div>
     </div>
 
-    <!-- Address -->
-    <div class="pf-section-title mt-2"><i class="la la-map-marker"></i>{% trans "Address" %}</div>
-
+    <!-- ── Address ────────────────────────────────────────── -->
+    <div class="pf-section-title"><i class="la la-map-marker"></i>{% trans "Address" %}</div>
     <div class="row g-3">
       <div class="col-md-3">
         <label class="form-label">{% trans "City" %}</label>
@@ -181,9 +163,8 @@
       </div>
     </div>
 
-    <!-- Health -->
-    <div class="pf-section-title mt-2"><i class="la la-heartbeat"></i>{% trans "Health" %}</div>
-
+    <!-- ── Health ─────────────────────────────────────────── -->
+    <div class="pf-section-title"><i class="la la-heartbeat"></i>{% trans "Health" %}</div>
     <div class="row g-3">
       <div class="col-md-3">
         <label class="form-label">{% trans "Height (cm)" %}</label>
@@ -201,34 +182,31 @@
         <label class="form-label">{% trans "Smoker" %}</label>
         {% render_field patient.fumeur class+="form-control form-control-sm" %}
       </div>
-    </div>
-
-    <div class="row g-3 mt-1">
-      <div class="col-md-4">
+      <div class="col-md-3">
         <label class="form-label">{% trans "Cigarettes / day" %}</label>
         {% render_field patient.nombre_cigarettes class+="form-control form-control-sm" placeholder="0" %}
       </div>
     </div>
 
-    <!-- Spouse -->
-    <div class="pf-section-title mt-2"><i class="la la-ring"></i>{% trans "Spouse Information" %}</div>
-
+    <!-- ── Spouse ─────────────────────────────────────────── -->
+    <div class="pf-section-title"><i class="la la-ring"></i>{% trans "Spouse Information" %}</div>
     <div class="row g-3">
-      <div class="col-md-4">
+      <div class="col-md-3">
         <label class="form-label">{% trans "Marriage Date" %}</label>
         {% render_field patient.date_mariage class+="form-control form-control-sm" %}
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <label class="form-label">{% trans "Last Name" %}</label>
         {% render_field patient.nom_conjoint class+="form-control form-control-sm" %}
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <label class="form-label">{% trans "First Name" %}</label>
         {% render_field patient.prenom_conjoint class+="form-control form-control-sm" %}
       </div>
-    </div>
-
-    <div class="row g-3 mt-1">
+      <div class="col-md-3">
+        <label class="form-label">{% trans "Spouse DOB" %}</label>
+        {% render_field patient.date_naissance_conjoint class+="form-control form-control-sm" %}
+      </div>
       <div class="col-md-6">
         <label class="form-label">{% trans "Occupation" %}</label>
         {% render_field patient.profession_conjoint class+="form-control form-control-sm" %}
@@ -239,10 +217,15 @@
       </div>
     </div>
 
-    <!-- Insurance -->
-    <div class="pf-section-title mt-2"><i class="la la-shield-alt"></i>{% trans "Insurance" %}</div>
-
+    <!-- ── Insurance ──────────────────────────────────────── -->
+    <div class="pf-section-title"><i class="la la-shield-alt"></i>{% trans "Insurance" %}</div>
     <div class="row g-3">
+      <div class="col-12">
+        <div class="form-check">
+          {% render_field patient.mutuelle class+="form-check-input" %}
+          <label class="form-check-label">{% trans "Has Insurance (Mutuelle)" %}</label>
+        </div>
+      </div>
       <div class="col-md-6">
         <label class="form-label">{% trans "Insurance Name" %}</label>
         {% render_field patient.designation class+="form-control form-control-sm" %}
@@ -251,20 +234,29 @@
         <label class="form-label">{% trans "Fund" %}</label>
         {% render_field patient.caisse_affectation class+="form-control form-control-sm" %}
       </div>
-    </div>
-
-    <div class="row g-3 mt-1">
       <div class="col-md-4">
         <label class="form-label">{% trans "Scheme" %}</label>
         {% render_field patient.regime class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "Relationship" %}</label>
+        {% render_field patient.lien_parente class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "Insurance Expiry" %}</label>
+        {% render_field patient.date_validite_mutuelle class+="form-control form-control-sm" %}
       </div>
       <div class="col-md-4">
         <label class="form-label">{% trans "Care Booklet No." %}</label>
         {% render_field patient.num_carnet_soin class+="form-control form-control-sm" %}
       </div>
       <div class="col-md-4">
-        <label class="form-label">{% trans "Insurance Expiry" %}</label>
-        {% render_field patient.date_validite_mutuelle class+="form-control form-control-sm" %}
+        <label class="form-label">{% trans "Family Doctor Code" %}</label>
+        {% render_field patient.code_medecin_famille class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "APCI Code" %}</label>
+        {% render_field patient.code_apci class+="form-control form-control-sm" %}
       </div>
     </div>
 

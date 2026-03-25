@@ -4143,35 +4143,27 @@ msgid "Ordonnance médicale"
 msgstr "Medical prescription"
 
 #: templates/core/ordonnance_form.html:108
-#, fuzzy
-#| msgid "une ordonnance"
 msgid "Modifier l'ordonnance"
-msgstr "a prescription"
+msgstr "Edit prescription"
 
 #: templates/core/ordonnance_form.html:108
-#, fuzzy
-#| msgid "une ordonnance"
 msgid "Créer une ordonnance"
-msgstr "a prescription"
+msgstr "Create prescription"
 
 #: templates/core/ordonnance_form.html:162
 msgid "Médicaments"
 msgstr "Medications"
 
 #: templates/core/ordonnance_form.html:163
-#, fuzzy
-#| msgid "Recherche traitement"
 msgid "Rechercher un traitement"
 msgstr "Search treatment"
 
 #: templates/core/ordonnance_form.html:168
 #: templates/core/ordonnance_form.html:199
 msgid "Parcourir la liste"
-msgstr ""
+msgstr "Browse list"
 
 #: templates/core/ordonnance_form.html:174
-#, fuzzy
-#| msgid "Prises/jour"
 msgid "Prises/j"
 msgstr "Doses/day"
 
@@ -4188,22 +4180,16 @@ msgid "Qté/prise"
 msgstr "Qty/dose"
 
 #: templates/core/ordonnance_form.html:193
-#, fuzzy
-#| msgid "En examen"
 msgid "Examens"
-msgstr "In exam"
+msgstr "Exams"
 
 #: templates/core/ordonnance_form.html:194
-#, fuzzy
-#| msgid "Recherche patient"
 msgid "Rechercher un examen"
-msgstr "Patient search"
+msgstr "Search for an exam"
 
 #: templates/core/ordonnance_form.html:207
-#, fuzzy
-#| msgid "Signe clinique"
 msgid "Renseignements cliniques"
-msgstr "Clinical sign"
+msgstr "Clinical notes"
 
 #: templates/core/ordonnance_form.html:209
 #, fuzzy
@@ -6666,7 +6652,7 @@ msgstr "Form"
 
 #: templates/core/traitement_pma_form.html:48
 msgid "Save"
-msgstr ""
+msgstr "Save"
 
 #: templates/super_admin/dashboard.html:138
 msgid "Logout"
@@ -6710,7 +6696,7 @@ msgstr ""
 
 #: templates/super_admin/dashboard.html:178
 msgid "Phone"
-msgstr ""
+msgstr "Phone"
 
 #: templates/super_admin/dashboard.html:179
 msgid "Submitted"
@@ -7540,3 +7526,15 @@ msgstr "Insurance Expiry"
 
 #~ msgid "PMA"
 #~ msgstr "PMA"
+
+msgid "Has Insurance (Mutuelle)"
+msgstr "Has Insurance (Mutuelle)"
+
+msgid "Relationship"
+msgstr "Relationship"
+
+msgid "Family Doctor Code"
+msgstr "Family Doctor Code"
+
+msgid "APCI Code"
+msgstr "APCI Code"

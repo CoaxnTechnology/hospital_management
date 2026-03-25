@@ -19,6 +19,7 @@ from apps.core.models import (
     SuperAdminProfile,
     TemplateEdition,
     Traitement,
+    TypeOrdonnance,
 )
 
 logger = logging.getLogger(__name__)
@@ -224,5 +225,49 @@ def load_default_templates(compte: Compte) -> dict:
     else:
         logger.warning('load_default_templates: templates_data.json not found at %s', templates_json)
         summary['report_templates'] = 0
+
+    # --- Prescription types (TypeOrdonnance) ---
+    DEFAULT_TYPES = [
+        {
+            'libelle': 'Traitements',
+            'categorie': TypeOrdonnance.CATEGORIE_TRAITEMENT,
+            'modele': (
+                '<p>Je soussigné(e), Dr <%= nom_praticien %>, certifie avoir examiné ce jour '
+                '<strong><%= nom_patient %></strong>, né(e) le <%= date_naissance %> (<%= age %>), '
+                'et lui prescris le traitement suivant :</p>'
+                '<div id="content-container"></div>'
+            ),
+        },
+        {
+            'libelle': 'Examens',
+            'categorie': TypeOrdonnance.CATEGORIE_EXAMEN,
+            'modele': (
+                '<p>Je soussigné(e), Dr <%= nom_praticien %>, prescris à '
+                '<strong><%= nom_patient %></strong>, né(e) le <%= date_naissance %> (<%= age %>), '
+                'les examens complémentaires suivants :</p>'
+                '<div id="content-container"></div>'
+            ),
+        },
+        {
+            'libelle': 'Autre',
+            'categorie': TypeOrdonnance.CATEGORIE_AUTRE,
+            'modele': (
+                '<p><strong><%= nom_patient %></strong>, né(e) le <%= date_naissance %> (<%= age %>)</p>'
+                '<div id="content-container"></div>'
+            ),
+        },
+    ]
+    existing_types = set(TypeOrdonnance.objects.filter(compte=compte).values_list('libelle', flat=True))
+    created_types = 0
+    for t in DEFAULT_TYPES:
+        if t['libelle'] not in existing_types:
+            TypeOrdonnance.objects.create(
+                compte=compte,
+                libelle=t['libelle'],
+                categorie=t['categorie'],
+                modele=t['modele'],
+            )
+            created_types += 1
+    summary['type_ordonnances'] = created_types
 
     return summary

@@ -2426,7 +2426,7 @@ msgstr "Rendez-vous"
 #: templates_backup/templates/core/base_consultation_v2.html:174
 #: templates_backup/templates/core/base_pma.html:198
 msgid "Historique"
-msgstr ""
+msgstr "Historique"
 
 #: templates/core/base_consultation_v2.html:176
 #: templates/core/base_pma.html:201
@@ -4268,39 +4268,29 @@ msgid "Ordonnance médicale"
 msgstr "Ordonnances"
 
 #: templates/core/ordonnance_form.html:108
-#, fuzzy
-#| msgid "une ordonnance"
 msgid "Modifier l'ordonnance"
-msgstr "une ordonnance"
+msgstr "Modifier l'ordonnance"
 
 #: templates/core/ordonnance_form.html:108
-#, fuzzy
-#| msgid "une ordonnance"
 msgid "Créer une ordonnance"
-msgstr "une ordonnance"
+msgstr "Créer une ordonnance"
 
 #: templates/core/ordonnance_form.html:162
-#, fuzzy
-#| msgid "éléments"
 msgid "Médicaments"
-msgstr "éléments"
+msgstr "Médicaments"
 
 #: templates/core/ordonnance_form.html:163
-#, fuzzy
-#| msgid "Recherche traitement"
 msgid "Rechercher un traitement"
-msgstr "Recherche traitement"
+msgstr "Rechercher un traitement"
 
 #: templates/core/ordonnance_form.html:168
 #: templates/core/ordonnance_form.html:199
 msgid "Parcourir la liste"
-msgstr ""
+msgstr "Parcourir la liste"
 
 #: templates/core/ordonnance_form.html:174
-#, fuzzy
-#| msgid "Prises/jour"
 msgid "Prises/j"
-msgstr "Prises/jour"
+msgstr "Prises/j"
 
 #: templates/core/ordonnance_form.html:178
 #: templates_backup/core/ordonnance_form.html:102
@@ -4315,22 +4305,16 @@ msgid "Qté/prise"
 msgstr "Qté/prise"
 
 #: templates/core/ordonnance_form.html:193
-#, fuzzy
-#| msgid "En examen"
 msgid "Examens"
-msgstr "En examen"
+msgstr "Examens"
 
 #: templates/core/ordonnance_form.html:194
-#, fuzzy
-#| msgid "Recherche patient"
 msgid "Rechercher un examen"
-msgstr "Recherche patient"
+msgstr "Rechercher un examen"
 
 #: templates/core/ordonnance_form.html:207
-#, fuzzy
-#| msgid "Signe clinique"
 msgid "Renseignements cliniques"
-msgstr "Signe clinique"
+msgstr "Renseignements cliniques"
 
 #: templates/core/ordonnance_form.html:209
 #, fuzzy
@@ -6880,7 +6864,7 @@ msgstr "Forme"
 
 #: templates/core/traitement_pma_form.html:48
 msgid "Save"
-msgstr ""
+msgstr "Enregistrer"
 
 #: templates/super_admin/dashboard.html:138
 msgid "Logout"
@@ -6924,7 +6908,7 @@ msgstr ""
 
 #: templates/super_admin/dashboard.html:178
 msgid "Phone"
-msgstr ""
+msgstr "Téléphone"
 
 #: templates/super_admin/dashboard.html:179
 msgid "Submitted"
@@ -7352,3 +7336,15 @@ msgstr "Date validité mutuelle"
 
 #~ msgid "Dashboard"
 #~ msgstr "Dashboard"
+
+msgid "Has Insurance (Mutuelle)"
+msgstr "A une mutuelle"
+
+msgid "Relationship"
+msgstr "Lien de parenté"
+
+msgid "Family Doctor Code"
+msgstr "Code médecin de famille"
+
+msgid "APCI Code"
+msgstr "Code APCI"

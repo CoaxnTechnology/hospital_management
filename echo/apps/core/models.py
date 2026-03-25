@@ -1015,9 +1015,20 @@ class PhrasierAntecedent(models.Model):
 
 
 class TypeOrdonnance(CompteModelBase):
-    compte = models.ForeignKey(Compte, on_delete=models.CASCADE)
-    libelle = models.CharField(max_length=256)
-    modele = HTMLField(blank=True)
+    CATEGORIE_TRAITEMENT = 'traitement'
+    CATEGORIE_EXAMEN     = 'examen'
+    CATEGORIE_AUTRE      = 'autre'
+    CATEGORIE_CHOICES = [
+        (CATEGORIE_TRAITEMENT, 'Traitement médicamenteux'),
+        (CATEGORIE_EXAMEN,     'Examens complémentaires'),
+        (CATEGORIE_AUTRE,      'Autre'),
+    ]
+
+    compte    = models.ForeignKey(Compte, on_delete=models.CASCADE)
+    libelle   = models.CharField(max_length=256)
+    categorie = models.CharField(max_length=32, choices=CATEGORIE_CHOICES,
+                                 default=CATEGORIE_AUTRE)
+    modele    = HTMLField(blank=True)
 
     def __str__(self):
         return f"{self.libelle}"

@@ -558,7 +558,19 @@ class GrossesseForm(forms.ModelForm):
             'aspegic': forms.CheckboxInput(),
             'allaitement_maternel': forms.CheckboxInput(),
             'allaitement_artificiel': forms.CheckboxInput(),
+            'date_naissance_conjoint': forms.DateInput(attrs={'class': 'gf-date'}, format='%d/%m/%Y'),
+            'ddr':         forms.DateInput(attrs={'class': 'gf-date'}, format='%d/%m/%Y'),
+            'ddr_corrige': forms.DateInput(attrs={'class': 'gf-date'}, format='%d/%m/%Y'),
+            'ddg_corrige': forms.DateInput(attrs={'class': 'gf-date'}, format='%d/%m/%Y'),
+            'date_echo':   forms.DateInput(attrs={'class': 'gf-date'}, format='%d/%m/%Y'),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        date_fields = ('date_naissance_conjoint', 'ddr', 'ddr_corrige', 'ddg_corrige', 'date_echo')
+        for f in date_fields:
+            if f in self.fields:
+                self.fields[f].input_formats = ['%d/%m/%Y', '%Y-%m-%d']
 
 
 class DonneesFoetusForm(forms.ModelForm):

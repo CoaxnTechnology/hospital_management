@@ -11,211 +11,306 @@
     {% endfor %}
 
 <div class="card card-custom bg-white shadow-none">
-<div class="card-header d-flex justify-content-between align-items-center bg-light">
-
+<div class="card-header d-flex justify-content-between align-items-center bg-light sticky-top">
     <h3>
-        {% if object %}
-            {% trans "Modifier" %}
-        {% else %}
-            {% trans "Créer" %}
-        {% endif %}
+        {% if object %}{% trans "Modifier" %}{% else %}{% trans "Créer" %}{% endif %}
         {% trans "une grossesse" %}
     </h3>
-
     <div>
-        <button type="button" class="btn btn-default" onclick="window.parent.fermerModals()">
-            {% trans "Annuler" %}
-        </button>
-        <button type="submit" class="btn btn-primary">
-            {% trans "Enregistrer" %}
-        </button>
+        <button type="button" class="btn btn-default" onclick="window.parent.fermerModals()">{% trans "Annuler" %}</button>
+        <button type="submit" class="btn btn-primary">{% trans "Enregistrer" %}</button>
     </div>
 </div>
 
 <div class="card-body">
 
-<!-- ================= Conjoint ================= -->
-
-<button type="button" class="btn btn-outline-info" data-toggle="collapse" href="#blocConjoint">
+<!-- Conjoint -->
+<button type="button" class="btn btn-outline-info mb-3"
+        data-bs-toggle="collapse" data-bs-target="#blocConjoint" aria-expanded="false">
     {% trans "Informations sur le conjoint" %}
 </button>
-
 <div class="collapse" id="blocConjoint">
-<div class="card mt-3">
-<div class="card-body">
-
-
-<label>{% trans "Nom" %}</label>
-{% render_field form.nom_conjoint class+="form-control form-control-sm" %}
-
-<label>{% trans "Prénom" %}</label>
-{% render_field form.prenom_conjoint class+="form-control form-control-sm" %}
-
-<label>{% trans "Date de naissance" %}</label>
-{% render_field form.date_naissance_conjoint class+="form-control form-control-sm" %}
-
-<label>{% trans "Téléphone" %}</label>
-{% render_field form.telephone_conjoint class+="form-control form-control-sm" %}
-
-<label>{% trans "Groupe sanguin" %}</label>
-{% render_field form.groupe_sanguin_conjoint class+="form-control form-control-sm" %}
-
-<label>{% trans "Consanguinité" %}</label>
-{% render_field form.consanguinite_conjoint class+="form-control form-control-sm" %}
-
-<label>{% trans "Etat de santé" %}</label>
-{% render_field form.etat_sante_conjoint class+="form-control form-control-sm" %}
-
+<div class="card mt-2 mb-3"><div class="card-body">
+<div class="row g-3">
+    <div class="col-md-6">
+        <label class="form-label">{% trans "Nom" %}</label>
+        {% render_field form.nom_conjoint class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">{% trans "Prénom" %}</label>
+        {% render_field form.prenom_conjoint class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">{% trans "Date de naissance" %}</label>
+        {% render_field form.date_naissance_conjoint class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">{% trans "Téléphone" %}</label>
+        {% render_field form.telephone_conjoint class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">{% trans "Groupe sanguin" %}</label>
+        {% render_field form.groupe_sanguin_conjoint class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">{% trans "Consanguinité" %}</label>
+        {% render_field form.consanguinite_conjoint class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-8">
+        <label class="form-label">{% trans "Etat de santé" %}</label>
+        {% render_field form.etat_sante_conjoint class+="form-control form-control-sm" %}
+    </div>
 </div>
+</div></div>
 </div>
+
+<!-- Données générales -->
+<h6 class="text-muted mt-3 mb-2 fw-bold text-uppercase" style="font-size:11px;letter-spacing:.5px;">{% trans "Données générales" %}</h6>
+<div class="row g-3">
+    <div class="col-md-4">
+        <label class="form-label">{% trans "Poids av. grossesse (kg)" %}</label>
+        {% render_field form.poids_avant_grossesse id="id_poids" class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">{% trans "Taille (cm)" %}</label>
+        {% render_field form.taille id="id_taille" class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">{% trans "IMC" %}</label>
+        <input type="text" id="id_imc" class="form-control form-control-sm" disabled/>
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">{% trans "DDR" %}</label>
+        {% render_field form.ddr id="id_ddr" class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">{% trans "DDR corrigée" %}</label>
+        {% render_field form.ddr_corrige class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">{% trans "DDG théorique" %}</label>
+        <input type="text" id="id_ddg_theorique" class="form-control form-control-sm" disabled/>
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">{% trans "DDG corrigée" %}</label>
+        {% render_field form.ddg_corrige class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">{% trans "Cycle (jours)" %}</label>
+        {% render_field form.cycle class+="form-control form-control-sm" %}
+    </div>
 </div>
 
-<!-- ================= Données générales ================= -->
+<!-- Données grossesse -->
+<h6 class="text-muted mt-4 mb-2 fw-bold text-uppercase" style="font-size:11px;letter-spacing:.5px;">{% trans "Données grossesse" %}</h6>
+<div class="row g-3">
+    <div class="col-md-4">
+        <label class="form-label">{% trans "Nb de Fœtus" %}</label>
+        {% render_field form.nb_foetus class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">{% trans "Type de grossesse" %}</label>
+        {% render_field form.type_grossesse_v2 class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">{% trans "Conception" %}</label>
+        {% render_field form.conception_v2 class+="form-control form-control-sm" %}
+    </div>
+</div>
 
-<label>{% trans "Poids av. grossesse" %}</label>
-{% render_field form.poids_avant_grossesse class+="form-control form-control-sm" %}
+<!-- Echo 1er trimestre -->
+<h6 class="text-muted mt-4 mb-2 fw-bold text-uppercase" style="font-size:11px;letter-spacing:.5px;">{% trans "Echo 1er trimestre" %}</h6>
+<div class="row g-3">
+    <div class="col-md-4">
+        <label class="form-label">{% trans "Date de l'écho" %}</label>
+        {% render_field form.date_echo class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">{% trans "LCC" %}</label>
+        {% render_field form.lcc_1 class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">{% trans "CN" %}</label>
+        {% render_field form.cn_1 class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">{% trans "Score de Herman" %}</label>
+        {% render_field form.score_herman_1_v2 class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-4 d-flex align-items-end">
+        <div class="form-check mb-1">
+            {% render_field form.test_t21_fait class+="form-check-input" %}
+            <label class="form-check-label">{% trans "Dépistage T21 Fait" %}</label>
+        </div>
+    </div>
+</div>
 
-<label>{% trans "Taille" %}</label>
-{% render_field form.taille class+="form-control form-control-sm" %}
+<!-- Risques T21 -->
+<h6 class="text-muted mt-4 mb-2 fw-bold text-uppercase" style="font-size:11px;letter-spacing:.5px;">{% trans "Risques T21" %}</h6>
+<div class="row g-3">
+    <div class="col-md-3">
+        <label class="form-label">{% trans "Risque T21 combiné" %}</label>
+        {% render_field form.risque class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">{% trans "Risque T21 biochimique" %}</label>
+        {% render_field form.risque_t21_bio class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">{% trans "Risque T21 lié à l'âge" %}</label>
+        {% render_field form.risque_t21_age class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">{% trans "Risque T18 et 13" %}</label>
+        {% render_field form.risque_t18_13 class+="form-control form-control-sm" %}
+    </div>
+</div>
 
-<label>{% trans "IMC" %}</label>
-<input disabled class="form-control form-control-sm"/>
+<!-- Screening -->
+<h6 class="text-muted mt-4 mb-2 fw-bold text-uppercase" style="font-size:11px;letter-spacing:.5px;">{% trans "Screening" %}</h6>
+<div class="row g-3">
+    <div class="col-md-4">
+        <label class="form-label">{% trans "1er trimestre" %}</label>
+        {% render_field form.screening_premier_trimestre class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">{% trans "2ème trimestre" %}</label>
+        {% render_field form.screening_deuxieme_trimestre class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">{% trans "Caryotype" %}</label>
+        {% render_field form.caryotype_type class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">{% trans "Résultat caryotype" %}</label>
+        {% trans "Résultat" as t_resultat %}
+        {% render_field form.caryotype_val class+="form-control form-control-sm" placeholder=t_resultat %}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">{% trans "DPNI" %}</label>
+        {% render_field form.dpni class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">{% trans "Commentaire DPNI" %}</label>
+        {% trans "Commentaire" as t_commentaire %}
+        {% render_field form.dpni_comment class+="form-control form-control-sm" placeholder=t_commentaire %}
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">{% trans "Diabète" %}</label>
+        {% render_field form.diabete_v2 class+="form-control form-control-sm" %}
+    </div>
+</div>
 
-<label>{% trans "DDR" %}</label>
-{% render_field form.ddr class+="form-control form-control-sm" %}
+<!-- Infos complémentaires -->
+<h6 class="text-muted mt-4 mb-2 fw-bold text-uppercase" style="font-size:11px;letter-spacing:.5px;">{% trans "Infos complémentaires" %}</h6>
+<div class="row g-3">
+    <div class="col-md-4">
+        <div class="form-check mt-2">
+            {% render_field form.listeria class+="form-check-input" %}
+            <label class="form-check-label">{% trans "Listeria" %}</label>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-check mt-2">
+            {% render_field form.cmv class+="form-check-input" %}
+            <label class="form-check-label">{% trans "CMV" %}</label>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-check mt-2">
+            {% render_field form.alcool class+="form-check-input" %}
+            <label class="form-check-label">{% trans "Alcool" %}</label>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">{% trans "Toxoplasmose" %}</label>
+        {% render_field form.toxoplasmose_v2 class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-4">
+        <div class="form-check mt-2">
+            {% render_field form.aspegic class+="form-check-input" %}
+            <label class="form-check-label">{% trans "Sous traitement Aspegic" %}</label>
+        </div>
+    </div>
+</div>
 
-<label>{% trans "DDR corrigée" %}</label>
-{% render_field form.ddr_corrige class+="form-control form-control-sm" %}
-
-<label>{% trans "DDG théorique" %}</label>
-<input type="text" class="form-control form-control-sm">
-
-<label>{% trans "DDG corrigée" %}</label>
-{% render_field form.ddg_corrige class+="form-control form-control-sm" %}
-
-<label>{% trans "Cycle (jours)" %}</label>
-{% render_field form.cycle class+="form-control form-control-sm" %}
-
-<!-- ================= Données grossesse ================= -->
-
-
-<label>{% trans "Nb de Fœtus" %}</label>
-{% render_field form.nb_foetus class+="form-control form-control-sm" %}
-
-<label>{% trans "Type de grossesse" %}</label>
-{% render_field form.type_grossesse_v2 class+="form-control form-control-sm" %}
-
-<label>{% trans "Conception" %}</label>
-{% render_field form.conception_v2 class+="form-control form-control-sm" %}
-
-<!-- ================= Echo ================= -->
-
-
-<label>{% trans "Date de l'écho" %}</label>
-{% render_field form.date_echo class+="form-control form-control-sm" %}
-
-<label>{% trans "LCC" %}</label>
-{% render_field form.lcc_1 class+="form-control form-control-sm" %}
-
-<label>{% trans "CN" %}</label>
-{% render_field form.cn_1 class+="form-control form-control-sm" %}
-
-<label>{% trans "Score de Herman" %}</label>
-{% render_field form.score_herman_1_v2 class+="form-control form-control-sm" %}
-
-
-<label>
-    {% render_field form.test_t21_fait class+="form-check-input" %}
-    {% trans "Dépistage T21 Fait" %}
-</label>
-
-<label>{% trans "Risque T21 combiné" %}</label>
-{% render_field form.risque class+="form-control form-control-sm" %}
-
-<label>{% trans "Risque T21 biochimique" %}</label>
-{% render_field form.risque_t21_bio class+="form-control form-control-sm" %}
-
-<label>{% trans "Risque T21 lié à l'âge" %}</label>
-{% render_field form.risque_t21_age class+="form-control form-control-sm" %}
-
-<label>{% trans "Risque T18 et 13" %}</label>
-{% render_field form.risque_t18_13 class+="form-control form-control-sm" %}
-
-<!-- ================= Screening ================= -->
-
-
-<label>{% trans "1er trimestre" %}</label>
-{% render_field form.screening_premier_trimestre class+="form-control form-control-sm" %}
-
-<label>{% trans "2ème trimestre" %}</label>
-{% render_field form.screening_deuxieme_trimestre class+="form-control form-control-sm" %}
-
-<label>{% trans "Caryotype" %}</label>
-{% render_field form.caryotype_type class+="form-control form-control-sm" %}
-
-{% trans "Résultat" as t_resultat %}
-{% render_field form.caryotype_val class+="form-control form-control-sm" placeholder=t_resultat %}
-
-<label>{% trans "DPNI" %}</label>
-{% render_field form.dpni class+="form-control form-control-sm" placeholder=t_resultat %}
-
-{% trans "Commentaire" as t_commentaire %}
-{% render_field form.dpni_comment class+="form-control form-control-sm" placeholder=t_commentaire %}
-
-<label>{% trans "Diabète" %}</label>
-{% render_field form.diabete_v2 class+="form-control form-control-sm" %}
-
-<!-- ================= Infos complémentaires ================= -->
-
-
-<label>
-    {% render_field form.listeria class+="form-check-input" %}
-    {% trans "Listeria" %}
-</label>
-
-<label>
-    {% render_field form.cmv class+="form-check-input" %}
-    {% trans "CMV" %}
-</label>
-
-<label>
-    {% render_field form.alcool class+="form-check-input" %}
-    {% trans "Alcool" %}
-</label>
-
-<label>{% trans "Toxoplasmose" %}</label>
-{% render_field form.toxoplasmose_v2 class+="form-control form-control-sm" %}
-
-<label>
-    {% render_field form.aspegic class+="form-check-input" %}
-    {% trans "Sous traitement Aspegic" %}
-</label>
-
-<!-- ================= Projet accouchement ================= -->
-
-
-<label>
-    {% render_field form.allaitement_maternel class+="form-check-input" %}
-    {% trans "Allaitement maternel" %}
-</label>
-
-<label>
-    {% render_field form.allaitement_artificiel class+="form-check-input" %}
-    {% trans "Allaitement artificiel" %}
-</label>
-
-<label>{% trans "Lieu d'accouchement" %}</label>
-{% render_field form.lieu_accouchement_principal class+="form-control form-control-sm" %}
-
-<label>{% trans "Préciser" %}</label>
-{% render_field form.lieu_accouchement_libre class+="form-control form-control-sm" %}
-
-{% trans "Autres informations" as t_autres_infos %}
-{% render_field form.infos_complemenatires class+="form-control" placeholder=t_autres_infos %}
-
-{% render_field form.notes class+="form-control" %}
+<!-- Projet d'accouchement -->
+<h6 class="text-muted mt-4 mb-2 fw-bold text-uppercase" style="font-size:11px;letter-spacing:.5px;">{% trans "Projet d'accouchement" %}</h6>
+<div class="row g-3">
+    <div class="col-md-4">
+        <div class="form-check mt-2">
+            {% render_field form.allaitement_maternel class+="form-check-input" %}
+            <label class="form-check-label">{% trans "Allaitement maternel" %}</label>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-check mt-2">
+            {% render_field form.allaitement_artificiel class+="form-check-input" %}
+            <label class="form-check-label">{% trans "Allaitement artificiel" %}</label>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">{% trans "Lieu d'accouchement" %}</label>
+        {% render_field form.lieu_accouchement_principal class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">{% trans "Préciser" %}</label>
+        {% render_field form.lieu_accouchement_libre class+="form-control form-control-sm" %}
+    </div>
+    <div class="col-12">
+        {% trans "Autres informations" as t_autres_infos %}
+        {% render_field form.infos_complemenatires class+="form-control form-control-sm" placeholder=t_autres_infos %}
+    </div>
+    <div class="col-12">
+        {% render_field form.notes class+="form-control form-control-sm" %}
+    </div>
+</div>
 
 </div>
 </div>
 </form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(function () {
+    $('.gf-date').datepicker({
+        todayHighlight: true,
+        autoclose: true,
+        language: window.currentLang || 'fr',
+        weekStart: 1,
+        format: 'dd/mm/yyyy',
+        orientation: 'bottom auto',
+    });
+
+    function calcIMC() {
+        var poids = parseFloat($('#id_poids').val());
+        var taille = parseFloat($('#id_taille').val());
+        if (poids > 0 && taille > 0) {
+            var tm = taille / 100;
+            $('#id_imc').val((poids / (tm * tm)).toFixed(1));
+        } else {
+            $('#id_imc').val('');
+        }
+    }
+    $('#id_poids, #id_taille').on('input change', calcIMC);
+    calcIMC();
+
+    function calcDDG() {
+        var v = $('#id_ddr').val();
+        if (!v) { $('#id_ddg_theorique').val(''); return; }
+        var parts = v.split('/');
+        var d = parts.length === 3
+            ? new Date(parts[2], parts[1] - 1, parts[0])
+            : new Date(v);
+        if (isNaN(d)) { $('#id_ddg_theorique').val(''); return; }
+        d.setDate(d.getDate() + 280);
+        var dd = String(d.getDate()).padStart(2,'0');
+        var mm = String(d.getMonth()+1).padStart(2,'0');
+        $('#id_ddg_theorique').val(dd+'/'+mm+'/'+d.getFullYear());
+    }
+    $('#id_ddr').on('change', calcDDG);
+    calcDDG();
+});
+</script>
 {% endblock %}

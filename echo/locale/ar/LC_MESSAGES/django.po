@@ -2245,7 +2245,7 @@ msgstr "طباعة"
 #: templates_backup/templates/core/prescription_analyse_form.html:36
 #: templates_backup/templates/core/tentative_pma_form.html:221
 msgid "Imprimer"
-msgstr "Imprimer"
+msgstr "طباعة"
 
 #: templates/core/base_consultation_v2.html:97 templates/core/base_pma.html:122
 #: templates/core/partials/antecedents.html:35
@@ -4151,69 +4151,53 @@ msgid "Ordonnance médicale"
 msgstr "وصفة طبية"
 
 #: templates/core/ordonnance_form.html:108
-#, fuzzy
-#| msgid "une ordonnance"
 msgid "Modifier l'ordonnance"
-msgstr "une ordonnance"
+msgstr "تعديل الوصفة"
 
 #: templates/core/ordonnance_form.html:108
-#, fuzzy
-#| msgid "une ordonnance"
 msgid "Créer une ordonnance"
-msgstr "une ordonnance"
+msgstr "إنشاء وصفة"
 
 #: templates/core/ordonnance_form.html:162
-#, fuzzy
-#| msgid "éléments"
 msgid "Médicaments"
-msgstr "عناصر"
+msgstr "الأدوية"
 
 #: templates/core/ordonnance_form.html:163
-#, fuzzy
-#| msgid "Recherche traitement"
 msgid "Rechercher un traitement"
-msgstr "Recherche traitement"
+msgstr "البحث عن علاج"
 
 #: templates/core/ordonnance_form.html:168
 #: templates/core/ordonnance_form.html:199
 msgid "Parcourir la liste"
-msgstr ""
+msgstr "تصفح القائمة"
 
 #: templates/core/ordonnance_form.html:174
-#, fuzzy
-#| msgid "Prises/jour"
 msgid "Prises/j"
-msgstr "Prises/jour"
+msgstr "جرعات/يوم"
 
 #: templates/core/ordonnance_form.html:178
 #: templates_backup/core/ordonnance_form.html:102
 #: templates_backup/templates/core/ordonnance_form.html:102
 msgid "Nb jours"
-msgstr "Nb jours"
+msgstr "عدد الأيام"
 
 #: templates/core/ordonnance_form.html:182
 #: templates_backup/core/ordonnance_form.html:106
 #: templates_backup/templates/core/ordonnance_form.html:106
 msgid "Qté/prise"
-msgstr "Qté/prise"
+msgstr "الكمية/جرعة"
 
 #: templates/core/ordonnance_form.html:193
-#, fuzzy
-#| msgid "En examen"
 msgid "Examens"
-msgstr "في الفحص"
+msgstr "الفحوصات"
 
 #: templates/core/ordonnance_form.html:194
-#, fuzzy
-#| msgid "Recherche patient"
 msgid "Rechercher un examen"
-msgstr "بحث عن مريض"
+msgstr "البحث عن فحص"
 
 #: templates/core/ordonnance_form.html:207
-#, fuzzy
-#| msgid "Signe clinique"
 msgid "Renseignements cliniques"
-msgstr "Signe clinique"
+msgstr "المعلومات السريرية"
 
 #: templates/core/ordonnance_form.html:209
 #, fuzzy
@@ -6674,7 +6658,7 @@ msgstr "Forme"
 
 #: templates/core/traitement_pma_form.html:48
 msgid "Save"
-msgstr ""
+msgstr "حفظ"
 
 #: templates/super_admin/dashboard.html:138
 msgid "Logout"
@@ -6718,7 +6702,7 @@ msgstr ""
 
 #: templates/super_admin/dashboard.html:178
 msgid "Phone"
-msgstr ""
+msgstr "الهاتف"
 
 #: templates/super_admin/dashboard.html:179
 msgid "Submitted"
@@ -7222,3 +7206,15 @@ msgstr "تاريخ انتهاء التأمين"
 
 #~ msgid "Dashboard"
 #~ msgstr "لوحة التحكم"
+
+msgid "Has Insurance (Mutuelle)"
+msgstr "لديه تأمين (تعاضدية)"
+
+msgid "Relationship"
+msgstr "صلة القرابة"
+
+msgid "Family Doctor Code"
+msgstr "رمز طبيب الأسرة"
+
+msgid "APCI Code"
+msgstr "رمز APCI"

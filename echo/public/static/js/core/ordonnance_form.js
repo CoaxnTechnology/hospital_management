@@ -57,25 +57,17 @@ function ajouterPrescription() {
     $('#prescriptions-modal').modal();
 }
 
-function updateType(type) {
-    $('#traitements-container').css('display', 'none');
-    $('#examens-container').css('display', 'none');
-    console.log('Update type', type);
-    if (type.includes('Traitement'))
-        $('#traitements-container').css('display', 'block');
-
-    if (type.includes('Examen'))
-        $('#examens-container').css('display', 'block');
+function updateType() {
+    const categorie = $('#id_type option:selected').data('categorie') || '';
+    $('#traitements-container').css('display', categorie === 'traitement' ? 'block' : 'none');
+    $('#examens-container').css('display',     categorie === 'examen'     ? 'block' : 'none');
 }
 
 function updateEditor() {
     const type = $('#id_type').val();
     const praticien = _.find(praticiens, p => p.id == $('#id_praticien').val());
-    if (!modeles[type]) {
-        console.info("No template for type", type);
-        return;
-    }
-    const modele = _.template(unescapeTemplate(modeles[type]));
+    if (!praticien) return;
+    const modele = modeles[type] ? _.template(unescapeTemplate(modeles[type])) : () => '';
     let content = '';
     let data = {
         civilite: _.capitalize(patient.civilite),
@@ -146,7 +138,7 @@ $(document).ready(() => {
         forced_root_block: false,
         content_style: "body { font-size: 12pt; }",
         init_instance_callback: function (editor) {
-            updateType($('#id_type option:selected').text());
+            updateType();
             if (ordonnance_id == -1) {
                 updateEditor();
             }
@@ -323,8 +315,7 @@ ${footerImg}
     });
 
     $('#id_type').change(e => {
-        const type = $('#id_type option:selected').text();
-        updateType(type);
+        updateType();
         updateEditor();
     });
 

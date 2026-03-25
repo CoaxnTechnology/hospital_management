@@ -143,7 +143,15 @@ html, body { height: 100%; overflow: hidden; }
                     <div class="ord-section-label">{% trans "Informations" %}</div>
 
                     <label class="form-label">{% trans "Type" %}</label>
-                    {% render_field form.type class+="form-control form-control-sm mb-2" %}
+                    <select name="type" id="id_type" class="form-control form-control-sm mb-2">
+                        {% for t in form.type.field.queryset %}
+                        <option value="{{ t.pk }}"
+                                data-categorie="{{ t.categorie }}"
+                                {% if form.type.value == t.pk|stringformat:"s" %}selected{% endif %}>
+                            {{ t.libelle }}
+                        </option>
+                        {% endfor %}
+                    </select>
 
                     <div class="row g-2">
                         <div class="col-6">

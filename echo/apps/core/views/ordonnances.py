@@ -12,6 +12,7 @@ from apps.core.models import Ordonnance, Patient, Traitement, Prescription, Mede
 from apps.core.serializers import OrdonnanceSerializer, TraitementSerializer, PatientSerializer, PrescriptionSerializer, \
     MedecinSerializer
 from apps.core.services.patients import get_grossesse_data
+from apps.core.services.doctor_setup import load_default_templates
 
 
 class OrdonnanceList(PermissionRequiredMixin, ListView):
@@ -45,10 +46,14 @@ class OrdonnanceCreate(PermissionRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        compte = self.request.user.profil.compte
+        # Auto-create default types if this account has none yet
+        if not TypeOrdonnance.objects.filter(compte=compte).exists():
+            load_default_templates(compte)
         patient = get_object_or_404(Patient.objects.select_related('adresse'), pk=self.kwargs['patient_pk'])
         context['patient'] = patient
         context['patient_json'] = json.dumps(PatientSerializer(patient).data)
-        praticiens = Medecin.objects.filter(compte=self.request.user.profil.compte).select_related('user')
+        praticiens = Medecin.objects.filter(compte=compte).select_related('user')
         praticiens_json = MedecinSerializer(praticiens, many=True)
         context['praticiens_json'] = json.dumps(praticiens_json.data)
         context['grossesse_data'] = json.dumps(get_grossesse_data(patient))

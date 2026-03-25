@@ -2248,7 +2248,7 @@ msgstr "Impresión"
 #: templates_backup/templates/core/prescription_analyse_form.html:36
 #: templates_backup/templates/core/tentative_pma_form.html:221
 msgid "Imprimer"
-msgstr "Imprimer"
+msgstr "Imprimir"
 
 #: templates/core/base_consultation_v2.html:97 templates/core/base_pma.html:122
 #: templates/core/partials/antecedents.html:35
@@ -4162,69 +4162,53 @@ msgid "Ordonnance médicale"
 msgstr "Receta médica"
 
 #: templates/core/ordonnance_form.html:108
-#, fuzzy
-#| msgid "une ordonnance"
 msgid "Modifier l'ordonnance"
-msgstr "une ordonnance"
+msgstr "Editar receta"
 
 #: templates/core/ordonnance_form.html:108
-#, fuzzy
-#| msgid "une ordonnance"
 msgid "Créer une ordonnance"
-msgstr "une ordonnance"
+msgstr "Crear receta"
 
 #: templates/core/ordonnance_form.html:162
-#, fuzzy
-#| msgid "éléments"
 msgid "Médicaments"
-msgstr "elementos"
+msgstr "Medicamentos"
 
 #: templates/core/ordonnance_form.html:163
-#, fuzzy
-#| msgid "Recherche traitement"
 msgid "Rechercher un traitement"
-msgstr "Recherche traitement"
+msgstr "Buscar un tratamiento"
 
 #: templates/core/ordonnance_form.html:168
 #: templates/core/ordonnance_form.html:199
 msgid "Parcourir la liste"
-msgstr ""
+msgstr "Explorar la lista"
 
 #: templates/core/ordonnance_form.html:174
-#, fuzzy
-#| msgid "Prises/jour"
 msgid "Prises/j"
-msgstr "Prises/jour"
+msgstr "Tomas/día"
 
 #: templates/core/ordonnance_form.html:178
 #: templates_backup/core/ordonnance_form.html:102
 #: templates_backup/templates/core/ordonnance_form.html:102
 msgid "Nb jours"
-msgstr "Nb jours"
+msgstr "Nº días"
 
 #: templates/core/ordonnance_form.html:182
 #: templates_backup/core/ordonnance_form.html:106
 #: templates_backup/templates/core/ordonnance_form.html:106
 msgid "Qté/prise"
-msgstr "Qté/prise"
+msgstr "Cant./toma"
 
 #: templates/core/ordonnance_form.html:193
-#, fuzzy
-#| msgid "En examen"
 msgid "Examens"
-msgstr "En examen"
+msgstr "Exámenes"
 
 #: templates/core/ordonnance_form.html:194
-#, fuzzy
-#| msgid "Recherche patient"
 msgid "Rechercher un examen"
-msgstr "Buscar paciente"
+msgstr "Buscar un examen"
 
 #: templates/core/ordonnance_form.html:207
-#, fuzzy
-#| msgid "Signe clinique"
 msgid "Renseignements cliniques"
-msgstr "Signe clinique"
+msgstr "Información clínica"
 
 #: templates/core/ordonnance_form.html:209
 #, fuzzy
@@ -6689,7 +6673,7 @@ msgstr "Forme"
 
 #: templates/core/traitement_pma_form.html:48
 msgid "Save"
-msgstr ""
+msgstr "Guardar"
 
 #: templates/super_admin/dashboard.html:138
 msgid "Logout"
@@ -6733,7 +6717,7 @@ msgstr ""
 
 #: templates/super_admin/dashboard.html:178
 msgid "Phone"
-msgstr ""
+msgstr "Teléfono"
 
 #: templates/super_admin/dashboard.html:179
 msgid "Submitted"
@@ -7250,3 +7234,15 @@ msgstr "Vencimiento del seguro"
 
 #~ msgid "Dashboard"
 #~ msgstr "Dashboard"
+
+msgid "Has Insurance (Mutuelle)"
+msgstr "Tiene seguro (Mutua)"
+
+msgid "Relationship"
+msgstr "Parentesco"
+
+msgid "Family Doctor Code"
+msgstr "Código médico de familia"
+
+msgid "APCI Code"
+msgstr "Código APCI"

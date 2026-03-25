@@ -21,27 +21,29 @@
                     <h3 class="card-label">Rendez-vous du jour</h3>
                 </div>-->
 
-                <div class="card-toolbar">
-                    <ul class="nav nav-tabs nav-tabs-space-lg nav-tabs-line nav-tabs-bold nav-tabs-line-3x"
+                <div class="card-title">
+                    <h3 class="card-label">{% trans "Absence médecin" %}</h3>
+                </div>
+                <div class="card-toolbar d-flex align-items-center">
+                    <ul class="nav nav-tabs nav-tabs-space-lg nav-tabs-line nav-tabs-bold nav-tabs-line-3x mr-4"
                         role="tablist">
                         <li class="nav-item mr-1">
                             <a class="nav-link active" data-toggle="tab" href="#absence">
-									<span class="nav-icon mr-2">
-                                        <i class="far fa-clock mr-3"></i>
-                                    </span>
+                                <span class="nav-icon mr-2"><i class="far fa-clock"></i></span>
                                 <span class="nav-text font-weight-bold">{% trans "Absence" %}</span>
                             </a>
                         </li>
-
                         <li class="nav-item mr-2">
                             <a class="nav-link" data-toggle="tab" href="#programme_operatoire">
-														<span class="nav-icon mr-2">
-															<i class="far fa-calendar icon-xl mr-3"></i>
-														</span>
+                                <span class="nav-icon mr-2"><i class="far fa-calendar icon-xl"></i></span>
                                 <span class="nav-text font-weight-bold">{% trans "Programme opératoire" %}</span>
                             </a>
                         </li>
                     </ul>
+                    <button form="form_1" class="btn btn-sm btn-primary font-weight-bolder">
+                        <i class="ki ki-check icon-sm"></i>
+                        {% trans "Confirmer l'absence" %}
+                    </button>
                 </div>
             </div>
             <div class="card-body pl-0 pr-0">
@@ -49,93 +51,45 @@
                     <div class="tab-pane active" id="absence" role="tabpanel">
                         <form id="form_1" class="form" method="post" action="">
                             {% csrf_token %}
-
-                            {% for hidden in form.hidden_fields %}
-                                {{ hidden }}
-                            {% endfor %}
-
-                            <div class="card card-custom card-sticky bg-white shadow-none" id="kt_page_sticky_card">
-                                <div class="card-header">
-                                    <div class="card-title">
-                                        <h3 class="card-label">
-                                            {% trans "Formulaire de" %} {% if object %}{% trans "modification" %}{% else %}{% trans "création" %}{% endif %} <i
-                                                class="mr-2"></i>
-                                        </h3>
-
-
+                            {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+                            <div class="card-body">
+                                <div class="row g-3">
+                                    <div class="form-group col-12 col-md-3">
+                                        <label>{% trans "Date début" %}</label>
+                                        {% render_field form.date_debut id="date_debut" class+="form-control form-control-sm" required="" value=" " readonly="" %}
+                                        <div class="invalid-feedback" {% if form.date_debut.errors %}style="display:block"{% endif %}>{{ form.date_debut.errors }}</div>
                                     </div>
-                                    <div class="card-toolbar">
-                                        <div class="btn-group">
-                                            <button class="btn btn-sm btn-primary font-weight-bolder">
-                                                <i class="ki ki-check icon-sm"></i>
-                                                {% trans "Confirmer l'absence" %}
-                                            </button>
-                                        </div>
+                                    <div class="form-group col-6 col-md-3">
+                                        <label>{% trans "Heure début" %}</label>
+                                        {% render_field form.heure_debut id="heure_debut" class+="form-control form-control-sm" required="" value=" " readonly="" %}
+                                        <div class="invalid-feedback" {% if form.heure_debut.errors %}style="display:block"{% endif %}>{{ form.heure_debut.errors }}</div>
                                     </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-
-                                        <div class="form-group col-12 col-md-3">
-                                            <label>{% trans "Date début" %}</label>
-                                            {% render_field form.date_debut id="date_debut" class+="form-control form-control-sm " required="" value=" " readonly="" %}
-                                            <div class="invalid-feedback"
-                                                 {% if form.date_debut.errors %}style="display: block"{% endif %}>
-                                                {{ form.date_debut.errors }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-6 col-md-3">
-                                            <label>{% trans "Heure début" %}</label>
-                                            {% render_field form.heure_debut id="heure_debut" class+="form-control form-control-sm " required="" value=" " readonly="" %}
-                                            <div class="invalid-feedback"
-                                                 {% if form.heure_debut.errors %}style="display: block"{% endif %}>
-                                                {{ form.heure_debut.errors }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-12 col-md-6">
-                                            <label>{{ form.motif.label }}</label>
-                                            {% render_field form.motif class+="form-control form-control-sm " %}
-                                            <div class="invalid-feedback"
-                                                 {% if form.motif.errors %}style="display: block"{% endif %}>
-                                                {{ form.motif.errors }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-12 col-md-3">
-                                            <label>{% trans "Date fin" %}</label>
-                                            {% render_field form.date_fin id="date_fin" class+="form-control form-control-sm " required="" value=" " readonly="" %}
-                                            <div class="invalid-feedback"
-                                                 {% if form.date_fin.errors %}style="display: block"{% endif %}>
-                                                {{ form.date_fin.errors }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-6 col-md-3">
-                                            <label>{% trans "Heure fin" %}</label>
-                                            {% render_field form.heure_fin id="heure_fin" class+="form-control form-control-sm " required="" value=" " readonly="" %}
-                                            <div class="invalid-feedback"
-                                                 {% if form.heure_debut.errors %}style="display: block"{% endif %}>
-                                                {{ form.heure_debut.errors }}
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group col-12 col-md-6">
-                                            <label>{% trans "Praticien" %}</label>
-                                            {% render_field form.praticien class+="form-control form-control-sm " %}
-                                            <div class="invalid-feedback"
-                                                 {% if form.praticien.errors %}style="display: block"{% endif %}>
-                                                {{ form.praticien.errors }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-12 col-md-6">
-                                            <label>{% trans "Praticien remplaçant" %}</label>
-                                            {% render_field form.praticien_remplacant class+="form-control form-control-sm " %}
-                                            <div class="invalid-feedback"
-                                                 {% if form.praticien_remplacant.errors %}style="display: block"{% endif %}>
-                                                {{ form.praticien_remplacant.errors }}
-                                            </div>
-                                        </div>
+                                    <div class="form-group col-12 col-md-6">
+                                        <label>{{ form.motif.label }}</label>
+                                        {% render_field form.motif class+="form-control form-control-sm" %}
+                                        <div class="invalid-feedback" {% if form.motif.errors %}style="display:block"{% endif %}>{{ form.motif.errors }}</div>
+                                    </div>
+                                    <div class="form-group col-12 col-md-3">
+                                        <label>{% trans "Date fin" %}</label>
+                                        {% render_field form.date_fin id="date_fin" class+="form-control form-control-sm" required="" value=" " readonly="" %}
+                                        <div class="invalid-feedback" {% if form.date_fin.errors %}style="display:block"{% endif %}>{{ form.date_fin.errors }}</div>
+                                    </div>
+                                    <div class="form-group col-6 col-md-3">
+                                        <label>{% trans "Heure fin" %}</label>
+                                        {% render_field form.heure_fin id="heure_fin" class+="form-control form-control-sm" required="" value=" " readonly="" %}
+                                        <div class="invalid-feedback" {% if form.heure_fin.errors %}style="display:block"{% endif %}>{{ form.heure_fin.errors }}</div>
+                                    </div>
+                                    <div class="form-group col-12 col-md-6">
+                                        <label>{% trans "Praticien" %}</label>
+                                        {% render_field form.praticien class+="form-control form-control-sm" %}
+                                        <div class="invalid-feedback" {% if form.praticien.errors %}style="display:block"{% endif %}>{{ form.praticien.errors }}</div>
+                                    </div>
+                                    <div class="form-group col-12 col-md-6">
+                                        <label>{% trans "Praticien remplaçant" %}</label>
+                                        {% render_field form.praticien_remplacant class+="form-control form-control-sm" %}
+                                        <div class="invalid-feedback" {% if form.praticien_remplacant.errors %}style="display:block"{% endif %}>{{ form.praticien_remplacant.errors }}</div>
                                     </div>
                                 </div>
-
                             </div>
                         </form>
                     </div>

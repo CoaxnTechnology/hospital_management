@@ -5592,31 +5592,39 @@ msgstr "Administración"
 
 #: templates/core/patient_fichiers.html:31
 msgid "Laboratoire"
-msgstr ""
+msgstr "Laboratorio"
 
 #: templates/core/patient_fichiers.html:40
-#, fuzzy
-#| msgid "Cardiologie"
 msgid "Radiologie"
-msgstr "Cardiologie"
+msgstr "Radiología"
+
+msgid "Laboratoire/Biologie"
+msgstr "Laboratorio/Biología"
+
+msgid "Laboratoire/Anapath"
+msgstr "Laboratorio/Anatomía Patológica"
+
+msgid "CR opératoire"
+msgstr "Informe operatorio"
+
+msgid "Autres"
+msgstr "Otros"
 
 #: templates/core/patient_fichiers.html:51
 #: templates/core/patient_fichiers_telecharger.html:22
 #: templates/core/patient_fichiers_v2.html:36
 msgid "Déposer un fichier ou cliquer pour télécharger"
-msgstr ""
+msgstr "Suelta un archivo o haz clic para cargar"
 
 #: templates/core/patient_fichiers.html:52
 #: templates/core/patient_fichiers_telecharger.html:23
 #: templates/core/patient_fichiers_v2.html:37
 msgid "Le fichier sera  ajouté au dossier sélectionné"
-msgstr ""
+msgstr "El archivo se añadirá a la carpeta seleccionada"
 
 #: templates/core/patient_fichiers_v2.html:114
-#, fuzzy
-#| msgid "Fichiers"
 msgid "Pas de fichiers"
-msgstr "Fichiers"
+msgstr "Sin archivos"
 
 #: templates/core/patient_form.html:74
 #: templates/core/patient_form_dialog.html:40

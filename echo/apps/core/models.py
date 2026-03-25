@@ -1145,12 +1145,23 @@ class ListeChoix(models.Model):
     formulaire = models.CharField(max_length=256)
     champ = models.CharField(max_length=256)
     libelle = models.CharField(max_length=256)
+    libelle_en = models.CharField(max_length=256, blank=True, default='')
+    libelle_ar = models.CharField(max_length=256, blank=True, default='')
+    libelle_es = models.CharField(max_length=256, blank=True, default='')
     valeur = models.TextField(blank=True)
     actif = models.BooleanField(default=True)
     normale = models.BooleanField(default=False) # Utilisé avec la fonction "Tout normal" des formulaires
 
     def __str__(self):
-        return "{}".format(self.libelle)
+        from django.utils.translation import get_language
+        lang = get_language()
+        if lang and lang.startswith('ar') and self.libelle_ar:
+            return self.libelle_ar
+        if lang and lang.startswith('en') and self.libelle_en:
+            return self.libelle_en
+        if lang and lang.startswith('es') and self.libelle_es:
+            return self.libelle_es
+        return self.libelle
 
 
 class ListeChoixActifManager(DefaultSelectOrPrefetchManager):

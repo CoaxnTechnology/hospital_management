@@ -5577,31 +5577,39 @@ msgstr "الإدارة"
 
 #: templates/core/patient_fichiers.html:31
 msgid "Laboratoire"
-msgstr ""
+msgstr "المختبر"
 
 #: templates/core/patient_fichiers.html:40
-#, fuzzy
-#| msgid "Cardiologie"
 msgid "Radiologie"
-msgstr "Cardiologie"
+msgstr "الأشعة"
+
+msgid "Laboratoire/Biologie"
+msgstr "المختبر/البيولوجيا"
+
+msgid "Laboratoire/Anapath"
+msgstr "المختبر/علم الأنسجة"
+
+msgid "CR opératoire"
+msgstr "تقرير العملية"
+
+msgid "Autres"
+msgstr "أخرى"
 
 #: templates/core/patient_fichiers.html:51
 #: templates/core/patient_fichiers_telecharger.html:22
 #: templates/core/patient_fichiers_v2.html:36
 msgid "Déposer un fichier ou cliquer pour télécharger"
-msgstr ""
+msgstr "أسقط الملف هنا أو انقر للرفع"
 
 #: templates/core/patient_fichiers.html:52
 #: templates/core/patient_fichiers_telecharger.html:23
 #: templates/core/patient_fichiers_v2.html:37
 msgid "Le fichier sera  ajouté au dossier sélectionné"
-msgstr ""
+msgstr "سيتم إضافة الملف إلى المجلد المحدد"
 
 #: templates/core/patient_fichiers_v2.html:114
-#, fuzzy
-#| msgid "Fichiers"
 msgid "Pas de fichiers"
-msgstr "Fichiers"
+msgstr "لا توجد ملفات"
 
 #: templates/core/patient_form.html:74
 #: templates/core/patient_form_dialog.html:40

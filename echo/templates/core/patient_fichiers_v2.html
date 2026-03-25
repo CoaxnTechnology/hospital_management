@@ -21,7 +21,7 @@
                                        href="#tab-dossier-{{ dossier.id }}"
                                        data-id="{{ dossier.id }}"
                                     >
-                                        <span class="nav-text">{{ dossier.nom }}</span>
+                                        <span class="nav-text">{% trans dossier.nom %}</span>
                                     </a>
                                 </li>
                             {% endfor %}

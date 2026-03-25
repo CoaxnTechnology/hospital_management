@@ -475,16 +475,14 @@
         <div class="modal-dialog modal-xl h-100 my-0">
             <div class="modal-content h-100">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{% trans "Impression" %}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i aria-hidden="true" class="ki ki-close icon-md"></i>
-                    </button>
+                    <h5 class="modal-title">{% trans "Impression" %}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-0">
                     <iframe src="" id="pdf-frame" width="100%" height="100%"></iframe>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Annuler" %}</button>
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">{% trans "Annuler" %}</button>
                     <button id="btn-demarrer-impression" type="button" class="btn btn-primary">{% trans "Imprimer" %}</button>
                 </div>
             </div>
@@ -583,11 +581,11 @@
                         </div>
                     </h3>
                     <div class="card-toolbar">
-                        <div class="dropdown dropdown-inline" data-toggle="tooltip"
+                        <div class="dropdown dropdown-inline" data-bs-toggle="tooltip"
                              title="Actions" data-placement="left">
                             <a href="#"
                                class="btn btn-clean btn-hover-light-primary btn-sm btn-icon"
-                               data-toggle="dropdown" aria-haspopup="true"
+                               data-bs-toggle="dropdown" aria-haspopup="true"
                                aria-expanded="false">
                                 <i class="ki ki-bold-more-hor"></i>
                             </a>

@@ -93,6 +93,19 @@
   .lang-menu a.active { font-weight: 600; }
   .lang-flag { font-size: 11px; font-weight: 700; color: #4A9EFF; background: rgba(74,158,255,0.12); border-radius: 4px; padding: 2px 5px; }
 
+  /* Equipment modal */
+  .modal.modal-lg { max-width: 640px; }
+  .device-list { margin-bottom: 20px; }
+  .device-item { display: flex; align-items: center; justify-content: space-between; background: #252836; border-radius: 8px; padding: 10px 14px; margin-bottom: 8px; gap: 12px; }
+  .device-item-info { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .device-item-label { font-size: 13px; color: #9BAFCA; }
+  .device-item-val { font-size: 13px; font-family: monospace; color: #E2E8F0; font-weight: 600; }
+  .device-section-title { font-size: 13px; font-weight: 600; color: #9BAFCA; text-transform: uppercase; letter-spacing: .5px; margin: 18px 0 10px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .btn-equipment { background: rgba(74,158,255,0.12); color: #4A9EFF; }
+  .btn-equipment:hover { background: rgba(74,158,255,0.22); }
+  .no-devices { color: #6B7A99; font-size: 13px; text-align: center; padding: 16px 0; }
+
   /* Toggle switch */
   .toggle-wrap { display: flex; align-items: center; gap: 8px; }
   .toggle { position: relative; display: inline-block; width: 40px; height: 22px; }
@@ -255,7 +268,8 @@
             </div>
             {% else %}—{% endif %}
           </td>
-          <td>
+          <td style="display:flex;gap:8px;align-items:center;">
+            <button class="btn btn-equipment btn-sm" onclick="openEquipmentModal({{ compte.pk }}, '{{ compte.raison_sociale|escapejs }}')">&#9881; {% trans "Equipment" %}</button>
             <button class="btn btn-danger btn-sm" onclick="deleteCompte({{ compte.pk }}, '{{ compte.raison_sociale|escapejs }}')">{% trans "Delete" %}</button>
           </td>
         </tr>
@@ -306,6 +320,51 @@
     <div class="modal-footer" style="margin-top:24px;">
       <button class="btn btn-cancel" onclick="closeApproveModal()">{% trans "Cancel" %}</button>
       <button class="btn btn-primary" id="btn-approve-submit" onclick="submitApprove()" style="background:#22C55E;">&#10003; {% trans "Approve & Create Account" %}</button>
+    </div>
+  </div>
+</div>
+
+<!-- Equipment Modal -->
+<div class="modal-overlay" id="equipmentModal">
+  <div class="modal modal-lg">
+    <h2>&#9881; {% trans "Equipment" %} — <span id="equip-doctor-name" style="color:#9BAFCA;font-weight:400;font-size:16px;"></span></h2>
+
+    <div class="device-section-title">{% trans "Configured Devices" %}</div>
+    <div class="device-list" id="device-list">
+      <div class="no-devices" id="device-empty">{% trans "No devices configured." %}</div>
+    </div>
+
+    <div class="device-section-title">{% trans "Add New Device" %}</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>{% trans "AE Title" %} *</label>
+        <input type="text" id="eq-ae_title" placeholder="VOLUSON_E10" maxlength="16" style="text-transform:uppercase;"/>
+      </div>
+      <div class="form-group">
+        <label>{% trans "Brand" %}</label>
+        <input type="text" id="eq-marque" placeholder="GE"/>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>{% trans "Model" %}</label>
+        <input type="text" id="eq-modele" placeholder="Voluson E10"/>
+      </div>
+      <div class="form-group">
+        <label>{% trans "IP Address" %}</label>
+        <input type="text" id="eq-ip" placeholder="192.168.1.100"/>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>{% trans "Port" %}</label>
+        <input type="number" id="eq-port" placeholder="104" value="104"/>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeEquipmentModal()">{% trans "Close" %}</button>
+      <button class="btn btn-primary" id="btn-add-device" onclick="submitAddDevice()">&#43; {% trans "Add Device" %}</button>
     </div>
   </div>
 </div>
@@ -508,6 +567,113 @@ if (!name || !email) { alert('Name and email are required.'); return; }
   document.getElementById('createModal').addEventListener('click', function(e) {
     if (e.target === this) closeCreateModal();
   });
+  document.getElementById('equipmentModal').addEventListener('click', function(e) {
+    if (e.target === this) closeEquipmentModal();
+  });
+
+  // Equipment modal
+  let currentEquipComptePk = null;
+  const STR_NO_DEVICES = '{% trans "No devices configured." %}';
+  const STR_ADDING = '{% trans "Adding…" %}';
+  const STR_ADD_DEVICE = '{% trans "Add Device" %}';
+
+  function openEquipmentModal(pk, name) {
+    currentEquipComptePk = pk;
+    document.getElementById('equip-doctor-name').textContent = name;
+    document.getElementById('equipmentModal').classList.add('open');
+    loadDevices(pk);
+  }
+
+  function closeEquipmentModal() {
+    document.getElementById('equipmentModal').classList.remove('open');
+    currentEquipComptePk = null;
+    clearEquipForm();
+  }
+
+  function clearEquipForm() {
+    ['eq-ae_title','eq-marque','eq-modele','eq-ip'].forEach(id => { document.getElementById(id).value = ''; });
+    document.getElementById('eq-port').value = '104';
+  }
+
+  function loadDevices(pk) {
+    const list = document.getElementById('device-list');
+    const empty = document.getElementById('device-empty');
+    fetch(`/super-admin/compte/${pk}/devices/`)
+      .then(r => r.json())
+      .then(data => {
+        // Remove existing device items (keep the empty placeholder)
+        list.querySelectorAll('.device-item').forEach(el => el.remove());
+        if (data.devices.length === 0) {
+          empty.style.display = '';
+        } else {
+          empty.style.display = 'none';
+          data.devices.forEach(d => list.insertBefore(buildDeviceRow(d), empty));
+        }
+      });
+  }
+
+  function buildDeviceRow(d) {
+    const div = document.createElement('div');
+    div.className = 'device-item';
+    div.id = 'device-row-' + d.id;
+    div.innerHTML = `
+      <div class="device-item-info">
+        <span><span class="device-item-label">AE: </span><span class="device-item-val ae-tag">${d.ae_title}</span></span>
+        ${d.marque ? `<span><span class="device-item-label">{% trans "Brand" %}: </span><span class="device-item-val">${d.marque}</span></span>` : ''}
+        ${d.modele ? `<span><span class="device-item-label">{% trans "Model" %}: </span><span class="device-item-val">${d.modele}</span></span>` : ''}
+        ${d.ip ? `<span><span class="device-item-label">IP: </span><span class="device-item-val">${d.ip}:${d.port}</span></span>` : ''}
+      </div>
+      <button class="btn btn-danger btn-sm" onclick="removeDevice(${d.id})">&#10005;</button>`;
+    return div;
+  }
+
+  function submitAddDevice() {
+    const ae_title = document.getElementById('eq-ae_title').value.trim().toUpperCase();
+    if (!ae_title) { alert('AE Title is required.'); return; }
+    const btn = document.getElementById('btn-add-device');
+    btn.disabled = true; btn.textContent = STR_ADDING;
+
+    fetch(`/super-admin/compte/${currentEquipComptePk}/devices/add/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF },
+      body: JSON.stringify({
+        ae_title,
+        marque: document.getElementById('eq-marque').value.trim(),
+        modele: document.getElementById('eq-modele').value.trim(),
+        ip: document.getElementById('eq-ip').value.trim(),
+        port: document.getElementById('eq-port').value || 104,
+      })
+    })
+    .then(r => r.json())
+    .then(data => {
+      btn.disabled = false; btn.innerHTML = '&#43; ' + STR_ADD_DEVICE;
+      if (data.error) { alert(data.error); return; }
+      const list = document.getElementById('device-list');
+      const empty = document.getElementById('device-empty');
+      empty.style.display = 'none';
+      list.insertBefore(buildDeviceRow(data), empty);
+      clearEquipForm();
+    })
+    .catch(() => { btn.disabled = false; btn.innerHTML = '&#43; ' + STR_ADD_DEVICE; alert('Error adding device.'); });
+  }
+
+  function removeDevice(devicePk) {
+    if (!confirm('Remove this device?')) return;
+    fetch(`/super-admin/devices/${devicePk}/delete/`, {
+      method: 'POST',
+      headers: { 'X-CSRFToken': CSRF }
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) { alert(data.error); return; }
+      const row = document.getElementById('device-row-' + devicePk);
+      if (row) row.remove();
+      const list = document.getElementById('device-list');
+      if (!list.querySelector('.device-item')) {
+        document.getElementById('device-empty').style.display = '';
+      }
+    });
+  }
 </script>
 </body>
 </html>

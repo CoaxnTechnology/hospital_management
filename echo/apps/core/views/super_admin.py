@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
 
-from apps.core.models import Compte, SuperAdminProfile, DoctorSignupRequest
+from apps.core.models import Compte, SuperAdminProfile, DoctorSignupRequest, Device
 from apps.core.services.doctor_setup import create_doctor_compte, load_default_templates
 
 
@@ -168,6 +168,62 @@ def reject_signup(request, pk):
         fail_silently=True,
     )
     return JsonResponse({'status': 'rejected'})
+
+
+@super_admin_required
+def list_devices(request, pk):
+    try:
+        compte = Compte.objects.get(pk=pk)
+    except Compte.DoesNotExist:
+        return JsonResponse({'error': 'Not found'}, status=404)
+    devices = Device.all_objects.filter(compte=compte).values(
+        'id', 'marque', 'modele', 'ae_title', 'ip', 'port'
+    )
+    return JsonResponse({'devices': list(devices)})
+
+
+@super_admin_required
+@require_POST
+def add_device(request, pk):
+    try:
+        compte = Compte.objects.get(pk=pk)
+    except Compte.DoesNotExist:
+        return JsonResponse({'error': 'Not found'}, status=404)
+    try:
+        data = json.loads(request.body)
+        ae_title = data.get('ae_title', '').strip()
+        if not ae_title:
+            return JsonResponse({'error': 'AE Title is required.'}, status=400)
+        created = Device.all_objects.bulk_create([Device(
+            compte=compte,
+            marque=data.get('marque', '').strip(),
+            modele=data.get('modele', '').strip(),
+            ae_title=ae_title,
+            ip=data.get('ip', '').strip(),
+            port=int(data.get('port') or 104),
+        )])
+        device = created[0]
+        return JsonResponse({
+            'id': device.id,
+            'marque': device.marque,
+            'modele': device.modele,
+            'ae_title': device.ae_title,
+            'ip': device.ip,
+            'port': device.port,
+        })
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+@super_admin_required
+@require_POST
+def delete_device(request, pk):
+    try:
+        device = Device.all_objects.get(pk=pk)
+        device.delete()
+        return JsonResponse({'status': 'deleted'})
+    except Device.DoesNotExist:
+        return JsonResponse({'error': 'Not found'}, status=404)
 
 
 def doctor_signup(request):

@@ -5578,31 +5578,39 @@ msgstr "Administrative"
 
 #: templates/core/patient_fichiers.html:31
 msgid "Laboratoire"
-msgstr ""
+msgstr "Laboratory"
 
 #: templates/core/patient_fichiers.html:40
-#, fuzzy
-#| msgid "Cardiologie"
 msgid "Radiologie"
-msgstr "Cardiology"
+msgstr "Radiology"
+
+msgid "Laboratoire/Biologie"
+msgstr "Laboratory/Biology"
+
+msgid "Laboratoire/Anapath"
+msgstr "Laboratory/Pathology"
+
+msgid "CR opératoire"
+msgstr "Operative report"
+
+msgid "Autres"
+msgstr "Others"
 
 #: templates/core/patient_fichiers.html:51
 #: templates/core/patient_fichiers_telecharger.html:22
 #: templates/core/patient_fichiers_v2.html:36
 msgid "Déposer un fichier ou cliquer pour télécharger"
-msgstr ""
+msgstr "Drop a file or click to upload"
 
 #: templates/core/patient_fichiers.html:52
 #: templates/core/patient_fichiers_telecharger.html:23
 #: templates/core/patient_fichiers_v2.html:37
 msgid "Le fichier sera  ajouté au dossier sélectionné"
-msgstr ""
+msgstr "The file will be added to the selected folder"
 
 #: templates/core/patient_fichiers_v2.html:114
-#, fuzzy
-#| msgid "Fichiers"
 msgid "Pas de fichiers"
-msgstr "Files"
+msgstr "No files"
 
 #: templates/core/patient_form.html:74
 #: templates/core/patient_form_dialog.html:40
@@ -7310,9 +7318,6 @@ msgstr "Insurance Expiry"
 
 #~ msgid "Aucun fichier"
 #~ msgstr "No file"
-
-#~ msgid "Autres"
-#~ msgstr "Others"
 
 #~ msgid "Avortements"
 #~ msgstr "Abortions"

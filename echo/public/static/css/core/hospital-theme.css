@@ -673,6 +673,21 @@ textarea:focus {
   border-radius: 6px !important;
 }
 
+/* Light mode — DataTable info/pagination/length text colors */
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_length label {
+  color: var(--hp-text-muted) !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  color: var(--hp-text) !important;
+}
+.dataTables_wrapper .dataTables_length select,
+.dataTables_wrapper .form-select-solid {
+  color: var(--hp-text) !important;
+  background-color: var(--hp-input-bg) !important;
+  border-color: var(--hp-border) !important;
+}
+
 /* --------------------------------------------------------------------------
    11. Datepicker Restyling
    -------------------------------------------------------------------------- */

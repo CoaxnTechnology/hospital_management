@@ -72,12 +72,6 @@ class ProfilUpdate(PermissionRequiredMixin, UpdateView):
     template_name = 'core/profil_form.html'
     permission_required = 'core.change_profil'
 
-    def get_initial(self):
-        initial_base = super(ProfilUpdate, self).get_initial()
-        if self.object:
-            initial_base['group'] = self.object.groups.all()[0]
-        return initial_base
-
     def get_context_data(self, **kwargs):
         # we need to overwrite get_context_data to make sure that our formset is rendered
         data = super().get_context_data(**kwargs)
@@ -105,10 +99,6 @@ class ProfilUpdate(PermissionRequiredMixin, UpdateView):
                     instance.save()
             else:
                 print('Profil non valide')
-
-            user = self.object
-            user.groups.clear()
-            user.groups.add(form.cleaned_data['group'])
 
         return super().form_valid(form)
 

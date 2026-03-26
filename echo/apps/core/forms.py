@@ -48,12 +48,9 @@ class UserForm(forms.ModelForm):
 
 
 class UserUpdateForm(forms.ModelForm):
-    group = TranslatedGroupChoiceField(queryset=Group.objects.exclude(name='Médecin'), required=True)
-
     class Meta:
         model = User
-        fields = ['is_active', 'first_name', 'last_name', 'email', 'group', 'username']
-        labels = {'group': _('Profil')}
+        fields = ['is_active', 'first_name', 'last_name', 'email', 'username']
 
 
 class MdpForm(BSModalForm):

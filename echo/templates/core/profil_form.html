@@ -255,6 +255,7 @@
                             </div>
                         </div>
 
+                        {% if form.group %}
                         <div class="row mb-8">
                             <!--begin::Col-->
                             <div class="col-xl-3">
@@ -266,6 +267,7 @@
                                 {% render_field form.group class+="form-select" %}
                             </div>
                         </div>
+                        {% endif %}
 
                         <div class="row mb-8">
                             <!--begin::Col-->

@@ -249,7 +249,7 @@
         <tr>
           <td class="col-id" style="color:#6B7A99;">{{ compte.pk }}</td>
           <td class="col-name" style="font-weight:600;">{{ compte.raison_sociale }}</td>
-          <td class="col-email" style="color:#9BAFCA;" title="{{ compte.email|default:'' }}">{{ compte.email|default:"—" }}</td>
+          <td class="col-email" style="color:#9BAFCA;" title="{{ compte.responsable.email|default:compte.email|default:'' }}">{{ compte.responsable.email|default:compte.email|default:"—" }}</td>
           <td class="col-ae">
             {% if compte.parametrescompte.ae_title %}
               <span class="ae-tag">{{ compte.parametrescompte.ae_title }}</span>

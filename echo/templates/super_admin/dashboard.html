@@ -268,9 +268,11 @@
             </div>
             {% else %}—{% endif %}
           </td>
-          <td style="display:flex;gap:8px;align-items:center;">
-            <button class="btn btn-equipment btn-sm" onclick="openEquipmentModal({{ compte.pk }}, '{{ compte.raison_sociale|escapejs }}')">&#9881; {% trans "Equipment" %}</button>
-            <button class="btn btn-danger btn-sm" onclick="deleteCompte({{ compte.pk }}, '{{ compte.raison_sociale|escapejs }}')">{% trans "Delete" %}</button>
+          <td>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <button class="btn btn-equipment btn-sm" onclick="openEquipmentModal({{ compte.pk }}, '{{ compte.raison_sociale|escapejs }}')">&#9881; {% trans "Equipment" %}</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteCompte({{ compte.pk }}, '{{ compte.raison_sociale|escapejs }}')">{% trans "Delete" %}</button>
+            </div>
           </td>
         </tr>
         {% endfor %}

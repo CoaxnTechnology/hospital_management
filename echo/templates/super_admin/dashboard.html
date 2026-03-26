@@ -21,7 +21,7 @@
   .btn-logout:hover { color: #F87171; }
 
   /* Main */
-  .main { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+  .main { max-width: 1400px; margin: 0 auto; padding: 40px 24px; }
   .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
   .page-title { font-size: 24px; font-weight: 700; }
   .page-subtitle { color: #9BAFCA; font-size: 14px; margin-top: 4px; }
@@ -44,9 +44,17 @@
   .card { background: #1A1D2B; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden; }
   .card-header { padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; }
   .card-header h3 { font-size: 16px; font-weight: 600; }
-  table { width: 100%; border-collapse: collapse; }
-  th { padding: 12px 16px; text-align: left; font-size: 12px; font-weight: 600; color: #9BAFCA; text-transform: uppercase; letter-spacing: .5px; border-bottom: 1px solid rgba(255,255,255,0.06); }
-  td { padding: 14px 16px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  th { padding: 10px 10px; text-align: left; font-size: 11px; font-weight: 600; color: #9BAFCA; text-transform: uppercase; letter-spacing: .5px; border-bottom: 1px solid rgba(255,255,255,0.06); white-space: nowrap; }
+  td { padding: 12px 10px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; overflow: hidden; }
+  .col-id { width: 40px; }
+  .col-name { width: 14%; }
+  .col-email { width: 18%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .col-ae { width: 10%; }
+  .col-port { width: 7%; }
+  .col-login { width: 12%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .col-active { width: 10%; }
+  .col-actions { width: 170px; white-space: nowrap; }
   tr:last-child td { border-bottom: none; }
   tr:hover td { background: rgba(255,255,255,0.02); }
   .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
@@ -225,32 +233,36 @@
     <table>
       <thead>
         <tr>
-          <th>#</th>
-          <th>{% trans "Name / Clinic" %}</th>
-          <th>{% trans "Email" %}</th>
-          <th>{% trans "AE Title" %}</th>
-          <th>{% trans "Login" %}</th>
-          <th>{% trans "Active" %}</th>
-          <th>{% trans "Actions" %}</th>
+          <th class="col-id">#</th>
+          <th class="col-name">{% trans "Name / Clinic" %}</th>
+          <th class="col-email">{% trans "Email" %}</th>
+          <th class="col-ae">{% trans "AE Title" %}</th>
+          <th class="col-port">{% trans "Store" %}</th>
+          <th class="col-port">{% trans "MWL" %}</th>
+          <th class="col-login">{% trans "Login" %}</th>
+          <th class="col-active">{% trans "Active" %}</th>
+          <th class="col-actions">{% trans "Actions" %}</th>
         </tr>
       </thead>
       <tbody>
         {% for compte in comptes %}
         <tr>
-          <td style="color:#6B7A99;">{{ compte.pk }}</td>
-          <td style="font-weight:600;">{{ compte.raison_sociale }}</td>
-          <td style="color:#9BAFCA;">{{ compte.email|default:"—" }}</td>
-          <td>
+          <td class="col-id" style="color:#6B7A99;">{{ compte.pk }}</td>
+          <td class="col-name" style="font-weight:600;">{{ compte.raison_sociale }}</td>
+          <td class="col-email" style="color:#9BAFCA;" title="{{ compte.email|default:'' }}">{{ compte.email|default:"—" }}</td>
+          <td class="col-ae">
             {% if compte.parametrescompte.ae_title %}
               <span class="ae-tag">{{ compte.parametrescompte.ae_title }}</span>
             {% else %}
               <span style="color:#6B7A99;">—</span>
             {% endif %}
           </td>
-          <td style="color:#9BAFCA;font-size:13px;">
+          <td class="col-port"><span class="ae-tag">{{ storage_port }}</span></td>
+          <td class="col-port"><span class="ae-tag">{{ mwl_port }}</span></td>
+          <td class="col-login" style="color:#9BAFCA;" title="{% if compte.responsable %}{{ compte.responsable.username }}{% endif %}">
             {% if compte.responsable %}{{ compte.responsable.username }}{% else %}—{% endif %}
           </td>
-          <td>
+          <td class="col-active">
             {% if compte.responsable %}
             <div class="toggle-wrap">
               <label class="toggle">
@@ -264,8 +276,8 @@
             </div>
             {% else %}—{% endif %}
           </td>
-          <td>
-            <div style="display:flex;gap:8px;align-items:center;">
+          <td class="col-actions">
+            <div style="display:flex;gap:6px;align-items:center;">
               <button class="btn btn-equipment btn-sm" onclick="openEquipmentModal({{ compte.pk }}, '{{ compte.raison_sociale|escapejs }}')">&#9881; {% trans "Equipment" %}</button>
               <button class="btn btn-danger btn-sm" onclick="deleteCompte({{ compte.pk }}, '{{ compte.raison_sociale|escapejs }}')">{% trans "Delete" %}</button>
             </div>

@@ -128,5 +128,22 @@
         }
         document.addEventListener('DOMContentLoaded', activateTabFromHash);
         window.addEventListener('hashchange', activateTabFromHash);
+
+        // Highlight correct sidebar submenu item based on hash
+        function highlightSidebarItem() {
+            var hash = window.location.hash;
+            var sub1 = document.getElementById('mutuelle-sub-1');
+            var sub2 = document.getElementById('mutuelle-sub-2');
+            if (!sub1 || !sub2) return;
+            sub1.classList.remove('here');
+            sub2.classList.remove('here');
+            if (hash === '#bordereau') {
+                sub2.classList.add('here');
+            } else {
+                sub1.classList.add('here');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', highlightSidebarItem);
+        window.addEventListener('hashchange', highlightSidebarItem);
     </script>
 {% endblock %}

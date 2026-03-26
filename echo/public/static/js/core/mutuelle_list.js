@@ -1,4 +1,16 @@
-moment.locale('fr');
+(function() {
+  var lang = (typeof currentLang !== 'undefined' ? currentLang : 'fr').split('-')[0];
+  moment.locale(lang);
+})();
+
+const _drpLabels = {
+  fr: { apply: 'Appliquer', cancel: 'Fermer' },
+  en: { apply: 'Apply',     cancel: 'Close'  },
+  ar: { apply: 'تطبيق',    cancel: 'إغلاق'  },
+  es: { apply: 'Aplicar',   cancel: 'Cerrar' },
+};
+const _drpLang = (typeof currentLang !== 'undefined' ? currentLang : 'fr').split('-')[0];
+const _drpL = _drpLabels[_drpLang] || _drpLabels.fr;
 
 let minDate = moment().subtract(365, 'days');
 let maxDate = moment().add(1, 'days');
@@ -166,8 +178,8 @@ $(document).ready(function () {
         applyClass: 'btn-primary',
         cancelClass: 'btn-light-primary',
         "locale": {
-            "applyLabel": "Appliquer",
-            "cancelLabel": "Fermer",
+            "applyLabel": _drpL.apply,
+            "cancelLabel": _drpL.cancel,
         }
     }, function (start, end, label) {
         $('#daterangepicker .form-control').val(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'));

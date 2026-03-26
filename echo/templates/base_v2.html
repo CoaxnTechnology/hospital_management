@@ -132,14 +132,14 @@
 										<span class="menu-arrow"></span>
 									</span>
 									<div class="menu-sub menu-sub-accordion">
-										<div class="menu-item">
-											<a class="menu-link {% if '/mutuelle' in request.path %}active{% endif %}" href="/mutuelle/#mutuelle">
+										<div class="menu-item" id="mutuelle-sub-1">
+											<a class="menu-link" href="/mutuelle/#mutuelle">
 												<span class="menu-icon"><i class="la la-list fs-5"></i></span>
 												<span class="menu-title">{% trans "Liste des règlements" %}</span>
 											</a>
 										</div>
-										<div class="menu-item">
-											<a class="menu-link {% if '/mutuelle' in request.path %}active{% endif %}" href="/mutuelle/#bordereau">
+										<div class="menu-item" id="mutuelle-sub-2">
+											<a class="menu-link" href="/mutuelle/#bordereau">
 												<span class="menu-icon"><i class="la la-file-alt fs-5"></i></span>
 												<span class="menu-title">{% trans "Liste des bordereaux" %}</span>
 											</a>
@@ -265,12 +265,29 @@
 											</div>
 											{% endif %}
 											{% if user.profil.responsable %}
-											<div class="menu-item menu-lg-down-accordion me-0 me-lg-2 {% if '/mutuelle' in request.path %}show{% endif %}">
+											<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2 {% if '/mutuelle' in request.path %}show{% endif %}">
 												<!--begin:Menu link-->
 												<span class="menu-link py-3">
-													<span class="menu-title"><a href="/mutuelle" class="link-white">{% trans "Mutuelle" %}</a></span>
+													<span class="menu-title">{% trans "Mutuelle" %}</span>
+													<span class="menu-arrow d-lg-none"></span>
 												</span>
 												<!--end:Menu link-->
+												<!--begin:Menu sub-->
+												<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px">
+													<div class="menu-item">
+														<a class="menu-link py-3" href="/mutuelle/#mutuelle">
+															<span class="menu-icon"><i class="la la-list fs-5"></i></span>
+															<span class="menu-title">{% trans "Liste des règlements" %}</span>
+														</a>
+													</div>
+													<div class="menu-item">
+														<a class="menu-link py-3" href="/mutuelle/#bordereau">
+															<span class="menu-icon"><i class="la la-file-alt fs-5"></i></span>
+															<span class="menu-title">{% trans "Liste des bordereaux" %}</span>
+														</a>
+													</div>
+												</div>
+												<!--end:Menu sub-->
 											</div>
 											{% endif %}
 											{% if user.profil.responsable %}
@@ -367,12 +384,29 @@
 											</div>
 											{% endif %}
 											{% if user.profil.responsable %}
-											<div class="menu-item menu-lg-down-accordion me-0 me-lg-2 {% if '/mutuelle' in request.path %}show{% endif %}">
+											<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2 {% if '/mutuelle' in request.path %}show{% endif %}">
 												<!--begin:Menu link-->
 												<span class="menu-link py-3">
-													<span class="menu-title"><a href="/mutuelle" class="link-white">{% trans "Mutuelle" %}</a></span>
+													<span class="menu-title">{% trans "Mutuelle" %}</span>
+													<span class="menu-arrow d-lg-none"></span>
 												</span>
 												<!--end:Menu link-->
+												<!--begin:Menu sub-->
+												<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px">
+													<div class="menu-item">
+														<a class="menu-link py-3" href="/mutuelle/#mutuelle">
+															<span class="menu-icon"><i class="la la-list fs-5"></i></span>
+															<span class="menu-title">{% trans "Liste des règlements" %}</span>
+														</a>
+													</div>
+													<div class="menu-item">
+														<a class="menu-link py-3" href="/mutuelle/#bordereau">
+															<span class="menu-icon"><i class="la la-file-alt fs-5"></i></span>
+															<span class="menu-title">{% trans "Liste des bordereaux" %}</span>
+														</a>
+													</div>
+												</div>
+												<!--end:Menu sub-->
 											</div>
 											{% endif %}
 											{% if user.profil.responsable %}

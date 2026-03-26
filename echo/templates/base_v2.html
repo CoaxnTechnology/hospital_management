@@ -498,19 +498,24 @@
 												<polyline points="6 9 12 15 18 9"/>
 											</svg>
 										</div>
-										<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded fw-semibold py-2 fs-7 w-140px hp-lang-menu" data-kt-menu="true">
-											{% get_available_languages as LANGUAGES %}
+										<div class="menu menu-sub menu-sub-dropdown menu-rounded fw-semibold py-2 fs-7 hp-lang-menu" data-kt-menu="true">
 											{% get_current_language as CURRENT_LANGUAGE %}
+											{% get_available_languages as LANGUAGES %}
 											{% for lang_code, lang_name in LANGUAGES %}
 											<div class="menu-item px-2">
-												<a href="javascript:switchLanguage('{{ lang_code }}')"
-												   class="menu-link px-3 rounded gap-2 {% if lang_code == CURRENT_LANGUAGE %}hp-lang-active{% endif %}">
+												<a class="menu-link px-3 rounded gap-2 {% if lang_code == CURRENT_LANGUAGE %}hp-lang-active{% endif %}"
+												   onclick="event.preventDefault(); switchLanguage('{{ lang_code }}');" href="#">
 													<span class="hp-lang-dot {% if lang_code == CURRENT_LANGUAGE %}hp-lang-dot-active{% endif %}"></span>
 													{{ lang_name }}
 												</a>
 											</div>
 											{% endfor %}
 										</div>
+										<form id="lang-switch-form" method="post" action="{% url 'set_language' %}" style="display:none">
+											{% csrf_token %}
+											<input type="hidden" name="language" id="lang-switch-input">
+											<input type="hidden" name="next" value="{{ request.path }}">
+										</form>
 									</div>
 									<!--end::Language Switcher-->
 									<!--begin::Dark Mode Toggle-->
@@ -1177,14 +1182,17 @@
         });
 
         function switchLanguage(langCode) {
-            fetch(`/i18n/setlang/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-CSRFToken': getCookie('csrftoken')
-                },
-                body: `language=${langCode}&next=${window.location.pathname}`
-            }).then(() => window.location.reload());
+            var form = document.getElementById('lang-switch-form');
+            if (form) {
+                document.getElementById('lang-switch-input').value = langCode;
+                form.submit();
+            } else {
+                fetch('/i18n/setlang/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRFToken': getCookie('csrftoken') },
+                    body: 'language=' + encodeURIComponent(langCode) + '&next=' + encodeURIComponent(window.location.pathname)
+                }).then(function() { window.location.reload(); });
+            }
         }
 
         function getCookie(name) {

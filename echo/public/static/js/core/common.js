@@ -219,6 +219,13 @@ function hideFrameLoading() {
     $('iframe').css('visibility', 'visible');
 }
 
+// Auto-hide loading overlay when any iframe finishes loading
+document.addEventListener('load', function(e) {
+    if (e.target.tagName === 'IFRAME') {
+        hideFrameLoading();
+    }
+}, true);
+
 // Conversion d'une date sélectionnée avec un Date Picker au format date de la base
 function dtPickToDb(dt) {
     return moment(dt, 'DD/MM/YYYY').format('YYYY-MM-DD');

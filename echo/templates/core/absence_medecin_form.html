@@ -46,7 +46,7 @@
                     </button>
                 </div>
             </div>
-            <div class="card-body pl-0 pr-0">
+            <div class="card-body pl-0 pr-0" style="overflow-y:auto; flex:1; min-height:0;">
                 <div class="tab-content">
                     <div class="tab-pane active" id="absence" role="tabpanel">
                         <form id="form_1" class="form" method="post" action="">
@@ -111,7 +111,6 @@
         {% if programme_operatoire_json %}
         data = {{ programme_operatoire_json | safe }};
         {% endif %}
-        console.log('Programme opératoire', data);
     </script>
     <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
     <script src="{% static "js/core/absence_form.js" %}"></script>

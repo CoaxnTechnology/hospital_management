@@ -20,7 +20,7 @@
                         <h3 class="card-label">
                             {% if object %}{% trans "Modifier le rendez-vous" %}{% else %}{% trans "Nouveau rendez-vous" %}{% endif %}
                         </h3>
-                        <span class="label label-pill label-inline ml-2" id="libelle_statut"></span>
+                        <span id="libelle_statut" style="font-size:12px; font-weight:600; padding:3px 10px; border-radius:20px; background:rgba(105,147,255,0.15); color:#6993FF; margin-left:8px;"></span>
                     </div>
                     <div class="card-toolbar">
                         {% if object and object.statut == '1' %}

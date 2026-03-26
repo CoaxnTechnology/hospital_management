@@ -34,8 +34,7 @@
   .btn-danger:hover { background: rgba(248,113,113,0.25); }
   .btn-sm { padding: 6px 12px; font-size: 13px; }
 
-  /* Stats bar */
-  .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+  /* Stats */
   .stat-card { background: #1A1D2B; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px 24px; }
   .stat-label { font-size: 13px; color: #9BAFCA; margin-bottom: 6px; }
   .stat-value { font-size: 28px; font-weight: 700; color: #4A9EFF; }
@@ -51,8 +50,7 @@
   .col-name { width: 14%; }
   .col-email { width: 18%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .col-ae { width: 10%; }
-  .col-port { width: 7%; }
-  .col-login { width: 12%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.col-login { width: 12%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .col-active { width: 10%; }
   .col-actions { width: 170px; white-space: nowrap; }
   tr:last-child td { border-bottom: none; }
@@ -169,18 +167,42 @@
     <button class="btn btn-primary" onclick="openCreateModal()">&#43; {% trans "Add Doctor" %}</button>
   </div>
 
-  <div class="stats-bar">
-    <div class="stat-card">
-      <div class="stat-label">{% trans "Total Accounts" %}</div>
-      <div class="stat-value">{{ comptes.count }}</div>
+  <!-- Top row: Stats + DICOM config -->
+  <div style="display:grid;grid-template-columns:3fr 2fr;gap:16px;margin-bottom:32px;align-items:stretch;">
+    <!-- Stats -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+      <div class="stat-card">
+        <div class="stat-label">{% trans "Total Accounts" %}</div>
+        <div class="stat-value" id="stat-total">{{ comptes.count }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">{% trans "Active Accounts" %}</div>
+        <div class="stat-value" id="stat-active">{{ active_count }}</div>
+      </div>
+      <div class="stat-card" id="stat-pending-card" style="{% if signup_requests %}border-color:rgba(251,146,60,0.4);{% endif %}">
+        <div class="stat-label">{% trans "Pending Requests" %}</div>
+        <div class="stat-value" id="stat-pending" style="{% if signup_requests %}color:#FB923C;{% endif %}">{{ signup_requests|length }}</div>
+      </div>
     </div>
-    <div class="stat-card">
-      <div class="stat-label">{% trans "Active Accounts" %}</div>
-      <div class="stat-value">{{ active_count }}</div>
-    </div>
-    <div class="stat-card" style="{% if signup_requests %}border-color:rgba(251,146,60,0.4);{% endif %}">
-      <div class="stat-label">{% trans "Pending Requests" %}</div>
-      <div class="stat-value" style="{% if signup_requests %}color:#FB923C;{% endif %}">{{ signup_requests|length }}</div>
+    <!-- DICOM Server Info -->
+    <div class="card">
+      <div class="card-header" style="padding:16px 20px;">
+        <h3>&#127760; {% trans "DICOM Server Configuration" %}</h3>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;">
+        <div style="padding:16px 18px;border-right:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:11px;font-weight:600;color:#9BAFCA;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">{% trans "Server IP" %}</div>
+          <span class="ae-tag">129.121.75.225</span>
+        </div>
+        <div style="padding:16px 18px;border-right:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:11px;font-weight:600;color:#9BAFCA;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">{% trans "Storage Port" %}</div>
+          <span class="ae-tag">{{ storage_port }}</span>
+        </div>
+        <div style="padding:16px 18px;">
+          <div style="font-size:11px;font-weight:600;color:#9BAFCA;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">{% trans "MWL Port" %}</div>
+          <span class="ae-tag">{{ mwl_port }}</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -237,16 +259,14 @@
           <th class="col-name">{% trans "Name / Clinic" %}</th>
           <th class="col-email">{% trans "Email" %}</th>
           <th class="col-ae">{% trans "AE Title" %}</th>
-          <th class="col-port">{% trans "Store" %}</th>
-          <th class="col-port">{% trans "MWL" %}</th>
           <th class="col-login">{% trans "Login" %}</th>
           <th class="col-active">{% trans "Active" %}</th>
           <th class="col-actions">{% trans "Actions" %}</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="doctors-tbody">
         {% for compte in comptes %}
-        <tr>
+        <tr data-pk="{{ compte.pk }}">
           <td class="col-id" style="color:#6B7A99;">{{ compte.pk }}</td>
           <td class="col-name" style="font-weight:600;">{{ compte.raison_sociale }}</td>
           <td class="col-email" style="color:#9BAFCA;" title="{{ compte.responsable.email|default:compte.email|default:'' }}">{{ compte.responsable.email|default:compte.email|default:"—" }}</td>
@@ -257,8 +277,6 @@
               <span style="color:#6B7A99;">—</span>
             {% endif %}
           </td>
-          <td class="col-port"><span class="ae-tag">{{ storage_port }}</span></td>
-          <td class="col-port"><span class="ae-tag">{{ mwl_port }}</span></td>
           <td class="col-login" style="color:#9BAFCA;" title="{% if compte.responsable %}{{ compte.responsable.username }}{% endif %}">
             {% if compte.responsable %}{{ compte.responsable.username }}{% else %}—{% endif %}
           </td>
@@ -362,7 +380,7 @@
       </div>
       <div class="form-group">
         <label>{% trans "IP Address" %}</label>
-        <input type="text" id="eq-ip" placeholder="192.168.1.100"/>
+        <input type="text" id="eq-ip" placeholder="192.168.1.100" value="129.121.75.225"/>
       </div>
     </div>
     <div class="form-row">
@@ -411,6 +429,8 @@
   const STR_INACTIVE = '{% trans "Inactive" %}';
   const STR_CREATING = '{% trans "Creating…" %}';
   const STR_CREATE = '{% trans "Create Account" %}';
+  const STR_EQUIPMENT = '{% trans "Equipment" %}';
+  const STR_DELETE = '{% trans "Delete" %}';
 
   // Language switcher
   function toggleLangMenu(e) {
@@ -451,7 +471,7 @@
   }
   function closeCredModal() {
     document.getElementById('credModal').classList.remove('open');
-    location.reload();
+    pollDashboard();
   }
 
   function submitCreate() {
@@ -504,6 +524,12 @@ if (!name || !email) { alert('Name and email are required.'); return; }
       if (data.error) { alert(data.error); checkbox.checked = !checkbox.checked; return; }
       const label = document.getElementById('toggle-label-' + pk);
       if (label) label.textContent = data.is_active ? STR_ACTIVE : STR_INACTIVE;
+      // Update Active Accounts count immediately
+      const activeEl = document.getElementById('stat-active');
+      if (activeEl) {
+        let count = parseInt(activeEl.textContent) || 0;
+        activeEl.textContent = data.is_active ? count + 1 : Math.max(0, count - 1);
+      }
     })
     .catch(() => { checkbox.checked = !checkbox.checked; alert('Error toggling status.'); });
   }
@@ -534,13 +560,24 @@ if (!name || !email) { alert('Name and email are required.'); return; }
     .then(data => {
       btn.disabled = false;
       if (data.error) { alert(data.error); return; }
+      const approvedPk = currentApprovePk;
       closeApproveModal();
-      const row = document.getElementById('signup-row-' + currentApprovePk);
+      const row = document.getElementById('signup-row-' + approvedPk);
       if (row) row.remove();
+      // Update pending count immediately
+      const pendingEl = document.getElementById('stat-pending');
+      if (pendingEl) {
+        const newCount = Math.max(0, (parseInt(pendingEl.textContent) || 0) - 1);
+        pendingEl.textContent = newCount;
+        pendingEl.style.color = newCount > 0 ? '#FB923C' : '#4A9EFF';
+        const pc = document.getElementById('stat-pending-card');
+        if (pc) pc.style.borderColor = newCount > 0 ? 'rgba(251,146,60,0.4)' : '';
+      }
       document.getElementById('cred-password-row').style.display = 'none';
       document.getElementById('cred-username').textContent = data.username;
       document.getElementById('cred-ae').textContent = data.ae_title;
       document.getElementById('credModal').classList.add('open');
+      pollDashboard();
     })
     .catch(() => { btn.disabled = false; alert('Error approving request.'); });
   }
@@ -556,6 +593,15 @@ if (!name || !email) { alert('Name and email are required.'); return; }
       if (data.error) { alert(data.error); return; }
       const row = document.getElementById('signup-row-' + pk);
       if (row) row.remove();
+      const pendingEl = document.getElementById('stat-pending');
+      if (pendingEl) {
+        const newCount = Math.max(0, (parseInt(pendingEl.textContent) || 0) - 1);
+        pendingEl.textContent = newCount;
+        pendingEl.style.color = newCount > 0 ? '#FB923C' : '#4A9EFF';
+        const pc = document.getElementById('stat-pending-card');
+        if (pc) pc.style.borderColor = newCount > 0 ? 'rgba(251,146,60,0.4)' : '';
+      }
+      pollDashboard();
     })
     .catch(() => alert('Error rejecting request.'));
   }
@@ -569,7 +615,9 @@ if (!name || !email) { alert('Name and email are required.'); return; }
     .then(r => r.json())
     .then(data => {
       if (data.error) { alert(data.error); return; }
-      location.reload();
+      const row = document.querySelector('tr[data-pk="' + pk + '"]');
+      if (row) row.remove();
+      pollDashboard();
     });
   }
 
@@ -601,7 +649,8 @@ if (!name || !email) { alert('Name and email are required.'); return; }
   }
 
   function clearEquipForm() {
-    ['eq-ae_title','eq-marque','eq-modele','eq-ip'].forEach(id => { document.getElementById(id).value = ''; });
+    ['eq-ae_title','eq-marque','eq-modele'].forEach(id => { document.getElementById(id).value = ''; });
+    document.getElementById('eq-ip').value = '129.121.75.225';
     document.getElementById('eq-port').value = '104';
   }
 
@@ -684,6 +733,94 @@ if (!name || !email) { alert('Name and email are required.'); return; }
       }
     });
   }
+
+  // AJAX polling — update stats + doctor table every 20s
+  function escHtml(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function escJs(s) {
+    return String(s || '').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  }
+
+  function buildDoctorRow(d) {
+    var toggleHtml = d.has_responsable
+      ? `<div class="toggle-wrap"><label class="toggle"><input type="checkbox" ${d.is_active ? 'checked' : ''} onchange="toggleCompte(${d.pk}, this)"/><span class="toggle-slider"></span></label><span class="toggle-label" id="toggle-label-${d.pk}">${d.is_active ? STR_ACTIVE : STR_INACTIVE}</span></div>`
+      : '—';
+    var aeHtml = d.ae_title
+      ? `<span class="ae-tag">${escHtml(d.ae_title)}</span>`
+      : `<span style="color:#6B7A99;">—</span>`;
+    var tr = document.createElement('tr');
+    tr.setAttribute('data-pk', d.pk);
+    tr.innerHTML = `
+      <td class="col-id" style="color:#6B7A99;">${d.pk}</td>
+      <td class="col-name" style="font-weight:600;">${escHtml(d.name)}</td>
+      <td class="col-email" style="color:#9BAFCA;" title="${escHtml(d.email)}">${escHtml(d.email) || '—'}</td>
+      <td class="col-ae">${aeHtml}</td>
+      <td class="col-login" style="color:#9BAFCA;">${escHtml(d.username) || '—'}</td>
+      <td class="col-active">${toggleHtml}</td>
+      <td class="col-actions"><div style="display:flex;gap:6px;align-items:center;">
+        <button class="btn btn-equipment btn-sm" onclick="openEquipmentModal(${d.pk},'${escJs(d.name)}')">&#9881; ${STR_EQUIPMENT}</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteCompte(${d.pk},'${escJs(d.name)}')">${STR_DELETE}</button>
+      </div></td>`;
+    return tr;
+  }
+
+  function pollDashboard() {
+    fetch('/super-admin/poll/')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        // Update stat numbers
+        var el;
+        el = document.getElementById('stat-total');   if (el) el.textContent = data.total;
+        el = document.getElementById('stat-active');  if (el) el.textContent = data.active;
+        el = document.getElementById('stat-pending'); if (el) {
+          el.textContent = data.pending;
+          el.style.color = data.pending > 0 ? '#FB923C' : '#4A9EFF';
+        }
+        var pc = document.getElementById('stat-pending-card');
+        if (pc) pc.style.borderColor = data.pending > 0 ? 'rgba(251,146,60,0.4)' : '';
+
+        // Update doctor table
+        var tbody = document.getElementById('doctors-tbody');
+        if (!tbody) return;
+
+        // Map existing rows by pk
+        var existing = {};
+        tbody.querySelectorAll('tr[data-pk]').forEach(function(tr) {
+          existing[tr.getAttribute('data-pk')] = tr;
+        });
+
+        var newPks = data.doctors.map(function(d) { return String(d.pk); });
+
+        // Remove deleted rows
+        Object.keys(existing).forEach(function(pk) {
+          if (newPks.indexOf(pk) === -1) existing[pk].remove();
+        });
+
+        // Add new rows / update existing
+        data.doctors.forEach(function(d, i) {
+          var pk = String(d.pk);
+          if (existing[pk]) {
+            // Update only dynamic cells to avoid disrupting toggles in use
+            var emailCell = existing[pk].querySelector('.col-email');
+            if (emailCell) { emailCell.textContent = d.email || '—'; emailCell.title = d.email || ''; }
+            var label = document.getElementById('toggle-label-' + d.pk);
+            if (label) label.textContent = d.is_active ? STR_ACTIVE : STR_INACTIVE;
+            var cb = existing[pk].querySelector('input[type=checkbox]');
+            if (cb && cb.checked !== d.is_active) cb.checked = d.is_active;
+          } else {
+            // New doctor — insert at correct position
+            var newRow = buildDoctorRow(d);
+            var allRows = tbody.querySelectorAll('tr[data-pk]');
+            if (i < allRows.length) tbody.insertBefore(newRow, allRows[i]);
+            else tbody.appendChild(newRow);
+          }
+        });
+      })
+      .catch(function() {}); // silently ignore network errors
+  }
+
+  setInterval(pollDashboard, 20000);
 </script>
 </body>
 </html>

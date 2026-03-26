@@ -176,7 +176,7 @@ def list_devices(request, pk):
         compte = Compte.objects.get(pk=pk)
     except Compte.DoesNotExist:
         return JsonResponse({'error': 'Not found'}, status=404)
-    devices = Device.all_objects.filter(compte=compte).values(
+    devices = Device.all_objects.filter(compte=compte, deleted_at__isnull=True).values(
         'id', 'marque', 'modele', 'ae_title', 'ip', 'port'
     )
     return JsonResponse({'devices': list(devices)})
@@ -219,11 +219,46 @@ def add_device(request, pk):
 @require_POST
 def delete_device(request, pk):
     try:
-        device = Device.all_objects.get(pk=pk)
-        device.delete()
+        deleted_count, _ = Device.all_objects.filter(pk=pk).delete()
+        if not deleted_count:
+            return JsonResponse({'error': 'Not found'}, status=404)
         return JsonResponse({'status': 'deleted'})
     except Device.DoesNotExist:
         return JsonResponse({'error': 'Not found'}, status=404)
+
+
+@super_admin_required
+def poll_stats(request):
+    comptes = list(
+        Compte.objects
+        .select_related('parametrescompte', 'responsable')
+        .order_by('-id')
+    )
+    active_count = sum(1 for c in comptes if c.responsable and c.responsable.is_active)
+    pending_count = DoctorSignupRequest.objects.filter(
+        status=DoctorSignupRequest.STATUS_PENDING
+    ).count()
+    doctors = []
+    for c in comptes:
+        try:
+            ae = c.parametrescompte.ae_title or ''
+        except Exception:
+            ae = ''
+        doctors.append({
+            'pk': c.pk,
+            'name': c.raison_sociale or '',
+            'email': (c.responsable.email if c.responsable else None) or c.email or '',
+            'ae_title': ae,
+            'username': c.responsable.username if c.responsable else '',
+            'is_active': c.responsable.is_active if c.responsable else False,
+            'has_responsable': bool(c.responsable),
+        })
+    return JsonResponse({
+        'total': len(comptes),
+        'active': active_count,
+        'pending': pending_count,
+        'doctors': doctors,
+    })
 
 
 def doctor_signup(request):

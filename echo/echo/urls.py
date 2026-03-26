@@ -68,6 +68,7 @@ urlpatterns = [
     path("super-admin/compte/<int:pk>/devices/", super_admin.list_devices, name="super_admin_list_devices"),
     path("super-admin/compte/<int:pk>/devices/add/", super_admin.add_device, name="super_admin_add_device"),
     path("super-admin/devices/<int:pk>/delete/", super_admin.delete_device, name="super_admin_delete_device"),
+    path("super-admin/poll/", super_admin.poll_stats, name="super_admin_poll"),
     path("signup/", super_admin.doctor_signup, name="doctor_signup"),
     # Favicon at root (browsers auto-request /favicon.ico)
     path("favicon.ico", RedirectView.as_view(url="/static/media/logos/favicon.ico", permanent=True)),

@@ -315,6 +315,34 @@
         }
         .login-error-alert i { font-size: 15px; }
 
+        /* Inactive account warning */
+        .login-inactive-alert {
+            background: #fffbeb;
+            border: 1px solid #fcd34d;
+            border-left: 4px solid #f59e0b;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 13px;
+            color: #92400e;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+        .login-inactive-alert .inactive-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 13.5px;
+            color: #b45309;
+            margin-bottom: 4px;
+        }
+        .login-inactive-alert .inactive-title i { font-size: 16px; }
+        .login-inactive-alert .inactive-sub {
+            font-size: 12px;
+            color: #a16207;
+            padding-left: 24px;
+        }
+
         /* ── Right Panel ── */
         .login-right {
             width: 50%;
@@ -484,8 +512,19 @@
                 <div class="login-brand-sub">{% trans "L'application de gestion de cabinet de médecine." %}</div>
             </div>
 
-            <!-- Error -->
-            {% if form.errors %}
+            <!-- Inactive account warning -->
+            {% if account_inactive %}
+            <div class="login-inactive-alert">
+                <div class="inactive-title">
+                    <i class="la la-lock"></i>
+                    {% trans "Compte désactivé" %}
+                </div>
+                <div class="inactive-sub">
+                    {% trans "Votre compte a été désactivé. Veuillez contacter votre administrateur." %}
+                </div>
+            </div>
+            <!-- Wrong credentials error -->
+            {% elif form.errors %}
             <div class="login-error-alert">
                 <i class="la la-exclamation-circle"></i>
                 {% trans "Nom d'utilisateur ou mot de passe incorrect" %}. {% trans "Merci de réessayer" %}.
@@ -501,14 +540,14 @@
                     <label>{% trans "Username or Email" %}</label>
                     <div class="login-input-wrap">
                         <input type="text"
-                               class="{% if form.errors %}is-invalid{% endif %}"
+                               class="{% if form.errors and not account_inactive %}is-invalid{% endif %}"
                                placeholder="ex: dr.dupont"
                                autocomplete="off"
                                id="{{ form.username.id_for_label }}"
                                maxlength="{{ form.username.max_length }}"
                                name="{{ form.username.html_name }}"
                                value="{{ form.username.value|default:"" }}"/>
-                        <i class="la la-user field-icon"></i>
+                        <i class="las la-user field-icon"></i>
                         <div class="invalid-feedback">{% trans "Nom d'utilisateur ou mot de passe incorrect" %}. {% trans "Merci de réessayer" %}.</div>
                     </div>
                 </div>

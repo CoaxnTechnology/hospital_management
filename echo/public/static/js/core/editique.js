@@ -65,9 +65,9 @@ function impressionGenerique(content, pageSize = 'A5') {
     doc.open();
     doc.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
 <style>
-  @page { size: ${pageW}; margin: ${marginCss}; }
+  @page { size: ${pageW}; margin: 0; }
   * { box-sizing: border-box; }
-  body { font-family: Arial, sans-serif; font-size: 11pt; margin: 0; padding: 10mm; }
+  body { font-family: Arial, sans-serif; font-size: 11pt; margin: 0; padding: ${marginCss}; }
   p { margin: 0 0 4px; }
   strong { font-weight: bold; }
 </style>

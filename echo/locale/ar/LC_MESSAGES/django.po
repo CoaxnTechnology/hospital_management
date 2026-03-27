@@ -7226,3 +7226,9 @@ msgstr "رمز طبيب الأسرة"
 
 msgid "APCI Code"
 msgstr "رمز APCI"
+
+msgid "Compte désactivé"
+msgstr "الحساب معطّل"
+
+msgid "Votre compte a été désactivé. Veuillez contacter votre administrateur."
+msgstr "تم تعطيل حسابك. يرجى التواصل مع المسؤول."

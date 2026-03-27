@@ -7356,3 +7356,9 @@ msgstr "Code médecin de famille"
 
 msgid "APCI Code"
 msgstr "Code APCI"
+
+msgid "Compte désactivé"
+msgstr "Compte désactivé"
+
+msgid "Votre compte a été désactivé. Veuillez contacter votre administrateur."
+msgstr "Votre compte a été désactivé. Veuillez contacter votre administrateur."

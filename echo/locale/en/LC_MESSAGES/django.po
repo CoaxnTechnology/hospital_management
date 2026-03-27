@@ -7543,3 +7543,9 @@ msgstr "Family Doctor Code"
 
 msgid "APCI Code"
 msgstr "APCI Code"
+
+msgid "Compte désactivé"
+msgstr "Account disabled"
+
+msgid "Votre compte a été désactivé. Veuillez contacter votre administrateur."
+msgstr "Your account has been disabled. Please contact your administrator."

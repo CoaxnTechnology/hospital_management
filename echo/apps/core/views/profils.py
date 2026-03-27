@@ -2,6 +2,7 @@ from bootstrap_modal_forms.generic import BSModalUpdateView
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
+from django.contrib.auth.views import LoginView
 # Create your views here.
 from django.http import HttpResponseNotFound
 from django.shortcuts import redirect
@@ -10,6 +11,17 @@ from django.views.generic import ListView, CreateView, UpdateView
 
 from apps.core.forms import ProfilFormset, UserForm, MdpForm, UserUpdateForm
 from apps.core.models import Profil
+
+
+class CustomLoginView(LoginView):
+    """LoginView that distinguishes inactive accounts from wrong credentials."""
+    template_name = 'core/login_v2.html'
+
+    def form_invalid(self, form):
+        if getattr(self.request, '_account_inactive', False):
+            ctx = self.get_context_data(form=form, account_inactive=True)
+            return self.render_to_response(ctx)
+        return super().form_invalid(form)
 
 
 class ProfilList(PermissionRequiredMixin, ListView):

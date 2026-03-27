@@ -83,7 +83,7 @@ urlpatterns = [
     # Authentification
     path(
         "accounts/login/",
-        auth_views.LoginView.as_view(template_name="core/login_v2.html"),
+        profils.CustomLoginView.as_view(),
         name="login",
     ),
     path(

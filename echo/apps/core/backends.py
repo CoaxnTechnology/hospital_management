@@ -15,6 +15,10 @@ class EmailOrUsernameBackend(ModelBackend):
             except User.DoesNotExist:
                 return None
 
-        if user.check_password(password) and self.user_can_authenticate(user):
-            return user
+        if user.check_password(password):
+            if self.user_can_authenticate(user):
+                return user
+            # Password correct but account is inactive — flag it on the request
+            if request is not None:
+                request._account_inactive = True
         return None

@@ -24,6 +24,7 @@
   --hp-dropdown-bg:     #FFFFFF;
   --hp-table-stripe:    #F8FAFC;
   --hp-table-hover:     #EFF6FF;
+  color-scheme: light;
 }
 
 /* --------------------------------------------------------------------------
@@ -3292,7 +3293,20 @@ html[data-hp-theme="dark"] .drawer-overlay { background-color: rgba(0,0,0,0.6) !
 /* Users page */
 html[data-hp-theme="dark"] .users-page .label-warning { background-color: rgba(251,146,60,0.2) !important; color: #FB923C !important; }
 html[data-hp-theme="dark"] .users-page .btn-hover-danger:hover { background-color: rgba(248,113,113,0.15) !important; color: #F87171 !important; }
-html[data-hp-theme="dark"] .btn-light-primary { background-color: rgba(74,158,255,0.12) !important; color: var(--hp-primary) !important; }
+html[data-hp-theme="dark"] .btn.btn-light-primary {
+  background-color: rgba(74,158,255,0.12) !important;
+  border-color: rgba(74,158,255,0.15) !important;
+  color: var(--hp-primary) !important;
+}
+html[data-hp-theme="dark"] .btn.btn-light-primary:hover:not(.btn-active),
+html[data-hp-theme="dark"] .btn.btn-light-primary:focus:not(.btn-active),
+html[data-hp-theme="dark"] .btn.btn-light-primary:active:not(.btn-active),
+html[data-hp-theme="dark"] .btn.btn-light-primary.active,
+html[data-hp-theme="dark"] .show > .btn.btn-light-primary {
+  background-color: rgba(74,158,255,0.22) !important;
+  border-color: rgba(74,158,255,0.3) !important;
+  color: var(--hp-primary) !important;
+}
 
 /* Card border-left accent dots */
 html[data-hp-theme="dark"] .card.border-left-danger .card-title::before { background-color: #F87171 !important; }
@@ -3314,8 +3328,7 @@ html[data-hp-theme="dark"] .toolbar .btn-bg-white { background-color: var(--hp-c
 /* blockui overlay */
 html[data-hp-theme="dark"] .blockui-overlay { background-color: rgba(15,17,23,0.7) !important; }
 
-/* card-toolbar btn-light-primary */
-html[data-hp-theme="dark"] .card-toolbar .btn-light-primary { background-color: rgba(74,158,255,0.12) !important; color: var(--hp-primary) !important; }
+/* card-toolbar btn-light-primary — covered by .btn.btn-light-primary above */
 
 /* Aside menu item active */
 html[data-hp-theme="dark"] #kt_aside_menu .menu-item.here > .menu-link .menu-title,
@@ -3514,4 +3527,105 @@ html[data-hp-theme="dark"] .border { border-color: #2D2D3F !important; }
 html[data-hp-theme="dark"] select option {
   background-color: #1E1E2D;
   color: #92929F;
+}
+
+/* Settings page — all dark mode highlight fixes */
+
+/* 1. Nav pills: active + hover */
+html[data-hp-theme="dark"] .parametres-page .nav-pills .nav-link {
+  color: var(--hp-text-muted) !important;
+}
+html[data-hp-theme="dark"] .parametres-page .nav-pills .nav-link:hover {
+  background: rgba(74,158,255,0.07) !important;
+  color: var(--hp-primary) !important;
+}
+html[data-hp-theme="dark"] .parametres-page .nav-pills .nav-link.active {
+  background: rgba(74,158,255,0.12) !important;
+  color: var(--hp-primary) !important;
+  border-left-color: var(--hp-primary) !important;
+}
+
+/* 2. Checkboxes — checked background (Metronic doesn't override this in dark mode) */
+html[data-hp-theme="dark"] .form-check-input:checked,
+html[data-hp-theme="dark"] .form-check-custom.form-check-solid .form-check-input:checked {
+  background-color: var(--hp-primary) !important;
+  border-color: var(--hp-primary) !important;
+}
+
+/* 3. Input / select focus ring — subtle dark-adapted glow */
+html[data-hp-theme="dark"] .form-control:focus,
+html[data-hp-theme="dark"] .form-select:focus,
+html[data-hp-theme="dark"] input[type="text"]:focus,
+html[data-hp-theme="dark"] input[type="number"]:focus,
+html[data-hp-theme="dark"] input[type="email"]:focus,
+html[data-hp-theme="dark"] input[type="password"]:focus,
+html[data-hp-theme="dark"] textarea:focus {
+  border-color: var(--hp-primary) !important;
+  box-shadow: 0 0 0 2px rgba(74,158,255,0.18) !important;
+  background-color: var(--hp-input-bg) !important;
+  color: var(--hp-text) !important;
+}
+
+/* 4. text-primary in dark mode — standardise to our blue */
+html[data-hp-theme="dark"] .text-primary,
+html[data-hp-theme="dark"] .text-hover-primary:hover {
+  color: var(--hp-primary) !important;
+}
+
+/* 5. badge-light group labels (section dividers) */
+html[data-hp-theme="dark"] .badge-light {
+  background-color: rgba(255,255,255,0.05) !important;
+  color: var(--hp-text-muted) !important;
+}
+
+/* 6. Settings card top border adapts to dark primary */
+html[data-hp-theme="dark"] .parametres-page .tab-content .card {
+  border-top-color: var(--hp-primary) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Light mode — explicit overrides to prevent OS dark-mode bleed
+   -------------------------------------------------------------------------- */
+/* TinyMCE inline editors: contenteditable picks up OS dark-color-scheme */
+:not([data-hp-theme="dark"]) .mce-content-body,
+:not([data-hp-theme="dark"]) [contenteditable="true"] {
+  background-color: #ffffff !important;
+  color: #1E293B !important;
+}
+/* Ensure form-select / form-control always render light in light mode */
+:not([data-hp-theme="dark"]) .form-select,
+:not([data-hp-theme="dark"]) select,
+:not([data-hp-theme="dark"]) .form-control,
+:not([data-hp-theme="dark"]) input:not([type="radio"]):not([type="checkbox"]):not([type="submit"]):not([type="button"]):not([type="reset"]) {
+  background-color: #ffffff !important;
+  color: #1E293B !important;
+  color-scheme: light;
+}
+/* badge-light section headers: explicitly light */
+:not([data-hp-theme="dark"]) .badge-light {
+  background-color: #f5f8fa !important;
+  color: #5E6278 !important;
+}
+/* badge-light-primary / info / success in light mode */
+:not([data-hp-theme="dark"]) .badge-light-primary {
+  background-color: #E3F2FD !important;
+  color: #1565C0 !important;
+}
+:not([data-hp-theme="dark"]) .badge-light-info {
+  background-color: #EDE7F6 !important;
+  color: #4527A0 !important;
+}
+:not([data-hp-theme="dark"]) .badge-light-success {
+  background-color: #E0F2F1 !important;
+  color: #00695C !important;
+}
+/* Modal headers inherit modal-content bg — force white in light mode */
+:not([data-hp-theme="dark"]) .modal-content {
+  background-color: #ffffff !important;
+  color: #1E293B !important;
+}
+:not([data-hp-theme="dark"]) .modal-header,
+:not([data-hp-theme="dark"]) .modal-footer {
+  background-color: #ffffff !important;
+  border-color: #E2EAF4 !important;
 }

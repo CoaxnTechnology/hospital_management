@@ -1,3 +1,9 @@
+// Set moment locale from active language
+(function () {
+    var lang = (typeof currentLang !== 'undefined' ? currentLang : 'fr').split('-')[0];
+    moment.locale(lang);
+})();
+
 let arrows;
 if (KTUtil.isRTL()) {
     arrows = {

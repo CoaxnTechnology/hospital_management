@@ -4,6 +4,15 @@ let minDate;
 let maxDate;
 let tagify;
 
+const _tagifyLabels = {
+  fr: 'Saisir un mot clé',
+  en: 'Enter a keyword',
+  ar: 'أدخل كلمة مفتاحية',
+  es: 'Introducir una palabra clave',
+};
+const _tagifyLang = (typeof currentLang !== 'undefined' ? currentLang : 'fr').split('-')[0];
+const _tagifyPlaceholder = _tagifyLabels[_tagifyLang] || _tagifyLabels.fr;
+
 function resetDates() {
     minDate = moment().subtract(180, 'days');
     maxDate = moment().add(180, 'days');
@@ -92,7 +101,7 @@ jQuery(document).ready(function () {
 
     tagify = new Tagify(inputElm, {
         keepInvalidTags: true,
-        placeholder: "Saisir un mot clé",
+        placeholder: _tagifyPlaceholder,
         delimiters: " ",
         editTags: false,
         // make an array from the initial input value

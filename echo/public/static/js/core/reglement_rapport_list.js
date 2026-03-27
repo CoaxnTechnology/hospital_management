@@ -14,6 +14,14 @@ const _drpLabels = {
 const _drpLang = (typeof currentLang !== 'undefined' ? currentLang : 'fr').split('-')[0];
 const _drpL = _drpLabels[_drpLang] || _drpLabels.fr;
 
+const _tagifyLabels = {
+  fr: 'Saisir un mot clé',
+  en: 'Enter a keyword',
+  ar: 'أدخل كلمة مفتاحية',
+  es: 'Introducir una palabra clave',
+};
+const _tagifyPlaceholder = _tagifyLabels[_drpLang] || _tagifyLabels.fr;
+
 let minDate = moment().startOf('month');
 let maxDate = moment().endOf('month');
 
@@ -38,7 +46,7 @@ $(document).ready(() => {
 
     tagify = new Tagify(inputElm, {
         keepInvalidTags: true,
-        placeholder: "Saisir un mot clé",
+        placeholder: _tagifyPlaceholder,
         delimiters: " ",
         editTags: false,
         // make an array from the initial input value

@@ -2413,10 +2413,8 @@ msgstr "Smoker"
 
 #: templates/core/base_consultation_v2.html:240
 #: templates/core/base_pma.html:265 templates/core/patient_detail_v2.html:402
-#, fuzzy
-#| msgid "Mot clé"
 msgid "Mots clés"
-msgstr "Keyword"
+msgstr "Keywords"
 
 #: templates/core/base_consultation_v2.html:257
 #: templates/core/base_pma.html:282 templates/core/grossesse_form.html:78
@@ -5412,9 +5410,8 @@ msgstr "Colposcopy"
 
 #: templates/core/patient_detail_v2.html:130
 #: templates/core/patient_detail_v2.html:168
-#, fuzzy
 msgid "Consultation libre"
-msgstr "Consultation"
+msgstr "Free consultation"
 
 #: templates/core/patient_detail_v2.html:141
 msgid "Obstétrique"
@@ -5425,40 +5422,32 @@ msgid "Echo"
 msgstr "Echo"
 
 #: templates/core/patient_detail_v2.html:160
-#, fuzzy
-#| msgid "2ème trimestre"
 msgid "3ème trimestre"
-msgstr "2nd trimester"
+msgstr "3rd trimester"
 
 #: templates/core/patient_detail_v2.html:164
-#, fuzzy
 msgid "Echo de croissance"
-msgstr "Birth name"
+msgstr "Growth scan"
 
 #: templates/core/patient_detail_v2.html:173
-#, fuzzy
-#| msgid "Grossesse en cours"
 msgid "Pas de grossesse en cours"
-msgstr "Ongoing pregnancy"
+msgstr "No ongoing pregnancy"
 
 #: templates/core/patient_detail_v2.html:217
-#, fuzzy
 msgid "Examen libre"
-msgstr "Clinical examination"
+msgstr "Free examination"
 
 #: templates/core/patient_detail_v2.html:223
-#, fuzzy
 msgid "Nouvel examen libre"
-msgstr "Clinical examination"
+msgstr "New free examination"
 
 #: templates/core/patient_detail_v2.html:234
 msgid "Compte-rendu opératoire"
 msgstr "Operatory report"
 
 #: templates/core/patient_detail_v2.html:240
-#, fuzzy
 msgid "Nouveau compte-rendu"
-msgstr "Report templates"
+msgstr "New report"
 
 #: templates/core/patient_detail_v2.html:555
 msgid "Accueil"
@@ -5473,10 +5462,8 @@ msgid "Alertes"
 msgstr "Alerts"
 
 #: templates/core/patient_detail_v2.html:622
-#, fuzzy
-#| msgid "Ajouter une analyse"
 msgid "Ajouter une alerte"
-msgstr "Add an analysis"
+msgstr "Add an alert"
 
 #: templates/core/patient_detail_v2.html:727
 #: templates/core/patient_info_panel.html:344
@@ -5511,8 +5498,6 @@ msgid "Ajouter"
 msgstr "Add"
 
 #: templates/core/patient_detail_v2.html:845
-#, fuzzy
-#| msgid "Antécédents Médico-chirurgicaux"
 msgid "Médico-chirurgicaux"
 msgstr "Medical-surgical"
 
@@ -5540,27 +5525,21 @@ msgid "Echo Mammaire"
 msgstr "Mammary Ultrasound"
 
 #: templates/core/patient_detail_v2.html:1339
-#, fuzzy
-#| msgid "Obstétrique"
 msgid "Obstétricaux"
 msgstr "Obstetrical"
 
 #: templates/core/patient_detail_v2.html:1409
 #: templates/core/patient_detail_v2.html:1415
-#, fuzzy
-#| msgid "Issue de grossesse"
 msgid "Issue de grossesse à compléter"
-msgstr "Pregnancy outcome"
+msgstr "Pregnancy outcome to complete"
 
 #: templates/core/patient_detail_v2.html:1425
 msgid "foetus"
 msgstr "fetus"
 
 #: templates/core/patient_detail_v2.html:1560
-#, fuzzy
-#| msgid "Motif de consultation"
 msgid "Modifier consultation"
-msgstr "Consultation reason"
+msgstr "Edit consultation"
 
 #: templates/core/patient_detail_v2.html:1588
 msgid "La DDR n'est pas renseignée pour la grossesse en cours"

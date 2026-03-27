@@ -14,6 +14,15 @@ let minDate;
 let maxDate;
 let tagify;
 
+const _pdLang = (typeof currentLang !== 'undefined' ? currentLang : 'fr').split('-')[0];
+const _pdLabels = {
+  fr: { notes: 'Saisir des notes', antecedents: 'Saisir des antécédents' },
+  en: { notes: 'Enter notes',      antecedents: 'Enter medical history'  },
+  ar: { notes: 'أدخل ملاحظات',    antecedents: 'أدخل السوابق الطبية'   },
+  es: { notes: 'Ingresar notas',   antecedents: 'Ingresar antecedentes'  },
+};
+const _pdL = _pdLabels[_pdLang] || _pdLabels.fr;
+
 function resetDates() {
     minDate = moment().subtract(180, 'days');
     maxDate = moment().add(180, 'days');
@@ -525,7 +534,7 @@ function initEditors() {
                 container: "#kt_forms_widget_1_editor_toolbar"
             }
         },
-        placeholder: 'Saisir des notes',
+        placeholder: _pdL.notes,
         theme: 'snow'
     };
 
@@ -547,7 +556,7 @@ function initEditors() {
                     container: "#antecedent-editor-toolbar-" + (idx+1)
                 }
             },
-            placeholder: 'Saisir des antécédents',
+            placeholder: _pdL.antecedents,
             theme: 'snow'
         };
         quill = new Quill('#'+el.id, options);

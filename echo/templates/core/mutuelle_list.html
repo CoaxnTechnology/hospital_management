@@ -87,9 +87,9 @@
 
                             </tr>
                             <tr class="text-center text-gray-500 fw-bold fs-7 text-uppercase gs-0">
-                                <td>{% trans "Nom et prénom patient" %}</td>
-                                <td>{% trans "Qualité" %}</td>
-                                <td>{% trans "Code APCI" %}</td>
+                                <th>{% trans "Nom et prénom patient" %}</th>
+                                <th>{% trans "Qualité" %}</th>
+                                <th>{% trans "Code APCI" %}</th>
                                 <th>{% trans "Code acte" %}</th>
                                 <th>{% trans "Cotation" %}</th>
                             </tr>
@@ -145,5 +145,16 @@
         }
         document.addEventListener('DOMContentLoaded', highlightSidebarItem);
         window.addEventListener('hashchange', highlightSidebarItem);
+
+        // Sync URL hash + sidebar when a tab is clicked directly
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('a[data-bs-toggle="tab"]').forEach(function (tab) {
+                tab.addEventListener('shown.bs.tab', function (e) {
+                    var hash = e.target.getAttribute('href');
+                    history.replaceState(null, null, hash);
+                    highlightSidebarItem();
+                });
+            });
+        });
     </script>
 {% endblock %}

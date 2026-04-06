@@ -7528,3 +7528,9 @@ msgstr "Account disabled"
 
 msgid "Votre compte a été désactivé. Veuillez contacter votre administrateur."
 msgstr "Your account has been disabled. Please contact your administrator."
+
+msgid "Secrétaire"
+msgstr "Secretary"
+
+msgid "Administrateur"
+msgstr "Administrator"

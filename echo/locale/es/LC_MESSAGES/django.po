@@ -7260,3 +7260,9 @@ msgstr "Cuenta desactivada"
 
 msgid "Votre compte a été désactivé. Veuillez contacter votre administrateur."
 msgstr "Su cuenta ha sido desactivada. Por favor, contacte a su administrador."
+
+msgid "Secrétaire"
+msgstr "Secretaria"
+
+msgid "Administrateur"
+msgstr "Administrador"

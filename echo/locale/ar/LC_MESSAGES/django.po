@@ -7232,3 +7232,9 @@ msgstr "الحساب معطّل"
 
 msgid "Votre compte a été désactivé. Veuillez contacter votre administrateur."
 msgstr "تم تعطيل حسابك. يرجى التواصل مع المسؤول."
+
+msgid "Secrétaire"
+msgstr "أمينة سر"
+
+msgid "Administrateur"
+msgstr "مدير"

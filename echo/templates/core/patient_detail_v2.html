@@ -1089,7 +1089,7 @@
                             <div class="card card-custom card-stretch gutter-b px-2  border border-1 border-primary">
                                 <div class="card-header align-items-center border-0 mt-0">
                                     <h3 class="card-title align-items-start flex-column">
-                                        <span class="font-weight-bolder text-dark">FCV</span>
+                                        <span class="font-weight-bolder text-dark">{% trans "FCV" %}</span>
                                     </h3>
 
                                     <div class="card-toolbar">
@@ -1111,7 +1111,7 @@
                                     <div id="fcv-date-container"
                                          class="antecedent-date-container form-group w-100" style="display:none">
                                         <div class="form-group row">
-                                            <label class="col-3 col-form-label">Date</label>
+                                            <label class="col-3 col-form-label">{% trans "Date" %}</label>
                                             <div class="col-9">
                                                 <div class="input-group">
                                                     <input id="fcv-date" type="text"
@@ -1631,7 +1631,7 @@
         etablissements = _.map(etablissements, e => _.merge(e.fields, {'pk': e.pk}));
 
         let phrasiers = {{ phrasiers_json|safe }};
-        phrasiers_par_categorie = _.groupBy(phrasiers, p => p.categorie.libelle);
+        phrasiers_par_categorie = _.groupBy(phrasiers, p => p.categorie.id);
 
         // Phrases affichées par défaut dans les editeurs des antécédents
         let antecedents_defaut = {{ antecedents_defaut|safe }};

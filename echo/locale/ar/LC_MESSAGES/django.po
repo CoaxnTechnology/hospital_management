@@ -5485,7 +5485,7 @@ msgstr "لا توجد مواعيد"
 
 #: templates/core/patient_detail_v2.html:762
 msgid "Familiaux"
-msgstr ""
+msgstr "عائلية"
 
 #: templates/core/patient_detail_v2.html:781
 #: templates/core/patient_detail_v2.html:864
@@ -5506,20 +5506,16 @@ msgid "Ajouter"
 msgstr "إضافة"
 
 #: templates/core/patient_detail_v2.html:845
-#, fuzzy
-#| msgid "Antécédents médico-chirurgicaux"
 msgid "Médico-chirurgicaux"
-msgstr "طبية وجراحية"
+msgstr "طبية-جراحية"
 
 #: templates/core/patient_detail_v2.html:926
-#, fuzzy
-#| msgid "Gynécologie"
 msgid "Gynécologiques"
-msgstr "Gynécologie"
+msgstr "نسائية"
 
 #: templates/core/patient_detail_v2.html:1007
 msgid "Allergies"
-msgstr "Allergies"
+msgstr "الحساسية"
 
 #: templates/core/patient_detail_v2.html:1156
 #: templates/core/patient_detail_v2.html:1231
@@ -5530,7 +5526,7 @@ msgstr "لا يوجد سجل"
 
 #: templates/core/patient_detail_v2.html:1168
 msgid "Mammographie"
-msgstr "Mammographie"
+msgstr "تصوير الثدي الشعاعي"
 
 #: templates/core/patient_detail_v2.html:1242
 msgid "Echo Mammaire"

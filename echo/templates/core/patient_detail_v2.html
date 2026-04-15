@@ -105,76 +105,71 @@
                                         <!--end::Menu separator-->
 
 
-                                        {% if 2 in user.profil.compte.categories %}
-                                            <!--begin::Form-->
-                                            <div class="menu-item px-3">
-                                                <div class="menu-content text-primary pb-2 px-3 fs-7 text-uppercase">
-                                                    {% trans "Gynécologie" %}
-                                                </div>
+                                        <!--begin::Form-->
+                                        <div class="menu-item px-3">
+                                            <div class="menu-content text-primary pb-2 px-3 fs-7 text-uppercase">
+                                                {% trans "Gynécologie" %}
                                             </div>
+                                        </div>
 
-                                            <div class="menu-item px-3">
-                                                <a href="/patients/{{ object.pk }}/consultation_gynecologique/ajouter"
-                                                   class="menu-link px-3">{% trans "Consultation gynécologique" %}</a>
-                                            </div>
-                                            <div class="menu-item px-3 d-none">
-                                                <a href="/patients/{{ object.pk }}/consultation_colposcopie/ajouter"
-                                                   class="menu-link px-3">{% trans "Colposcopie" %}</a>
-                                            </div>
-                                            <div class="menu-item px-3">
-                                                <a href="/patients/{{ object.pk }}/consultation_echo_pelvienne/ajouter"
-                                                   class="menu-link px-3">{% trans "Echo pelvienne" %}</a>
-                                            </div>
-                                            <div class="menu-item px-3">
-                                                <a href="/patients/{{ object.pk }}/consultation/ajouter?motif=gyneco-libre"
-                                                   class="menu-link px-3">{% trans "Consultation libre" %}</a>
-                                            </div>
-                                        {% endif %}
+                                        <div class="menu-item px-3">
+                                            <a href="/patients/{{ object.pk }}/consultation_gynecologique/ajouter"
+                                               class="menu-link px-3">{% trans "Consultation gynécologique" %}</a>
+                                        </div>
+                                        <div class="menu-item px-3">
+                                            <a href="/patients/{{ object.pk }}/consultation_colposcopie/ajouter"
+                                               class="menu-link px-3">{% trans "Colposcopie" %}</a>
+                                        </div>
+                                        <div class="menu-item px-3">
+                                            <a href="/patients/{{ object.pk }}/consultation_echo_pelvienne/ajouter"
+                                               class="menu-link px-3">{% trans "Echo pelvienne" %}</a>
+                                        </div>
+                                        <div class="menu-item px-3">
+                                            <a href="/patients/{{ object.pk }}/consultation/ajouter?motif=gyneco-libre"
+                                               class="menu-link px-3">{% trans "Consultation libre" %}</a>
+                                        </div>
 
                                         <div class="separator border-gray-200"></div>
 
-                                        {% if 1 in user.profil.compte.categories %}
-                                            <!--end::Menu separator-->
-                                            <!--begin::Form-->
+                                        <!--end::Menu separator-->
+                                        <!--begin::Form-->
+                                        <div class="menu-item px-3">
+                                            <div class="menu-content text-primary pb-2 px-3 fs-7 text-uppercase">
+                                                {% trans "Obstétrique" %}
+                                            </div>
+                                        </div>
+
+                                        {% if patient.grossesse_encours != None %}
                                             <div class="menu-item px-3">
-                                                <div class="menu-content text-primary pb-2 px-3 fs-7 text-uppercase">
-                                                    {% trans "Obstétrique" %}
+                                                <a href="/patients/{{ object.pk }}/consultation_obs_echo_11SA/ajouter"
+                                                   class="menu-link px-3">{% trans "Echo" %} < 11 SA</a>
+                                            </div>
+                                            <div class="menu-item px-3">
+                                                <a href="/patients/{{ object.pk }}/consultation_obs_echo_premier_trimestre/ajouter"
+                                                   class="menu-link px-3">{% trans "1er trimestre" %}</a>
+                                            </div>
+                                            <div class="menu-item px-3">
+                                                <a href="/patients/{{ object.pk }}/consultation_obs_echo_deuxieme_trimestre/ajouter"
+                                                   class="menu-link px-3">{% trans "2ème trimestre" %}</a>
+                                            </div>
+                                            <div class="menu-item px-3">
+                                                <a href="/patients/{{ object.pk }}/consultation_obs_echo_troisieme_trimestre/ajouter"
+                                                   class="menu-link px-3">{% trans "3ème trimestre" %}</a>
+                                            </div>
+                                            <div class="menu-item px-3">
+                                                <a href="/patients/{{ object.pk }}/consultation_obs_echo_croissance/ajouter"
+                                                   class="menu-link px-3">{% trans "Echo de croissance" %}</a>
+                                            </div>
+                                            <div class="menu-item px-3">
+                                                <a href="/patients/{{ object.pk }}/consultation/ajouter?motif=obs-libre"
+                                                   class="menu-link px-3">{% trans "Consultation libre" %}</a>
+                                            </div>
+                                        {% else %}
+                                            <div class="menu-item px-3">
+                                                <div class="menu-content pb-2 px-3 fs-7">
+                                                    {% trans "Pas de grossesse en cours" %}
                                                 </div>
                                             </div>
-
-                                            {% if patient.grossesse_encours != None %}
-                                                <div class="menu-item px-3">
-                                                    <a href="/patients/{{ object.pk }}/consultation_obs_echo_11SA/ajouter"
-                                                       class="menu-link px-3">{% trans "Echo" %} < 11 SA</a>
-                                                </div>
-                                                <div class="menu-item px-3">
-                                                    <a href="/patients/{{ object.pk }}/consultation_obs_echo_premier_trimestre/ajouter"
-                                                       class="menu-link px-3">{% trans "1er trimestre" %}</a>
-                                                </div>
-                                                <div class="menu-item px-3">
-                                                    <a href="/patients/{{ object.pk }}/consultation_obs_echo_deuxieme_trimestre/ajouter"
-                                                       class="menu-link px-3">{% trans "2ème trimestre" %}</a>
-                                                </div>
-                                                <div class="menu-item px-3">
-                                                    <a href="/patients/{{ object.pk }}/consultation_obs_echo_troisieme_trimestre/ajouter"
-                                                       class="menu-link px-3">{% trans "3ème trimestre" %}</a>
-                                                </div>
-                                                <div class="menu-item px-3">
-                                                    <a href="/patients/{{ object.pk }}/consultation_obs_echo_croissance/ajouter"
-                                                       class="menu-link px-3">{% trans "Echo de croissance" %}</a>
-                                                </div>
-                                                <div class="menu-item px-3">
-                                                    <a href="/patients/{{ object.pk }}/consultation/ajouter?motif=obs-libre"
-                                                       class="menu-link px-3">{% trans "Consultation libre" %}</a>
-                                                </div>
-                                            {% else %}
-                                                <div class="menu-item px-3">
-                                                    <div class="menu-content pb-2 px-3 fs-7">
-                                                        {% trans "Pas de grossesse en cours" %}
-                                                    </div>
-                                                </div>
-                                            {% endif %}
-
                                         {% endif %}
 
                                         <div class="separator border-gray-200"></div>
@@ -251,8 +246,7 @@
 
                                     </div>
                                 </div>
-                                {% if user.profil.compte.is_gyneco %}
-                                    <div class="btn-group me-2">
+                                <div class="btn-group me-2">
                                         {% if patient.grossesse_encours != None %}
                                             <button type="button" class="btn btn-sm btn-success"
                                                     onclick="modifierGrossesse()">
@@ -271,14 +265,12 @@
                                                        onclick="cloturerGrossesse()">{% trans "Clôturer" %}</a>
                                                 </li>
                                             </ul>
-                                        {% else %}
-                                            <button type="button" class="btn btn-sm btn-success"
-                                                    onclick="nouvelleGrossesse()">
-                                                {% trans "Nouvelle grossesse" %}
-                                            </button>
                                         {% endif %}
+                                        <button type="button" class="btn btn-sm btn-success"
+                                                onclick="nouvelleGrossesse()">
+                                            {% trans "Nouvelle grossesse" %}
+                                        </button>
                                     </div>
-                                {% endif %}
                             </div>
                             <div class="d-flex flex-wrap gap-2 mt-6">
                             <span>

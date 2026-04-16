@@ -105,7 +105,7 @@
                                         <!--end::Menu separator-->
 
 
-                                        {% if user.profil.compte.is_gyneco or 2 in user.profil.compte.categories %}
+                                        {% if user.profil and user.profil.compte and user.profil.compte.is_gyneco or user.profil.compte.categories|length > 0 %}
                                             <!--begin::Form-->
                                             <div class="menu-item px-3">
                                                 <div class="menu-content text-primary pb-2 px-3 fs-7 text-uppercase">
@@ -133,7 +133,7 @@
 
                                         <div class="separator border-gray-200"></div>
 
-                                        {% if user.profil.compte.is_gyneco or 1 in user.profil.compte.categories %}
+                                        {% if user.profil and user.profil.compte and user.profil.compte.is_gyneco or user.profil.compte.categories|length > 0 %}
                                             <!--end::Menu separator-->
                                             <!--begin::Form-->
                                             <div class="menu-item px-3">
@@ -251,7 +251,7 @@
 
                                     </div>
                                 </div>
-                                {% if user.profil.compte.is_gyneco %}
+                                {% if user.profil and user.profil.compte and user.profil.compte.is_gyneco %}
                                     <div class="btn-group me-2">
                                         {% if patient.grossesse_encours != None %}
                                             <button type="button" class="btn btn-sm btn-success"
@@ -560,7 +560,7 @@
                     <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-consultations">{% trans "Consultations" %}</a>
                 </li>
 
-                {% if 3 in user.profil.compte.categories %}
+                {% if user.profil and user.profil.compte and 3 in user.profil.compte.categories %}
                 <li class="nav-item">
                     <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-pma">PMA</a>
                 </li>
@@ -1362,7 +1362,7 @@
                             <!--begin::Body-->
                             <div class="card-body">
                                 <div class="min-h-50px p-2">
-                                    {% if user.profil.compte.is_gyneco %}
+                                    {% if user.profil and user.profil.compte and user.profil.compte.is_gyneco %}
                                         <div id="accordion" class="accordion accordion-icon-toggle">
                                             {% for antecedent in antecedents_obstetriques_patient %}
                                                 <div class="mb-5">

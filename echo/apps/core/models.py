@@ -177,7 +177,7 @@ class Compte(models.Model):
         return [cat.pk for cat in self.categories_consultations.all()]
 
     def is_gyneco(self):
-        return self.distribution == GYNECOLOGIE
+        return self.distribution in ('gynecologie', 'gyneco')
 
     def is_general(self):
         return self.distribution == GENERALISTE

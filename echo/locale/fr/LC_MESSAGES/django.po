@@ -7368,3 +7368,18 @@ msgstr "Secrétaire"
 
 msgid "Administrateur"
 msgstr "Administrateur"
+
+msgid "Rechercher un patient"
+msgstr "Rechercher un patient"
+
+msgid "Tapez le nom, prénom ou téléphone..."
+msgstr "Tapez le nom, prénom ou téléphone..."
+
+msgid "Aucun patient trouvé"
+msgstr "Aucun patient trouvé"
+
+msgid "Recherche en cours..."
+msgstr "Recherche en cours..."
+
+msgid "search_placeholder"
+msgstr " search_placeholder"

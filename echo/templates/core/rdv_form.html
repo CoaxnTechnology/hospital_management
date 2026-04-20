@@ -267,9 +267,13 @@
     {% trans "Consultation terminée" as t_consultation_terminee %}
     {% trans "Annulé" as t_annule %}
     {% trans "sélectionné" as t_selected %}
+    {% trans "Aucun patient trouvé" as t_no_patient %}
+    {% trans "Recherche en cours..." as t_searching %}
     <script type="text/javascript">
         let statut = '{{ t_non_confirme }}';
         let selected_text = '{{ t_selected|escapejs }}';
+        let no_patient_text = '{{ t_no_patient|escapejs }}';
+        let searching_text = '{{ t_searching|escapejs }}';
         {%if object %}
             const st = '{{ object.statut }}';
             switch (st) {

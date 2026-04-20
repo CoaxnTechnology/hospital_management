@@ -216,8 +216,8 @@ $(document).ready(function () {
         },
         minLength: 2,
         templates: {
-            notFound: '<div class="p-3 text-muted text-center">Aucun patient trouvé</div>',
-            pending: '<div class="p-3 text-muted text-center">Recherche en cours...</div>',
+            notFound: '<div class="p-3 text-muted text-center">' + (typeof no_patient_text !== 'undefined' ? no_patient_text : 'Aucun patient trouvé') + '</div>',
+            pending: '<div class="p-3 text-muted text-center">' + (typeof searching_text !== 'undefined' ? searching_text : 'Recherche en cours...') + '</div>',
             suggestion: function(item) {
                 var birthDate = item.date_naissance ? item.date_naissance : '';
                 var phone = item.telephone ? item.telephone : '';

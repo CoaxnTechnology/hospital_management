@@ -299,14 +299,21 @@ class PatientCreate(PermissionRequiredMixin, View):
                 initial_patient['date_naissance'] = request.GET['date_naissance']
             if 'ville' in request.GET:
                 initial_adresse['ville'] = request.GET['ville']
-            initial_patient['praticien_principal'] = self.request.user.profil.compte.parametrescompte.praticien_defaut
+            initial_patient['praticien_principal'] = self.request.user.profil.compte.parametrescompte.praticien_defaut if hasattr(self.request.user, 'profil') and self.request.user.profil and self.request.user.profil.compte else None
 
-        if request.user.profil.compte.adresse and request.user.profil.compte.adresse.pays:
-            initial_adresse['pays'] = request.user.profil.compte.adresse.pays
-        if (not 'ville' in initial_adresse or initial_adresse['ville'] == '') and request.user.profil.compte.adresse and request.user.profil.compte.adresse.ville:
-            initial_adresse['ville'] = request.user.profil.compte.adresse.ville
-        if (not 'gouvernorat' in initial_adresse or initial_adresse['gouvernorat'] == '') and request.user.profil.compte.adresse and request.user.profil.compte.adresse.gouvernorat:
-            initial_adresse['gouvernorat'] = request.user.profil.compte.adresse.gouvernorat
+        if not hasattr(self.request.user, 'profil') or not self.request.user.profil or not self.request.user.profil.compte:
+            adresse_form = AdresseForm(initial=initial_adresse)
+            patient_form = PatientForm(initial=initial_patient, compte=None)
+            context['adresse'] = adresse_form
+            context['patient'] = patient_form
+            return render(request, self.template_name, context)
+        
+        if self.request.user.profil.compte.adresse and self.request.user.profil.compte.adresse.pays:
+            initial_adresse['pays'] = self.request.user.profil.compte.adresse.pays
+        if (not 'ville' in initial_adresse or initial_adresse['ville'] == '') and self.request.user.profil.compte.adresse and self.request.user.profil.compte.adresse.ville:
+            initial_adresse['ville'] = self.request.user.profil.compte.adresse.ville
+        if (not 'gouvernorat' in initial_adresse or initial_adresse['gouvernorat'] == '') and self.request.user.profil.compte.adresse and self.request.user.profil.compte.adresse.gouvernorat:
+            initial_adresse['gouvernorat'] = self.request.user.profil.compte.adresse.gouvernorat
 
         adresse_form = AdresseForm(initial=initial_adresse)
         patient_form = PatientForm(initial=initial_patient, compte=self.request.user.profil.compte)

@@ -91,10 +91,41 @@ id="f_{{ forloop.counter }}" role="tabpanel">
 
 <label class="form-label">{% trans "Activité cardiaque" %}</label>
 
-{% render_field f.activite_cardiaque
-data-form="consultation_obs_foetus"
-data-champ="activite_cardiaque"
-class+="form-select form-select-solid form-select-sm" %}
+{% render_field f.activite_cardiaque data-form="consultation_obs_foetus" data-champ="activite_cardiaque" class+="form-select form-select-solid form-select-sm" %}
+
+</div>
+
+
+
+<div class="mb-3 col-12 col-lg-3">
+
+
+<label class="form-label">{% trans "Fréquence cardiaque" %}</label>
+
+
+<div class="input-group input-group-solid input-group-sm">
+
+
+{% render_field f.fc data-form="consultation_obs_foetus" data-champ="fc" class+="form-control form-control-solid" data-unit="BPM" %}
+
+
+<span class="input-group-text">BPM</span>
+
+
+</div>
+
+
+</div>
+
+
+
+
+<div class="mb-3 col-12 col-xl-3">
+
+
+<label class="form-label">{% trans "Mobilité" %}</label>
+
+{% render_field f.mobilite data-form="consultation_obs_foetus" data-champ="mobilite" class+="form-select form-select-solid form-select-sm" %}
 
 </div>
 
@@ -122,10 +153,7 @@ data-unit="BPM" %}
 
 <label class="form-label">{% trans "Mobilité" %}</label>
 
-{% render_field f.mobilite
-data-form="consultation_obs_foetus"
-data-champ="mobilite"
-class+="form-select form-select-solid form-select-sm" %}
+{% render_field f.mobilite data-form="consultation_obs_foetus" data-champ="mobilite" class+="form-select form-select-solid form-select-sm" %}
 
 </div>
 
@@ -146,10 +174,7 @@ class+="form-select form-select-solid form-select-sm" %}
 
 <span class="input-group-text w-50px">{% trans "Poids" %}</span>
 
-{% render_field f.poids
-class+="form-control form-control-solid form-control-sm poids"
-data-champ="poids"
-data-unit="g" %}
+{% render_field f.poids class+="form-control form-control-solid form-control-sm poids" data-champ="poids" data-unit="g" %}
 
 <span class="input-group-text">g</span>
 
@@ -164,10 +189,7 @@ data-unit="g" %}
 
 <span class="input-group-text text-danger font-weight-bolder w-50px">LCC</span>
 
-{% render_field f.lcc
-class+="form-control form-control-solid form-control-sm"
-data-champ="lcc"
-data-unit="mm" %}
+{% render_field f.lcc class+="form-control form-control-solid form-control-sm" data-champ="lcc" data-unit="mm" %}
 
 <span class="input-group-text">mm</span>
 

@@ -1,0 +1,100 @@
+name: Deploy to Bluehost
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Add SSH host key
+        run: |
+          echo "${{ secrets.VPS_HOST }} ssh-rsa ${{ secrets.SSH_HOST_KEY }}" >> ~/.ssh/known_hosts
+        shell: bash
+
+      - name: Sync files to VPS
+        run: |
+          rsync -avz --delete \
+            --exclude='venv' \
+            --exclude='__pycache__' \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='logs' \
+            --exclude='*.pyc' \
+            -e "ssh -i ~/.ssh/id_rsa" \
+            ./echo/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/home/echo/echo/
+
+      - name: Run deployment commands
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/echo/echo
+            
+            # Activate virtualenv
+            source /home/echo/venv/bin/activate
+            
+            # Install dependencies if requirements changed
+            pip install -r requirements.txt --quiet
+            
+            # Run Django commands
+            python manage.py collectstatic --noinput --settings=echo.settings.production
+            python manage.py migrate --settings=echo.settings.production
+            
+            # Restart services
+            supervisorctl restart echo-gunicorn
+            supervisorctl restart echo-daphne
+            supervisorctl restart echo-worklist
+            supervisorctl restart echo-store
+            
+            echo "Deployment completed!"
+
+      - name: Health check
+        run: |
+          echo "Waiting for server to be ready..."
+          sleep 20
+          FAILED=0
+          for DOMAIN in "$MAIN_DOMAIN" "$ADMIN_DOMAIN"; do
+            if [ -z "$DOMAIN" ]; then
+              echo "Domain not set, skipping"
+              continue
+            fi
+            echo "Checking https://${DOMAIN} ..."
+            OK=0
+            for i in 1 2 3 4 5; do
+              STATUS=$(curl -o /dev/null -s -w "%{http_code}" --max-time 10 "https://${DOMAIN}" || echo "000")
+              echo "  Attempt $i: HTTP $STATUS"
+              if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 400 ]; then
+                echo "  ✓ https://${DOMAIN} passed (HTTP $STATUS)"
+                OK=1
+                break
+              fi
+              sleep 10
+            done
+            if [ "$OK" -eq 0 ]; then
+              echo "  ✗ https://${DOMAIN} failed after 5 attempts"
+              FAILED=1
+            fi
+          done
+          if [ "$FAILED" -eq 1 ]; then
+            exit 1
+          fi
+          echo "All health checks passed!"
+        env:
+          MAIN_DOMAIN: ${{ secrets.MAIN_DOMAIN }}
+          ADMIN_DOMAIN: ${{ secrets.ADMIN_DOMAIN }}

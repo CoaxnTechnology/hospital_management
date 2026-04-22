@@ -1,0 +1,280 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block styles %}
+<style>
+/* ── Layout ──────────────────────────────────────────────── */
+html, body { height: 100%; overflow: hidden; }
+.ord-shell  { display: flex; flex-direction: column; height: 100vh; background: var(--hp-bg, #F5F7FA); }
+
+/* ── Top bar ─────────────────────────────────────────────── */
+.ord-topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px; height: 52px; flex-shrink: 0;
+    background: var(--hp-card-bg, #fff);
+    border-bottom: 1px solid var(--hp-border, #E2EAF4);
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.ord-topbar .title { font-size: 15px; font-weight: 600; color: var(--hp-text, #1E293B); }
+.ord-topbar .actions { display: flex; gap: 8px; }
+
+/* ── Body ────────────────────────────────────────────────── */
+.ord-body { display: flex; flex: 1; overflow: hidden; }
+
+/* ── Left sidebar ────────────────────────────────────────── */
+.ord-sidebar {
+    width: 300px; flex-shrink: 0; overflow-y: auto;
+    background: var(--hp-card-bg, #fff);
+    border-right: 1px solid var(--hp-border, #E2EAF4);
+    padding: 16px;
+    display: flex; flex-direction: column; gap: 14px;
+}
+
+.ord-section-label {
+    font-size: 10px; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--hp-text-muted, #7B8FA6);
+    margin-bottom: 6px;
+}
+
+.ord-section {
+    background: var(--hp-bg, #F5F7FA);
+    border: 1px solid var(--hp-border, #E2EAF4);
+    border-radius: 8px;
+    padding: 12px 14px;
+}
+
+.ord-section .form-label {
+    font-size: 11px; font-weight: 600;
+    color: var(--hp-text-secondary, #475569);
+    margin-bottom: 4px; display: block;
+}
+
+.ord-section .form-control,
+.ord-section select {
+    font-size: 12.5px; border-radius: 6px;
+    background: var(--hp-input-bg, #fff);
+    border: 1px solid var(--hp-input-border, #CBD5E1);
+    color: var(--hp-text, #1E293B);
+}
+.ord-section .form-control:focus,
+.ord-section select:focus {
+    border-color: var(--hp-primary, #1565C0);
+    box-shadow: 0 0 0 3px rgba(21,101,192,.12);
+}
+
+.ord-section textarea.form-control { resize: vertical; min-height: 80px; }
+
+/* Typeahead input + button group */
+.ord-input-group { display: flex; gap: 6px; }
+.ord-input-group input { flex: 1; }
+.ord-input-group .btn-pick {
+    flex-shrink: 0; height: 32px; width: 34px; padding: 0;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 6px; border: 1px solid var(--hp-input-border, #CBD5E1);
+    background: var(--hp-input-bg, #fff); color: var(--hp-primary, #1565C0);
+    font-size: 13px; cursor: pointer; transition: background .15s;
+}
+.ord-input-group .btn-pick:hover { background: var(--hp-primary, #1565C0); color: #fff; }
+
+/* Posologie mini-form */
+.posologie-row { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.posologie-row .pos-field { flex: 1; min-width: 60px; }
+.posologie-row .pos-field label { font-size: 10px; font-weight: 600; color: var(--hp-text-muted, #7B8FA6); }
+.posologie-row .btn-ok { align-self: flex-end; height: 32px; padding: 0 14px; font-size: 12px; }
+
+/* History link */
+.ord-history-btn {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 500; color: var(--hp-primary, #1565C0);
+    text-decoration: none; padding: 8px 0;
+}
+.ord-history-btn:hover { color: var(--hp-accent, #2196F3); }
+
+/* ── Document area ───────────────────────────────────────── */
+.ord-document { flex: 1; overflow: hidden; background: var(--hp-bg, #F5F7FA); padding: 12px; }
+.ord-document .tox-tinymce { height: 100% !important; border-radius: 8px; overflow: hidden; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="ord-shell">
+
+    <!-- TOP BAR -->
+    <div class="ord-topbar">
+        <span class="title">
+            <i class="la la-file-medical me-2" style="color:var(--hp-primary,#1565C0);font-size:16px;"></i>
+            {% if object %}{% trans "Modifier l'ordonnance" %}{% else %}{% trans "Créer une ordonnance" %}{% endif %}
+        </span>
+        <div class="actions">
+            <a href="/patients/{{ patient.pk }}/ordonnances"
+               class="btn btn-sm btn-light" style="font-size:12px;">
+                <i class="la la-history"></i> {% trans "Historique" %}
+            </a>
+            <a id="btn-imprimer" href="javascript:void(0)"
+               class="btn btn-sm btn-warning font-weight-bold" style="font-size:12px;">
+                <i class="flaticon2-printer"></i> {% trans "Imprimer" %}
+            </a>
+            <button type="submit" id="btn-enregistrer" form="form_1"
+                    class="btn btn-sm btn-primary font-weight-bold" style="font-size:12px;">
+                <i class="la la-check"></i> {% trans "Enregistrer" %}
+            </button>
+        </div>
+    </div>
+
+    <!-- BODY -->
+    <div class="ord-body">
+
+        <!-- LEFT SIDEBAR -->
+        <div class="ord-sidebar">
+            <form id="form_1" method="post" action="">
+                {% csrf_token %}
+                {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger py-2 px-3" style="font-size:12px;">
+                    {{ form.non_field_errors }}
+                </div>
+                {% endif %}
+
+                <!-- Type + Date + Praticien -->
+                <div class="ord-section">
+                    <div class="ord-section-label">{% trans "Informations" %}</div>
+
+                    <label class="form-label">{% trans "Type" %}</label>
+                    <select name="type" id="id_type" class="form-control form-control-sm mb-2">
+                        {% for t in form.type.field.queryset %}
+                        <option value="{{ t.pk }}"
+                                data-categorie="{{ t.categorie }}"
+                                {% if form.type.value == t.pk|stringformat:"s" %}selected{% endif %}>
+                            {{ t.libelle }}
+                        </option>
+                        {% endfor %}
+                    </select>
+
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <label class="form-label">{{ form.date.label }}</label>
+                            {% render_field form.date class+="form-control form-control-sm" %}
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">{{ form.praticien.label }}</label>
+                            {% render_field form.praticien class+="form-control form-control-sm" %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Traitements -->
+                <div id="traitements-container" class="ord-section" style="display:none;">
+                    <div class="ord-section-label">{% trans "Médicaments" %}</div>
+                    <label class="form-label">{% trans "Rechercher un traitement" %}</label>
+                    <div class="ord-input-group">
+                        <div class="typeahead" style="flex:1;">
+                            {% render_field form.traitement class+="form-control form-control-sm w-100" %}
+                        </div>
+                        <button type="button" class="btn-pick" onclick="ajouterTraitement()" title="{% trans 'Parcourir la liste' %}">
+                            <i class="fa fa-list"></i>
+                        </button>
+                    </div>
+                    <div class="posologie-row traitement-champs d-none" style="align-items:flex-end;">
+                        <div class="pos-field">
+                            <label>{% trans "Prises/j" %}</label>
+                            <input type="number" id="prises_par_jour" class="form-control form-control-sm">
+                        </div>
+                        <div class="pos-field">
+                            <label>{% trans "Nb jours" %}</label>
+                            <input type="number" id="nb_jours" class="form-control form-control-sm">
+                        </div>
+                        <div class="pos-field">
+                            <label>{% trans "Qté/prise" %}</label>
+                            <input type="number" id="qte_par_prise" value="1" class="form-control form-control-sm">
+                        </div>
+                        <button id="btn-ajouter-traitement" type="button" disabled
+                                onclick="insererTraitement()"
+                                class="btn btn-primary btn-sm btn-ok">OK</button>
+                    </div>
+                </div>
+
+                <!-- Examens complémentaires -->
+                <div id="examens-container" class="ord-section" style="display:none;">
+                    <div class="ord-section-label">{% trans "Examens" %}</div>
+                    <label class="form-label">{% trans "Rechercher un examen" %}</label>
+                    <div class="ord-input-group">
+                        <div class="typeahead" style="flex:1;">
+                            {% render_field form.prescription class+="form-control form-control-sm examen_complementaire w-100" %}
+                        </div>
+                        <button type="button" class="btn-pick" onclick="ajouterPrescription()" title="{% trans 'Parcourir la liste' %}">
+                            <i class="fa fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Renseignements cliniques -->
+                <div class="ord-section">
+                    <div class="ord-section-label">{% trans "Renseignements cliniques" %}</div>
+                    <textarea id="rens-cli" rows="4" class="form-control form-control-sm"
+                              placeholder="{% trans 'Informations cliniques...' %}"></textarea>
+                </div>
+
+            </form>
+        </div>
+        <!-- END SIDEBAR -->
+
+        <!-- DOCUMENT PREVIEW -->
+        <div class="ord-document">
+            {% render_field form.text class+="form-control h-100" %}
+        </div>
+
+    </div><!-- /.ord-body -->
+</div><!-- /.ord-shell -->
+
+<div id="atcd-print" class="hide overflow-hidden" style="height:1px"></div>
+
+<script type="text/html" id="template-header">
+<div>
+<div style="text-align:right;">
+    <span>{% if user.profil.compte.adresse.ville %}{{ user.profil.compte.adresse.ville }}, le {% endif %}<%= date %></span><br><br>
+</div>
+<div id="content-container"><%= content %></div>
+<div id="renseignements-container"></div>
+<br>
+</div>
+</script>
+
+<script type="text/html" id="template-header-no-date">
+<div style="text-align:right;"><br><br></div>
+<br>
+<div id="content-container"><%= content %></div>
+<div id="renseignements-container"></div>
+<br>
+</script>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static "plugins/custom/tinymce/tinymce.bundle.js" %}"></script>
+<script type="text/javascript">
+    const praticiens    = {{ praticiens_json|safe }};
+    const logo_url      = {% if user.profil.compte.parametrescompte.logo %}'{{ user.profil.compte.parametrescompte.logo.url }}'{% else %}''{% endif %};
+    const footer_url    = {% if user.profil.compte.parametrescompte.footer %}'{{ user.profil.compte.parametrescompte.footer.url }}'{% else %}''{% endif %};
+    const signature_url = {% if user.profil.signature and user.profil.ajouter_signature_edition %}'{{ user.profil.signature.url }}'{% else %}''{% endif %};
+    const entete        = '{{ user.profil.compte.parametrescompte.nom_entete|linebreaksbr }}';
+    addEntetes          = {% if user.profil.compte.parametrescompte.ajouter_entete_ord %}true{% else %}false{% endif %};
+    const patient       = {{ patient_json|safe }};
+    const ordonnance_id = {% if object %}{{ object.pk }}{% else %}-1{% endif %};
+
+    let modeles = {};
+    {% for type in user.profil.compte.typeordonnance_set.all %}
+        modeles[`{{ type.id }}`] = `{{ type.modele|safe }}`;
+    {% endfor %}
+
+    const ajouterDateLieuEdition = {% if user.profil.compte.parametrescompte.ajouter_date_courriers %}true{% else %}false{% endif %};
+
+    let grossesse_data = {};
+    {% if grossesse_data %}grossesse_data = JSON.parse(`{{ grossesse_data|safe }}`);{% endif %}
+</script>
+<script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
+<script src="{% static "plugins/custom/datatables/datatables.bundle.js" %}"></script>
+<script src="{% static "js/core/editique.js" %}"></script>
+<script src="{% static "js/core/ordonnance_form.js" %}"></script>
+{% endblock %}

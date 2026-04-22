@@ -1,0 +1,814 @@
+compte;libelle;categorie;text
+5;ANTICORPS ANTI - MUSCLE LISSE :I.F.I;biologie;ANTICORPS ANTI - MUSCLE LISSE :I.F.I
+5;17 CETOSTEROIDES TOTAUX;biologie;17 CETOSTEROIDES TOTAUX
+5;17 HYDROXYCORTICOSTEROIDES;biologie;17 HYDROXYCORTICOSTEROIDES
+5;17 OH PROGESTERONE;biologie;17 OH PROGESTERONE
+5;25 HYDROXY VITAMINE D;biologie;25 HYDROXY VITAMINE D
+5;5 HYDROXY - INDOLEACETATE (5 H.I.A.) : CLHP;biologie;5 HYDROXY - INDOLEACETATE (5 H.I.A.) : CLHP
+5;AC ANTI B2 GP1;biologie;AC ANTI B2 GP1
+5;Ac- ANTI- CYTOPLASME DES POLYNUCLEAIRES;biologie;Ac- ANTI- CYTOPLASME DES POLYNUCLEAIRES
+5;AC ANTI ICA;biologie;AC ANTI ICA
+5;AC ANTI SACCHAROMYCES CEREVISIAE (IgG+IgA);biologie;AC ANTI SACCHAROMYCES CEREVISIAE (IgG+IgA)
+5;AC ANTI-FACTEUR INTRINSEQUE;biologie;AC ANTI-FACTEUR INTRINSEQUE
+5;AC ANTI-PEPTIDES CYCLIQUES CITRULLINES :E.I.A.;biologie;AC ANTI-PEPTIDES CYCLIQUES CITRULLINES :E.I.A.
+5;AC ANTI-RECEPTEUR DE LA THYREOSTIMULINE;biologie;AC ANTI-RECEPTEUR DE LA THYREOSTIMULINE
+5;AC. ANTI - DNA NATIF;biologie;AC. ANTI - DNA NATIF
+5;AC. ANTI - ENDOMYSIUM;biologie;AC. ANTI - ENDOMYSIUM
+5;AC. ANTI - TISSUS;biologie;AC. ANTI - TISSUS
+5;AC. ANTI - TRANSGLUTAMINASE TISSULAIRE IGG;biologie;AC. ANTI - TRANSGLUTAMINASE TISSULAIRE IGG
+5;AC. ANTI AG. NUCLEAIRES SOLUBLES;biologie;AC. ANTI AG. NUCLEAIRES SOLUBLES
+5;AC. ANTI AG. NUCLEAIRES SOLUBLES ( RECHERCHE );biologie;AC. ANTI AG. NUCLEAIRES SOLUBLES ( RECHERCHE )
+5;AC. ANTI KERATINE;biologie;AC. ANTI KERATINE
+5;AC. ANTI NUCLEOSOME;biologie;AC. ANTI NUCLEOSOME
+5;AC. ANTI-MITOCHONDRIES;biologie;AC. ANTI-MITOCHONDRIES
+5;AC. ANTI-THYROGLOBULINE;biologie;AC. ANTI-THYROGLOBULINE
+5;AC. ANTI-THYROIDIENS;biologie;AC. ANTI-THYROIDIENS
+5;ACIDE CITRIQUE;biologie;ACIDE CITRIQUE
+5;ACIDE CITRIQUE-URINE;biologie;ACIDE CITRIQUE-URINE
+5;ACIDE FOLIQUE (vitamines B9);biologie;ACIDE FOLIQUE (vitamines B9)
+5;ACIDE LACTIQUE;biologie;ACIDE LACTIQUE
+5;ACIDE OXALIQUE -URINE;biologie;ACIDE OXALIQUE -URINE
+5;ACIDE SALICYLES;biologie;ACIDE SALICYLES
+5;ACIDE URIQUE;biologie;ACIDE URIQUE
+5;ACIDE URIQUE URINAIRE;biologie;ACIDE URIQUE URINAIRE
+5;ACIDE VANILMANDELIQUE;biologie;ACIDE VANILMANDELIQUE
+5;ACIDES BILIAIRES;biologie;ACIDES BILIAIRES
+5;ACTITEST;biologie;ACTITEST
+5;activité anticholinestérase;biologie;activité anticholinestérase
+5;ACTIVITE anti-Xa;biologie;ACTIVITE anti-Xa
+5;ACTIVITE RENINE COUCHÉ;biologie;ACTIVITE RENINE COUCHÉ
+5;ADN-HEPATITE VIRALE B;biologie;ADN-HEPATITE VIRALE B
+5;ADRENOCORTICOTROPIC HORMONE (ACTH);biologie;ADRENOCORTICOTROPIC HORMONE (ACTH)
+5;ALAT;biologie;ALAT
+5;ALBUMINE ET GLUCOSE URINAIRE;biologie;ALBUMINE ET GLUCOSE URINAIRE
+5;ALBUMINE SERIQUE;biologie;ALBUMINE SERIQUE
+5;ALDOLASE;biologie;ALDOLASE
+5;ALDOSTERONE COUCHÉ;biologie;ALDOSTERONE COUCHÉ
+5;ALPHA 1- ANTITRYPSINE;biologie;ALPHA 1- ANTITRYPSINE
+5;ALPHA-FOETO PROTEINE;biologie;ALPHA-FOETO PROTEINE
+5;AMMONIEMIE;biologie;AMMONIEMIE
+5;AMYLASE (Liquide péritoniale);biologie;AMYLASE (Liquide péritoniale)
+5;AMYLASE URINAIRE;biologie;AMYLASE URINAIRE
+5;AMYLASEMIE à 37°;biologie;AMYLASEMIE à 37°
+5;AMYLASERIE DE 24 H à 37°;biologie;AMYLASERIE DE 24 H à 37°
+5;ANALYSE BOUBAKR;biologie;ANALYSE BOUBAKR
+5;ANTICORPS ANTI-HCV (Hépatite C);biologie;ANTICORPS ANTI-HCV (Hépatite C)
+5;ANTICORPS ANTI - CARDIOLIPINES IgG : E.I.A;biologie;ANTICORPS ANTI - CARDIOLIPINES IgG : E.I.A
+5;ANTICORPS ANTI - HISTONE : E.I.A.;biologie;ANTICORPS ANTI - HISTONE : E.I.A.
+5;ANTICORPS ANTI - PHOSPHOLIPIDES IgG;biologie;ANTICORPS ANTI - PHOSPHOLIPIDES IgG
+5;anticorps anti CCP;biologie;anticorps anti CCP
+5;ANTICORPS ANTI GLIADINE;biologie;ANTICORPS ANTI GLIADINE
+5;ANTICORPS ANTI HAV IgM (Hepatite A);biologie;ANTICORPS ANTI HAV IgM (Hepatite A)
+5;ANTICORPS ANTI HAV IgM (Hepatite A);biologie;ANTICORPS ANTI HAV IgM (Hepatite A)
+5;ANTICORPS ANTI- MITOCHONDRIES : I.F.I;biologie;ANTICORPS ANTI- MITOCHONDRIES : I.F.I
+5;ANTICORPS ANTI RETICULINE;biologie;ANTICORPS ANTI RETICULINE
+5;Anticorps anti SSA;biologie;Anticorps anti SSA
+5;ANTICORPS ANTI THYROGLOBULINE;biologie;ANTICORPS ANTI THYROGLOBULINE
+5;ANTICORPS ANTI-ACIDE GLUTAMIQUE DECARBOXYLASE;biologie;ANTICORPS ANTI-ACIDE GLUTAMIQUE DECARBOXYLASE
+5;ANTICORPS ANTI-GANGLIOSIDES;biologie;ANTICORPS ANTI-GANGLIOSIDES
+5;ANTICORPS ANTI-HBc (IgM);biologie;ANTICORPS ANTI-HBc (IgM)
+5;ANTICORPS ANTI-HBc Totaux (Hépatite B);biologie;ANTICORPS ANTI-HBc Totaux (Hépatite B)
+5;ANTICORPS ANTI-HBE (Hépatite B);biologie;ANTICORPS ANTI-HBE (Hépatite B)
+5;ANTICORPS ANTI-HBS;biologie;ANTICORPS ANTI-HBS
+5;ANTICORPS ANTI-ILOTS DE LANGERHANS : I.F.I.;biologie;ANTICORPS ANTI-ILOTS DE LANGERHANS : I.F.I.
+5;ANTICORPS ANTI-NEURONES;biologie;ANTICORPS ANTI-NEURONES
+5;ANTICORPS ANTI-RECEPTEUR DE L'ACETYLCHOLINE;biologie;ANTICORPS ANTI-RECEPTEUR DE L'ACETYLCHOLINE
+5;ANTICORPS IgG ANTI - GLIADINE + IgA;biologie;ANTICORPS IgG ANTI - GLIADINE + IgA
+5;ANTICORS ANTI-RECEPTEURS DE LA TSH;biologie;ANTICORS ANTI-RECEPTEURS DE LA TSH
+5;ANTIGENE CA 125;biologie;ANTIGENE CA 125
+5;ANTIGENE CA 15-3;biologie;ANTIGENE CA 15-3
+5;ANTIGENE CA 19-9;biologie;ANTIGENE CA 19-9
+5;ANTIGENE CARCINO-EMBRYONNAIRE (ACE);biologie;ANTIGENE CARCINO-EMBRYONNAIRE (ACE)
+5;ANTIGENE HBE (Hépatite B);biologie;ANTIGENE HBE (Hépatite B)
+5;ANTIGENE HBS (Hépatite B);biologie;ANTIGENE HBS (Hépatite B)
+5;ANTIGENE SPECIFIQUE DE LA PROSTATE - LIBRE;biologie;ANTIGENE SPECIFIQUE DE LA PROSTATE - LIBRE
+5;ANTIGENE SPECIFIQUE PROSTATIQUE TOTAL (PSAT);biologie;ANTIGENE SPECIFIQUE PROSTATIQUE TOTAL (PSAT)
+5;ANTISTREPTODORNASE;biologie;ANTISTREPTODORNASE
+5;ANTI-STREPTOLYSINES O;biologie;ANTI-STREPTOLYSINES O
+5;ANTITHROMBINE III ( ACTIVITE );biologie;ANTITHROMBINE III ( ACTIVITE )
+5;APOLIPOPROTEINE A1;biologie;APOLIPOPROTEINE A1
+5;APOLIPOPROTEINE B;biologie;APOLIPOPROTEINE B
+5;ASAT;biologie;ASAT
+5;ASPERGILLOSE;biologie;ASPERGILLOSE
+5;AUTO-ANTICORPS ANTI-LKM : I.F.I;biologie;AUTO-ANTICORPS ANTI-LKM : I.F.I
+5;BARBITEMIE;biologie;BARBITEMIE
+5;BENZODIAZEPINES;biologie;BENZODIAZEPINES
+5;BETA 2 MICROGLOBULINE;biologie;BETA 2 MICROGLOBULINE
+5;BETA HCG QUALITATIVE;biologie;BETA HCG QUALITATIVE
+5;BETA HCG QUANTITATIVE;biologie;BETA HCG QUANTITATIVE
+5;BETA HCG SERIQUE;biologie;BETA HCG SERIQUE
+5;BETA-HCG LIBRE;biologie;BETA-HCG LIBRE
+5;BILHARZIASIS;biologie;BILHARZIASIS
+5;BILIRUBINE;biologie;BILIRUBINE
+5;BLOC METANEPHRINES 1;biologie;BLOC METANEPHRINES 1
+5;BLOC METANEPHRINES 2;biologie;BLOC METANEPHRINES 2
+5;BLOC METANEPHRINES 3;biologie;BLOC METANEPHRINES 3
+5;BMD-CLA 30 PIPETTE MIXTE;biologie;BMD-CLA 30 PIPETTE MIXTE
+5;BMD-CLA 30 PIPETTE PNEUMALLERGENES;biologie;BMD-CLA 30 PIPETTE PNEUMALLERGENES
+5;BMD-CLA 30 PIPETTE TROPHALLERGENES;biologie;BMD-CLA 30 PIPETTE TROPHALLERGENES
+5;BNP;biologie;BNP
+5;CALCITONINE;biologie;CALCITONINE
+5;CALCIUM;biologie;CALCIUM
+5;CALCIURIE;biologie;CALCIURIE
+5;CALCUL URINAIRE;biologie;CALCUL URINAIRE
+5;CATECHOLAMINE FRACTIONNEES;biologie;CATECHOLAMINE FRACTIONNEES
+5;CATECHOLAMINES PLASMATIQUE;biologie;CATECHOLAMINES PLASMATIQUE
+5;CATECHOLAMINES URINAIRE;biologie;CATECHOLAMINES URINAIRE
+5;CERULEOPLASMINE;biologie;CERULEOPLASMINE
+5;CHIMIE;biologie;CHIMIE
+5;CHIMIE DES URINES;biologie;CHIMIE DES URINES
+5;CHOLESTEROL;biologie;CHOLESTEROL
+5;CHOLESTEROL TOTAL;biologie;CHOLESTEROL TOTAL
+5;CHROMOGRANINE A;biologie;CHROMOGRANINE A
+5;CICLOSPORINE;biologie;CICLOSPORINE
+5;CICLOSPORINE 2;biologie;CICLOSPORINE 2
+5;CIS RAPID SCREEN;biologie;CIS RAPID SCREEN
+5;CLAIRANCE DE LA CREATININE;biologie;CLAIRANCE DE LA CREATININE
+5;COMPLEMENT ANALYSE;biologie;COMPLEMENT ANALYSE
+5;COMPLEMENT C1;biologie;COMPLEMENT C1
+5;COMPLEMENT C1 ESTERASE INHIBITEUR;biologie;COMPLEMENT C1 ESTERASE INHIBITEUR
+5;COMPLEMENT C2;biologie;COMPLEMENT C2
+5;COMPLEMENT C4;biologie;COMPLEMENT C4
+5;COMPLEMENT HEMOLYTIQUE TOTAL;biologie;COMPLEMENT HEMOLYTIQUE TOTAL
+5;COMPLEXES IMMUNS CIRCULANTS ( : E.I.A.;biologie;COMPLEXES IMMUNS CIRCULANTS ( : E.I.A.
+5;COPROCULTURE;biologie;COPROCULTURE
+5;CORTISOL LIBRE URINAIRE;biologie;CORTISOL LIBRE URINAIRE
+5;CORTISOL SERIQUE;biologie;CORTISOL SERIQUE
+5;CREAT (après dialyse);biologie;CREAT (après dialyse)
+5;CREATININE;biologie;CREATININE
+5;CREATININE (aprés dialyse);biologie;CREATININE (aprés dialyse)
+5;CREATININE PHOSPHO KINASE MB;biologie;CREATININE PHOSPHO KINASE MB
+5;CREATININE PHOSPHO KINASE(37°);biologie;CREATININE PHOSPHO KINASE(37°)
+5;CREATININE URINAIRE;biologie;CREATININE URINAIRE
+5;CRYOGLOBULINEMIE;biologie;CRYOGLOBULINEMIE
+5;CUIVRE;biologie;CUIVRE
+5;CUIVRE : ABSORPTION ATOMIQUE;biologie;CUIVRE : ABSORPTION ATOMIQUE
+5;CULOT URINAIRE;biologie;CULOT URINAIRE
+5;CULOT URINAIRES;biologie;CULOT URINAIRES
+5;CYCLE GLYCEMIQUE;biologie;CYCLE GLYCEMIQUE
+5;CYFRA;biologie;CYFRA
+5;CYTOLOGIE;biologie;CYTOLOGIE
+5;CYTOMEGALOVERUS IGG;biologie;CYTOMEGALOVERUS IGG
+5;CYTOMEGALOVERUS IGM;biologie;CYTOMEGALOVERUS IGM
+5;D. DIMER;biologie;D. DIMER
+5;DEHYDROEPIANDROSTERONE (DHA);biologie;DEHYDROEPIANDROSTERONE (DHA)
+5;DEHYDROEPIANDROSTERONE (DHEA);biologie;DEHYDROEPIANDROSTERONE (DHEA)
+5;DELTA 4 ANDROSTENEDIONE;biologie;DELTA 4 ANDROSTENEDIONE
+5;DENSITE URINAIRE;biologie;DENSITE URINAIRE
+5;DENSITE URINAIRE DE 24 H;biologie;DENSITE URINAIRE DE 24 H
+5;DEPAKINEMIE;biologie;DEPAKINEMIE
+5;Depistage & dosages des anticorps anti antigene solubles;biologie;Depistage & dosages des anticorps anti antigene solubles
+5;DETECTION QUALITATIVE DES ANTI HELICOBACTER PYLORI;biologie;DETECTION QUALITATIVE DES ANTI HELICOBACTER PYLORI
+5;DIALYSE MENSUEL;biologie;DIALYSE MENSUEL
+5;DIGOXINE;biologie;DIGOXINE
+5;DOSAGE DE LA 17 HYDROXYPROGESTERONE;biologie;DOSAGE DE LA 17 HYDROXYPROGESTERONE
+5;DOSAGE DE LA CARNITINE LIBRE ET TOTALE;biologie;DOSAGE DE LA CARNITINE LIBRE ET TOTALE
+5;DOSAGE DE LA PROTEINE C;biologie;DOSAGE DE LA PROTEINE C
+5;DOSAGE DE LA PROTEINE S ACTIVITE;biologie;DOSAGE DE LA PROTEINE S ACTIVITE
+5;DOSAGE DES AC-ANTI MYCOPLASMES;biologie;DOSAGE DES AC-ANTI MYCOPLASMES
+5;DOSAGE DES IMMUNOGLOBULINES;biologie;DOSAGE DES IMMUNOGLOBULINES
+5;DOSAGE DU BNP(Brain Natriuretic Peptide);biologie;DOSAGE DU BNP(Brain Natriuretic Peptide)
+5;DOSAGE DU PROBNP;biologie;DOSAGE DU PROBNP
+5;ELECTROPHORESE DE L'HEMOGLOBINE;biologie;ELECTROPHORESE DE L'HEMOGLOBINE
+5;ELECTROPHORESE DES PROTEINES (LCR);biologie;ELECTROPHORESE DES PROTEINES (LCR)
+5;ELECTROPHORESE DES PROTEINES SERIQUES;biologie;ELECTROPHORESE DES PROTEINES SERIQUES
+5;ENZYME DE CONVERSION;biologie;ENZYME DE CONVERSION
+5;EOSINOPHILES/ LE MUCUS;biologie;EOSINOPHILES/ LE MUCUS
+5;EPSTEIN BARR VIRUS;biologie;EPSTEIN BARR VIRUS
+5;ERYTHROPOITINE;biologie;ERYTHROPOITINE
+5;ETUDE DE FER SERIQUE;biologie;ETUDE DE FER SERIQUE
+5;EXAMEN ANATOMIE ET CYT . PATHOLOGIQUE;biologie;EXAMEN ANATOMIE ET CYT . PATHOLOGIQUE
+5;EXAMEN BACTERIOLOGIQUE;biologie;EXAMEN BACTERIOLOGIQUE
+5;EXAMEN CYTOBACTERIOLOGIQUE DES URINES;biologie;EXAMEN CYTOBACTERIOLOGIQUE DES URINES
+5;EXAMEN MYCOLOGIQUE;biologie;EXAMEN MYCOLOGIQUE
+5;EXAMEN PARASITOLOGIQUE DES SELLES;biologie;EXAMEN PARASITOLOGIQUE DES SELLES
+5;extraction adn;biologie;extraction adn
+5;FACTEUR 5;biologie;FACTEUR 5
+5;FERRITINE;biologie;FERRITINE
+5;FIBRINEMIE;biologie;FIBRINEMIE
+5;FIBRO TEST - ACTITEST;biologie;FIBRO TEST - ACTITEST
+5;FOLATES SERIQUES;biologie;FOLATES SERIQUES
+5;FRACTION C3 DU COMPLEMENT;biologie;FRACTION C3 DU COMPLEMENT
+5;FRACTION C4 DU COMPLEMENT;biologie;FRACTION C4 DU COMPLEMENT
+5;FROTTIS CERVICO - VAGINAL;biologie;FROTTIS CERVICO - VAGINAL
+5;FRUCTOSAMINE;biologie;FRUCTOSAMINE
+5;FSH PLASMATIQUE;biologie;FSH PLASMATIQUE
+5;GAMMA-G-T à 37°C;biologie;GAMMA-G-T à 37°C
+5;GARDE JOURS;biologie;GARDE JOURS
+5;GARDE NUIT;biologie;GARDE NUIT
+5;GASTRINE;biologie;GASTRINE
+5;GAZ DU SANG;biologie;GAZ DU SANG
+5;GENOTYPAGE DU VIRUS C;biologie;GENOTYPAGE DU VIRUS C
+5;GLUCOSE 6 PHOSPHAT DEHYDROGENASE;biologie;GLUCOSE 6 PHOSPHAT DEHYDROGENASE
+5;GLUCOSURIE;biologie;GLUCOSURIE
+5;GLUCOSURIE DE 24 H;biologie;GLUCOSURIE DE 24 H
+5;GLUCOSURIE DE 8H à 20H;biologie;GLUCOSURIE DE 8H à 20H
+5;Glycemie 120;biologie;Glycemie 120
+5;GLYCEMIE 120 mn;biologie;GLYCEMIE 120 mn
+5;Glycemie 180;biologie;Glycemie 180
+5;GLYCEMIE 180 mn;biologie;GLYCEMIE 180 mn
+5;GLYCEMIE 30 mn;biologie;GLYCEMIE 30 mn
+5;Glycemie 60;biologie;Glycemie 60
+5;GLYCEMIE 60 mn;biologie;GLYCEMIE 60 mn
+5;GLYCEMIE 90 mn;biologie;GLYCEMIE 90 mn
+5;GLYCEMIE;biologie;GLYCEMIE
+5;GLYCEMIE APRES 1 H;biologie;GLYCEMIE APRES 1 H
+5;GLYCEMIE APRES 120mn;biologie;GLYCEMIE APRES 120mn
+5;GLYCEMIE APRES 180mn;biologie;GLYCEMIE APRES 180mn
+5;GLYCEMIE APRES 2 H;biologie;GLYCEMIE APRES 2 H
+5;GLYCEMIE APRES 3 H;biologie;GLYCEMIE APRES 3 H
+5;GLYCEMIE APRES 60mn;biologie;GLYCEMIE APRES 60mn
+5;GLYCEMIE POST PRANDIALE;biologie;GLYCEMIE POST PRANDIALE
+5;GROUPE SANGUIN;biologie;GROUPE SANGUIN
+5;GROUPE SANGUIN -PHENOTYPAGE;biologie;GROUPE SANGUIN -PHENOTYPAGE
+5;H.L.M.;biologie;H.L.M.
+5;HAPTOGLOBINE;biologie;HAPTOGLOBINE
+5;HDL CHOLESTEROL;biologie;HDL CHOLESTEROL
+5;HEMATOCRITE;biologie;HEMATOCRITE
+5;HEMOCULTURE;biologie;HEMOCULTURE
+5;HEMOGLOBINE GLYCQUEE;biologie;HEMOGLOBINE GLYCQUEE
+5;HEMOGRAMME;biologie;HEMOGRAMME
+5;HEPATITE C;biologie;HEPATITE C
+5;HEPATITE C;biologie;HEPATITE C
+5;HEPATITE C;biologie;HEPATITE C
+5;HEPATITE E (AC anti- );biologie;HEPATITE E (AC anti- )
+5;HEPERGLYCEMIE PROVOQUEE;biologie;HEPERGLYCEMIE PROVOQUEE
+5;HERPES SIMPLEX VIRUS 1 ET 2;biologie;HERPES SIMPLEX VIRUS 1 ET 2
+5;HLA B 27;biologie;HLA B 27
+5;HOMOCYSTEINE;biologie;HOMOCYSTEINE
+5;HORMONE ANTI-MULLERIENNE;biologie;HORMONE ANTI-MULLERIENNE
+5;HORMONE DE CROISSANCE (GH);biologie;HORMONE DE CROISSANCE (GH)
+5;IgE TOTALES;biologie;IgE TOTALES
+5;IgE SERIQUE SPECIFIQUE ( RAST );biologie;IgE SERIQUE SPECIFIQUE ( RAST )
+5;IGE SPECIFIQUES LAIT DE VACHE( f2);biologie;IGE SPECIFIQUES LAIT DE VACHE( f2)
+5;IGF-2;biologie;IGF-2
+5;IGF-BP3;biologie;IGF-BP3
+5;IgG ANTI HELICOBACTER PYLORI;biologie;IgG ANTI HELICOBACTER PYLORI
+5;IMMUNOFIXATION DES PROTEINES SERIQUE;biologie;IMMUNOFIXATION DES PROTEINES SERIQUE
+5;IMMUNOFIXATION DES PROTEINES URINAIRE;biologie;IMMUNOFIXATION DES PROTEINES URINAIRE
+5;IMMUNOGLOBULINE A (IgA);biologie;IMMUNOGLOBULINE A (IgA)
+5;IMMUNOGLOBULINE G (IgG);biologie;IMMUNOGLOBULINE G (IgG)
+5;IMMUNOGLOBULINE M (IgM);biologie;IMMUNOGLOBULINE M (IgM)
+5;INHIBINE B;biologie;INHIBINE B
+5;INSULINE;biologie;INSULINE
+5;INTRA DERMO REACTION 10 UI :;biologie;INTRA DERMO REACTION 10 UI :
+5;IONOGRAMME SANGUIN;biologie;IONOGRAMME SANGUIN
+5;IONOGRAMME URINAIRE;biologie;IONOGRAMME URINAIRE
+5;ISOENZYME DES PHOSPHATASE ALCALINE;biologie;ISOENZYME DES PHOSPHATASE ALCALINE
+5;L.D.L CHOLESTEROL;biologie;L.D.L CHOLESTEROL
+5;L.H PLASMATIQUE;biologie;L.H PLASMATIQUE
+5;LACTATE DESHYDROGENASE LDH ( 37° );biologie;LACTATE DESHYDROGENASE LDH ( 37° )
+5;LATEX;biologie;LATEX
+5;LCR ( CYTOCHIMIE );biologie;LCR ( CYTOCHIMIE )
+5;LEISHMANIOSE HUMAINE;biologie;LEISHMANIOSE HUMAINE
+5;LES IMMUNO-GLOBULINES;biologie;LES IMMUNO-GLOBULINES
+5;LEUCOGRAMME;biologie;LEUCOGRAMME
+5;LIPASE(37°C);biologie;LIPASE(37°C)
+5;LIPIDES TOTAUX;biologie;LIPIDES TOTAUX
+5;LIQUIDE CEPHALO RACHIDIEN( CCB );biologie;LIQUIDE CEPHALO RACHIDIEN( CCB )
+5;LIQUIDE CEPHALO RACHIDIEN( LCR);biologie;LIQUIDE CEPHALO RACHIDIEN( LCR)
+5;LITHIUM SERIQUE;biologie;LITHIUM SERIQUE
+5;MACROGLOBULINE ALPHA 2;biologie;MACROGLOBULINE ALPHA 2
+5;MAGNESIUM GLOBULAIRE;biologie;MAGNESIUM GLOBULAIRE
+5;MAGNESIUM PLASMATIQUE;biologie;MAGNESIUM PLASMATIQUE
+5;MAGNESIUM URINAIRE;biologie;MAGNESIUM URINAIRE
+5;MEDIWISS Panel Alimentaire;biologie;MEDIWISS Panel Alimentaire
+5;MEDIWISS Panel Respiratoire;biologie;MEDIWISS Panel Respiratoire
+5;METHOXYAMINES( dérivés des catécholamines);biologie;METHOXYAMINES( dérivés des catécholamines)
+5;MICROALBUMINURIE;biologie;MICROALBUMINURIE
+5;MYCOLOGIE DES SELLES;biologie;MYCOLOGIE DES SELLES
+5;MYCOLOGIE DES SELLES;biologie;MYCOLOGIE DES SELLES
+5;MYOGLOBINE;biologie;MYOGLOBINE
+5;NEURON SPECIFIC ENOLASE;biologie;NEURON SPECIFIC ENOLASE
+5;OESTRADIOL PLASMATIQUE;biologie;OESTRADIOL PLASMATIQUE
+5;OSTEOCALCINE;biologie;OSTEOCALCINE
+5;PANNEL;biologie;PANNEL
+5;PARATHORMONE PTH intacte ( 1-84);biologie;PARATHORMONE PTH intacte ( 1-84)
+5;PARVOVIRUS B19;biologie;PARVOVIRUS B19
+5;PCR COQUELUCHE;biologie;PCR COQUELUCHE
+5;PCR CORONAVIRUS;biologie;PCR CORONAVIRUS
+5;PCR HEPATITE D;biologie;PCR HEPATITE D
+5;PEPTIDE C;biologie;PEPTIDE C
+5;PH;biologie;PH
+5;PHADIATOP;biologie;PHADIATOP
+5;Phénotypage HLA CLASSE I (A,B,C) par la biologie moléculaire;biologie;Phénotypage HLA CLASSE I (A,B,C) par la biologie moléculaire
+5;PHENYTOINE : ( TEST CEDIA );biologie;PHENYTOINE : ( TEST CEDIA )
+5;PHOSPHATASES ACIDES TOTALES (37°);biologie;PHOSPHATASES ACIDES TOTALES (37°)
+5;PHOSPHATASES ALCALINES(37°);biologie;PHOSPHATASES ALCALINES(37°)
+5;PHOSPHORE URINAIRE;biologie;PHOSPHORE URINAIRE
+5;PHOSPHOREMIE;biologie;PHOSPHOREMIE
+5;PLAQUETTES;biologie;PLAQUETTES
+5;PNEUMOCYSTIS CARINII;biologie;PNEUMOCYSTIS CARINII
+5;PONCTION LOMBAIRE;biologie;PONCTION LOMBAIRE
+5;PONCTION RENALE;biologie;PONCTION RENALE
+5;POTASSIUM;biologie;POTASSIUM
+5;POTASSIUM URINAIRE;biologie;POTASSIUM URINAIRE
+5;POTASSIUM(aprés dialyse);biologie;POTASSIUM(aprés dialyse)
+5;PRELEVEMENT BUCCAL;biologie;PRELEVEMENT BUCCAL
+5;PRELEVEMENT DE GORGE;biologie;PRELEVEMENT DE GORGE
+5;PRELEVEMENT URETRAL;biologie;PRELEVEMENT URETRAL
+5;PRELEVEMENT VAGINAL;biologie;PRELEVEMENT VAGINAL
+5;PRODUITS DE DEGRADATION DU FIBRINOGENE;biologie;PRODUITS DE DEGRADATION DU FIBRINOGENE
+5;PROGESTERONE PLASMATIQUE;biologie;PROGESTERONE PLASMATIQUE
+5;PROLACTINE SERIQUE;biologie;PROLACTINE SERIQUE
+5;PROTEINE C ANTICOAGULANTE;biologie;PROTEINE C ANTICOAGULANTE
+5;PROTEINE C REACTIVE;biologie;PROTEINE C REACTIVE
+5;PROTEINE S ANTICOAGULANTE;biologie;PROTEINE S ANTICOAGULANTE
+5;PROTEINURIE;biologie;PROTEINURIE
+5;PROTIDES TOTAUX;biologie;PROTIDES TOTAUX
+5;PSA LIBRE/ TOTAL;biologie;PSA LIBRE/ TOTAL
+5;QUANTIFERON TB;biologie;QUANTIFERON TB
+5;R. DE PROTEINE DE BENCE JONES;biologie;R. DE PROTEINE DE BENCE JONES
+5;R.A.I- ANTI -RHESUS D RECHERCHE D'AGGLUTUNINE IRREGULIERES REACTION DEPISTAGE;biologie;R.A.I- ANTI -RHESUS D RECHERCHE D'AGGLUTUNINE IRREGULIERES REACTION DEPISTAGE
+5;RCHERCHE DE MYCOPLASME;biologie;RCHERCHE DE MYCOPLASME
+5;REACTION DE WAALER ROSE;biologie;REACTION DE WAALER ROSE
+5;RECH. DE LA MUTATION Arg 506 Gln DU FACTEUR V;biologie;RECH. DE LA MUTATION Arg 506 Gln DU FACTEUR V
+5;RECH. DE RESISTANCE A LA PROTEINE C ACTIVEE;biologie;RECH. DE RESISTANCE A LA PROTEINE C ACTIVEE
+5;RECH.DE SPERMATOZOIDES DANS LES URINES;biologie;RECH.DE SPERMATOZOIDES DANS LES URINES
+5;RECHERCHE D'ANTICOAGULANT CIRCULANT: Chronométrie;biologie;RECHERCHE D'ANTICOAGULANT CIRCULANT: Chronométrie
+5;RECHERCHE D'ANTIGENE VIRAUX DE LA GRIPPE A;biologie;RECHERCHE D'ANTIGENE VIRAUX DE LA GRIPPE A
+5;RECHERCHE D'ANTIGENES SOLUBLES;biologie;RECHERCHE D'ANTIGENES SOLUBLES
+5;RECHERCHE DE BK;biologie;RECHERCHE DE BK
+5;Recherche de chlamydia dans le prélèvement vaginal;biologie;Recherche de chlamydia dans le prélèvement vaginal
+5;RECHERCHE DE CHLAMYDIAE;biologie;RECHERCHE DE CHLAMYDIAE
+5;RECHERCHE DE CHLAMYDIAE PNEUMONIAE;biologie;RECHERCHE DE CHLAMYDIAE PNEUMONIAE
+5;RECHERCHE DE LESCHMANIOSE;biologie;RECHERCHE DE LESCHMANIOSE
+5;RECHERCHE DE MYCOPLASME PNEUMONIAE;biologie;RECHERCHE DE MYCOPLASME PNEUMONIAE
+5;RECHERCHE DE PALUDISME;biologie;RECHERCHE DE PALUDISME
+5;RECHERCHE DE ROTAVIRUS;biologie;RECHERCHE DE ROTAVIRUS
+5;RECHERCHE DE SANG DANS LES SELLES;biologie;RECHERCHE DE SANG DANS LES SELLES
+5;RESERVE ALCALINE;biologie;RESERVE ALCALINE
+5;Résultat;biologie;Résultat
+5;RETICULOCYTES;biologie;RETICULOCYTES
+5;RUBEOLE(IgM);biologie;RUBEOLE(IgM)
+5;SCOTCH TEST ANAL;biologie;SCOTCH TEST ANAL
+5;SCOTCH TEST DE LA PEAU;biologie;SCOTCH TEST DE LA PEAU
+5;SCREENING DE LA TRISOMIE 21;biologie;SCREENING DE LA TRISOMIE 21
+5;SDC. DES CHLAMYDIAES (IgG);biologie;SDC. DES CHLAMYDIAES (IgG)
+5;SDC. MONONUCLEOSE INFECTIEUSE;biologie;SDC. MONONUCLEOSE INFECTIEUSE
+5;SERO. DES INFECTIONS A VIRUS D'EPSTEIN ET BARR;biologie;SERO. DES INFECTIONS A VIRUS D'EPSTEIN ET BARR
+5;SERODIAGNOSTIC CYTOMEGALOVIRUS;biologie;SERODIAGNOSTIC CYTOMEGALOVIRUS
+5;SERODIAGNOSTIC DU VIH1 & VIH2;biologie;SERODIAGNOSTIC DU VIH1 & VIH2
+5;SEROLOGIE CANDIDOSE;biologie;SEROLOGIE CANDIDOSE
+5;SEROLOGIE DE L'AMIBIASE;biologie;SEROLOGIE DE L'AMIBIASE
+5;SEROLOGIE DE LA BORRELIOSE DE LYME;biologie;SEROLOGIE DE LA BORRELIOSE DE LYME
+5;SEROLOGIE DE LA TOXOPLASMOSE;biologie;SEROLOGIE DE LA TOXOPLASMOSE
+5;SEROLOGIE DE LYME (IgG + IgM);biologie;SEROLOGIE DE LYME (IgG + IgM)
+5;SEROLOGIE DELTA (ANTIGENE);biologie;SEROLOGIE DELTA (ANTIGENE)
+5;SEROLOGIE DES INFECTIONS A ASPERGILLUS;biologie;SEROLOGIE DES INFECTIONS A ASPERGILLUS
+5;SEROLOGIE DES INFECTIONS A VIRUS VARICELLE-ZONA;biologie;SEROLOGIE DES INFECTIONS A VIRUS VARICELLE-ZONA
+5;SEROLOGIE DES RICKETTSIOSES : IFI;biologie;SEROLOGIE DES RICKETTSIOSES : IFI
+5;SEROLOGIE KYSTE HYDATIQUE;biologie;SEROLOGIE KYSTE HYDATIQUE
+5;SEROLOGIE PNEUMOCOQUE;biologie;SEROLOGIE PNEUMOCOQUE
+5;SEROLOGIE PNEUMOCYSTISS CARINII;biologie;SEROLOGIE PNEUMOCYSTISS CARINII
+5;SEROLOGIE SALMONELLOSE (WIDAL);biologie;SEROLOGIE SALMONELLOSE (WIDAL)
+5;SEROLOGIE SYPHILIS;biologie;SEROLOGIE SYPHILIS
+5;SEROLOGIE SYPHILIS DANS LE LCR;biologie;SEROLOGIE SYPHILIS DANS LE LCR
+5;SEX BINDING PROTEIN;biologie;SEX BINDING PROTEIN
+5;SODIUM;biologie;SODIUM
+5;SODIUM URINAIRE;biologie;SODIUM URINAIRE
+5;SOMATOMEDINE C (IGF1);biologie;SOMATOMEDINE C (IGF1)
+5;SOUS - UNITES BETA - H.C.G. LIBRE;biologie;SOUS - UNITES BETA - H.C.G. LIBRE
+5;SPERMOCULTURE;biologie;SPERMOCULTURE
+5;SPERMOCYTOGRAMME;biologie;SPERMOCYTOGRAMME
+5;SPERMOGRAMME/SPERMOCYTOGRAMME;biologie;SPERMOGRAMME/SPERMOCYTOGRAMME
+5;SULFATE DE DEHYDROEPIANDROSTERONE (SDHA);biologie;SULFATE DE DEHYDROEPIANDROSTERONE (SDHA)
+5;T3;biologie;T3
+5;TEGRETOLEMIE;biologie;TEGRETOLEMIE
+5;TEMPS DE CEPHALINE ACTIVE;biologie;TEMPS DE CEPHALINE ACTIVE
+5;TEMPS DE CEPHALINE KAOLIN;biologie;TEMPS DE CEPHALINE KAOLIN
+5;TEMPS DE COAGULATION;biologie;TEMPS DE COAGULATION
+5;TEMPS DE HOWEL;biologie;TEMPS DE HOWEL
+5;TEMPS DE QUICK;biologie;TEMPS DE QUICK
+5;TEMPS DE SAIGNEMENT ( DUKE );biologie;TEMPS DE SAIGNEMENT ( DUKE )
+5;TEST A LA LH- RH;biologie;TEST A LA LH- RH
+5;Cross-match TEST DE COMPATIBILITE SANGUINE;biologie;Cross-match TEST DE COMPATIBILITE SANGUINE
+5;TEST DE COOMBS DIRECT;biologie;TEST DE COOMBS DIRECT
+5;TEST DE COOMBS INDIRECT;biologie;TEST DE COOMBS INDIRECT
+5;TEST DE FREINATION A LA DEXAMETHASONE;biologie;TEST DE FREINATION A LA DEXAMETHASONE
+5;TEST DE FREINATION DE LA GH;biologie;TEST DE FREINATION DE LA GH
+5;TEST DE GROSSESSE PLASMATIQUE;biologie;TEST DE GROSSESSE PLASMATIQUE
+5;TEST de O'SULLIVAN;biologie;TEST de O'SULLIVAN
+5;TEST DE STIMULATION DE LA GH;biologie;TEST DE STIMULATION DE LA GH
+5;TEST DE STIMULATION HCG;biologie;TEST DE STIMULATION HCG
+5;TEST O'SULLIVAN (75 g/glucose);biologie;TEST O'SULLIVAN (75 g/glucose)
+5;TEST O'SULLIVAN 3H ( 100 g/glucose);biologie;TEST O'SULLIVAN 3H ( 100 g/glucose)
+5;TEST POST COITAL;biologie;TEST POST COITAL
+5;TESTOSTERONE;biologie;TESTOSTERONE
+5;TESTOSTERONE LIBRE;biologie;TESTOSTERONE LIBRE
+5;THYREOSTIMULINE ( TSH );biologie;THYREOSTIMULINE ( TSH )
+5;THYROGLOBULINE;biologie;THYROGLOBULINE
+5;THYROXINE ( T4 );biologie;THYROXINE ( T4 )
+5;THYROXINE LIBRE ( FT3 );biologie;THYROXINE LIBRE ( FT3 )
+5;THYROXINE LIBRE ( FT4 );biologie;THYROXINE LIBRE ( FT4 )
+5;TOXO-IGG AVIDITE;biologie;TOXO-IGG AVIDITE
+5;TRANSFERRINE CARBOXY-DEFICIENTE;biologie;TRANSFERRINE CARBOXY-DEFICIENTE
+5;TRIGLYCERIDES;biologie;TRIGLYCERIDES
+5;TROPONINE I ULTRASENSIBLE;biologie;TROPONINE I ULTRASENSIBLE
+5;UREE;biologie;UREE
+5;UREE (aprés dialyse);biologie;UREE (aprés dialyse)
+5;UREE URINAIRE;biologie;UREE URINAIRE
+5;VIRUS DE L'HÉPATITE C ( TYPÉ APRÈS PCR ET HYBRIDATION);biologie;VIRUS DE L'HÉPATITE C ( TYPÉ APRÈS PCR ET HYBRIDATION)
+5;VIRUS DES OREILLONS;biologie;VIRUS DES OREILLONS
+5;VITAMINE B 12;biologie;VITAMINE B 12
+5;VITAMINE D3;biologie;VITAMINE D3
+5;VITAMINE E;biologie;VITAMINE E
+5;VITAMINE PP;biologie;VITAMINE PP
+5;VITESSE DE SEDIMENTATION;biologie;VITESSE DE SEDIMENTATION
+5;YERSINIA;biologie;YERSINIA
+5;ZINC;biologie;ZINC
+5;DOSAGE DE L'ANTIGENE CA 15-3;biologie;DOSAGE DE L'ANTIGENE CA 15-3
+5;LIQUIDE ASCITE;biologie;LIQUIDE ASCITE
+5;LIQUIDE PLEURAL;biologie;LIQUIDE PLEURAL
+5;LIQUIDE SYNOVIAL;biologie;LIQUIDE SYNOVIAL
+5;PROCALCITONINE;biologie;PROCALCITONINE
+5;AC. ANTI - TRANSGLUTAMINASE TISSULAIRE IGA;biologie;AC. ANTI - TRANSGLUTAMINASE TISSULAIRE IGA
+5;2 genoux de face;examen_complementaire;2 genoux de face
+5;2 mains de face;examen_complementaire;2 mains de face
+5;2 pieds de face;examen_complementaire;2 pieds de face
+5;4 axes / Examen crânien;examen_complementaire;4 axes / Examen crânien
+5;abalataion par radio-fréquence frais de salle;examen_complementaire;abalataion par radio-fréquence frais de salle
+5;Abdomen sans préparation (ASP):Une incidence au lit de malade;examen_complementaire;Abdomen sans préparation (ASP):Une incidence au lit de malade
+5;Abdomen sans préparation: Par incidence supplémentaire (sans dépasser les trois incidences);examen_complementaire;Abdomen sans préparation: Par incidence supplémentaire (sans dépasser les trois incidences)
+5;Abdomen sans préparation: Une incidence;examen_complementaire;Abdomen sans préparation: Une incidence
+5;Acte de radiologie interventionnelle Par échographie;examen_complementaire;Acte de radiologie interventionnelle Par échographie
+5;Age osseux: Par incidence supplémentaire;examen_complementaire;Age osseux: Par incidence supplémentaire
+5;Age osseux: Une incidence;examen_complementaire;Age osseux: Une incidence
+5;Angiographie médullaire;examen_complementaire;Angiographie médullaire
+5;Angiographie transcutanée des malformations des parties molles;examen_complementaire;Angiographie transcutanée des malformations des parties molles
+5;Angioplastie de l'artère sous clavière;examen_complementaire;Angioplastie de l'artère sous clavière
+5;Angioplastie des carotides ou des vaisceaux intracrâniens;examen_complementaire;Angioplastie des carotides ou des vaisceaux intracrâniens
+5;Angioplastie peripherique avec mise en place éventuelle d'un stent fémorale;examen_complementaire;Angioplastie peripherique avec mise en place éventuelle d'un stent fémorale
+5;Angioplastie peripherique avec mise en place éventuelle d'un stent iliaque;examen_complementaire;Angioplastie peripherique avec mise en place éventuelle d'un stent iliaque
+5;Angioplastie peripherique avec mise en place éventuelle d'un stent poplité;examen_complementaire;Angioplastie peripherique avec mise en place éventuelle d'un stent poplité
+5;Angioplastie viscérale;examen_complementaire;Angioplastie viscérale
+5;Angioscanner de l'aorte et de ses branches;examen_complementaire;Angioscanner de l'aorte et de ses branches
+5;Angioscanner des troncs supra aortiques;examen_complementaire;Angioscanner des troncs supra aortiques
+5;Angioscanner des vaisceaux de l'abdomen;examen_complementaire;Angioscanner des vaisceaux de l'abdomen
+5;Angioscanner des vaisseaux périphériques (membre supérieur ou inférieur);examen_complementaire;Angioscanner des vaisseaux périphériques (membre supérieur ou inférieur)
+5;Angioscanner du polygone de Willis;examen_complementaire;Angioscanner du polygone de Willis
+5;Angioscanner thoracique;examen_complementaire;Angioscanner thoracique
+5;Arthrographie de l'epaule avec dilataion;examen_complementaire;Arthrographie de l'epaule avec dilataion
+5;Articulation inter-apophysaire postérieur comprenant l'acte d'injection de produit de contraste;examen_complementaire;Articulation inter-apophysaire postérieur comprenant l'acte d'injection de produit de contraste
+5;Articulation inter-phalangienne comprenant l'acte d'injection de produit de contraste;examen_complementaire;Articulation inter-phalangienne comprenant l'acte d'injection de produit de contraste
+5;Articulation métacarpo-phalangienne comprenant l'acte d'injection de produit de contraste;examen_complementaire;Articulation métacarpo-phalangienne comprenant l'acte d'injection de produit de contraste
+5;Articulation sacro-iliaque comprenant l'acte d'injection de produit de contraste;examen_complementaire;Articulation sacro-iliaque comprenant l'acte d'injection de produit de contraste
+5;Avant-bras F+P;examen_complementaire;Avant-bras F+P
+5;Axiales 2 genoux 2 incidences;examen_complementaire;Axiales 2 genoux 2 incidences
+5;Bassin,Hanche,Articulation: une incidence;examen_complementaire;Bassin,Hanche,Articulation: une incidence
+5;Bassin,Hanche,Articulations sacro-iliaques: Par incidence supplémentaire;examen_complementaire;Bassin,Hanche,Articulations sacro-iliaques: Par incidence supplémentaire
+5;Biopsie vertébrale;examen_complementaire;Biopsie vertébrale
+5;Cavernographie;examen_complementaire;Cavernographie
+5;Cavographie;examen_complementaire;Cavographie
+5;Cavum;examen_complementaire;Cavum
+5;Cémentoplastie;examen_complementaire;Cémentoplastie
+5;Changement de cathéter ou de prothèse biliaire;examen_complementaire;Changement de cathéter ou de prothèse biliaire
+5;Changement d'un drain percutané;examen_complementaire;Changement d'un drain percutané
+5;Charnière cervico-occipitale: Par incidence supplémentaire;examen_complementaire;Charnière cervico-occipitale: Par incidence supplémentaire
+5;Charnière cervico-occipitale: Une incidence;examen_complementaire;Charnière cervico-occipitale: Une incidence
+5;Cheville comprenant l'acte d'injection de produit de contraste;examen_complementaire;Cheville comprenant l'acte d'injection de produit de contraste
+5;Cheville F+P;examen_complementaire;Cheville F+P
+5;Cholangiographie par drain;examen_complementaire;Cholangiographie par drain
+5;Clavicule;examen_complementaire;Clavicule
+5;COLLOSCOPIE PARTIELLE;examen_complementaire;COLLOSCOPIE PARTIELLE
+5;COLLOSCOPIE PARTIELLE+BIOPSIE;examen_complementaire;COLLOSCOPIE PARTIELLE+BIOPSIE
+5;COLLOSCOPIE TOTALE;examen_complementaire;COLLOSCOPIE TOTALE
+5;COLLOSCOPIE TOTALE AVEC BIOBSI;examen_complementaire;COLLOSCOPIE TOTALE AVEC BIOBSI
+5;COLLOSCOPIE TOTALE AVEC BIOBSI + PHOTO;examen_complementaire;COLLOSCOPIE TOTALE AVEC BIOBSI + PHOTO
+5;COLLOSCOPIE TOTALE AVEC PHOTO;examen_complementaire;COLLOSCOPIE TOTALE AVEC PHOTO
+5;Coloscanner;examen_complementaire;Coloscanner
+5;Coloscopie gauche avec anesthésie;examen_complementaire;Coloscopie gauche avec anesthésie
+5;Coloscopie gauche sans anesthésie;examen_complementaire;Coloscopie gauche sans anesthésie
+5;Coloscopie totale;examen_complementaire;Coloscopie totale
+5;Colpocystographie, injection non comprise;examen_complementaire;Colpocystographie, injection non comprise
+5;Complément Cliché GM;examen_complementaire;Complément Cliché GM
+5;Complément Cliché PM;examen_complementaire;Complément Cliché PM
+5;Complément clichets GM;examen_complementaire;Complément clichets GM
+5;Complément clichets PM;examen_complementaire;Complément clichets PM
+5;Complément IRM;examen_complementaire;Complément IRM
+5;Complément PEC 100;examen_complementaire;Complément PEC 100
+5;Complément PEC 150;examen_complementaire;Complément PEC 150
+5;Complément PEC 250;examen_complementaire;Complément PEC 250
+5;Complément PEC 60;examen_complementaire;Complément PEC 60
+5;Complément PEC 90;examen_complementaire;Complément PEC 90
+5;Contenu utérin;examen_complementaire;Contenu utérin
+5;CORONAROGRAPHIE;examen_complementaire;CORONAROGRAPHIE
+5;coronarographie frais de salle;examen_complementaire;coronarographie frais de salle
+5;Costovertébrales;examen_complementaire;Costovertébrales
+5;Coude comprenant l'acte d'injection de produit de contraste;examen_complementaire;Coude comprenant l'acte d'injection de produit de contraste
+5;coude F+P;examen_complementaire;coude F+P
+5;CPRE;examen_complementaire;CPRE
+5;Crâne: Par incidence supplémentaire;examen_complementaire;Crâne: Par incidence supplémentaire
+5;Crâne: Une incidence;examen_complementaire;Crâne: Une incidence
+5;Cystographie, injection non comprise;examen_complementaire;Cystographie, injection non comprise
+5;Dacryocystographie;examen_complementaire;Dacryocystographie
+5;Défécographie;examen_complementaire;Défécographie
+5;Dentascanner;examen_complementaire;Dentascanner
+5;Désinvagination intestinale aigue par lavement;examen_complementaire;Désinvagination intestinale aigue par lavement
+5;Désinvagination sous controle scopique;examen_complementaire;Désinvagination sous controle scopique
+5;Deux Talons de profil;examen_complementaire;Deux Talons de profil
+5;dilatation coronaire frais de salle;examen_complementaire;dilatation coronaire frais de salle
+5;dilatation des artères rénales  frais de salle;examen_complementaire;dilatation des artères rénales  frais de salle
+5;dilatation mitrale frais de salle;examen_complementaire;dilatation mitrale frais de salle
+5;DILATATION MONOTRONCULAIRE (stent actif);examen_complementaire;DILATATION MONOTRONCULAIRE (stent actif)
+5;DILATATION MONOTRONCULAIRE (stent nu);examen_complementaire;DILATATION MONOTRONCULAIRE (stent nu)
+5;DILATATION MONOTRONCULAIRE+2 STENTS ACTIFS;examen_complementaire;DILATATION MONOTRONCULAIRE+2 STENTS ACTIFS
+5;DILATATION MULTITRONCULAIRE;examen_complementaire;DILATATION MULTITRONCULAIRE
+5;dilatation pulmonaire frais de salle;examen_complementaire;dilatation pulmonaire frais de salle
+5;dilatation vasculaire frais de salle;examen_complementaire;dilatation vasculaire frais de salle
+5;Discographie;examen_complementaire;Discographie
+5;Doigt F+P;examen_complementaire;Doigt F+P
+5;Drainage biliaire externe;examen_complementaire;Drainage biliaire externe
+5;Drainage biliaire interne-externe;examen_complementaire;Drainage biliaire interne-externe
+5;Drainage percutané d'une collection abdominale;examen_complementaire;Drainage percutané d'une collection abdominale
+5;Drainage percutané d'une collection thoracique;examen_complementaire;Drainage percutané d'une collection thoracique
+5;echo-doppler 2 regions;examen_complementaire;echo-doppler 2 regions
+5;Echo-doppler de l'aorte et de ses branches;examen_complementaire;Echo-doppler de l'aorte et de ses branches
+5;Echo-doppler des artères rénales;examen_complementaire;Echo-doppler des artères rénales
+5;Echo-doppler des toncs supra aortiques y compris l'exploration transcrânienne éventuelle;examen_complementaire;Echo-doppler des toncs supra aortiques y compris l'exploration transcrânienne éventuelle
+5;echo-doppler des troncs s;examen_complementaire;echo-doppler des troncs s
+5;Echo-doppler des vaisseaux des membres inférieurs artériel ou veineux;examen_complementaire;Echo-doppler des vaisseaux des membres inférieurs artériel ou veineux
+5;Echo-doppler des vaisseaux des membres supérieurs artériel ou veineux;examen_complementaire;Echo-doppler des vaisseaux des membres supérieurs artériel ou veineux
+5;echo-doppler membres infé;examen_complementaire;echo-doppler membres infé
+5;Echo-doppler morphologique d'un ftus;examen_complementaire;Echo-doppler morphologique d'un ftus
+5;Echo-doppler morphologique par ftus supplémentaire;examen_complementaire;Echo-doppler morphologique par ftus supplémentaire
+5;Echo-doppler orbitaire;examen_complementaire;Echo-doppler orbitaire
+5;Echo-doppler pénien;examen_complementaire;Echo-doppler pénien
+5;Echo-doppler spermatique;examen_complementaire;Echo-doppler spermatique
+5;Echo-doppler trans-crânien;examen_complementaire;Echo-doppler trans-crânien
+5;Echographie abdominale;examen_complementaire;Echographie abdominale
+5;Echographie abdomino_pelvienne;examen_complementaire;Echographie abdomino_pelvienne
+5;Echographie articulaire;examen_complementaire;Echographie articulaire
+5;echographie cardiaque;examen_complementaire;echographie cardiaque
+5;echographie cardiaque tra;examen_complementaire;echographie cardiaque tra
+5;Echographie de repérage et de marquage à la peau;examen_complementaire;Echographie de repérage et de marquage à la peau
+5;Echographie des parties molles;examen_complementaire;Echographie des parties molles
+5;Echographie du 3ème trimestre;examen_complementaire;Echographie du 3ème trimestre
+5;Echographie ftale du 12ème ou 13ème semaine d'aménorrhée avec doppler des artères utérines;examen_complementaire;Echographie ftale du 12ème ou 13ème semaine d'aménorrhée avec doppler des artères utérines
+5;Echographie mammaire;examen_complementaire;Echographie mammaire
+5;Echographie obstétricale du 1er trimestre gestationnel (datation);examen_complementaire;Echographie obstétricale du 1er trimestre gestationnel (datation)
+5;Echographie orbitaire;examen_complementaire;Echographie orbitaire
+5;Echographie par voie endo-cavitaire;examen_complementaire;Echographie par voie endo-cavitaire
+5;Echographie pelvienne (par voie sus pubienne);examen_complementaire;Echographie pelvienne (par voie sus pubienne)
+5;Echographie transfontanellaire;examen_complementaire;Echographie transfontanellaire
+5;Echographie trans-oeusophagienne;examen_complementaire;Echographie trans-oeusophagienne
+5;ecographie cardiaque sh;examen_complementaire;ecographie cardiaque sh
+5;Embolisation artérielle des hémorragies utérovaginales;examen_complementaire;Embolisation artérielle des hémorragies utérovaginales
+5;Embolisation artérielle ou percutanée des malformations artérioveineuses périphériques;examen_complementaire;Embolisation artérielle ou percutanée des malformations artérioveineuses périphériques
+5;Embolisation artérielle rénale;examen_complementaire;Embolisation artérielle rénale
+5;Embolisation bronchique;examen_complementaire;Embolisation bronchique
+5;Embolisation d'anévrysme artériel pulmonaire;examen_complementaire;Embolisation d'anévrysme artériel pulmonaire
+5;Embolisation de malformation artérioveineuse;examen_complementaire;Embolisation de malformation artérioveineuse
+5;Embolisation de varicocèles;examen_complementaire;Embolisation de varicocèles
+5;Embolisation des artères à destinée cervicoencéphalique;examen_complementaire;Embolisation des artères à destinée cervicoencéphalique
+5;Embolisation des malformations lymphatiques superficielles;examen_complementaire;Embolisation des malformations lymphatiques superficielles
+5;Embolisation des malformations vasculaires;examen_complementaire;Embolisation des malformations vasculaires
+5;Embolisation des malformations veineuses superficielles;examen_complementaire;Embolisation des malformations veineuses superficielles
+5;Embolisation des malformations veineuses superficielles à extension profonde;examen_complementaire;Embolisation des malformations veineuses superficielles à extension profonde
+5;Embolisation des masses pelviennes;examen_complementaire;Embolisation des masses pelviennes
+5;Embolisation des vaisseaux intracrâniens ( anévrysme, malformations artérioveineuses);examen_complementaire;Embolisation des vaisseaux intracrâniens ( anévrysme, malformations artérioveineuses)
+5;Embolisation d'une fistule carotido-caverneuse;examen_complementaire;Embolisation d'une fistule carotido-caverneuse
+5;Embolisation d'une fistule durale;examen_complementaire;Embolisation d'une fistule durale
+5;Embolisation médullaire;examen_complementaire;Embolisation médullaire
+5;Endoprothèse urétérale par voie antégrade;examen_complementaire;Endoprothèse urétérale par voie antégrade
+5;Entéroscanner;examen_complementaire;Entéroscanner
+5;Epaule comprenant l'acte d'injection de produit de contraste;examen_complementaire;Epaule comprenant l'acte d'injection de produit de contraste
+5;Epaule: Par incidence supplémentaire;examen_complementaire;Epaule: Par incidence supplémentaire
+5;Epaule: Une incidence;examen_complementaire;Epaule: Une incidence
+5;Eppreuve d effort sh;examen_complementaire;Eppreuve d effort sh
+5;Epreuve d effort;examen_complementaire;Epreuve d effort
+5;Epreuve d'effort;examen_complementaire;Epreuve d'effort
+5;ETO;examen_complementaire;ETO
+5;ETO SH;examen_complementaire;ETO SH
+5;ETT+ETO SH;examen_complementaire;ETT+ETO SH
+5;Examen crânien: Hypersélctif;examen_complementaire;Examen crânien: Hypersélctif
+5;Examen périphérique: Global;examen_complementaire;Examen périphérique: Global
+5;Examen périphérique: Sélectif;examen_complementaire;Examen périphérique: Sélectif
+5;Examen radiologique du colon;examen_complementaire;Examen radiologique du colon
+5;Examen sans préparation;examen_complementaire;Examen sans préparation
+5;Examen viscéral: Hypersélctif  ;examen_complementaire;Examen viscéral: Hypersélctif  
+5;Examen viscéral: Sélectif;examen_complementaire;Examen viscéral: Sélectif
+5;exploration électrophysiologique frais de salle;examen_complementaire;exploration électrophysiologique frais de salle
+5;Extraction de corps étranger intra vasculaire;examen_complementaire;Extraction de corps étranger intra vasculaire
+5;Fémur F+P;examen_complementaire;Fémur F+P
+5;FIBRO AVEC BIOBSI;examen_complementaire;FIBRO AVEC BIOBSI
+5;FIBRO AVEC PHOTO;examen_complementaire;FIBRO AVEC PHOTO
+5;FIBRO AVEC PHOTO + BIOBSI;examen_complementaire;FIBRO AVEC PHOTO + BIOBSI
+5;FIBRO BRONCHIQUE;examen_complementaire;FIBRO BRONCHIQUE
+5;FIBRO SIMPLE;examen_complementaire;FIBRO SIMPLE
+5;FIBRO+LIGATURE DE V.O;examen_complementaire;FIBRO+LIGATURE DE V.O
+5;Fibro-colo;examen_complementaire;Fibro-colo
+5;Fibroscopie avec anesthesie;examen_complementaire;Fibroscopie avec anesthesie
+5;Fibroscopie bronchique;examen_complementaire;Fibroscopie bronchique
+5;Fibroscopie digestive;examen_complementaire;Fibroscopie digestive
+5;Fibroscopie sans anesthésie;examen_complementaire;Fibroscopie sans anesthésie
+5;Fistulographie artérioveineuse;examen_complementaire;Fistulographie artérioveineuse
+5;Fistulographie, injection non comprise;examen_complementaire;Fistulographie, injection non comprise
+5;Galactographie, injection non comprise;examen_complementaire;Galactographie, injection non comprise
+5;Genou comprenant l'acte d'injection de produit de contraste;examen_complementaire;Genou comprenant l'acte d'injection de produit de contraste
+5;Genou: 2 incidences;examen_complementaire;Genou: 2 incidences
+5;Genou: Par incidence supplémentaire;examen_complementaire;Genou: Par incidence supplémentaire
+5;Gril costal, ou sternum, ou hémithorax, ou articulation sterno-claviculaire: Une incidence  ;examen_complementaire;Gril costal, ou sternum, ou hémithorax, ou articulation sterno-claviculaire: Une incidence  
+5;Guidage biopsie prostatique;examen_complementaire;Guidage biopsie prostatique
+5;Hanche (coxometrie) : une incidence;examen_complementaire;Hanche (coxometrie) : une incidence
+5;Hanche comprenant l'acte d'injection de produit de contraste;examen_complementaire;Hanche comprenant l'acte d'injection de produit de contraste
+5;holter rythmique;examen_complementaire;holter rythmique
+5;holter rythmique sh;examen_complementaire;holter rythmique sh
+5;holter tensionnel;examen_complementaire;holter tensionnel
+5;holter tensionnel sh;examen_complementaire;holter tensionnel sh
+5;Humérus F+P;examen_complementaire;Humérus F+P
+5;Hystérosalpingographie,injection non comprise;examen_complementaire;Hystérosalpingographie,injection non comprise
+5;Iléus méconial lavement;examen_complementaire;Iléus méconial lavement
+5;Injction intra-veineuse;examen_complementaire;Injction intra-veineuse
+5;Injection du produit de contrast pour Urétro-Cystographie Rétrograde;examen_complementaire;Injection du produit de contrast pour Urétro-Cystographie Rétrograde
+5;Injection intra-veineuse;examen_complementaire;Injection intra-veineuse
+5;IRM Abdomen;examen_complementaire;IRM Abdomen
+5;IRM Abdomino Pelvienne;examen_complementaire;IRM Abdomino Pelvienne
+5;IRM Bassin;examen_complementaire;IRM Bassin
+5;IRM Cardiaque;examen_complementaire;IRM Cardiaque
+5;IRM cardiaque + épreuve de stress;examen_complementaire;IRM cardiaque + épreuve de stress
+5;IRM cérébrale;examen_complementaire;IRM cérébrale
+5;IRM cérébrale + spectroscopie;examen_complementaire;IRM cérébrale + spectroscopie
+5;IRM cérébrale + tractographie;examen_complementaire;IRM cérébrale + tractographie
+5;IRM Cérébro Cervicale;examen_complementaire;IRM Cérébro Cervicale
+5;IRM Cérébro Médulaire Totale;examen_complementaire;IRM Cérébro Médulaire Totale
+5;IRM Cheville;examen_complementaire;IRM Cheville
+5;IRM Coude;examen_complementaire;IRM Coude
+5;IRM Cuisse;examen_complementaire;IRM Cuisse
+5;IRM de deux régions anatomiques contiguës;examen_complementaire;IRM de deux régions anatomiques contiguës
+5;IRM de deux régions anatomiques non contiguës ou plus;examen_complementaire;IRM de deux régions anatomiques non contiguës ou plus
+5;IRM Dorso lombaire;examen_complementaire;IRM Dorso lombaire
+5;IRM du corps entier;examen_complementaire;IRM du corps entier
+5;IRM d'une articulation ou d'un segment de membre;examen_complementaire;IRM d'une articulation ou d'un segment de membre
+5;IRM d'une région anatomique;examen_complementaire;IRM d'une région anatomique
+5;IRM Genou;examen_complementaire;IRM Genou
+5;IRM Jambe;examen_complementaire;IRM Jambe
+5;IRM Lombaire;examen_complementaire;IRM Lombaire
+5;IRM Main;examen_complementaire;IRM Main
+5;IRM Mammaire;examen_complementaire;IRM Mammaire
+5;IRM Pelvis;examen_complementaire;IRM Pelvis
+5;IRM Pied;examen_complementaire;IRM Pied
+5;IRM Poignet;examen_complementaire;IRM Poignet
+5;IRM Rachis Cervicale;examen_complementaire;IRM Rachis Cervicale
+5;IRM Rachis Dorsal;examen_complementaire;IRM Rachis Dorsal
+5;IRM Rachis Entier;examen_complementaire;IRM Rachis Entier
+5;Jambe F+P;examen_complementaire;Jambe F+P
+5;Laser osseux;examen_complementaire;Laser osseux
+5;Main F+3/4;examen_complementaire;Main F+3/4
+5;Mammographie diagnostique bilatérale avec échographie mammaire: Examen complet;examen_complementaire;Mammographie diagnostique bilatérale avec échographie mammaire: Examen complet
+5;Mammographie unilatérale avec échographie mammaire;examen_complementaire;Mammographie unilatérale avec échographie mammaire
+5;MANOMETRIE;examen_complementaire;MANOMETRIE
+5;Membre Supérieur Entier-2 Incidences (enfant);examen_complementaire;Membre Supérieur Entier-2 Incidences (enfant)
+5;Mise en place d'un filtre cave;examen_complementaire;Mise en place d'un filtre cave
+5;Mode de guidage par échographie;examen_complementaire;Mode de guidage par échographie
+5;Mode de guidage par fluoroscopie de courte durée;examen_complementaire;Mode de guidage par fluoroscopie de courte durée
+5;Mode de guidage par fluoroscopie de longue durée;examen_complementaire;Mode de guidage par fluoroscopie de longue durée
+5;Mode de guidage par IRM;examen_complementaire;Mode de guidage par IRM
+5;Mode de guidage par scanner;examen_complementaire;Mode de guidage par scanner
+5;montée de sonde (EES) frais de salle;examen_complementaire;montée de sonde (EES) frais de salle
+5;Myélographie;examen_complementaire;Myélographie
+5;Myéloscanner;examen_complementaire;Myéloscanner
+5;Néphrostomie percutanée;examen_complementaire;Néphrostomie percutanée
+5;Neurolyse de la fosse ptérygopalatine;examen_complementaire;Neurolyse de la fosse ptérygopalatine
+5;Omoplate: Par incidence supplémentaire;examen_complementaire;Omoplate: Par incidence supplémentaire
+5;Omoplate: Une incidence  ;examen_complementaire;Omoplate: Une incidence  
+5;Opacification biliaire par ponction de la vésicule biliaire ou des voies biliaires;examen_complementaire;Opacification biliaire par ponction de la vésicule biliaire ou des voies biliaires
+5;Orteil;examen_complementaire;Orteil
+5;Ostéodensitométrie;examen_complementaire;Ostéodensitométrie
+5;Phlébographie 1 membre;examen_complementaire;Phlébographie 1 membre
+5;Phlébographie 2 membres;examen_complementaire;Phlébographie 2 membres
+5;Phlébographie membres inférieurs;examen_complementaire;Phlébographie membres inférieurs
+5;PHMETRIE;examen_complementaire;PHMETRIE
+5;Pied (podométrie) : une incidence;examen_complementaire;Pied (podométrie) : une incidence
+5;Pied F+P;examen_complementaire;Pied F+P
+5;Poignet comprenant l'acte d'injection de produit de contraste;examen_complementaire;Poignet comprenant l'acte d'injection de produit de contraste
+5;Poignet F+P;examen_complementaire;Poignet F+P
+5;Poignet F+P+Scaphoïde;examen_complementaire;Poignet F+P+Scaphoïde
+5;POLYPECTOMIE 1;examen_complementaire;POLYPECTOMIE 1
+5;POLYPECTOMIE 2;examen_complementaire;POLYPECTOMIE 2
+5;Ponction biopsie de la sphère ORL;examen_complementaire;Ponction biopsie de la sphère ORL
+5;Ponction cytologie superficielle;examen_complementaire;Ponction cytologie superficielle
+5;Ponction d'abcès sous périosité;examen_complementaire;Ponction d'abcès sous périosité
+5;Ponction lavage des articulations périarticulaires;examen_complementaire;Ponction lavage des articulations périarticulaires
+5;Ponction mammaire de kyste ou pour cytologie;examen_complementaire;Ponction mammaire de kyste ou pour cytologie
+5;Ponction percutanée du rein par voie transjugulaire;examen_complementaire;Ponction percutanée du rein par voie transjugulaire
+5;Ponction thyroidienne sous Echo;examen_complementaire;Ponction thyroidienne sous Echo
+5;Ponction-aspiration percutanée d'un abcès;examen_complementaire;Ponction-aspiration percutanée d'un abcès
+5;Ponction-biopsie percutanée rénale ou d'une masse rétropéritonéale;examen_complementaire;Ponction-biopsie percutanée rénale ou d'une masse rétropéritonéale
+5;Ponction-biopsie viscérale ou ganglionnaire profonde;examen_complementaire;Ponction-biopsie viscérale ou ganglionnaire profonde
+5;pose de ballon de contre pulsion intra-aeortique frais de salle;examen_complementaire;pose de ballon de contre pulsion intra-aeortique frais de salle
+5;pose de filtre cave frais de salle;examen_complementaire;pose de filtre cave frais de salle
+5;Pose de harpon;examen_complementaire;Pose de harpon
+5;pose de pace make frais de salle;examen_complementaire;pose de pace make frais de salle
+5;Pyélographie ou urétéropyélographie retrograde;examen_complementaire;Pyélographie ou urétéropyélographie retrograde
+5;Rachis Cervical: Par incidence supplémentaire;examen_complementaire;Rachis Cervical: Par incidence supplémentaire
+5;Rachis Cervical: Une incidence;examen_complementaire;Rachis Cervical: Une incidence
+5;Rachis Dorsal: Par incidence supplémentaire;examen_complementaire;Rachis Dorsal: Par incidence supplémentaire
+5;Rachis Dorsal: Une incidence;examen_complementaire;Rachis Dorsal: Une incidence
+5;Rachis entier petit enfant F+P;examen_complementaire;Rachis entier petit enfant F+P
+5;Rachis lombaire ou lombosacré: F+P (comprenant l'étude de la charnière);examen_complementaire;Rachis lombaire ou lombosacré: F+P (comprenant l'étude de la charnière)
+5;Rachis lombaire ou lombosacré: Par incidence supplémentaire (oblique ou dynamique);examen_complementaire;Rachis lombaire ou lombosacré: Par incidence supplémentaire (oblique ou dynamique)
+5;Radiofréquence osseuse;examen_complementaire;Radiofréquence osseuse
+5;Radiographie de la pièce opératoire mammaire ou produit de biopsie;examen_complementaire;Radiographie de la pièce opératoire mammaire ou produit de biopsie
+5;Radiographie du thorax: Par incidence supplémentaire;examen_complementaire;Radiographie du thorax: Par incidence supplémentaire
+5;Radiographie du thorax: Par incidence supplémentaire au lit d malade;examen_complementaire;Radiographie du thorax: Par incidence supplémentaire au lit d malade
+5;Radiographie du thorax: Une incidence;examen_complementaire;Radiographie du thorax: Une incidence
+5;Radiographie du thorax: Une incidence au lit de malade;examen_complementaire;Radiographie du thorax: Une incidence au lit de malade
+5;Radiographie dynamique du genou (Télos);examen_complementaire;Radiographie dynamique du genou (Télos)
+5;Radiographie panoramique: Par incidence supplémentaire;examen_complementaire;Radiographie panoramique: Par incidence supplémentaire
+5;Radiographie panoramique: Une incidence  ;examen_complementaire;Radiographie panoramique: Une incidence  
+5;Radiopelvimétrie;examen_complementaire;Radiopelvimétrie
+5;réadaptation cardiaque;examen_complementaire;réadaptation cardiaque
+5;Recanalisation tubaire par salpingographie;examen_complementaire;Recanalisation tubaire par salpingographie
+5;Rectoscopie;examen_complementaire;Rectoscopie
+5;RI: Arthographie globale thoracique ou abdominale;examen_complementaire;RI: Arthographie globale thoracique ou abdominale
+5;RI: Arthrodilataion sous scanner;examen_complementaire;RI: Arthrodilataion sous scanner
+5;RI: Arthrographie de l'epaul avec dilataion;examen_complementaire;RI: Arthrographie de l'epaul avec dilataion
+5;RI: Arthroscanner;examen_complementaire;RI: Arthroscanner
+5;RI: Autres radiologie interventionnelle ostéoarticulaires;examen_complementaire;RI: Autres radiologie interventionnelle ostéoarticulaires
+5;RI: Biopsie discovertébrale;examen_complementaire;RI: Biopsie discovertébrale
+5;RI: Biopsie hépatique sous Echo;examen_complementaire;RI: Biopsie hépatique sous Echo
+5;RI: Biopsie intra abdominale;examen_complementaire;RI: Biopsie intra abdominale
+5;RI: Biopsie mammaire;examen_complementaire;RI: Biopsie mammaire
+5;RI: Biopsie médiastinale;examen_complementaire;RI: Biopsie médiastinale
+5;RI: Biopsie osseuse périphérique;examen_complementaire;RI: Biopsie osseuse périphérique
+5;RI: Biopsie prostatique ou séminale;examen_complementaire;RI: Biopsie prostatique ou séminale
+5;RI: Biopsie pulmonaire;examen_complementaire;RI: Biopsie pulmonaire
+5;RI: Biopsie vertebrale;examen_complementaire;RI: Biopsie vertebrale
+5;RI: Infilitration Périradiculaire;examen_complementaire;RI: Infilitration Périradiculaire
+5;RI: Infiltration Articulaire, périarticulaire, épidurale ou par le hiatus saccrococcygien;examen_complementaire;RI: Infiltration Articulaire, périarticulaire, épidurale ou par le hiatus saccrococcygien
+5;RI: Infiltration au concentré plaquettaire: épaule, coude, cheville;examen_complementaire;RI: Infiltration au concentré plaquettaire: épaule, coude, cheville
+5;RI: Infiltration avec arthroscopie: articulation postérieures cervicales;examen_complementaire;RI: Infiltration avec arthroscopie: articulation postérieures cervicales
+5;RI: Infiltration avec arthroscopie: articulation postérieures lombaire;examen_complementaire;RI: Infiltration avec arthroscopie: articulation postérieures lombaire
+5;RI: Infiltration foraminale;examen_complementaire;RI: Infiltration foraminale
+5;RI: Infiltration Peridurale;examen_complementaire;RI: Infiltration Peridurale
+5;RI: Infiltration Pudendale;examen_complementaire;RI: Infiltration Pudendale
+5;RI: Infiltration rachis sous scanner;examen_complementaire;RI: Infiltration rachis sous scanner
+5;RI: Infiltration sous echo;examen_complementaire;RI: Infiltration sous echo
+5;RI: Infiltration sous echo sus épineux;examen_complementaire;RI: Infiltration sous echo sus épineux
+5;RI: Macrobiopsie mammaire;examen_complementaire;RI: Macrobiopsie mammaire
+5;RI: Microbiopsie mammaire;examen_complementaire;RI: Microbiopsie mammaire
+5;RI: Nephrostomie percutanée sous guidage;examen_complementaire;RI: Nephrostomie percutanée sous guidage
+5;RI:Hystérosonographie;examen_complementaire;RI:Hystérosonographie
+5;Sacco-radiculographie;examen_complementaire;Sacco-radiculographie
+5;Scanner cardiaque (Coroscanner);examen_complementaire;Scanner cardiaque (Coroscanner)
+5;Scanner cérébral SPC;examen_complementaire;Scanner cérébral SPC
+5;Scanner rénal SPC;examen_complementaire;Scanner rénal SPC
+5;Scanopelvimétrie;examen_complementaire;Scanopelvimétrie
+5;Scaphoïde (2 incidendes);examen_complementaire;Scaphoïde (2 incidendes)
+5;Sialographie;examen_complementaire;Sialographie
+5;Squelette entier;examen_complementaire;Squelette entier
+5;Sympatholyse chimique étage lombaire;examen_complementaire;Sympatholyse chimique étage lombaire
+5;Sympatholyse chimique étage thoracique;examen_complementaire;Sympatholyse chimique étage thoracique
+5;Synoviorthèse des articulations profondes à l'acide osmique;examen_complementaire;Synoviorthèse des articulations profondes à l'acide osmique
+5;Talon;examen_complementaire;Talon
+5;Tarse comprenant l'acte d'injection de produit de contraste;examen_complementaire;Tarse comprenant l'acte d'injection de produit de contraste
+5;TDM abdominale;examen_complementaire;TDM abdominale
+5;TDM abdomino-pelvienne;examen_complementaire;TDM abdomino-pelvienne
+5;TDM articulaire (quel que soit le type d'articulation);examen_complementaire;TDM articulaire (quel que soit le type d'articulation)
+5;TDM cérébrale;examen_complementaire;TDM cérébrale
+5;TDM cervico-thoracique;examen_complementaire;TDM cervico-thoracique
+5;TDM de deux régions craniennes;examen_complementaire;TDM de deux régions craniennes
+5;TDM de deux régions du rachis;examen_complementaire;TDM de deux régions du rachis
+5;TDM de la charnière cervico-occipitale, cervico-dorsale, dorso-lombaire, lombo-sacrée;examen_complementaire;TDM de la charnière cervico-occipitale, cervico-dorsale, dorso-lombaire, lombo-sacrée
+5;TDM de l'articulation temporo-mandibulaire;examen_complementaire;TDM de l'articulation temporo-mandibulaire
+5;TDM de larynx;examen_complementaire;TDM de larynx
+5;TDM de mensuration;examen_complementaire;TDM de mensuration
+5;TDM de pharynx;examen_complementaire;TDM de pharynx
+5;TDM de repérage;examen_complementaire;TDM de repérage
+5;TDM de simulation;examen_complementaire;TDM de simulation
+5;TDM des rochers;examen_complementaire;TDM des rochers
+5;TDM du bassin ou d'un segment de membre (humérus, fémur, jambe);examen_complementaire;TDM du bassin ou d'un segment de membre (humérus, fémur, jambe)
+5;TDM du cavum;examen_complementaire;TDM du cavum
+5;TDM du corps entier (polytraumatisé ou de trois régions ou plus);examen_complementaire;TDM du corps entier (polytraumatisé ou de trois régions ou plus)
+5;TDM du cou;examen_complementaire;TDM du cou
+5;TDM du crane et du rachis cervical;examen_complementaire;TDM du crane et du rachis cervical
+5;TDM du massif facial;examen_complementaire;TDM du massif facial
+5;TDM du rachis cervical ou dorsal ou lombaire;examen_complementaire;TDM du rachis cervical ou dorsal ou lombaire
+5;TDM du rachis entier (enfant);examen_complementaire;TDM du rachis entier (enfant)
+5;TDM orbitaire;examen_complementaire;TDM orbitaire
+5;TDM pelvienne;examen_complementaire;TDM pelvienne
+5;TDM thoracique (standart ou haute résolution);examen_complementaire;TDM thoracique (standart ou haute résolution)
+5;TDM thoraco-abdominale;examen_complementaire;TDM thoraco-abdominale
+5;Télémétrie du membre inférieur;examen_complementaire;Télémétrie du membre inférieur
+5;Télémétrie du membre supérieur;examen_complementaire;Télémétrie du membre supérieur
+5;Télémétrie du rachis : une incidence;examen_complementaire;Télémétrie du rachis : une incidence
+5;Télémétrie membre inférieur adulte : une incidence;examen_complementaire;Télémétrie membre inférieur adulte : une incidence
+5;Télémétrie membre inférieur enfant: une incidence;examen_complementaire;Télémétrie membre inférieur enfant: une incidence
+5;Téléradiographie de crâne: Par incidence supplémentaire;examen_complementaire;Téléradiographie de crâne: Par incidence supplémentaire
+5;Téléradiographie de crâne: Une incidence;examen_complementaire;Téléradiographie de crâne: Une incidence
+5;Ténotomie+infiltration tendineuse;examen_complementaire;Ténotomie+infiltration tendineuse
+5;Thrombo-aspiration;examen_complementaire;Thrombo-aspiration
+5;Thrombolyse intra artérielle;examen_complementaire;Thrombolyse intra artérielle
+5;Traitement percutané du kyste rénal;examen_complementaire;Traitement percutané du kyste rénal
+5;Transit du grêle;examen_complementaire;Transit du grêle
+5;Transit gastro-duodénal prolongé sur le grêle;examen_complementaire;Transit gastro-duodénal prolongé sur le grêle
+5;Transit Oeso-gastro-duodénal;examen_complementaire;Transit Oeso-gastro-duodénal
+5;Transit Oesophagien;examen_complementaire;Transit Oesophagien
+5;Transit pharyngo-oesophagien;examen_complementaire;Transit pharyngo-oesophagien
+5;Transport Medicalisé;examen_complementaire;Transport Medicalisé
+5;Uretrocystographie injection non comprise;examen_complementaire;Uretrocystographie injection non comprise
+5;Urographie intraveineuse (y compris ASP), injection non comprise (Adulte);examen_complementaire;Urographie intraveineuse (y compris ASP), injection non comprise (Adulte)
+5;Urographie intraveineuse (y compris ASP), injection non comprise (Enfant);examen_complementaire;Urographie intraveineuse (y compris ASP), injection non comprise (Enfant)
+5;Uroscanner;examen_complementaire;Uroscanner
+5;VO2 max;examen_complementaire;VO2 max

@@ -15,14 +15,30 @@ from apps.core.serializers import AnalyseBiologiqueSerializer, CollectionAnalyse
     ResultatAnalyseBiologiqueSerializer
 
 
+def get_compte(user):
+    """Safely get compte from user, return None if not available"""
+    if not hasattr(user, 'profil') or not user.profil:
+        return None
+    return getattr(user.profil, 'compte', None)
+
+
 class PrescriptionBaseView(PermissionRequiredMixin, TemplateView):
     template_name = 'core/prescription_analyse_form.html'
     permission_required = 'core.change_patient'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        analyses = AnalyseBiologique.objects.filter(compte=self.request.user.profil.compte).order_by('ordre')
-        collections = CollectionAnalyseBiologique.objects.filter(compte=self.request.user.profil.compte)
+        
+        compte = get_compte(self.request.user)
+        if not compte:
+            context['analyses'] = []
+            context['collections'] = []
+            context['analyses_json'] = '[]'
+            context['collections_json'] = '[]'
+            return context
+        
+        analyses = AnalyseBiologique.objects.filter(compte=compte).order_by('ordre')
+        collections = CollectionAnalyseBiologique.objects.filter(compte=compte)
         context['analyses'] = analyses
         context['collections'] = collections
         analyses_json = AnalyseBiologiqueSerializer(analyses, many=True)
@@ -152,12 +168,13 @@ class AnalyseBiologiqueList(PermissionRequiredMixin, ListView):
     permission_required = 'core.view_patient'
 
     def get_queryset(self):
-        return AnalyseBiologique.objects.filter(compte=self.request.user.profil.compte)
+        compte = get_compte(self.request.user)
+        if not compte:
+            return AnalyseBiologique.objects.none()
+        return AnalyseBiologique.objects.filter(compte=compte)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # analyses_json = AnalyseBiologiqueSerializer(self.get_queryset(), many=True)
-        # context['analyses_json'] = json.dumps(analyses_json.data)
         return context
 
 
@@ -170,9 +187,13 @@ class AnalyseBiologiqueCreate(PermissionRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        analyses = AnalyseBiologique.objects.filter(compte=self.request.user.profil.compte);
-        analyses_json = AnalyseBiologiqueSerializer(analyses, many=True)
-        context['analyses_json'] = json.dumps(analyses_json.data)
+        compte = get_compte(self.request.user)
+        if compte:
+            analyses = AnalyseBiologique.objects.filter(compte=compte)
+            analyses_json = AnalyseBiologiqueSerializer(analyses, many=True)
+            context['analyses_json'] = json.dumps(analyses_json.data)
+        else:
+            context['analyses_json'] = '[]'
         return context
 
 
@@ -185,9 +206,13 @@ class AnalyseBiologiqueUpdate(PermissionRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        analyses = AnalyseBiologique.objects.filter(compte=self.request.user.profil.compte);
-        analyses_json = AnalyseBiologiqueSerializer(analyses, many=True)
-        context['analyses_json'] = json.dumps(analyses_json.data)
+        compte = get_compte(self.request.user)
+        if compte:
+            analyses = AnalyseBiologique.objects.filter(compte=compte)
+            analyses_json = AnalyseBiologiqueSerializer(analyses, many=True)
+            context['analyses_json'] = json.dumps(analyses_json.data)
+        else:
+            context['analyses_json'] = '[]'
         return context
 
 @login_required
@@ -201,7 +226,10 @@ def supprimer_analyse_biologique(request, pk):
 @login_required
 @permission_required('core.view_patient', raise_exception=True)
 def rechercher_analyse(request):
-    objects = AnalyseBiologique.objects.filter(compte=request.user.profil.compte)
+    compte = get_compte(request.user)
+    if not compte:
+        return JsonResponse({'data': []})
+    objects = AnalyseBiologique.objects.filter(compte=compte)
     if request.body is not None:
         try:
             body = json.loads(request.body)
@@ -246,7 +274,10 @@ class CollectionAnalyseBiologiqueList(PermissionRequiredMixin, ListView):
     permission_required = 'core.view_patient'
 
     def get_queryset(self):
-        return CollectionAnalyseBiologique.objects.filter(compte=self.request.user.profil.compte)
+        compte = get_compte(self.request.user)
+        if not compte:
+            return CollectionAnalyseBiologique.objects.none()
+        return CollectionAnalyseBiologique.objects.filter(compte=compte)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -323,7 +354,10 @@ def supprimer_collection_analyse_biologique(request, pk):
 @login_required
 @permission_required('core.view_patient', raise_exception=True)
 def rechercher_collection(request):
-    objects = CollectionAnalyseBiologique.objects.filter(compte=request.user.profil.compte)
+    compte = get_compte(request.user)
+    if not compte:
+        return JsonResponse({'data': []})
+    objects = CollectionAnalyseBiologique.objects.filter(compte=compte)
     if request.body is not None:
         try:
             body = json.loads(request.body)

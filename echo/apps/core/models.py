@@ -293,10 +293,14 @@ class Profil(CompteModelBase):
         return self.compte.responsable == self.user
 
     def is_medecin(self):
+        if not hasattr(self, 'user') or not self.user or not hasattr(self.user, 'profil') or not self.user.profil:
+            return False
         return "Médecin" in self.user.profil.groupe
 
     def ville(self):
-        return self.compte.adresse.ville
+        if self.compte and self.compte.adresse:
+            return self.compte.adresse.ville
+        return ""
 
 
 class MedecinManager(DefaultSelectOrPrefetchManager):

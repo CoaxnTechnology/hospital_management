@@ -218,14 +218,22 @@ function afficherEdition() {
     bootstrap.Modal.getOrCreateInstance('#edition-modal').show();
 }
 
+function enregistrerConsultationAndPrint() {
+    enregistrerConsultation(tinymce.activeEditor);
+    createPdf().then(pdfDoc => {
+        let f = document.getElementById('pdf-frame');
+        pdfDoc.getDataUrl(url => f.setAttribute('src', url));
+        bootstrap.Modal.getOrCreateInstance('#pdf-modal').show();
+    });
+}
+
 function imprimerClick() {
     //getConsultationImagesB64();
     enregistrerConsultation(tinymce.activeEditor);
     createPdf().then(pdfDoc => {
-        pdfDoc.open();
-        //let f = document.getElementById('pdf-frame');
-        //pdfDoc.getDataUrl(url => f.setAttribute('src', url));
-        //$('#pdf-modal').modal();
+        let f = document.getElementById('pdf-frame');
+        pdfDoc.getDataUrl(url => f.setAttribute('src', url));
+        bootstrap.Modal.getOrCreateInstance('#pdf-modal').show();
     });
 }
 

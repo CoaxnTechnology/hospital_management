@@ -1105,6 +1105,11 @@
             let addEntetes = {% if user.profil.compte.parametrescompte.ajouter_entetes_edition %}true{% else %}
                 false{% endif %};
 
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Popover(tooltipTriggerEl)
+            })
+
             /*$("body").popover({
                 trigger: "focus",
                 sanitize: false,

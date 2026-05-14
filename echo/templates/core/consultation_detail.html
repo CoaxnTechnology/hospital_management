@@ -12,9 +12,34 @@
         </a>
     </div>
     <div class="mt-2 p-4">
-        <div id="ordonnance-text">
-            {{ object.text|safe }}
+        {% if object.text %}
+        <div class="mb-4">
+            <h6 class="text-muted mb-2">{% trans "Compte-rendu" %}</h6>
+            <div id="ordonnance-text">
+                {{ object.text|safe }}
+            </div>
         </div>
+        {% endif %}
+
+        {% if object.conclusion %}
+        <div class="mb-4">
+            <h6 class="text-muted mb-2">{% trans "Conclusion" %}</h6>
+            <div>{{ object.conclusion|safe }}</div>
+        </div>
+        {% endif %}
+
+        {% if object.conduite %}
+        <div class="mb-4">
+            <h6 class="text-muted mb-2">{% trans "Conduite à tenir" %}</h6>
+            <div>{{ object.conduite|safe }}</div>
+        </div>
+        {% endif %}
+
+        {% if not object.text and not object.conclusion and not object.conduite %}
+        <div class="alert alert-info">
+            {% trans "Aucun contenu pour cette consultation. Cliquez sur 'Editer le compte-rendu' pour ajouter du contenu." %}
+        </div>
+        {% endif %}
     </div>
 
 

@@ -181,50 +181,72 @@ function onSelectionnerCollectionClick(eve, collectionId) {
 
 }
 
-function imprimerPrescription() {
-    const tpl = _.template(unescapeTemplate(modele));
-    const templateSignature = _.template(unescapeTemplate($('#template-signature').html()));
-    const signatureData = {signature_titre: praticien, signature_img: signatureB64};
+function formatPatientName(nom_naissance, nom, prenom) {
+    if (nom_naissance && nom_naissance !== nom) {
+        return `${nom_naissance} (${nom}) ${prenom}`.toUpperCase();
+    }
+    return `${nom} ${prenom}`.toUpperCase();
+}
 
-    let data = '<p><ul>';
-    _.each(resultats, res => {
-        data += '<li style="margin-bottom: 10px">';
-        data += `<strong>${res.analyse.libelle}</strong>`;
-        if (res.observation)
-            data += '<br>' + res.observation;
-        data += '</li>';
-    });
-    data += '</ul></p>';
-    let content = tpl({
-        ville: ajouterDatePrescription ? ville : '',
-        date: ajouterDatePrescription ? (datePrescription ? datePrescription.format('DD/MM/YYYY') : moment().format('DD/MM/YYYY')) : null,
-        motif: 'Analyses biologiques',
-        patient: patient,
-        data: data
-    });
-    console.log('Content', content);
-    //impressionGenerique(content);
-
-    let makeDoc = [];
-    cleanPDF(htmlToPdfmake(content, defaultHtml2PDFOptions), makeDoc);
-    console.log(makeDoc[0]);
-
-    const dd = {
-        pageSize: 'A5',
-        pageMargins: defaultMargins(),
-        header: defaultHeader,
-        footer: defaultFooter,
-        content: [
-            makeDoc[0],
-            htmlToPdfmake(templateSignature(signatureData))
-        ],
-        defaultStyle: {
-            fontSize: 10
+function printPrescription() {
+    // Use template from HTML if modele is empty/invalid
+    if (!modele || modele === 'None' || modele === '') {
+        modele = $('#edition-prescription-template').html();
+    }
+    
+    try {
+        const tpl = _.template(modele);
+        
+        let dataList = '';
+        if (resultats && resultats.length > 0) {
+            _.each(resultats, res => {
+                dataList += `<li style="margin-bottom: 10px"><strong>${res.analyse ? res.analyse.libelle : 'Analyse'}</strong>`;
+                if (res.observation) dataList += `<br>${res.observation}`;
+                dataList += '</li>';
+            });
+        } else {
+            dataList = '<li><em>Aucune analyse sélectionnée</em></li>';
         }
-    };
-
-    pdfDoc = pdfMake.createPdf(dd, defaultHtml2PDFOptions);
-    pdfDoc.print();
+        
+        const content = tpl({
+            ville: ajouterDatePrescription ? (ville || '') : '',
+            date: ajouterDatePrescription ? (datePrescription ? datePrescription.format('DD/MM/YYYY') : moment().format('DD/MM/YYYY')) : '',
+            motif: 'Analyses biologiques',
+            patient: patient,
+            data: `<ul>${dataList}</ul>`
+        });
+        
+        // Simple print - open new window and print
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <title>Prescription Analyses Biologiques</title>
+                <style>
+                    @page { size: A5; margin: 10mm; }
+                    body { font-family: Arial, sans-serif; font-size: 12pt; padding: 10px; }
+                    .text-right { text-align: right; }
+                    .text-center { text-align: center; }
+                    h4 { margin: 10px 0; }
+                    ul { padding-left: 20px; }
+                    li { margin-bottom: 8px; }
+                </style>
+            </head>
+            <body>${content}</body>
+            </html>
+        `);
+        printWindow.document.close();
+        printWindow.focus();
+        setTimeout(() => {
+            printWindow.print();
+            printWindow.close();
+        }, 500);
+    } catch(e) {
+        console.error('Print error:', e);
+        alert('Erreur lors de l\'impression: ' + e.message);
+    }
 }
 
 $(document).ready(e => {
@@ -257,8 +279,13 @@ $(document).ready(e => {
     });
 
 
-    $('#btn-imprimer').click(() => {
-        imprimerPrescription();
+$('#btn-imprimer').click(() => {
+        try {
+            printPrescription();
+        } catch(e) {
+            console.error('Print error:', e);
+            alert('Error printing: ' + e.message);
+        }
     });
 
     $('#cb-inserer-date-prescription').on('change', e => {

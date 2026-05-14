@@ -38,16 +38,31 @@
 
 {% if patient.mutuelle %}
 <div class="row">
-<div class="form-group col-5">
+<div class="form-group col-4">
 <label class="checkbox">
     {% render_field reglement.mutuelle class="mutuelle" %}
     {% trans "Mutuelle" %}
 </label>
 </div>
 
-<div class="form-group col-5">
-<label>{% trans "Désignation Mutuelle" %}</label>
-<div class="form-control form-control-sm">{{ patient.designation }}</div>
+<div class="form-group col-4">
+<label>{% trans "Caisse" %}</label>
+<div class="form-control form-control-sm">{{ patient.get_caisse_affectation_display }}</div>
+</div>
+
+<div class="form-group col-4">
+<label>{% trans "Mutuelle" %}</label>
+<div class="form-control form-control-sm">{{ patient.get_designation_display }}</div>
+</div>
+</div>
+
+<div class="row">
+<div class="form-group col-12">
+<div class="alert alert-info">
+    <strong>{% trans "Information mutuelle" %}</strong><br>
+    {% trans "La mutuelle" %} {{ patient.get_designation_display }} {% trans "couvrira" %} 
+    {{ patient.get_regime_display|lower }}{% if patient.regime == "1" %}({% trans "tiers payant" %}){% endif %}
+</div>
 </div>
 </div>
 {% endif %}

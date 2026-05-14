@@ -59,6 +59,27 @@ function admissionPatient(event, patientId) {
         });
 }
 
+function payerPatient(patientId) {
+    $.get(`/patients/${patientId}/admissions/`)
+        .done(function (result) {
+            let adm = JSON.parse(result.admissions);
+            if (adm.length > 0) {
+                // Use first admission for payment
+                window.location.replace(`/reglements/${adm[0].id}/ajouter`);
+            } else {
+                // No admission, show error
+                Swal.fire({
+                    title: "Aucune admission",
+                    text: "Ce patient n'a pas d'admission en cours. Veuillez d'abord créer une admission.",
+                    icon: "warning"
+                });
+            }
+        })
+        .fail(function () {
+            console.error("Erreur lors de la recherche des admissions");
+        });
+}
+
 $(document).ready(function () {
 
     let _t = _.template($('#actions-template').html());
@@ -126,7 +147,7 @@ $(document).ready(function () {
                     targets: 9,
                     title: 'Actions',
                     orderable: false,
-                    width: '180px',
+                    width: '150px',
                     render: (data, type, full, meta) => {
                         return _t({id: full.id, reglements: _tempHistReg({reglements: full.reglement_set}) });
                     },

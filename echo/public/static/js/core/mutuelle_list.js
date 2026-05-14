@@ -75,7 +75,10 @@ $(document).ready(function () {
                 {
                     data: 'lignes_reglement',
                     render: function (data) {
-                        return data[0].code;
+                        if (data && data.length > 0) {
+                            return data[0].code || '';
+                        }
+                        return '';
                     },
                 },
                 {
@@ -87,15 +90,19 @@ $(document).ready(function () {
                 {
                     data: 'lignes_reglement',
                     render: function (data) {
-                        total = data[0].prix_initial;
-                        return total;
+                        if (data && data.length > 0) {
+                            return data[0].prix_initial || 0;
+                        }
+                        return 0;
                     },
                 },
                 {
                     data: 'lignes_reglement',
                     render: function (data) {
-                        prix_pec = data[0].prix_ttc;
-                        return prix_pec;
+                        if (data && data.length > 0) {
+                            return data[0].prix_ttc || 0;
+                        }
+                        return 0;
                     },
                 },
                 {

@@ -127,18 +127,24 @@
                 <i class="la la-check icon-md"></i> {% trans "Sélectionner" %}
             </a>
         {% else %}
-            <a onclick="admissionPatient(event, <%= id %>)"
-               class="btn btn-primary btn-icon btn-sm" title="Admission">
-                <i class="la la-folder-plus icon-md"></i>
-            </a>
-            <a href="/patients/<%- id %>" class="btn btn-info btn-icon btn-sm" title="{% trans 'Consulter' %}">
-                <i class="la la-eye icon-md"></i>
-            </a>
-            <button type="button"
-                    onclick="creerPatient('/patients/<%- id %>/modifier')"
-                    class="btn btn-warning btn-icon btn-sm" title="{% trans 'Modifier' %}">
-                <i class="la la-edit icon-md"></i>
-            </button>
+            <div class="btn-group btn-group-sm" role="group">
+                <a onclick="admissionPatient(event, <%= id %>)"
+                   class="btn btn-primary btn-icon" title="{% trans 'Admission' %}">
+                    <i class="la la-folder-plus icon-md"></i>
+                </a>
+                <a onclick="payerPatient(<%- id %>)"
+                   class="btn btn-success btn-icon" title="{% trans 'Paiement' %}">
+                    <i class="la la-money-bill icon-md"></i>
+                </a>
+                <a href="/patients/<%- id %>" class="btn btn-info btn-icon" title="{% trans 'Consulter' %}">
+                    <i class="la la-eye icon-md"></i>
+                </a>
+                <button type="button"
+                        onclick="creerPatient('/patients/<%- id %>/modifier')"
+                        class="btn btn-warning btn-icon" title="{% trans 'Modifier' %}">
+                    <i class="la la-edit icon-md"></i>
+                </button>
+            </div>
             <!--<a onclick="supprimer(<%- id %>)" class="btn btn-danger btn-icon btn-sm" title="{% trans 'Supprimer' %}">
                 <i class="la la-trash icon-md"></i>
             </a>-->

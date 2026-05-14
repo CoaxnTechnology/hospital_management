@@ -242,37 +242,37 @@ jQuery(document).ready(function () {
             rowId: 'id',
 
             columns: [
-                {data: 'ordre'},
-                {data: 'nouveau'},
-                {data: 'patient.nom_naissance'},
-                {data: 'patient.nom'},
+                {data: 'ordre', width: '40px'},
+                {data: 'nouveau', width: '60px'},
+                {data: 'patient.nom_naissance', width: '120px'},
+                {data: 'patient.nom', width: '120px'},
                 {data: 'patient.prenom', width: '100px'},
-                {data: 'patient.age'},
-                {data: 'patient.adresse', render: (data, type, full, meta) => data ? data.ville : '', width: '200px'},
-                {data: 'patient.telephone', width: '100px'},
-                {data: 'date'},
-                {data: null},
+                {data: 'patient.age', width: '60px'},
+                {data: 'patient.adresse', render: (data, type, full, meta) => data ? data.ville : '', width: '100px'},
+                {data: 'patient.telephone', width: '100px', className: 'phone-cell'},
+                {data: 'date', width: '80px'},
+                {data: null, width: '80px', className: 'admission-cell'},
                 {
                     data: 'motif',
                     render: (data, type, full, meta) => {
                         return _motifRdvTemp({id: full.id, motif: data.libelle});
-                    }, width: '200px'
+                    }, width: '150px'
                 },
                 {
                     data: 'praticien',
                     render: (data, type, full, meta) => {
                         let nom = data ? data.nom : '';
                         return _pratTemp({id: full.id, nom: nom});
-                    }, width: '200px'
+                    }, width: '150px', className: 'praticien-cell'
                 },
-                {data: null},
+                {data: null, width: '100px', className: 'waiting-cell'},
             ],
 
             order: [[0, "asc"]],
 
             columnDefs: [
                 {
-                    targets: 12, title: 'Actions', orderable: false, width: '450px', className: 'w-100px',
+                    targets: 12, title: 'Actions', orderable: false, width: '100px', className: 'w-100px',
                     render: (data, type, full, meta) => {
                         const mesures = full.patient.mesures_jour;
                         return _t({id: full.patient.id, admission_id: full.id, mesuresId: mesures ? mesures.id : -1});
@@ -283,18 +283,18 @@ jQuery(document).ready(function () {
                     render: (data, type, full, meta) => '<i class="fas fa-arrows-alt-v mr-3"></i>' + data,
                 },
                 {
-                    targets: 1, width: '10px',
+                    targets: 1, width: '60px', className: 'new-cell',
                     render: (data, type, full, meta) =>
                         data ? `<span class="label label-pill label-inline label-info">Nouveau</span>` : '',
                 },
-                {targets: 2, width: '320px'},
-                {targets: 3, width: '320px'},
-                {targets: 4, width: '320px'},
-                {targets: 5, width: '100px'},
-                {targets: 6, width: '320px'},
-                {targets: 7, width: '320px'},
+                {targets: 2, width: '120px', className: 'nom-naissance-cell'},
+                {targets: 3, width: '120px', className: 'nom-cell'},
+                {targets: 4, width: '100px', className: 'prenom-cell'},
+                {targets: 5, width: '60px', className: 'age-cell'},
+                {targets: 6, width: '100px', className: 'ville-cell'},
+                {targets: 7, width: '100px', className: 'phone-cell'},
                 {
-                    targets: 8, width: '100px',
+                    targets: 8, width: '80px', className: 'date-cell',
                     render: (data, type, full, meta) => {
                         if (!data) return '';
                         const date = moment(data);
@@ -302,13 +302,15 @@ jQuery(document).ready(function () {
                     },
                 },
                 {
-                    targets: 9, width: '80px', className: 'attente-cell',
+                    targets: 9, width: '80px', className: 'admission-cell',
                     render: (data, type, full, meta) => '',
                     createdCell: function (td, cellData, rowData, row, col) {
                         $(td).attr('data-heure', rowData['date']);
                     }
                 },
-                {targets: 10, width: '320px'}
+                {targets: 10, width: '150px', className: 'motif-cell'},
+                {targets: 11, width: '150px', className: 'praticien-cell'},
+                {targets: 12, width: '100px', className: 'waiting-cell'}
             ],
         });
 
@@ -754,3 +756,51 @@ jQuery(document).ready(function () {
     if (activeTab) $(`a[href="#${activeTab}"]`).tab('show');
 
 });
+
+function sendToDicomWorklist(patientId) {
+    const messages = {
+        fr: {
+            success: "Patient envoyé vers la machine DICOM avec succès",
+            error: "Erreur lors de l'envoi vers DICOM",
+            connectionError: "Erreur de connexion"
+        },
+        en: {
+            success: "Patient sent to DICOM machine successfully",
+            error: "Error sending to DICOM",
+            connectionError: "Connection error"
+        },
+        ar: {
+            success: "تم إرسال المريض إلى جهاز DICOM بنجاح",
+            error: "خطأ في الإرسال إلى DICOM",
+            connectionError: "خطأ في الاتصال"
+        },
+        es: {
+            success: "Paciente enviado a la máquina DICOM con éxito",
+            error: "Error al enviar a DICOM",
+            connectionError: "Error de conexión"
+        }
+    };
+
+    const lang = document.documentElement.lang || 'fr';
+    const msg = messages[lang] || messages.fr;
+
+    fetch(`/patients/${patientId}/send-to-worklist/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            toastr.success(msg.success);
+        } else {
+            toastr.error(msg.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        toastr.error(msg.connectionError);
+    });
+}

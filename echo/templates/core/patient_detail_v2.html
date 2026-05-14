@@ -1596,6 +1596,10 @@
             {% endif %}
         {% endif %}
 
+        {% if error_msg %}
+            toastr.error("{{ error_msg }}");
+        {% endif %}
+
         let consultations = {{ consultations_json|safe }};
         //console.info('Consultations', consultations);
 

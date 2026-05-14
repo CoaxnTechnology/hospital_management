@@ -97,14 +97,14 @@ class ReglementCreate2(PermissionRequiredMixin, View):
         reglement_form = ReglementForm(initial=initial_reglement)
         formset = LigneFormSet
         prestations = Prestation.objects.filter(compte=request.user.profil.compte).order_by('code')
-        prestation_mutuelle=get_object_or_404(Prestation, code="C2")
+        prestation_mutuelle = Prestation.objects.filter(code="C2").first()
         context = {
             'admission': admission,
             'reglement': reglement_form,
             'formset': formset,
             'praticien': praticien,
             'prestations': prestations,
-            'prestation_mutuelle' : prestation_mutuelle,
+            'prestation_mutuelle': prestation_mutuelle,
             'patient': patient
         }
         if patient.mutuelle:
@@ -164,6 +164,9 @@ class ReglementCreate2(PermissionRequiredMixin, View):
             reglement = reglement_form.save()
             nom_mutuelle = reglement_form.cleaned_data.get('nom_mutuelle')
             reglement.nom_mutuelle = nom_mutuelle
+            if patient.mutuelle:
+                reglement.nom_mutuelle = patient.designation
+                reglement.mutuelle = True
             reglement.save()
             new_lines = []
             if mutuelle_check == "non":
@@ -219,12 +222,18 @@ LigneFormSet = inlineformset_factory(Reglement, LigneReglement,
                                      extra=1, can_delete=True)
 
 
-class ReglementCreate(CreateView):
+class ReglementCreate(LoginRequiredMixin, CreateView):
     template_name = 'core/reglement_form.html'
     model = Reglement
     form_class = ReglementForm
     success_url = reverse_lazy('reglements_list')
     init = {}
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated or not hasattr(request.user, 'profil'):
+            from django.http import HttpResponseRedirect
+            return HttpResponseRedirect('/accounts/login/?next=' + request.path)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         print('Get context data')

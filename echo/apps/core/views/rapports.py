@@ -235,7 +235,11 @@ class ConsultationRapportView(PermissionRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         consultation = self.get_object()
         context['patient'] = consultation.patient
-        context['parametres'] = self.request.user.profil.compte.parametrescompte
+        # Safely get parametres - handle missing profil
+        try:
+            context['parametres'] = self.request.user.profil.compte.parametrescompte
+        except:
+            context['parametres'] = None
         context['praticien'] = consultation.praticien
 
         data, source = _get_measurements(consultation)

@@ -118,7 +118,7 @@ class Adresse(models.Model):
     ville = models.CharField(max_length=128, blank=True, null=True)
     cp = models.PositiveSmallIntegerField(blank=True, null=True)
     gouvernorat = models.CharField(max_length=128, blank=True, null=True)
-    pays = models.CharField(max_length=128)
+    pays = models.CharField(max_length=128, blank=True, null=True)
 
     def __str__(self):
         result = ""
@@ -587,20 +587,39 @@ class InformationsConjoint(models.Model):
 
 class InformationsMutuelle(models.Model):
     mutuelle = models.BooleanField(default=False)
-    designation = models.CharField(max_length=128, default="CNAM")
+    designation = models.CharField(
+        max_length=128, 
+        default="CNAM",
+        choices=[
+            ("CNAM", "CNAM - Caisse Nationale d'Assurance Maladie"),
+            ("CNSS", "CNSS - Caisse Nationale de Sécurité Sociale"),
+            ("CNRPS", "CNRPS - Caisse Nationale de Retraite et de Prévoyance Sociale"),
+            ("CNAV", "CNAV - Caisse Nationale d'Assurance Vieillesse"),
+            ("MILAT", "MILAT - Militaires"),
+            ("SGO", "SGO - Groupe Specialisé"),
+        ]
+    )
     caisse_affectation = models.CharField(
         max_length=128,
         blank=True,
         null=True,
-        default="1",
-        choices=[("1", "CNRPS"), ("2", "CNSS")],
+        default="CNSS",
+        choices=[
+            ("CNSS", "CNSS"),
+            ("CNRPS", "CNRPS"),
+        ],
     )
     regime = models.CharField(
         max_length=128,
         blank=True,
         null=True,
         default="1",
-        choices=[("1", "Tiers payant"), ("2", "Remboursement"), ("3", "Publique")],
+        choices=[
+            ("1", "Tiers payant"),
+            ("2", "Remboursement"),
+            ("3", "Publique"),
+            ("4", "Gratuit"),
+        ],
     )
     lien_parente = models.CharField(
         max_length=128,
@@ -1132,9 +1151,12 @@ class Consultation(CompteModelBase):
         ]
 
     def __str__(self):
-        return f"{self.motif.libelle} - {self.patient.nom_complet} - {self.date}"
+        motif_name = self.motif.libelle if self.motif else "Sans motif"
+        return f"{motif_name} - {self.patient.nom_complet} - {self.date}"
 
     def modif_url(self):
+        if not self.motif:
+            return f"/patients/{self.patient.id}/consultation/{self.id}/modifier/"
         if self.motif.code == "gynecologique-defaut":
             return f"/consultation_gynecologique/{self.id}/modifier/"
         if self.motif.code == "colposcopie":

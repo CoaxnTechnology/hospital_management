@@ -176,3 +176,48 @@ def modifier_worklist(request, pk):
             item.save()
     data = {}
     return JsonResponse(data)
+
+
+@login_required
+@permission_required('core.view_patient', raise_exception=True)
+def send_patient_to_worklist(request, patient_pk):
+    from apps.core.models import Patient, Admission, Consultation, Device
+    from django.utils import timezone
+    import uuid
+
+    patient = get_object_or_404(Patient, pk=patient_pk)
+    today = timezone.now().date()
+
+    admission = Admission.objects.filter(
+        patient=patient,
+        date__day=today.day,
+        date__month=today.month,
+        date__year=today.year,
+        statut='2'
+    ).first()
+
+    if not admission:
+        return JsonResponse({'status': 'error', 'message': 'Patient non trouvé en consultation'}, status=400)
+
+    consultation = Consultation.objects.filter(
+        patient=patient,
+        date__day=today.day,
+        date__month=today.month,
+        date__year=today.year
+    ).order_by('-id').first()
+
+    default_device = Device.objects.filter(is_active=True).first()
+
+    worklist_item = WorklistItem.objects.create(
+        consultation=consultation,
+        patient=patient,
+        study_instance_uid=str(uuid.uuid4()),
+        mpps_status=WorklistItem.MPPS_STATUS_PENDING,
+        device=default_device
+    )
+
+    return JsonResponse({
+        'status': 'success',
+        'message': f'Patient {patient.nom_complet} envoyé vers la machine DICOM',
+        'worklist_id': worklist_item.id
+    })

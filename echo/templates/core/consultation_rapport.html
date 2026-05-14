@@ -126,13 +126,11 @@ tr:nth-child(even) td { background:#F7FAFD; }
 </div>
 
 <div class="page">
-
   <!-- Header -->
   <div class="report-header">
     <div class="header-logo">
       {% if parametres.logo_a4 %}<img src="{{ parametres.logo_a4.url }}" alt=""/>
-      {% elif parametres.logo   %}<img src="{{ parametres.logo.url }}"   alt=""/>
-      {% else %}<svg width="44" height="44" viewBox="0 0 24 24"><path d="M10 3H14V10H21V14H14V21H10V14H3V10H10V3Z" fill="#1565C0"/></svg>
+      {% elif parametres.logo %}<img src="{{ parametres.logo.url }}" alt=""/>
       {% endif %}
     </div>
     <div class="header-clinic">

@@ -326,7 +326,7 @@
 
         <span style="margin-top: 10px">&nbsp;</span><br>
         <p>
-            <strong><%= _.capitalize(patient.civilite) %> <%= formatPatientName(patient.nom_naissance, patient.nom, patient.prenom) %></strong> &nbsp;
+            <strong><%= _.capitalize(patient.civilite) %> <%= (patient.nom_naissance && patient.nom_naissance !== patient.nom ? patient.nom_naissance + ' (' + patient.nom + ') ' + patient.prenom : patient.nom + ' ' + patient.prenom).toUpperCase() %></strong> &nbsp;
             <% if (patient.sexe == 'F') { %> née <% } else { %> né <% } %> le <%= moment(patient.date_naissance).format('DD/MM/yyyy') %> (<%= patient.age %> ans)
             <% if (patient.taille) { %>
                 <br>Taille: <%= patient.taille %> cm
@@ -340,6 +340,14 @@
 
 {% block scripts %}
     <script type="text/javascript">
+        // Helper function for patient name formatting
+        function formatPatientName(nom_naissance, nom, prenom) {
+            if (nom_naissance && nom_naissance !== nom) {
+                return `${nom_naissance} (${nom}) ${prenom}`.toUpperCase();
+            }
+            return `${nom} ${prenom}`.toUpperCase();
+        }
+        
         let analyses = {{ analyses_json|safe }};
         const collections = {{ collections_json|safe }};
         let prescriptionId = -1;
@@ -375,6 +383,8 @@
 
     </script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
     <script src="{% static "js/core/editique.js" %}"></script>
     <script src="{% static "js/core/prescription_analyse_form.js" %}"></script>
 {% endblock %}

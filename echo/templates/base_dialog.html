@@ -14,6 +14,7 @@
     <link href="{% static "plugins/custom/datatables/datatables.bundle.css" %}" rel="stylesheet" type="text/css"/>
     <!--end::Page Vendors Styles-->
     <!--begin::Global Theme Styles(used by all pages)-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-daterangepicker@3.1.0/daterangepicker.css" rel="stylesheet" type="text/css"/>
     <link href="{% static "plugins/global/plugins.bundle.css" %}" rel="stylesheet" type="text/css"/>
     <link href="{% static "plugins/custom/prismjs/prismjs.bundle.css" %}" rel="stylesheet" type="text/css"/>
     <link href="{% static "css/style.bundle.css" %}" rel="stylesheet" type="text/css"/>
@@ -128,6 +129,8 @@ const pays = {% if user.profil.compte.adresse and user.profil.compte.adresse.pay
 <!--end::Global Config-->
 <!--begin::Global Theme Bundle(used by all pages)-->
 <script src="{% static "plugins/global/plugins.bundle.js" %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/min/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-daterangepicker@3.1.0/daterangepicker.js"></script>
 <script src="{% static "plugins/custom/prismjs/prismjs.bundle.js" %}"></script>
 <script src="{% static "js/scripts.bundle.js" %}"></script>
 <!--end::Global Theme Bundle-->

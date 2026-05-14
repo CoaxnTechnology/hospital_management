@@ -203,6 +203,15 @@ class PatientView(PermissionRequiredMixin, DetailView):
         if 'action' in self.request.GET:
             if self.request.GET['action'] == 'demarrer_consultation':
                 patient = self.object
+                compte = request.user.profil.compte
+                existing_exam = Admission.objects.filter(
+                    Q(date__day=today.day) & Q(date__month=today.month) & Q(date__year=today.year),
+                    statut='2',
+                    patient__compte=compte
+                ).first()
+                if existing_exam:
+                    context['error_msg'] = f"Impossible de démarrer la consultation. Un examen est déjà en cours pour {existing_exam.patient.nom_complet}."
+                    return self.render_to_response(context)
                 patient.admission_set.filter(Q(date__day=today.day)
                                              & Q(date__month=today.month)
                                              & Q(date__year=today.year)).update(statut='2')
@@ -344,6 +353,13 @@ class PatientCreate(PermissionRequiredMixin, View):
                         redir = f"{reverse('patient_admission', kwargs={'pk': patient.pk})}?rdv={request.GET['rdv']}"
                     else:
                         redir = reverse("patient_admission", kwargs={'pk': patient.pk})
+                elif request.GET['action'] == 'paiement':
+                    # Find patient's latest admission or create redirect to payments list
+                    admission = patient.admission_set.filter(statut__lt=10).order_by('-date').first()
+                    if admission:
+                        redir = reverse('reglements_creer', kwargs={'pk': admission.pk})
+                    else:
+                        redir = reverse('reglements_list')
             else:
                 redir = reverse("patient_afficher", kwargs={'pk': patient.pk})
 

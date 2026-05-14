@@ -9,7 +9,7 @@
 :root {
   --hp-primary:         #1565C0;
   --hp-accent:          #2196F3;
-  --hp-sidebar-bg:      #0D2137;
+  --hp-sidebar-bg:      #ffffff;
   --hp-sidebar-accent:  #63B3ED;
   --hp-bg:              #E8ECF2;
   --hp-success:         #00897B;
@@ -117,6 +117,7 @@ html[data-hp-theme="dark"] .hp-lang-menu { box-shadow: 0 8px 32px rgba(0,0,0,0.4
 html, body { font-size: 14px !important; }
 
 #kt_aside {
+    background: var(--hp-sidebar-bg);
     width: 260px;
     min-width: 260px;
     height: 100vh;
@@ -325,12 +326,12 @@ p, span:not(.badge):not(.btn):not([class*="text-"]), h1, h2, h3, h4, h5, h6 {
 #kt_aside_toggle,
 #kt_aside_toggle svg,
 #kt_aside_toggle i {
-  color: #6B7A99 !important;
+  color: #ffffff !important;
 }
 #kt_aside_toggle:hover,
 #kt_aside_toggle:hover svg,
 #kt_aside_toggle:hover i {
-  color: var(--hp-sidebar-accent) !important;
+  color: #ffffff !important;
 }
 
 /* Scrollbar */
@@ -379,14 +380,14 @@ p, span:not(.badge):not(.btn):not([class*="text-"]), h1, h2, h3, h4, h5, h6 {
 #kt_aside_menu .menu-item > .menu-link:hover .menu-icon,
 #kt_aside_menu .menu-item > .menu-link:hover .menu-icon svg,
 #kt_aside_menu .menu-item > .menu-link:hover .menu-icon i {
-  color: var(--hp-sidebar-accent) !important;
+  color: #ffffff !important;
 }
 
 /* Active / here */
 #kt_aside_menu .menu-item.here > .menu-link,
 #kt_aside_menu .menu-item.active > .menu-link {
-  background: rgba(99, 179, 237, 0.12) !important;
-  color: #6B7A99 !important;
+  background: #121110 !important;
+  color: #ffffff !important;
   border-left: none !important;
 }
 #kt_aside_menu .menu-item.here > .menu-link .menu-icon,
@@ -395,11 +396,11 @@ p, span:not(.badge):not(.btn):not([class*="text-"]), h1, h2, h3, h4, h5, h6 {
 #kt_aside_menu .menu-item.active > .menu-link .menu-icon,
 #kt_aside_menu .menu-item.active > .menu-link .menu-icon svg,
 #kt_aside_menu .menu-item.active > .menu-link .menu-icon i {
-  color: var(--hp-sidebar-accent) !important;
+  color: #ffffff !important;
 }
 #kt_aside_menu .menu-item.here > .menu-link .menu-title,
 #kt_aside_menu .menu-item.active > .menu-link .menu-title {
-  color: #6B7A99 !important;
+  color: #ffffff !important;
   font-weight: 600 !important;
 }
 
@@ -423,12 +424,12 @@ p, span:not(.badge):not(.btn):not([class*="text-"]), h1, h2, h3, h4, h5, h6 {
 }
 #kt_aside_menu .menu-sub .menu-item.here > .menu-link,
 #kt_aside_menu .menu-sub .menu-item.active > .menu-link {
-  background: rgba(99, 179, 237, 0.08) !important;
-  color: var(--hp-sidebar-accent) !important;
+  background: #121110 !important;
+  color: #ffffff !important;
 }
 #kt_aside_menu .menu-sub .menu-item.here > .menu-link .menu-title,
 #kt_aside_menu .menu-sub .menu-item.active > .menu-link .menu-title {
-  color: var(--hp-sidebar-accent) !important;
+  color: #ffffff !important;
   font-weight: 600 !important;
 }
 
@@ -438,7 +439,7 @@ p, span:not(.badge):not(.btn):not([class*="text-"]), h1, h2, h3, h4, h5, h6 {
 }
 #kt_aside_menu .menu-item.here .bullet-dot,
 #kt_aside_menu .menu-item.active .bullet-dot {
-  background: var(--hp-sidebar-accent) !important;
+  background: #121110 !important;
   box-shadow: 0 0 6px rgba(99, 179, 237, 0.6) !important;
 }
 
@@ -3041,7 +3042,7 @@ html[data-hp-theme="dark"] .fc-event.fc-event-type-2  { background: #FB923C !imp
 html[data-hp-theme="dark"] .fc-event-type-3,
 html[data-hp-theme="dark"] .fc-event.fc-event-type-3  { background: #2DD4BF !important; border-color: #2DD4BF !important; }
 html[data-hp-theme="dark"] .fc-event-type-10,
-html[data-hp-theme="dark"] .fc-event.fc-event-type-10 { background: #6B7A99 !important; border-color: #6B7A99 !important; }
+html[data-hp-theme="dark"] .fc-event.fc-event-type-10 { background: #6B7A99 !important; border-color: #ffffff !important; }
 html[data-hp-theme="dark"] .fc-event-thick-border {
   background: var(--hp-card-bg) !important;
   border-color: #4A9EFF !important;
@@ -3655,3 +3656,65 @@ html:not([data-hp-theme="dark"]) .modal-footer {
   background-color: #ffffff !important;
   border-color: #E2EAF4 !important;
 }
+
+/* Fix DataTable column alignment for kt_datatable_salle */
+#kt_datatable_salle th, #kt_datatable_salle td {
+    text-align: left !important;
+    vertical-align: middle !important;
+}
+
+#kt_datatable_salle .phone-cell, #kt_datatable_salle .phone-cell {
+    width: 100px !important;
+    white-space: nowrap;
+}
+
+#kt_datatable_salle .admission-cell {
+    width: 80px !important;
+    text-align: center !important;
+}
+
+#kt_datatable_salle .attente-cell, #kt_datatable_salle .waiting-cell {
+    width: 80px !important;
+    text-align: center !important;
+}
+
+#kt_datatable_salle .motif-cell {
+    width: 150px !important;
+}
+
+#kt_datatable_salle .praticien-cell {
+    width: 150px !important;
+}
+
+#kt_datatable_salle .date-cell {
+    width: 80px !important;
+    text-align: center !important;
+}
+
+#kt_datatable_salle .nom-naissance-cell, #kt_datatable_salle .nom-cell {
+    width: 120px !important;
+}
+
+#kt_datatable_salle .prenom-cell {
+    width: 100px !important;
+}
+
+#kt_datatable_salle .age-cell {
+    width: 60px !important;
+    text-align: center !important;
+}
+
+#kt_datatable_salle .ville-cell {
+    width: 100px !important;
+}
+
+#kt_datatable_salle .new-cell {
+    width: 60px !important;
+    text-align: center !important;
+}
+
+#kt_datatable_salle .reorder {
+    width: 40px !important;
+    text-align: center !important;
+}
+

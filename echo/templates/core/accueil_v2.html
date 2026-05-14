@@ -386,12 +386,21 @@
                 class="btn btn-info btn-icon btn-sm" title="{% trans 'Télécharger fichier' %}">
             <i class="la la-upload icon-md"></i>
         </button>
+        <button type="button"
+                onclick="sendToDicomWorklist(<%- id %>)"
+                class="btn btn-warning btn-icon btn-sm" title="{% trans 'Envoyer vers machine DICOM' %}">
+            <i class="la la-share-alt icon-md"></i>
+        </button>
     </script>
 
     <script id="actions-attente-template" type="text/html">
         <!--<a href="/patients/<%- id %>" class="btn btn-sm btn-clean btn-icon" title="{% trans 'Dossier patient' %}">
             <i class="la la-eye icon-xl text-primary"></i>
         </a>-->
+        <a href="/reglements/<%- admission_id %>/ajouter/" class="btn btn-sm btn-success btn-icon"
+           title="{% trans 'Paiement' %}">
+            <i class="fa fa-money-bill icon-sm"></i>
+        </a>
         <a href="/patients/<%- id %>/?action=demarrer_consultation" class="btn btn-sm btn-primary btn-icon"
            title="{% trans 'Démarrer la consultation' %}">
             <i class="fa fa-play icon-sm"></i>

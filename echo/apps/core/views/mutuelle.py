@@ -28,7 +28,7 @@ class List(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
 
         mutuelles = Reglement.objects \
-            .filter(mutuelle=True, nom_mutuelle='CNAM', bordereau__isnull=True) \
+            .filter(mutuelle=True, bordereau__isnull=True) \
             .order_by('date_creation') \
             .select_related('patient')
         mutuelles_json = ReglementSerializer(mutuelles, many=True)

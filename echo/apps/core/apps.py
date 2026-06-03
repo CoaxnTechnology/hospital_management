@@ -17,7 +17,8 @@ class EchoConfig(AppConfig):
 
         # Auto-start DICOM servers in background threads.
         # RUN_MAIN guard prevents double-start under Django's auto-reloader.
-        if os.environ.get('RUN_MAIN') != 'true':
+        # DISABLE_DICOM prevents auto-start (e.g., when running daphne separately)
+        if os.environ.get('RUN_MAIN') != 'true' and os.environ.get('DISABLE_DICOM') != '1':
             self._start_dicom_servers()
 
     def _start_dicom_servers(self):

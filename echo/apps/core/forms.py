@@ -138,7 +138,7 @@ class PatientForm(forms.ModelForm):
         model = Patient
         fields = ['civilite', 'sexe', 'prenom', 'nom', 'nom_naissance', 'date_naissance', 'numero_identite',
                   'code_securite_sociale', 'adresse', 'email', 'telephone', 'telephone_secondaire','telephone_autre',
-                  'observation', 'profession', 'praticien_principal',
+                  'observation', 'profession',
                   'taille', 'poids', 'groupe_sanguin', 'fumeur', 'nombre_cigarettes', 'origine', 'ancien_numero',
                   'date_mariage', 'nom_conjoint', 'prenom_conjoint', 'date_naissance_conjoint', 'telephone_conjoint',
                   'groupe_sanguin_conjoint', 'consanguinite_conjoint', 'etat_sante_conjoint', 'profession_conjoint','mutuelle',
@@ -154,8 +154,6 @@ class PatientForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         compte = kwargs.pop('compte')
         super().__init__(*args, **kwargs)
-        self.fields['praticien_principal'].queryset = Medecin.objects.filter(compte=compte)
-        self.fields['praticien_principal'].required = True
         for f in ('date_naissance', 'date_mariage', 'date_validite_mutuelle', 'date_naissance_conjoint'):
             self.fields[f].input_formats = ['%d/%m/%Y', '%Y-%m-%d']
 

@@ -358,6 +358,18 @@ class PatientCreate(PermissionRequiredMixin, View):
             patient = patient_form.save(commit=False)
             if patient_form.cleaned_data['nom'] is None:
                 patient.nom = patient_form.cleaned_data['nom_naissance']
+            patient.praticien_principal = (
+                self.request.user.profil.compte.parametrescompte.praticien_defaut
+                if hasattr(self.request.user, 'profil')
+                and self.request.user.profil
+                and hasattr(self.request.user.profil.compte, 'parametrescompte')
+                and self.request.user.profil.compte.parametrescompte.praticien_defaut
+                else self.request.user.profil.medecin
+                if hasattr(self.request.user, 'profil')
+                and self.request.user.profil
+                and hasattr(self.request.user.profil, 'medecin')
+                else None
+            )
             if adresse_form.is_valid():
                 adresse = adresse_form.save()
                 patient.adresse = adresse

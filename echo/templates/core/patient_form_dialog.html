@@ -109,11 +109,6 @@
         <label class="form-label">{% trans "Occupation" %}</label>
         {% render_field patient.profession class+="form-control form-control-sm" %}
       </div>
-      <div class="col-md-4">
-        <label class="form-label">{% trans "Primary Practitioner" %}{% if patient.praticien_principal.field.required %}<span class="required-star">*</span>{% endif %}</label>
-        {% render_field patient.praticien_principal class+="form-control form-control-sm" %}
-        {% if patient.praticien_principal.errors %}<div class="field-error">{{ patient.praticien_principal.errors|join:", " }}</div>{% endif %}
-      </div>
       <div class="col-12">
         <label class="form-label">{% trans "Notes" %}</label>
         {% render_field patient.observation class+="form-control form-control-sm" rows="2" %}

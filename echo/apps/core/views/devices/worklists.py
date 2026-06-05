@@ -278,7 +278,21 @@ def send_patient_to_worklist(request, patient_pk):
         ).first()
 
         if not admission:
-            return JsonResponse({'status': 'error', 'message': 'Patient non trouvé en consultation'}, status=400)
+            from django.db.models import Max
+            completed = Admission.objects.filter(
+                patient=patient,
+                date__day=today.day,
+                date__month=today.month,
+                date__year=today.year,
+                statut='3'
+            ).first()
+            if completed:
+                completed.statut = '2'
+                completed.debut_consultation = timezone.now()
+                completed.save()
+                admission = completed
+            else:
+                return JsonResponse({'status': 'error', 'message': 'Patient non trouvé en consultation'}, status=400)
 
         consultation = Consultation.objects.filter(
             patient=patient,

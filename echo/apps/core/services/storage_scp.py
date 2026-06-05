@@ -33,7 +33,7 @@ logger.info("-------------------------------------------------------------------
 archive_dicom_files = True
 
 web_url = os.environ.get('EE_URL', 'http://localhost')
-web_port = os.environ.get('EE_HTTP_PORT', '8000')
+web_port = os.environ.get('EE_HTTP_PORT', '8001')
 
 
 class ServiceClassProvider:
@@ -96,7 +96,8 @@ class ServiceClassProvider:
                 print('OB-GYN Ultrasound Procedure Report')
                 result = parse_ds(ds)
                 print(result)
-                post_data = {'study_uid': studyId, 'data': json.dumps(result), 'called_aet': called_aet}
+                patient_name = str(ds.get('PatientName', ''))
+                post_data = {'study_uid': studyId, 'data': json.dumps(result), 'called_aet': called_aet, 'patient_name': patient_name}
                 response = requests.post(f'{web_url}:{web_port}/worklists/sr/', data=post_data)
             elif code_value == '125100':
                 # Vascular Ultrasound Procedure Report
@@ -136,7 +137,13 @@ class ServiceClassProvider:
             out_img_file = outfile + '.jpg'
             try:
                 ds_to_jpeg(ds, out_img_file)
-                post_data = {'study_uid': studyId, 'path': os.path.abspath(out_img_file), 'called_aet': called_aet}
+                patient_name = str(ds.get('PatientName', ''))
+                post_data = {
+                    'study_uid': studyId,
+                    'path': os.path.abspath(out_img_file),
+                    'called_aet': called_aet,
+                    'patient_name': patient_name,
+                }
                 response = requests.post(f'{web_url}:{web_port}/worklists/image/', data=post_data)
                 # res = response.json()
             except Exception as e:
@@ -209,11 +216,13 @@ def save_waveform(ds, study_uid, called_aet):
             # Note: Actual waveform binary data would need proper extraction
             
             # Post to server
+            patient_name = str(ds.get('PatientName', ''))
             post_data = {
                 'study_uid': study_uid,
                 'path': preview_path,
                 'sop_uid': sop_uid,
-                'called_aet': called_aet
+                'called_aet': called_aet,
+                'patient_name': patient_name,
             }
             response = requests.post(f'{web_url}:{web_port}/worklists/waveform/', data=post_data)
             

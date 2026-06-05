@@ -688,6 +688,11 @@ urlpatterns = [
         name="send_patient_to_worklist",
     ),
     path(
+        "patients/<int:patient_pk>/terminer-consultation/",
+        worklists.terminer_consultation_patient,
+        name="terminer_consultation_patient",
+    ),
+    path(
         "consultations/<int:pk>/sr/", worklists.consultation_sr, name="consultation_sr"
     ),
     path(

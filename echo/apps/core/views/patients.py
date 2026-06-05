@@ -242,6 +242,22 @@ def admission_patient(request, pk):
         motif = rdv.motif
 
     today = date.today()
+
+    completed = patient.admission_set.filter(
+        date__day=today.day, date__month=today.month, date__year=today.year,
+        statut='3'
+    ).first()
+    if completed:
+        ordre_max = Admission.objects.filter(Q(patient__compte=request.user.profil.compte)
+                                             & Q(date__day=today.day)
+                                             & Q(date__month=today.month)
+                                             & Q(date__year=today.year)).aggregate(Max('ordre'))['ordre__max']
+        completed.ordre = (ordre_max or 0) + 1
+        completed.statut = '1'
+        completed.date = datetime.datetime.now()
+        completed.save()
+        return redirect("/accueil?msg=admission_succes#liste_salle_attente")
+
     ordre_max = Admission.objects.filter(Q(patient__compte=request.user.profil.compte)
                                          & Q(date__day=today.day)
                                          & Q(date__month=today.month)
@@ -685,7 +701,7 @@ def supprimer_antecedent_obstetrique(request, pk):
 def liste_admissions_patient(request, pk):
     patient = get_object_or_404(Patient, pk=pk)
     today = date.today()
-    admissions = patient.admission_set.filter(date__day=today.day, date__month=today.month, date__year=today.year)
+    admissions = patient.admission_set.filter(date__day=today.day, date__month=today.month, date__year=today.year).exclude(statut='3')
     adm = json.dumps(AdmissionSerializer(admissions, many=True).data)
     return JsonResponse({'admissions': adm})
 

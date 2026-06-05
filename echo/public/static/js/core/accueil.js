@@ -791,16 +791,44 @@ function sendToDicomWorklist(patientId) {
             'Content-Type': 'application/json'
         }
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            return response.json().catch(() => {
+                throw new Error('HTTP ' + response.status);
+            }).then(err => { throw new Error(err.message || msg.error); });
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.status === 'success') {
             toastr.success(msg.success);
         } else {
-            toastr.error(msg.error);
+            toastr.error(data.message || msg.error);
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        toastr.error(msg.connectionError);
+        toastr.error(error.message || msg.connectionError);
+    });
+}
+
+function terminerConsultation(patientId) {
+    if (!confirm("Terminer la consultation en cours ?")) return;
+    fetch(`/patients/${patientId}/terminer-consultation/`, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': getCookie('csrftoken') }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            toastr.success("Consultation terminée");
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            toastr.error(data.message || "Erreur");
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        toastr.error("Erreur de connexion");
     });
 }

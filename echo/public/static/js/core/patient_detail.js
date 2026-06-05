@@ -646,7 +646,7 @@ function initTableConsultations() {
             },
             {data: 'motif.categorie.libelle'},
             {data: 'motif.libelle'},
-            {data: 'praticien.nom'},
+            {data: 'praticien', render: (data) => data ? data.nom : ''},
             {data: 'patient.mot_cle', "visible": false},
             {data: 'date', "visible": false},
             {data: 'date', "visible": false},

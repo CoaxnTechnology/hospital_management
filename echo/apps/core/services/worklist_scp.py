@@ -39,7 +39,7 @@ m2.RequestedProcedureID = '9000'
 
 
 web_url = os.environ.get('EE_URL', 'http://localhost')
-web_port = os.environ.get('EE_HTTP_PORT', '8000')
+web_port = os.environ.get('EE_HTTP_PORT', '8001')
 
 @dataclass
 class ServiceClassProviderConfig:

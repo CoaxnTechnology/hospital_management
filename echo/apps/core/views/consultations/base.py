@@ -3,16 +3,17 @@ from datetime import date
 
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.db.models import Q
+from django.db.models import Q, Max
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
+from django.utils import timezone
 from django.views.generic import UpdateView, CreateView, ListView
 
 from apps.core import models
 from apps.core.forms import ConsultationForm
 from apps.core.models import Patient, Consultation, MotifConsultation, Medecin, TemplateEdition, \
-    ConsultationObstetrique, Device, WorklistItem
+    ConsultationObstetrique, Device, WorklistItem, Admission
 from apps.core.serializers import PatientSerializer, MedecinSerializer, ImageConsultationSerializer, \
     TemplateEditionSerializer, ImageConsultationSerializerLight, SRConsultationSerializer, DeviceSerializer
 from apps.core.views import patients
@@ -90,6 +91,57 @@ class ConsultationCreateBase(CreateView):
             else:
                 context['poids'] = patient.poids
         return context
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        self._ensure_admission()
+        return response
+
+    def _ensure_admission(self):
+        patient = get_object_or_404(Patient, pk=self.kwargs['pk'])
+        today = timezone.now().date()
+        existing = Admission.objects.filter(
+            patient=patient,
+            date__day=today.day, date__month=today.month, date__year=today.year,
+            statut='2'
+        ).first()
+        if existing:
+            return
+        waiting = Admission.objects.filter(
+            patient=patient,
+            date__day=today.day, date__month=today.month, date__year=today.year,
+            statut='1'
+        ).first()
+        if waiting:
+            waiting.statut = '2'
+            waiting.debut_consultation = timezone.now()
+            waiting.save()
+            return
+        completed = Admission.objects.filter(
+            patient=patient,
+            date__day=today.day, date__month=today.month, date__year=today.year,
+            statut='3'
+        ).first()
+        if completed:
+            completed.statut = '2'
+            completed.debut_consultation = timezone.now()
+            completed.save()
+            return
+        ordre_max = Admission.objects.filter(
+            patient__compte=self.request.user.profil.compte,
+            date__day=today.day, date__month=today.month, date__year=today.year
+        ).aggregate(Max('ordre'))['ordre__max']
+        ordre = 1 if ordre_max is None else ordre_max + 1
+        numero_max = Admission.objects.filter(
+            patient__compte=self.request.user.profil.compte,
+            date__year=today.year
+        ).aggregate(Max('numero'))['numero__max']
+        numero = 1 if numero_max is None else numero_max + 1
+        Admission.objects.create(
+            numero=numero, patient=patient,
+            praticien=self.request.user.profil.medecin if hasattr(self.request.user.profil, 'medecin') else None,
+            date=timezone.now(), ordre=ordre, statut='2', debut_consultation=timezone.now(),
+        )
 
 
 class ConsultationUpdateBase(UpdateView):

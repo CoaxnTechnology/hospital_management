@@ -67,6 +67,10 @@ class ConsultationList(PermissionRequiredMixin, ListView):
 class ConsultationCreateBase(CreateView):
     titre = 'Consultation'
 
+    def get(self, request, *args, **kwargs):
+        self._ensure_admission()
+        return super().get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['editor_only'] = True
@@ -146,6 +150,58 @@ class ConsultationCreateBase(CreateView):
 
 class ConsultationUpdateBase(UpdateView):
     titre = 'Consultation'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self._ensure_admission()
+        return super().get(request, *args, **kwargs)
+
+    def _ensure_admission(self):
+        patient = self.object.patient
+        today = timezone.now().date()
+        existing = Admission.objects.filter(
+            patient=patient,
+            date__day=today.day, date__month=today.month, date__year=today.year,
+            statut='2'
+        ).first()
+        if existing:
+            return
+        waiting = Admission.objects.filter(
+            patient=patient,
+            date__day=today.day, date__month=today.month, date__year=today.year,
+            statut='1'
+        ).first()
+        if waiting:
+            waiting.statut = '2'
+            waiting.debut_consultation = timezone.now()
+            waiting.save()
+            return
+        completed = Admission.objects.filter(
+            patient=patient,
+            date__day=today.day, date__month=today.month, date__year=today.year,
+            statut='3'
+        ).first()
+        if completed:
+            completed.statut = '2'
+            completed.debut_consultation = timezone.now()
+            completed.save()
+            return
+        compte = self.request.user.profil.compte if hasattr(self.request.user, 'profil') and self.request.user.profil else None
+        ordre_max = Admission.objects.filter(
+            patient__compte=compte,
+            date__day=today.day, date__month=today.month, date__year=today.year
+        ).aggregate(Max('ordre'))['ordre__max']
+        ordre = 1 if ordre_max is None else ordre_max + 1
+        numero_max = Admission.objects.filter(
+            patient__compte=compte,
+            date__year=today.year
+        ).aggregate(Max('numero'))['numero__max']
+        numero = 1 if numero_max is None else numero_max + 1
+        Admission.objects.create(
+            numero=numero, patient=patient,
+            praticien=self.request.user.profil.medecin if hasattr(self.request.user.profil, 'medecin') else None,
+            date=timezone.now(), ordre=ordre, statut='2', debut_consultation=timezone.now(),
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

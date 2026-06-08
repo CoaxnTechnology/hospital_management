@@ -83,42 +83,30 @@ class ServiceClassProvider:
         studyId = ds.StudyInstanceUID
         print('Study Instance UID', studyId)
 
-        if ds.Modality == 'SR':
+        sop_class_uid = str(event.file_meta.MediaStorageSOPClassUID) if event.file_meta else ''
+        is_sr = ds.Modality == 'SR' or 'sr' in sop_class_uid.lower() or 'structuredreport' in sop_class_uid.lower()
+
+        if is_sr:
             print('Structured report received')
+            logger.info(f'SR detected: Modality={ds.Modality} SOPClassUID={sop_class_uid}')
             try:
                 concept_name_code_sequence = safe_get(ds, 0x0040A043)
-
+                code_value = None
                 if concept_name_code_sequence:
-                    code_value = concept_name_code_sequence[0].CodeValue
+                    code_value = getattr(concept_name_code_sequence[0], 'CodeValue', None)
                     print(f'SR CodeValue: {code_value}')
 
-                    if code_value == '125000':
-                        print('OB-GYN Ultrasound Procedure Report')
-                        result = parse_ds(ds)
-                        print(result)
-                        post_data = {'study_uid': studyId, 'data': json.dumps(result), 'called_aet': called_aet}
-                        response = requests.post(f'{web_url}:{web_port}/worklists/sr/', data=post_data)
-                    elif code_value == '125100':
-                        print('Vascular Ultrasound Procedure Report')
-                    elif code_value == '125200':
-                        print('Adult Echocardiography Procedure Report')
-                    else:
-                        print(f'Unhandled SR code value: {code_value}')
-                else:
-                    print('SR missing ConceptNameCodeSequence at root level, trying parse_ds fallback')
-                    try:
-                        result = parse_ds(ds)
-                        if result:
-                            post_data = {'study_uid': studyId, 'data': json.dumps(result), 'called_aet': called_aet}
-                            response = requests.post(f'{web_url}:{web_port}/worklists/sr/', data=post_data)
-                    except Exception as parse_err:
-                        logger.error(f'Fallback parse_ds failed: {parse_err}')
+                result = parse_ds(ds)
+                print(result)
+                if result:
+                    post_data = {'study_uid': studyId, 'data': json.dumps(result), 'called_aet': called_aet}
+                    response = requests.post(f'{web_url}:{web_port}/worklists/sr/', data=post_data)
+                    logger.info(f'SR POST /worklists/sr/ status={response.status_code}')
             except Exception as e:
-                logger.error(f'Failed to process SR: {e}')
-                print(f'Failed to process SR: {e}')
+                logger.error(f'Failed to process SR: {e}', exc_info=True)
 
         # Check for Waveform modality
-        elif ds.Modality in ['WF', 'SR', 'OT'] or hasattr(ds, 'WaveformSequence'):
+        elif ds.Modality in ['WF', 'OT'] or hasattr(ds, 'WaveformSequence'):
             print(f'Waveform received: {ds.Modality}')
             try:
                 waveform_data = save_waveform(ds, studyId, called_aet)
@@ -136,7 +124,7 @@ class ServiceClassProvider:
 
         # filename = event.request.AffectedSOPInstanceUID
         filename = f"{random.randint(10000000, 99999999)}"
-        if ds.Modality == 'SR':
+        if is_sr:
             outfile += 'sr_'
             outfile += filename
         else:

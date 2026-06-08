@@ -92,36 +92,21 @@ class ServiceClassProvider:
             studyId = ds.StudyInstanceUID
             print('Study Instance UID', studyId)
 
-            if ds.Modality == 'SR':
-                logger.info(f"SR received: StudyInstanceUID={studyId}, PatientName={str(ds.get('PatientName', ''))}")
-                concept_name_code_sequence = safe_get(ds, 0x0040A043)
-                content_template_sequence = safe_get(ds, 0x0040A504)
-                content_sequence = safe_get(ds, 0x0040A730)
+            sop_class_uid = str(event.file_meta.MediaStorageSOPClassUID) if event.file_meta else ''
+            is_sr = ds.Modality == 'SR' or 'sr' in sop_class_uid.lower() or 'structuredreport' in sop_class_uid.lower()
 
-                code_value = concept_name_code_sequence[0].CodeValue if concept_name_code_sequence else 'N/A'
-                logger.info(f"SR concept code: {code_value}")
-
-                if code_value == '125000':
-                    logger.info('OB-GYN Ultrasound Procedure Report SR')
+            if is_sr:
+                logger.info(f"SR received: StudyInstanceUID={studyId}, PatientName={str(ds.get('PatientName', ''))}, SOPClassUID={sop_class_uid}")
+                try:
                     result = parse_ds(ds)
                     logger.info(f"Parsed SR data: {result}")
-                    patient_name = str(ds.get('PatientName', ''))
-                    post_data = {'study_uid': studyId, 'data': json.dumps(result), 'called_aet': called_aet, 'patient_name': patient_name}
-                    response = requests.post(f'{web_url}:{web_port}/worklists/sr/', data=post_data)
-                    logger.info(f"SR POST to /worklists/sr/ status={response.status_code} response={response.text}")
-                elif code_value == '125100':
-                    logger.info('Vascular Ultrasound Procedure Report SR (not implemented)')
-                elif code_value == '125200':
-                    logger.info('Adult Echocardiography Procedure Report SR (not implemented)')
-                else:
-                    logger.info(f'Unhandled SR concept code: {code_value}')
+                    if result:
+                        post_data = {'study_uid': studyId, 'data': json.dumps(result), 'called_aet': called_aet}
+                        response = requests.post(f'{web_url}:{web_port}/worklists/sr/', data=post_data)
+                        logger.info(f"SR POST to /worklists/sr/ status={response.status_code}")
+                except Exception as e:
+                    logger.error(f"Failed to process SR: {e}", exc_info=True)
 
-                if content_sequence:
-                    logger.info(f"SR content sequence has {len(content_sequence)} items")
-                    for item in content_sequence:
-                        pass
-
-            # Check for Waveform modality
             elif ds.Modality in ['WF', 'OT'] or hasattr(ds, 'WaveformSequence'):
                 print(f'Waveform received: {ds.Modality}')
                 try:
@@ -139,7 +124,7 @@ class ServiceClassProvider:
                 os.makedirs(outfile)
 
             filename = f"{random.randint(10000000, 99999999)}"
-            if ds.Modality == 'SR':
+            if is_sr:
                 outfile += 'sr_'
                 outfile += filename
             else:

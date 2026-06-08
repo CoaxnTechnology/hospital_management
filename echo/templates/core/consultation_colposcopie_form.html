@@ -32,6 +32,13 @@
                                 <span class="nav-text">{% trans "Edition" %}</span>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a id="images-tab" class="nav-link" data-toggle="tab" href="#tab-images"
+                               role="tab" aria-controls="tab-images" aria-selected="false">
+                                <span class="nav-icon"><i class="flaticon2-picture"></i></span>
+                                <span class="nav-text">{% trans "Images" %}</span>
+                            </a>
+                        </li>
 
                     </ul>
                     <span class="label label-pill label-inline label-success hide ml-2"
@@ -272,6 +279,10 @@
                             {% endif %}
                             <p>
                         </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="tab-images" aria-labelledby="images-tab" role="tabpanel">
+                        {% include 'core/partials/consultation_images.html' with consultation=object %}
                     </div>
 
                 </div>

@@ -225,45 +225,43 @@ class ServiceClassProvider:
 
         return 0x0000
 
+    def _lookup_worklist_item(self, sop_instance_uid):
+        """Find WorklistItem by mpps_sop_instance_uid (DB fallback for N-SET after restart)."""
+        try:
+            from apps.core.models import WorklistItem
+            return WorklistItem.objects.filter(mpps_sop_instance_uid=sop_instance_uid).first()
+        except Exception as e:
+            logger.error(f"handle_n_set - DB lookup failed: {e}")
+            return None
+
     def handle_n_create(self, event: Event):
         # MPPS' N-CREATE request must have an *Affected SOP Instance UID*
         logger.info(f"handle_n_create called")
         req = event.request
 
         if req.AffectedSOPInstanceUID is None:
-            # Failed - invalid attribute value
             logger.error(f"handle_n_create - Didn't receive a AffectedSOPInstanceUID")
             return 0x0106, None
 
-        # Can't create a duplicate SOP Instance
         if req.AffectedSOPInstanceUID in self.managed_instances:
-            # Failed - duplicate SOP Instance
-            logger.error(f"handle_n_create - AffectedSOPInstanceUID not registered {req.AffectedSOPInstanceUID}")
+            logger.error(f"handle_n_create - duplicate SOP Instance {req.AffectedSOPInstanceUID}")
             return 0x0111, None
 
-        # The N-CREATE request's *Attribute List* dataset
         attr_list = event.attribute_list
-        print('############## ', attr_list)
 
-        # Performed Procedure Step Status must be 'IN PROGRESS'
         if "PerformedProcedureStepStatus" not in attr_list:
-            # Failed - missing attribute
             logger.error(f"handle_n_create - PerformedProcedureStepStatus not in attribute list")
             return 0x0120, None
         if attr_list.PerformedProcedureStepStatus.upper() != 'IN PROGRESS':
             logger.error(f"handle_n_create - PerformedProcedureStepStatus is not IN PROGRESS {attr_list.PerformedProcedureStepStatus.upper()}")
             return 0x0106, None
 
-
-        print('#############################################')
         if "ScheduledStepAttributesSequence" not in attr_list:
-            # Failed - missing attribute
             logger.error(f"handle_n_create - ScheduledStepAttributesSequence not in attribute list")
             return 0x0120, None
 
         for seq_item in attr_list.ScheduledStepAttributesSequence:
             if "StudyInstanceUID" not in seq_item:
-                # Failed - missing attribute
                 logger.error(f"handle_n_create - StudyInstanceUID not in sequence ")
                 return 0x0120, None
             studyId = seq_item.StudyInstanceUID
@@ -272,64 +270,70 @@ class ServiceClassProvider:
             post_data['study_uid'] = studyId
             response = requests.post(f'{web_url}:{web_port}/worklists/statut/', data=post_data)
             res = response.json()
-            status = res['status']
-            print('Worklist API update status', status)
+            print('Worklist API update status', res['status'])
             print('Study instance UID', studyId)
 
-        # Skip other tests...
+            # Persist MPPS SOP Instance UID -> WorklistItem mapping in DB
+            try:
+                from apps.core.models import WorklistItem
+                updated = WorklistItem.objects.filter(study_instance_uid=studyId).update(
+                    mpps_sop_instance_uid=req.AffectedSOPInstanceUID
+                )
+                if updated:
+                    logger.info(f"handle_n_create - Saved MPPS SOP Instance UID for study {studyId}")
+                else:
+                    logger.warning(f"handle_n_create - No WorklistItem found for study {studyId}")
+            except Exception as e:
+                logger.error(f"handle_n_create - Failed to save MPPS SOP Instance UID: {e}")
 
-        # Create a Modality Performed Procedure Step SOP Class Instance
-        # DICOM Standard, Part 3, Annex B.17
         ds = Dataset()
-
-        # Add the SOP Common module elements (Annex C.12.1)
         ds.SOPClassUID = sop_class.ModalityPerformedProcedureStepSOPClass
         ds.SOPInstanceUID = req.AffectedSOPInstanceUID
-
-        # Update with the requested attributes
         ds.update(attr_list)
 
-        # Add the dataset to the managed SOP Instances
         self.managed_instances[ds.SOPInstanceUID] = ds
         logger.info(f"handle_n_create - Added ${ds.SOPInstanceUID} to registered instances")
 
-        # Return status, dataset
         return 0x0000, ds
 
-    # Implement the evt.EVT_N_SET handler
     def handle_n_set(self, event):
         logger.info(f"handle_n_set called")
         req = event.request
-        if req.RequestedSOPInstanceUID not in self.managed_instances:
-            # Failure - SOP Instance not recognised
-            logger.error(f"handle_n_set - RequestedSOPInstanceUID not registered {req.RequestedSOPInstanceUID}")
-            return 0x0112, None
 
-        ds = self.managed_instances[req.RequestedSOPInstanceUID]
+        ds = None
+        study_uid = None
 
-        print('############################################################')
-        print(ds.ScheduledStepAttributesSequence)
+        if req.RequestedSOPInstanceUID in self.managed_instances:
+            ds = self.managed_instances[req.RequestedSOPInstanceUID]
+        else:
+            wl_item = self._lookup_worklist_item(req.RequestedSOPInstanceUID)
+            if wl_item:
+                study_uid = wl_item.study_instance_uid
+                logger.info(f"handle_n_set - Found WorklistItem via DB for SOP Instance {req.RequestedSOPInstanceUID}")
+            else:
+                logger.error(f"handle_n_set - SOP Instance not registered and no DB match: {req.RequestedSOPInstanceUID}")
+                return 0x0112, None
 
-        # The N-SET request's *Modification List* dataset
         mod_list = event.attribute_list
-
         status = mod_list.PerformedProcedureStepStatus.upper()
         logger.info(f"handle_n_set - received status {status}")
 
-        for seq_item in ds.ScheduledStepAttributesSequence:
-            post_data = {}
-            print('Sequence item', seq_item)
-            post_data['status'] = status
-            post_data['study_uid'] = seq_item.StudyInstanceUID
-            response = requests.post(f'{web_url}:{web_port}/worklists/statut/', data=post_data)
-            res = response.json()
-            status = res['status']
-            print('Worklist API update status', status)
+        if ds is not None:
+            for seq_item in ds.ScheduledStepAttributesSequence:
+                post_data = {}
+                post_data['status'] = status
+                post_data['study_uid'] = seq_item.StudyInstanceUID
+                response = requests.post(f'{web_url}:{web_port}/worklists/statut/', data=post_data)
+                res = response.json()
+                print('Worklist API update status', res['status'])
+            ds.update(mod_list)
+        else:
+            post_data = {'status': status, 'study_uid': study_uid}
+            requests.post(f'{web_url}:{web_port}/worklists/statut/', data=post_data)
+            ds = Dataset()
+            ds.SOPClassUID = sop_class.ModalityPerformedProcedureStepSOPClass
+            ds.SOPInstanceUID = req.RequestedSOPInstanceUID
 
-        # Skip other tests...
-        ds.update(mod_list)
-
-        # Return status, dataset
         return 0x0000, ds
 
     def start(self) -> None:

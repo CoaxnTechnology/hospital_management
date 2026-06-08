@@ -15,6 +15,19 @@ from apps.core.serializers import WorklistItemSerializer, SRConsultationSerializ
 from django.db import models
 
 
+def _complete_admission_if_mpps_done(consultation):
+    """If the WorklistItem already has mpps_status=COMPLETED (MPPS ended before data arrived),
+    complete the admission now."""
+    if consultation.worklistitem_set.filter(mpps_status=WorklistItem.MPPS_STATUS_COMPLETED).exists():
+        today = datetime.date.today()
+        consultation.patient.admission_set.filter(
+            date__day=today.day,
+            date__month=today.month,
+            date__year=today.year,
+            statut='2'
+        ).update(statut='3')
+
+
 @csrf_exempt
 def rechercher_worklists(request):
     items = WorklistItem.objects.filter().order_by('consultation__patient__nom')
@@ -35,9 +48,6 @@ def rechercher_worklists(request):
                              consultation__date__month=date.month,
                              consultation__date__year=date.year)
 
-    if 'device' in request.POST:
-        items = items.filter(device__ae_title=request.POST['device'])
-
     items = items.filter(mpps_status__in=[WorklistItem.MPPS_STATUS_PENDING, WorklistItem.MPPS_STATUS_INPROGRESS])
     print('Items found', items)
     data = WorklistItemSerializer(items, many=True)
@@ -49,21 +59,34 @@ def rechercher_worklists(request):
 
 @csrf_exempt
 def modifier_worklist_statut(request):
-    from datetime import date
     if 'study_uid' in request.POST:
         study_uid = request.POST['study_uid']
-        item = WorklistItem.objects.get(study_instance_uid=study_uid)
+        try:
+            item = WorklistItem.objects.get(study_instance_uid=study_uid)
+        except WorklistItem.DoesNotExist:
+            return JsonResponse({'status': 'success', 'message': 'study_uid not found, skipped'})
+
         if 'status' in request.POST:
-            item.mpps_status = request.POST['status']
+            status = request.POST['status']
+            item.mpps_status = status
             item.save()
-            if request.POST['status'] == WorklistItem.MPPS_STATUS_COMPLETED:
-                today = date.today()
-                item.consultation.patient.admission_set.filter(
-                    date__day=today.day,
-                    date__month=today.month,
-                    date__year=today.year,
-                    statut='2'
-                ).update(statut='3')
+
+            if status.upper() == 'COMPLETED':
+                consultation = item.consultation
+                has_data = (
+                    consultation.imageconsultation_set.exists() or
+                    consultation.srconsultation_set.exists()
+                )
+                if has_data:
+                    today = datetime.date.today()
+                    consultation.patient.admission_set.filter(
+                        date__day=today.day,
+                        date__month=today.month,
+                        date__year=today.year,
+                        statut='2'
+                    ).update(statut='3')
+                else:
+                    pass
     resp = {
         'status': 'success',
     }
@@ -86,7 +109,7 @@ def ajouter_image(request):
     if consultation is None and 'patient_name' in request.POST:
         patient_name = request.POST['patient_name']
         parts = patient_name.split('^')
-        if len(parts) >= 2:
+        if len(parts) >= 2 and parts[0] and parts[1]:
             last_name = parts[0]
             first_name = parts[1]
             today = datetime.datetime.now().date()
@@ -99,6 +122,16 @@ def ajouter_image(request):
             if match:
                 consultation = match
                 print(f'Found consultation by patient name: {match.id}')
+
+    if consultation is None:
+        from apps.core.models import Consultation as ConsultationModel
+        today = datetime.datetime.now().date()
+        active = ConsultationModel.objects.filter(
+            date__date=today,
+        ).order_by('-id').first()
+        if active:
+            consultation = active
+            print(f'Found consultation by active admission fallback: {active.id}')
 
     if consultation is None:
         return JsonResponse({'message': 'No matching consultation found'}, status=404)
@@ -111,13 +144,7 @@ def ajouter_image(request):
         patient = consultation.patient
         out_path = repertoire_images_utilisateur(patient.compte.pk, patient.pk, os.path.basename(path))
         ic.image.save(out_path, File(open(path, 'rb')))
-        today = datetime.date.today()
-        patient.admission_set.filter(
-            date__day=today.day,
-            date__month=today.month,
-            date__year=today.year,
-            statut='2'
-        ).update(statut='3')
+        _complete_admission_if_mpps_done(consultation)
     resp = {
         'status': 'success',
     }
@@ -126,21 +153,26 @@ def ajouter_image(request):
 
 @csrf_exempt
 def ajouter_sr(request):
+    import logging
+    logger = logging.getLogger('dicom.storage')
+
     consultation = None
-    if 'study_uid' in request.POST:
-        study_uid = request.POST['study_uid']
-        print(f'Requesting worklist item with study id {study_uid}')
+    study_uid = request.POST.get('study_uid', '')
+    patient_name = request.POST.get('patient_name', '')
+    logger.info(f"ajouter_sr called: study_uid={study_uid}, patient_name={patient_name}")
+
+    if study_uid:
+        logger.info(f'Searching WorklistItem by study_uid={study_uid}')
         try:
             item = WorklistItem.objects.get(study_instance_uid=study_uid)
-            print(f'Found item {item}')
+            logger.info(f'Found WorklistItem {item.id} for consultation {item.consultation.id}')
             consultation = item.consultation
         except WorklistItem.DoesNotExist:
-            print(f'WorklistItem with UID {study_uid} not found, trying fallback by patient name')
+            logger.info(f'WorklistItem with UID {study_uid} not found, trying fallback by patient name')
 
-    if consultation is None and 'patient_name' in request.POST:
-        patient_name = request.POST['patient_name']
+    if consultation is None and patient_name:
         parts = patient_name.split('^')
-        if len(parts) >= 2:
+        if len(parts) >= 2 and parts[0] and parts[1]:
             last_name = parts[0]
             first_name = parts[1]
             today = datetime.datetime.now().date()
@@ -152,15 +184,36 @@ def ajouter_sr(request):
             ).order_by('-id').first()
             if match:
                 consultation = match
-                print(f'Found consultation by patient name: {match.id}')
+                logger.info(f'Found consultation {match.id} by patient name fallback')
+            else:
+                logger.info(f'No consultation found by patient name {last_name}^{first_name}')
+        else:
+            logger.info(f'Patient name parts insufficient: {parts}')
 
     if consultation is None:
+        from apps.core.models import Consultation as ConsultationModel
+        today = datetime.datetime.now().date()
+        active = ConsultationModel.objects.filter(
+            date__date=today,
+        ).order_by('-id').first()
+        if active:
+            consultation = active
+            logger.info(f'Found consultation {active.id} by most-recent-today fallback')
+
+    if consultation is None:
+        logger.error('No matching consultation found for SR - returning 404')
         return JsonResponse({'message': 'No matching consultation found'}, status=404)
 
     if 'data' in request.POST:
         data = request.POST['data']
+        logger.info(f'Saving SRConsultation for consultation {consultation.id}')
         sr = SRConsultation(consultation=consultation, date=datetime.datetime.now(), data=data)
         sr.save()
+        logger.info(f'SRConsultation saved id={sr.id}')
+        _complete_admission_if_mpps_done(consultation)
+    else:
+        logger.warning('No data field in SR POST')
+
     resp = {
         'status': 'success',
     }
@@ -186,7 +239,7 @@ def ajouter_waveform(request):
     if consultation is None and 'patient_name' in request.POST:
         patient_name = request.POST['patient_name']
         parts = patient_name.split('^')
-        if len(parts) >= 2:
+        if len(parts) >= 2 and parts[0] and parts[1]:
             last_name = parts[0]
             first_name = parts[1]
             today = datetime.datetime.now().date()
@@ -199,6 +252,16 @@ def ajouter_waveform(request):
             if match:
                 consultation = match
                 print(f'Found consultation by patient name: {match.id}')
+
+    if consultation is None:
+        from apps.core.models import Consultation as ConsultationModel
+        today = datetime.datetime.now().date()
+        active = ConsultationModel.objects.filter(
+            date__date=today,
+        ).order_by('-id').first()
+        if active:
+            consultation = active
+            print(f'Found consultation by active admission fallback: {active.id}')
 
     if consultation is None:
         return JsonResponse({'message': 'No matching consultation found'}, status=404)
@@ -259,84 +322,6 @@ def modifier_worklist(request, pk):
 
 
 @login_required
-@permission_required('core.view_patient', raise_exception=True)
-def send_patient_to_worklist(request, patient_pk):
-    from apps.core.models import Patient, Admission, Consultation, Device
-    from django.utils import timezone
-    from pydicom.uid import generate_uid
-
-    try:
-        patient = get_object_or_404(Patient, pk=patient_pk)
-        today = timezone.now().date()
-
-        admission = Admission.objects.filter(
-            patient=patient,
-            date__day=today.day,
-            date__month=today.month,
-            date__year=today.year,
-            statut='2'
-        ).first()
-
-        if not admission:
-            from django.db.models import Max
-            completed = Admission.objects.filter(
-                patient=patient,
-                date__day=today.day,
-                date__month=today.month,
-                date__year=today.year,
-                statut='3'
-            ).first()
-            if completed:
-                completed.statut = '2'
-                completed.debut_consultation = timezone.now()
-                completed.save()
-                admission = completed
-            else:
-                return JsonResponse({'status': 'error', 'message': 'Patient non trouvé en consultation'}, status=400)
-
-        consultation = Consultation.objects.filter(
-            patient=patient,
-            date__day=today.day,
-            date__month=today.month,
-            date__year=today.year
-        ).order_by('-id').first()
-
-        if not consultation:
-            from apps.core.models import MotifConsultation
-            motif = MotifConsultation.objects.first()
-            consultation = Consultation.objects.create(
-                patient=patient,
-                motif=motif,
-                date=timezone.now(),
-                praticien=request.user.profil.medecin if hasattr(request.user.profil, 'medecin') else None,
-            )
-
-        existing = WorklistItem.objects.filter(
-            consultation=consultation,
-            mpps_status__in=[WorklistItem.MPPS_STATUS_PENDING, WorklistItem.MPPS_STATUS_INPROGRESS]
-        )
-        if existing.exists():
-            existing.update(mpps_status=WorklistItem.MPPS_STATUS_DISCONTINUED)
-
-        default_device = Device.objects.first()
-
-        worklist_item = WorklistItem.objects.create(
-            consultation=consultation,
-            study_instance_uid=generate_uid(),
-            mpps_status=WorklistItem.MPPS_STATUS_PENDING,
-            device=default_device
-        )
-
-        return JsonResponse({
-            'status': 'success',
-            'message': f'Patient {patient.nom_complet} envoyé vers la machine DICOM',
-            'worklist_id': worklist_item.id
-        })
-    except Exception as e:
-        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
-
-
-@login_required
 @permission_required('core.change_patient', raise_exception=True)
 def terminer_consultation_patient(request, patient_pk):
     from django.db.models import Q
@@ -350,9 +335,8 @@ def terminer_consultation_patient(request, patient_pk):
             date__month=today.month,
             date__year=today.year,
         ).order_by('-id').first()
-        if not consultation:
-            return JsonResponse({'status': 'error', 'message': 'Aucune consultation en cours'}, status=400)
-        consultation.worklistitem_set.all().update(mpps_status=WorklistItem.MPPS_STATUS_COMPLETED)
+        if consultation:
+            consultation.worklistitem_set.all().update(mpps_status=WorklistItem.MPPS_STATUS_COMPLETED)
         patient.admission_set.filter(
             Q(date__day=today.day) & Q(date__month=today.month) & Q(date__year=today.year)
         ).update(statut='3')

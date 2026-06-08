@@ -683,11 +683,6 @@ urlpatterns = [
     path("worklists/sr/", worklists.ajouter_sr, name="worklists_ajouter_sr"),
     path("worklists/waveform/", worklists.ajouter_waveform, name="worklists_ajouter_waveform"),
     path(
-        "patients/<int:patient_pk>/send-to-worklist/",
-        worklists.send_patient_to_worklist,
-        name="send_patient_to_worklist",
-    ),
-    path(
         "patients/<int:patient_pk>/terminer-consultation/",
         worklists.terminer_consultation_patient,
         name="terminer_consultation_patient",

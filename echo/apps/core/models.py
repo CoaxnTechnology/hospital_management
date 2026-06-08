@@ -3419,6 +3419,10 @@ class WorklistItem(models.Model):
     mpps_status = models.CharField(
         max_length=128, default=MPPS_STATUS_PENDING, choices=MPPS_STATUSES
     )
+    mpps_sop_instance_uid = models.CharField(
+        max_length=256, null=True, blank=True, db_index=True,
+        help_text="MPPS SOP Instance UID for N-SET matching"
+    )
 
     @property
     def patient_name(self):

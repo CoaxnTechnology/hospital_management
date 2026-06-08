@@ -757,61 +757,6 @@ jQuery(document).ready(function () {
 
 });
 
-function sendToDicomWorklist(patientId) {
-    const messages = {
-        fr: {
-            success: "Patient envoyé vers la machine DICOM avec succès",
-            error: "Erreur lors de l'envoi vers DICOM",
-            connectionError: "Erreur de connexion"
-        },
-        en: {
-            success: "Patient sent to DICOM machine successfully",
-            error: "Error sending to DICOM",
-            connectionError: "Connection error"
-        },
-        ar: {
-            success: "تم إرسال المريض إلى جهاز DICOM بنجاح",
-            error: "خطأ في الإرسال إلى DICOM",
-            connectionError: "خطأ في الاتصال"
-        },
-        es: {
-            success: "Paciente enviado a la máquina DICOM con éxito",
-            error: "Error al enviar a DICOM",
-            connectionError: "Error de conexión"
-        }
-    };
-
-    const lang = document.documentElement.lang || 'fr';
-    const msg = messages[lang] || messages.fr;
-
-    fetch(`/patients/${patientId}/send-to-worklist/`, {
-        method: 'POST',
-        headers: {
-            'X-CSRFToken': getCookie('csrftoken'),
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            return response.json().catch(() => {
-                throw new Error('HTTP ' + response.status);
-            }).then(err => { throw new Error(err.message || msg.error); });
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.status === 'success') {
-            toastr.success(msg.success);
-        } else {
-            toastr.error(data.message || msg.error);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        toastr.error(error.message || msg.connectionError);
-    });
-}
-
 function terminerConsultation(patientId) {
     if (!confirm("Terminer la consultation en cours ?")) return;
     fetch(`/patients/${patientId}/terminer-consultation/`, {

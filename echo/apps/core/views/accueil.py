@@ -87,7 +87,10 @@ class Accueil(PermissionRequiredMixin, TemplateView):
         context['admissions_json'] = json.dumps(admissions_json.data)
 
         consultations = Consultation.objects.filter(patient__compte=self.request.user.profil.compte,
-                                                    date__gte=periode_debut, date__lte=periode_fin)
+                                                    date__gte=periode_debut, date__lte=periode_fin) \
+                                            .exclude(patient__admission__statut='2',
+                                                     patient__admission__date__gte=jour_min,
+                                                     patient__admission__date__lte=jour_max)
         consultations_json = ConsultationSerializer(consultations, many=True)
         context['consultations_json'] = json.dumps(consultations_json.data)
 

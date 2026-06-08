@@ -2,12 +2,17 @@
 {% load i18n %}
 {% load static %}
 {% load widget_tweaks %}
+{% load common %}
 
 
 {% block sub_navigation %}
     <li class="nav-item">
         <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab"
            href="#tab-consultation">{% trans "Consultation" %}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab"
+           href="#tab-images">{% trans "Images" %}</a>
     </li>
 {% endblock %}
 
@@ -74,6 +79,11 @@
                     </div>
                 </div>
             </div>
+
+            <div id="tab-images" class="g-5 g-xxl-8 tab-pane fade">
+                {% include 'core/partials/consultation_images.html' with consultation=object %}
+            </div>
+
         </div>
 
     </form>

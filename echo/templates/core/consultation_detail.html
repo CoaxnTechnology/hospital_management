@@ -40,6 +40,23 @@
             {% trans "Aucun contenu pour cette consultation. Cliquez sur 'Editer le compte-rendu' pour ajouter du contenu." %}
         </div>
         {% endif %}
+
+        {% if object.imageconsultation_set.exists %}
+        <div class="mb-4">
+            <h6 class="text-muted mb-2">{% trans "Images" %}</h6>
+            <div class="row">
+                {% for img in object.imageconsultation_set.all %}
+                {% if img.image %}
+                <div class="col-3 mb-2">
+                    <a href="{{ img.image.url }}" data-lightbox="consultation-images">
+                        <img src="{{ img.image.url }}" class="img-fluid rounded">
+                    </a>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
     </div>
 
 

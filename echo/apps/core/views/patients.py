@@ -11,9 +11,11 @@ from django.core import serializers
 from django.forms import model_to_dict
 from django.http import HttpResponseNotFound, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
+from django.utils import timezone
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, FormView
+from pydicom.uid import generate_uid
 from apps.core.forms import EtablissementForm, AntecedentObstetriqueForm, GrossesseForm, MesuresPatientForm
 from apps.core.data import adresses
 from apps.core.forms import PatientForm, AdresseForm, ConsultationForm
@@ -215,6 +217,32 @@ class PatientView(PermissionRequiredMixin, DetailView):
                 patient.admission_set.filter(Q(date__day=today.day)
                                              & Q(date__month=today.month)
                                              & Q(date__year=today.year)).update(statut='2')
+                consultation = Consultation.objects.filter(
+                    patient=patient,
+                    date__day=today.day,
+                    date__month=today.month,
+                    date__year=today.year,
+                ).order_by('-id').first()
+                if not consultation:
+                    motif = MotifConsultation.objects.first()
+                    consultation = Consultation.objects.create(
+                        patient=patient,
+                        motif=motif,
+                        date=timezone.now(),
+                        praticien=getattr(request.user, 'medecin', None) or Medecin.objects.filter(compte=compte).first(),
+                    )
+                device = Device.objects.filter(compte=compte).first()
+                if device:
+                    WorklistItem.objects.filter(
+                        device__compte=compte,
+                        mpps_status__in=[WorklistItem.MPPS_STATUS_PENDING, WorklistItem.MPPS_STATUS_INPROGRESS]
+                    ).update(mpps_status=WorklistItem.MPPS_STATUS_DISCONTINUED)
+                    WorklistItem.objects.create(
+                        consultation=consultation,
+                        study_instance_uid=generate_uid(),
+                        mpps_status=WorklistItem.MPPS_STATUS_PENDING,
+                        device=device,
+                    )
                 if not self.request.user.profil.is_medecin():
                     return redirect("/accueil?msg=consultation_demarree_succes#liste_en_consultation")
 
@@ -364,10 +392,9 @@ class PatientCreate(PermissionRequiredMixin, View):
                 and self.request.user.profil
                 and hasattr(self.request.user.profil.compte, 'parametrescompte')
                 and self.request.user.profil.compte.parametrescompte.praticien_defaut
-                else self.request.user.profil.medecin
+                else getattr(self.request.user, 'medecin', None)
                 if hasattr(self.request.user, 'profil')
                 and self.request.user.profil
-                and hasattr(self.request.user.profil, 'medecin')
                 else None
             )
             if adresse_form.is_valid():

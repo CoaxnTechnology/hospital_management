@@ -18,6 +18,7 @@ from apps.core.serializers import PatientSerializer, MedecinSerializer, ImageCon
     TemplateEditionSerializer, ImageConsultationSerializerLight, SRConsultationSerializer, DeviceSerializer
 from apps.core.views import patients
 from apps.core import utils
+from pydicom.uid import generate_uid
 
 
 class AjaxableResponseMixin(PermissionRequiredMixin):
@@ -98,7 +99,6 @@ class ConsultationCreateBase(CreateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        self._ensure_admission()
         return response
 
     def _ensure_admission(self):
@@ -143,7 +143,7 @@ class ConsultationCreateBase(CreateView):
         numero = 1 if numero_max is None else numero_max + 1
         Admission.objects.create(
             numero=numero, patient=patient,
-            praticien=self.request.user.profil.medecin if hasattr(self.request.user.profil, 'medecin') else None,
+            praticien=getattr(self.request.user, 'medecin', None) or Medecin.objects.filter(compte=self.request.user.profil.compte).first(),
             date=timezone.now(), ordre=ordre, statut='2', debut_consultation=timezone.now(),
         )
 
@@ -153,7 +153,6 @@ class ConsultationUpdateBase(UpdateView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        self._ensure_admission()
         return super().get(request, *args, **kwargs)
 
     def _ensure_admission(self):
@@ -199,7 +198,7 @@ class ConsultationUpdateBase(UpdateView):
         numero = 1 if numero_max is None else numero_max + 1
         Admission.objects.create(
             numero=numero, patient=patient,
-            praticien=self.request.user.profil.medecin if hasattr(self.request.user.profil, 'medecin') else None,
+            praticien=getattr(self.request.user, 'medecin', None) or Medecin.objects.filter(compte=self.request.user.profil.compte).first(),
             date=timezone.now(), ordre=ordre, statut='2', debut_consultation=timezone.now(),
         )
 

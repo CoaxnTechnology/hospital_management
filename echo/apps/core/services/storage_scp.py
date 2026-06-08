@@ -1,4 +1,5 @@
 import json
+import logging as _logging
 import os
 import pdb
 import random
@@ -26,8 +27,14 @@ from apps.core.services.utils import *
 
 logger = getLogger('dicom.storage')
 logger.setLevel(DEBUG)
-_handler = __import__('logging').FileHandler('./logs/storage_scp.log')
+_handler = _logging.FileHandler('./logs/storage_scp.log')
 logger.addHandler(_handler)
+
+pynetdicom_logger = _logging.getLogger('pynetdicom')
+pynetdicom_logger.setLevel(DEBUG)
+_pynetdicom_handler = _logging.FileHandler('./logs/pynetdicom.log')
+pynetdicom_logger.addHandler(_pynetdicom_handler)
+
 logger.info("-----------------------------------------------------------------------------------")
 
 archive_dicom_files = True
@@ -61,105 +68,109 @@ class ServiceClassProvider:
     # Implement a handler for evt.EVT_C_ECHO
     def handle_echo(self, event: Event) -> int:
         """Handle a C-ECHO request event."""
-        print('AE', event.assoc.requestor.ae_title.strip().decode('UTF-8'))
+        calling = event.assoc.requestor.ae_title.strip().decode('UTF-8')
+        logger.info(f"C-ECHO received from {calling}")
         return 0x0000
 
     def handle_c_store(self, event: Event) -> int:
-        ds = event.dataset
-        ds.file_meta = event.file_meta
+        try:
+            ds = event.dataset
+            ds.file_meta = event.file_meta
 
-        called_aet = cast(str, event.assoc.acceptor.ae_title.strip()) if hasattr(event.assoc, 'acceptor') else ''
-        metadata: Dict[str, Optional[ParsedElementValue]] = {
-            "CallingAET": cast(str, event.assoc.requestor.ae_title.strip()),
-            "CalledAET": called_aet,
-            "SopInstanceUID": safe_get(ds, 0x00080018),
-            "StudyInstanceUID": safe_get(ds, 0x0020000D),
-            "Modality": safe_get(ds, 0x00080060),
-        }
-        log_message_meta = " - ".join([f"{k}={v}" for k, v in metadata.items() if v])
-        logger.info(f"Processed C-STORE {log_message_meta}")
+            called_aet = cast(str, event.assoc.acceptor.ae_title.strip()) if hasattr(event.assoc, 'acceptor') else ''
+            metadata: Dict[str, Optional[ParsedElementValue]] = {
+                "CallingAET": cast(str, event.assoc.requestor.ae_title.strip()),
+                "CalledAET": called_aet,
+                "SopInstanceUID": safe_get(ds, 0x00080018),
+                "StudyInstanceUID": safe_get(ds, 0x0020000D),
+                "Modality": safe_get(ds, 0x00080060),
+            }
+            log_message_meta = " - ".join([f"{k}={v}" for k, v in metadata.items() if v])
+            logger.info(f"Processed C-STORE {log_message_meta}")
 
-        print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-        studyId = ds.StudyInstanceUID
-        print('Study Instance UID', studyId)
+            print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+            studyId = ds.StudyInstanceUID
+            print('Study Instance UID', studyId)
 
-        if ds.Modality == 'SR':
-            print('Structured report received')
-            concept_name_code_sequence = safe_get(ds, 0x0040A043)
-            content_template_sequence = safe_get(ds, 0x0040A504)
-            content_sequence = safe_get(ds, 0x0040A730)
+            if ds.Modality == 'SR':
+                logger.info(f"SR received: StudyInstanceUID={studyId}, PatientName={str(ds.get('PatientName', ''))}")
+                concept_name_code_sequence = safe_get(ds, 0x0040A043)
+                content_template_sequence = safe_get(ds, 0x0040A504)
+                content_sequence = safe_get(ds, 0x0040A730)
 
-            code_value = concept_name_code_sequence[0].CodeValue
+                code_value = concept_name_code_sequence[0].CodeValue if concept_name_code_sequence else 'N/A'
+                logger.info(f"SR concept code: {code_value}")
 
-            if code_value == '125000':
-                # OB-GYN Ultrasound Procedure Report
-                print('OB-GYN Ultrasound Procedure Report')
-                result = parse_ds(ds)
-                print(result)
-                patient_name = str(ds.get('PatientName', ''))
-                post_data = {'study_uid': studyId, 'data': json.dumps(result), 'called_aet': called_aet, 'patient_name': patient_name}
-                response = requests.post(f'{web_url}:{web_port}/worklists/sr/', data=post_data)
-            elif code_value == '125100':
-                # Vascular Ultrasound Procedure Report
-                print('Vascular Ultrasound Procedure Report')
-            elif code_value == '125200':
-                # Adult Echocardiography Procedure Report
-                print('Adult Echocardiography Procedure Report')
-            for item in content_sequence:
-                pass
+                if code_value == '125000':
+                    logger.info('OB-GYN Ultrasound Procedure Report SR')
+                    result = parse_ds(ds)
+                    logger.info(f"Parsed SR data: {result}")
+                    patient_name = str(ds.get('PatientName', ''))
+                    post_data = {'study_uid': studyId, 'data': json.dumps(result), 'called_aet': called_aet, 'patient_name': patient_name}
+                    response = requests.post(f'{web_url}:{web_port}/worklists/sr/', data=post_data)
+                    logger.info(f"SR POST to /worklists/sr/ status={response.status_code} response={response.text}")
+                elif code_value == '125100':
+                    logger.info('Vascular Ultrasound Procedure Report SR (not implemented)')
+                elif code_value == '125200':
+                    logger.info('Adult Echocardiography Procedure Report SR (not implemented)')
+                else:
+                    logger.info(f'Unhandled SR concept code: {code_value}')
 
-        # Check for Waveform modality
-        elif ds.Modality in ['WF', 'SR', 'OT'] or hasattr(ds, 'WaveformSequence'):
-            print(f'Waveform received: {ds.Modality}')
-            try:
-                waveform_data = save_waveform(ds, studyId, called_aet)
-                if waveform_data:
-                    print(f'Waveform saved: {waveform_data}')
-            except Exception as e:
-                logger.error(f'Failed to save waveform: {e}')
+                if content_sequence:
+                    logger.info(f"SR content sequence has {len(content_sequence)} items")
+                    for item in content_sequence:
+                        pass
 
-        else:
-            print('Image received')
+            # Check for Waveform modality
+            elif ds.Modality in ['WF', 'OT'] or hasattr(ds, 'WaveformSequence'):
+                print(f'Waveform received: {ds.Modality}')
+                try:
+                    waveform_data = save_waveform(ds, studyId, called_aet)
+                    if waveform_data:
+                        print(f'Waveform saved: {waveform_data}')
+                except Exception as e:
+                    logger.error(f'Failed to save waveform: {e}')
 
-        outfile = f'./data/studies/{studyId}/'
-        if not os.path.exists(outfile):
-            os.makedirs(outfile)
+            else:
+                print('Image received')
 
-        # filename = event.request.AffectedSOPInstanceUID
-        filename = f"{random.randint(10000000, 99999999)}"
-        if ds.Modality == 'SR':
-            outfile += 'sr_'
-            outfile += filename
-        else:
-            outfile += 'img_'
-            outfile += filename
-            # Enregistrer l'image
-            out_img_file = outfile + '.jpg'
-            try:
-                ds_to_jpeg(ds, out_img_file)
-                patient_name = str(ds.get('PatientName', ''))
-                post_data = {
-                    'study_uid': studyId,
-                    'path': os.path.abspath(out_img_file),
-                    'called_aet': called_aet,
-                    'patient_name': patient_name,
-                }
-                response = requests.post(f'{web_url}:{web_port}/worklists/image/', data=post_data)
-                # res = response.json()
-            except Exception as e:
-                logger.error(f"Failed to save image for study {studyId}: {e}")
+            outfile = f'./data/studies/{studyId}/'
+            if not os.path.exists(outfile):
+                os.makedirs(outfile)
 
-        if archive_dicom_files:
-            with open(outfile + '.dcm', 'wb') as f:
-                # Write the preamble and prefix
-                f.write(b'\x00' * 128)
-                f.write(b'DICM')
-                # Encode and write the File Meta Information
-                write_file_meta_info(f, event.file_meta)
-                # Write the encoded dataset
-                f.write(event.request.DataSet.getvalue())
+            filename = f"{random.randint(10000000, 99999999)}"
+            if ds.Modality == 'SR':
+                outfile += 'sr_'
+                outfile += filename
+            else:
+                outfile += 'img_'
+                outfile += filename
+                out_img_file = outfile + '.jpg'
+                try:
+                    ds_to_jpeg(ds, out_img_file)
+                    patient_name = str(ds.get('PatientName', ''))
+                    post_data = {
+                        'study_uid': studyId,
+                        'path': os.path.abspath(out_img_file),
+                        'called_aet': called_aet,
+                        'patient_name': patient_name,
+                    }
+                    response = requests.post(f'{web_url}:{web_port}/worklists/image/', data=post_data)
+                except Exception as e:
+                    logger.error(f"Failed to save image for study {studyId}: {e}")
 
-        return 0x0000
+            if archive_dicom_files:
+                with open(outfile + '.dcm', 'wb') as f:
+                    f.write(b'\x00' * 128)
+                    f.write(b'DICM')
+                    write_file_meta_info(f, event.file_meta)
+                    f.write(event.request.DataSet.getvalue())
+
+            return 0x0000
+
+        except Exception as e:
+            logger.error(f"Unhandled error in C-STORE handler: {e}", exc_info=True)
+            return 0xC000
 
     def start(self) -> None:
         logger.info(f"Starting DIMSE C-STORE AE on address={self.address} aet={self.ae.ae_title}")

@@ -85,27 +85,37 @@ class ServiceClassProvider:
 
         if ds.Modality == 'SR':
             print('Structured report received')
-            concept_name_code_sequence = safe_get(ds, 0x0040A043)
-            content_template_sequence = safe_get(ds, 0x0040A504)
-            content_sequence = safe_get(ds, 0x0040A730)
+            try:
+                concept_name_code_sequence = safe_get(ds, 0x0040A043)
 
-            code_value = concept_name_code_sequence[0].CodeValue
+                if concept_name_code_sequence:
+                    code_value = concept_name_code_sequence[0].CodeValue
+                    print(f'SR CodeValue: {code_value}')
 
-            if code_value == '125000':
-                # OB-GYN Ultrasound Procedure Report
-                print('OB-GYN Ultrasound Procedure Report')
-                result = parse_ds(ds)
-                print(result)
-                post_data = {'study_uid': studyId, 'data': json.dumps(result), 'called_aet': called_aet}
-                response = requests.post(f'{web_url}:{web_port}/worklists/sr/', data=post_data)
-            elif code_value == '125100':
-                # Vascular Ultrasound Procedure Report
-                print('Vascular Ultrasound Procedure Report')
-            elif code_value == '125200':
-                # Adult Echocardiography Procedure Report
-                print('Adult Echocardiography Procedure Report')
-            for item in content_sequence:
-                pass
+                    if code_value == '125000':
+                        print('OB-GYN Ultrasound Procedure Report')
+                        result = parse_ds(ds)
+                        print(result)
+                        post_data = {'study_uid': studyId, 'data': json.dumps(result), 'called_aet': called_aet}
+                        response = requests.post(f'{web_url}:{web_port}/worklists/sr/', data=post_data)
+                    elif code_value == '125100':
+                        print('Vascular Ultrasound Procedure Report')
+                    elif code_value == '125200':
+                        print('Adult Echocardiography Procedure Report')
+                    else:
+                        print(f'Unhandled SR code value: {code_value}')
+                else:
+                    print('SR missing ConceptNameCodeSequence at root level, trying parse_ds fallback')
+                    try:
+                        result = parse_ds(ds)
+                        if result:
+                            post_data = {'study_uid': studyId, 'data': json.dumps(result), 'called_aet': called_aet}
+                            response = requests.post(f'{web_url}:{web_port}/worklists/sr/', data=post_data)
+                    except Exception as parse_err:
+                        logger.error(f'Fallback parse_ds failed: {parse_err}')
+            except Exception as e:
+                logger.error(f'Failed to process SR: {e}')
+                print(f'Failed to process SR: {e}')
 
         # Check for Waveform modality
         elif ds.Modality in ['WF', 'SR', 'OT'] or hasattr(ds, 'WaveformSequence'):

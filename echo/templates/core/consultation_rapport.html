@@ -68,6 +68,12 @@ tr:nth-child(even) td { background:#F7FAFD; }
 .v { font-weight:600; color:#0D2137; text-align:right; white-space:nowrap; }
 .u { font-size:8pt; color:#7B8FA6; white-space:nowrap; }
 
+/* ── Doppler sub-tables ── */
+.vessel-doppler { font-size:8.5pt; font-weight:700; color:#0D2137; padding:4px 16px 2px; margin-top:8px; }
+.tbl-doppler { margin-bottom:4px; }
+.tbl-doppler th { background:#F0F4F9; font-size:7.5pt; padding:3px 10px; }
+.tbl-doppler td { font-size:9pt; padding:3px 10px; }
+
 /* ── Two columns ── */
 .two-col { display:flex; }
 .two-col > div { flex:1; overflow:hidden; }
@@ -168,13 +174,14 @@ tr:nth-child(even) td { background:#F7FAFD; }
   <div class="sec">Ultrasound Measurements{% if sr_source == 'dicom' %}<span class="dicom-badge">DICOM</span>{% endif %}</div>
 
   <!-- Pregnancy -->
-  {% if sr.ddr or sr.date_accouchement or sr.age_gestationnel %}
+  {% if sr.ddr or sr.date_accouchement or sr.age_gestationnel or sr.nombre_foetus %}
   <div class="sec sub">Pregnancy</div>
   <table>
     <tr>
       {% if sr.ddr                %}<td>Last Menstrual Period (LMP)</td><td class="v">{{ sr.ddr }}</td>{% endif %}
       {% if sr.date_accouchement  %}<td>Estimated Due Date</td><td class="v">{{ sr.date_accouchement }}</td>{% endif %}
       {% if sr.age_gestationnel   %}<td>Gestational Age</td><td class="v">{{ sr.age_gestationnel }}</td><td class="u">weeks</td>{% endif %}
+      {% if sr.nombre_foetus      %}<td>Number of Fetuses</td><td class="v">{{ sr.nombre_foetus }}</td>{% endif %}
     </tr>
   </table>
   {% endif %}
@@ -220,12 +227,24 @@ tr:nth-child(even) td { background:#F7FAFD; }
 
   <!-- Uterine Doppler -->
   {% if sr.doppler_uterin %}{% with d=sr.doppler_uterin %}
-  {% if d.ir_gauche or d.ir_droit or d.ip_gauche or d.ip_droit %}
+  {% if d.ir_gauche or d.ir_droit or d.ip_gauche or d.ip_droit or d.peak_systolic_velocity_gauche or d.peak_systolic_velocity_droit %}
   <div class="sec sub">Uterine Doppler</div>
   <table>
-    <tr><th>Index</th><th>Left</th><th>Right</th></tr>
+    <tr><th>Parameter</th><th>Left</th><th>Right</th></tr>
     {% if d.ir_gauche or d.ir_droit %}<tr><td>Resistive Index (RI)</td><td class="v">{{ d.ir_gauche|default:"—" }}</td><td class="v">{{ d.ir_droit|default:"—" }}</td></tr>{% endif %}
     {% if d.ip_gauche or d.ip_droit %}<tr><td>Pulsatility Index (PI)</td><td class="v">{{ d.ip_gauche|default:"—" }}</td><td class="v">{{ d.ip_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.peak_systolic_velocity_gauche or d.peak_systolic_velocity_droit %}<tr><td>PS</td><td class="v">{{ d.peak_systolic_velocity_gauche|default:"—" }}</td><td class="v">{{ d.peak_systolic_velocity_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.end_diastolic_velocity_gauche or d.end_diastolic_velocity_droit %}<tr><td>ED</td><td class="v">{{ d.end_diastolic_velocity_gauche|default:"—" }}</td><td class="v">{{ d.end_diastolic_velocity_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.time_averaged_peak_velocity_gauche or d.time_averaged_peak_velocity_droit %}<tr><td>TAmax</td><td class="v">{{ d.time_averaged_peak_velocity_gauche|default:"—" }}</td><td class="v">{{ d.time_averaged_peak_velocity_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.time_averaged_mean_velocity_gauche or d.time_averaged_mean_velocity_droit %}<tr><td>TAmean</td><td class="v">{{ d.time_averaged_mean_velocity_gauche|default:"—" }}</td><td class="v">{{ d.time_averaged_mean_velocity_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.peak_gradient_gauche or d.peak_gradient_droit %}<tr><td>PGmax</td><td class="v">{{ d.peak_gradient_gauche|default:"—" }}</td><td class="v">{{ d.peak_gradient_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.mean_gradient_gauche or d.mean_gradient_droit %}<tr><td>PGmean</td><td class="v">{{ d.mean_gradient_gauche|default:"—" }}</td><td class="v">{{ d.mean_gradient_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.acceleration_time_gauche or d.acceleration_time_droit %}<tr><td>AccT</td><td class="v">{{ d.acceleration_time_gauche|default:"—" }}</td><td class="v">{{ d.acceleration_time_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.acceleration_slope_gauche or d.acceleration_slope_droit %}<tr><td>Acc</td><td class="v">{{ d.acceleration_slope_gauche|default:"—" }}</td><td class="v">{{ d.acceleration_slope_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.deceleration_time_gauche or d.deceleration_time_droit %}<tr><td>DecT</td><td class="v">{{ d.deceleration_time_gauche|default:"—" }}</td><td class="v">{{ d.deceleration_time_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.deceleration_slope_gauche or d.deceleration_slope_droit %}<tr><td>Dec</td><td class="v">{{ d.deceleration_slope_gauche|default:"—" }}</td><td class="v">{{ d.deceleration_slope_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.diastolic_to_systolic_velocity_ratio_gauche or d.diastolic_to_systolic_velocity_ratio_droit %}<tr><td>ED/PS</td><td class="v">{{ d.diastolic_to_systolic_velocity_ratio_gauche|default:"—" }}</td><td class="v">{{ d.diastolic_to_systolic_velocity_ratio_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.heart_rate_gauche or d.heart_rate_droit %}<tr><td>HR</td><td class="v">{{ d.heart_rate_gauche|default:"—" }}</td><td class="v">{{ d.heart_rate_droit|default:"—" }}</td></tr>{% endif %}
   </table>
   {% endif %}{% endwith %}{% endif %}
 
@@ -233,10 +252,12 @@ tr:nth-child(even) td { background:#F7FAFD; }
   {% for fetus in sr.foetus %}
   <div class="fetus-hd">
     <span class="fid">FETUS {% if sr.foetus|length > 1 %}{{ forloop.counter }}{% endif %}</span>
-    {% if fetus.age_gest            %}<span class="fm">GA: {{ fetus.age_gest }} wks</span>{% endif %}
-    {% if fetus.poids               %}<span class="fm">EFW: {{ fetus.poids }} g</span>{% endif %}
-    {% if fetus.fc                  %}<span class="fm">FHR: {{ fetus.fc }} bpm</span>{% endif %}
-    {% if fetus.date_accouchement   %}<span class="fm">EDD: {{ fetus.date_accouchement }}</span>{% endif %}
+    {% if fetus.age_gest               %}<span class="fm">GA: {{ fetus.age_gest }} wks</span>{% endif %}
+    {% if fetus.age_gest_ultrasound    %}<span class="fm">GA (US): {{ fetus.age_gest_ultrasound }} days</span>{% endif %}
+    {% if fetus.age_gest_lmp           %}<span class="fm">GA (LMP): {{ fetus.age_gest_lmp }} days</span>{% endif %}
+    {% if fetus.poids                  %}<span class="fm">EFW: {{ fetus.poids }} g</span>{% endif %}
+    {% if fetus.fc                     %}<span class="fm">FHR: {{ fetus.fc }} bpm</span>{% endif %}
+    {% if fetus.date_accouchement      %}<span class="fm">EDD: {{ fetus.date_accouchement }}</span>{% endif %}
   </div>
 
   <!-- Biometry + Long Bones side-by-side -->
@@ -251,6 +272,7 @@ tr:nth-child(even) td { background:#F7FAFD; }
         {% if b.pa     %}<tr><td>AC (PA)</td><td class="v">{{ b.pa }}</td><td class="u">mm</td></tr>{% endif %}
         {% if b.femur  %}<tr><td>FL (Femur)</td><td class="v">{{ b.femur }}</td><td class="u">mm</td></tr>{% endif %}
         {% if b.lcc    %}<tr><td>CRL (LCC)</td><td class="v">{{ b.lcc }}</td><td class="u">mm</td></tr>{% endif %}
+        {% if fetus.poids %}<tr><td>EFW (Estimated Fetal Weight)</td><td class="v">{{ fetus.poids }}</td><td class="u">g</td></tr>{% endif %}
         {% if b.sac_gestationnel_diametre %}<tr><td>Gestational Sac</td><td class="v">{{ b.sac_gestationnel_diametre }}</td><td class="u">mm</td></tr>{% endif %}
         {% if b.cn     %}<tr><td>Nuchal Translucency (NT)</td><td class="v">{{ b.cn }}</td><td class="u">mm</td></tr>{% endif %}
         {% if b.epn    %}<tr><td>Nuchal Fold</td><td class="v">{{ b.epn }}</td><td class="u">mm</td></tr>{% endif %}
@@ -305,19 +327,71 @@ tr:nth-child(even) td { background:#F7FAFD; }
   <!-- Doppler -->
   {% with do=fetus.doppler_ombilical da=fetus.doppler_acm dv=fetus.doppler_dv %}
   {% if do or da or dv %}
-  <div class="sec sub">Doppler</div>
-  <table>
-    <tr><th>Vessel</th><th>RI</th><th>PI</th></tr>
-    {% if do %}{% if do.doppler_cordon_ir or do.doppler_cordon_ip %}
-    <tr><td>Umbilical Artery</td><td class="v">{{ do.doppler_cordon_ir|default:"—" }}</td><td class="v">{{ do.doppler_cordon_ip|default:"—" }}</td></tr>
-    {% endif %}{% endif %}
-    {% if da %}{% if da.doppler_acm_ir or da.doppler_acm_ip %}
-    <tr><td>Middle Cerebral Artery (MCA)</td><td class="v">{{ da.doppler_acm_ir|default:"—" }}</td><td class="v">{{ da.doppler_acm_ip|default:"—" }}</td></tr>
-    {% endif %}{% endif %}
-    {% if dv %}{% if dv.doppler_dv_ir or dv.doppler_dv_ip %}
-    <tr><td>Ductus Venosus</td><td class="v">{{ dv.doppler_dv_ir|default:"—" }}</td><td class="v">{{ dv.doppler_dv_ip|default:"—" }}</td></tr>
-    {% endif %}{% endif %}
+  <div class="sec sub">Fetal Doppler</div>
+
+  {% if do %}
+  <div class="vessel-doppler"><strong>Umbilical Artery</strong></div>
+  <table class="tbl-doppler">
+    <tr><th>Parameter</th><th>Value</th></tr>
+    {% if do.doppler_cordon_ir %}<tr><td>RI</td><td class="v">{{ do.doppler_cordon_ir }}</td></tr>{% endif %}
+    {% if do.doppler_cordon_ip %}<tr><td>PI</td><td class="v">{{ do.doppler_cordon_ip }}</td></tr>{% endif %}
+    {% if do.peak_systolic_velocity %}<tr><td>PS</td><td class="v">{{ do.peak_systolic_velocity }}</td></tr>{% endif %}
+    {% if do.end_diastolic_velocity %}<tr><td>ED</td><td class="v">{{ do.end_diastolic_velocity }}</td></tr>{% endif %}
+    {% if do.time_averaged_peak_velocity %}<tr><td>TAmax</td><td class="v">{{ do.time_averaged_peak_velocity }}</td></tr>{% endif %}
+    {% if do.time_averaged_mean_velocity %}<tr><td>TAmean</td><td class="v">{{ do.time_averaged_mean_velocity }}</td></tr>{% endif %}
+    {% if do.peak_gradient %}<tr><td>PGmax</td><td class="v">{{ do.peak_gradient }}</td></tr>{% endif %}
+    {% if do.mean_gradient %}<tr><td>PGmean</td><td class="v">{{ do.mean_gradient }}</td></tr>{% endif %}
+    {% if do.acceleration_time %}<tr><td>AccT</td><td class="v">{{ do.acceleration_time }}</td></tr>{% endif %}
+    {% if do.acceleration_slope %}<tr><td>Acc</td><td class="v">{{ do.acceleration_slope }}</td></tr>{% endif %}
+    {% if do.deceleration_time %}<tr><td>DecT</td><td class="v">{{ do.deceleration_time }}</td></tr>{% endif %}
+    {% if do.deceleration_slope %}<tr><td>Dec</td><td class="v">{{ do.deceleration_slope }}</td></tr>{% endif %}
+    {% if do.diastolic_to_systolic_velocity_ratio %}<tr><td>ED/PS</td><td class="v">{{ do.diastolic_to_systolic_velocity_ratio }}</td></tr>{% endif %}
+    {% if do.heart_rate %}<tr><td>HR</td><td class="v">{{ do.heart_rate }}</td></tr>{% endif %}
   </table>
+  {% endif %}
+
+  {% if da %}
+  <div class="vessel-doppler"><strong>Middle Cerebral Artery (MCA)</strong></div>
+  <table class="tbl-doppler">
+    <tr><th>Parameter</th><th>Value</th></tr>
+    {% if da.doppler_acm_ir %}<tr><td>RI</td><td class="v">{{ da.doppler_acm_ir }}</td></tr>{% endif %}
+    {% if da.doppler_acm_ip %}<tr><td>PI</td><td class="v">{{ da.doppler_acm_ip }}</td></tr>{% endif %}
+    {% if da.peak_systolic_velocity %}<tr><td>PS</td><td class="v">{{ da.peak_systolic_velocity }}</td></tr>{% endif %}
+    {% if da.end_diastolic_velocity %}<tr><td>ED</td><td class="v">{{ da.end_diastolic_velocity }}</td></tr>{% endif %}
+    {% if da.time_averaged_peak_velocity %}<tr><td>TAmax</td><td class="v">{{ da.time_averaged_peak_velocity }}</td></tr>{% endif %}
+    {% if da.time_averaged_mean_velocity %}<tr><td>TAmean</td><td class="v">{{ da.time_averaged_mean_velocity }}</td></tr>{% endif %}
+    {% if da.peak_gradient %}<tr><td>PGmax</td><td class="v">{{ da.peak_gradient }}</td></tr>{% endif %}
+    {% if da.mean_gradient %}<tr><td>PGmean</td><td class="v">{{ da.mean_gradient }}</td></tr>{% endif %}
+    {% if da.acceleration_time %}<tr><td>AccT</td><td class="v">{{ da.acceleration_time }}</td></tr>{% endif %}
+    {% if da.acceleration_slope %}<tr><td>Acc</td><td class="v">{{ da.acceleration_slope }}</td></tr>{% endif %}
+    {% if da.deceleration_time %}<tr><td>DecT</td><td class="v">{{ da.deceleration_time }}</td></tr>{% endif %}
+    {% if da.deceleration_slope %}<tr><td>Dec</td><td class="v">{{ da.deceleration_slope }}</td></tr>{% endif %}
+    {% if da.diastolic_to_systolic_velocity_ratio %}<tr><td>ED/PS</td><td class="v">{{ da.diastolic_to_systolic_velocity_ratio }}</td></tr>{% endif %}
+    {% if da.heart_rate %}<tr><td>HR</td><td class="v">{{ da.heart_rate }}</td></tr>{% endif %}
+  </table>
+  {% endif %}
+
+  {% if dv %}
+  <div class="vessel-doppler"><strong>Ductus Venosus (DV)</strong></div>
+  <table class="tbl-doppler">
+    <tr><th>Parameter</th><th>Value</th></tr>
+    {% if dv.doppler_dv_ir %}<tr><td>RI</td><td class="v">{{ dv.doppler_dv_ir }}</td></tr>{% endif %}
+    {% if dv.doppler_dv_ip %}<tr><td>PI</td><td class="v">{{ dv.doppler_dv_ip }}</td></tr>{% endif %}
+    {% if dv.peak_systolic_velocity %}<tr><td>PS</td><td class="v">{{ dv.peak_systolic_velocity }}</td></tr>{% endif %}
+    {% if dv.end_diastolic_velocity %}<tr><td>ED</td><td class="v">{{ dv.end_diastolic_velocity }}</td></tr>{% endif %}
+    {% if dv.time_averaged_peak_velocity %}<tr><td>TAmax</td><td class="v">{{ dv.time_averaged_peak_velocity }}</td></tr>{% endif %}
+    {% if dv.time_averaged_mean_velocity %}<tr><td>TAmean</td><td class="v">{{ dv.time_averaged_mean_velocity }}</td></tr>{% endif %}
+    {% if dv.peak_gradient %}<tr><td>PGmax</td><td class="v">{{ dv.peak_gradient }}</td></tr>{% endif %}
+    {% if dv.mean_gradient %}<tr><td>PGmean</td><td class="v">{{ dv.mean_gradient }}</td></tr>{% endif %}
+    {% if dv.acceleration_time %}<tr><td>AccT</td><td class="v">{{ dv.acceleration_time }}</td></tr>{% endif %}
+    {% if dv.acceleration_slope %}<tr><td>Acc</td><td class="v">{{ dv.acceleration_slope }}</td></tr>{% endif %}
+    {% if dv.deceleration_time %}<tr><td>DecT</td><td class="v">{{ dv.deceleration_time }}</td></tr>{% endif %}
+    {% if dv.deceleration_slope %}<tr><td>Dec</td><td class="v">{{ dv.deceleration_slope }}</td></tr>{% endif %}
+    {% if dv.diastolic_to_systolic_velocity_ratio %}<tr><td>ED/PS</td><td class="v">{{ dv.diastolic_to_systolic_velocity_ratio }}</td></tr>{% endif %}
+    {% if dv.heart_rate %}<tr><td>HR</td><td class="v">{{ dv.heart_rate }}</td></tr>{% endif %}
+  </table>
+  {% endif %}
+
   {% endif %}{% endwith %}
 
   {% empty %}

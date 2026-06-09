@@ -105,48 +105,6 @@ def ajouter_sr(request):
     return JsonResponse(resp)
 
 
-@csrf_exempt
-def ajouter_waveform(request):
-    """Handle DICOM Waveform upload."""
-    from apps.core.models import WaveformConsultation
-    
-    if 'study_uid' in request.POST:
-        study_uid = request.POST['study_uid']
-        print(f'Requesting worklist item with study id {study_uid}')
-        try:
-            item = WorklistItem.objects.get(study_instance_uid=study_uid)
-            print(f'Found item {item}')
-            
-            sop_uid = request.POST.get('sop_uid', '')
-            
-            if 'path' in request.POST:
-                path = request.POST['path']
-                # Create waveform record
-                wf = WaveformConsultation(
-                    consultation=item.consultation,
-                    sop_instance_uid=sop_uid,
-                    description=f"Waveform from {request.POST.get('called_aet', 'Unknown')}"
-                )
-                
-                # Copy image to media directory
-                patient = item.consultation.patient
-                out_path = repertoire_images_utilisateur(
-                    patient.compte.pk, patient.pk, 
-                    os.path.basename(path)
-                )
-                wf.image_preview.save(out_path, File(open(path, 'rb')))
-                wf.save()
-                print(f'Waveform saved: {wf.id}')
-                
-        except WorklistItem.DoesNotExist:
-            return JsonResponse({'message': f'Study with ID {study_uid} not found'}, status=404)
-    
-    resp = {
-        'status': 'success',
-    }
-    return JsonResponse(resp)
-
-
 @login_required
 @permission_required('core.change_patient', raise_exception=True)
 def consultation_sr(request, pk):

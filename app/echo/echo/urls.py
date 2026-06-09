@@ -681,7 +681,6 @@ urlpatterns = [
     ),
     path("worklists/image/", worklists.ajouter_image, name="worklists_ajouter_image"),
     path("worklists/sr/", worklists.ajouter_sr, name="worklists_ajouter_sr"),
-    path("worklists/waveform/", worklists.ajouter_waveform, name="worklists_ajouter_waveform"),
     path(
         "consultations/<int:pk>/sr/", worklists.consultation_sr, name="consultation_sr"
     ),

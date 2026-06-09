@@ -14,35 +14,6 @@
     </div>
     <div class="card-body">
 
-        <!-- Waveforms Section -->
-        {% if consultation and consultation.waveforms.exists %}
-        <div class="mb-4">
-            <h6 class="text-primary mb-3">{% trans "Doppler Waveforms" %}</h6>
-            <div id="waveforms-container" class="row p-2">
-                {% for wf in consultation.waveforms.all %}
-                    {% if wf.image_preview %}
-                        <div data-waveform-id="{{ wf.pk }}" class="col-3">
-                            <div class="card card-custom gutter-b card-stretch bg-white border">
-                                <div class="card-body pt-2 pl-2 pr-2 pb-6 text-center">
-                                    <a class="d-block overlay" href="{{ wf.image_preview.url }}" data-fslightbox="lightbox-waveform">
-                                        <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px "
-                                            style="background-image:url({{ wf.image_preview.url }})">
-                                        </div>
-                                        <div class="overlay-layer card-rounded bg-dark bg-opacity-25 shadow">
-                                            <i class="bi bi-waveform text-white fs-3x"></i>
-                                        </div>
-                                    </a>
-                                    <div class="mt-2 text-muted small">{{ wf.description|default:"Waveform" }}</div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-        {% endif %}
-
-        <!-- Images Section -->
         <div id="images-container" class="row p-2">
             {% if consultation %}
                 {% for img in consultation.imageconsultation_set.all %}

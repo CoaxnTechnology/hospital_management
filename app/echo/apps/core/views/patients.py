@@ -2,6 +2,7 @@ import json
 import logging
 from datetime import date
 from pprint import pformat
+from urllib.parse import quote, unquote
 
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -27,6 +28,32 @@ from bootstrap_modal_forms.generic import BSModalCreateView, BSModalUpdateView
 from apps.core.services.patients import get_grossesse_data
 
 logger = logging.getLogger()
+
+
+def _missing_new_patient_obligations(patient):
+    missing = []
+    if not patient.numero_identite:
+        missing.append("N° identité")
+    if not patient.code_securite_sociale:
+        missing.append("Code sécurité sociale")
+    if not patient.telephone:
+        missing.append("Téléphone")
+    if not patient.adresse_id:
+        missing.append("Adresse")
+    return missing
+
+
+def _redirect_if_new_patient_incomplete(patient):
+    if not patient.nouveau:
+        return None
+    missing = _missing_new_patient_obligations(patient)
+    if not missing:
+        return None
+    missing_txt = quote(", ".join(missing))
+    return redirect(
+        f"{reverse('patient_afficher', kwargs={'pk': patient.pk})}"
+        f"?msg=obligations_manquantes&missing={missing_txt}"
+    )
 
 
 class PatientList(PermissionRequiredMixin, View):
@@ -102,6 +129,18 @@ class PatientView(PermissionRequiredMixin, DetailView):
         if 'msg' in self.request.GET:
             if self.request.GET['msg'] == 'admission_succes':
                 context['msg'] = 'Patient admis avec succès'
+            elif self.request.GET['msg'] == 'obligations_manquantes':
+                missing = unquote(self.request.GET.get('missing', ''))
+                if missing:
+                    context['msg'] = (
+                        "Veuillez compléter les informations obligatoires avant de continuer : "
+                        f"{missing}"
+                    )
+                else:
+                    context['msg'] = (
+                        "Veuillez compléter les informations obligatoires avant de continuer."
+                    )
+                context['msg_level'] = 'warning'
 
         if self.object.taille and self.object.poids:
             taille = self.object.taille * 0.01
@@ -203,6 +242,9 @@ class PatientView(PermissionRequiredMixin, DetailView):
         if 'action' in self.request.GET:
             if self.request.GET['action'] == 'demarrer_consultation':
                 patient = self.object
+                guard = _redirect_if_new_patient_incomplete(patient)
+                if guard:
+                    return guard
                 patient.admission_set.filter(Q(date__day=today.day)
                                              & Q(date__month=today.month)
                                              & Q(date__year=today.year)).update(statut='2')
@@ -222,6 +264,9 @@ def infos_patient(request, pk):
 def admission_patient(request, pk):
     # Recherche patient pour admission
     patient = get_object_or_404(Patient, pk=pk)
+    guard = _redirect_if_new_patient_incomplete(patient)
+    if guard:
+        return guard
     praticien = patient.praticien_principal
     motif = MotifRdv.objects.all()[0]
     if 'rdv' in request.GET:
@@ -299,21 +344,14 @@ class PatientCreate(PermissionRequiredMixin, View):
                 initial_patient['date_naissance'] = request.GET['date_naissance']
             if 'ville' in request.GET:
                 initial_adresse['ville'] = request.GET['ville']
-            initial_patient['praticien_principal'] = self.request.user.profil.compte.parametrescompte.praticien_defaut if hasattr(self.request.user, 'profil') and self.request.user.profil and self.request.user.profil.compte else None
+            initial_patient['praticien_principal'] = self.request.user.profil.compte.parametrescompte.praticien_defaut
 
-        if not hasattr(self.request.user, 'profil') or not self.request.user.profil or not self.request.user.profil.compte:
-            adresse_form = AdresseForm(initial=initial_adresse)
-            patient_form = PatientForm(initial=initial_patient, compte=None)
-            context['adresse'] = adresse_form
-            context['patient'] = patient_form
-            return render(request, self.template_name, context)
-        
-        if self.request.user.profil.compte.adresse and self.request.user.profil.compte.adresse.pays:
-            initial_adresse['pays'] = self.request.user.profil.compte.adresse.pays
-        if (not 'ville' in initial_adresse or initial_adresse['ville'] == '') and self.request.user.profil.compte.adresse and self.request.user.profil.compte.adresse.ville:
-            initial_adresse['ville'] = self.request.user.profil.compte.adresse.ville
-        if (not 'gouvernorat' in initial_adresse or initial_adresse['gouvernorat'] == '') and self.request.user.profil.compte.adresse and self.request.user.profil.compte.adresse.gouvernorat:
-            initial_adresse['gouvernorat'] = self.request.user.profil.compte.adresse.gouvernorat
+        if request.user.profil.compte.adresse and request.user.profil.compte.adresse.pays:
+            initial_adresse['pays'] = request.user.profil.compte.adresse.pays
+        if (not 'ville' in initial_adresse or initial_adresse['ville'] == '') and request.user.profil.compte.adresse and request.user.profil.compte.adresse.ville:
+            initial_adresse['ville'] = request.user.profil.compte.adresse.ville
+        if (not 'gouvernorat' in initial_adresse or initial_adresse['gouvernorat'] == '') and request.user.profil.compte.adresse and request.user.profil.compte.adresse.gouvernorat:
+            initial_adresse['gouvernorat'] = request.user.profil.compte.adresse.gouvernorat
 
         adresse_form = AdresseForm(initial=initial_adresse)
         patient_form = PatientForm(initial=initial_patient, compte=self.request.user.profil.compte)

@@ -24,14 +24,6 @@
 
     <form id="form_1" class="form" method="post" action="">
         {% csrf_token %}
-        
-        <div class="d-flex align-items-center mb-4">
-            <span class="badge badge-light-primary me-2">
-                <i class="bi bi-clipboard-check"></i>
-                {{ motif.libelle|default:form.motif }}
-            </span>
-        </div>
-
         {% for hidden in form.hidden_fields %}
             {{ hidden }}
         {% endfor %}

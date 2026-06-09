@@ -3652,59 +3652,6 @@ html:not([data-hp-theme="dark"]) .modal-content {
 }
 html:not([data-hp-theme="dark"]) .modal-header,
 html:not([data-hp-theme="dark"]) .modal-footer {
-  border-color: #e5e7eb;
-}
-
-/* Typeahead dropdown styling */
-.typeahead .tt-menu {
-    max-height: 300px;
-    overflow-y: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    border: 1px solid #e5e7eb;
-    background: #fff;
-}
-.typeahead .tt-menu .tt-dataset .tt-suggestion {
-    padding: 0;
-    cursor: pointer;
-}
-.typeahead .tt-menu .tt-dataset .tt-suggestion:hover,
-.typeahead .tt-menu .tt-dataset .tt-suggestion.tt-cursor {
-    background-color: #f3f4f6;
-}
-.typeahead .tt-menu .tt-dataset .tt-suggestion.tt-highlight {
-    background-color: #e3f2fd;
-}
-/* Patient search result items */
-.patient-result-item {
-    padding: 10px 15px;
-    border-bottom: 1px solid #f0f0f0;
-    cursor: pointer;
-}
-.patient-result-item:hover {
-    background-color: #f8f9fa;
-}
-.patient-result-item:last-child {
-    border-bottom: none;
-}
-.patient-name {
-    font-size: 14px;
-    color: #212529;
-    line-height: 1.4;
-}
-.patient-name strong {
-    color: #1565C0;
-}
-.patient-dob {
-    color: #6c757d;
-    font-size: 12px;
-    margin-left: 8px;
-}
-.patient-phone {
-    margin-top: 4px;
-    font-size: 12px;
-    color: #1565C0;
-}
   background-color: #ffffff !important;
   border-color: #E2EAF4 !important;
 }

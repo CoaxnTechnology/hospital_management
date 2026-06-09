@@ -75,17 +75,12 @@ class ConsultationCreateBase(CreateView):
         fichiers = patient.fichierpatient_set.order_by('-date')
         context['fichiers'] = fichiers
         context['patient_json'] = json.dumps(PatientSerializer(patient).data)
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            medecins = Medecin.objects.filter(compte=self.request.user.profil.compte)
-            medecins_json = MedecinSerializer(medecins, many=True)
-            context['medecins_json'] = json.dumps(medecins_json.data)
-            devices = Device.objects.filter(compte=self.request.user.profil.compte)
-            context['devices'] = devices
-            context['devices_json'] = json.dumps(DeviceSerializer(devices, many=True).data)
-        else:
-            context['medecins_json'] = '[]'
-            context['devices'] = []
-            context['devices_json'] = '[]'
+        medecins = Medecin.objects.filter(compte=self.request.user.profil.compte)
+        medecins_json = MedecinSerializer(medecins, many=True)
+        context['medecins_json'] = json.dumps(medecins_json.data)
+        devices = Device.objects.filter(compte=self.request.user.profil.compte)
+        context['devices'] = devices
+        context['devices_json'] = json.dumps(DeviceSerializer(devices, many=True).data)
         patients.charger_info_panel_context(self.request, context, patient)
         if patient.mesures_jour:
             if patient.mesures_jour.ta:
@@ -109,18 +104,12 @@ class ConsultationUpdateBase(UpdateView):
         fichiers = patient.fichierpatient_set.order_by('-date')
         context['fichiers'] = fichiers
         context['patient_json'] = json.dumps(PatientSerializer(patient).data)
-        # Check if user is authenticated
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            medecins = Medecin.objects.filter(compte=self.request.user.profil.compte)
-            medecins_json = MedecinSerializer(medecins, many=True)
-            context['medecins_json'] = json.dumps(medecins_json.data)
-            devices = Device.objects.filter(compte=self.request.user.profil.compte)
-            context['devices'] = devices
-            context['devices_json'] = json.dumps(DeviceSerializer(devices, many=True).data)
-        else:
-            context['medecins_json'] = '[]'
-            context['devices'] = []
-            context['devices_json'] = '[]'
+        medecins = Medecin.objects.filter(compte=self.request.user.profil.compte)
+        medecins_json = MedecinSerializer(medecins, many=True)
+        context['medecins_json'] = json.dumps(medecins_json.data)
+        devices = Device.objects.filter(compte=self.request.user.profil.compte)
+        context['devices'] = devices
+        context['devices_json'] = json.dumps(DeviceSerializer(devices, many=True).data)
         patients.charger_info_panel_context(self.request, context, patient)
         if hasattr(self.object, 'imageconsultation_set'):
             context['images_json'] = json.dumps(ImageConsultationSerializerLight(
@@ -140,19 +129,14 @@ class ConsultationCreate(PermissionRequiredMixin, ConsultationCreateBase):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            kwargs['compte'] = self.request.user.profil.compte
+        kwargs['compte'] = self.request.user.profil.compte
         return kwargs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         motif = MotifConsultation.objects.filter(code=self.request.GET.get('motif'))
         context['motif'] = motif[0]
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            compte = self.request.user.profil.compte
-        else:
-            compte = None
-        templates = TemplateEdition.objects.filter(compte=compte,
+        templates = TemplateEdition.objects.filter(compte=self.request.user.profil.compte,
                                                    categorie_consultation=motif[0].categorie)
         context['templates'] = templates
         templates_json = TemplateEditionSerializer(templates, many=True)
@@ -163,8 +147,7 @@ class ConsultationCreate(PermissionRequiredMixin, ConsultationCreateBase):
 
     def get_initial(self):
         initial_base = super().get_initial()
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            initial_base['praticien'] = self.request.user.profil
+        initial_base['praticien'] = self.request.user.profil
         return initial_base
 
 
@@ -243,18 +226,13 @@ class ConsultationUpdate(PermissionRequiredMixin, ConsultationUpdateBase):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            kwargs['compte'] = self.request.user.profil.compte
+        kwargs['compte'] = self.request.user.profil.compte
         return kwargs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['motif'] = self.object.motif
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            compte = self.request.user.profil.compte
-        else:
-            compte = None
-        templates = TemplateEdition.objects.filter(compte=compte,
+        templates = TemplateEdition.objects.filter(compte=self.request.user.profil.compte,
                                                    categorie_consultation=self.object.motif.categorie)
         context['templates'] = templates
         templates_json = TemplateEditionSerializer(templates, many=True)

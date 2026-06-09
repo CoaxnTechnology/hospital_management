@@ -401,10 +401,10 @@
            title="{% trans 'Paiement' %}">
             <i class="fa fa-money-bill icon-sm"></i>
         </a>
-        <a href="/patients/<%- id %>/?action=demarrer_consultation" class="btn btn-sm btn-primary btn-icon"
+        <button onclick="demarrerConsultation(<%- id %>)" class="btn btn-sm btn-primary btn-icon"
            title="{% trans 'Démarrer la consultation' %}">
             <i class="fa fa-play icon-sm"></i>
-        </a>
+        </button>
         <a onclick="annulerAdmission(<%- admission_id %>)" class="btn btn-icon btn-sm btn-danger"
            title="{% trans 'Annuler l\'admission' %}">
             <i class="la la-trash icon-md"></i>
@@ -526,7 +526,67 @@
         let praticiens = {{ praticiens_json|safe }};
         let motifs_rdv = {{ motifs_rdv_json|safe }};
 
+        let dispositifs = {{ devices_json|safe }};
+
+        function demarrerConsultation(patientId) {
+            if (dispositifs.length === 0) {
+                window.location.href = '/patients/' + patientId + '/?action=demarrer_consultation';
+                return;
+            }
+            if (dispositifs.length === 1) {
+                window.location.href = '/patients/' + patientId + '/?action=demarrer_consultation&device=' + dispositifs[0].id;
+                return;
+            }
+            var html = '<div class="list-group">';
+            dispositifs.forEach(function(d) {
+                html += '<button type="button" class="list-group-item list-group-item-action device-option" data-device-id="' + d.id + '">' + (d.libelle || d.ae_title || 'Machine ' + d.id) + '</button>';
+            });
+            html += '</div>';
+            swal.fire({
+                title: 'Choisir la machine',
+                html: html,
+                showConfirmButton: false,
+                showCancelButton: true,
+                cancelButtonText: 'Annuler',
+                didRender: function() {
+                    document.querySelectorAll('.device-option').forEach(function(btn) {
+                        btn.addEventListener('click', function() {
+                            var deviceId = this.getAttribute('data-device-id');
+                            swal.close();
+                            window.location.href = '/patients/' + patientId + '/?action=demarrer_consultation&device=' + deviceId;
+                        });
+                    });
+                }
+            });
+        }
+
     </script>
     <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
     <script src="{% static "js/core/accueil.js" %}"></script>
+    <script>
+    // Live polling: refresh admissions every 15s
+    setInterval(function() {
+        fetch('/admissions/aujourdhui/json/')
+            .then(r => r.json())
+            .then(data => {
+                if (!data.admissions) return;
+                var table = $('#admissions-table').DataTable();
+                if (!table) return;
+                var currentIds = {};
+                table.rows().every(function() {
+                    var d = this.data();
+                    if (d) currentIds[d.id] = d;
+                });
+                data.admissions.forEach(function(adm) {
+                    var row = table.row('#' + adm.id);
+                    if (row.length) {
+                        if (currentIds[adm.id] && currentIds[adm.id].statut !== adm.statut) {
+                            table.row('#' + adm.id).data(adm).draw(false);
+                        }
+                    }
+                });
+            })
+            .catch(function(e) {});
+    }, 15000);
+    </script>
 {% endblock %}

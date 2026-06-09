@@ -17,8 +17,16 @@ class EchoConfig(AppConfig):
 
         # Auto-start DICOM servers in background threads.
         # RUN_MAIN guard prevents double-start under Django's auto-reloader.
-        # DISABLE_DICOM prevents auto-start (e.g., when running daphne separately)
-        if os.environ.get('RUN_MAIN') != 'true' and os.environ.get('DISABLE_DICOM') != '1':
+        # DISABLE_DICOM / DISABLE_DICOM_AUTO prevents auto-start.
+        # Under gunicorn, DICOM servers must run as a separate process (store.py),
+        # not inside workers — gunicorn workers share ports and only one can bind.
+        _under_gunicorn = os.environ.get('SERVER_SOFTWARE', '').startswith('gunicorn')
+        if _under_gunicorn:
+            logger.info("Running under gunicorn — skipping DICOM auto-start (use store.py separately)")
+        if (os.environ.get('RUN_MAIN') != 'true'
+                and os.environ.get('DISABLE_DICOM') != '1'
+                and os.environ.get('DISABLE_DICOM_AUTO') != '1'
+                and not _under_gunicorn):
             self._start_dicom_servers()
 
     def _start_dicom_servers(self):

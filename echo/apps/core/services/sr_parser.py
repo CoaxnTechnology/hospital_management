@@ -1,7 +1,10 @@
 import traceback
+import logging as _logging
 
 import pydicom
 from apps.core.services.utils import *
+
+_logger = _logging.getLogger('dicom.storage')
 
 
 def _val(el, tag):
@@ -42,6 +45,11 @@ codes_concept_label = {
     '20256-4': 'mean_gradient',
     '12023-8': 'doppler_cordon_ir',
     '12008-9': 'doppler_cordon_ip',
+    '11654-1': 'time_averaged_maximum_velocity',  # TAmax
+    '20217-8': 'acceleration_time',  # AccT
+    '20218-6': 'acceleration_index',  # Acc
+    '20219-4': 'deceleration_time',  # DecT
+    '12022-0': 's_d_ratio',  # ED/PS S/D ratio
     '11850-5': 'sac_gestationnel_diametre',
     '18185-9': 'age_gestationnel',
     '8867-4': 'fc',
@@ -49,6 +57,7 @@ codes_concept_label = {
     '11979-2': 'pa',  # Abdominal circumference (pa)
     '11820-8': 'bip',  # Biparetal diameter (bip)
     '11963-6': 'femur',  # Femur length (bip)
+    '99000-11': 'femur',  # Femur length (Samsung MEDISON vendor code)
     '11965-1': 'pied',  # Foot length
     '11984-2': 'pc',  # Head circumference (pa)
     '11851-3': 'dof',  # Occipitial-frontal diameter (DOF)
@@ -231,10 +240,13 @@ def parse_doppler_samsung(dataset, result):
                                                     for valitem in _ds.MeasuredValueSequence:
                                                         val = valitem.NumericValue
                                                         print(f"{_ccs.CodeValue} ({_ccs.CodeMeaning}) = {val}")
-                                                    if _ccs.CodeValue == '12023-8':
-                                                        doppler_uterin['ir_' + laterality] = val
-                                                    if _ccs.CodeValue == '12008-9':
-                                                        doppler_uterin['ip_' + laterality] = val
+                                                        key = _ccs.CodeMeaning.lower().replace(' ', '_').replace('-', '_')
+                                                        doppler_uterin[key + '_' + laterality] = val
+                                                        # Also store with standard names
+                                                        if _ccs.CodeValue == '12023-8':
+                                                            doppler_uterin['ir_' + laterality] = val
+                                                        if _ccs.CodeValue == '12008-9':
+                                                            doppler_uterin['ip_' + laterality] = val
 
                             print('Doppler utérin', doppler_uterin)
                             result['doppler_uterin'] = doppler_uterin
@@ -263,10 +275,12 @@ def parse_doppler_samsung(dataset, result):
                                                     for valitem in _ds.MeasuredValueSequence:
                                                         val = valitem.NumericValue
                                                         print(f"{_ccs.CodeValue} ({_ccs.CodeMeaning}) = {val}")
-                                                    if _ccs.CodeValue == '12023-8':
-                                                        doppler_ombilical['doppler_cordon_ir'] = val
-                                                    if _ccs.CodeValue == '12008-9':
-                                                        doppler_ombilical['doppler_cordon_ip'] = val
+                                                        key = _ccs.CodeMeaning.lower().replace(' ', '_').replace('-', '_')
+                                                        doppler_ombilical[key] = val
+                                                        if _ccs.CodeValue == '12023-8':
+                                                            doppler_ombilical['doppler_cordon_ir'] = val
+                                                        if _ccs.CodeValue == '12008-9':
+                                                            doppler_ombilical['doppler_cordon_ip'] = val
                                             if f:
                                                 if 'doppler_ombilical' in f:
                                                     f['doppler_ombilical'] = {**f['doppler_ombilical'], **doppler_ombilical}
@@ -305,521 +319,522 @@ def print_attrib(code, sub):
 def parse_ds(ds):
     result = {}
     concept_name_code_sequence = safe_get(ds, c_name_code_seq)
-    report_type = _val(concept_name_code_sequence[0], 0x00080104)
-    print('Report type ', report_type)
-    # print(v.tag, v.VR, v.value)
-    # print('Concept Name Code Sequence Attribute', concept_name_code_sequence)
-    content_template_sequence = safe_get(ds, 0x0040A504)
-    # print('Content Template Sequence', content_template_sequence)
+    report_type = None
+    if concept_name_code_sequence:
+        report_type = _val(concept_name_code_sequence[0], 0x00080104)
+        print('Report type ', report_type)
     content_sequence = safe_get(ds, 0x0040A730)
 
-    for seq in content_sequence:
-        c_name_seq = seq[c_name_code_seq]
-        for item in seq:
-
-            if item.VR != 'SQ':
+    if content_sequence:
+        for seq in content_sequence:
+            c_name_seq = seq.get(c_name_code_seq)
+            if c_name_seq is None:
                 continue
-
-            if (0x0008, 0x0100) not in item[0]:
-                continue
-
-            code = item[0][code_val_tag].value
-            # print(code)
 
             parse_doppler_samsung(seq, result)
 
-            if code == '121111':
-                if 0x0040A730 in seq:
-                    print('Summary section')
-                    # Next sequence is summary
-                    c_seq = seq[0x0040A730]
-                    for it in c_seq:
-                        cd = it[c_name_code_seq][0][code_val_tag].value
-                        if cd in ['11781-2', '11779-6']:
-                            # EDD from average ultrasound age
-                            result[codes_concept_label['11781-2']] = it[0x0040A121].value
-                        if cd == '11955-2':
-                            # DDR from average ultrasound age
-                            result[codes_concept_label['11955-2']] = it[0x0040A121].value
+            for item in seq:
+                try:
+                    if item.VR != 'SQ':
+                        continue
 
-                        if cd == '125008':
-                            # Fetus summary
-                            if 0x0040A730 in it:
-                                content = it[0x0040A730]
-                                foetus = {}
-                                for c in content:
-                                    _c = c[c_name_code_seq][0]
-                                    v = safe_get(_c, code_val_tag)
-                                    if v:
+                    if (0x0008, 0x0100) not in item[0]:
+                        continue
+
+                    code = item[0][code_val_tag].value
+
+                    if code == '121111':
+                        if 0x0040A730 in seq:
+                            print('Summary section')
+                            c_seq = seq[0x0040A730]
+                            for it in c_seq:
+                                if c_name_code_seq not in it:
+                                    continue
+                                cd = it[c_name_code_seq][0][code_val_tag].value
+                                if cd in ['11781-2', '11779-6']:
+                                    result[codes_concept_label['11781-2']] = it[0x0040A121].value
+                                if cd == '11955-2':
+                                    result[codes_concept_label['11955-2']] = it[0x0040A121].value
+                                if cd == '11878-6':
+                                    if 0x0040A300 in it:
+                                        result['nombre_foetus'] = it[0x0040A300][0][0x0040A30A].value
+                                if cd == '125008':
+                                    if 0x0040A730 in it:
+                                        content = it[0x0040A730]
+                                        foetus = {}
+                                        for c in content:
+                                            _c = c.get(c_name_code_seq)
+                                            if _c is None:
+                                                continue
+                                            _c = _c[0]
+                                            v = safe_get(_c, code_val_tag)
+                                            if v:
+                                                if v == '11951-1':
+                                                    foetus['id'] = c[0x0040A160].value
+                                                if v == '11888-5':
+                                                    foetus['age_gest'] = c.get(0x0040A300, [None])[0].get(0x0040A30A, None) if c.get(0x0040A300) else None
+                                                if v == '11727-5':
+                                                    foetus['poids'] = c.get(0x0040A300, [None])[0].get(0x0040A30A, None) if c.get(0x0040A300) else None
+                                                if v == '11884-4':
+                                                    foetus['age_gest_ultrasound'] = c.get(0x0040A300, [None])[0].get(0x0040A30A, None) if c.get(0x0040A300) else None
+                                                if v == '11885-1':
+                                                    foetus['age_gest_lmp'] = c.get(0x0040A300, [None])[0].get(0x0040A30A, None) if c.get(0x0040A300) else None
+                                                if v == '11781-2':
+                                                    foetus['date_accouchement'] = c[0x0040A121].value
+                                        if 'foetus' not in result:
+                                            result['foetus'] = []
+                                        result['foetus'].append(foetus)
+
+                    if code == '125008':
+                        if 0x0040A730 in seq:
+                            content = seq[0x0040A730]
+                            foetus = {}
+                            for c in content:
+                                _c = c.get(c_name_code_seq)
+                                if _c is None:
+                                    continue
+                                _c = _c[0]
+                                v = safe_get(_c, code_val_tag)
+                                if v:
+                                    try:
                                         if v == '11951-1':
                                             foetus['id'] = c[0x0040A160].value
                                         if v == '11888-5':
-                                            foetus['age_gest'] = c[0x0040A300][0][0x0040A30A].value
+                                            mvs = c.get(0x0040A300)
+                                            if mvs:
+                                                foetus['age_gest'] = mvs[0].get(0x0040A30A, None) if hasattr(mvs[0], 'get') else mvs[0][0x0040A30A].value
                                         if v == '11727-5':
-                                            foetus['poids'] = c[0x0040A300][0][0x0040A30A].value
+                                            mvs = c.get(0x0040A300)
+                                            if mvs:
+                                                foetus['poids'] = mvs[0].get(0x0040A30A, None) if hasattr(mvs[0], 'get') else mvs[0][0x0040A30A].value
+                                        if v == '11884-4':
+                                            mvs = c.get(0x0040A300)
+                                            if mvs:
+                                                foetus['age_gest_ultrasound'] = mvs[0].get(0x0040A30A, None) if hasattr(mvs[0], 'get') else mvs[0][0x0040A30A].value
+                                        if v == '11885-1':
+                                            mvs = c.get(0x0040A300)
+                                            if mvs:
+                                                foetus['age_gest_lmp'] = mvs[0].get(0x0040A30A, None) if hasattr(mvs[0], 'get') else mvs[0][0x0040A30A].value
                                         if v == '11781-2':
                                             foetus['date_accouchement'] = c[0x0040A121].value
-                                    #print(f">> {_c[code_val_tag].value} - {c[0x0040A300][0][0x0040A30A].value}")
-                                #print('Foetus', foetus)
-                                if 'foetus' not in result:
-                                    result['foetus'] = []
-                                result['foetus'].append(foetus)
+                                        if v == '11948-7':
+                                            foetus['fc'] = c[0x0040A121].value
+                                    except:
+                                        print("Error reading foetus summary data")
+                            if 'foetus' not in result:
+                                result['foetus'] = []
+                            result['foetus'].append(foetus)
 
-            if code == '125008':
-                if 0x0040A730 in seq:
-                    # Fetus summary
-                    content = seq[0x0040A730]
-                    foetus = {}
-                    for c in content:
-                        _c = c[c_name_code_seq][0]
-                        v = safe_get(_c, code_val_tag)
-                        if v:
-                            try:
-                                if v == '11951-1':
-                                    foetus['id'] = c[0x0040A160].value
-                                if v == '11888-5':
-                                    foetus['age_gest'] = c[0x0040A300][0][0x0040A30A].value
-                                if v == '11727-5':
-                                    foetus['poids'] = c[0x0040A300][0][0x0040A30A].value
-                                if v == '11781-2':
-                                    foetus['date_accouchement'] = c[0x0040A121].value
-                                if v == '11948-7':
-                                    foetus['fc'] = c[0x0040A121].value
-                            except:
-                                print("Error reading foetus summary data")
-
-                    #print('Foetus', foetus)
-                    if 'foetus' not in result:
-                        result['foetus'] = []
-                    result['foetus'].append(foetus)
-
-            if code == '125001':
-                if 0x0040A730 in seq:
-                    # Fetal biometry ratios
-                    c_seq = seq[0x0040A730]
-                    id = None
-                    ratios = {}
-                    for it in c_seq:
-                        _c = it[c_name_code_seq][0][code_val_tag].value
-                        # print(_c)
-                        if _c == '11951-1':
-                            # Foetus ID
-                            id = it[0x0040A160].value
-                        if _c == '11947-9':
-                            # HC/AC
-                            ratios['hc_ac'] = it[0x0040A300][0][0x0040A30A].value
-                        if _c == '11871-1':
-                            # FL/AC
-                            ratios['fl_ac'] = it[0x0040A300][0][0x0040A30A].value
-                        if _c == '11872-9':
-                            # FL/BPD
-                            ratios['fl_bpd'] = it[0x0040A300][0][0x0040A30A].value
-                        if _c == '11823-2':
-                            # Cephalic index
-                            ratios['cephalic_index'] = it[0x0040A300][0][0x0040A30A].value
-                        if _c == '11873-7':
-                            # FL/HC
-                            ratios['fl_hc'] = it[0x0040A300][0][0x0040A30A].value
-                        if _c == '99000-01':
-                            # FL/FOOT
-                            ratios['fl_foot'] = it[0x0040A300][0][0x0040A30A].value
-                    # print('Foetus', ratios)
-
-                    f = get_foetus(id, result)
-                    if f:
-                        f['ratios'] = ratios
-
-            # DEBUG CODE
-            if code != None:
-                if 0x0040A730 in seq:
-                    # Fetal biometry
-                    c_seq = seq[0x0040A730]
-                    id = None
-                    for it in c_seq:
-                        _c = it[c_name_code_seq][0][code_val_tag].value
-                        if 0x0040A730 in it:
-                            for el in it[0x0040A730]:
-                                pass
-                                #print(_c)
-                                #print_attrib(code, el)
-                                #print('--------')
-
-            if code == '99001':
-                if 0x0040A730 in seq:
-                    # Doppler uterin/maternel
-                    c_seq = seq[0x0040A730]
-                    dop = {}
-                    for it in c_seq:
-                        _c = it[c_name_code_seq][0][code_val_tag].value
-                        if (0x0040, 0xA168) in it:
-                            cd = it[0x0040A168][0][code_val_tag].value
-                            print(cd)
-                        if _c == '99100':
-                            if 0x0040A730 in it:
-                                for el in it[0x0040A730]:
-                                    lat = None
-                                    if 0x0040A730 in el:
-                                        for item in el[0x0040A730]:
-                                            v = safe_get(item[c_name_code_seq][0], code_val_tag)
-                                            if v == "G-C0E3":
-                                                # Finding site
-                                                try:
-                                                    if 'G-C171' == safe_get(item[0x0040A730][0][c_name_code_seq][0], code_val_tag):
-                                                        lat = safe_get(item[0x0040A730][0][0x0040A168][0], code_val_tag)
-                                                        if lat == 'G-A101':
-                                                            lat = 'gauche'
-                                                        if lat == 'G-A100':
-                                                            lat = 'droit'
-                                                except Exception as e:
-                                                    print(f"Uterus laterality can't be evaluated: {e}")
-
-                                    if lat:
-                                        param = el[c_name_code_seq][0][code_val_tag].value
-                                        for v in allowed_codes:
-                                            if param == v:
-                                                if param == '12023-8':
-                                                    dop['ir_' + lat] = el[0x0040A300][0][0x0040A30A].value
-                                                if param == '12008-9':
-                                                    dop['ip_' + lat] = el[0x0040A300][0][0x0040A30A].value
-                    # After loop: store final result once
-                    print('Doppler utérin', dop)
-                    result['doppler_uterin'] = dop
-
-            if code == '99000':
-                if 0x0040A730 in seq:
-                    # Doppler foetus (ombilical/ACM)
-                    c_seq = seq[0x0040A730]
-                    dop = {}
-                    id = None
-                    for it in c_seq:
-                        _c = it[c_name_code_seq][0][code_val_tag].value
-                        # print('Code', _c)
-                        if _c == '11951-1':
-                            # Foetus ID
-                            id = it[0x0040A160].value
-                            print('Foetus', id)
-                        if _c == '99100':
-                            if 0x0040A730 in it:
-                                print('Group not empty')
-                                for el in it[0x0040A730]:
-                                    # el[0x0040A730][0][c_name_code_seq][0][code_val_tag].value
-                                    site = el[c_content_sequence][0][c_code_seq][0][code_val_tag].value
-                                    #print("Site", site)
-                                    if site == "T-F1810":
-                                        # Ombilical
-                                        f = get_foetus(id, result)
-                                        try:
-                                            param = el[c_name_code_seq][0][code_val_tag].value
-                                            #print_attrib(code, sub)
-                                            for v in allowed_codes:
-                                                if param == v:
-                                                    param_val = el[0x0040A300][0][0x0040A30A].value
-                                                    dop[codes_concept_label[v]] = param_val
-                                                    if param == '12023-8':
-                                                        dop['doppler_cordon_ir'] = param_val
-                                                    if param == '12008-9':
-                                                        dop['doppler_cordon_ip'] = param_val
-                                                    if param == '11653-3':
-                                                        dop['doppler_cordon_diastole_num'] = param_val
-                                                    if param == '8867-4':
-                                                        if f:
-                                                            f['fc'] = param_val
-                                            if f:
-                                                if 'doppler_ombilical' in f:
-                                                    f['doppler_ombilical'] = {**f['doppler_ombilical'], **dop}
-                                                else:
-                                                    f['doppler_ombilical'] = dop
-                                            print('Doppler ombilical', dop)
-                                        except:
-                                            print("Problem parsing ombilical doppler")
-                                    if site == "T-45600":
-                                        # ACM
-                                        f = get_foetus(id, result)
-                                        try:
-                                            param = el[c_name_code_seq][0][code_val_tag].value
-                                            #print_attrib(code, sub)
-                                            for v in allowed_codes:
-                                                if param == v:
-                                                    param_val = el[0x0040A300][0][0x0040A30A].value
-                                                    dop[codes_concept_label[v]] = param_val
-                                                    if param == '12023-8':
-                                                        dop['doppler_acm_ir'] = param_val
-                                                    if param == '12008-9':
-                                                        dop['doppler_acm_ip'] = param_val
-                                                    if param == '8867-4':
-                                                        if f:
-                                                            f['fc'] = param_val
-                                                    #if param == '11653-3':
-                                                    #    dop['doppler_acm_diastole'] = param_val
-                                            if f:
-                                                if 'doppler_acm' in f:
-                                                    f['doppler_acm'] = {**f['doppler_acm'], **dop}
-                                                else:
-                                                    f['doppler_acm'] = dop
-                                            print('Doppler acm', dop)
-                                        except:
-                                            print("Problem parsing acm doppler")
-
-                                    if site == "VP-0001":
-                                        # DV
-                                        f = get_foetus(id, result)
-                                        try:
-                                            param = el[c_name_code_seq][0][code_val_tag].value
-                                            #print_attrib(code, sub)
-                                            for v in allowed_codes:
-                                                if param == v:
-                                                    param_val = el[0x0040A300][0][0x0040A30A].value
-                                                    dop[codes_concept_label[v]] = param_val
-                                                    if param == '12023-8':
-                                                        dop['doppler_dv_ir'] = param_val
-                                                    if param == '12008-9':
-                                                        dop['doppler_dv_ip'] = param_val
-                                                    if param == '8867-4':
-                                                        if f:
-                                                            f['fc'] = param_val
-                                                    #if param == '11653-3':
-                                                    #    dop['doppler_acm_diastole'] = param_val
-                                            if f:
-                                                if 'doppler_dv' in f:
-                                                    f['doppler_dv'] = {**f['doppler_dv'], **dop}
-                                                else:
-                                                    f['doppler_dv'] = dop
-                                            print('Doppler DV', dop)
-                                        except:
-                                            print("Problem parsing DV doppler")
-
-            if code == '125002' or code == '125009':
-                if 0x0040A730 in seq:
-                    # Fetal biometry
-                    c_seq = seq[0x0040A730]
-                    bio = {}
-                    id = None
-                    for it in c_seq:
-                        _c = it[c_name_code_seq][0][code_val_tag].value
-                        #print('Code', _c)
-                        if _c == '11951-1':
-                            # Foetus ID
-                            id = it[0x0040A160].value
-                            #print('Foetus', id)
-                        if _c == '125005':
-                            # Biometry group
-                            if 0x0040A730 in it:
-                                #print('Group not empty')
-                                sub = it[0x0040A730][0]
-                                param = sub[c_name_code_seq][0][code_val_tag].value
-                                #print_attrib(code, sub)
-                                for v in allowed_codes:
-                                    if param == v:
-                                        bio[codes_concept_label[v]] = sub[0x0040A300][0][0x0040A30A].value
-                            else:
-                                #print('Group empty')
-                                pass
-
-                        # print('Biométrie', bio)
-
-                    f = get_foetus(id, result)
-                    if f:
-                        if 'biometrie' in f:
-                            f['biometrie'] = {**f['biometrie'], **bio}
-                        else:
-                            f['biometrie'] = bio
-
-            if code == '125003':
-                # Fetal long bones
-                if 0x0040A730 in seq:
-                    c_seq = seq[0x0040A730]
-                    bones = {}
-                    id = None
-                    for it in c_seq:
-                        _c = it[c_name_code_seq][0][code_val_tag].value
-                        #print('Code', _c)
-                        if _c == '11951-1':
-                            # Foetus ID
-                            id = it[0x0040A160].value
-                            #print('Foetus', id)
-
-                        if _c == '125005':
-                            if 0x0040A730 in it:
-                            # Biometry group
-                                sub = it[0x0040A730][0]
-                                param = sub[c_name_code_seq][0][code_val_tag].value
-                                for v in allowed_codes:
-                                    if param == v:
-                                        bones[codes_concept_label[v]] = sub[0x0040A300][0][0x0040A30A].value
-
-                        #print('--------------------------------------')
-                        #print('Bones', bones)
-                        f = get_foetus(id, result)
-                        if f:
-                            f['os'] = bones
-
-            if code == '125004':
-                if 0x0040A730 in seq:
-                    # Fetal cranium
-                    c_seq = seq[0x0040A730]
-                    cranium = {}
-                    id = None
-                    for it in c_seq:
-                        _c = it[c_name_code_seq][0][code_val_tag].value
-                        #print('Code', _c)
-                        if _c == '11951-1':
-                            # Foetus ID
-                            id = it[0x0040A160].value
-                            #print('Foetus', id)
-
-                        if _c == '125005':
-                            # Biometry group
-                            if 0x0040A730 in it:
-                                sub = it[0x0040A730][0]
-                                param = sub[c_name_code_seq][0][code_val_tag].value
-                                for v in allowed_codes:
-                                    if param == v:
-                                        cranium[codes_concept_label[v]] = sub[0x0040A300][0][0x0040A30A].value
-
-                        #print('--------------------------------------')
-                        #print('Crane', cranium)
-                        f = get_foetus(id, result)
-                        if f:
-                            f['crane'] = cranium
-
-            # print(f'----------------- Sequence item code {code} ------------------')
-            if code == '125011':
-                # print('*************** Pelvis and Uterus')
-                if 0x0040A730 in seq:
-                    parse_pelvis_uterus(seq[0x0040A730], result)
-
-            if code == '121070' or code == '125070':
-                # Findings
-                if 0x0040A730 in seq:
-                    #print('Findings')
-                    c_seq = seq[0x0040A730]
-                    section = None
-                    seq_count = 0
-                    fol_num = -1
-                    for it in c_seq:
-                        seq_count += 1
-                        cd = it[c_name_code_seq][0][code_val_tag].value
-                        #print('Seq code', cd)
-                        # print('Sequence count', seq_count)
-                        if cd == 'T-87000':
-                            print('Parse ovary')
-                            if 0x0040A730 in it:
-                                parse_ovary(it[0x0040A730], result)
+                    if code == '125001':
+                        if 0x0040A730 in seq:
+                            c_seq = safe_get(seq, 0x0040A730)
+                            if not c_seq:
                                 continue
+                            id = None
+                            ratios = {}
+                            for it in c_seq:
+                                _c = safe_get(it, c_name_code_seq)
+                                if _c is None:
+                                    continue
+                                _c = _c[0]
+                                _cv = safe_get(_c, code_val_tag)
+                                if _cv == '11951-1':
+                                    id = it[0x0040A160].value
+                                mvs = safe_get(it, 0x0040A300)
+                                if mvs and len(mvs) > 0:
+                                    mv = mvs[0].get(0x0040A30A, None) if hasattr(mvs[0], 'get') else mvs[0][0x0040A30A].value
+                                    if _cv == '11947-9':
+                                        ratios['hc_ac'] = mv
+                                    if _cv == '11871-1':
+                                        ratios['fl_ac'] = mv
+                                    if _cv == '11872-9':
+                                        ratios['fl_bpd'] = mv
+                                    if _cv == '11823-2':
+                                        ratios['cephalic_index'] = mv
+                                    if _cv == '11873-7':
+                                        ratios['fl_hc'] = mv
+                                    if _cv == '99000-01':
+                                        ratios['fl_foot'] = mv
+                            f = get_foetus(id, result)
+                            if f:
+                                f['ratios'] = ratios
 
-                        if cd == 'T-F1810':
-                            #print('Parse Umbilical Artery')
-                            #parse_umbilical_artery(it[0x0040A730], result)
-                            continue
+                    if code == '99001':
+                        _logger.info("Doppler section 99001 (uterine) found in SR")
+                        if 0x0040A730 in seq:
+                            c_seq = safe_get(seq, 0x0040A730)
+                            if not c_seq:
+                                _logger.info("Doppler 99001: empty content sequence, no data")
+                                continue
+                            dop = {}
+                            for it in c_seq:
+                                _c = safe_get(it, c_name_code_seq)
+                                if _c is None:
+                                    continue
+                                _c = _c[0]
+                                _cv = safe_get(_c, code_val_tag)
+                                if (0x0040, 0xA168) in it:
+                                    cd = safe_get(it[0x0040A168][0], code_val_tag)
+                                    print(cd)
+                                if _cv == '99100':
+                                    cs99001 = safe_get(it, 0x0040A730)
+                                    if cs99001:
+                                        for el in cs99001:
+                                            lat = None
+                                            cs99001el = safe_get(el, 0x0040A730)
+                                            if cs99001el:
+                                                for item in cs99001el:
+                                                    v = None
+                                                    item_cncs = safe_get(item, c_name_code_seq)
+                                                    if item_cncs:
+                                                        v = safe_get(item_cncs[0], code_val_tag)
+                                                    if v == "G-C0E3":
+                                                        try:
+                                                            inner = safe_get(item, 0x0040A730)
+                                                            if inner and len(inner) > 0:
+                                                                inner2 = safe_get(inner[0], c_name_code_seq)
+                                                                if inner2 and len(inner2) > 0:
+                                                                    if 'G-C171' == safe_get(inner2[0], code_val_tag):
+                                                                        inner3 = safe_get(inner[0], 0x0040A168)
+                                                                        if inner3 and len(inner3) > 0:
+                                                                            lat = safe_get(inner3[0], code_val_tag)
+                                                                            if lat == 'G-A101':
+                                                                                lat = 'gauche'
+                                                                            if lat == 'G-A100':
+                                                                                lat = 'droit'
+                                                        except Exception as e:
+                                                            print(f"Uterus laterality can't be evaluated: {e}")
+                                            if lat:
+                                                param = safe_get(el, c_name_code_seq)
+                                                if param:
+                                                    param = param[0]
+                                                    pv = safe_get(param, code_val_tag)
+                                                    mvs = safe_get(el, 0x0040A300)
+                                                    if mvs and len(mvs) > 0:
+                                                        mv = mvs[0].get(0x0040A30A, None) if hasattr(mvs[0], 'get') else mvs[0][0x0040A30A].value
+                                                        if pv in allowed_codes:
+                                                            dop[codes_concept_label[pv] + '_' + lat] = mv
+                                                        else:
+                                                            meaning = safe_get(param, code_val_meaning)
+                                                            if meaning:
+                                                                key = meaning.lower().replace(' ', '_').replace('-', '_') + '_' + lat
+                                                                dop[key] = mv
+                                                        if pv == '12023-8':
+                                                            dop['ir_' + lat] = mv
+                                                        if pv == '12008-9':
+                                                            dop['ip_' + lat] = mv
+                            if dop:
+                                _logger.info("Doppler 99001: extracted uterine doppler %s", dop)
+                            else:
+                                _logger.info("Doppler 99001: no uterine doppler values found")
+                            result['doppler_uterin'] = dop
 
-                        if cd == '125007':
-                            # Measurement group
-                            fol_num += 1
-                            #print('Parse follicule')
-                            parse_follicule(it, result)
+                    if code == '99000':
+                        _logger.info("Doppler section 99000 (fetal) found in SR")
+                        if 0x0040A730 in seq:
+                            c_seq = safe_get(seq, 0x0040A730)
+                            if not c_seq:
+                                _logger.info("Doppler 99000: empty content sequence, no data")
+                                continue
+                            dop = {}
+                            id = None
+                            for it in c_seq:
+                                _c = safe_get(it, c_name_code_seq)
+                                if _c is None:
+                                    continue
+                                _cv = safe_get(_c[0], code_val_tag)
+                                if _cv == '11951-1':
+                                    id = it[0x0040A160].value
+                                    print('Foetus', id)
+                                if _cv == '99100':
+                                    cs99000 = safe_get(it, 0x0040A730)
+                                    if cs99000:
+                                        for el in cs99000:
+                                            cs = safe_get(el, c_content_sequence)
+                                            if not cs or len(cs) == 0:
+                                                continue
+                                            ccs = safe_get(cs[0], c_code_seq)
+                                            if not ccs or len(ccs) == 0:
+                                                continue
+                                            site = safe_get(ccs[0], code_val_tag)
+                                            _logger.info("Doppler 99000: site code %s for foetus %s", site, id)
+                                            if site == "T-F1810":
+                                                f = get_foetus(id, result)
+                                                try:
+                                                    param = safe_get(el, c_name_code_seq)
+                                                    if param:
+                                                        param = param[0]
+                                                        pv = safe_get(param, code_val_tag)
+                                                        mvs = safe_get(el, 0x0040A300)
+                                                        if mvs and len(mvs) > 0:
+                                                            param_val = mvs[0].get(0x0040A30A, None) if hasattr(mvs[0], 'get') else mvs[0][0x0040A30A].value
+                                                            if pv in allowed_codes:
+                                                                dop[codes_concept_label[pv]] = param_val
+                                                                if pv == '12023-8':
+                                                                    dop['doppler_cordon_ir'] = param_val
+                                                                if pv == '12008-9':
+                                                                    dop['doppler_cordon_ip'] = param_val
+                                                                if pv == '11653-3':
+                                                                    dop['doppler_cordon_diastole_num'] = param_val
+                                                                if pv == '8867-4' and f:
+                                                                    f['fc'] = param_val
+                                                            else:
+                                                                meaning = safe_get(param, code_val_meaning)
+                                                                if meaning:
+                                                                    key = meaning.lower().replace(' ', '_').replace('-', '_')
+                                                                    dop[key] = param_val
+                                                        if f:
+                                                            if 'doppler_ombilical' in f:
+                                                                f['doppler_ombilical'] = {**f['doppler_ombilical'], **dop}
+                                                            else:
+                                                                f['doppler_ombilical'] = dop
+                                                        _logger.info("Doppler 99000: umbilical (T-F1810) result for foetus %s: %s", id, dop if dop else "no data")
+                                                except Exception as e:
+                                                    _logger.error("Doppler 99000: error parsing umbilical doppler for foetus %s: %s", id, e)
 
-                            if section in ['follicule_left', 'follicule_right']:
-                                loc = 'gauche' if section == 'follicule_left' else 'droit'
-                                # print(it)
-                                if it[c_name_code_seq][0][code_val_tag].value == '125007':
-                                    # Measurement group
-                                    # print('Measurement group')
+                                            if site == "T-45600":
+                                                f = get_foetus(id, result)
+                                                try:
+                                                    param = safe_get(el, c_name_code_seq)
+                                                    if param:
+                                                        param = param[0]
+                                                        pv = safe_get(param, code_val_tag)
+                                                        mvs = safe_get(el, 0x0040A300)
+                                                        if mvs and len(mvs) > 0:
+                                                            param_val = mvs[0].get(0x0040A30A, None) if hasattr(mvs[0], 'get') else mvs[0][0x0040A30A].value
+                                                            if pv in allowed_codes:
+                                                                dop[codes_concept_label[pv]] = param_val
+                                                                if pv == '12023-8':
+                                                                    dop['doppler_acm_ir'] = param_val
+                                                                if pv == '12008-9':
+                                                                    dop['doppler_acm_ip'] = param_val
+                                                                if pv == '8867-4' and f:
+                                                                    f['fc'] = param_val
+                                                            else:
+                                                                meaning = safe_get(param, code_val_meaning)
+                                                                if meaning:
+                                                                    key = meaning.lower().replace(' ', '_').replace('-', '_')
+                                                                    dop[key] = param_val
+                                                        if f:
+                                                            if 'doppler_acm' in f:
+                                                                f['doppler_acm'] = {**f['doppler_acm'], **dop}
+                                                            else:
+                                                                f['doppler_acm'] = dop
+                                                        _logger.info("Doppler 99000: ACM (T-45600) result for foetus %s: %s", id, dop if dop else "no data")
+                                                except Exception as e:
+                                                    _logger.error("Doppler 99000: error parsing ACM doppler for foetus %s: %s", id, e)
+
+                                            if site == "VP-0001":
+                                                f = get_foetus(id, result)
+                                                try:
+                                                    param = safe_get(el, c_name_code_seq)
+                                                    if param:
+                                                        param = param[0]
+                                                        pv = safe_get(param, code_val_tag)
+                                                        mvs = safe_get(el, 0x0040A300)
+                                                        if mvs and len(mvs) > 0:
+                                                            param_val = mvs[0].get(0x0040A30A, None) if hasattr(mvs[0], 'get') else mvs[0][0x0040A30A].value
+                                                            if pv in allowed_codes:
+                                                                dop[codes_concept_label[pv]] = param_val
+                                                                if pv == '12023-8':
+                                                                    dop['doppler_dv_ir'] = param_val
+                                                                if pv == '12008-9':
+                                                                    dop['doppler_dv_ip'] = param_val
+                                                                if pv == '8867-4' and f:
+                                                                    f['fc'] = param_val
+                                                            else:
+                                                                meaning = safe_get(param, code_val_meaning)
+                                                                if meaning:
+                                                                    key = meaning.lower().replace(' ', '_').replace('-', '_')
+                                                                    dop[key] = param_val
+                                                        if f:
+                                                            if 'doppler_dv' in f:
+                                                                f['doppler_dv'] = {**f['doppler_dv'], **dop}
+                                                            else:
+                                                                f['doppler_dv'] = dop
+                                                        _logger.info("Doppler 99000: DV (VP-0001) result for foetus %s: %s", id, dop if dop else "no data")
+                                                except Exception as e:
+                                                    _logger.error("Doppler 99000: error parsing DV doppler for foetus %s: %s", id, e)
+
+                    if code == '125002' or code == '125009':
+                        c_seq = safe_get(seq, 0x0040A730)
+                        if c_seq:
+                            bio = {}
+                            id = None
+                            for it in c_seq:
+                                _c = safe_get(it, c_name_code_seq)
+                                if _c is None:
+                                    continue
+                                _cv = safe_get(_c[0], code_val_tag)
+                                if _cv == '11951-1':
+                                    id = it[0x0040A160].value
+                                if _cv == '125005':
+                                    sub_seq = safe_get(it, 0x0040A730)
+                                    if sub_seq:
+                                        sub = sub_seq[0]
+                                        param = safe_get(sub, c_name_code_seq)
+                                        if param:
+                                            param = param[0]
+                                            pv = safe_get(param, code_val_tag)
+                                            mvs = safe_get(sub, 0x0040A300)
+                                            if mvs and len(mvs) > 0:
+                                                mv = mvs[0].get(0x0040A30A, None) if hasattr(mvs[0], 'get') else mvs[0][0x0040A30A].value
+                                                for v in allowed_codes:
+                                                    if pv == v:
+                                                        bio[codes_concept_label[v]] = mv
+                            f = get_foetus(id, result)
+                            if f:
+                                if 'biometrie' in f:
+                                    f['biometrie'] = {**f['biometrie'], **bio}
+                                else:
+                                    f['biometrie'] = bio
+
+                    if code == '125003':
+                        c_seq = safe_get(seq, 0x0040A730)
+                        if c_seq:
+                            bones = {}
+                            id = None
+                            for it in c_seq:
+                                _c = safe_get(it, c_name_code_seq)
+                                if _c is None:
+                                    continue
+                                _cv = safe_get(_c[0], code_val_tag)
+                                if _cv == '11951-1':
+                                    id = it[0x0040A160].value
+                                if _cv == '125005':
+                                    sub_seq = safe_get(it, 0x0040A730)
+                                    if sub_seq:
+                                        sub = sub_seq[0]
+                                        param = safe_get(sub, c_name_code_seq)
+                                        if param:
+                                            param = param[0]
+                                            pv = safe_get(param, code_val_tag)
+                                            mvs = safe_get(sub, 0x0040A300)
+                                            if mvs and len(mvs) > 0:
+                                                mv = mvs[0].get(0x0040A30A, None) if hasattr(mvs[0], 'get') else mvs[0][0x0040A30A].value
+                                                for v in allowed_codes:
+                                                    if pv == v:
+                                                        bones[codes_concept_label[v]] = mv
+                            f = get_foetus(id, result)
+                            if f:
+                                f['os'] = bones
+
+                    if code == '125004':
+                        c_seq = safe_get(seq, 0x0040A730)
+                        if c_seq:
+                            cranium = {}
+                            id = None
+                            for it in c_seq:
+                                _c = safe_get(it, c_name_code_seq)
+                                if _c is None:
+                                    continue
+                                _cv = safe_get(_c[0], code_val_tag)
+                                if _cv == '11951-1':
+                                    id = it[0x0040A160].value
+                                if _cv == '125005':
+                                    sub_seq = safe_get(it, 0x0040A730)
+                                    if sub_seq:
+                                        sub = sub_seq[0]
+                                        param = safe_get(sub, c_name_code_seq)
+                                        if param:
+                                            param = param[0]
+                                            pv = safe_get(param, code_val_tag)
+                                            mvs = safe_get(sub, 0x0040A300)
+                                            if mvs and len(mvs) > 0:
+                                                mv = mvs[0].get(0x0040A30A, None) if hasattr(mvs[0], 'get') else mvs[0][0x0040A30A].value
+                                                for v in allowed_codes:
+                                                    if pv == v:
+                                                        cranium[codes_concept_label[v]] = mv
+                            f = get_foetus(id, result)
+                            if f:
+                                f['crane'] = cranium
+
+                    if code == '125011':
+                        if 0x0040A730 in seq:
+                            parse_pelvis_uterus(seq[0x0040A730], result)
+
+                    if code == '121070' or code == '125070':
+                        if 0x0040A730 in seq:
+                            c_seq = seq[0x0040A730]
+                            section = None
+                            fol_num = -1
+                            for it in c_seq:
+                                _c = it.get(c_name_code_seq)
+                                if _c is None:
+                                    continue
+                                cd = safe_get(_c[0], code_val_tag)
+                                if cd == 'T-87000':
+                                    print('Parse ovary')
                                     if 0x0040A730 in it:
-                                        c_seq = it[0x0040A730]
-                                        for seq_item in c_seq:
-                                            sub_seq = seq_item[c_name_code_seq][0]
-                                            cd = sub_seq[code_val_tag].value
-                                            if cd == 'G-D705':
-                                                # Volume
-                                                measured_val_seq = seq_item[0x0040A300]
-                                                # print(sub_seq[code_val_tag].value)
-                                                units_seq = measured_val_seq[0][0x004008EA]
-                                                unit = units_seq[0][code_val_tag].value
-                                                value = measured_val_seq[0][0x0040A30A].value
-                                                if f'ovaire_{loc}_fol' not in result:
-                                                    result[f'ovaire_{loc}_fol'] = {}
-                                                if fol_num not in result[f'ovaire_{loc}_fol']:
-                                                    result[f'ovaire_{loc}_fol'][fol_num] = {}
-                                                result[f'ovaire_{loc}_fol'][fol_num]['vol'] = value
+                                        parse_ovary(it[0x0040A730], result)
+                                        continue
+                                if cd == 'T-F1810':
+                                    continue
+                                if cd == '125007':
+                                    fol_num += 1
+                                    parse_follicule(it, result)
+                                    if section in ['follicule_left', 'follicule_right']:
+                                        loc = 'gauche' if section == 'follicule_left' else 'droit'
+                                        cncs = it.get(c_name_code_seq)
+                                        if cncs and safe_get(cncs[0], code_val_tag) == '125007':
+                                            if 0x0040A730 in it:
+                                                c_seq2 = it[0x0040A730]
+                                                for seq_item in c_seq2:
+                                                    sub_seq = seq_item.get(c_name_code_seq)
+                                                    if sub_seq is None:
+                                                        continue
+                                                    sub_cd = safe_get(sub_seq[0], code_val_tag)
+                                                    mvs = seq_item.get(0x0040A300)
+                                                    if mvs is None:
+                                                        continue
+                                                    us = mvs[0].get(0x004008EA)
+                                                    unit = us[0][code_val_tag].value if us else None
+                                                    mv = mvs[0].get(0x0040A30A, None) if hasattr(mvs[0], 'get') else mvs[0][0x0040A30A].value
+                                                    if sub_cd == 'G-D705':
+                                                        k = f'ovaire_{loc}_fol'
+                                                        if k not in result:
+                                                            result[k] = {}
+                                                        if fol_num not in result[k]:
+                                                            result[k][fol_num] = {}
+                                                        result[k][fol_num]['vol'] = mv
+                                                    if sub_cd == '11793-7':
+                                                        k = f'ovaire_{loc}_fol'
+                                                        if k not in result:
+                                                            result[k] = {}
+                                                        if fol_num not in result[k]:
+                                                            result[k][fol_num] = {}
+                                                        if 'diam' not in result[k][fol_num]:
+                                                            result[k][fol_num]['diam'] = []
+                                                        result[k][fol_num]['diam'].append(float(mv))
 
-                                            if cd == '11793-7':
-                                                # Diameter
-                                                measured_val_seq = seq_item[0x0040A300]
-                                                # print(sub_seq[code_val_tag].value)
-                                                units_seq = measured_val_seq[0][0x004008EA]
-                                                unit = units_seq[0][code_val_tag].value
-                                                value = measured_val_seq[0][0x0040A30A].value
-                                                # print(measured_val_seq[0][0x0040A30A])
-                                                if f'ovaire_{loc}_fol' not in result:
-                                                    result[f'ovaire_{loc}_fol'] = {}
-                                                if fol_num not in result[f'ovaire_{loc}_fol']:
-                                                    result[f'ovaire_{loc}_fol'][fol_num] = {}
-                                                if 'diam' not in result[f'ovaire_{loc}_fol'][fol_num]:
-                                                    result[f'ovaire_{loc}_fol'][fol_num]['diam'] = []
-                                                result[f'ovaire_{loc}_fol'][fol_num]['diam'].append(float(value))
+                                if section == 'follicule_laterality':
+                                    cd2 = it.get(c_name_code_seq)
+                                    if cd2:
+                                        cd2v = safe_get(cd2[0], code_val_tag)
+                                        if cd2v == 'G-C171':
+                                            _c = it.get(0x0040A168)
+                                            if _c:
+                                                _cv = safe_get(_c[0], code_val_tag)
+                                                if _cv == 'G-A101':
+                                                    section = 'follicule_left'
+                                                if _cv == 'G-A100':
+                                                    section = 'follicule_right'
 
-                        if section == 'follicule_laterality':
-                            cd = it[c_name_code_seq][0][code_val_tag].value
-                            # print(it)
-                            if cd == 'G-C171':
-                                _c = it[0x0040A168][0][code_val_tag].value
-                                if _c == 'G-A101':
-                                    # Ovaire gauche
-                                    section = 'follicule_left'
+                                if (0x0040, 0xA168) in it:
+                                    cd3 = it[0x0040A168][0][code_val_tag].value
+                                    if cd3 == 'T-87600':
+                                        section = 'follicule_laterality'
+                                if (0x0040, 0xA168) in it:
+                                    cd3 = it[0x0040A168][0][code_val_tag].value
+                                    if cd3 == 'T-D6007':
+                                        pass
 
-                                if _c == 'G-A100':
-                                    # Ovaire droit
-                                    section = 'follicule_right'
+                except Exception as e:
+                    print(f"Error parsing SR item: {e}")
+                    continue
 
-                                # print(it[0x0040A168][0][code_val_tag].value)
-                            # 'G-A101'
-
-                        if (0x0040, 0xA168) in it:
-                            cd = it[0x0040A168][0][code_val_tag].value
-                            if cd == 'T-87600':
-                                section = 'follicule_laterality'
-                        if (0x0040, 0xA168) in it:
-                            cd = it[0x0040A168][0][code_val_tag].value
-                            if cd == 'T-D6007':
-                                # print('Pelvic Vascular Structure X4')
-                                pass
-
-            """
-            for it in item:
-                if (0x0040, 0xA010) in it:
-                    if it[0x0040A010].value == 'CONTAINS':
-                        if it[0x0040A040].value == 'DATE':
-                            # print('Date sequence')
-                            sub_items = it[c_name_code_seq]
-                            cd = sub_items[0][code_val_tag].value
-                            if cd == '11781-2':
-                                # EDD from average ultrasound age
-                                result[codes_concept_label['11781-2']] = it[0x0040A121].value
-                            if cd == '11955-2':
-                                # DDR from average ultrasound age
-                                result[codes_concept_label['11955-2']] = it[0x0040A121].value
-                        else:
-                            # print(it[c_name_code_seq][0][code_val_tag].value)
-                            cd = it[c_name_code_seq][0][code_val_tag].value
-
-                            if cd == '125005':
-                                # Biometry group
-                                c_seq = it[0x0040A730]
-                                for seq_item in c_seq:
-                                    measured_val_seq = seq_item[0x0040A300]
-                                    sub_seq = seq_item[c_name_code_seq][0]
-                                    # print(sub_seq[code_val_tag].value)
-                                    for cd in allowed_codes:
-                                        if sub_seq[code_val_tag].value == cd:
-                                            measured_val_seq = seq_item[0x0040A300]
-                                            units_seq = measured_val_seq[0][0x004008EA]
-                                            unit = units_seq[0][code_val_tag].value
-                                            value = measured_val_seq[0][0x0040A30A].value
-                                            result[codes_concept_label[cd]] = value
-                                    # print('-------------------------------')
-
-                            # sub_items = it[c_name_code_seq]
-"""
+    if not result:
+        print("SR parsed but no measurements found")
     print('*******************************')
     print(result)
     print('*******************************')

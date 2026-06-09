@@ -9,10 +9,11 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 
+from django.db.models import Q
+
 from apps.core.models import WorklistItem, ImageConsultation, repertoire_images_utilisateur, SRConsultation, \
-    Consultation, Device, Patient, Admission
+    Consultation, Device, Patient, Admission, DonneesFoetus
 from apps.core.serializers import WorklistItemSerializer, SRConsultationSerializer
-from django.db import models
 
 
 def _complete_admission_if_mpps_done(consultation):
@@ -48,6 +49,21 @@ def rechercher_worklists(request):
                              consultation__date__month=date.month,
                              consultation__date__year=date.year)
 
+    if 'device' in request.POST:
+        device_ae_title = request.POST['device']
+        print(f'Filtering worklist by device AE title: {device_ae_title}')
+        try:
+            device = Device.objects.filter(ae_title=device_ae_title).first()
+            if device:
+                items = items.filter(
+                    Q(device=device) | Q(device__isnull=True),
+                    consultation__patient__compte=device.compte
+                )
+            else:
+                print(f'No Device found with AE title {device_ae_title}')
+        except Exception as e:
+            print(f'Error filtering by device AE title: {e}')
+
     items = items.filter(mpps_status__in=[WorklistItem.MPPS_STATUS_PENDING, WorklistItem.MPPS_STATUS_INPROGRESS])
     print('Items found', items)
     data = WorklistItemSerializer(items, many=True)
@@ -61,9 +77,8 @@ def rechercher_worklists(request):
 def modifier_worklist_statut(request):
     if 'study_uid' in request.POST:
         study_uid = request.POST['study_uid']
-        try:
-            item = WorklistItem.objects.get(study_instance_uid=study_uid)
-        except WorklistItem.DoesNotExist:
+        item = WorklistItem.objects.filter(study_instance_uid=study_uid).first()
+        if not item:
             return JsonResponse({'status': 'success', 'message': 'study_uid not found, skipped'})
 
         if 'status' in request.POST:
@@ -96,15 +111,29 @@ def modifier_worklist_statut(request):
 @csrf_exempt
 def ajouter_image(request):
     consultation = None
-    if 'study_uid' in request.POST:
-        study_uid = request.POST['study_uid']
+    calling_aet = request.POST.get('calling_aet', '')
+    study_uid = request.POST.get('study_uid', '')
+    if study_uid:
         print(f'Requesting worklist item with study id {study_uid}')
-        try:
-            item = WorklistItem.objects.get(study_instance_uid=study_uid)
+        item = WorklistItem.objects.filter(study_instance_uid=study_uid).first()
+        if item:
             print(f'Found item {item}')
             consultation = item.consultation
-        except WorklistItem.DoesNotExist:
-            print(f'WorklistItem with UID {study_uid} not found, trying fallback by patient name')
+        else:
+            print(f'WorklistItem with UID {study_uid} not found')
+
+    if consultation is None and calling_aet:
+        device = Device.objects.filter(ae_title=calling_aet).first()
+        if device:
+            today = datetime.datetime.now().date()
+            item = WorklistItem.objects.filter(
+                device=device,
+                consultation__date__date=today,
+                mpps_status__in=[WorklistItem.MPPS_STATUS_PENDING, WorklistItem.MPPS_STATUS_INPROGRESS]
+            ).order_by('-id').first()
+            if item:
+                consultation = item.consultation
+                print(f'Found consultation {item.consultation.id} by WorklistItem for device={calling_aet}')
 
     if consultation is None and 'patient_name' in request.POST:
         patient_name = request.POST['patient_name']
@@ -159,16 +188,30 @@ def ajouter_sr(request):
     consultation = None
     study_uid = request.POST.get('study_uid', '')
     patient_name = request.POST.get('patient_name', '')
-    logger.info(f"ajouter_sr called: study_uid={study_uid}, patient_name={patient_name}")
+    calling_aet = request.POST.get('calling_aet', '')
+    logger.info(f"ajouter_sr called: study_uid={study_uid}, patient_name={patient_name}, calling_aet={calling_aet}")
 
     if study_uid:
         logger.info(f'Searching WorklistItem by study_uid={study_uid}')
-        try:
-            item = WorklistItem.objects.get(study_instance_uid=study_uid)
+        item = WorklistItem.objects.filter(study_instance_uid=study_uid).first()
+        if item:
             logger.info(f'Found WorklistItem {item.id} for consultation {item.consultation.id}')
             consultation = item.consultation
-        except WorklistItem.DoesNotExist:
-            logger.info(f'WorklistItem with UID {study_uid} not found, trying fallback by patient name')
+        else:
+            logger.info(f'WorklistItem with UID {study_uid} not found')
+
+    if consultation is None and calling_aet:
+        device = Device.objects.filter(ae_title=calling_aet).first()
+        if device:
+            today = datetime.datetime.now().date()
+            item = WorklistItem.objects.filter(
+                device=device,
+                consultation__date__date=today,
+                mpps_status__in=[WorklistItem.MPPS_STATUS_PENDING, WorklistItem.MPPS_STATUS_INPROGRESS]
+            ).order_by('-id').first()
+            if item:
+                logger.info(f'Found consultation {item.consultation.id} by WorklistItem for device={calling_aet}')
+                consultation = item.consultation
 
     if consultation is None and patient_name:
         parts = patient_name.split('^')
@@ -183,8 +226,12 @@ def ajouter_sr(request):
                 date__date=today,
             ).order_by('-id').first()
             if match:
-                consultation = match
-                logger.info(f'Found consultation {match.id} by patient name fallback')
+                if not match.srconsultation_set.exists():
+                    consultation = match
+                    logger.info(f'Found consultation {match.id} by patient name fallback')
+                else:
+                    logger.info(f'Consultation {match.id} by patient name already has SR, checking for closer match')
+                    consultation = match
             else:
                 logger.info(f'No consultation found by patient name {last_name}^{first_name}')
         else:
@@ -196,7 +243,7 @@ def ajouter_sr(request):
         active = ConsultationModel.objects.filter(
             date__date=today,
         ).order_by('-id').first()
-        if active:
+        if active and not active.srconsultation_set.exists():
             consultation = active
             logger.info(f'Found consultation {active.id} by most-recent-today fallback')
 
@@ -211,6 +258,95 @@ def ajouter_sr(request):
         sr.save()
         logger.info(f'SRConsultation saved id={sr.id}')
         _complete_admission_if_mpps_done(consultation)
+
+        # Auto-create DonneesFoetus records from SR data
+        try:
+            sr_data = json.loads(data)
+            from apps.core.models import ConsultationObstetrique
+            try:
+                obs_consult = ConsultationObstetrique.objects.get(id=consultation.id)
+            except ConsultationObstetrique.DoesNotExist:
+                obs_consult = None
+
+            if obs_consult is not None:
+                # Uterine Doppler -> ConsultationObstetrique fields
+                ut = sr_data.get('doppler_uterin', {})
+                changed = False
+                if 'ir_gauche' in ut and ut['ir_gauche'] is not None:
+                    obs_consult.ir_gauche = float(ut['ir_gauche'])
+                    changed = True
+                if 'ip_gauche' in ut and ut['ip_gauche'] is not None:
+                    obs_consult.ip_gauche = float(ut['ip_gauche'])
+                    changed = True
+                if 'ir_droit' in ut and ut['ir_droit'] is not None:
+                    obs_consult.ir_droit = float(ut['ir_droit'])
+                    changed = True
+                if 'ip_droit' in ut and ut['ip_droit'] is not None:
+                    obs_consult.ip_droit = float(ut['ip_droit'])
+                    changed = True
+                if changed:
+                    obs_consult.save()
+                    logger.info(f'Updated ConsultationObstetrique {obs_consult.id} uterine Doppler')
+
+                # Remove existing DonneesFoetus for this consultation to avoid duplicates
+                obs_consult.donneesfoetus_set.all().delete()
+
+                # Fetal data -> DonneesFoetus
+                foetus_list = sr_data.get('foetus', [])
+                for foetus in foetus_list:
+                    df = DonneesFoetus(consultation=obs_consult)
+
+                    # Weight
+                    if foetus.get('poids') is not None:
+                        df.poids = float(foetus['poids'])
+                        df.poids_estime = float(foetus['poids'])
+
+                    # Biometry
+                    bio = foetus.get('biometrie', {})
+                    if bio.get('bip') is not None:
+                        df.bip = float(bio['bip'])
+                    if bio.get('pc') is not None:
+                        df.pc = float(bio['pc'])
+                    if bio.get('pa') is not None:
+                        df.pa = float(bio['pa'])
+                    if bio.get('femur') is not None:
+                        df.femur = float(bio['femur'])
+                    if bio.get('lcc') is not None:
+                        df.lcc = float(bio['lcc'])
+                    if bio.get('dat') is not None:
+                        df.dat = float(bio['dat'])
+                    if bio.get('cn') is not None:
+                        df.cn = float(bio['cn'])
+                    if bio.get('humerus') is not None:
+                        df.humerus = float(bio['humerus'])
+                    if bio.get('cervelet') is not None:
+                        df.cervelet = float(bio['cervelet'])
+
+                    # Fetal Doppler
+                    dop = foetus.get('doppler_ombilical', {})
+                    if dop.get('doppler_cordon_ir') is not None:
+                        df.doppler_cordon_ir = float(dop['doppler_cordon_ir'])
+                    if dop.get('doppler_cordon_ip') is not None:
+                        df.doppler_cordon_ip = float(dop['doppler_cordon_ip'])
+
+                    dop_acm = foetus.get('doppler_acm', {})
+                    if dop_acm.get('doppler_acm_ir') is not None:
+                        df.doppler_acm_ir = float(dop_acm['doppler_acm_ir'])
+                    if dop_acm.get('doppler_acm_ip') is not None:
+                        df.doppler_acm_ip = float(dop_acm['doppler_acm_ip'])
+                    if dop_acm.get('doppler_acm_vitesse') is not None:
+                        df.doppler_acm_vitesse = float(dop_acm['doppler_acm_vitesse'])
+
+                    dop_dv = foetus.get('doppler_dv', {})
+                    if dop_dv.get('doppler_dv_ir') is not None:
+                        df.doppler_dv_ir = float(dop_dv['doppler_dv_ir'])
+                    if dop_dv.get('doppler_dv_ip') is not None:
+                        df.doppler_dv_ip = float(dop_dv['doppler_dv_ip'])
+
+                    df.save()
+                    logger.info(f'Created DonneesFoetus id={df.id} for consultation {obs_consult.id} foetus index {foetus_list.index(foetus)}')
+        except Exception as e:
+            logger.error(f'Failed to auto-create DonneesFoetus from SR data: {e}', exc_info=True)
     else:
         logger.warning('No data field in SR POST')
 
@@ -226,15 +362,29 @@ def ajouter_waveform(request):
     from apps.core.models import WaveformConsultation
     
     consultation = None
-    if 'study_uid' in request.POST:
-        study_uid = request.POST['study_uid']
+    calling_aet = request.POST.get('calling_aet', '')
+    study_uid = request.POST.get('study_uid', '')
+    if study_uid:
         print(f'Requesting worklist item with study id {study_uid}')
-        try:
-            item = WorklistItem.objects.get(study_instance_uid=study_uid)
+        item = WorklistItem.objects.filter(study_instance_uid=study_uid).first()
+        if item:
             print(f'Found item {item}')
             consultation = item.consultation
-        except WorklistItem.DoesNotExist:
-            print(f'WorklistItem with UID {study_uid} not found, trying fallback by patient name')
+        else:
+            print(f'WorklistItem with UID {study_uid} not found, trying fallbacks')
+
+    if consultation is None and calling_aet:
+        device = Device.objects.filter(ae_title=calling_aet).first()
+        if device:
+            today = datetime.datetime.now().date()
+            item = WorklistItem.objects.filter(
+                device=device,
+                consultation__date__date=today,
+                mpps_status__in=[WorklistItem.MPPS_STATUS_PENDING, WorklistItem.MPPS_STATUS_INPROGRESS]
+            ).order_by('-id').first()
+            if item:
+                consultation = item.consultation
+                print(f'Found consultation {item.consultation.id} by WorklistItem for device={calling_aet}')
 
     if consultation is None and 'patient_name' in request.POST:
         patient_name = request.POST['patient_name']

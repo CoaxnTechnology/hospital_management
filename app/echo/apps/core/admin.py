@@ -84,7 +84,6 @@ admin.site.register(ResultatAnalyseBiologique)
 admin.site.register(MesuresPatient)
 admin.site.register(MotifAbsence)
 admin.site.register(SRConsultation)
-admin.site.register(WaveformConsultation)
 admin.site.register(Bordereau)
 
 class CsvImportForm(forms.Form):

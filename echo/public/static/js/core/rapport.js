@@ -175,7 +175,7 @@ jQuery(document).ready(function () {
                     render: (data, type, full, meta) => _t({id: full.id, patientId: full.patient.id, motif: full.motif.code}),},
             ],
 
-            order: [[0, "asc"]],
+            order: [[3, "desc"]],
 
             initComplete: function () {
                 chercher();

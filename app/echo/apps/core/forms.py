@@ -63,7 +63,7 @@ class MdpForm(BSModalForm):
 
 
 class RdvForm(forms.ModelForm):
-    date_debut = forms.DateField(required=True, input_formats=['%d/%m/%Y', '%Y-%m-%d'])
+    date_debut = forms.DateField(required=True)
     heure_debut = forms.TimeField(required=True)
     heure_fin = forms.TimeField(required=True)
     observation = forms.CharField(widget=forms.Textarea, required=False)
@@ -78,11 +78,10 @@ class RdvForm(forms.ModelForm):
         compte = kwargs.pop('compte')
         super().__init__(*args, **kwargs)
         self.fields['praticien'].queryset = Medecin.objects.filter(compte=compte)
-        self.fields['date_debut'].input_formats = ['%d/%m/%Y', '%Y-%m-%d']
 
 
 class ProgrammeOperatoireForm(forms.ModelForm):
-    debut = forms.DateField(required=True, input_formats=['%d/%m/%Y', '%Y-%m-%d'])
+    debut = forms.DateField(required=True)
     heure_debut = forms.TimeField(required=True)
     heure_fin = forms.TimeField(required=True)
 
@@ -95,7 +94,6 @@ class ProgrammeOperatoireForm(forms.ModelForm):
         compte = kwargs.pop('compte')
         super().__init__(*args, **kwargs)
         self.fields['praticien'].queryset = Medecin.objects.filter(compte=compte)
-        self.fields['debut'].input_formats = ['%d/%m/%Y', '%Y-%m-%d']
 
 
 class RdvDispoForm(forms.ModelForm):
@@ -119,9 +117,9 @@ class RdvDispoForm(forms.ModelForm):
 
 
 class AbsenceMedecinForm(forms.ModelForm):
-    date_debut = forms.DateField(required=True, input_formats=['%d/%m/%Y', '%Y-%m-%d'])
+    date_debut = forms.DateField(required=True)
     heure_debut = forms.TimeField(required=True)
-    date_fin = forms.DateField(required=True, input_formats=['%d/%m/%Y', '%Y-%m-%d'])
+    date_fin = forms.DateField(required=True)
     heure_fin = forms.TimeField(required=True)
 
     class Meta:
@@ -133,8 +131,6 @@ class AbsenceMedecinForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['praticien'].queryset = Medecin.objects.filter(compte=compte)
         self.fields['praticien_remplacant'].queryset = Medecin.objects.filter(compte=compte)
-        self.fields['date_debut'].input_formats = ['%d/%m/%Y', '%Y-%m-%d']
-        self.fields['date_fin'].input_formats = ['%d/%m/%Y', '%Y-%m-%d']
 
 
 class PatientForm(forms.ModelForm):

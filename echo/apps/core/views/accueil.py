@@ -4,12 +4,13 @@ from datetime import date, datetime, timedelta
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.cache import cache
 from django.db.models import Q, F
-from django.views.generic import TemplateView
+from django.http import JsonResponse
+from django.views.generic import TemplateView, View
 from django.core import serializers
 
-from apps.core.models import Rdv, Patient, Consultation, MotifConsultation, Admission, Medecin
+from apps.core.models import Rdv, Patient, Consultation, MotifConsultation, Admission, Medecin, Device
 from apps.core.serializers import AdmissionSerializer, ConsultationSerializer, RdvSerializer, MedecinSerializer, \
-    MotifRdv, MotifRdvSerializer
+    MotifRdv, MotifRdvSerializer, DeviceSerializer
 
 
 # Reinitialise l'ordre de passage des patients de la journée
@@ -107,4 +108,20 @@ class Accueil(PermissionRequiredMixin, TemplateView):
         context['motifs_rdv'] = motifs_rdvs
         context['motifs_rdv_json'] = json.dumps(MotifRdvSerializer(motifs_rdvs, many=True).data)
 
+        devices = Device.objects.filter(compte=self.request.user.profil.compte)
+        context['devices_json'] = json.dumps(DeviceSerializer(devices, many=True).data)
+
         return context
+
+
+class AdmissionsAujourdhuiJson(LoginRequiredMixin, View):
+    def get(self, request):
+        today = date.today()
+        jour_min = datetime.now().replace(hour=0, minute=0)
+        jour_max = datetime.now().replace(hour=23, minute=59)
+        admissions = Admission.objects.filter(date__gte=jour_min, date__lte=jour_max,
+                                              patient__compte=request.user.profil.compte) \
+                                      .order_by('ordre') \
+                                      .select_related('patient__adresse')
+        data = AdmissionSerializer(admissions, many=True).data
+        return JsonResponse({'admissions': data})

@@ -28,8 +28,7 @@ class ConsultationGynecologiqueCreate(AjaxableResponseMixin, ConsultationCreateB
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            kwargs['compte'] = self.request.user.profil.compte
+        kwargs['compte'] = self.request.user.profil.compte
         return kwargs
 
     def get_context_data(self, **kwargs):
@@ -55,8 +54,7 @@ class ConsultationGynecologiqueCreate(AjaxableResponseMixin, ConsultationCreateB
     def get_initial(self):
         init = super().get_initial()
         init['patient'] = self.kwargs['pk']
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            init['praticien'] = self.request.user.profil
+        init['praticien'] = self.request.user.profil
         patient = get_object_or_404(Patient, pk=self.kwargs['pk'])
         if patient.mesures_jour:
             init['poids'] = patient.mesures_jour.poids
@@ -111,8 +109,7 @@ class ConsultationGynecologiqueUpdate(AjaxableResponseMixin, ConsultationUpdateB
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            kwargs['compte'] = self.request.user.profil.compte
+        kwargs['compte'] = self.request.user.profil.compte
         return kwargs
 
     def get_context_data(self, **kwargs):
@@ -178,8 +175,7 @@ class ConsultationColposcopieCreate(AjaxableResponseMixin, ConsultationCreateBas
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            kwargs['compte'] = self.request.user.profil.compte
+        kwargs['compte'] = self.request.user.profil.compte
         return kwargs
 
     def get_context_data(self, **kwargs):
@@ -209,8 +205,7 @@ class ConsultationColposcopieUpdate(AjaxableResponseMixin, ConsultationUpdateBas
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            kwargs['compte'] = self.request.user.profil.compte
+        kwargs['compte'] = self.request.user.profil.compte
         return kwargs
 
     def get_context_data(self, **kwargs):
@@ -231,8 +226,7 @@ class ConsultationEchoPelvienneCreate(ConsultationCreateBase):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            kwargs['compte'] = self.request.user.profil.compte
+        kwargs['compte'] = self.request.user.profil.compte
         return kwargs
 
     def get_context_data(self, **kwargs):
@@ -310,8 +304,7 @@ class ConsultationEchoPelvienneUpdate(AjaxableResponseMixin, ConsultationUpdateB
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            kwargs['compte'] = self.request.user.profil.compte
+        kwargs['compte'] = self.request.user.profil.compte
         return kwargs
 
     def get_context_data(self, **kwargs):

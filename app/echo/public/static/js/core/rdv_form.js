@@ -29,8 +29,7 @@ $(document).ready(function () {
         autoclose: true,
         language: currentLang,
         weekStart: 1,
-        format: 'dd/mm/yyyy',
-        startDate: 'today'
+        format: 'dd/mm/yyyy'
     }).on('changeDate', () => {
 
         debut = moment($('#date_debut').val() + ' ' + $('#heure_debut').val(), "DD/MM/YYYY HH:mm");
@@ -52,8 +51,7 @@ $(document).ready(function () {
         autoclose: true,
         language: currentLang,
         weekStart: 1,
-        format: 'dd/mm/yyyy',
-        startDate: 'today'
+        format: 'dd/mm/yyyy'
     }).on('changeDate', () => {
         if ($('#heure_fin').val()) {
             $('#id_fin').val($('#date_fin').val() + 'T' + $('#heure_fin').val());
@@ -196,15 +194,12 @@ $(document).ready(function () {
             return item.nom_naissance + ' ' + item.nom + ' ' + item.prenom;
         },
         source: function(query, syncResults, asyncResults) {
-            var csrfToken = $('input[name="csrfmiddlewaretoken"]').val() || 
-                           $('meta[name="csrf-token"]').attr('content') ||
-                           document.cookie.split('csrftoken=')[1];
             $.ajax({
                 url: '/patients/recherche_async/',
                 type: 'POST',
                 data: JSON.stringify({'query': query}),
                 contentType: 'application/json',
-                headers: {'X-CSRFToken': csrfToken},
+                headers: {'X-CSRFToken': $('[name=csrfmiddlewaretoken]').val()},
                 success: function(data) {
                     let items = JSON.parse(data);
                     asyncResults(items);
@@ -216,51 +211,15 @@ $(document).ready(function () {
         },
         minLength: 2,
         templates: {
-            notFound: '<div class="p-3 text-muted text-center">Aucun patient trouvé</div>',
-            pending: '<div class="p-3 text-muted text-center">Recherche en cours...</div>',
             suggestion: function(item) {
-                var birthDate = item.date_naissance ? item.date_naissance : '';
-                var phone = item.telephone ? item.telephone : '';
-                return '<div class="patient-result-item">' +
-                    '<div class="patient-name">' +
-                    '<strong>' + item.nom_naissance + '</strong>' +
-                    (item.nom ? ' <span class="text-muted">(ép. ' + item.nom + ')</span>' : '') +
-                    ' ' + item.prenom +
-                    (birthDate ? ' <span class="patient-dob">(' + birthDate + ')</span>' : '') +
-                    '</div>' +
-                    (phone ? '<div class="patient-phone"><i class="la la-phone"></i> ' + phone + '</div>' : '') +
-                    '</div>';
+                return '<div><strong>' + item.nom_naissance + '</strong> ' + 
+                       (item.nom ? 'ep. ' + item.nom : '') + ' ' + 
+                       item.prenom + ' <small>(' + (item.date_naissance || '') + ')</small></div>';
             }
         }
-    }).on('typeahead:render', function() {
-        $('.tt-suggestion').css('borderBottom', '1px solid #eee');
-        $('.tt-suggestion:last').css('borderBottom', 'none');
     }).on('typeahead:select', function(e, suggestion) {
         completerChampsPatient(suggestion);
         $('#patient-search').val('');
-        // Show selected patient indicator
-        var _selectedText = (typeof selected_text !== 'undefined') ? selected_text : 'selected';
-        $('#patient-search-results').html('<span class="text-success"><i class="la la-check"></i> ' + 
-            suggestion.nom_naissance + ' ' + (suggestion.nom ? 'ep. ' + suggestion.nom : '') + ' ' + 
-            suggestion.prenom + ' ' + _selectedText + '</span>');
-        // Mark as not new patient
-        $('[name="nouveau"]').prop("checked", false);
-    });
-    
-    // Clear patient when "Nouveau patient" is checked
-    $('[name="nouveau"]').on('change', function() {
-        if ($(this).is(':checked')) {
-            $('#id_patient').val('');
-            $('#patient-search-results').html('');
-            // Clear form fields
-            $('[name="prenom"]').typeahead('val', '');
-            $('[name="nom"]').typeahead('val', '');
-            $('[name="nom_naissance"]').typeahead('val', '');
-            $('[name="telephone"]').val('');
-            $('[name="ville"]').typeahead('val', '');
-            $('[name="cp"]').typeahead('val', '');
-            $('[name="gouvernorat"]').typeahead('val', '');
-        }
     });
 
     FormValidation.formValidation(

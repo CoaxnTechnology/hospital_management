@@ -1,5 +1,7 @@
 import datetime as dt
 import json
+import logging
+logger = logging.getLogger(__name__)
 
 from dateutil.parser import *
 from django.contrib.auth.decorators import login_required, permission_required
@@ -209,8 +211,8 @@ def _get_measurements(consultation):
             data = json.loads(m.data)
             if data:
                 return data, 'manual'
-    except Exception:
-        # RelatedObjectDoesNotExist, DoesNotExist, JSONDecodeError, DB errors, etc.
+    except Exception as e:
+        logger.warning(f"_get_measurements (manual) failed for consultation {consultation.id}: {e}")
         pass
 
     # 2. Fall back to raw DICOM SR
@@ -220,7 +222,8 @@ def _get_measurements(consultation):
             data = json.loads(sr.data)
             if data:
                 return data, 'dicom'
-    except Exception:
+    except Exception as e:
+        logger.warning(f"_get_measurements (SR) failed for consultation {consultation.id}: {e}")
         pass
 
     return None, None

@@ -29,8 +29,15 @@
 </div>
 
 <div class="form-group">
+
 <label class="form-label">{% trans "Notch gauche" %}</label>
-{% render_field form.notch_gauche data-form="consultation_obstetrique" data-champ="notch" data-cr="notch_gauche" class+="form-select form-select-solid form-select-sm" %}
+
+{% render_field form.notch_gauche
+data-form="consultation_obstetrique"
+data-champ="notch"
+data-cr="notch_gauche"
+class+="form-select form-select-solid form-select-sm" %}
+
 </div>
 
 </div>
@@ -52,8 +59,15 @@
 </div>
 
 <div class="form-group">
+
 <label class="form-label">{% trans "Notch droit" %}</label>
-{% render_field form.notch_droit data-form="consultation_obstetrique" data-champ="notch" data-cr="notch_droit" class+="form-select form-select-solid form-select-sm" %}
+
+{% render_field form.notch_droit
+data-form="consultation_obstetrique"
+data-champ="notch"
+data-cr="notch_droit"
+class+="form-select form-select-solid form-select-sm" %}
+
 </div>
 
 </div>
@@ -75,7 +89,10 @@
 
 <div class="input-group input-group-solid input-group-sm">
 
-{% render_field form.col_long class+="form-control form-control-solid form-control-sm" data-unit="mm" data-cr="col_long" %}
+{% render_field form.col_long
+class+="form-control form-control-solid form-control-sm"
+data-unit="mm"
+data-cr="col_long" %}
 
 <span class="input-group-text">mm</span>
 
@@ -90,7 +107,10 @@
 
 <div class="input-group input-group-solid input-group-sm">
 
-{% render_field form.col_orifice_interne class+="form-control form-control-solid form-control-sm" data-unit="mm" data-cr="col_orifice_interne" %}
+{% render_field form.col_orifice_interne
+class+="form-control form-control-solid form-control-sm"
+data-unit="mm"
+data-cr="col_orifice_interne" %}
 
 <span class="input-group-text">mm</span>
 
@@ -102,7 +122,12 @@
 <div class="form-group col-6">
 
 <label class="form-label">{% trans "Entonnoir" %}</label>
-{% render_field form.col_entonnoir data-form="consultation_obstetrique" data-champ="col_entonnoir" data-cr="col_entonnoir" class+="form-select form-select-solid form-select-sm" %}
+
+{% render_field form.col_entonnoir
+data-form="consultation_obstetrique"
+data-champ="col_entonnoir"
+data-cr="col_entonnoir"
+class+="form-select form-select-solid form-select-sm" %}
 
 </div>
 
@@ -120,7 +145,11 @@
 <div class="form-group">
 
 <label class="form-label">{% trans "Pelvis maternel" %}</label>
-{% render_field form.pelvis_maternel data-form="consultation_obstetrique" data-champ="pelvis_maternel" class+="form-select form-select-solid form-select-sm" %}
+
+{% render_field form.pelvis_maternel
+data-form="consultation_obstetrique"
+data-champ="pelvis_maternel"
+class+="form-select form-select-solid form-select-sm" %}
 
 </div>
 

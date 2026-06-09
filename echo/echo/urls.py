@@ -121,6 +121,7 @@ urlpatterns = [
     # Module tableau de bord
     path("accueil/", accueil.Accueil.as_view(), name="accueil-1"),
     path("", accueil.Accueil.as_view(), name="accueil"),
+    path("admissions/aujourdhui/json/", accueil.AdmissionsAujourdhuiJson.as_view(), name="admissions-ajd-json"),
     # Module utilisateurs/profils
     path("utilisateurs/", profils.ProfilList.as_view(), name="profils_list"),
     path("utilisateurs/ajouter", profils.ProfilCreate.as_view(), name="profil_form"),

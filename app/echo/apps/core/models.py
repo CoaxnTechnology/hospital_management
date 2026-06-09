@@ -177,7 +177,7 @@ class Compte(models.Model):
         return [cat.pk for cat in self.categories_consultations.all()]
 
     def is_gyneco(self):
-        return self.distribution in ('gynecologie', 'gyneco')
+        return self.distribution == GYNECOLOGIE
 
     def is_general(self):
         return self.distribution == GENERALISTE
@@ -293,14 +293,10 @@ class Profil(CompteModelBase):
         return self.compte.responsable == self.user
 
     def is_medecin(self):
-        if not hasattr(self, 'user') or not self.user or not hasattr(self.user, 'profil') or not self.user.profil:
-            return False
         return "Médecin" in self.user.profil.groupe
 
     def ville(self):
-        if self.compte and self.compte.adresse:
-            return self.compte.adresse.ville
-        return ""
+        return self.compte.adresse.ville
 
 
 class MedecinManager(DefaultSelectOrPrefetchManager):
@@ -3203,24 +3199,6 @@ class MesuresConsultation(models.Model):
             return json.loads(self.data) if self.data else {}
         except (json.JSONDecodeError, TypeError):
             return {}
-
-
-class WaveformConsultation(models.Model):
-    """DICOM Waveform data for a consultation (e.g., Doppler waveforms)."""
-    consultation = models.ForeignKey(
-        Consultation, on_delete=models.CASCADE, related_name="waveforms"
-    )
-    sop_instance_uid = models.CharField(max_length=64, null=True, blank=True)
-    waveform_data = models.BinaryField(null=True, blank=True)
-    image_preview = models.ImageField(upload_to="waveforms/previews/", null=True, blank=True)
-    modality = models.CharField(max_length=16, default="WF")
-    created_at = models.DateTimeField(auto_now_add=True)
-    description = models.CharField(max_length=256, null=True, blank=True)
-
-    class Meta:
-        verbose_name = "Waveform"
-        verbose_name_plural = "Waveforms"
-        ordering = ["-created_at"]
 
 
 ##################################################################################################

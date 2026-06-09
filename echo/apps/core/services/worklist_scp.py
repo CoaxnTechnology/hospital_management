@@ -176,6 +176,23 @@ class ServiceClassProvider:
         items = json.loads(res['items'])
         print('items', items)
 
+        # Persist calling AE title as device on each WorklistItem
+        device_ae_title = event.assoc.requestor.ae_title.strip().decode('UTF-8')
+        try:
+            from apps.core.models import Device, WorklistItem
+            device = Device.objects.filter(ae_title=device_ae_title).first()
+            if device:
+                for item_data in items:
+                    study_uid = item_data.get('study_instance_uid')
+                    if study_uid:
+                        updated = WorklistItem.objects.filter(study_instance_uid=study_uid).update(device=device)
+                        if updated:
+                            logger.info(f"Persisted device {device.id} ({device.ae_title}) on WorklistItem {study_uid}")
+            else:
+                logger.debug(f"No Device found with AE title {device_ae_title}")
+        except Exception as e:
+            logger.warning(f"Could not persist device on WorklistItem: {e}")
+
         for instance in items:
             # Check if C-CANCEL has been received
             if event.is_cancelled:
@@ -187,7 +204,7 @@ class ServiceClassProvider:
             patient = instance['consultation']['patient']
             identifier = Dataset()
             identifier.PatientID = str(patient['id'])
-            pname = f"{patient['nom_naissance']}^{patient['prenom']}"
+            pname = f"{patient['nom_naissance'] or patient['nom']}^{patient['prenom']}"
             if patient['ancien_numero']:
                 pname = pname + f"^{patient['ancien_numero']}"
             identifier.PatientName = pname
@@ -357,7 +374,10 @@ def run_server():
     print('Running Worklist and MPPS server')
     config = ServiceClassProviderConfig(implementation_class_uid=generate_uid(), port=os.environ.get('EE_WL_MPPS_SCP_PORT', 11112))
     server = ServiceClassProvider("CABINETPRO", config)
-    server.start()
+    try:
+        server.start()
+    except OSError as e:
+        logger.error(f"Worklist server failed to start on port {config.port}: {e}")
 
 
 if __name__ == "__main__":

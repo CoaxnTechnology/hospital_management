@@ -82,9 +82,7 @@ def safe_get_(dcm: FileDataset, tag: int) -> Optional[ParsedElementValue]:
             return None
 
         vr_parser = DicomVRParseDictionary.get(VR, lambda value: value)
-        if isinstance(element_value, Sequence):
-            return cast(ParsedElementValue, element_value)
-        if isinstance(element_value, MultiValue):
+        if isinstance(element_value, MultiValue) is not isinstance(element_value, Sequence):
             return cast(ParsedElementValue, [vr_parser(item) for item in element_value])
 
         return vr_parser(element_value)

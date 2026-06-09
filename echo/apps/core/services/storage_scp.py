@@ -25,6 +25,24 @@ from pynetdicom import sop_class
 from apps.core.services.sr_parser import parse_ds
 from apps.core.services.utils import *
 
+from pydicom.dataset import Dataset as _Dataset
+from pydicom.sequence import Sequence as _Sequence
+from pydicom.multival import MultiValue as _MultiValue
+
+
+def _sanitize(obj):
+    if isinstance(obj, dict):
+        return {k: _sanitize(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [_sanitize(v) for v in obj]
+    elif isinstance(obj, _Dataset):
+        return _sanitize(dict(obj))
+    elif hasattr(obj, 'value'):
+        return _sanitize(obj.value)
+    elif isinstance(obj, _MultiValue):
+        return list(obj)
+    return obj
+
 logger = getLogger('dicom.storage')
 logger.setLevel(DEBUG)
 _handler = _logging.FileHandler('./logs/storage_scp.log')
@@ -78,6 +96,7 @@ class ServiceClassProvider:
             ds.file_meta = event.file_meta
 
             called_aet = cast(str, event.assoc.acceptor.ae_title.strip()) if hasattr(event.assoc, 'acceptor') else ''
+            calling_aet = cast(str, event.assoc.requestor.ae_title.strip())
             metadata: Dict[str, Optional[ParsedElementValue]] = {
                 "CallingAET": cast(str, event.assoc.requestor.ae_title.strip()),
                 "CalledAET": called_aet,
@@ -85,6 +104,8 @@ class ServiceClassProvider:
                 "StudyInstanceUID": safe_get(ds, 0x0020000D),
                 "Modality": safe_get(ds, 0x00080060),
             }
+            sop_class_uid = str(event.file_meta.MediaStorageSOPClassUID) if event.file_meta else 'UNKNOWN'
+            metadata["SOPClassUID"] = sop_class_uid
             log_message_meta = " - ".join([f"{k}={v}" for k, v in metadata.items() if v])
             logger.info(f"Processed C-STORE {log_message_meta}")
 
@@ -92,8 +113,8 @@ class ServiceClassProvider:
             studyId = ds.StudyInstanceUID
             print('Study Instance UID', studyId)
 
-            sop_class_uid = str(event.file_meta.MediaStorageSOPClassUID) if event.file_meta else ''
-            is_sr = ds.Modality == 'SR' or 'sr' in sop_class_uid.lower() or 'structuredreport' in sop_class_uid.lower()
+            is_sr = ds.Modality == 'SR' or sop_class_uid.startswith('1.2.840.10008.5.1.4.1.1.88')
+            logger.info(f"SR detection: sop_class_uid={sop_class_uid} modality={ds.get('Modality','')} is_sr={is_sr}")
 
             if is_sr:
                 logger.info(f"SR received: StudyInstanceUID={studyId}, PatientName={str(ds.get('PatientName', ''))}, SOPClassUID={sop_class_uid}")
@@ -101,9 +122,35 @@ class ServiceClassProvider:
                     result = parse_ds(ds)
                     logger.info(f"Parsed SR data: {result}")
                     if result:
-                        post_data = {'study_uid': studyId, 'data': json.dumps(result), 'called_aet': called_aet}
-                        response = requests.post(f'{web_url}:{web_port}/worklists/sr/', data=post_data)
-                        logger.info(f"SR POST to /worklists/sr/ status={response.status_code}")
+                        has_doppler = bool(result.get('doppler_uterin')) or any(
+                            f.get('doppler_ombilical') or f.get('doppler_acm') or f.get('doppler_dv')
+                            for f in result.get('foetus', [])
+                        )
+                        logger.info(f"SR doppler check: uterine={bool(result.get('doppler_uterin'))}, "
+                                    f"any_fetal_doppler={has_doppler}, "
+                                    f"num_foetus={len(result.get('foetus', []))}")
+                        patient_name = str(ds.get('PatientName', ''))
+                        post_data = {
+                            'study_uid': studyId,
+                            'data': json.dumps(_sanitize(result)),
+                            'called_aet': called_aet,
+                            'calling_aet': calling_aet,
+                            'patient_name': patient_name,
+                        }
+                        for attempt in range(3):
+                            try:
+                                response = requests.post(f'{web_url}:{web_port}/worklists/sr/', data=post_data, timeout=10)
+                                logger.info(f"SR POST to /worklists/sr/ status={response.status_code}")
+                                if response.status_code == 200:
+                                    break
+                            except requests.RequestException as e:
+                                logger.warning(f"SR POST attempt {attempt + 1} failed: {e}")
+                                if attempt < 2:
+                                    __import__('time').sleep(1)
+                            else:
+                                if attempt < 2:
+                                    logger.warning(f"SR POST attempt {attempt + 1} returned {response.status_code}, retrying...")
+                                    __import__('time').sleep(1)
                 except Exception as e:
                     logger.error(f"Failed to process SR: {e}", exc_info=True)
 
@@ -138,6 +185,7 @@ class ServiceClassProvider:
                         'study_uid': studyId,
                         'path': os.path.abspath(out_img_file),
                         'called_aet': called_aet,
+                        'calling_aet': calling_aet,
                         'patient_name': patient_name,
                     }
                     response = requests.post(f'{web_url}:{web_port}/worklists/image/', data=post_data)
@@ -238,7 +286,10 @@ def run_server():
     config = ServiceClassProviderConfig(implementation_class_uid=generate_uid(),
                                         port=os.environ.get('EE_STORE_SCP_PORT', 11113))
     server = ServiceClassProvider("CABINETPRO", config)
-    server.start()
+    try:
+        server.start()
+    except OSError as e:
+        logger.error(f"Storage server failed to start on port {config.port}: {e}")
 
 
 if __name__ == "__main__":

@@ -83,37 +83,36 @@ class ServiceClassProvider:
         studyId = ds.StudyInstanceUID
         print('Study Instance UID', studyId)
 
-        sop_class_uid = str(event.file_meta.MediaStorageSOPClassUID) if event.file_meta else ''
-        is_sr = ds.Modality == 'SR' or 'sr' in sop_class_uid.lower() or 'structuredreport' in sop_class_uid.lower()
-
-        if is_sr:
+        if ds.Modality == 'SR':
             print('Structured report received')
-            logger.info(f'SR detected: Modality={ds.Modality} SOPClassUID={sop_class_uid}')
-            try:
-                concept_name_code_sequence = safe_get(ds, 0x0040A043)
-                code_value = None
-                if concept_name_code_sequence:
-                    code_value = getattr(concept_name_code_sequence[0], 'CodeValue', None)
-                    print(f'SR CodeValue: {code_value}')
+            # print(ds)
+            concept_name_code_sequence = safe_get(ds, 0x0040A043)
+            #print('Concept Name Code Sequence Attribute', concept_name_code_sequence)
+            content_template_sequence = safe_get(ds, 0x0040A504)
+            #print('Content Template Sequence', content_template_sequence)
+            content_sequence = safe_get(ds, 0x0040A730)
+            #print('Content Sequence', content_sequence)
 
+            code_value = concept_name_code_sequence[0].CodeValue
+            #print(code_value)
+
+            if code_value == '125000':
+                # OB-GYN Ultrasound Procedure Report
+                print('OB-GYN Ultrasound Procedure Report')
                 result = parse_ds(ds)
                 print(result)
-                if result:
-                    post_data = {'study_uid': studyId, 'data': json.dumps(result), 'called_aet': called_aet}
-                    response = requests.post(f'{web_url}:{web_port}/worklists/sr/', data=post_data)
-                    logger.info(f'SR POST /worklists/sr/ status={response.status_code}')
-            except Exception as e:
-                logger.error(f'Failed to process SR: {e}', exc_info=True)
-
-        # Check for Waveform modality
-        elif ds.Modality in ['WF', 'OT'] or hasattr(ds, 'WaveformSequence'):
-            print(f'Waveform received: {ds.Modality}')
-            try:
-                waveform_data = save_waveform(ds, studyId, called_aet)
-                if waveform_data:
-                    print(f'Waveform saved: {waveform_data}')
-            except Exception as e:
-                logger.error(f'Failed to save waveform: {e}')
+                post_data = {'study_uid': studyId, 'data': json.dumps(result), 'called_aet': called_aet}
+                response = requests.post(f'{web_url}:{web_port}/worklists/sr/', data=post_data)
+            elif code_value == '125100':
+                # Vascular Ultrasound Procedure Report
+                print('Vascular Ultrasound Procedure Report')
+            elif code_value == '125200':
+                # Adult Echocardiography Procedure Report
+                print('Adult Echocardiography Procedure Report')
+            for item in content_sequence:
+                pass
+                #print(item)
+            # pdb.set_trace()
 
         else:
             print('Image received')
@@ -124,7 +123,7 @@ class ServiceClassProvider:
 
         # filename = event.request.AffectedSOPInstanceUID
         filename = f"{random.randint(10000000, 99999999)}"
-        if is_sr:
+        if ds.Modality == 'SR':
             outfile += 'sr_'
             outfile += filename
         else:
@@ -159,67 +158,6 @@ class ServiceClassProvider:
             (events.EVT_C_ECHO, self.handle_echo),
         ]
         self.ae.start_server(self.address, block=True, evt_handlers=self.handlers)
-
-
-def save_waveform(ds, study_uid, called_aet):
-    """Save DICOM Waveform data and create preview image."""
-    import io
-    from PIL import Image, ImageDraw, ImageFont
-    
-    # Create waveform directory
-    waveform_dir = f'./data/studies/{study_uid}/waveforms/'
-    if not os.path.exists(waveform_dir):
-        os.makedirs(waveform_dir)
-    
-    # Get SOP Instance UID
-    sop_uid = safe_get(ds, 0x00080018) or f"wf_{random.randint(10000000, 99999999)}"
-    
-    # Try to extract waveform data and create a preview
-    preview_path = None
-    
-    try:
-        # Try to get waveform sequence data
-        waveform_seq = safe_get(ds, 0x54001010)  # WaveformSequence
-        
-        if waveform_seq:
-            # Create a simple visual representation of the waveform
-            img = Image.new('RGB', (800, 200), color='white')
-            draw = ImageDraw.Draw(img)
-            
-            # Draw some placeholder waveform visualization
-            # In real implementation, this would decode actual waveform data
-            draw.line([(50, 100), (750, 100)], fill='black', width=2)
-            
-            # Add text
-            try:
-                draw.text((50, 50), f"Waveform - {ds.Modality}", fill='black')
-                draw.text((50, 150), f"SOP: {sop_uid}", fill='gray')
-            except:
-                pass
-            
-            # Save preview
-            preview_filename = f"wf_{sop_uid[:8]}.jpg"
-            preview_path = os.path.join(waveform_dir, preview_filename)
-            img.save(preview_path, 'JPEG')
-            
-            # Save raw waveform data if needed
-            data_file = os.path.join(waveform_dir, f"wf_{sop_uid[:8]}.bin")
-            # Note: Actual waveform binary data would need proper extraction
-            
-            # Post to server
-            post_data = {
-                'study_uid': study_uid,
-                'path': preview_path,
-                'sop_uid': sop_uid,
-                'called_aet': called_aet
-            }
-            response = requests.post(f'{web_url}:{web_port}/worklists/waveform/', data=post_data)
-            
-            return preview_path
-    except Exception as e:
-        logger.error(f"Error processing waveform: {e}")
-    
-    return None
 
 
 def main() -> None:

@@ -231,7 +231,11 @@ class PatientView(PermissionRequiredMixin, DetailView):
                         date=timezone.now(),
                         praticien=getattr(request.user, 'medecin', None) or Medecin.objects.filter(compte=compte).first(),
                     )
-                device = Device.objects.filter(compte=compte).first()
+                device_id = self.request.GET.get('device')
+                if device_id:
+                    device = get_object_or_404(Device, pk=device_id, compte=compte)
+                else:
+                    device = Device.objects.filter(compte=compte).first()
                 if device:
                     WorklistItem.objects.filter(
                         device__compte=compte,

@@ -32,8 +32,7 @@ class InterrogatoirePMACreate(AjaxableResponseMixin, ConsultationCreateBase):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            kwargs['compte'] = self.request.user.profil.compte
+        kwargs['compte'] = self.request.user.profil.compte
         return kwargs
 
     def get_context_data(self, **kwargs):
@@ -155,8 +154,7 @@ class InterrogatoirePMAUpdate(AjaxableResponseMixin, ConsultationUpdateBase):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            kwargs['compte'] = self.request.user.profil.compte
+        kwargs['compte'] = self.request.user.profil.compte
         return kwargs
 
     def get_context_data(self, **kwargs):
@@ -265,8 +263,7 @@ class TentativePMACreate(AjaxableResponseMixin, ConsultationCreateBase):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            kwargs['compte'] = self.request.user.profil.compte
+        kwargs['compte'] = self.request.user.profil.compte
         return kwargs
 
     def get_context_data(self, **kwargs):
@@ -274,10 +271,8 @@ class TentativePMACreate(AjaxableResponseMixin, ConsultationCreateBase):
         context['titre'] = self.titre
         listes = ListeChoix.objects.filter(formulaire='tentative_pma')
         context['listes_choix_json'] = json.dumps(ListeChoixSerializer(listes, many=True).data)
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            traitements = TraitementPMA.objects.filter(compte=self.request.user.profil.compte)
-        else:
-            traitements = []
+
+        traitements = TraitementPMA.objects.filter(compte=self.request.user.profil.compte)
         context['traitements'] = traitements
         #context['traitements_json'] = json.dumps(TraitementPMASerializer(traitements, many=True).data)
 
@@ -349,8 +344,7 @@ class TentativePMAUpdate(AjaxableResponseMixin, ConsultationUpdateBase):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            kwargs['compte'] = self.request.user.profil.compte
+        kwargs['compte'] = self.request.user.profil.compte
         return kwargs
 
     def get_context_data(self, **kwargs):
@@ -358,10 +352,7 @@ class TentativePMAUpdate(AjaxableResponseMixin, ConsultationUpdateBase):
         context['titre'] = self.titre
         listes = ListeChoix.objects.filter(formulaire='tentative_pma')
         context['listes_choix_json'] = json.dumps(ListeChoixSerializer(listes, many=True).data)
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            traitements = TraitementPMA.objects.filter(compte=self.request.user.profil.compte)
-        else:
-            traitements = []
+        traitements = TraitementPMA.objects.filter(compte=self.request.user.profil.compte)
         context['traitements'] = traitements
 
         SuiviTraitementFormset = inlineformset_factory(TentativePMA, SuiviTraitementPMA,
@@ -433,9 +424,7 @@ class TraitementPMAList(PermissionRequiredMixin, ListView):
     permission_required = 'core.view_patient'
 
     def get_queryset(self):
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            return TraitementPMA.objects.filter(compte=self.request.user.profil.compte)
-        return TraitementPMA.objects.none()
+        return TraitementPMA.objects.filter(compte=self.request.user.profil.compte)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -26,8 +26,7 @@ class ConsultationObstetriqueCreateBase(ConsultationCreateBase):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            kwargs['compte'] = self.request.user.profil.compte
+        kwargs['compte'] = self.request.user.profil.compte
         return kwargs
 
     def get_context_data(self, **kwargs):
@@ -52,8 +51,7 @@ class ConsultationObstetriqueCreateBase(ConsultationCreateBase):
     def get_initial(self):
         init = super().get_initial()
         init['patient'] = self.kwargs['pk']
-        if hasattr(self.request.user, 'profil') and self.request.user.profil:
-            init['praticien'] = self.request.user.profil
+        init['praticien'] = self.request.user.profil
         patient = get_object_or_404(Patient, pk=self.kwargs['pk'])
         grossesse = patient.grossesse_set.filter(encours=True)
         if len(grossesse):
@@ -117,8 +115,7 @@ class ConsultationObstetriqueUpdateBase(ConsultationUpdateBase):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        compte = self.request.user.profil.compte if hasattr(self.request.user, 'profil') and self.request.user.profil else None
-        kwargs['compte'] = compte
+        kwargs['compte'] = self.request.user.profil.compte
         return kwargs
 
     def get_context_data(self, **kwargs):
@@ -203,116 +200,11 @@ class ConsultationEcho11SACreate(ConsultationObstetriqueCreateBase):
         return context
 
 
-# -----------------------------------------------------------------------------------------------------
-class ConsultationEchoDeuxiemeTrimestreCreate(ConsultationObstetriqueCreateBase):
-    template_name = 'core/consultation_obs_echo_deuxieme_trimestre_form.html'
-    model = ConsultationEchoDeuxiemeTrimestre
-    form_class = ConsultationEchoDeuxiemeTrimestreForm
-    titre = 'Examen du 2ème trimestre'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        motif = MotifConsultation.objects.filter(code='obs_echo_trimestre_2')
-        context['motif'] = motif[0]
-        context['doublon_consultation'] = context['patient'].check_doublon_consultation(motif=context['motif'],
-                                                                                        date=date.today())
-        compte = self.request.user.profil.compte if hasattr(self.request.user, 'profil') and self.request.user.profil else None
-        templates = TemplateEdition.objects.filter(compte=compte,
-                                                  motif_consultation=motif[0])
-        context['templates'] = templates
-        templates_json = TemplateEditionSerializer(templates, many=True)
-        context['templates_json'] = json.dumps(templates_json.data)
-        return context
-
-
-# -----------------------------------------------------------------------------------------------------
-class ConsultationEchoDeuxiemeTrimestreUpdate(ConsultationObstetriqueUpdateBase):
-    template_name = 'core/consultation_obs_echo_deuxieme_trimestre_form.html'
-    model = ConsultationEchoDeuxiemeTrimestre
-    form_class = ConsultationEchoDeuxiemeTrimestreForm
-    titre = 'Examen du 2ème trimestre'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['motif'] = self.object.motif
-        compte = self.request.user.profil.compte if hasattr(self.request.user, 'profil') and self.request.user.profil else None
-        templates = TemplateEdition.objects.filter(compte=compte,
-                                                  motif_consultation=self.object.motif)
-        context['templates'] = templates
-        templates_json = TemplateEditionSerializer(templates, many=True)
-        context['templates_json'] = json.dumps(templates_json.data)
-        return context
-
-
-# -----------------------------------------------------------------------------------------------------
-class ConsultationEchoTroisiemeTrimestreCreate(ConsultationObstetriqueCreateBase):
-    template_name = 'core/consultation_obs_echo_troisieme_trimestre_form.html'
-    model = ConsultationEchoTroisiemeTrimestre
-    form_class = ConsultationEchoTroisiemeTrimestreForm
-    titre = 'Examen du 3ème trimestre'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        motif = MotifConsultation.objects.filter(code='obs_echo_trimestre_3')
-        context['motif'] = motif[0]
-        context['doublon_consultation'] = context['patient'].check_doublon_consultation(motif=context['motif'],
-                                                                                        date=date.today())
-        compte = self.request.user.profil.compte if hasattr(self.request.user, 'profil') and self.request.user.profil else None
-        templates = TemplateEdition.objects.filter(compte=compte,
-                                                  motif_consultation=motif[0])
-        context['templates'] = templates
-        templates_json = TemplateEditionSerializer(templates, many=True)
-        context['templates_json'] = json.dumps(templates_json.data)
-        return context
-
-
-# -----------------------------------------------------------------------------------------------------
-class ConsultationEchoTroisiemeTrimestreCreate(ConsultationObstetriqueCreateBase):
-    template_name = 'core/consultation_obs_echo_troisieme_trimestre_form.html'
-    model = ConsultationEchoTroisiemeTrimestre
-    form_class = ConsultationEchoTroisiemeTrimestreForm
-    titre = 'Examen du 3ème trimestre'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        motif = MotifConsultation.objects.filter(code='obs_echo_trimestre_3')
-        context['motif'] = motif[0]
-        context['doublon_consultation'] = context['patient'].check_doublon_consultation(motif=context['motif'],
-                                                                                        date=date.today())
-        compte = self.request.user.profil.compte if hasattr(self.request.user, 'profil') and self.request.user.profil else None
-        templates = TemplateEdition.objects.filter(compte=compte,
-                                                  motif_consultation=motif[0])
-        context['templates'] = templates
-        templates_json = TemplateEditionSerializer(templates, many=True)
-        context['templates_json'] = json.dumps(templates_json.data)
-        return context
-
-
-# -----------------------------------------------------------------------------------------------------
 class ConsultationEcho11SAUpdate(ConsultationObstetriqueUpdateBase):
     template_name = 'core/consultation_obs_echo_11SA_form.html'
     model = ConsultationEcho11SA
     form_class = ConsultationEcho11SAForm
     titre = 'Examen du 1er trimestre (< 11 SA)'
-
-
-# -----------------------------------------------------------------------------------------------------
-class ConsultationEchoPremierTrimestreUpdate(ConsultationObstetriqueUpdateBase):
-    template_name = 'core/consultation_obs_echo_premier_trimestre_form.html'
-    model = ConsultationEchoPremierTrimestre
-    form_class = ConsultationEchoPremierTrimestreForm
-    titre = 'Examen du 1er trimestre'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['motif'] = self.object.motif
-        compte = self.request.user.profil.compte if hasattr(self.request.user, 'profil') and self.request.user.profil else None
-        templates = TemplateEdition.objects.filter(compte=compte,
-                                                  motif_consultation=self.object.motif)
-        context['templates'] = templates
-        templates_json = TemplateEditionSerializer(templates, many=True)
-        context['templates_json'] = json.dumps(templates_json.data)
-        return context
 
 
 # -----------------------------------------------------------------------------------------------------
@@ -328,9 +220,84 @@ class ConsultationEchoPremierTrimestreCreate(ConsultationObstetriqueCreateBase):
         context['motif'] = motif[0]
         context['doublon_consultation'] = context['patient'].check_doublon_consultation(motif=context['motif'],
                                                                                         date=date.today())
-        compte = self.request.user.profil.compte if hasattr(self.request.user, 'profil') and self.request.user.profil else None
-        templates = TemplateEdition.objects.filter(compte=compte,
-                                                  motif_consultation=motif[0])
+        templates = TemplateEdition.objects.filter(compte=self.request.user.profil.compte,
+                                                   motif_consultation=motif[0])
+        context['templates'] = templates
+        templates_json = TemplateEditionSerializer(templates, many=True)
+        context['templates_json'] = json.dumps(templates_json.data)
+        return context
+
+
+class ConsultationEchoPremierTrimestreUpdate(ConsultationObstetriqueUpdateBase):
+    template_name = 'core/consultation_obs_echo_premier_trimestre_form.html'
+    model = ConsultationEchoPremierTrimestre
+    form_class = ConsultationEchoPremierTrimestreForm
+    titre = 'Examen du 1er trimestre'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['motif'] = self.object.motif
+        templates = TemplateEdition.objects.filter(compte=self.request.user.profil.compte,
+                                                   motif_consultation=self.object.motif)
+        context['templates'] = templates
+        templates_json = TemplateEditionSerializer(templates, many=True)
+        context['templates_json'] = json.dumps(templates_json.data)
+        return context
+
+
+# -----------------------------------------------------------------------------------------------------
+class ConsultationEchoDeuxiemeTrimestreCreate(ConsultationObstetriqueCreateBase):
+    template_name = 'core/consultation_obs_echo_deuxieme_trimestre_form.html'
+    model = ConsultationEchoDeuxiemeTrimestre
+    form_class = ConsultationEchoDeuxiemeTrimestreForm
+    titre = 'Examen du 2ème trimestre'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        motif = MotifConsultation.objects.filter(code='obs_echo_trimestre_2')
+        context['motif'] = motif[0]
+        context['doublon_consultation'] = context['patient'].check_doublon_consultation(motif=context['motif'],
+                                                                                        date=date.today())
+        templates = TemplateEdition.objects.filter(compte=self.request.user.profil.compte,
+                                                   motif_consultation=motif[0])
+        context['templates'] = templates
+        templates_json = TemplateEditionSerializer(templates, many=True)
+        context['templates_json'] = json.dumps(templates_json.data)
+        return context
+
+
+class ConsultationEchoDeuxiemeTrimestreUpdate(ConsultationObstetriqueUpdateBase):
+    template_name = 'core/consultation_obs_echo_deuxieme_trimestre_form.html'
+    model = ConsultationEchoDeuxiemeTrimestre
+    form_class = ConsultationEchoDeuxiemeTrimestreForm
+    titre = 'Examen du 2ème trimestre'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['motif'] = self.object.motif
+        templates = TemplateEdition.objects.filter(compte=self.request.user.profil.compte,
+                                                   motif_consultation=self.object.motif)
+        context['templates'] = templates
+        templates_json = TemplateEditionSerializer(templates, many=True)
+        context['templates_json'] = json.dumps(templates_json.data)
+        return context
+
+
+# -----------------------------------------------------------------------------------------------------
+class ConsultationEchoTroisiemeTrimestreCreate(ConsultationObstetriqueCreateBase):
+    template_name = 'core/consultation_obs_echo_troisieme_trimestre_form.html'
+    model = ConsultationEchoTroisiemeTrimestre
+    form_class = ConsultationEchoTroisiemeTrimestreForm
+    titre = 'Examen du 3ème trimestre'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        motif = MotifConsultation.objects.filter(code='obs_echo_trimestre_3')
+        context['motif'] = motif[0]
+        context['doublon_consultation'] = context['patient'].check_doublon_consultation(motif=context['motif'],
+                                                                                        date=date.today())
+        templates = TemplateEdition.objects.filter(compte=self.request.user.profil.compte,
+                                                   motif_consultation=motif[0])
         context['templates'] = templates
         templates_json = TemplateEditionSerializer(templates, many=True)
         context['templates_json'] = json.dumps(templates_json.data)
@@ -346,8 +313,7 @@ class ConsultationEchoTroisiemeTrimestreUpdate(ConsultationObstetriqueUpdateBase
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['motif'] = self.object.motif
-        compte = self.request.user.profil.compte if hasattr(self.request.user, 'profil') and self.request.user.profil else None
-        templates = TemplateEdition.objects.filter(compte=compte,
+        templates = TemplateEdition.objects.filter(compte=self.request.user.profil.compte,
                                                    motif_consultation=self.object.motif)
         context['templates'] = templates
         templates_json = TemplateEditionSerializer(templates, many=True)
@@ -368,8 +334,7 @@ class ConsultationEchoCroissanceCreate(ConsultationObstetriqueCreateBase):
         context['motif'] = motif[0]
         context['doublon_consultation'] = context['patient'].check_doublon_consultation(motif=context['motif'],
                                                                                         date=date.today())
-        compte = self.request.user.profil.compte if hasattr(self.request.user, 'profil') and self.request.user.profil else None
-        templates = TemplateEdition.objects.filter(compte=compte,
+        templates = TemplateEdition.objects.filter(compte=self.request.user.profil.compte,
                                                    motif_consultation=motif[0])
         context['templates'] = templates
         templates_json = TemplateEditionSerializer(templates, many=True)
@@ -386,8 +351,7 @@ class ConsultationEchoCroissanceUpdate(ConsultationObstetriqueUpdateBase):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['motif'] = self.object.motif
-        compte = self.request.user.profil.compte if hasattr(self.request.user, 'profil') and self.request.user.profil else None
-        templates = TemplateEdition.objects.filter(compte=compte,
+        templates = TemplateEdition.objects.filter(compte=self.request.user.profil.compte,
                                                    motif_consultation=self.object.motif)
         context['templates'] = templates
         templates_json = TemplateEditionSerializer(templates, many=True)

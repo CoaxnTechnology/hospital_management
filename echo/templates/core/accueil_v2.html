@@ -376,6 +376,11 @@
     </script>
 
     <script id="actions-consultation-template" type="text/html">
+        <% if (consultationId) { %>
+        <a href="/consultation/<%- consultationId %>/rapport/" class="btn btn-warning btn-icon btn-sm" title="{% trans 'Rapport' %}">
+            <i class="la la-file-text icon-md"></i>
+        </a>
+        <% } %>
         {% if user.profil.groupe == 'Médecin' %}
             <a href="/patients/<%- id %>" class="btn btn-primary btn-icon btn-sm" title="{% trans 'Dossier patient' %}">
                 <i class="la la-eye icon-md"></i>

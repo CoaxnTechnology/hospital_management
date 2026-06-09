@@ -451,7 +451,7 @@ jQuery(document).ready(function () {
             columnDefs: [
                 {
                     targets: 7, title: 'Actions', orderable: false, width: '450px',
-                    render: (data, type, full, meta) => _t({id: full.patient.id})
+                    render: (data, type, full, meta) => _t({id: full.patient.id, consultationId: full.id})
                 },
                 {targets: 0, width: '360px'},
                 {targets: 1, width: '360px'},

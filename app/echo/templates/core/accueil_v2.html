@@ -517,6 +517,42 @@
         let praticiens = {{ praticiens_json|safe }};
         let motifs_rdv = {{ motifs_rdv_json|safe }};
 
+        let dispositifs = {{ devices_json|safe }};
+
+        {% trans "Choisir la machine" as s_choisir_machine %}
+        {% trans "Annuler" as s_annuler %}
+        function demarrerConsultation(patientId) {
+            if (dispositifs.length === 0) {
+                window.location.href = '/patients/' + patientId + '/?action=demarrer_consultation';
+                return;
+            }
+            if (dispositifs.length === 1) {
+                window.location.href = '/patients/' + patientId + '/?action=demarrer_consultation&device=' + dispositifs[0].id;
+                return;
+            }
+            var html = '<div class="list-group">';
+            dispositifs.forEach(function(d) {
+                html += '<button type="button" class="list-group-item list-group-item-action device-option" data-device-id="' + d.id + '">' + (d.libelle || d.ae_title || 'Machine ' + d.id) + '</button>';
+            });
+            html += '</div>';
+            swal.fire({
+                title: '{{ s_choisir_machine|escapejs }}',
+                html: html,
+                showConfirmButton: false,
+                showCancelButton: true,
+                cancelButtonText: '{{ s_annuler|escapejs }}',
+                didRender: function() {
+                    document.querySelectorAll('.device-option').forEach(function(btn) {
+                        btn.addEventListener('click', function() {
+                            var deviceId = this.getAttribute('data-device-id');
+                            swal.close();
+                            window.location.href = '/patients/' + patientId + '/?action=demarrer_consultation&device=' + deviceId;
+                        });
+                    });
+                }
+            });
+        }
+
     </script>
     <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
     <script src="{% static "js/core/accueil.js" %}"></script>

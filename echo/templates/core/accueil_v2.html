@@ -528,6 +528,8 @@
 
         let dispositifs = {{ devices_json|safe }};
 
+        {% trans "Choisir la machine" as s_choisir_machine %}
+        {% trans "Annuler" as s_annuler %}
         function demarrerConsultation(patientId) {
             if (dispositifs.length === 0) {
                 window.location.href = '/patients/' + patientId + '/?action=demarrer_consultation';
@@ -543,11 +545,11 @@
             });
             html += '</div>';
             swal.fire({
-                title: 'Choisir la machine',
+                title: '{{ s_choisir_machine|escapejs }}',
                 html: html,
                 showConfirmButton: false,
                 showCancelButton: true,
-                cancelButtonText: 'Annuler',
+                cancelButtonText: '{{ s_annuler|escapejs }}',
                 didRender: function() {
                     document.querySelectorAll('.device-option').forEach(function(btn) {
                         btn.addEventListener('click', function() {

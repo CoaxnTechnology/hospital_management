@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-19 07:41+0100\n"
+"POT-Creation-Date: 2026-06-09 07:17+0100\n"
 "PO-Revision-Date: 2026-02-26 07:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
@@ -43,11 +43,9 @@ msgstr "Read"
 
 #: apps/core/forms.py:22
 #: templates/core/consultation_gynecologique_form.html:106
-#: templates/core/grossesse_form.html:54 templates/core/patient_form.html:58
-#: templates/core/patient_form.html:83
-#: templates/core/patient_form_dialog.html:66
-#: templates/core/patient_list.html:49 templates/core/patient_list.html:93
-#: templates/core/patient_list_v2.html:56
+#: templates/core/grossesse_form.html:44 templates/core/patient_form.html:58
+#: templates/core/patient_form.html:83 templates/core/patient_list.html:49
+#: templates/core/patient_list.html:93 templates/core/patient_list_v2.html:56
 #: templates/core/patient_list_v2.html:102 templates/core/profil_form.html:98
 #: templates_backup/core/consultation_gynecologique_form.html:107
 #: templates_backup/core/grossesse_form.html:55
@@ -76,7 +74,7 @@ msgstr "Fecha de nacimiento"
 msgid "Téléphone principal"
 msgstr "Teléfono 2"
 
-#: apps/core/forms.py:24 templates/core/patient_form_dialog.html:77
+#: apps/core/forms.py:24
 #, fuzzy
 #| msgid "Téléphone est obligatoire"
 msgid "Téléphone secondaire"
@@ -116,90 +114,89 @@ msgstr "Ecógrafo por defecto"
 msgid "Titre"
 msgstr "Título"
 
-#: apps/core/forms.py:47 apps/core/forms.py:56
-#: templates/core/profil_form.html:261
+#: apps/core/forms.py:47 templates/core/profil_form.html:262
 msgid "Profil"
 msgstr "Perfil"
 
-#: apps/core/models.py:192
+#: apps/core/models.py:209
 msgid "Docteur"
 msgstr ""
 
-#: apps/core/models.py:192
+#: apps/core/models.py:210
 #, fuzzy
 #| msgid "Profession"
 msgid "Professeur"
 msgstr "Profesión"
 
-#: apps/core/models.py:192 apps/core/models.py:542
+#: apps/core/models.py:211 apps/core/models.py:652
 msgid "Madame"
 msgstr ""
 
-#: apps/core/models.py:193 apps/core/models.py:542
+#: apps/core/models.py:212 apps/core/models.py:653
 msgid "Mademoiselle"
 msgstr ""
 
-#: apps/core/models.py:194 apps/core/models.py:542
+#: apps/core/models.py:213 apps/core/models.py:654
 msgid "Monsieur"
 msgstr ""
 
-#: apps/core/models.py:546
+#: apps/core/models.py:661
 msgid "Femme"
 msgstr ""
 
-#: apps/core/models.py:546
+#: apps/core/models.py:661
 msgid "Homme"
 msgstr ""
 
-#: apps/core/models.py:560
+#: apps/core/models.py:679
 msgid "A négatif"
 msgstr ""
 
-#: apps/core/models.py:560
+#: apps/core/models.py:680
 msgid "A positif"
 msgstr ""
 
-#: apps/core/models.py:561
+#: apps/core/models.py:681
 msgid "B négatif"
 msgstr ""
 
-#: apps/core/models.py:561
+#: apps/core/models.py:682
 msgid "B positif"
 msgstr ""
 
-#: apps/core/models.py:562
+#: apps/core/models.py:683
 msgid "AB négatif"
 msgstr ""
 
-#: apps/core/models.py:562
+#: apps/core/models.py:684
 msgid "AB positif"
 msgstr ""
 
-#: apps/core/models.py:563
+#: apps/core/models.py:685
 msgid "O négatif"
 msgstr ""
 
-#: apps/core/models.py:563
+#: apps/core/models.py:686
 msgid "O positif"
 msgstr ""
 
-#: apps/core/models.py:569
+#: apps/core/models.py:699
 msgid "Europe/Afrique du nord"
 msgstr ""
 
-#: apps/core/models.py:569
+#: apps/core/models.py:700
 msgid "Afrique sud-saharienne"
 msgstr ""
 
-#: apps/core/models.py:570
+#: apps/core/models.py:701
 msgid "Amérique latine"
 msgstr ""
 
-#: apps/core/models.py:570
+#: apps/core/models.py:702
 msgid "Asie"
 msgstr ""
 
-#: apps/core/models.py:570
+#: apps/core/models.py:703
 msgid "Autre"
 msgstr ""
 
@@ -219,8 +216,90 @@ msgstr "Árabe"
 msgid "Español"
 msgstr "Español"
 
-#: templates/base.html:142 templates/base.html:164 templates/base_v2.html:100
-#: templates/base_v2.html:249 templates/base_v2.html:351
+#: templates/admin/login.html:335
+#, fuzzy
+#| msgid "Administration"
+msgid "Panneau d'administration"
+msgstr "Administración"
+
+#: templates/admin/login.html:346 templates/core/login_v2.html:530
+#: templates/core/login_v2.html:551
+#, fuzzy
+#| msgid "ou mot de passe incorrect."
+msgid "Nom d'utilisateur ou mot de passe incorrect"
+msgstr "o contraseña incorrecta."
+
+#: templates/admin/login.html:346 templates/core/login_v2.html:530
+#: templates/core/login_v2.html:551
+#, fuzzy
+#| msgid "Merci de réessayer."
+msgid "Merci de réessayer"
+msgstr "Por favor, inténtelo de nuevo."
+
+#: templates/admin/login.html:357 templates/core/profil_form.html:275
+msgid "Nom d'utilisateur"
+msgstr "Nombre de usuario"
+
+#: templates/admin/login.html:373 templates/core/profil_form.html:287
+msgid "Mot de passe"
+msgstr "Contraseña"
+
+#: templates/admin/login.html:391 templates/core/login.html:133
+#: templates/core/login_v2.html:7 templates/core/login_v2.html:584
+#: templates_backup/core/login.html:120 templates_backup/core/login_v2.html:50
+#: templates_backup/core/login_v2.html:95
+#: templates_backup/templates/core/login.html:120
+#: templates_backup/templates/core/login_v2.html:50
+#: templates_backup/templates/core/login_v2.html:95
+msgid "Connexion"
+msgstr "Iniciar sesión"
+
+#: templates/admin/login.html:412
+msgid "Accès"
+msgstr ""
+
+#: templates/admin/login.html:412
+msgid "Super Admin"
+msgstr ""
+
+#: templates/admin/login.html:412
+msgid "réservé."
+msgstr ""
+
+#: templates/admin/login.html:415
+msgid ""
+"Gestion complète de la plateforme — utilisateurs, données, configuration et "
+"sécurité."
+msgstr ""
+
+#: templates/admin/login.html:420 templates/base.html:197
+#: templates/base_v2.html:162 templates/base_v2.html:318
+#: templates/base_v2.html:437 templates/core/profil_list.html:13
+#: templates_backup/base.html:191 templates_backup/base_v2.html:170
+#: templates_backup/base_v2.html:272 templates_backup/templates/base.html:191
+#: templates_backup/templates/base_v2.html:170
+#: templates_backup/templates/base_v2.html:272
+msgid "Utilisateurs"
+msgstr "Utilisateurs"
+
+#: templates/admin/login.html:423
+#, fuzzy
+#| msgid "Date des soins"
+msgid "Base de données"
+msgstr "Fecha de atención"
+
+#: templates/admin/login.html:426
+#, fuzzy
+#| msgid "Consultation"
+msgid "Configuration"
+msgstr "Consulta"
+
+#: templates/admin/login.html:429
+msgid "Sécurité"
+msgstr ""
+
+#: templates/base.html:139 templates/base.html:161 templates/base_v2.html:97
+#: templates/base_v2.html:246 templates/base_v2.html:365
 #: templates_backup/base.html:133 templates_backup/base.html:155
 #: templates_backup/base_v2.html:115 templates_backup/base_v2.html:217
 #: templates_backup/templates/base.html:133
@@ -230,8 +309,8 @@ msgstr "Español"
 msgid "Agenda"
 msgstr "Agenda"
 
-#: templates/base.html:149 templates/base.html:157 templates/base_v2.html:84
-#: templates/base_v2.html:242 templates/base_v2.html:344
+#: templates/base.html:146 templates/base.html:154 templates/base_v2.html:81
+#: templates/base_v2.html:239 templates/base_v2.html:358
 #: templates/core/accueil_v2.html:16 templates_backup/base.html:140
 #: templates_backup/base.html:148 templates_backup/base_v2.html:108
 #: templates_backup/base_v2.html:210 templates_backup/core/accueil_v2.html:17
@@ -243,8 +322,8 @@ msgstr "Agenda"
 msgid "Tableau de bord"
 msgstr "Panel de control"
 
-#: templates/base.html:174 templates/base_v2.html:92 templates/base_v2.html:257
-#: templates/base_v2.html:359 templates_backup/base.html:165
+#: templates/base.html:171 templates/base_v2.html:89 templates/base_v2.html:254
+#: templates/base_v2.html:373 templates_backup/base.html:165
 #: templates_backup/base_v2.html:123 templates_backup/base_v2.html:225
 #: templates_backup/templates/base.html:165
 #: templates_backup/templates/base_v2.html:123
@@ -252,8 +331,8 @@ msgstr "Panel de control"
 msgid "Patients"
 msgstr "Pacientes"
 
-#: templates/base.html:182 templates/base_v2.html:109
-#: templates/base_v2.html:265 templates/base_v2.html:367
+#: templates/base.html:179 templates/base_v2.html:106
+#: templates/base_v2.html:262 templates/base_v2.html:381
 #: templates/core/consultation_gynecologique_form.html:246
 #: templates_backup/base.html:173 templates_backup/base_v2.html:131
 #: templates_backup/base_v2.html:233
@@ -265,16 +344,15 @@ msgstr "Pacientes"
 msgid "Rapports"
 msgstr "Informes"
 
-#: templates/base.html:191 templates/base_v2.html:134
-#: templates/base_v2.html:274 templates/base_v2.html:376
+#: templates/base.html:188 templates/base_v2.html:131
+#: templates/base_v2.html:271 templates/base_v2.html:390
 #: templates/core/cloture_detail.html:42
-#: templates/core/patient_form_dialog.html:192
 #: templates/core/patient_info_panel.html:157
-#: templates/core/reglement_form.html:44
+#: templates/core/reglement_form.html:44 templates/core/reglement_form.html:54
 #: templates/core/reglement_form_2.html:28
 #: templates/core/reglement_rapport.html:25
-#: templates/core/reglement_rapport_list.html:72
-#: templates/core/reglement_rapport_list.html:117
+#: templates/core/reglement_rapport_list.html:75
+#: templates/core/reglement_rapport_list.html:120
 #: templates_backup/base.html:182 templates_backup/base_v2.html:140
 #: templates_backup/base_v2.html:242
 #: templates_backup/core/cloture_detail.html:42
@@ -299,18 +377,8 @@ msgstr "Informes"
 msgid "Mutuelle"
 msgstr "Seguro"
 
-#: templates/base.html:200 templates/base_v2.html:165
-#: templates/base_v2.html:304 templates/base_v2.html:406
-#: templates/core/profil_list.html:13 templates_backup/base.html:191
-#: templates_backup/base_v2.html:170 templates_backup/base_v2.html:272
-#: templates_backup/templates/base.html:191
-#: templates_backup/templates/base_v2.html:170
-#: templates_backup/templates/base_v2.html:272
-msgid "Utilisateurs"
-msgstr "Utilisateurs"
-
-#: templates/base.html:210 templates/base_v2.html:171
-#: templates/base_v2.html:323 templates/base_v2.html:425
+#: templates/base.html:207 templates/base_v2.html:168
+#: templates/base_v2.html:337 templates/base_v2.html:456
 #: templates_backup/base.html:201 templates_backup/base_v2.html:189
 #: templates_backup/base_v2.html:291 templates_backup/templates/base.html:201
 #: templates_backup/templates/base_v2.html:189
@@ -318,8 +386,8 @@ msgstr "Utilisateurs"
 msgid "Paramètres"
 msgstr "Configuración"
 
-#: templates/base.html:222 templates/base.html:600 templates/base_v2.html:574
-#: templates/base_v2.html:773 templates_backup/base.html:213
+#: templates/base.html:219 templates/base.html:597 templates/base_v2.html:610
+#: templates/base_v2.html:809 templates_backup/base.html:213
 #: templates_backup/base.html:638 templates_backup/base_v2.html:434
 #: templates_backup/base_v2.html:630 templates_backup/templates/base.html:213
 #: templates_backup/templates/base.html:638
@@ -328,137 +396,137 @@ msgstr "Configuración"
 msgid "Support"
 msgstr "Soporte"
 
-#: templates/base.html:252 templates/base.html:446
+#: templates/base.html:249 templates/base.html:443
 #: templates_backup/base.html:279 templates_backup/base.html:484
 #: templates_backup/templates/base.html:279
 #: templates_backup/templates/base.html:484
 msgid "Discussions"
 msgstr "Discusiones"
 
-#: templates/base.html:280 templates_backup/base.html:316
+#: templates/base.html:277 templates_backup/base.html:316
 #: templates_backup/templates/base.html:316
 msgid "Bonjour,"
 msgstr "Hola,"
 
-#: templates/base.html:334 templates_backup/base.html:372
+#: templates/base.html:331 templates_backup/base.html:372
 #: templates_backup/templates/base.html:372
 msgid "Profil utilisateur"
 msgstr "Profil utilisateur"
 
-#: templates/base.html:412 templates/base_v2.html:190
-#: templates/base_v2.html:532 templates_backup/base.html:450
+#: templates/base.html:409 templates/base_v2.html:187
+#: templates/base_v2.html:568 templates_backup/base.html:450
 #: templates_backup/base_v2.html:389 templates_backup/templates/base.html:450
 #: templates_backup/templates/base_v2.html:389
 msgid "Déconnexion"
 msgstr "Cerrar sesión"
 
-#: templates/base.html:512 templates_backup/base.html:550
+#: templates/base.html:509 templates_backup/base.html:550
 #: templates_backup/templates/base.html:550
 msgid "En ligne"
 msgstr "En ligne"
 
-#: templates/base.html:515 templates_backup/base.html:553
+#: templates/base.html:512 templates_backup/base.html:553
 #: templates_backup/templates/base.html:553
 msgid "Hors ligne"
 msgstr "Desconectado"
 
-#: templates/base.html:520 templates/chat/chat.html:121
-#: templates/super_admin/dashboard.html:222
-#: templates/super_admin/dashboard.html:253
-#: templates/super_admin/dashboard.html:329 templates_backup/base.html:558
+#: templates/base.html:517 templates/chat/chat.html:121
+#: templates/super_admin/dashboard.html:263
+#: templates/super_admin/dashboard.html:292
+#: templates/super_admin/dashboard.html:428 templates_backup/base.html:558
 #: templates_backup/chat/chat.html:121 templates_backup/templates/base.html:558
 #: templates_backup/templates/chat/chat.html:121
 msgid "Active"
 msgstr "Activo"
 
-#: templates/base.html:550 templates/base_v2.html:727
+#: templates/base.html:547 templates/base_v2.html:763
 msgid "Ecrire un message"
 msgstr "Escribe un mensaje"
 
-#: templates/base.html:584 templates_backup/base.html:622
+#: templates/base.html:581 templates_backup/base.html:622
 #: templates_backup/templates/base.html:622
 msgid "Moi"
 msgstr "Yo"
 
-#: templates/base.html:607 templates/base_v2.html:793
+#: templates/base.html:604 templates/base_v2.html:829
 #: templates_backup/base.html:645 templates_backup/base_v2.html:650
 #: templates_backup/templates/base.html:645
 #: templates_backup/templates/base_v2.html:650
 msgid "Veuillez saisir votre requête"
 msgstr "Veuillez saisir votre requête"
 
-#: templates/base.html:612 templates/base_v2.html:798
+#: templates/base.html:609 templates/base_v2.html:834
 #: templates_backup/base.html:650 templates_backup/base_v2.html:655
 #: templates_backup/templates/base.html:650
 #: templates_backup/templates/base_v2.html:655
 msgid "Version"
 msgstr "Version"
 
-#: templates/base.html:614 templates/base_v2.html:803
+#: templates/base.html:611 templates/base_v2.html:839
 #: templates_backup/base.html:652 templates_backup/base_v2.html:660
 #: templates_backup/templates/base.html:652
 #: templates_backup/templates/base_v2.html:660
 msgid "Envoyer"
 msgstr "Envoyer"
 
-#: templates/base.html:627 templates/base_v2.html:815
+#: templates/base.html:624 templates/base_v2.html:851
 #: templates_backup/base.html:665 templates_backup/base_v2.html:672
 #: templates_backup/templates/base.html:665
 #: templates_backup/templates/base_v2.html:672
 msgid "Règlements & Encaissements"
 msgstr "Règlements & Encaissements"
 
-#: templates/base.html:781 templates/base.html:793
-#: templates/base_dialog.html:169 templates/base_v2.html:977
-#: templates/base_v2.html:989 templates/core/rdv_form_dialog.html:227
+#: templates/base.html:778 templates/base.html:790
+#: templates/base_dialog.html:169 templates/base_v2.html:1013
+#: templates/base_v2.html:1025 templates/core/rdv_form_dialog.html:222
 msgid "Etes vous sûr ?"
 msgstr "¿Estás seguro?"
 
-#: templates/base.html:782 templates/base_v2.html:978
-#: templates/core/rdv_form_dialog.html:228
+#: templates/base.html:779 templates/base_v2.html:1014
+#: templates/core/rdv_form_dialog.html:223
 msgid "Oui, annuler le rendez-vous!"
 msgstr "¡Sí, cancelar la cita!"
 
-#: templates/base.html:783 templates/base_v2.html:979
-#: templates/core/rdv_form_dialog.html:229
+#: templates/base.html:780 templates/base_v2.html:1015
+#: templates/core/rdv_form_dialog.html:224
 msgid "Non, conserver le rendez-vous"
 msgstr "No, conservar la cita"
 
-#: templates/base.html:784 templates/base_v2.html:980
+#: templates/base.html:781 templates/base_v2.html:1016
 msgid "Oui, déplacer le rendez-vous"
 msgstr "Sí, mover la cita"
 
-#: templates/base.html:785 templates/base_v2.html:981
+#: templates/base.html:782 templates/base_v2.html:1017
 msgid "Déplacer le rendez-vous au"
 msgstr "Mover la cita al"
 
-#: templates/base.html:794 templates/base_dialog.html:170
-#: templates/base_v2.html:990
+#: templates/base.html:791 templates/base_dialog.html:170
+#: templates/base_v2.html:1026
 msgid "Attention"
 msgstr "Atención"
 
-#: templates/base.html:795 templates/base_dialog.html:171
-#: templates/base_v2.html:991
+#: templates/base.html:792 templates/base_dialog.html:171
+#: templates/base_v2.html:1027
 msgid "Message important"
 msgstr "Mensaje importante"
 
-#: templates/base.html:796 templates/base_dialog.html:172
-#: templates/base_v2.html:992
+#: templates/base.html:793 templates/base_dialog.html:172
+#: templates/base_v2.html:1028
 msgid "La suppression est définitive!"
 msgstr "¡La eliminación es definitiva!"
 
-#: templates/base.html:797 templates/base_dialog.html:173
-#: templates/base_v2.html:993
+#: templates/base.html:794 templates/base_dialog.html:173
+#: templates/base_v2.html:1029
 msgid "Oui, supprimer!"
 msgstr "¡Sí, eliminar!"
 
-#: templates/base.html:798 templates/base_dialog.html:174
-#: templates/base_v2.html:994
+#: templates/base.html:795 templates/base_dialog.html:174
+#: templates/base_v2.html:1030
 msgid "Non, annuler"
 msgstr "No, cancelar"
 
-#: templates/base.html:799 templates/base_dialog.html:175
-#: templates/base_v2.html:995 templates/core/base_pma.html:378
+#: templates/base.html:796 templates/base_dialog.html:175
+#: templates/base_v2.html:1031 templates/core/base_pma.html:378
 #: templates/core/patient_detail_v2.html:397
 #: templates/core/patient_detail_v2.html:517
 #: templates/core/reglement_rapport.html:30
@@ -467,8 +535,8 @@ msgstr "No, cancelar"
 msgid "Non"
 msgstr "No"
 
-#: templates/base.html:800 templates/base_dialog.html:176
-#: templates/base_v2.html:996 templates/core/base_pma.html:260
+#: templates/base.html:797 templates/base_dialog.html:176
+#: templates/base_v2.html:1032 templates/core/base_pma.html:260
 #: templates/core/patient_detail_v2.html:397
 #: templates/core/patient_detail_v2.html:517
 #: templates/core/reglement_rapport.html:29
@@ -477,68 +545,68 @@ msgstr "No"
 msgid "Oui"
 msgstr "Sí"
 
-#: templates/base.html:801 templates/base_dialog.html:177
-#: templates/base_v2.html:997
+#: templates/base.html:798 templates/base_dialog.html:177
+#: templates/base_v2.html:1033
 msgid "Ok"
 msgstr ""
 
-#: templates/base.html:802 templates/base_dialog.html:178
-#: templates/base_v2.html:998
+#: templates/base.html:799 templates/base_dialog.html:178
+#: templates/base_v2.html:1034
 msgid "Oui, annuler l'admission!"
 msgstr "¡Sí, cancelar la admisión!"
 
-#: templates/base.html:803 templates/base_dialog.html:179
-#: templates/base_v2.html:999
+#: templates/base.html:800 templates/base_dialog.html:179
+#: templates/base_v2.html:1035
 msgid "Non, conserver l'admission"
 msgstr "No, conservar la admisión"
 
-#: templates/base.html:804 templates/base_dialog.html:180
-#: templates/base_v2.html:1000
+#: templates/base.html:801 templates/base_dialog.html:180
+#: templates/base_v2.html:1036
 msgid "Oui, supprimer le praticien!"
 msgstr "¡Sí, eliminar el médico!"
 
-#: templates/base.html:805 templates/base_dialog.html:181
-#: templates/base_v2.html:1001
+#: templates/base.html:802 templates/base_dialog.html:181
+#: templates/base_v2.html:1037
 msgid "Non, conserver le praticien"
 msgstr "No, conservar el médico"
 
-#: templates/base.html:806 templates/base_dialog.html:182
-#: templates/base_v2.html:1002
+#: templates/base.html:803 templates/base_dialog.html:182
+#: templates/base_v2.html:1038
 msgid "Oui, supprimer la prescription!"
 msgstr "¡Sí, eliminar la prescripción!"
 
-#: templates/base.html:807 templates/base_dialog.html:183
-#: templates/base_v2.html:1003
+#: templates/base.html:804 templates/base_dialog.html:183
+#: templates/base_v2.html:1039
 msgid "Non, conserver la prescription"
 msgstr "No, conservar la prescripción"
 
-#: templates/base.html:808 templates/base_dialog.html:184
-#: templates/base_v2.html:1004
+#: templates/base.html:805 templates/base_dialog.html:184
+#: templates/base_v2.html:1040
 msgid "Voulez vous supprimer cette consultation ?"
 msgstr "¿Desea eliminar esta consulta?"
 
-#: templates/base.html:809 templates/base_dialog.html:185
-#: templates/base_v2.html:1005
+#: templates/base.html:806 templates/base_dialog.html:185
+#: templates/base_v2.html:1041
 msgid "Voulez vous supprimer cette tentative PMA ?"
 msgstr "¿Desea eliminar este intento FIV?"
 
-#: templates/base.html:810 templates/base_dialog.html:186
-#: templates/base_v2.html:1006
+#: templates/base.html:807 templates/base_dialog.html:186
+#: templates/base_v2.html:1042
 msgid "Voulez vous supprimer cet antécédent ?"
 msgstr "¿Desea eliminar este antecedente?"
 
-#: templates/base.html:811 templates/base_dialog.html:187
-#: templates/base_v2.html:1007
+#: templates/base.html:808 templates/base_dialog.html:187
+#: templates/base_v2.html:1043
 msgid "Voulez vous archiver ce patient ?"
 msgstr "¿Desea archivar este paciente?"
 
-#: templates/base.html:812 templates/base_dialog.html:188
-#: templates/base_v2.html:1008
+#: templates/base.html:809 templates/base_dialog.html:188
+#: templates/base_v2.html:1044
 msgid "Oui, archiver!"
 msgstr "¡Sí, archivar!"
 
-#: templates/base.html:813 templates/base_dialog.html:189
-#: templates/base_v2.html:1009
+#: templates/base.html:810 templates/base_dialog.html:189
+#: templates/base_v2.html:1045
 msgid ""
 "Une autre admission est en cours pour ce patient, souhaitez vous faire une "
 "nouvelle admission?"
@@ -546,18 +614,18 @@ msgstr ""
 "Hay otra admisión en curso para este paciente, ¿desea crear una nueva "
 "admisión?"
 
-#: templates/base.html:814 templates/base_dialog.html:190
-#: templates/base_v2.html:1010
+#: templates/base.html:811 templates/base_dialog.html:190
+#: templates/base_v2.html:1046
 msgid "Oui, faire une nouvelle admission"
 msgstr "Sí, crear una nueva admisión"
 
-#: templates/base.html:815 templates/base_dialog.html:191
-#: templates/base_v2.html:1011
+#: templates/base.html:812 templates/base_dialog.html:191
+#: templates/base_v2.html:1047
 msgid "Non, garder l'admission en cours"
 msgstr "No, conservar la admisión actual"
 
-#: templates/base.html:816 templates/base_dialog.html:192
-#: templates/base_v2.html:1012
+#: templates/base.html:813 templates/base_dialog.html:192
+#: templates/base_v2.html:1048
 msgid ""
 "Une autre consultation du même patient avec le même motif existe, souhaitez "
 "vous l'afficher avant d'en créer une nouvelle?"
@@ -565,50 +633,51 @@ msgstr ""
 "Existe otra consulta del mismo paciente con el mismo motivo, ¿desea verla "
 "antes de crear una nueva?"
 
-#: templates/base.html:817 templates/base_dialog.html:193
-#: templates/base_v2.html:1013
+#: templates/base.html:814 templates/base_dialog.html:193
+#: templates/base_v2.html:1049
 msgid "Oui, afficher la consultation existante"
 msgstr "Sí, mostrar la consulta existente"
 
-#: templates/base.html:818 templates/base_dialog.html:194
-#: templates/base_v2.html:1014
+#: templates/base.html:815 templates/base_dialog.html:194
+#: templates/base_v2.html:1050
 msgid "Non, créer une nouvelle consultation"
 msgstr "No, crear una nueva consulta"
 
-#: templates/base.html:819 templates/base_dialog.html:195
-#: templates/base_v2.html:1015
+#: templates/base.html:816 templates/base_dialog.html:195
+#: templates/base_v2.html:1051
 msgid "Remplacer la saisie ?"
 msgstr "¿Reemplazar el contenido?"
 
-#: templates/base.html:820 templates/base_dialog.html:196
-#: templates/base_v2.html:1016
+#: templates/base.html:817 templates/base_dialog.html:196
+#: templates/base_v2.html:1052
 msgid "Signature ajoutée"
 msgstr "Firma añadida"
 
-#: templates/base.html:821 templates/base_dialog.html:197
-#: templates/base_v2.html:1017
+#: templates/base.html:818 templates/base_dialog.html:197
+#: templates/base_v2.html:1053
 msgid "Signature supprimée"
 msgstr "Firma eliminada"
 
-#: templates/base_v2.html:79 templates/core/base_consultation_v2.html:102
+#: templates/base_v2.html:76 templates/core/base_consultation_v2.html:102
 #: templates/core/patient_detail_v2.html:264
 msgid "Menu"
 msgstr ""
 
-#: templates/base_v2.html:116 templates/core/partials/header_rapport.html:5
+#: templates/base_v2.html:113 templates/core/partials/header_rapport.html:5
 #: templates/core/patient_detail_v2.html:560
 #: templates_backup/core/partials/header_rapport.html:5
 #: templates_backup/templates/core/partials/header_rapport.html:5
 msgid "Consultations"
 msgstr "Consultas"
 
-#: templates/base_v2.html:123 templates/core/partials/header_rapport.html:11
+#: templates/base_v2.html:120 templates/core/partials/header_rapport.html:11
 #: templates_backup/core/partials/header_rapport.html:11
 #: templates_backup/templates/core/partials/header_rapport.html:11
 msgid "Accouchements previstos"
 msgstr "Accouchements previstos"
 
-#: templates/base_v2.html:141 templates/core/mutuelle_list.html:25
+#: templates/base_v2.html:138 templates/base_v2.html:280
+#: templates/base_v2.html:399 templates/core/mutuelle_list.html:25
 #: templates/core/reglement_caisses.html:5
 #: templates_backup/core/mutuelle_list.html:25
 #: templates_backup/core/reglement_caisses.html:5
@@ -617,69 +686,47 @@ msgstr "Accouchements previstos"
 msgid "Liste des règlements"
 msgstr "Lista de pagos"
 
-#: templates/base_v2.html:147
+#: templates/base_v2.html:144 templates/base_v2.html:286
+#: templates/base_v2.html:405
 msgid "Liste des bordereaux"
 msgstr "Lista de bourdeaux"
 
-#: templates/base_v2.html:153 templates/base_v2.html:158
-#: templates/base_v2.html:283 templates/base_v2.html:385
+#: templates/base_v2.html:150 templates/base_v2.html:155
+#: templates/base_v2.html:297 templates/base_v2.html:416
 #: templates_backup/base_v2.html:149 templates_backup/base_v2.html:251
 #: templates_backup/templates/base_v2.html:149
 #: templates_backup/templates/base_v2.html:251
 msgid "Administration"
 msgstr "Administración"
 
-#: templates/base_v2.html:616 templates_backup/base_v2.html:473
+#: templates/base_v2.html:652 templates_backup/base_v2.html:473
 #: templates_backup/templates/base_v2.html:473
 msgid "Messagerie"
 msgstr "Messagerie"
 
-#: templates/core/absence_medecin_form.html:32
+#: templates/core/absence_medecin_form.html:25
+#: templates/core/rdv_calendrier.html:140
+#: templates_backup/core/rdv_calendrier.html:132
+#: templates_backup/templates/core/rdv_calendrier.html:132
+msgid "Absence médecin"
+msgstr "Ausencia del médico"
+
+#: templates/core/absence_medecin_form.html:33
 msgid "Absence"
 msgstr "Ausencia"
 
-#: templates/core/absence_medecin_form.html:41
+#: templates/core/absence_medecin_form.html:39
 #: templates/core/rdv_calendrier.html:143
 #: templates_backup/core/rdv_calendrier.html:135
 #: templates_backup/templates/core/rdv_calendrier.html:135
 msgid "Programme opératoire"
 msgstr "Programa quirúrgico"
 
-#: templates/core/absence_medecin_form.html:61
-#: templates/core/patient_form.html:24 templates/core/rdv_form.html:44
-#: templates/core/rdv_form_dialog.html:21
-#: templates_backup/core/patient_form.html:23
-#: templates_backup/core/rdv_form.html:44
-#: templates_backup/templates/core/patient_form.html:23
-#: templates_backup/templates/core/rdv_form.html:44
-msgid "Formulaire de"
-msgstr "Formulario de"
-
-#: templates/core/absence_medecin_form.html:61
-#: templates/core/patient_form.html:26 templates/core/rdv_form.html:44
-#: templates/core/rdv_form_dialog.html:21
-#: templates_backup/core/patient_form.html:25
-#: templates_backup/core/rdv_form.html:44
-#: templates_backup/templates/core/patient_form.html:25
-#: templates_backup/templates/core/rdv_form.html:44
-msgid "modification"
-msgstr "modificación"
-
-#: templates/core/absence_medecin_form.html:61
-#: templates/core/patient_form.html:28 templates/core/rdv_form.html:44
-#: templates/core/rdv_form_dialog.html:21
-#: templates_backup/core/patient_form.html:27
-#: templates_backup/core/rdv_form.html:44
-#: templates_backup/templates/core/patient_form.html:27
-#: templates_backup/templates/core/rdv_form.html:44
-msgid "création"
-msgstr "creación"
-
-#: templates/core/absence_medecin_form.html:71
+#: templates/core/absence_medecin_form.html:45
 msgid "Confirmer l'absence"
 msgstr "Confirmar ausencia"
 
-#: templates/core/absence_medecin_form.html:80
+#: templates/core/absence_medecin_form.html:58
 #: templates/core/rapport_consultation.html:62
 #: templates/core/rapport_consultation.html:137
 #: templates_backup/core/rapport_consultation.html:62
@@ -689,10 +736,10 @@ msgstr "Confirmar ausencia"
 msgid "Date début"
 msgstr "Fecha de inicio"
 
-#: templates/core/absence_medecin_form.html:88
+#: templates/core/absence_medecin_form.html:63
 #: templates/core/programme_operatoire.html:33
 #: templates/core/programme_operatoire_form.html:57
-#: templates/core/rdv_form.html:188 templates/core/rdv_form_dialog.html:160
+#: templates/core/rdv_form.html:207 templates/core/rdv_form_dialog.html:155
 #: templates_backup/core/absence_medecin_form.html:88
 #: templates_backup/core/programme_operatoire_form.html:57
 #: templates_backup/core/rdv_form.html:188
@@ -704,7 +751,7 @@ msgstr "Fecha de inicio"
 msgid "Heure début"
 msgstr "Hora de inicio"
 
-#: templates/core/absence_medecin_form.html:104
+#: templates/core/absence_medecin_form.html:73
 #: templates/core/rapport_consultation.html:68
 #: templates/core/rapport_consultation.html:138
 #: templates_backup/core/rapport_consultation.html:68
@@ -714,10 +761,10 @@ msgstr "Hora de inicio"
 msgid "Date fin"
 msgstr "Fecha de fin"
 
-#: templates/core/absence_medecin_form.html:112
+#: templates/core/absence_medecin_form.html:78
 #: templates/core/programme_operatoire.html:34
 #: templates/core/programme_operatoire_form.html:65
-#: templates/core/rdv_form.html:196 templates/core/rdv_form_dialog.html:168
+#: templates/core/rdv_form.html:215 templates/core/rdv_form_dialog.html:163
 #: templates_backup/core/absence_medecin_form.html:112
 #: templates_backup/core/programme_operatoire_form.html:65
 #: templates_backup/core/rdv_form.html:196
@@ -729,7 +776,7 @@ msgstr "Fecha de fin"
 msgid "Heure fin"
 msgstr "Hora de fin"
 
-#: templates/core/absence_medecin_form.html:121 templates/core/accueil.html:224
+#: templates/core/absence_medecin_form.html:83 templates/core/accueil.html:224
 #: templates/core/accueil.html:246 templates/core/accueil.html:268
 #: templates/core/accueil.html:287 templates/core/accueil.html:308
 #: templates/core/accueil_v2.html:220 templates/core/accueil_v2.html:244
@@ -740,12 +787,12 @@ msgstr "Hora de fin"
 #: templates/core/ordonnance_list.html:35
 #: templates/core/partials/consultations_patient.html:52
 #: templates/core/partials/pma.html:50
-#: templates/core/patient_detail_v2.html:1466
+#: templates/core/patient_detail_v2.html:1463
 #: templates/core/programme_operatoire.html:37
 #: templates/core/programme_operatoire_form.html:99
 #: templates/core/rapport_consultation.html:74
 #: templates/core/rapport_consultation.html:135
-#: templates/core/rdv_form.html:214 templates/core/rdv_form_dialog.html:189
+#: templates/core/rdv_form.html:233 templates/core/rdv_form_dialog.html:184
 #: templates_backup/core/absence_medecin_form.html:121
 #: templates_backup/core/accueil.html:224
 #: templates_backup/core/accueil.html:246
@@ -785,7 +832,7 @@ msgstr "Hora de fin"
 msgid "Praticien"
 msgstr "Médico"
 
-#: templates/core/absence_medecin_form.html:129
+#: templates/core/absence_medecin_form.html:88
 #: templates_backup/core/absence_medecin_form.html:129
 #: templates_backup/templates/core/absence_medecin_form.html:129
 msgid "Praticien remplaçant"
@@ -908,9 +955,8 @@ msgstr "Estado"
 #: templates/core/accueil_v2.html:235 templates/core/accueil_v2.html:259
 #: templates/core/accueil_v2.html:281 templates/core/accueil_v2.html:302
 #: templates/core/cloture_detail.html:39 templates/core/patient_form.html:77
-#: templates/core/patient_form_dialog.html:62
-#: templates/core/patient_list.html:90 templates/core/rdv_form.html:88
-#: templates/core/rdv_form_dialog.html:60
+#: templates/core/patient_list.html:90 templates/core/rdv_form.html:107
+#: templates/core/rdv_form_dialog.html:55
 #: templates/core/reglement_caisses.html:29
 #: templates/core/reglement_list.html:62 templates_backup/core/accueil.html:217
 #: templates_backup/core/accueil.html:237
@@ -964,8 +1010,8 @@ msgstr "Apellido de nacimiento"
 #: templates/core/accueil_v2.html:282 templates/core/accueil_v2.html:303
 #: templates/core/patient_list.html:37 templates/core/patient_list.html:91
 #: templates/core/patient_list_v2.html:44
-#: templates/core/patient_list_v2.html:100 templates/core/rdv_form.html:98
-#: templates/core/rdv_form_dialog.html:70
+#: templates/core/patient_list_v2.html:100 templates/core/rdv_form.html:117
+#: templates/core/rdv_form_dialog.html:65
 #: templates_backup/core/accueil.html:218
 #: templates_backup/core/accueil.html:238
 #: templates_backup/core/accueil.html:261
@@ -1011,10 +1057,8 @@ msgstr "Apellido marital"
 #: templates/core/antecedent_obstetrique_form.html:353
 #: templates/core/certificat_list.html:33 templates/core/cloture_detail.html:40
 #: templates/core/consultation_gynecologique_form.html:98
-#: templates/core/grossesse_form.html:51 templates/core/ordonnance_list.html:33
+#: templates/core/grossesse_form.html:40 templates/core/ordonnance_list.html:33
 #: templates/core/patient_form.html:55 templates/core/patient_form.html:80
-#: templates/core/patient_form_dialog.html:51
-#: templates/core/patient_form_dialog.html:204
 #: templates/core/patient_list.html:43 templates/core/patient_list.html:92
 #: templates/core/patient_list_v2.html:50
 #: templates/core/patient_list_v2.html:101
@@ -1023,12 +1067,12 @@ msgstr "Apellido marital"
 #: templates/core/rapport_consultation.html:30
 #: templates/core/rapport_consultation.html:132
 #: templates/core/rdv_calendrier.html:227
-#: templates/core/rdv_calendrier.html:278 templates/core/rdv_form.html:109
-#: templates/core/rdv_form_dialog.html:81
+#: templates/core/rdv_calendrier.html:278 templates/core/rdv_form.html:128
+#: templates/core/rdv_form_dialog.html:76
 #: templates/core/reglement_caisses.html:30
 #: templates/core/reglement_list.html:63
 #: templates/core/reglement_rapport.html:66
-#: templates/core/reglement_rapport_list.html:115
+#: templates/core/reglement_rapport_list.html:118
 #: templates_backup/core/accueil.html:219
 #: templates_backup/core/accueil.html:239
 #: templates_backup/core/accueil.html:262
@@ -1115,12 +1159,11 @@ msgstr "Nombre"
 #: templates/core/accueil.html:304 templates/core/accueil_v2.html:216
 #: templates/core/accueil_v2.html:239 templates/core/accueil_v2.html:263
 #: templates/core/accueil_v2.html:285 templates/core/accueil_v2.html:305
-#: templates/core/patient_form.html:89
-#: templates/core/patient_form_dialog.html:164
-#: templates/core/patient_list.html:94 templates/core/patient_list_v2.html:103
+#: templates/core/patient_form.html:89 templates/core/patient_list.html:94
+#: templates/core/patient_list_v2.html:103
 #: templates/core/rdv_calendrier.html:233
-#: templates/core/rdv_calendrier.html:279 templates/core/rdv_form.html:123
-#: templates/core/rdv_form_dialog.html:95
+#: templates/core/rdv_calendrier.html:279 templates/core/rdv_form.html:142
+#: templates/core/rdv_form_dialog.html:90
 #: templates_backup/core/accueil.html:220
 #: templates_backup/core/accueil.html:241
 #: templates_backup/core/accueil.html:264
@@ -1206,9 +1249,9 @@ msgstr "Hora"
 #: templates/core/accueil.html:307 templates/core/accueil_v2.html:219
 #: templates/core/accueil_v2.html:243 templates/core/accueil_v2.html:266
 #: templates/core/accueil_v2.html:286 templates/core/accueil_v2.html:308
-#: templates/core/motif_list.html:21 templates/core/patient_detail_v2.html:1465
+#: templates/core/motif_list.html:21 templates/core/patient_detail_v2.html:1462
 #: templates/core/rdv_calendrier.html:327
-#: templates/core/rdv_form_dialog.html:181
+#: templates/core/rdv_form_dialog.html:176
 #: templates/core/template_edition_form.html:33
 #: templates_backup/core/accueil.html:223
 #: templates_backup/core/accueil.html:245
@@ -1242,10 +1285,10 @@ msgstr "Motivo"
 #: templates/core/device_list.html:23 templates/core/etablissement_list.html:20
 #: templates/core/liste_choix_list.html:33 templates/core/motif_list.html:22
 #: templates/core/ordonnance_list.html:36
-#: templates/core/partials/consultation_images.html:37
+#: templates/core/partials/consultation_images.html:66
 #: templates/core/partials/consultations_patient.html:56
 #: templates/core/partials/pma.html:51
-#: templates/core/patient_detail_v2.html:1467
+#: templates/core/patient_detail_v2.html:1464
 #: templates/core/patient_fichiers.html:75
 #: templates/core/patient_fichiers.html:145
 #: templates/core/patient_fichiers.html:215
@@ -1263,7 +1306,8 @@ msgstr "Motivo"
 #: templates/core/template_edition_list.html:23
 #: templates/core/traitement_list.html:23
 #: templates/core/traitement_pma_list.html:23
-#: templates/super_admin/dashboard.html:180
+#: templates/super_admin/dashboard.html:223
+#: templates/super_admin/dashboard.html:264
 #: templates_backup/core/accueil.html:225
 #: templates_backup/core/accueil.html:247
 #: templates_backup/core/accueil.html:269
@@ -1370,7 +1414,8 @@ msgstr "Edad"
 #: templates/core/accueil.html:243 templates/core/accueil.html:323
 #: templates/core/accueil.html:360 templates/core/accueil_v2.html:241
 #: templates/core/accueil_v2.html:326 templates/core/accueil_v2.html:363
-#: templates/core/patient_list.html:123 templates_backup/core/accueil.html:243
+#: templates/core/patient_list.html:123 templates/core/patient_list_v2.html:132
+#: templates_backup/core/accueil.html:243
 #: templates_backup/core/accueil_v2.html:212
 #: templates_backup/templates/core/accueil.html:243
 #: templates_backup/templates/core/accueil_v2.html:212
@@ -1388,13 +1433,14 @@ msgstr "Espera"
 #: templates/core/accueil.html:328 templates/core/accueil.html:365
 #: templates/core/accueil_v2.html:331 templates/core/accueil_v2.html:368
 #: templates/core/rdv_calendrier.html:338
+#: templates/core/rdv_form_dialog.html:21
 msgid "Modifier le rendez-vous"
 msgstr "Modificar la cita"
 
 #: templates/core/accueil.html:332 templates/core/accueil.html:369
 #: templates/core/accueil_v2.html:335 templates/core/accueil_v2.html:372
 #: templates/core/rdv_calendrier.html:342 templates/core/rdv_form.html:59
-#: templates/core/rdv_form_dialog.html:32
+#: templates/core/rdv_form_dialog.html:30
 msgid "Annuler le rendez-vous"
 msgstr "Cancelar la cita"
 
@@ -1407,41 +1453,41 @@ msgid "Patient non rappelé"
 msgstr "Paciente no llamado"
 
 #: templates/core/accueil.html:377 templates/core/accueil.html:389
-#: templates/core/accueil_v2.html:380 templates/core/accueil_v2.html:392
-#: templates/core/login_v2.html:584 templates/core/parametres_base.html:75
+#: templates/core/accueil_v2.html:380 templates/core/accueil_v2.html:397
+#: templates/core/login_v2.html:620 templates/core/parametres_base.html:75
 #: templates_backup/core/parametres_base.html:74
 #: templates_backup/templates/core/parametres_base.html:74
 msgid "Dossier patient"
 msgstr "Historial del paciente"
 
 #: templates/core/accueil.html:383 templates/core/accueil.html:402
-#: templates/core/accueil_v2.html:386 templates/core/accueil_v2.html:405
+#: templates/core/accueil_v2.html:386 templates/core/accueil_v2.html:414
 #: templates/core/patient_list.html:142
 msgid "Télécharger fichier"
 msgstr "Subir archivo"
 
-#: templates/core/accueil.html:393 templates/core/accueil_v2.html:396
+#: templates/core/accueil.html:393 templates/core/accueil_v2.html:405
 msgid "Démarrer la consultation"
 msgstr "Iniciar consulta"
 
-#: templates/core/accueil.html:397 templates/core/accueil_v2.html:400
+#: templates/core/accueil.html:397 templates/core/accueil_v2.html:409
 msgid "Annuler l\\"
 msgstr "Cancelar operación"
 
-#: templates/core/accueil.html:408 templates/core/accueil_v2.html:411
+#: templates/core/accueil.html:408 templates/core/accueil_v2.html:420
 msgid "Saisir des mesures"
 msgstr "Ingresar medidas"
 
 #: templates/core/accueil.html:428 templates/core/accueil.html:435
-#: templates/core/accueil_v2.html:431 templates/core/accueil_v2.html:438
+#: templates/core/accueil_v2.html:440 templates/core/accueil_v2.html:447
 msgid "Modifier praticien"
 msgstr "Modificar médico"
 
-#: templates/core/accueil.html:449 templates/core/accueil_v2.html:450
+#: templates/core/accueil.html:449 templates/core/accueil_v2.html:459
 msgid "Modifier motif"
 msgstr "Modificar motivo"
 
-#: templates/core/accueil.html:456 templates/core/accueil_v2.html:458
+#: templates/core/accueil.html:456 templates/core/accueil_v2.html:467
 msgid "Modifier motif rendez-vous"
 msgstr "Modificar motivo de cita"
 
@@ -1453,71 +1499,46 @@ msgstr "Modificar motivo de cita"
 msgid "Aujourd'hui"
 msgstr "Hoy"
 
-#: templates/core/analyse_biologique_form.html:25
-#: templates/core/analyse_biologique_list.html:44
-#: templates/core/liste_choix_form.html:20
-#: templates/core/liste_choix_list.html:30
-#: templates/core/prescription_analyse_form.html:81
-#: templates/core/prescription_analyse_form.html:149
-#: templates/core/prescription_analyse_form.html:218
-#: templates/core/prescription_list.html:21
-#: templates/core/template_edition_list.html:21
-#: templates/core/traitement_list.html:21
-#: templates_backup/core/analyse_biologique_form.html:25
-#: templates_backup/core/liste_choix_form.html:20
-#: templates_backup/core/prescription_analyse_form.html:79
-#: templates_backup/core/prescription_analyse_form.html:216
-#: templates_backup/core/prescription_list.html:21
-#: templates_backup/core/traitement_list.html:21
-#: templates_backup/templates/core/analyse_biologique_form.html:25
-#: templates_backup/templates/core/liste_choix_form.html:20
-#: templates_backup/templates/core/prescription_analyse_form.html:79
-#: templates_backup/templates/core/prescription_analyse_form.html:216
-#: templates_backup/templates/core/prescription_list.html:21
-#: templates_backup/templates/core/traitement_list.html:21
-msgid "Libellé"
-msgstr "Libellé"
+#: templates/core/accueil_v2.html:391
+#, fuzzy
+#| msgid "Terminer la consultation"
+msgid "Terminer consultation"
+msgstr "Terminer la consultation"
 
-#: templates/core/analyse_biologique_form.html:43
-#: templates_backup/core/analyse_biologique_form.html:43
-#: templates_backup/templates/core/analyse_biologique_form.html:43
-msgid "Unité"
-msgstr "Unité"
+#: templates/core/accueil_v2.html:401 templates/core/patient_list_v2.html:136
+#: templates_backup/core/reglement_form.html:55
+#: templates_backup/core/reglement_form_2.html:33
+#: templates_backup/templates/core/reglement_form.html:55
+#: templates_backup/templates/core/reglement_form_2.html:33
+msgid "Paiement"
+msgstr "Paiement"
 
-#: templates/core/analyse_biologique_form.html:53
-#: templates_backup/core/analyse_biologique_form.html:53
-#: templates_backup/templates/core/analyse_biologique_form.html:53
-msgid "Modèle résultat"
-msgstr "Modèle résultat"
+#: templates/core/accueil_v2.html:531
+msgid "Choisir la machine"
+msgstr "Elegir la máquina"
 
-#: templates/core/analyse_biologique_form.html:64
-#: templates/core/analyse_biologique_list.html:42
-#: templates_backup/core/analyse_biologique_form.html:64
-#: templates_backup/templates/core/analyse_biologique_form.html:64
-msgid "Ordre"
-msgstr "Ordre"
-
+#: templates/core/accueil_v2.html:532
 #: templates/core/analyse_biologique_form.html:70
 #: templates/core/antecedent_obstetrique_form.html:33
 #: templates/core/base_consultation.html:121
-#: templates/core/base_consultation_v2.html:429
-#: templates/core/base_pma.html:487
+#: templates/core/base_consultation_v2.html:427
+#: templates/core/base_pma.html:485
 #: templates/core/collection_analyse_form.html:36
 #: templates/core/device_form.html:89 templates/core/etablissement_form.html:36
-#: templates/core/fichier_form.html:43 templates/core/grossesse_form.html:27
+#: templates/core/fichier_form.html:43 templates/core/grossesse_form.html:20
 #: templates/core/liste_choix_form.html:53 templates/core/mdp_form.html:33
 #: templates/core/mesures_patient_form.html:30
 #: templates/core/motif_form.html:26 templates/core/parametres.html:37
-#: templates/core/parametres.html:167
-#: templates/core/patient_form_dialog.html:28
-#: templates/core/patient_list.html:78 templates/core/patient_list_v2.html:85
+#: templates/core/parametres.html:167 templates/core/patient_list.html:78
+#: templates/core/patient_list_v2.html:85
 #: templates/core/praticien_form.html:104
 #: templates/core/prescription_analyse_form.html:30
 #: templates/core/prescription_form.html:47
-#: templates/core/prestation_form.html:60 templates/core/profil_form.html:334
+#: templates/core/prestation_form.html:60 templates/core/profil_form.html:336
 #: templates/core/programme_operatoire_form.html:24
 #: templates/core/rdv_calendrier.html:263
-#: templates/core/rdv_calendrier.html:316 templates/core/reglement_form.html:88
+#: templates/core/rdv_calendrier.html:316
+#: templates/core/reglement_form.html:103
 #: templates/core/reglement_form_2.html:62
 #: templates/core/template_edition_form.html:55
 #: templates/core/tentative_pma_cloture_form.html:44
@@ -1596,26 +1617,69 @@ msgstr "Ordre"
 msgid "Annuler"
 msgstr "Cancelar"
 
+#: templates/core/analyse_biologique_form.html:25
+#: templates/core/analyse_biologique_list.html:44
+#: templates/core/liste_choix_form.html:20
+#: templates/core/liste_choix_list.html:30
+#: templates/core/prescription_analyse_form.html:81
+#: templates/core/prescription_analyse_form.html:149
+#: templates/core/prescription_analyse_form.html:218
+#: templates/core/prescription_list.html:21
+#: templates/core/template_edition_list.html:21
+#: templates/core/traitement_list.html:21
+#: templates_backup/core/analyse_biologique_form.html:25
+#: templates_backup/core/liste_choix_form.html:20
+#: templates_backup/core/prescription_analyse_form.html:79
+#: templates_backup/core/prescription_analyse_form.html:216
+#: templates_backup/core/prescription_list.html:21
+#: templates_backup/core/traitement_list.html:21
+#: templates_backup/templates/core/analyse_biologique_form.html:25
+#: templates_backup/templates/core/liste_choix_form.html:20
+#: templates_backup/templates/core/prescription_analyse_form.html:79
+#: templates_backup/templates/core/prescription_analyse_form.html:216
+#: templates_backup/templates/core/prescription_list.html:21
+#: templates_backup/templates/core/traitement_list.html:21
+msgid "Libellé"
+msgstr "Libellé"
+
+#: templates/core/analyse_biologique_form.html:43
+#: templates_backup/core/analyse_biologique_form.html:43
+#: templates_backup/templates/core/analyse_biologique_form.html:43
+msgid "Unité"
+msgstr "Unité"
+
+#: templates/core/analyse_biologique_form.html:53
+#: templates_backup/core/analyse_biologique_form.html:53
+#: templates_backup/templates/core/analyse_biologique_form.html:53
+msgid "Modèle résultat"
+msgstr "Modèle résultat"
+
+#: templates/core/analyse_biologique_form.html:64
+#: templates/core/analyse_biologique_list.html:42
+#: templates_backup/core/analyse_biologique_form.html:64
+#: templates_backup/templates/core/analyse_biologique_form.html:64
+msgid "Ordre"
+msgstr "Ordre"
+
 #: templates/core/analyse_biologique_form.html:73
 #: templates/core/antecedent_obstetrique_form.html:37
 #: templates/core/base_pma.html:437 templates/core/certificat_form.html:31
 #: templates/core/collection_analyse_form.html:39
-#: templates/core/consultation_colposcopie_form.html:49
+#: templates/core/consultation_colposcopie_form.html:56
 #: templates/core/consultation_form.back.html:34
 #: templates/core/device_form.html:93 templates/core/etablissement_form.html:40
-#: templates/core/grossesse_form.html:30
+#: templates/core/grossesse_form.html:21
 #: templates/core/liste_choix_form.html:57
 #: templates/core/mesures_patient_form.html:34
 #: templates/core/motif_form.html:29 templates/core/ordonnance_form.html:121
 #: templates/core/parametres.html:36 templates/core/parametres.html:166
-#: templates/core/parametres.html:493 templates/core/parametres.html:781
+#: templates/core/parametres.html:493 templates/core/parametres.html:780
 #: templates/core/partials/consultation_toolbar.html:10
 #: templates/core/patient_form.html:38
-#: templates/core/patient_form_dialog.html:31
 #: templates/core/prescription_analyse_form.html:33
 #: templates/core/prescription_form.html:51
-#: templates/core/prestation_form.html:63 templates/core/profil_form.html:339
-#: templates/core/reglement_form.html:90
+#: templates/core/prestation_form.html:63 templates/core/profil_form.html:341
+#: templates/core/reglement_form.html:105
 #: templates/core/reglement_form_2.html:64
 #: templates/core/template_edition_form.html:59
 #: templates/core/traitement_form.html:57
@@ -1712,16 +1776,15 @@ msgstr "Code"
 #: templates/core/certificat_form.html:25
 #: templates/core/collection_analyse_list.html:49
 #: templates/core/device_list.html:30 templates/core/form_header.html:5
-#: templates/core/grossesse_form.html:18
+#: templates/core/grossesse_form.html:16
 #: templates/core/liste_choix_list.html:43 templates/core/mdp_form.html:34
 #: templates/core/motif_list.html:29 templates/core/parametres.html:520
 #: templates/core/parametres.html:547 templates/core/parametres.html:575
 #: templates/core/parametres.html:603
-#: templates/core/patient_detail_v2.html:1442
-#: templates/core/patient_form_dialog.html:19
+#: templates/core/patient_detail_v2.html:1439
 #: templates/core/patient_info_panel.html:41
 #: templates/core/patient_info_panel.html:535
-#: templates/core/patient_list.html:133 templates/core/patient_list_v2.html:139
+#: templates/core/patient_list.html:133 templates/core/patient_list_v2.html:144
 #: templates/core/praticien_form.html:10 templates/core/praticien_form.html:105
 #: templates/core/prescription_analyse_form.html:26
 #: templates/core/prescription_list.html:30
@@ -1732,7 +1795,7 @@ msgstr "Code"
 #: templates/core/reglement_form.html:10
 #: templates/core/reglement_form_2.html:10
 #: templates/core/reglement_rapport.html:76
-#: templates/core/reglement_rapport_list.html:125
+#: templates/core/reglement_rapport_list.html:128
 #: templates/core/template_edition_list.html:30
 #: templates/core/traitement_list.html:30
 #: templates/core/traitement_pma_list.html:30
@@ -1776,27 +1839,27 @@ msgstr "Modificar"
 
 #: templates/core/analyse_biologique_list.html:55
 #: templates/core/base_consultation.html:160
-#: templates/core/base_consultation_v2.html:546
-#: templates/core/base_pma.html:604 templates/core/bordereau_mutuelle.html:20
+#: templates/core/base_consultation_v2.html:543
+#: templates/core/base_pma.html:601 templates/core/bordereau_mutuelle.html:20
 #: templates/core/certificat_list.html:46
 #: templates/core/collection_analyse_list.html:52
 #: templates/core/device_list.html:33 templates/core/etablissement_list.html:33
 #: templates/core/motif_list.html:32 templates/core/ordonnance_list.html:46
-#: templates/core/partials/consultation_images.html:53
-#: templates/core/patient_detail_v2.html:1148
-#: templates/core/patient_detail_v2.html:1224
-#: templates/core/patient_detail_v2.html:1298
-#: templates/core/patient_detail_v2.html:1447
-#: templates/core/patient_detail_v2.html:1520
-#: templates/core/patient_detail_v2.html:1530
-#: templates/core/patient_detail_v2.html:1578
+#: templates/core/partials/consultation_images.html:82
+#: templates/core/patient_detail_v2.html:1147
+#: templates/core/patient_detail_v2.html:1223
+#: templates/core/patient_detail_v2.html:1297
+#: templates/core/patient_detail_v2.html:1444
+#: templates/core/patient_detail_v2.html:1516
+#: templates/core/patient_detail_v2.html:1526
+#: templates/core/patient_detail_v2.html:1574
 #: templates/core/patient_fichiers.html:101
 #: templates/core/patient_fichiers.html:171
 #: templates/core/patient_fichiers.html:241
 #: templates/core/patient_fichiers.html:317
 #: templates/core/patient_fichiers_v2.html:82
 #: templates/core/patient_fichiers_v2.html:161
-#: templates/core/patient_list.html:136 templates/core/patient_list_v2.html:142
+#: templates/core/patient_list.html:136 templates/core/patient_list_v2.html:148
 #: templates/core/prescription_list.html:33
 #: templates/core/prestation_list.html:35 templates/core/profil_list.html:82
 #: templates/core/template_edition_list.html:33
@@ -1844,7 +1907,7 @@ msgid "Issue de grossesse"
 msgstr "Resultado del embarazo"
 
 #: templates/core/antecedent_obstetrique_form.html:93
-#: templates/core/grossesse_form.html:102
+#: templates/core/grossesse_form.html:108
 #: templates_backup/core/antecedent_obstetrique_form.html:93
 #: templates_backup/core/grossesse_form.html:104
 #: templates_backup/templates/core/antecedent_obstetrique_form.html:93
@@ -1863,19 +1926,20 @@ msgstr "Número de fetos"
 #: templates/core/partials/consultations_patient.html:11
 #: templates/core/partials/consultations_patient.html:49
 #: templates/core/partials/pma.html:22 templates/core/partials/pma.html:47
-#: templates/core/patient_detail_v2.html:1190
-#: templates/core/patient_detail_v2.html:1264
-#: templates/core/patient_detail_v2.html:1463
+#: templates/core/patient_detail_v2.html:1113
+#: templates/core/patient_detail_v2.html:1189
+#: templates/core/patient_detail_v2.html:1263
+#: templates/core/patient_detail_v2.html:1460
 #: templates/core/prescription_analyse_form.html:196
 #: templates/core/prescription_analyse_form.html:201
 #: templates/core/programme_operatoire.html:32
 #: templates/core/programme_operatoire_form.html:49
 #: templates/core/rapport_consultation.html:129
-#: templates/core/rdv_calendrier.html:275 templates/core/rdv_form.html:180
-#: templates/core/rdv_form_dialog.html:152
+#: templates/core/rdv_calendrier.html:275 templates/core/rdv_form.html:199
+#: templates/core/rdv_form_dialog.html:147
 #: templates/core/reglement_caisses.html:27
 #: templates/core/reglement_caisses.html:58
-#: templates/core/reglement_rapport_list.html:112
+#: templates/core/reglement_rapport_list.html:115
 #: templates/core/tentative_pma_form.html:83
 #: templates_backup/core/absence_medecin_form.html:80
 #: templates_backup/core/absence_medecin_form.html:104
@@ -1957,7 +2021,7 @@ msgstr "Número de fetos"
 #: templates/core/antecedent_obstetrique_form.html:295
 #: templates/core/base_consultation_v2.html:290
 #: templates/core/base_pma.html:315 templates/core/patient_detail_v2.html:452
-#: templates/core/patient_detail_v2.html:1464
+#: templates/core/patient_detail_v2.html:1461
 #: templates/core/patient_info_panel.html:65
 #: templates/core/patient_info_panel.html:556
 #: templates/core/rapport_accouchement.html:54
@@ -1972,7 +2036,6 @@ msgstr "Término"
 #: templates/core/antecedent_obstetrique_form.html:140
 #: templates/core/antecedent_obstetrique_form.html:225
 #: templates/core/antecedent_obstetrique_form.html:310
-#: templates/core/patient_form_dialog.html:44
 msgid "Sexe"
 msgstr ""
 
@@ -1988,8 +2051,7 @@ msgstr "Apellido de nacimiento"
 #: templates/core/antecedent_obstetrique_form.html:250
 #: templates/core/antecedent_obstetrique_form.html:335
 #: templates/core/consultation_gynecologique_form.html:140
-#: templates/core/grossesse_form.html:66 templates/core/patient_form.html:70
-#: templates/core/patient_form_dialog.html:210
+#: templates/core/grossesse_form.html:60 templates/core/patient_form.html:70
 #: templates_backup/core/consultation_gynecologique_form.html:141
 #: templates_backup/core/grossesse_form.html:67
 #: templates_backup/core/patient_form.html:70
@@ -2052,7 +2114,7 @@ msgid "ATCD à surligner"
 msgstr "Antecedentes a destacar"
 
 #: templates/core/antecedent_obstetrique_form.html:420
-#: templates/core/grossesse_form.html:207
+#: templates/core/grossesse_form.html:253
 #: templates/core/partials/antecedents.html:85
 #: templates/core/partials/antecedents_lettre.html:86
 #: templates/core/patient_info_panel.html:369
@@ -2072,9 +2134,8 @@ msgstr "Lugar de parto"
 #: templates/core/consultation_gynecologique_form.html:90
 #: templates/core/etablissement_form.html:17
 #: templates/core/etablissement_list.html:18
-#: templates/core/grossesse_form.html:48 templates/core/login.html:116
+#: templates/core/grossesse_form.html:36 templates/core/login.html:113
 #: templates/core/ordonnance_list.html:32 templates/core/patient_form.html:52
-#: templates/core/patient_form_dialog.html:201
 #: templates/core/praticien_form.html:24 templates/core/profil_form.html:75
 #: templates/core/rapport_accouchement.html:69
 #: templates/core/rapport_consultation.html:23
@@ -2085,8 +2146,8 @@ msgstr "Lugar de parto"
 #: templates/core/reglement_caisses.html:28
 #: templates/core/reglement_list.html:61
 #: templates/core/reglement_rapport.html:66
-#: templates/core/reglement_rapport_list.html:93
-#: templates/core/reglement_rapport_list.html:115
+#: templates/core/reglement_rapport_list.html:96
+#: templates/core/reglement_rapport_list.html:118
 #: templates_backup/core/antecedent_obstetrique_form.html:426
 #: templates_backup/core/bordereau_mutuelle.html:6
 #: templates_backup/core/certificat_list.html:32
@@ -2150,7 +2211,7 @@ msgid "Nom"
 msgstr "Nombre"
 
 #: templates/core/antecedent_obstetrique_form.html:450
-#: templates/core/grossesse_form.html:210
+#: templates/core/grossesse_form.html:257
 #: templates_backup/core/antecedent_obstetrique_form.html:450
 #: templates_backup/core/grossesse_form.html:215
 #: templates_backup/templates/core/antecedent_obstetrique_form.html:450
@@ -2175,10 +2236,10 @@ msgstr "Liste des patients en salle"
 
 #: templates/core/base_consultation.html:62
 #: templates/core/base_consultation_v2.html:31 templates/core/base_pma.html:56
-#: templates/core/base_rapport.html:38 templates/core/parametres.html:928
-#: templates/core/parametres.html:956 templates/core/parametres.html:993
-#: templates/core/parametres.html:1032 templates/core/parametres.html:1069
-#: templates/core/parametres.html:1106 templates/core/parametres.html:1142
+#: templates/core/base_rapport.html:38 templates/core/parametres.html:919
+#: templates/core/parametres.html:947 templates/core/parametres.html:984
+#: templates/core/parametres.html:1023 templates/core/parametres.html:1060
+#: templates/core/parametres.html:1097 templates/core/parametres.html:1133
 #: templates_backup/core/base_consultation.html:62
 #: templates_backup/core/parametres.html:937
 #: templates_backup/core/parametres.html:976
@@ -2194,7 +2255,7 @@ msgstr "Liste des patients en salle"
 msgid "Chargement"
 msgstr "Chargement"
 
-#: templates/core/base_consultation.html:81
+#: templates/core/base_consultation.html:81 templates/core/shared.html:437
 #, fuzzy
 #| msgid "Fichiers"
 msgid "Fichiers"
@@ -2212,14 +2273,14 @@ msgid "Impression"
 msgstr "Impresión"
 
 #: templates/core/base_consultation.html:122
-#: templates/core/base_consultation_v2.html:430
-#: templates/core/base_consultation_v2.html:493
-#: templates/core/base_pma.html:451 templates/core/base_pma.html:488
-#: templates/core/base_pma.html:551 templates/core/certificat_form.html:36
+#: templates/core/base_consultation_v2.html:428
+#: templates/core/base_consultation_v2.html:490
+#: templates/core/base_pma.html:451 templates/core/base_pma.html:486
+#: templates/core/base_pma.html:548 templates/core/certificat_form.html:36
 #: templates/core/cloture_detail.html:16
-#: templates/core/consultation_colposcopie_form.html:61
+#: templates/core/consultation_colposcopie_form.html:68
 #: templates/core/consultation_form.back.html:46
-#: templates/core/grossesse_calendrier_detail.html:10
+#: templates/core/grossesse_calendrier_detail.html:9
 #: templates/core/ordonnance_form.html:117
 #: templates/core/partials/consultation_toolbar.html:23
 #: templates/core/prescription_analyse_form.html:38
@@ -2291,8 +2352,8 @@ msgid "Nouvelle grossesse"
 msgstr "Nouvelle grossesse"
 
 #: templates/core/base_consultation_v2.html:125
-#: templates/core/base_pma.html:150 templates/core/parametres.html:819
-#: templates/core/parametres.html:971 templates/core/patient_detail_v2.html:287
+#: templates/core/base_pma.html:150 templates/core/parametres.html:812
+#: templates/core/parametres.html:962 templates/core/patient_detail_v2.html:287
 #: templates/core/patient_info_panel.html:438
 #: templates_backup/core/base_consultation_v2.html:126
 #: templates_backup/core/base_pma.html:150
@@ -2331,7 +2392,7 @@ msgid "Nouveau"
 msgstr "Nuevo"
 
 #: templates/core/base_consultation_v2.html:164
-#: templates/core/base_pma.html:189 templates/core/login_v2.html:590
+#: templates/core/base_pma.html:189 templates/core/login_v2.html:626
 #: templates/core/parametres.html:690 templates/core/patient_detail_v2.html:326
 #: templates/core/patient_info_panel.html:459
 #: templates_backup/core/base_consultation_v2.html:165
@@ -2350,7 +2411,7 @@ msgstr "Recetas"
 #: templates/core/base_consultation_v2.html:167
 #: templates/core/base_pma.html:192 templates/core/parametres.html:657
 #: templates/core/patient_detail_v2.html:329
-#: templates/core/patient_info_panel.html:476
+#: templates/core/patient_info_panel.html:476 templates/core/shared.html:391
 #: templates_backup/core/base_consultation_v2.html:168
 #: templates_backup/core/base_pma.html:192
 #: templates_backup/core/parametres.html:657
@@ -2386,7 +2447,7 @@ msgstr "Historial"
 #: templates/core/base_pma.html:201
 #: templates/core/consultation_form.back.html:85
 #: templates/core/patient_detail_v2.html:338
-#: templates/core/patient_detail_v2.html:752
+#: templates/core/patient_detail_v2.html:752 templates/core/shared.html:374
 #: templates_backup/core/base_consultation_v2.html:177
 #: templates_backup/core/base_pma.html:201
 #: templates_backup/templates/core/base_consultation_v2.html:177
@@ -2404,7 +2465,6 @@ msgstr "Adresse"
 
 #: templates/core/base_consultation_v2.html:225
 #: templates/core/base_pma.html:250 templates/core/patient_detail_v2.html:387
-#: templates/core/patient_form_dialog.html:144
 #: templates/core/patient_info_panel.html:195
 #: templates/core/patient_info_panel.html:676
 msgid "Origine"
@@ -2412,7 +2472,6 @@ msgstr "Origen"
 
 #: templates/core/base_consultation_v2.html:232
 #: templates/core/base_pma.html:257 templates/core/patient_detail_v2.html:394
-#: templates/core/patient_form_dialog.html:122
 #: templates/core/patient_info_panel.html:226
 #: templates/core/patient_info_panel.html:707
 msgid "Fumeur"
@@ -2426,7 +2485,7 @@ msgid "Mots clés"
 msgstr "Palabra clave"
 
 #: templates/core/base_consultation_v2.html:257
-#: templates/core/base_pma.html:282 templates/core/grossesse_form.html:78
+#: templates/core/base_pma.html:282
 #: templates/core/partials/echo_pelvienne.html:42
 #: templates/core/patient_detail_v2.html:419
 #: templates/core/patient_info_panel.html:203
@@ -2439,8 +2498,8 @@ msgstr "Talla"
 #: templates/core/base_consultation_v2.html:265
 #: templates/core/base_pma.html:290 templates/core/mesures_patient_form.html:50
 #: templates/core/partials/examen_clinique.html:12
-#: templates/core/partials/examen_obs_t1_foetal.html:147
-#: templates/core/partials/examen_obs_t23_foetal.html:163
+#: templates/core/partials/examen_obs_t1_foetal.html:175
+#: templates/core/partials/examen_obs_t23_foetal.html:102
 #: templates/core/patient_detail_v2.html:427
 #: templates/core/patient_info_panel.html:209
 #: templates/core/patient_info_panel.html:690
@@ -2480,7 +2539,7 @@ msgid "Toxo"
 msgstr "Toxo"
 
 #: templates/core/base_consultation_v2.html:340
-#: templates/core/base_pma.html:365 templates/core/grossesse_form.html:165
+#: templates/core/base_pma.html:365 templates/core/grossesse_form.html:199
 #: templates/core/patient_detail_v2.html:504
 #: templates/core/patient_info_panel.html:104
 #: templates/core/patient_info_panel.html:595
@@ -2501,6 +2560,7 @@ msgstr "Aspirina"
 #: templates/core/consultation_form.back.html:91
 #: templates/core/patient_detail_v2.html:522
 #: templates/core/patient_detail_v2.html:650
+#: templates/core/patient_form_dialog.html:113
 #: templates/core/patient_info_panel.html:120
 #: templates/core/patient_info_panel.html:611
 #: templates/core/praticien_form.html:96
@@ -2511,8 +2571,8 @@ msgstr "Aspirina"
 msgid "Notes"
 msgstr "Notes"
 
-#: templates/core/base_consultation_v2.html:441
-#: templates/core/base_pma.html:499
+#: templates/core/base_consultation_v2.html:439
+#: templates/core/base_pma.html:497
 #: templates/core/consultation_colposcopie_form.html:32
 #: templates/core/consultation_form.back.html:18
 #: templates/core/consultation_form.back.html:103
@@ -2528,10 +2588,10 @@ msgstr "Notes"
 msgid "Edition"
 msgstr "Configuración de impresión"
 
-#: templates/core/base_consultation_v2.html:465
-#: templates/core/base_pma.html:523
+#: templates/core/base_consultation_v2.html:463
+#: templates/core/base_pma.html:521
 #: templates/core/consultation_form.back.html:64
-#: templates/core/consultation_form.html:34 templates/core/device_form.html:25
+#: templates/core/consultation_form.html:39 templates/core/device_form.html:25
 #: templates/core/device_list.html:22
 #: templates_backup/core/consultation_form.back.html:64
 #: templates_backup/core/consultation_form.html:34
@@ -2544,10 +2604,10 @@ msgstr "Configuración de impresión"
 msgid "Modèle"
 msgstr "Modèle"
 
-#: templates/core/base_consultation_v2.html:481
-#: templates/core/base_pma.html:539
-#: templates/core/consultation_colposcopie_form.html:256
-#: templates/core/consultation_form.html:58
+#: templates/core/base_consultation_v2.html:478
+#: templates/core/base_pma.html:536
+#: templates/core/consultation_colposcopie_form.html:263
+#: templates/core/consultation_form.html:62
 #: templates_backup/core/base_consultation_v2.html:482
 #: templates_backup/core/base_pma.html:539
 #: templates_backup/core/consultation_form.html:58
@@ -2557,10 +2617,10 @@ msgstr "Modèle"
 msgid "Ajouter les antécédents"
 msgstr "Ajouter les antécédents"
 
-#: templates/core/base_consultation_v2.html:487
-#: templates/core/base_pma.html:545
-#: templates/core/consultation_colposcopie_form.html:262
-#: templates/core/consultation_form.html:64
+#: templates/core/base_consultation_v2.html:484
+#: templates/core/base_pma.html:542
+#: templates/core/consultation_colposcopie_form.html:269
+#: templates/core/consultation_form.html:68
 #: templates_backup/core/base_consultation_v2.html:488
 #: templates_backup/core/base_pma.html:545
 #: templates_backup/core/consultation_form.html:64
@@ -2570,8 +2630,8 @@ msgstr "Ajouter les antécédents"
 msgid "Ajouter les notes"
 msgstr "Ajouter les notes"
 
-#: templates/core/base_consultation_v2.html:577
-#: templates/core/base_pma.html:635 templates/core/patient_info_panel.html:417
+#: templates/core/base_consultation_v2.html:574
+#: templates/core/base_pma.html:632 templates/core/patient_info_panel.html:417
 #: templates/core/patient_info_panel.html:501
 #: templates_backup/core/base_consultation_v2.html:578
 #: templates_backup/core/base_pma.html:635
@@ -2582,7 +2642,7 @@ msgstr "Eliminar lugar de parto"
 
 #: templates/core/base_pma.html:432 templates/core/bordereau_detail.html:28
 #: templates/core/certificat_list.html:11 templates/core/cloture_detail.html:13
-#: templates/core/consultation_colposcopie_form.html:44
+#: templates/core/consultation_colposcopie_form.html:51
 #: templates/core/consultation_form.back.html:30
 #: templates/core/ordonnance_list.html:11
 #: templates/core/partials/consultation_toolbar.html:6
@@ -2790,7 +2850,7 @@ msgstr "Nombre del médico"
 
 #: templates/core/bordereau_mutuelle.html:9
 #: templates/core/reglement_rapport.html:69
-#: templates/core/reglement_rapport_list.html:118
+#: templates/core/reglement_rapport_list.html:121
 #: templates_backup/core/bordereau_mutuelle.html:9
 #: templates_backup/core/reglement_rapport.html:69
 #: templates_backup/core/reglement_rapport_list.html:118
@@ -2804,9 +2864,9 @@ msgstr "Acción"
 #: templates/core/certificat_list.html:43
 #: templates/core/etablissement_list.html:30
 #: templates/core/ordonnance_list.html:43 templates/core/partials/pma.html:29
-#: templates/core/patient_detail_v2.html:1516
-#: templates/core/patient_detail_v2.html:1526
-#: templates/core/patient_list.html:127 templates/core/patient_list_v2.html:134
+#: templates/core/patient_detail_v2.html:1512
+#: templates/core/patient_detail_v2.html:1522
+#: templates/core/patient_list.html:127 templates/core/patient_list_v2.html:139
 #: templates/core/reglement_caisses.html:68
 #: templates_backup/templates/core/bordereau_mutuelle.html:17
 #: templates_backup/templates/core/certificat_list.html:43
@@ -2819,9 +2879,8 @@ msgid "Consulter"
 msgstr "Consultar"
 
 #: templates/core/certificat_form.html:25 templates/core/form_header.html:5
-#: templates/core/grossesse_form.html:20
-#: templates/core/patient_form_dialog.html:21
-#: templates/core/praticien_form.html:10 templates/core/praticien_form.html:106
+#: templates/core/grossesse_form.html:16 templates/core/praticien_form.html:10
+#: templates/core/praticien_form.html:106
 #: templates/core/prescription_analyse_form.html:26
 #: templates/core/profil_form.html:34 templates/core/rdv_calendrier.html:318
 #: templates_backup/core/certificat_form.html:25
@@ -2996,7 +3055,37 @@ msgstr "Añadir un paquete"
 msgid "Formulaire"
 msgstr "Formulaire"
 
-#: templates/core/consultation_colposcopie_form.html:55
+#: templates/core/consultation_colposcopie_form.html:39
+#: templates/core/consultation_detail.html:46
+#: templates/core/consultation_echo_pelvienne_form.html:35
+#: templates/core/consultation_form.html:15
+#: templates/core/consultation_gynecologique_form.html:43
+#: templates/core/consultation_obs_echo_11SA_form.html:18
+#: templates/core/consultation_obs_echo_cardiofoetale_form.html:14
+#: templates/core/consultation_obs_echo_col_form.html:14
+#: templates/core/consultation_obs_echo_croissance_form.html:21
+#: templates/core/consultation_obs_echo_deuxieme_trimestre_form.html:21
+#: templates/core/consultation_obs_echo_premier_trimestre_form.html:21
+#: templates/core/consultation_obs_echo_troisieme_trimestre_form.html:21
+#: templates/core/consultation_obs_grossesse_form.html:14
+#: templates_backup/core/consultation_echo_pelvienne_form.html:35
+#: templates_backup/core/consultation_gynecologique_form.html:43
+#: templates_backup/core/consultation_obs_echo_11SA_form.html:18
+#: templates_backup/core/consultation_obs_echo_croissance_form.html:21
+#: templates_backup/core/consultation_obs_echo_deuxieme_trimestre_form.html:21
+#: templates_backup/core/consultation_obs_echo_premier_trimestre_form.html:21
+#: templates_backup/core/consultation_obs_echo_troisieme_trimestre_form.html:21
+#: templates_backup/templates/core/consultation_echo_pelvienne_form.html:35
+#: templates_backup/templates/core/consultation_gynecologique_form.html:43
+#: templates_backup/templates/core/consultation_obs_echo_11SA_form.html:18
+#: templates_backup/templates/core/consultation_obs_echo_croissance_form.html:21
+#: templates_backup/templates/core/consultation_obs_echo_deuxieme_trimestre_form.html:21
+#: templates_backup/templates/core/consultation_obs_echo_premier_trimestre_form.html:21
+#: templates_backup/templates/core/consultation_obs_echo_troisieme_trimestre_form.html:21
+msgid "Images"
+msgstr "Images"
+
+#: templates/core/consultation_colposcopie_form.html:62
 #: templates/core/consultation_form.back.html:40
 #: templates/core/partials/consultation_toolbar.html:16
 #: templates_backup/core/consultation_colposcopie_form.html:55
@@ -3006,7 +3095,7 @@ msgstr "Formulaire"
 msgid "Terminer la consultation"
 msgstr "Terminer la consultation"
 
-#: templates/core/consultation_colposcopie_form.html:83
+#: templates/core/consultation_colposcopie_form.html:90
 #: templates/core/partials/antecedents.html:51
 #: templates/core/partials/antecedents_lettre.html:50
 #, fuzzy
@@ -3014,63 +3103,64 @@ msgstr "Terminer la consultation"
 msgid "Indications"
 msgstr "modificación"
 
-#: templates/core/consultation_colposcopie_form.html:94
+#: templates/core/consultation_colposcopie_form.html:101
 msgid "Test"
 msgstr ""
 
-#: templates/core/consultation_colposcopie_form.html:105
+#: templates/core/consultation_colposcopie_form.html:112
 msgid "Typage"
 msgstr ""
 
-#: templates/core/consultation_colposcopie_form.html:117
-#: templates/core/consultation_colposcopie_form.html:143
-#: templates/core/consultation_colposcopie_form.html:199
-#: templates/core/consultation_colposcopie_form.html:225
+#: templates/core/consultation_colposcopie_form.html:124
+#: templates/core/consultation_colposcopie_form.html:150
+#: templates/core/consultation_colposcopie_form.html:206
+#: templates/core/consultation_colposcopie_form.html:232
 #: templates/core/consultation_gynecologique_form.html:395
-#: templates/core/consultation_obs_echo_11SA_form.html:111
+#: templates/core/consultation_obs_echo_11SA_form.html:119
 #: templates/core/partials/echo_pelvienne.html:10
 #: templates/core/partials/echo_pelvienne.html:189
-#: templates/core/partials/examen_obs_t1_foetal.html:252
-#: templates/core/partials/examen_obs_t23_foetal.html:215
+#: templates/core/partials/examen_obs_t1_foetal.html:274
+#: templates/core/partials/examen_obs_t23_foetal.html:406
 msgid "Commentaires"
 msgstr "Comentarios"
 
-#: templates/core/consultation_colposcopie_form.html:131
+#: templates/core/consultation_colposcopie_form.html:138
 msgid "Examen sans préparation"
 msgstr ""
 
-#: templates/core/consultation_colposcopie_form.html:157
+#: templates/core/consultation_colposcopie_form.html:164
 msgid "Acide acétique"
 msgstr ""
 
-#: templates/core/consultation_colposcopie_form.html:167
+#: templates/core/consultation_colposcopie_form.html:174
 msgid "TAG"
 msgstr ""
 
-#: templates/core/consultation_colposcopie_form.html:177
-#: templates/core/consultation_obs_echo_11SA_form.html:54
+#: templates/core/consultation_colposcopie_form.html:184
+#: templates/core/consultation_obs_echo_11SA_form.html:62
 msgid "Localisation"
 msgstr "Localización"
 
-#: templates/core/consultation_colposcopie_form.html:187
+#: templates/core/consultation_colposcopie_form.html:194
 msgid "Lugol"
 msgstr ""
 
-#: templates/core/consultation_colposcopie_form.html:213
+#: templates/core/consultation_colposcopie_form.html:220
 msgid "Biopsie"
 msgstr ""
 
-#: templates/core/consultation_colposcopie_form.html:238
+#: templates/core/consultation_colposcopie_form.html:245
+#: templates/core/consultation_detail.html:26
 #: templates/core/consultation_obs_echo_11SA_form.html:15
-#: templates/core/consultation_obs_echo_11SA_form.html:125
+#: templates/core/consultation_obs_echo_11SA_form.html:133
 #: templates/core/consultation_obs_echo_croissance_form.html:18
-#: templates/core/consultation_obs_echo_croissance_form.html:51
+#: templates/core/consultation_obs_echo_croissance_form.html:59
 #: templates/core/consultation_obs_echo_deuxieme_trimestre_form.html:18
-#: templates/core/consultation_obs_echo_deuxieme_trimestre_form.html:55
+#: templates/core/consultation_obs_echo_deuxieme_trimestre_form.html:63
 #: templates/core/consultation_obs_echo_premier_trimestre_form.html:18
-#: templates/core/consultation_obs_echo_premier_trimestre_form.html:51
+#: templates/core/consultation_obs_echo_premier_trimestre_form.html:59
 #: templates/core/consultation_obs_echo_troisieme_trimestre_form.html:18
-#: templates/core/consultation_obs_echo_troisieme_trimestre_form.html:55
+#: templates/core/consultation_obs_echo_troisieme_trimestre_form.html:63
 #: templates/core/partials/echo_pelvienne.html:205
 #: templates_backup/core/consultation_obs_echo_11SA_form.html:15
 #: templates_backup/core/consultation_obs_echo_croissance_form.html:18
@@ -3099,12 +3189,13 @@ msgstr ""
 msgid "Conclusion"
 msgstr "Conclusion"
 
-#: templates/core/consultation_colposcopie_form.html:244
-#: templates/core/consultation_obs_echo_11SA_form.html:129
-#: templates/core/consultation_obs_echo_croissance_form.html:55
-#: templates/core/consultation_obs_echo_deuxieme_trimestre_form.html:59
-#: templates/core/consultation_obs_echo_premier_trimestre_form.html:55
-#: templates/core/consultation_obs_echo_troisieme_trimestre_form.html:59
+#: templates/core/consultation_colposcopie_form.html:251
+#: templates/core/consultation_detail.html:33
+#: templates/core/consultation_obs_echo_11SA_form.html:137
+#: templates/core/consultation_obs_echo_croissance_form.html:63
+#: templates/core/consultation_obs_echo_deuxieme_trimestre_form.html:67
+#: templates/core/consultation_obs_echo_premier_trimestre_form.html:63
+#: templates/core/consultation_obs_echo_troisieme_trimestre_form.html:67
 #: templates/core/partials/echo_pelvienne.html:207
 #: templates_backup/core/consultation_obs_echo_croissance_form.html:55
 #: templates_backup/core/consultation_obs_echo_deuxieme_trimestre_form.html:59
@@ -3123,6 +3214,19 @@ msgstr "Conduite à tenir"
 msgid "Editer le compte-rendu"
 msgstr "Editer le compte-rendu"
 
+#: templates/core/consultation_detail.html:17
+#: templates/core/partials/consultation_toolbar.html:29
+#: templates_backup/core/partials/consultation_toolbar.html:29
+#: templates_backup/templates/core/partials/consultation_toolbar.html:29
+msgid "Compte-rendu"
+msgstr "Compte-rendu"
+
+#: templates/core/consultation_detail.html:40
+msgid ""
+"Aucun contenu pour cette consultation. Cliquez sur 'Editer le compte-rendu' "
+"pour ajouter du contenu."
+msgstr ""
+
 #: templates/core/consultation_echo_pelvienne_form.html:31
 #: templates/core/consultation_gynecologique_form.html:36
 #: templates/core/patient_detail_v2.html:126
@@ -3132,30 +3236,6 @@ msgstr "Editer le compte-rendu"
 #: templates_backup/templates/core/consultation_gynecologique_form.html:36
 msgid "Echo pelvienne"
 msgstr "Echo pelvienne"
-
-#: templates/core/consultation_echo_pelvienne_form.html:35
-#: templates/core/consultation_gynecologique_form.html:43
-#: templates/core/consultation_obs_echo_11SA_form.html:18
-#: templates/core/consultation_obs_echo_croissance_form.html:21
-#: templates/core/consultation_obs_echo_deuxieme_trimestre_form.html:21
-#: templates/core/consultation_obs_echo_premier_trimestre_form.html:21
-#: templates/core/consultation_obs_echo_troisieme_trimestre_form.html:21
-#: templates_backup/core/consultation_echo_pelvienne_form.html:35
-#: templates_backup/core/consultation_gynecologique_form.html:43
-#: templates_backup/core/consultation_obs_echo_11SA_form.html:18
-#: templates_backup/core/consultation_obs_echo_croissance_form.html:21
-#: templates_backup/core/consultation_obs_echo_deuxieme_trimestre_form.html:21
-#: templates_backup/core/consultation_obs_echo_premier_trimestre_form.html:21
-#: templates_backup/core/consultation_obs_echo_troisieme_trimestre_form.html:21
-#: templates_backup/templates/core/consultation_echo_pelvienne_form.html:35
-#: templates_backup/templates/core/consultation_gynecologique_form.html:43
-#: templates_backup/templates/core/consultation_obs_echo_11SA_form.html:18
-#: templates_backup/templates/core/consultation_obs_echo_croissance_form.html:21
-#: templates_backup/templates/core/consultation_obs_echo_deuxieme_trimestre_form.html:21
-#: templates_backup/templates/core/consultation_obs_echo_premier_trimestre_form.html:21
-#: templates_backup/templates/core/consultation_obs_echo_troisieme_trimestre_form.html:21
-msgid "Images"
-msgstr "Images"
 
 #: templates/core/consultation_echo_pelvienne_form.html:56
 #: templates/core/consultation_gynecologique_form.html:63
@@ -3167,14 +3247,17 @@ msgid "Motif de consultation"
 msgstr "Motif de consultation"
 
 #: templates/core/consultation_form.back.html:78
-#: templates/core/consultation_form.html:50
+#: templates/core/consultation_form.html:54
 #: templates_backup/core/consultation_form.html:50
 #: templates_backup/templates/core/consultation_form.html:50
 msgid "Informations de grossesse"
 msgstr "Informations de grossesse"
 
-#: templates/core/consultation_form.html:10
-#: templates/core/rdv_calendrier.html:137 templates/core/shared.html:327
+#: templates/core/consultation_form.html:11
+#: templates/core/consultation_obs_echo_cardiofoetale_form.html:10
+#: templates/core/consultation_obs_echo_col_form.html:10
+#: templates/core/consultation_obs_grossesse_form.html:10
+#: templates/core/rdv_calendrier.html:137 templates/core/shared.html:328
 #: templates_backup/core/consultation_form.html:10
 #: templates_backup/core/rdv_calendrier.html:129
 #: templates_backup/templates/core/consultation_form.html:10
@@ -3243,12 +3326,10 @@ msgid "Informations conjoint"
 msgstr "Informations conjoint"
 
 #: templates/core/consultation_gynecologique_form.html:114
-#: templates/core/doctor_signup.html:67
 #: templates/core/etablissement_form.html:25
 #: templates/core/etablissement_list.html:19
-#: templates/core/grossesse_form.html:57 templates/core/parametres_base.html:47
+#: templates/core/grossesse_form.html:48 templates/core/parametres_base.html:47
 #: templates/core/patient_form.html:61 templates/core/patient_form.html:98
-#: templates/core/patient_form_dialog.html:73
 #: templates/core/patient_info_panel.html:140
 #: templates/core/patient_info_panel.html:628
 #: templates/core/patient_list.html:55 templates/core/patient_list.html:95
@@ -3257,8 +3338,8 @@ msgstr "Informations conjoint"
 #: templates/core/praticien_form.html:66 templates/core/profil_form.html:128
 #: templates/core/profil_form.html:140 templates/core/profil_list.html:71
 #: templates/core/rdv_calendrier.html:239
-#: templates/core/rdv_calendrier.html:280 templates/core/rdv_form.html:156
-#: templates/core/rdv_form_dialog.html:128
+#: templates/core/rdv_calendrier.html:280 templates/core/rdv_form.html:175
+#: templates/core/rdv_form_dialog.html:123
 #: templates_backup/core/consultation_gynecologique_form.html:115
 #: templates_backup/core/etablissement_form.html:25
 #: templates_backup/core/etablissement_list.html:19
@@ -3301,9 +3382,8 @@ msgid "Téléphone"
 msgstr "Teléfono"
 
 #: templates/core/consultation_gynecologique_form.html:122
-#: templates/core/grossesse_form.html:60 templates/core/patient_form.html:64
+#: templates/core/grossesse_form.html:52 templates/core/patient_form.html:64
 #: templates/core/patient_form.html:110
-#: templates/core/patient_form_dialog.html:115
 #: templates_backup/core/consultation_gynecologique_form.html:123
 #: templates_backup/core/grossesse_form.html:61
 #: templates_backup/core/patient_form.html:64
@@ -3316,7 +3396,7 @@ msgid "Groupe sanguin"
 msgstr "Groupe sanguin"
 
 #: templates/core/consultation_gynecologique_form.html:130
-#: templates/core/grossesse_form.html:63 templates/core/patient_form.html:67
+#: templates/core/grossesse_form.html:56 templates/core/patient_form.html:67
 #: templates_backup/core/consultation_gynecologique_form.html:131
 #: templates_backup/core/grossesse_form.html:64
 #: templates_backup/core/patient_form.html:67
@@ -3375,7 +3455,7 @@ msgid "Mode"
 msgstr "Mode"
 
 #: templates/core/consultation_gynecologique_form.html:295
-#: templates/core/grossesse_form.html:162
+#: templates/core/grossesse_form.html:195
 #: templates/core/partials/echo_pelvienne.html:71
 #: templates_backup/core/consultation_gynecologique_form.html:304
 #: templates_backup/core/grossesse_form.html:166
@@ -3450,65 +3530,65 @@ msgstr "Endometrio"
 msgid "Mesures foetales"
 msgstr "Mesures foetales"
 
-#: templates/core/consultation_obs_echo_11SA_form.html:45
+#: templates/core/consultation_obs_echo_11SA_form.html:53
 #: templates/core/partials/echo_pelvienne.html:17
 #: templates/core/partials/examen_obs_t1_foetal.html:20
-#: templates/core/partials/examen_obs_t23_foetal.html:20
+#: templates/core/partials/examen_obs_t23_foetal.html:16
 #: templates_backup/core/consultation_obs_echo_11SA_form.html:45
 #: templates_backup/templates/core/consultation_obs_echo_11SA_form.html:45
 msgid "Tout normal"
 msgstr "Tout normal"
 
-#: templates/core/consultation_obs_echo_11SA_form.html:58
+#: templates/core/consultation_obs_echo_11SA_form.html:66
 msgid "Tonicité"
 msgstr "Tonicidad"
 
-#: templates/core/consultation_obs_echo_11SA_form.html:62
+#: templates/core/consultation_obs_echo_11SA_form.html:70
 msgid "Trophoblaste"
 msgstr "Trofoblasto"
 
-#: templates/core/consultation_obs_echo_11SA_form.html:66
+#: templates/core/consultation_obs_echo_11SA_form.html:74
 msgid "Dimensions"
 msgstr "Dimensiones"
 
-#: templates/core/consultation_obs_echo_11SA_form.html:68
+#: templates/core/consultation_obs_echo_11SA_form.html:76
 msgid "Larg."
 msgstr ""
 
-#: templates/core/consultation_obs_echo_11SA_form.html:68
+#: templates/core/consultation_obs_echo_11SA_form.html:76
 #, fuzzy
 #| msgid "Longueur du fémur"
 msgid "Long."
 msgstr "Longueur du fémur"
 
-#: templates/core/consultation_obs_echo_11SA_form.html:68
+#: templates/core/consultation_obs_echo_11SA_form.html:76
 msgid "Haut."
 msgstr ""
 
-#: templates/core/consultation_obs_echo_11SA_form.html:68
+#: templates/core/consultation_obs_echo_11SA_form.html:76
 msgid "Diam."
 msgstr ""
 
-#: templates/core/consultation_obs_echo_11SA_form.html:76
-#: templates/core/partials/examen_obs_t1_foetal.html:241
+#: templates/core/consultation_obs_echo_11SA_form.html:84
+#: templates/core/partials/examen_obs_t1_foetal.html:263
 msgid "Décollement"
 msgstr "Desprendimiento"
 
-#: templates/core/consultation_obs_echo_11SA_form.html:90
+#: templates/core/consultation_obs_echo_11SA_form.html:98
 #, fuzzy
 #| msgid "Périmètre céphalique"
 msgid "Extrémité céphalique"
 msgstr "Périmètre céphalique"
 
-#: templates/core/consultation_obs_echo_11SA_form.html:94
-#: templates/core/partials/examen_obs_t1_foetal.html:210
-#: templates/core/partials/examen_obs_t23_foetal.html:194
+#: templates/core/consultation_obs_echo_11SA_form.html:102
+#: templates/core/partials/examen_obs_t1_foetal.html:232
+#: templates/core/partials/examen_obs_t23_foetal.html:370
 msgid "Membres"
 msgstr "Miembros"
 
-#: templates/core/consultation_obs_echo_11SA_form.html:106
+#: templates/core/consultation_obs_echo_11SA_form.html:114
 #: templates/core/partials/examen_obs_t1_foetal.html:92
-#: templates/core/partials/examen_obs_t23_foetal.html:108
+#: templates/core/partials/examen_obs_t23_foetal.html:75
 msgid "Activité cardiaque"
 msgstr ""
 
@@ -3542,13 +3622,13 @@ msgstr "Mesures maternelles"
 msgid "Graphiques"
 msgstr "Graphiques"
 
-#: templates/core/consultation_obs_echo_deuxieme_trimestre_form.html:51
+#: templates/core/consultation_obs_echo_deuxieme_trimestre_form.html:59
 #: templates_backup/core/consultation_obs_echo_deuxieme_trimestre_form.html:51
 #: templates_backup/templates/core/consultation_obs_echo_deuxieme_trimestre_form.html:51
 msgid "Echographie morphologique"
 msgstr "Echographie morphologique"
 
-#: templates/core/consultation_obs_echo_troisieme_trimestre_form.html:51
+#: templates/core/consultation_obs_echo_troisieme_trimestre_form.html:59
 #: templates_backup/core/consultation_obs_echo_troisieme_trimestre_form.html:51
 #: templates_backup/templates/core/consultation_obs_echo_troisieme_trimestre_form.html:51
 msgid "Echographie T3"
@@ -3583,18 +3663,24 @@ msgstr "Référence"
 msgid "Informations"
 msgstr "Información"
 
-#: templates/core/device_form.html:63 templates/super_admin/dashboard.html:218
+#: templates/core/device_form.html:63 templates/super_admin/dashboard.html:261
+#: templates/super_admin/dashboard.html:368
 #: templates_backup/core/device_form.html:63
 #: templates_backup/templates/core/device_form.html:63
 msgid "AE Title"
 msgstr "Título AE"
 
-#: templates/core/device_form.html:71 templates_backup/core/device_form.html:71
+#: templates/core/device_form.html:71
+#: templates/core/partials/examen_obs_t23_foetal.html:414
+#: templates/core/partials/examen_obs_t23_foetal.html:433
+#: templates/core/partials/examen_obs_t23_foetal.html:457
+#: templates_backup/core/device_form.html:71
 #: templates_backup/templates/core/device_form.html:71
 msgid "IP"
 msgstr "IP"
 
-#: templates/core/device_form.html:79 templates_backup/core/device_form.html:79
+#: templates/core/device_form.html:79 templates/super_admin/dashboard.html:388
+#: templates_backup/core/device_form.html:79
 #: templates_backup/templates/core/device_form.html:79
 msgid "Port"
 msgstr "Port"
@@ -3609,44 +3695,85 @@ msgstr "Ajouter un matériel"
 msgid "Recherche matériel"
 msgstr "Recherche matériel"
 
-#: templates/core/doctor_signup.html:7 templates/core/doctor_signup.html:47
-msgid "Demande d'accès"
-msgstr "Solicitud de acceso"
-
-#: templates/core/doctor_signup.html:40
-msgid "Demande envoyée !"
-msgstr "¡Solicitud enviada!"
-
-#: templates/core/doctor_signup.html:42
-msgid ""
-"Votre demande d'accès a bien été reçue. L'administrateur examinera votre "
-"demande et vous recevrez un email de confirmation."
+#: templates/core/doctor_signup.html:7
+msgid "Access Request"
 msgstr ""
 
-#: templates/core/doctor_signup.html:44 templates/core/password_reset.html:32
-#: templates/core/password_reset_done.html:23
-msgid "Retour à la connexion"
-msgstr "Volver al inicio de sesión"
+#: templates/core/doctor_signup.html:42
+msgid "Request Sent!"
+msgstr ""
 
-#: templates/core/doctor_signup.html:48
-msgid "Remplissez ce formulaire pour demander un accès médecin."
-msgstr "Rellene este formulario para solicitar acceso de médico."
+#: templates/core/doctor_signup.html:44
+msgid ""
+"Your access request has been received. The administrator will review it and "
+"you will receive an email notification."
+msgstr ""
 
-#: templates/core/doctor_signup.html:57
-msgid "Nom complet"
-msgstr "Nombre completo"
+#: templates/core/doctor_signup.html:46
+msgid "Back to login"
+msgstr ""
 
-#: templates/core/doctor_signup.html:62 templates/core/password_reset.html:28
-msgid "Adresse email"
-msgstr "Correo electrónico"
+#: templates/core/doctor_signup.html:49
+#, fuzzy
+#| msgid "Doctor Accounts"
+msgid "Doctor Access Request"
+msgstr "Cuentas de médicos"
 
-#: templates/core/doctor_signup.html:70
-msgid "Envoyer la demande"
-msgstr "Enviar solicitud"
+#: templates/core/doctor_signup.html:50
+msgid "Fill in the form below to request doctor access."
+msgstr ""
 
-#: templates/core/doctor_signup.html:73
-msgid "Déjà un compte ? Se connecter"
-msgstr "¿Ya tienes cuenta? Iniciar sesión"
+#: templates/core/doctor_signup.html:55
+#, fuzzy
+#| msgid "Informations"
+msgid "Personal Information"
+msgstr "Información"
+
+#: templates/core/doctor_signup.html:58
+#, fuzzy
+#| msgid "First Name"
+msgid "Full Name"
+msgstr "Nombre"
+
+#: templates/core/doctor_signup.html:66
+#, fuzzy
+#| msgid "Address"
+msgid "Email Address"
+msgstr "Dirección"
+
+#: templates/core/doctor_signup.html:74
+#: templates/core/patient_form_dialog.html:122
+#: templates/super_admin/dashboard.html:221
+msgid "Phone"
+msgstr "Teléfono"
+
+#: templates/core/doctor_signup.html:79
+msgid "Choose Your Password"
+msgstr ""
+
+#: templates/core/doctor_signup.html:82
+#: templates/super_admin/dashboard.html:329
+#: templates/super_admin/dashboard.html:410
+msgid "Password"
+msgstr "Contraseña"
+
+#: templates/core/doctor_signup.html:85
+msgid "Minimum 8 characters."
+msgstr ""
+
+#: templates/core/doctor_signup.html:90
+#, fuzzy
+#| msgid "Password"
+msgid "Confirm Password"
+msgstr "Contraseña"
+
+#: templates/core/doctor_signup.html:96
+msgid "Send Request"
+msgstr ""
+
+#: templates/core/doctor_signup.html:99
+msgid "Already have an account? Log in"
+msgstr ""
 
 #: templates/core/etablissement_list.html:12
 msgid "Ajouter un établissement"
@@ -3673,20 +3800,13 @@ msgstr "Prestation"
 msgid "Déplacer"
 msgstr "Mover"
 
-#: templates/core/grossesse_calendrier_detail.html:71
-#: templates_backup/core/shared.html:263
-#: templates_backup/templates/core/shared.html:263
-msgid "Calendrier de grossesse"
-msgstr "Calendrier de grossesse"
-
-#: templates/core/grossesse_form.html:22
+#: templates/core/grossesse_form.html:17
 #: templates_backup/core/grossesse_form.html:22
 #: templates_backup/templates/core/grossesse_form.html:22
 msgid "une grossesse"
 msgstr "une grossesse"
 
-#: templates/core/grossesse_form.html:40 templates/core/patient_form.html:47
-#: templates/core/patient_form_dialog.html:187
+#: templates/core/grossesse_form.html:30 templates/core/patient_form.html:47
 #: templates_backup/core/grossesse_form.html:40
 #: templates_backup/core/patient_form.html:46
 #: templates_backup/core/patient_form_dialog.html:40
@@ -3696,19 +3816,29 @@ msgstr "une grossesse"
 msgid "Informations sur le conjoint"
 msgstr "Informations sur le conjoint"
 
-#: templates/core/grossesse_form.html:75
-#: templates_backup/core/grossesse_form.html:76
-#: templates_backup/templates/core/grossesse_form.html:76
-msgid "Poids av. grossesse"
+#: templates/core/grossesse_form.html:68
+msgid "Données générales"
+msgstr ""
+
+#: templates/core/grossesse_form.html:71
+#, fuzzy
+#| msgid "Poids av. grossesse"
+msgid "Poids av. grossesse (kg)"
 msgstr "Peso antes del embarazo"
 
-#: templates/core/grossesse_form.html:81
+#: templates/core/grossesse_form.html:75 templates/core/patient_form.html:104
+#: templates_backup/core/patient_form.html:104
+#: templates_backup/templates/core/patient_form.html:104
+msgid "Taille (cm)"
+msgstr "Talla (cm)"
+
+#: templates/core/grossesse_form.html:79
 #: templates_backup/core/grossesse_form.html:82
 #: templates_backup/templates/core/grossesse_form.html:82
 msgid "IMC"
 msgstr "IMC"
 
-#: templates/core/grossesse_form.html:84
+#: templates/core/grossesse_form.html:83
 #: templates/core/rapport_accouchement.html:71
 #: templates_backup/core/grossesse_form.html:85
 #: templates_backup/core/rapport_accouchement.html:71
@@ -3723,25 +3853,31 @@ msgstr "FUR"
 msgid "DDR corrigée"
 msgstr "FUR corregida"
 
-#: templates/core/grossesse_form.html:90
+#: templates/core/grossesse_form.html:91
 #: templates_backup/core/grossesse_form.html:91
 #: templates_backup/templates/core/grossesse_form.html:91
 msgid "DDG théorique"
 msgstr "FPP teórica"
 
-#: templates/core/grossesse_form.html:93
+#: templates/core/grossesse_form.html:95
 #: templates_backup/core/grossesse_form.html:94
 #: templates_backup/templates/core/grossesse_form.html:94
 msgid "DDG corrigée"
 msgstr "FPP corregida"
 
-#: templates/core/grossesse_form.html:96
+#: templates/core/grossesse_form.html:99
 #: templates_backup/core/grossesse_form.html:97
 #: templates_backup/templates/core/grossesse_form.html:97
 msgid "Cycle (jours)"
 msgstr "Ciclo (días)"
 
 #: templates/core/grossesse_form.html:105
+#, fuzzy
+#| msgid "Données de la grossesse"
+msgid "Données grossesse"
+msgstr "Datos del embarazo"
+
+#: templates/core/grossesse_form.html:112
 #: templates/core/rapport_accouchement.html:74
 #: templates_backup/core/grossesse_form.html:107
 #: templates_backup/core/rapport_accouchement.html:74
@@ -3750,87 +3886,112 @@ msgstr "Ciclo (días)"
 msgid "Type de grossesse"
 msgstr "Tipo de embarazo"
 
-#: templates/core/grossesse_form.html:108
+#: templates/core/grossesse_form.html:116
 #: templates_backup/core/grossesse_form.html:110
 #: templates_backup/templates/core/grossesse_form.html:110
 msgid "Conception"
 msgstr "Concepción"
 
-#: templates/core/grossesse_form.html:114
+#: templates/core/grossesse_form.html:122
+#, fuzzy
+#| msgid "1er trimestre"
+msgid "Echo 1er trimestre"
+msgstr "1er trimestre"
+
+#: templates/core/grossesse_form.html:125
 #: templates_backup/core/grossesse_form.html:117
 #: templates_backup/templates/core/grossesse_form.html:117
 msgid "Date de l'écho"
 msgstr "Fecha de la ecografía"
 
-#: templates/core/grossesse_form.html:117
+#: templates/core/grossesse_form.html:129
+#: templates/core/partials/examen_obs_t23_foetal.html:110
 #: templates_backup/core/grossesse_form.html:120
 #: templates_backup/templates/core/grossesse_form.html:120
 msgid "LCC"
 msgstr "LCC"
 
-#: templates/core/grossesse_form.html:120
+#: templates/core/grossesse_form.html:133
 #: templates_backup/core/grossesse_form.html:123
 #: templates_backup/templates/core/grossesse_form.html:123
 msgid "CN"
 msgstr "TN"
 
-#: templates/core/grossesse_form.html:123
+#: templates/core/grossesse_form.html:137
 #: templates_backup/core/grossesse_form.html:126
 #: templates_backup/templates/core/grossesse_form.html:126
 msgid "Score de Herman"
 msgstr "Puntuación de Herman"
 
-#: templates/core/grossesse_form.html:129
+#: templates/core/grossesse_form.html:143
 #: templates_backup/core/grossesse_form.html:133
 #: templates_backup/templates/core/grossesse_form.html:133
 msgid "Dépistage T21 Fait"
 msgstr "Cribado T21 realizado"
 
-#: templates/core/grossesse_form.html:132
+#: templates/core/grossesse_form.html:149
+#, fuzzy
+#| msgid "Risque T21 combiné"
+msgid "Risques T21"
+msgstr "Riesgo T21 combinado"
+
+#: templates/core/grossesse_form.html:152
 #: templates_backup/core/grossesse_form.html:136
 #: templates_backup/templates/core/grossesse_form.html:136
 msgid "Risque T21 combiné"
 msgstr "Riesgo T21 combinado"
 
-#: templates/core/grossesse_form.html:135
+#: templates/core/grossesse_form.html:156
 #: templates_backup/core/grossesse_form.html:139
 #: templates_backup/templates/core/grossesse_form.html:139
 msgid "Risque T21 biochimique"
 msgstr "Riesgo T21 bioquímico"
 
-#: templates/core/grossesse_form.html:138
+#: templates/core/grossesse_form.html:160
 #: templates_backup/core/grossesse_form.html:142
 #: templates_backup/templates/core/grossesse_form.html:142
 msgid "Risque T21 lié à l'âge"
 msgstr "Riesgo T21 relacionado con la edad"
 
-#: templates/core/grossesse_form.html:141
+#: templates/core/grossesse_form.html:164
 #: templates_backup/core/grossesse_form.html:145
 #: templates_backup/templates/core/grossesse_form.html:145
 msgid "Risque T18 et 13"
 msgstr "Riesgo T18 y T13"
 
-#: templates/core/grossesse_form.html:147
+#: templates/core/grossesse_form.html:170
+#: templates_backup/core/grossesse_form.html:150
+#: templates_backup/templates/core/grossesse_form.html:150
+msgid "Screening"
+msgstr "Cribado"
+
+#: templates/core/grossesse_form.html:173
 #: templates/core/patient_detail_v2.html:152
 #: templates_backup/core/grossesse_form.html:152
 #: templates_backup/templates/core/grossesse_form.html:152
 msgid "1er trimestre"
 msgstr "1er trimestre"
 
-#: templates/core/grossesse_form.html:150
+#: templates/core/grossesse_form.html:177
 #: templates/core/patient_detail_v2.html:156
 #: templates_backup/core/grossesse_form.html:155
 #: templates_backup/templates/core/grossesse_form.html:155
 msgid "2ème trimestre"
 msgstr "2do trimestre"
 
-#: templates/core/grossesse_form.html:153
+#: templates/core/grossesse_form.html:181
 #: templates_backup/core/grossesse_form.html:158
 #: templates_backup/templates/core/grossesse_form.html:158
 msgid "Caryotype"
 msgstr "Cariotipo"
 
-#: templates/core/grossesse_form.html:156 templates/core/partials/pma.html:49
+#: templates/core/grossesse_form.html:185
+#, fuzzy
+#| msgid "Résultat"
+msgid "Résultat caryotype"
+msgstr "Resultado"
+
+#: templates/core/grossesse_form.html:186 templates/core/partials/pma.html:49
 #: templates_backup/core/grossesse_form.html:161
 #: templates_backup/core/grossesse_form.html:164
 #: templates_backup/templates/core/grossesse_form.html:161
@@ -3838,55 +3999,73 @@ msgstr "Cariotipo"
 msgid "Résultat"
 msgstr "Resultado"
 
-#: templates/core/grossesse_form.html:159
+#: templates/core/grossesse_form.html:190
 #: templates_backup/core/grossesse_form.html:163
 #: templates_backup/templates/core/grossesse_form.html:163
 msgid "DPNI"
 msgstr "DPNI"
 
-#: templates/core/grossesse_form.html:173
+#: templates/core/grossesse_form.html:194
+#, fuzzy
+#| msgid "Commentaire"
+msgid "Commentaire DPNI"
+msgstr "Commentaire"
+
+#: templates/core/grossesse_form.html:205
+#, fuzzy
+#| msgid "Informations complémentaires"
+msgid "Infos complémentaires"
+msgstr "Información complementaria"
+
+#: templates/core/grossesse_form.html:210
 #: templates_backup/core/grossesse_form.html:177
 #: templates_backup/templates/core/grossesse_form.html:177
 msgid "Listeria"
 msgstr "Listeria"
 
-#: templates/core/grossesse_form.html:178
+#: templates/core/grossesse_form.html:216
 #: templates_backup/core/grossesse_form.html:182
 #: templates_backup/templates/core/grossesse_form.html:182
 msgid "CMV"
 msgstr "CMV"
 
-#: templates/core/grossesse_form.html:183
+#: templates/core/grossesse_form.html:222
 #: templates_backup/core/grossesse_form.html:187
 #: templates_backup/templates/core/grossesse_form.html:187
 msgid "Alcool"
 msgstr "Alcohol"
 
-#: templates/core/grossesse_form.html:186
+#: templates/core/grossesse_form.html:226
 #: templates_backup/core/grossesse_form.html:190
 #: templates_backup/templates/core/grossesse_form.html:190
 msgid "Toxoplasmose"
 msgstr "Toxoplasmosis"
 
-#: templates/core/grossesse_form.html:191
+#: templates/core/grossesse_form.html:232
 #: templates_backup/core/grossesse_form.html:195
 #: templates_backup/templates/core/grossesse_form.html:195
 msgid "Sous traitement Aspegic"
 msgstr "Bajo tratamiento con Aspegic"
 
-#: templates/core/grossesse_form.html:199
+#: templates/core/grossesse_form.html:238
+#: templates_backup/core/grossesse_form.html:200
+#: templates_backup/templates/core/grossesse_form.html:200
+msgid "Projet d'accouchement"
+msgstr "Plan de parto"
+
+#: templates/core/grossesse_form.html:243
 #: templates_backup/core/grossesse_form.html:204
 #: templates_backup/templates/core/grossesse_form.html:204
 msgid "Allaitement maternel"
 msgstr "Lactancia materna"
 
-#: templates/core/grossesse_form.html:204
+#: templates/core/grossesse_form.html:249
 #: templates_backup/core/grossesse_form.html:209
 #: templates_backup/templates/core/grossesse_form.html:209
 msgid "Allaitement artificiel"
 msgstr "Lactancia artificial"
 
-#: templates/core/grossesse_form.html:213
+#: templates/core/grossesse_form.html:261
 #: templates_backup/core/grossesse_form.html:219
 #: templates_backup/templates/core/grossesse_form.html:219
 msgid "Autres informations"
@@ -3943,127 +4122,123 @@ msgstr "Añadir una entrada"
 msgid "Afficher les valeurs désactivées"
 msgstr ""
 
-#: templates/core/liste_choix_list.html:32 templates/core/profil_form.html:308
+#: templates/core/liste_choix_list.html:32 templates/core/profil_form.html:310
 #, fuzzy
 #| msgid "Active"
 msgid "Actif"
 msgstr "Activo"
 
-#: templates/core/login.html:54 templates/core/login_v2.html:487
+#: templates/core/login.html:51 templates/core/login_v2.html:512
 #: templates_backup/core/login.html:54
 #: templates_backup/templates/core/login.html:54
 msgid "L'application de gestion de cabinet de médecine."
 msgstr "Aplicación de gestión de consultorio médico."
 
-#: templates/core/login.html:101 templates_backup/core/login.html:85
+#: templates/core/login.html:98 templates_backup/core/login.html:85
 #: templates_backup/templates/core/login.html:85
 msgid "Connexion à l'application Expert"
 msgstr "Iniciar sesión en la aplicación Expert"
 
-#: templates/core/login.html:102 templates_backup/core/login.html:86
+#: templates/core/login.html:99 templates_backup/core/login.html:86
 #: templates_backup/templates/core/login.html:86
 msgid "Saisir votre nom d'utilisateur et mot de passe"
 msgstr "Ingrese su nombre de usuario y contraseña"
 
-#: templates/core/login.html:116 templates_backup/core/login.html:100
+#: templates/core/login.html:113 templates_backup/core/login.html:100
 #: templates_backup/templates/core/login.html:100
 msgid "d'utilisateur"
 msgstr "de usuario"
 
-#: templates/core/login.html:116 templates_backup/core/login.html:100
+#: templates/core/login.html:113 templates_backup/core/login.html:100
 #: templates_backup/templates/core/login.html:100
 msgid "ou mot de passe incorrect."
 msgstr "o contraseña incorrecta."
 
-#: templates/core/login.html:117 templates_backup/core/login.html:101
+#: templates/core/login.html:114 templates_backup/core/login.html:101
 #: templates_backup/templates/core/login.html:101
 msgid "Merci de réessayer."
 msgstr "Por favor, inténtelo de nuevo."
 
-#: templates/core/login.html:136 templates/core/login_v2.html:7
-#: templates/core/login_v2.html:548 templates_backup/core/login.html:120
-#: templates_backup/core/login_v2.html:50
-#: templates_backup/core/login_v2.html:95
-#: templates_backup/templates/core/login.html:120
-#: templates_backup/templates/core/login_v2.html:50
-#: templates_backup/templates/core/login_v2.html:95
-msgid "Connexion"
-msgstr "Iniciar sesión"
-
-#: templates/core/login.html:148
+#: templates/core/login.html:145
 msgid "Enter your details to create your account"
 msgstr ""
 
-#: templates/core/login.html:176 templates/core/login.html:200
+#: templates/core/login.html:173 templates/core/login.html:197
 msgid "Submit"
 msgstr ""
 
-#: templates/core/login.html:179 templates/core/login.html:203
+#: templates/core/login.html:176 templates/core/login.html:200
+#: templates/core/mesures_consultation.html:315
+#: templates/core/patient_form_dialog.html:49
+#: templates/core/patient_form_dialog.html:263
 #: templates/core/tentative_pma_form.html:228
 #: templates/core/traitement_pma_form.html:38
-#: templates/super_admin/dashboard.html:294
+#: templates/super_admin/dashboard.html:336
+#: templates/super_admin/dashboard.html:349
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: templates/core/login.html:189
+#: templates/core/login.html:186
 msgid "Forgotten Password ?"
 msgstr ""
 
-#: templates/core/login.html:190
+#: templates/core/login.html:187
 msgid "Enter your email to reset your password"
 msgstr ""
 
-#: templates/core/login_v2.html:494 templates/core/login_v2.html:515
-#, fuzzy
-#| msgid "ou mot de passe incorrect."
-msgid "Nom d'utilisateur ou mot de passe incorrect"
-msgstr "o contraseña incorrecta."
+#: templates/core/login_v2.html:520
+msgid "Compte désactivé"
+msgstr "Cuenta desactivada"
 
-#: templates/core/login_v2.html:494 templates/core/login_v2.html:515
-#, fuzzy
-#| msgid "Merci de réessayer."
-msgid "Merci de réessayer"
-msgstr "Por favor, inténtelo de nuevo."
+#: templates/core/login_v2.html:523
+msgid "Votre compte a été désactivé. Veuillez contacter votre administrateur."
+msgstr "Su cuenta ha sido desactivada. Por favor, contacte a su administrador."
 
-#: templates/core/login_v2.html:541 templates/core/password_reset.html:24
+#: templates/core/login_v2.html:540
+#, fuzzy
+#| msgid "Username"
+msgid "Username or Email"
+msgstr "Nombre de usuario"
+
+#: templates/core/login_v2.html:577 templates/core/password_reset.html:24
 msgid "Mot de passe oublié ?"
 msgstr "¿Olvidaste tu contraseña?"
 
-#: templates/core/login_v2.html:555
+#: templates/core/login_v2.html:591
 msgid "Pas encore de compte ?"
 msgstr "¿No tienes una cuenta?"
 
-#: templates/core/login_v2.html:557
+#: templates/core/login_v2.html:593
 msgid "Faire une demande d'accès"
 msgstr "Solicitar acceso"
 
-#: templates/core/login_v2.html:576
+#: templates/core/login_v2.html:612
 #, fuzzy
 #| msgid "Localisation"
 msgid "L'application de"
 msgstr "Localización"
 
-#: templates/core/login_v2.html:576
+#: templates/core/login_v2.html:612
 #, fuzzy
 #| msgid "Certificat médical"
 msgid "gestion médicale"
 msgstr "Certificado médico"
 
-#: templates/core/login_v2.html:576
+#: templates/core/login_v2.html:612
 #, fuzzy
 #| msgid "Nouvelle consultation"
 msgid "nouvelle génération."
 msgstr "Nouvelle consultation"
 
-#: templates/core/login_v2.html:579
+#: templates/core/login_v2.html:615
 msgid "Dossiers patients, consultations, ordonnances et planning — tout en un."
 msgstr ""
 
-#: templates/core/login_v2.html:587
+#: templates/core/login_v2.html:623
 msgid "Planning"
 msgstr ""
 
-#: templates/core/login_v2.html:593
+#: templates/core/login_v2.html:629
 #, fuzzy
 #| msgid "Historique"
 msgid "Statistiques"
@@ -4081,6 +4256,24 @@ msgstr "Cambiar contraseña"
 #: templates_backup/templates/core/mdp_form.html:21
 msgid "Nouveau mot de passe"
 msgstr "Nueva contraseña"
+
+#: templates/core/mesures_consultation.html:160
+#, fuzzy
+#| msgid "Rapport"
+msgid "Report"
+msgstr "Informe"
+
+#: templates/core/mesures_consultation.html:164
+#: templates/core/mesures_consultation.html:313
+#: templates/core/patient_form_dialog.html:52
+#: templates/core/patient_form_dialog.html:266
+#: templates/core/traitement_pma_form.html:48
+msgid "Save"
+msgstr "Guardar"
+
+#: templates/core/mesures_consultation.html:319
+msgid "View Report"
+msgstr ""
 
 #: templates/core/mesures_patient_form.html:42
 #: templates_backup/core/mesures_patient_form.html:42
@@ -4131,7 +4324,7 @@ msgstr "Rango de fechas"
 #: templates/core/rapport_accouchement.html:59
 #: templates/core/rapport_consultation.html:118
 #: templates/core/reglement_rapport.html:56
-#: templates/core/reglement_rapport_list.html:104
+#: templates/core/reglement_rapport_list.html:107
 #: templates_backup/core/mutuelle_list.html:56
 #: templates_backup/core/partials/consultations_patient.html:41
 #: templates_backup/core/rapport_accouchement.html:59
@@ -4169,48 +4362,48 @@ msgstr "Editar receta"
 msgid "Créer une ordonnance"
 msgstr "Crear receta"
 
-#: templates/core/ordonnance_form.html:162
+#: templates/core/ordonnance_form.html:170
 msgid "Médicaments"
 msgstr "Medicamentos"
 
-#: templates/core/ordonnance_form.html:163
+#: templates/core/ordonnance_form.html:171
 msgid "Rechercher un traitement"
 msgstr "Buscar un tratamiento"
 
-#: templates/core/ordonnance_form.html:168
-#: templates/core/ordonnance_form.html:199
+#: templates/core/ordonnance_form.html:176
+#: templates/core/ordonnance_form.html:207
 msgid "Parcourir la liste"
 msgstr "Explorar la lista"
 
-#: templates/core/ordonnance_form.html:174
+#: templates/core/ordonnance_form.html:182
 msgid "Prises/j"
 msgstr "Tomas/día"
 
-#: templates/core/ordonnance_form.html:178
+#: templates/core/ordonnance_form.html:186
 #: templates_backup/core/ordonnance_form.html:102
 #: templates_backup/templates/core/ordonnance_form.html:102
 msgid "Nb jours"
 msgstr "Nº días"
 
-#: templates/core/ordonnance_form.html:182
+#: templates/core/ordonnance_form.html:190
 #: templates_backup/core/ordonnance_form.html:106
 #: templates_backup/templates/core/ordonnance_form.html:106
 msgid "Qté/prise"
 msgstr "Cant./toma"
 
-#: templates/core/ordonnance_form.html:193
+#: templates/core/ordonnance_form.html:201
 msgid "Examens"
 msgstr "Exámenes"
 
-#: templates/core/ordonnance_form.html:194
+#: templates/core/ordonnance_form.html:202
 msgid "Rechercher un examen"
 msgstr "Buscar un examen"
 
-#: templates/core/ordonnance_form.html:207
+#: templates/core/ordonnance_form.html:215
 msgid "Renseignements cliniques"
 msgstr "Información clínica"
 
-#: templates/core/ordonnance_form.html:209
+#: templates/core/ordonnance_form.html:217
 #, fuzzy
 #| msgid "Informations complémentaires"
 msgid "Informations cliniques..."
@@ -4467,7 +4660,7 @@ msgstr "Informes quirúrgicos"
 msgid "Ajouter l'entête et pied de page aux éditions"
 msgstr "Agregar encabezado y pie de página a las ediciones"
 
-#: templates/core/parametres.html:680 templates/core/parametres.html:829
+#: templates/core/parametres.html:680 templates/core/parametres.html:820
 #: templates_backup/core/parametres.html:680
 #: templates_backup/templates/core/parametres.html:680
 msgid "Compte-rendus"
@@ -4508,7 +4701,7 @@ msgstr "Certificado de embarazo"
 msgid "Lettre Fit-to-fly"
 msgstr "Carta fit-to-fly"
 
-#: templates/core/parametres.html:777 templates/core/parametres_base.html:91
+#: templates/core/parametres.html:776 templates/core/parametres_base.html:91
 #: templates_backup/core/parametres.html:777
 #: templates_backup/core/parametres_base.html:90
 #: templates_backup/templates/core/parametres.html:777
@@ -4516,56 +4709,56 @@ msgstr "Carta fit-to-fly"
 msgid "Modèles"
 msgstr "Plantillas"
 
-#: templates/core/parametres.html:778 templates_backup/core/parametres.html:778
+#: templates/core/parametres.html:777 templates_backup/core/parametres.html:778
 #: templates_backup/templates/core/parametres.html:778
 msgid "Modifier les paramètres des modèles"
 msgstr "Editar parámetros de plantillas"
 
-#: templates/core/parametres.html:788 templates/core/parametres.html:914
+#: templates/core/parametres.html:785 templates/core/parametres.html:905
 #: templates_backup/core/parametres.html:788
 #: templates_backup/templates/core/parametres.html:788
 msgid "Modèles de traitements"
 msgstr "Modèles de traitements"
 
-#: templates/core/parametres.html:792
+#: templates/core/parametres.html:788
 #: templates_backup/core/ordonnance_form.html:83
 #: templates_backup/templates/core/ordonnance_form.html:83
 msgid "Traitements"
 msgstr "Tratamientos"
 
-#: templates/core/parametres.html:797 templates_backup/core/parametres.html:797
+#: templates/core/parametres.html:793 templates_backup/core/parametres.html:797
 #: templates_backup/templates/core/parametres.html:797
 msgid "Modèles de traitements PMA"
 msgstr "Plantillas de tratamientos PMA"
 
-#: templates/core/parametres.html:801
+#: templates/core/parametres.html:796
 msgid "Traitements PMA"
 msgstr "Tratamientos PMA"
 
-#: templates/core/parametres.html:806 templates/core/parametres.html:942
+#: templates/core/parametres.html:801 templates/core/parametres.html:933
 #: templates_backup/core/parametres.html:806
 #: templates_backup/templates/core/parametres.html:806
 msgid "Modèles de prescriptions"
 msgstr "Plantillas de recetas"
 
-#: templates/core/parametres.html:810 templates/core/shared.html:295
+#: templates/core/parametres.html:804 templates/core/shared.html:296
 msgid "Prescriptions"
 msgstr "Prescripciones"
 
-#: templates/core/parametres.html:815 templates_backup/core/parametres.html:815
+#: templates/core/parametres.html:809 templates_backup/core/parametres.html:815
 #: templates_backup/templates/core/parametres.html:815
 msgid "Modèles d'analyses biologiques"
 msgstr "Plantillas de análisis"
 
-#: templates/core/parametres.html:824 templates_backup/core/parametres.html:824
+#: templates/core/parametres.html:817 templates_backup/core/parametres.html:824
 #: templates_backup/templates/core/parametres.html:824
 msgid "Modèles de compte-rendus"
 msgstr "Plantillas de informes"
 
-#: templates/core/parametres.html:841 templates/core/parametres.html:853
+#: templates/core/parametres.html:832 templates/core/parametres.html:844
 #: templates/core/parametres_base.html:99
 #: templates/core/reglement_rapport.html:65
-#: templates/core/reglement_rapport_list.html:114
+#: templates/core/reglement_rapport_list.html:117
 #: templates_backup/core/parametres.html:841
 #: templates_backup/core/parametres.html:853
 #: templates_backup/core/parametres_base.html:98
@@ -4579,12 +4772,12 @@ msgstr "Plantillas de informes"
 msgid "Prestations"
 msgstr "Servicios"
 
-#: templates/core/parametres.html:842 templates_backup/core/parametres.html:842
+#: templates/core/parametres.html:833 templates_backup/core/parametres.html:842
 #: templates_backup/templates/core/parametres.html:842
 msgid "Gérer le catalogue des prestations"
 msgstr "Gestionar el catálogo de prestaciones"
 
-#: templates/core/parametres.html:865 templates/core/parametres.html:877
+#: templates/core/parametres.html:856 templates/core/parametres.html:868
 #: templates_backup/core/parametres.html:865
 #: templates_backup/core/parametres.html:877
 #: templates_backup/templates/core/parametres.html:865
@@ -4592,12 +4785,12 @@ msgstr "Gestionar el catálogo de prestaciones"
 msgid "Motifs des absences"
 msgstr "Motivos de ausencia"
 
-#: templates/core/parametres.html:866 templates_backup/core/parametres.html:866
+#: templates/core/parametres.html:857 templates_backup/core/parametres.html:866
 #: templates_backup/templates/core/parametres.html:866
 msgid "Gérer la liste des motifs d'absence des médecins"
 msgstr "Gestionar la lista de motivos de ausencia de médicos"
 
-#: templates/core/parametres.html:889 templates/core/parametres.html:901
+#: templates/core/parametres.html:880 templates/core/parametres.html:892
 #: templates/core/parametres_base.html:115
 #: templates_backup/core/parametres.html:889
 #: templates_backup/core/parametres.html:901
@@ -4608,30 +4801,30 @@ msgstr "Gestionar la lista de motivos de ausencia de médicos"
 msgid "Matériel"
 msgstr "Equipamiento"
 
-#: templates/core/parametres.html:890 templates_backup/core/parametres.html:890
+#: templates/core/parametres.html:881 templates_backup/core/parametres.html:890
 #: templates_backup/templates/core/parametres.html:890
 msgid "Gérer les échographes"
 msgstr "Gérer les échographes"
 
-#: templates/core/parametres.html:1010
+#: templates/core/parametres.html:1001
 #: templates_backup/core/parametres.html:954
 #: templates_backup/templates/core/parametres.html:954
 msgid "Modèles de compte-rendu"
 msgstr "Modèles de compte-rendu"
 
-#: templates/core/parametres.html:1047
+#: templates/core/parametres.html:1038
 #: templates_backup/core/parametres.html:991
 #: templates_backup/templates/core/parametres.html:991
 msgid "Catalogue des prestations"
 msgstr "Catalogue des prestations"
 
-#: templates/core/parametres.html:1084
+#: templates/core/parametres.html:1075
 #: templates_backup/core/parametres.html:1028
 #: templates_backup/templates/core/parametres.html:1028
 msgid "Liste du matériel"
 msgstr "Liste du matériel"
 
-#: templates/core/parametres.html:1120
+#: templates/core/parametres.html:1111
 #: templates_backup/core/parametres.html:1064
 #: templates_backup/templates/core/parametres.html:1064
 msgid "Liste des motifs"
@@ -4642,11 +4835,11 @@ msgid "Non renseigné"
 msgstr "No proporcionado"
 
 #: templates/core/parametres_base.html:42 templates/core/patient_form.html:101
-#: templates/core/patient_form_dialog.html:88
+#: templates/core/patient_form_dialog.html:134
 #: templates/core/praticien_form.html:81 templates/core/profil_form.html:110
-#: templates/super_admin/dashboard.html:177
-#: templates/super_admin/dashboard.html:217
-#: templates/super_admin/dashboard.html:283
+#: templates/super_admin/dashboard.html:220
+#: templates/super_admin/dashboard.html:260
+#: templates/super_admin/dashboard.html:325
 #: templates_backup/core/patient_form.html:101
 #: templates_backup/core/praticien_form.html:81
 #: templates_backup/templates/core/patient_form.html:101
@@ -4802,11 +4995,9 @@ msgstr "Longueur du fémur"
 msgid "Echographe"
 msgstr "Echographe"
 
-#: templates/core/partials/consultation_toolbar.html:29
-#: templates_backup/core/partials/consultation_toolbar.html:29
-#: templates_backup/templates/core/partials/consultation_toolbar.html:29
-msgid "Compte-rendu"
-msgstr "Compte-rendu"
+#: templates/core/partials/consultation_images.html:20
+msgid "Doppler Waveforms"
+msgstr ""
 
 #: templates/core/partials/consultations_patient.html:18
 #: templates/core/partials/consultations_patient.html:50
@@ -4895,8 +5086,9 @@ msgid "Paroi postérieure"
 msgstr ""
 
 #: templates/core/partials/echo_pelvienne.html:91
-#: templates/core/partials/examen_obs_t1_foetal.html:123
-#: templates/core/partials/examen_obs_t23_foetal.html:139
+#: templates/core/partials/examen_obs_t1_foetal.html:126
+#: templates/core/partials/examen_obs_t1_foetal.html:154
+#: templates/core/partials/examen_obs_t23_foetal.html:88
 msgid "Mobilité"
 msgstr "Movilidad"
 
@@ -4955,7 +5147,7 @@ msgid "Epaisseur"
 msgstr ""
 
 #: templates/core/partials/echo_pelvienne.html:169
-#: templates/core/partials/examen_obs_maternel.html:82
+#: templates/core/partials/examen_obs_maternel.html:68
 msgid "Col"
 msgstr "Cuello"
 
@@ -5061,191 +5253,314 @@ msgstr "Margen izquierdo"
 msgid "IR gauche"
 msgstr "Margen izquierdo"
 
-#: templates/core/partials/examen_obs_maternel.html:33
+#: templates/core/partials/examen_obs_maternel.html:32
 msgid "Notch gauche"
 msgstr ""
 
-#: templates/core/partials/examen_obs_maternel.html:50
+#: templates/core/partials/examen_obs_maternel.html:43
 #, fuzzy
 #| msgid "Marge droite"
 msgid "IP droit"
 msgstr "Margen derecho"
 
-#: templates/core/partials/examen_obs_maternel.html:55
+#: templates/core/partials/examen_obs_maternel.html:48
 #, fuzzy
 #| msgid "Marge droite"
 msgid "IR droit"
 msgstr "Margen derecho"
 
-#: templates/core/partials/examen_obs_maternel.html:63
+#: templates/core/partials/examen_obs_maternel.html:55
 msgid "Notch droit"
 msgstr ""
 
-#: templates/core/partials/examen_obs_maternel.html:88
+#: templates/core/partials/examen_obs_maternel.html:74
 #, fuzzy
 #| msgid "Longueur du fémur"
 msgid "Longueur"
 msgstr "Longueur du fémur"
 
-#: templates/core/partials/examen_obs_maternel.html:106
+#: templates/core/partials/examen_obs_maternel.html:89
 msgid "Orifice interne"
 msgstr ""
 
-#: templates/core/partials/examen_obs_maternel.html:124
+#: templates/core/partials/examen_obs_maternel.html:104
 msgid "Entonnoir"
 msgstr ""
 
-#: templates/core/partials/examen_obs_maternel.html:143
+#: templates/core/partials/examen_obs_maternel.html:118
 msgid "Pelvis"
 msgstr ""
 
-#: templates/core/partials/examen_obs_maternel.html:147
+#: templates/core/partials/examen_obs_maternel.html:122
 #, fuzzy
 #| msgid "Mesures maternelles"
 msgid "Pelvis maternel"
 msgstr "Mesures maternelles"
 
 #: templates/core/partials/examen_obs_t1_foetal.html:35
-#: templates/core/partials/examen_obs_t23_foetal.html:35
+#: templates/core/partials/examen_obs_t23_foetal.html:27
 msgid "Foetus A"
 msgstr ""
 
 #: templates/core/partials/examen_obs_t1_foetal.html:42
-#: templates/core/partials/examen_obs_t23_foetal.html:42
+#: templates/core/partials/examen_obs_t23_foetal.html:34
 msgid "Foetus B"
 msgstr ""
 
 #: templates/core/partials/examen_obs_t1_foetal.html:49
-#: templates/core/partials/examen_obs_t23_foetal.html:49
+#: templates/core/partials/examen_obs_t23_foetal.html:41
 msgid "Foetus C"
 msgstr ""
 
 #: templates/core/partials/examen_obs_t1_foetal.html:86
-#: templates/core/partials/examen_obs_t23_foetal.html:102
+#: templates/core/partials/examen_obs_t23_foetal.html:71
 msgid "Vitalité"
 msgstr "Vitalidad"
 
-#: templates/core/partials/examen_obs_t1_foetal.html:104
-#: templates/core/partials/examen_obs_t23_foetal.html:120
+#: templates/core/partials/examen_obs_t1_foetal.html:103
+#: templates/core/partials/examen_obs_t1_foetal.html:135
+#: templates/core/partials/examen_obs_t23_foetal.html:80
 msgid "Fréquence cardiaque"
 msgstr ""
 
-#: templates/core/partials/examen_obs_t1_foetal.html:139
-#: templates/core/partials/examen_obs_t23_foetal.html:155
+#: templates/core/partials/examen_obs_t1_foetal.html:167
+#: templates/core/partials/examen_obs_t23_foetal.html:96
 msgid "Biométrie"
 msgstr "Biometría"
 
-#: templates/core/partials/examen_obs_t1_foetal.html:185
-#: templates/core/partials/examen_obs_t23_foetal.html:180
+#: templates/core/partials/examen_obs_t1_foetal.html:207
+#: templates/core/partials/examen_obs_t23_foetal.html:315
 msgid "Morphologie"
 msgstr "Morfología"
 
-#: templates/core/partials/examen_obs_t1_foetal.html:190
-#: templates/core/partials/examen_obs_t23_foetal.html:189
+#: templates/core/partials/examen_obs_t1_foetal.html:212
+#: templates/core/partials/examen_obs_t23_foetal.html:345
 msgid "Coeur"
 msgstr "Corazón"
 
-#: templates/core/partials/examen_obs_t1_foetal.html:195
+#: templates/core/partials/examen_obs_t1_foetal.html:217
 #, fuzzy
 #| msgid "Périmètre céphalique"
 msgid "Pôle céphalique"
 msgstr "Périmètre céphalique"
 
-#: templates/core/partials/examen_obs_t1_foetal.html:200
+#: templates/core/partials/examen_obs_t1_foetal.html:222
 msgid "Ligne médiane du cerveau"
 msgstr ""
 
-#: templates/core/partials/examen_obs_t1_foetal.html:205
-#: templates/core/partials/examen_obs_t23_foetal.html:190
+#: templates/core/partials/examen_obs_t1_foetal.html:227
+#: templates/core/partials/examen_obs_t23_foetal.html:350
 #, fuzzy
 #| msgid "Périmètre abdominal"
 msgid "Paroi abdominale"
 msgstr "Périmètre abdominal"
 
-#: templates/core/partials/examen_obs_t1_foetal.html:221
-#: templates/core/partials/examen_obs_t23_foetal.html:204
+#: templates/core/partials/examen_obs_t1_foetal.html:243
+#: templates/core/partials/examen_obs_t23_foetal.html:384
 msgid "Annexes"
 msgstr "Anejos"
 
-#: templates/core/partials/examen_obs_t1_foetal.html:226
-#: templates/core/partials/examen_obs_t23_foetal.html:206
+#: templates/core/partials/examen_obs_t1_foetal.html:248
+#: templates/core/partials/examen_obs_t23_foetal.html:388
 msgid "Liquide amnio."
 msgstr ""
 
-#: templates/core/partials/examen_obs_t1_foetal.html:231
+#: templates/core/partials/examen_obs_t1_foetal.html:253
 #, fuzzy
 #| msgid "Trophoblaste"
 msgid "Trophoblaste loc."
 msgstr "Trofoblasto"
 
-#: templates/core/partials/examen_obs_t1_foetal.html:236
+#: templates/core/partials/examen_obs_t1_foetal.html:258
 #, fuzzy
 #| msgid "Trophoblaste"
 msgid "Trophoblaste aspect"
 msgstr "Trofoblasto"
 
-#: templates/core/partials/examen_obs_t23_foetal.html:88
+#: templates/core/partials/examen_obs_t23_foetal.html:65
 #, fuzzy
 #| msgid "Prestation"
 msgid "Présentation"
 msgstr "Prestation"
 
-#: templates/core/partials/examen_obs_t23_foetal.html:184
+#: templates/core/partials/examen_obs_t23_foetal.html:118
+#, fuzzy
+#| msgid "IP"
+msgid "BIP"
+msgstr "IP"
+
+#: templates/core/partials/examen_obs_t23_foetal.html:126
+msgid "PC"
+msgstr ""
+
+#: templates/core/partials/examen_obs_t23_foetal.html:134
+#, fuzzy
+#| msgid "PMA"
+msgid "PA"
+msgstr "PMA"
+
+#: templates/core/partials/examen_obs_t23_foetal.html:142
+msgid "LF"
+msgstr ""
+
+#: templates/core/partials/examen_obs_t23_foetal.html:150
+msgid "Bassinet d."
+msgstr ""
+
+#: templates/core/partials/examen_obs_t23_foetal.html:158
+msgid "Bassinet g."
+msgstr ""
+
+#: templates/core/partials/examen_obs_t23_foetal.html:166
+#, fuzzy
+#| msgid "LCC"
+msgid "CC"
+msgstr "LCC"
+
+#: templates/core/partials/examen_obs_t23_foetal.html:174
+msgid "Cervelet"
+msgstr ""
+
+#: templates/core/partials/examen_obs_t23_foetal.html:182
+msgid "OPN"
+msgstr ""
+
+#: templates/core/partials/examen_obs_t23_foetal.html:193
+msgid "Cubitus"
+msgstr ""
+
+#: templates/core/partials/examen_obs_t23_foetal.html:201
+msgid "DIO"
+msgstr ""
+
+#: templates/core/partials/examen_obs_t23_foetal.html:209
+msgid "EPN"
+msgstr ""
+
+#: templates/core/partials/examen_obs_t23_foetal.html:217
+msgid "Humerus"
+msgstr ""
+
+#: templates/core/partials/examen_obs_t23_foetal.html:225
+#, fuzzy
+#| msgid "Ville"
+msgid "Oreille"
+msgstr "Ciudad"
+
+#: templates/core/partials/examen_obs_t23_foetal.html:233
+msgid "Péroné"
+msgstr ""
+
+#: templates/core/partials/examen_obs_t23_foetal.html:241
+msgid "Pied"
+msgstr ""
+
+#: templates/core/partials/examen_obs_t23_foetal.html:257
+msgid "Radius"
+msgstr ""
+
+#: templates/core/partials/examen_obs_t23_foetal.html:265
+msgid "Rein d."
+msgstr ""
+
+#: templates/core/partials/examen_obs_t23_foetal.html:273
+msgid "Rein g."
+msgstr ""
+
+#: templates/core/partials/examen_obs_t23_foetal.html:281
+msgid "Tibia"
+msgstr ""
+
+#: templates/core/partials/examen_obs_t23_foetal.html:297
+msgid "Thyroïde"
+msgstr ""
+
+#: templates/core/partials/examen_obs_t23_foetal.html:308
+#, fuzzy
+#| msgid "Examens complémentaires"
+msgid "Mesures supplémentaires"
+msgstr "Examens complémentaires"
+
+#: templates/core/partials/examen_obs_t23_foetal.html:319
 msgid "Boîte crânienne"
 msgstr ""
 
-#: templates/core/partials/examen_obs_t23_foetal.html:185
+#: templates/core/partials/examen_obs_t23_foetal.html:324
 msgid "Structure cérébrale"
 msgstr ""
 
-#: templates/core/partials/examen_obs_t23_foetal.html:186
+#: templates/core/partials/examen_obs_t23_foetal.html:329
 msgid "Face"
 msgstr ""
 
-#: templates/core/partials/examen_obs_t23_foetal.html:187
+#: templates/core/partials/examen_obs_t23_foetal.html:335
 #, fuzzy
 #| msgid "Coeur"
 msgid "Cou"
 msgstr "Corazón"
 
-#: templates/core/partials/examen_obs_t23_foetal.html:188
+#: templates/core/partials/examen_obs_t23_foetal.html:340
 msgid "Thorax"
 msgstr ""
 
-#: templates/core/partials/examen_obs_t23_foetal.html:191
+#: templates/core/partials/examen_obs_t23_foetal.html:355
 msgid "Appareil digestif"
 msgstr ""
 
-#: templates/core/partials/examen_obs_t23_foetal.html:192
+#: templates/core/partials/examen_obs_t23_foetal.html:360
 msgid "Appareil urinaire"
 msgstr ""
 
-#: templates/core/partials/examen_obs_t23_foetal.html:193
+#: templates/core/partials/examen_obs_t23_foetal.html:365
 msgid "Rachis"
 msgstr ""
 
-#: templates/core/partials/examen_obs_t23_foetal.html:195
+#: templates/core/partials/examen_obs_t23_foetal.html:375
 msgid "OGE"
 msgstr ""
 
-#: templates/core/partials/examen_obs_t23_foetal.html:207
+#: templates/core/partials/examen_obs_t23_foetal.html:393
 msgid "Placenta"
 msgstr ""
 
-#: templates/core/partials/examen_obs_t23_foetal.html:208
+#: templates/core/partials/examen_obs_t23_foetal.html:398
 msgid "Cordon"
 msgstr ""
 
-#: templates/core/partials/examen_obs_t23_foetal.html:222
+#: templates/core/partials/examen_obs_t23_foetal.html:411
 msgid "Doppler Ombilical"
 msgstr ""
 
-#: templates/core/partials/examen_obs_t23_foetal.html:223
+#: templates/core/partials/examen_obs_t23_foetal.html:418
+#: templates/core/partials/examen_obs_t23_foetal.html:437
+#: templates/core/partials/examen_obs_t23_foetal.html:461
+msgid "IR"
+msgstr ""
+
+#: templates/core/partials/examen_obs_t23_foetal.html:423
+msgid "Flux en diastole"
+msgstr ""
+
+#: templates/core/partials/examen_obs_t23_foetal.html:430
 msgid "Doppler ACM"
 msgstr ""
 
-#: templates/core/partials/examen_obs_t23_foetal.html:224
+#: templates/core/partials/examen_obs_t23_foetal.html:442
+msgid "Vitesse (cm/s)"
+msgstr ""
+
+#: templates/core/partials/examen_obs_t23_foetal.html:447
+#, fuzzy
+#| msgid "Moi"
+msgid "MoM"
+msgstr "Yo"
+
+#: templates/core/partials/examen_obs_t23_foetal.html:454
 msgid "Doppler DV"
+msgstr ""
+
+#: templates/core/partials/examen_obs_t23_foetal.html:466
+msgid "Onde A"
 msgstr ""
 
 #: templates/core/partials/pma.html:12
@@ -5313,9 +5628,18 @@ msgstr ""
 "Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu "
 "contraseña."
 
+#: templates/core/password_reset.html:28
+msgid "Adresse email"
+msgstr "Correo electrónico"
+
 #: templates/core/password_reset.html:30
 msgid "Envoyer le lien"
 msgstr "Enviar enlace"
+
+#: templates/core/password_reset.html:32
+#: templates/core/password_reset_done.html:23
+msgid "Retour à la connexion"
+msgstr "Volver al inicio de sesión"
 
 #: templates/core/password_reset_complete.html:7
 #, fuzzy
@@ -5506,10 +5830,10 @@ msgstr "Familiares"
 #: templates/core/patient_detail_v2.html:864
 #: templates/core/patient_detail_v2.html:945
 #: templates/core/patient_detail_v2.html:1026
-#: templates/core/patient_detail_v2.html:1102
-#: templates/core/patient_detail_v2.html:1178
-#: templates/core/patient_detail_v2.html:1252
-#: templates/core/patient_detail_v2.html:1358
+#: templates/core/patient_detail_v2.html:1101
+#: templates/core/patient_detail_v2.html:1177
+#: templates/core/patient_detail_v2.html:1251
+#: templates/core/patient_detail_v2.html:1355
 #: templates/core/programme_operatoire_form.html:19
 #: templates/core/reglement_form.html:10
 #: templates/core/reglement_form_2.html:10
@@ -5532,45 +5856,49 @@ msgstr "Ginecológicos"
 msgid "Allergies"
 msgstr "Alergias"
 
-#: templates/core/patient_detail_v2.html:1156
-#: templates/core/patient_detail_v2.html:1231
-#: templates/core/patient_detail_v2.html:1305
-#: templates/core/patient_list.html:184 templates/core/patient_list_v2.html:188
+#: templates/core/patient_detail_v2.html:1091
+msgid "FCV"
+msgstr "FCV"
+
+#: templates/core/patient_detail_v2.html:1155
+#: templates/core/patient_detail_v2.html:1230
+#: templates/core/patient_detail_v2.html:1304
+#: templates/core/patient_list.html:184 templates/core/patient_list_v2.html:194
 msgid "Pas d'historique"
 msgstr "Sin historial"
 
-#: templates/core/patient_detail_v2.html:1168
+#: templates/core/patient_detail_v2.html:1167
 msgid "Mammographie"
 msgstr "Mamografía"
 
-#: templates/core/patient_detail_v2.html:1242
+#: templates/core/patient_detail_v2.html:1241
 msgid "Echo Mammaire"
 msgstr "Ecografía mamaria"
 
-#: templates/core/patient_detail_v2.html:1339
+#: templates/core/patient_detail_v2.html:1336
 #, fuzzy
 #| msgid "Antécédents obstétricaux"
 msgid "Obstétricaux"
 msgstr "Obstétricos"
 
-#: templates/core/patient_detail_v2.html:1409
-#: templates/core/patient_detail_v2.html:1415
+#: templates/core/patient_detail_v2.html:1406
+#: templates/core/patient_detail_v2.html:1412
 #, fuzzy
 #| msgid "Issue de grossesse"
 msgid "Issue de grossesse à compléter"
 msgstr "Resultado del embarazo"
 
-#: templates/core/patient_detail_v2.html:1425
+#: templates/core/patient_detail_v2.html:1422
 msgid "foetus"
 msgstr "feto"
 
-#: templates/core/patient_detail_v2.html:1560
+#: templates/core/patient_detail_v2.html:1556
 #, fuzzy
 #| msgid "Motif de consultation"
 msgid "Modifier consultation"
 msgstr "Motif de consultation"
 
-#: templates/core/patient_detail_v2.html:1588
+#: templates/core/patient_detail_v2.html:1584
 msgid "La DDR n'est pas renseignée pour la grossesse en cours"
 msgstr ""
 
@@ -5594,18 +5922,6 @@ msgstr "Laboratorio"
 msgid "Radiologie"
 msgstr "Radiología"
 
-msgid "Laboratoire/Biologie"
-msgstr "Laboratorio/Biología"
-
-msgid "Laboratoire/Anapath"
-msgstr "Laboratorio/Anatomía Patológica"
-
-msgid "CR opératoire"
-msgstr "Informe operatorio"
-
-msgid "Autres"
-msgstr "Otros"
-
 #: templates/core/patient_fichiers.html:51
 #: templates/core/patient_fichiers_telecharger.html:22
 #: templates/core/patient_fichiers_v2.html:36
@@ -5622,16 +5938,38 @@ msgstr "El archivo se añadirá a la carpeta seleccionada"
 msgid "Pas de fichiers"
 msgstr "Sin archivos"
 
+#: templates/core/patient_form.html:24 templates/core/rdv_form.html:44
+#: templates_backup/core/patient_form.html:23
+#: templates_backup/core/rdv_form.html:44
+#: templates_backup/templates/core/patient_form.html:23
+#: templates_backup/templates/core/rdv_form.html:44
+msgid "Formulaire de"
+msgstr "Formulario de"
+
+#: templates/core/patient_form.html:26 templates/core/rdv_form.html:44
+#: templates_backup/core/patient_form.html:25
+#: templates_backup/core/rdv_form.html:44
+#: templates_backup/templates/core/patient_form.html:25
+#: templates_backup/templates/core/rdv_form.html:44
+msgid "modification"
+msgstr "modificación"
+
+#: templates/core/patient_form.html:28 templates/core/rdv_form.html:44
+#: templates_backup/core/patient_form.html:27
+#: templates_backup/core/rdv_form.html:44
+#: templates_backup/templates/core/patient_form.html:27
+#: templates_backup/templates/core/rdv_form.html:44
+msgid "création"
+msgstr "creación"
+
 #: templates/core/patient_form.html:74
-#: templates/core/patient_form_dialog.html:40
 #: templates_backup/core/patient_form.html:74
 #: templates_backup/templates/core/patient_form.html:74
 msgid "Civilité"
 msgstr "Civilidad"
 
-#: templates/core/patient_form.html:92
-#: templates/core/patient_form_dialog.html:168 templates/core/rdv_form.html:133
-#: templates/core/rdv_form_dialog.html:105
+#: templates/core/patient_form.html:92 templates/core/rdv_form.html:152
+#: templates/core/rdv_form_dialog.html:100
 #: templates_backup/core/patient_form.html:92
 #: templates_backup/core/rdv_form.html:133
 #: templates_backup/core/rdv_form_dialog.html:105
@@ -5642,29 +5980,18 @@ msgid "Code postal"
 msgstr "Código postal"
 
 #: templates/core/patient_form.html:95
-#: templates/core/patient_form_dialog.html:179
 #: templates_backup/core/patient_form.html:95
 #: templates_backup/templates/core/patient_form.html:95
 msgid "Pays"
 msgstr "País"
 
-#: templates/core/patient_form.html:104
-#: templates/core/patient_form_dialog.html:107
-#: templates_backup/core/patient_form.html:104
-#: templates_backup/templates/core/patient_form.html:104
-msgid "Taille (cm)"
-msgstr "Talla (cm)"
-
 #: templates/core/patient_form.html:107
-#: templates/core/patient_form_dialog.html:111
 #: templates_backup/core/patient_form.html:107
 #: templates_backup/templates/core/patient_form.html:107
 msgid "Poids (kg)"
 msgstr "Peso (kg)"
 
 #: templates/core/patient_form.html:113
-#: templates/core/patient_form_dialog.html:95
-#: templates/core/patient_form_dialog.html:207
 #: templates/core/patient_info_panel.html:151
 #: templates/core/patient_info_panel.html:640
 #: templates_backup/core/patient_form.html:113
@@ -5674,113 +6001,176 @@ msgstr "Peso (kg)"
 msgid "Profession"
 msgstr "Profesión"
 
-#: templates/core/patient_form_dialog.html:23
-#: templates_backup/core/patient_form_dialog.html:19
-#: templates_backup/templates/core/patient_form_dialog.html:19
-msgid "un patient"
-msgstr "un paciente"
+#: templates/core/patient_form_dialog.html:41
+msgid "Edit Patient"
+msgstr "Editar paciente"
 
-#: templates/core/patient_form_dialog.html:55
-#, fuzzy
-#| msgid "Nom de naissance"
-msgid "Nom de famille"
-msgstr "Apellido de nacimiento"
+#: templates/core/patient_form_dialog.html:43
+msgid "New Patient"
+msgstr "Nuevo paciente"
 
-#: templates/core/patient_form_dialog.html:84
-#, fuzzy
-#| msgid "Téléphone 2"
-msgid "Téléphone autre"
-msgstr "Teléfono 2"
+#: templates/core/patient_form_dialog.html:60
+msgid "Identity"
+msgstr "Identidad"
 
-#: templates/core/patient_form_dialog.html:99
-#, fuzzy
-#| msgid "Praticien patient"
-msgid "Praticien principal"
-msgstr "Praticien patient"
+#: templates/core/patient_form_dialog.html:63
+msgid "Title"
+msgstr "Tratamiento"
+
+#: templates/core/patient_form_dialog.html:68
+msgid "Sex"
+msgstr "Sexo"
+
+#: templates/core/patient_form_dialog.html:73
+#: templates/core/patient_form_dialog.html:198
+msgid "First Name"
+msgstr "Nombre"
+
+#: templates/core/patient_form_dialog.html:78
+#: templates/core/patient_form_dialog.html:194
+msgid "Last Name"
+msgstr "Apellido"
+
+#: templates/core/patient_form_dialog.html:83
+msgid "Birth Name"
+msgstr "Nombre de nacimiento"
+
+#: templates/core/patient_form_dialog.html:88
+msgid "Date of Birth"
+msgstr "Fecha de nacimiento"
+
+#: templates/core/patient_form_dialog.html:93
+msgid "Origin"
+msgstr "Origen"
+
+#: templates/core/patient_form_dialog.html:97
+msgid "ID Number"
+msgstr "Número de identidad"
+
+#: templates/core/patient_form_dialog.html:101
+msgid "Social Security Code"
+msgstr "Código de seguridad social"
+
+#: templates/core/patient_form_dialog.html:105
+msgid "Old Number"
+msgstr "Número antiguo"
+
+#: templates/core/patient_form_dialog.html:109
+#: templates/core/patient_form_dialog.html:206
+msgid "Occupation"
+msgstr "Profesión"
+
+#: templates/core/patient_form_dialog.html:119
+msgid "Contact"
+msgstr "Contacto"
 
 #: templates/core/patient_form_dialog.html:126
-#, fuzzy
-#| msgid "Nb de Fœtus"
-msgid "Nombre de cigarettes"
-msgstr "Número de fetos"
+msgid "Secondary Phone"
+msgstr "Teléfono secundario"
 
-#: templates/core/patient_form_dialog.html:133
-msgid "Numéro d'identité"
-msgstr ""
+#: templates/core/patient_form_dialog.html:130
+msgid "Other Phone"
+msgstr "Otro teléfono"
 
-#: templates/core/patient_form_dialog.html:137
-msgid "Code de sécurité sociale"
-msgstr ""
+#: templates/core/patient_form_dialog.html:141
+msgid "Address"
+msgstr "Dirección"
+
+#: templates/core/patient_form_dialog.html:144
+msgid "City"
+msgstr "Ciudad"
 
 #: templates/core/patient_form_dialog.html:148
-#: templates/core/patient_list.html:97 templates/core/patient_list_v2.html:106
-#: templates_backup/core/patient_list.html:72
-#: templates_backup/core/patient_list.html:112
-#: templates_backup/core/patient_list_v2.html:79
-#: templates_backup/core/patient_list_v2.html:122
-#: templates_backup/templates/core/patient_list.html:72
-#: templates_backup/templates/core/patient_list.html:112
-#: templates_backup/templates/core/patient_list_v2.html:79
-#: templates_backup/templates/core/patient_list_v2.html:122
-msgid "Ancien numéro"
-msgstr "Número anterior"
+msgid "Postal Code"
+msgstr "Código postal"
 
-#: templates/core/patient_form_dialog.html:155
-#: templates/core/programme_operatoire.html:36
-#: templates/core/rdv_calendrier.html:328
-msgid "Observation"
-msgstr "Observación"
-
-#: templates/core/patient_form_dialog.html:175
-#: templates/core/rapport_consultation.html:37
-#: templates/core/rapport_consultation.html:127
-#: templates/core/rdv_form.html:143 templates/core/rdv_form_dialog.html:115
-#: templates_backup/core/rapport_consultation.html:37
-#: templates_backup/core/rapport_consultation.html:127
-#: templates_backup/core/rdv_form.html:143
-#: templates_backup/core/rdv_form_dialog.html:115
-#: templates_backup/templates/core/rapport_consultation.html:37
-#: templates_backup/templates/core/rapport_consultation.html:127
-#: templates_backup/templates/core/rdv_form.html:143
-#: templates_backup/templates/core/rdv_form_dialog.html:115
-msgid "Gouvernorat"
+#: templates/core/patient_form_dialog.html:152
+msgid "Governorate"
 msgstr "Gobernación"
 
-#: templates/core/patient_form_dialog.html:198
-#: templates_backup/core/patient_form_dialog.html:46
-#: templates_backup/templates/core/patient_form_dialog.html:46
-msgid "Date de mariage"
+#: templates/core/patient_form_dialog.html:156
+msgid "Country"
+msgstr "País"
+
+#: templates/core/patient_form_dialog.html:162
+msgid "Health"
+msgstr "Salud"
+
+#: templates/core/patient_form_dialog.html:165
+msgid "Height (cm)"
+msgstr "Altura (cm)"
+
+#: templates/core/patient_form_dialog.html:169
+msgid "Weight (kg)"
+msgstr "Peso (kg)"
+
+#: templates/core/patient_form_dialog.html:173
+msgid "Blood Type"
+msgstr "Grupo sanguíneo"
+
+#: templates/core/patient_form_dialog.html:177
+msgid "Smoker"
+msgstr "Fumador"
+
+#: templates/core/patient_form_dialog.html:181
+msgid "Cigarettes / day"
+msgstr "Cigarrillos / día"
+
+#: templates/core/patient_form_dialog.html:187
+msgid "Spouse Information"
+msgstr "Información del cónyuge"
+
+#: templates/core/patient_form_dialog.html:190
+msgid "Marriage Date"
 msgstr "Fecha de matrimonio"
 
+#: templates/core/patient_form_dialog.html:202
+msgid "Spouse DOB"
+msgstr ""
+
+#: templates/core/patient_form_dialog.html:210
+msgid "Health Status"
+msgstr "Estado de salud"
+
 #: templates/core/patient_form_dialog.html:216
-#: templates_backup/core/patient_form_dialog.html:65
-#: templates_backup/templates/core/patient_form_dialog.html:65
-msgid "Désignation mutuelle"
-msgstr "Designación del seguro"
+msgid "Insurance"
+msgstr "Seguro médico"
 
-#: templates/core/patient_form_dialog.html:219
-#: templates_backup/core/patient_form_dialog.html:68
-#: templates_backup/templates/core/patient_form_dialog.html:68
-msgid "Caisse d'Affectation"
-msgstr "Caja de asignación"
-
-#: templates/core/patient_form_dialog.html:222
-#: templates_backup/core/patient_form_dialog.html:71
-#: templates_backup/templates/core/patient_form_dialog.html:71
-msgid "Régime"
-msgstr "Régimen"
+#: templates/core/patient_form_dialog.html:221
+msgid "Has Insurance (Mutuelle)"
+msgstr "Tiene seguro (Mutua)"
 
 #: templates/core/patient_form_dialog.html:225
-#: templates_backup/core/patient_form_dialog.html:74
-#: templates_backup/templates/core/patient_form_dialog.html:74
-msgid "N° carnet de soin"
-msgstr "N° de carnet de salud"
+msgid "Insurance Name"
+msgstr "Nombre del seguro"
 
-#: templates/core/patient_form_dialog.html:228
-#: templates_backup/core/patient_form_dialog.html:77
-#: templates_backup/templates/core/patient_form_dialog.html:77
-msgid "Date validité mutuelle"
-msgstr "Fecha de validez del seguro"
+#: templates/core/patient_form_dialog.html:229
+msgid "Fund"
+msgstr "Fondo"
+
+#: templates/core/patient_form_dialog.html:233
+msgid "Scheme"
+msgstr "Régimen"
+
+#: templates/core/patient_form_dialog.html:237
+msgid "Relationship"
+msgstr "Parentesco"
+
+#: templates/core/patient_form_dialog.html:241
+msgid "Insurance Expiry"
+msgstr "Vencimiento del seguro"
+
+#: templates/core/patient_form_dialog.html:245
+msgid "Care Booklet No."
+msgstr "N° libreta de atención"
+
+#: templates/core/patient_form_dialog.html:249
+msgid "Family Doctor Code"
+msgstr "Código médico de familia"
+
+#: templates/core/patient_form_dialog.html:253
+msgid "APCI Code"
+msgstr "Código APCI"
 
 #: templates/core/patient_info_panel.html:60
 #: templates_backup/core/patient_info_panel.html:60
@@ -5807,7 +6197,7 @@ msgstr "Teléfono 2"
 msgid "Mots clé patient"
 msgstr "Nom et prénom patient"
 
-#: templates/core/patient_info_panel.html:247
+#: templates/core/patient_info_panel.html:247 templates/core/shared.html:351
 #: templates_backup/core/patient_info_panel.html:247
 #: templates_backup/core/shared.html:416
 #: templates_backup/templates/core/patient_info_panel.html:247
@@ -5863,7 +6253,7 @@ msgid "Liste des patients"
 msgstr "Lista de pacientes"
 
 #: templates/core/patient_list.html:28 templates/core/patient_list_v2.html:35
-#: templates/core/rdv_form.html:166 templates/core/rdv_form_dialog.html:138
+#: templates/core/rdv_form.html:185 templates/core/rdv_form_dialog.html:133
 #: templates_backup/core/rdv_form.html:166
 #: templates_backup/templates/core/rdv_form.html:166
 msgid "Nouveau patient"
@@ -5897,18 +6287,30 @@ msgstr "Buscar"
 msgid "IPP"
 msgstr "IPP"
 
+#: templates/core/patient_list.html:97 templates/core/patient_list_v2.html:106
+#: templates_backup/core/patient_list.html:72
+#: templates_backup/core/patient_list.html:112
+#: templates_backup/core/patient_list_v2.html:79
+#: templates_backup/core/patient_list_v2.html:122
+#: templates_backup/templates/core/patient_list.html:72
+#: templates_backup/templates/core/patient_list.html:112
+#: templates_backup/templates/core/patient_list_v2.html:79
+#: templates_backup/templates/core/patient_list_v2.html:122
+msgid "Ancien numéro"
+msgstr "Número anterior"
+
 #: templates/core/patient_list.html:119 templates/core/patient_list_v2.html:127
 msgid "Sélectionner"
 msgstr "Seleccionar"
 
-#: templates/core/patient_list.html:148 templates/core/patient_list_v2.html:154
+#: templates/core/patient_list.html:148 templates/core/patient_list_v2.html:160
 #: templates_backup/core/reglement_form.html:99
 #: templates_backup/templates/core/reglement_form.html:99
 msgid "Historique des règlements"
 msgstr "Historique des règlements"
 
 #: templates/core/patient_list.html:153 templates/core/patient_list.html:162
-#: templates/core/patient_list_v2.html:166
+#: templates/core/patient_list_v2.html:172
 msgid "Archiver patient"
 msgstr "Archivar paciente"
 
@@ -5918,17 +6320,17 @@ msgstr "Archivar paciente"
 msgid "Autres actions"
 msgstr "Otra información"
 
-#: templates/core/patient_list.html:165 templates/core/patient_list_v2.html:169
+#: templates/core/patient_list.html:165 templates/core/patient_list_v2.html:175
 msgid "Archiver"
 msgstr "Archivar"
 
-#: templates/core/patient_list.html:190 templates/core/patient_list_v2.html:194
+#: templates/core/patient_list.html:190 templates/core/patient_list_v2.html:200
 msgid "Le patient n'existe pas"
 msgstr "El paciente no existe"
 
 #: templates/core/patient_list.html:195 templates/core/patient_list.html:201
-#: templates/core/patient_list_v2.html:199
 #: templates/core/patient_list_v2.html:205
+#: templates/core/patient_list_v2.html:211
 msgid "Créer un patient"
 msgstr "Crear paciente"
 
@@ -6070,15 +6472,7 @@ msgstr "Honoraires"
 msgid "Echographe par défaut"
 msgstr "Ecógrafo por defecto"
 
-#: templates/core/profil_form.html:273
-msgid "Nom d'utilisateur"
-msgstr "Nombre de usuario"
-
-#: templates/core/profil_form.html:285
-msgid "Mot de passe"
-msgstr "Contraseña"
-
-#: templates/core/profil_form.html:293
+#: templates/core/profil_form.html:295
 msgid "Modifier le mot de passe"
 msgstr "Cambiar contraseña"
 
@@ -6120,6 +6514,11 @@ msgstr "Tipo de acto"
 #: templates/core/programme_operatoire.html:35
 msgid "Etablissement"
 msgstr "Establecimiento"
+
+#: templates/core/programme_operatoire.html:36
+#: templates/core/rdv_calendrier.html:328
+msgid "Observation"
+msgstr "Observación"
 
 #: templates/core/programme_operatoire_form.html:19
 msgid "un programme opératoire"
@@ -6174,10 +6573,24 @@ msgstr "Fecha prevista de parto"
 msgid "Historique consultations patient"
 msgstr "Historial de consultas del paciente"
 
+#: templates/core/rapport_consultation.html:37
+#: templates/core/rapport_consultation.html:127
+#: templates/core/rdv_form.html:162 templates/core/rdv_form_dialog.html:110
+#: templates_backup/core/rapport_consultation.html:37
+#: templates_backup/core/rapport_consultation.html:127
+#: templates_backup/core/rdv_form.html:143
+#: templates_backup/core/rdv_form_dialog.html:115
+#: templates_backup/templates/core/rapport_consultation.html:37
+#: templates_backup/templates/core/rapport_consultation.html:127
+#: templates_backup/templates/core/rdv_form.html:143
+#: templates_backup/templates/core/rdv_form_dialog.html:115
+msgid "Gouvernorat"
+msgstr "Gobernación"
+
 #: templates/core/rapport_consultation.html:44
 #: templates/core/rapport_consultation.html:136
 #: templates/core/reglement_rapport.html:67
-#: templates/core/reglement_rapport_list.html:116
+#: templates/core/reglement_rapport_list.html:119
 #: templates_backup/core/rapport_consultation.html:44
 #: templates_backup/core/rapport_consultation.html:136
 #: templates_backup/core/reglement_rapport.html:67
@@ -6212,6 +6625,7 @@ msgid "Liste"
 msgstr "Lista"
 
 #: templates/core/rdv_calendrier.html:64 templates/core/rdv_calendrier.html:306
+#: templates/core/rdv_form_dialog.html:21
 #: templates_backup/core/rdv_calendrier.html:56
 #: templates_backup/core/rdv_calendrier.html:298
 #: templates_backup/templates/core/rdv_calendrier.html:56
@@ -6243,8 +6657,8 @@ msgstr "Cita confirmada"
 msgid "Patient en salle d'attente"
 msgstr "Paciente en sala de espera"
 
-#: templates/core/rdv_calendrier.html:131 templates/core/rdv_form.html:248
-#: templates/core/rdv_form_dialog.html:225
+#: templates/core/rdv_calendrier.html:131 templates/core/rdv_form.html:267
+#: templates/core/rdv_form_dialog.html:220
 #: templates_backup/core/rdv_calendrier.html:123
 #: templates_backup/templates/core/rdv_calendrier.html:123
 msgid "Consultation terminée"
@@ -6255,12 +6669,6 @@ msgstr "Consulta terminada"
 #: templates_backup/templates/core/rdv_calendrier.html:126
 msgid "RDV Annulé"
 msgstr "Cita cancelada"
-
-#: templates/core/rdv_calendrier.html:140
-#: templates_backup/core/rdv_calendrier.html:132
-#: templates_backup/templates/core/rdv_calendrier.html:132
-msgid "Absence médecin"
-msgstr "Ausencia del médico"
 
 #: templates/core/rdv_calendrier.html:183
 #: templates_backup/core/rdv_calendrier.html:175
@@ -6325,45 +6733,73 @@ msgstr "A partir del"
 msgid "Ajouter un rendez-vous"
 msgstr "Ajouter un rendez-vous"
 
-#: templates/core/rdv_form.html:67 templates/core/rdv_form_dialog.html:40
+#: templates/core/rdv_form.html:67 templates/core/rdv_form_dialog.html:36
 #: templates_backup/core/rdv_form.html:67
 #: templates_backup/templates/core/rdv_form.html:67
 msgid "Confirmer le rendez-vous"
 msgstr "Confirmer le rendez-vous"
 
-#: templates/core/rdv_form.html:245 templates/core/rdv_form_dialog.html:222
+#: templates/core/rdv_form.html:81
+#, fuzzy
+#| msgid "Recherche patient"
+msgid "Rechercher un patient"
+msgstr "Buscar paciente"
+
+#: templates/core/rdv_form.html:83
+msgid "Tapez le nom, prénom ou téléphone..."
+msgstr ""
+
+#: templates/core/rdv_form.html:264 templates/core/rdv_form_dialog.html:217
 msgid "Non confirmé"
 msgstr "No confirmado"
 
-#: templates/core/rdv_form.html:246 templates/core/rdv_form_dialog.html:223
+#: templates/core/rdv_form.html:265 templates/core/rdv_form_dialog.html:218
 msgid "Confirmé"
 msgstr "Confirmado"
 
-#: templates/core/rdv_form.html:247 templates/core/rdv_form_dialog.html:224
+#: templates/core/rdv_form.html:266 templates/core/rdv_form_dialog.html:219
 msgid "En salle d'attente"
 msgstr "En sala de espera"
 
-#: templates/core/rdv_form.html:249 templates/core/rdv_form_dialog.html:226
+#: templates/core/rdv_form.html:268 templates/core/rdv_form_dialog.html:221
 msgid "Annulé"
 msgstr "Cancelado"
 
-#: templates/core/rdv_form_dialog.html:177
+#: templates/core/rdv_form.html:269
+#, fuzzy
+#| msgid "Sélectionner"
+msgid "sélectionné"
+msgstr "Seleccionar"
+
+#: templates/core/rdv_form.html:270
+#, fuzzy
+#| msgid "un patient"
+msgid "Aucun patient trouvé"
+msgstr "un paciente"
+
+#: templates/core/rdv_form.html:271
+#, fuzzy
+#| msgid "Recherche patient"
+msgid "Recherche en cours..."
+msgstr "Buscar paciente"
+
+#: templates/core/rdv_form_dialog.html:172
 msgid "La date est dans le passé"
 msgstr "La fecha está en el pasado"
 
-#: templates/core/rdv_form_dialog.html:230
+#: templates/core/rdv_form_dialog.html:225
 msgid "Prénom est obligatoire"
 msgstr "El nombre es obligatorio"
 
-#: templates/core/rdv_form_dialog.html:231
+#: templates/core/rdv_form_dialog.html:226
 msgid "Nom naissance est obligatoire"
 msgstr "El apellido de nacimiento es obligatorio"
 
-#: templates/core/rdv_form_dialog.html:232
+#: templates/core/rdv_form_dialog.html:227
 msgid "Téléphone est obligatoire"
 msgstr "El teléfono es obligatorio"
 
-#: templates/core/rdv_form_dialog.html:233
+#: templates/core/rdv_form_dialog.html:228
 msgid "Téléphone doit contenir des chiffres uniquement"
 msgstr "El teléfono debe contener solo dígitos"
 
@@ -6389,18 +6825,38 @@ msgid "un Règlement"
 msgstr "un Règlement"
 
 #: templates/core/reglement_form.html:49
-#: templates_backup/core/reglement_form.html:49
-#: templates_backup/templates/core/reglement_form.html:49
-msgid "Désignation Mutuelle"
-msgstr "Désignation Mutuelle"
+#, fuzzy
+#| msgid "naissance"
+msgid "Caisse"
+msgstr "nacimiento"
 
-#: templates/core/reglement_form.html:57
+#: templates/core/reglement_form.html:62
+#, fuzzy
+#| msgid "Désignation mutuelle"
+msgid "Information mutuelle"
+msgstr "Designación del seguro"
+
+#: templates/core/reglement_form.html:63
+#, fuzzy
+#| msgid "mutuelle"
+msgid "La mutuelle"
+msgstr "mutuelle"
+
+#: templates/core/reglement_form.html:63
+msgid "couvrira"
+msgstr ""
+
+#: templates/core/reglement_form.html:64
+msgid "tiers payant"
+msgstr ""
+
+#: templates/core/reglement_form.html:72
 #: templates_backup/core/reglement_form.html:58
 #: templates_backup/templates/core/reglement_form.html:58
 msgid "La somme répartie est différente du montant total"
 msgstr "La somme répartie est différente du montant total"
 
-#: templates/core/reglement_form.html:62
+#: templates/core/reglement_form.html:77
 #: templates/core/reglement_form_2.html:36
 #: templates_backup/core/reglement_form.html:63
 #: templates_backup/core/reglement_form_2.html:37
@@ -6409,7 +6865,7 @@ msgstr "La somme répartie est différente du montant total"
 msgid "Espèce"
 msgstr "Espèce"
 
-#: templates/core/reglement_form.html:67
+#: templates/core/reglement_form.html:82
 #: templates/core/reglement_form_2.html:41
 #: templates_backup/core/reglement_form.html:68
 #: templates_backup/core/reglement_form_2.html:42
@@ -6418,7 +6874,7 @@ msgstr "Espèce"
 msgid "Chèque"
 msgstr "Chèque"
 
-#: templates/core/reglement_form.html:72
+#: templates/core/reglement_form.html:87
 #: templates/core/reglement_form_2.html:46
 #: templates_backup/core/reglement_form.html:73
 #: templates_backup/core/reglement_form_2.html:47
@@ -6427,7 +6883,7 @@ msgstr "Chèque"
 msgid "Numéro chèque"
 msgstr "Número de cheque"
 
-#: templates/core/reglement_form.html:77
+#: templates/core/reglement_form.html:92
 #: templates/core/reglement_form_2.html:51
 #: templates_backup/core/reglement_form.html:78
 #: templates_backup/core/reglement_form_2.html:52
@@ -6436,28 +6892,28 @@ msgstr "Número de cheque"
 msgid "Date chèque"
 msgstr "Fecha del cheque"
 
-#: templates/core/reglement_form.html:106
+#: templates/core/reglement_form.html:121
 #: templates_backup/core/reglement_form.html:108
 #: templates_backup/templates/core/reglement_form.html:108
 msgid "Pas d'historique de paiements"
 msgstr "Sin historial de pagos"
 
 #: templates/core/reglement_list.html:23
-#: templates/core/reglement_rapport_list.html:20
+#: templates/core/reglement_rapport_list.html:23
 #: templates_backup/core/reglement_list.html:23
 #: templates_backup/templates/core/reglement_list.html:23
 msgid "Règlement"
 msgstr "Règlement"
 
 #: templates/core/reglement_list.html:33
-#: templates/core/reglement_rapport_list.html:30
+#: templates/core/reglement_rapport_list.html:33
 #: templates_backup/core/reglement_list.html:33
 #: templates_backup/templates/core/reglement_list.html:33
 msgid "Clôture de caisse"
 msgstr "Clôture de caisse"
 
 #: templates/core/reglement_list.html:42
-#: templates/core/reglement_rapport_list.html:39
+#: templates/core/reglement_rapport_list.html:42
 #: templates_backup/core/reglement_list.html:42
 #: templates_backup/templates/core/reglement_list.html:42
 msgid "Rapport"
@@ -6497,7 +6953,7 @@ msgstr "Honoraires"
 
 # Reports translations
 #: templates/core/reglement_rapport.html:35
-#: templates/core/reglement_rapport_list.html:82
+#: templates/core/reglement_rapport_list.html:85
 #: templates_backup/core/reglement_rapport.html:35
 #: templates_backup/core/reglement_rapport_list.html:82
 #: templates_backup/templates/core/reglement_rapport.html:35
@@ -6512,7 +6968,7 @@ msgid "Nom du patient"
 msgstr "Apellido del paciente"
 
 #: templates/core/reglement_rapport.html:64
-#: templates/core/reglement_rapport_list.html:113
+#: templates/core/reglement_rapport_list.html:116
 #: templates_backup/core/reglement_rapport.html:64
 #: templates_backup/core/reglement_rapport_list.html:113
 #: templates_backup/templates/core/reglement_rapport.html:64
@@ -6528,9 +6984,9 @@ msgstr "mutuelle"
 
 #: templates/core/shared.html:43 templates/core/shared.html:83
 #: templates/core/shared.html:117 templates/core/shared.html:149
-#: templates/core/shared.html:175 templates/core/shared.html:207
-#: templates/core/shared.html:239 templates/core/shared.html:271
-#: templates/core/shared.html:303 templates/core/shared.html:335
+#: templates/core/shared.html:175 templates/core/shared.html:208
+#: templates/core/shared.html:240 templates/core/shared.html:272
+#: templates/core/shared.html:304 templates/core/shared.html:336
 msgid "Loading"
 msgstr ""
 
@@ -6550,17 +7006,21 @@ msgstr ""
 msgid "Patient Measurements"
 msgstr "Paciente en sala de espera"
 
-#: templates/core/shared.html:199
+#: templates/core/shared.html:200
 msgid "Obstetric History"
 msgstr ""
 
-#: templates/core/shared.html:231
+#: templates/core/shared.html:232
 msgid "Pregnancy Calendar"
 msgstr ""
 
-#: templates/core/shared.html:263
+#: templates/core/shared.html:264
 msgid "Biological Analyses"
 msgstr ""
+
+#: templates/core/shared.html:414
+msgid "Prise de rendez-vous"
+msgstr "Tomar una cita"
 
 #: templates/core/template_edition_list.html:10
 msgid "Recherche modèle"
@@ -6675,152 +7135,214 @@ msgstr "Ajouter un traitement"
 msgid "Forme"
 msgstr "Forme"
 
-#: templates/core/traitement_pma_form.html:48
-msgid "Save"
-msgstr "Guardar"
-
-#: templates/super_admin/dashboard.html:138
+#: templates/super_admin/dashboard.html:157
 msgid "Logout"
 msgstr "Cerrar sesión"
 
-#: templates/super_admin/dashboard.html:145
+#: templates/super_admin/dashboard.html:164
 msgid "Doctor Accounts"
 msgstr "Cuentas de médicos"
 
-#: templates/super_admin/dashboard.html:146
+#: templates/super_admin/dashboard.html:165
 msgid "Manage isolated doctor accounts and DICOM settings"
 msgstr "Administrar cuentas de médicos aisladas y configuración DICOM"
 
-#: templates/super_admin/dashboard.html:148
+#: templates/super_admin/dashboard.html:167
 msgid "Add Doctor"
 msgstr "Agregar médico"
 
-#: templates/super_admin/dashboard.html:153
+#: templates/super_admin/dashboard.html:175
 msgid "Total Accounts"
 msgstr "Total de cuentas"
 
-#: templates/super_admin/dashboard.html:157
+#: templates/super_admin/dashboard.html:179
 msgid "Active Accounts"
 msgstr "Cuentas activas"
 
-#: templates/super_admin/dashboard.html:161
+#: templates/super_admin/dashboard.html:183
 msgid "Pending Requests"
 msgstr ""
 
-#: templates/super_admin/dashboard.html:170
-msgid "Pending Signup Requests"
+#: templates/super_admin/dashboard.html:190
+msgid "DICOM Server Configuration"
 msgstr ""
 
-#: templates/super_admin/dashboard.html:171
-msgid "pending"
+#: templates/super_admin/dashboard.html:194
+msgid "Server IP"
 msgstr ""
 
-#: templates/super_admin/dashboard.html:176
-msgid "Name"
-msgstr ""
-
-#: templates/super_admin/dashboard.html:178
-msgid "Phone"
-msgstr "Teléfono"
-
-#: templates/super_admin/dashboard.html:179
-msgid "Submitted"
-msgstr ""
-
-#: templates/super_admin/dashboard.html:193
-msgid "Approve"
-msgstr ""
-
-#: templates/super_admin/dashboard.html:197
-msgid "Reject"
-msgstr ""
-
-#: templates/super_admin/dashboard.html:209
-msgid "All Doctor Accounts"
-msgstr "Todas las cuentas de médicos"
-
-#: templates/super_admin/dashboard.html:216
-msgid "Name / Clinic"
-msgstr "Nombre / Clínica"
-
-#: templates/super_admin/dashboard.html:219
+#: templates/super_admin/dashboard.html:198
 msgid "Storage Port"
 msgstr "Puerto de almacenamiento"
 
-#: templates/super_admin/dashboard.html:220
+#: templates/super_admin/dashboard.html:202
 msgid "MWL Port"
 msgstr "Puerto MWL"
 
-#: templates/super_admin/dashboard.html:221
+#: templates/super_admin/dashboard.html:213
+msgid "Pending Signup Requests"
+msgstr ""
+
+#: templates/super_admin/dashboard.html:214
+msgid "pending"
+msgstr ""
+
+#: templates/super_admin/dashboard.html:219
+msgid "Name"
+msgstr ""
+
+#: templates/super_admin/dashboard.html:222
+msgid "Submitted"
+msgstr ""
+
+#: templates/super_admin/dashboard.html:236
+msgid "Approve"
+msgstr ""
+
+#: templates/super_admin/dashboard.html:240
+msgid "Reject"
+msgstr ""
+
+#: templates/super_admin/dashboard.html:252
+msgid "All Doctor Accounts"
+msgstr "Todas las cuentas de médicos"
+
+#: templates/super_admin/dashboard.html:259
+msgid "Name / Clinic"
+msgstr "Nombre / Clínica"
+
+#: templates/super_admin/dashboard.html:262
 msgid "Login"
 msgstr "Usuario"
 
-#: templates/super_admin/dashboard.html:253
-#: templates/super_admin/dashboard.html:330
+#: templates/super_admin/dashboard.html:292
+#: templates/super_admin/dashboard.html:429
 msgid "Inactive"
 msgstr "Inactivo"
 
-#: templates/super_admin/dashboard.html:259
+#: templates/super_admin/dashboard.html:299
+#: templates/super_admin/dashboard.html:358
+#: templates/super_admin/dashboard.html:432
+msgid "Equipment"
+msgstr ""
+
+#: templates/super_admin/dashboard.html:300
+#: templates/super_admin/dashboard.html:433
 msgid "Delete"
 msgstr "Eliminar"
 
-#: templates/super_admin/dashboard.html:268
+#: templates/super_admin/dashboard.html:310
 msgid "No doctor accounts yet. Click 'Add Doctor' to create one."
 msgstr ""
 "Aún no hay cuentas de médicos. Haga clic en 'Agregar médico' para crear una."
 
-#: templates/super_admin/dashboard.html:277
+#: templates/super_admin/dashboard.html:319
 msgid "Add Doctor Account"
 msgstr "Agregar cuenta de médico"
 
-#: templates/super_admin/dashboard.html:279
+#: templates/super_admin/dashboard.html:321
 msgid "Full Name / Clinic Name"
 msgstr "Nombre completo / Nombre de la clínica"
 
-#: templates/super_admin/dashboard.html:287
-#: templates/super_admin/dashboard.html:311
-msgid "Password"
-msgstr "Contraseña"
-
-#: templates/super_admin/dashboard.html:289
+#: templates/super_admin/dashboard.html:331
 msgid "Leave blank to auto-generate"
 msgstr "Dejar en blanco para generar automáticamente"
 
-#: templates/super_admin/dashboard.html:290
+#: templates/super_admin/dashboard.html:332
 msgid "Show"
 msgstr "Mostrar"
 
-#: templates/super_admin/dashboard.html:295
-#: templates/super_admin/dashboard.html:332
+#: templates/super_admin/dashboard.html:337
+#: templates/super_admin/dashboard.html:431
 msgid "Create Account"
 msgstr "Crear cuenta"
 
-#: templates/super_admin/dashboard.html:303
+#: templates/super_admin/dashboard.html:345
+msgid "Approve Request"
+msgstr ""
+
+#: templates/super_admin/dashboard.html:347
+msgid ""
+"The doctor chose their own password during signup. Approving will create "
+"their account immediately and send them a notification email."
+msgstr ""
+
+#: templates/super_admin/dashboard.html:350
+#, fuzzy
+#| msgid "Create Account"
+msgid "Approve & Create Account"
+msgstr "Crear cuenta"
+
+#: templates/super_admin/dashboard.html:360
+msgid "Configured Devices"
+msgstr ""
+
+#: templates/super_admin/dashboard.html:362
+#: templates/super_admin/dashboard.html:634
+msgid "No devices configured."
+msgstr ""
+
+#: templates/super_admin/dashboard.html:365
+msgid "Add New Device"
+msgstr ""
+
+#: templates/super_admin/dashboard.html:372
+#: templates/super_admin/dashboard.html:681
+msgid "Brand"
+msgstr ""
+
+#: templates/super_admin/dashboard.html:378
+#: templates/super_admin/dashboard.html:682
+#, fuzzy
+#| msgid "Mode"
+msgid "Model"
+msgstr "Mode"
+
+#: templates/super_admin/dashboard.html:382
+#, fuzzy
+#| msgid "Address"
+msgid "IP Address"
+msgstr "Dirección"
+
+#: templates/super_admin/dashboard.html:394
+msgid "Close"
+msgstr ""
+
+#: templates/super_admin/dashboard.html:395
+#: templates/super_admin/dashboard.html:636
+#, fuzzy
+#| msgid "Add Doctor"
+msgid "Add Device"
+msgstr "Agregar médico"
+
+#: templates/super_admin/dashboard.html:403
 msgid "Account Created"
 msgstr "Cuenta creada"
 
-#: templates/super_admin/dashboard.html:304
-msgid "Save these credentials — they will not be shown again."
-msgstr "Guarde estas credenciales — no se mostrarán nuevamente."
-
-#: templates/super_admin/dashboard.html:307
+#: templates/super_admin/dashboard.html:406
 msgid "Username"
 msgstr "Nombre de usuario"
 
-#: templates/super_admin/dashboard.html:315
+#: templates/super_admin/dashboard.html:414
 msgid "DICOM AE Title"
 msgstr "Título AE DICOM"
 
-#: templates/super_admin/dashboard.html:320
+#: templates/super_admin/dashboard.html:419
 msgid "Copy All"
 msgstr "Copiar todo"
 
-#: templates/super_admin/dashboard.html:321
+#: templates/super_admin/dashboard.html:420
 msgid "Done"
 msgstr "Listo"
 
-#: templates/super_admin/dashboard.html:331
+#: templates/super_admin/dashboard.html:430
 msgid "Creating…"
+msgstr "Creando…"
+
+#: templates/super_admin/dashboard.html:635
+#, fuzzy
+#| msgid "Creating…"
+msgid "Adding…"
 msgstr "Creando…"
 
 #: templates_backup/core/consultation_gynecologique_form.html:88
@@ -6859,6 +7381,11 @@ msgstr "Ménopause"
 msgid "Sac gestationnel"
 msgstr "Sac gestationnel"
 
+#: templates_backup/core/grossesse_form.html:76
+#: templates_backup/templates/core/grossesse_form.html:76
+msgid "Poids av. grossesse"
+msgstr "Peso antes del embarazo"
+
 #: templates_backup/core/grossesse_form.html:102
 #: templates_backup/templates/core/grossesse_form.html:102
 msgid "Données de la grossesse"
@@ -6869,22 +7396,12 @@ msgstr "Datos del embarazo"
 msgid "Echographie du 1er trimestre"
 msgstr "Ecografía del primer trimestre"
 
-#: templates_backup/core/grossesse_form.html:150
-#: templates_backup/templates/core/grossesse_form.html:150
-msgid "Screening"
-msgstr "Cribado"
-
 #: templates_backup/core/grossesse_form.html:173
 #: templates_backup/core/grossesse_form.html:218
 #: templates_backup/templates/core/grossesse_form.html:173
 #: templates_backup/templates/core/grossesse_form.html:218
 msgid "Informations complémentaires"
 msgstr "Información complementaria"
-
-#: templates_backup/core/grossesse_form.html:200
-#: templates_backup/templates/core/grossesse_form.html:200
-msgid "Projet d'accouchement"
-msgstr "Plan de parto"
 
 #: templates_backup/core/ordonnance_form.html:21
 #: templates_backup/templates/core/ordonnance_form.html:21
@@ -6931,128 +7448,106 @@ msgstr "Identificador"
 msgid "ans"
 msgstr "años"
 
-#: templates_backup/core/reglement_form.html:55
-#: templates_backup/core/reglement_form_2.html:33
-#: templates_backup/templates/core/reglement_form.html:55
-#: templates_backup/templates/core/reglement_form_2.html:33
-msgid "Paiement"
-msgstr "Paiement"
+#: templates_backup/core/patient_form_dialog.html:19
+#: templates_backup/templates/core/patient_form_dialog.html:19
+msgid "un patient"
+msgstr "un paciente"
 
-
-msgid "Edit Patient"
-msgstr "Editar paciente"
-
-msgid "New Patient"
-msgstr "Nuevo paciente"
-
-msgid "Identity"
-msgstr "Identidad"
-
-msgid "Title"
-msgstr "Tratamiento"
-
-msgid "Sex"
-msgstr "Sexo"
-
-msgid "First Name"
-msgstr "Nombre"
-
-msgid "Last Name"
-msgstr "Apellido"
-
-msgid "Birth Name"
-msgstr "Nombre de nacimiento"
-
-msgid "Date of Birth"
-msgstr "Fecha de nacimiento"
-
-msgid "ID Number"
-msgstr "Número de identidad"
-
-msgid "Social Security Code"
-msgstr "Código de seguridad social"
-
-msgid "Origin"
-msgstr "Origen"
-
-msgid "Old Number"
-msgstr "Número antiguo"
-
-msgid "Occupation"
-msgstr "Profesión"
-
-msgid "Primary Practitioner"
-msgstr "Médico principal"
-
-msgid "Contact"
-msgstr "Contacto"
-
-msgid "Secondary Phone"
-msgstr "Teléfono secundario"
-
-msgid "Other Phone"
-msgstr "Otro teléfono"
-
-msgid "Address"
-msgstr "Dirección"
-
-msgid "City"
-msgstr "Ciudad"
-
-msgid "Postal Code"
-msgstr "Código postal"
-
-msgid "Governorate"
-msgstr "Gobernación"
-
-msgid "Country"
-msgstr "País"
-
-msgid "Health"
-msgstr "Salud"
-
-msgid "Height (cm)"
-msgstr "Altura (cm)"
-
-msgid "Weight (kg)"
-msgstr "Peso (kg)"
-
-msgid "Blood Type"
-msgstr "Grupo sanguíneo"
-
-msgid "Smoker"
-msgstr "Fumador"
-
-msgid "Cigarettes / day"
-msgstr "Cigarrillos / día"
-
-msgid "Spouse Information"
-msgstr "Información del cónyuge"
-
-msgid "Marriage Date"
+#: templates_backup/core/patient_form_dialog.html:46
+#: templates_backup/templates/core/patient_form_dialog.html:46
+msgid "Date de mariage"
 msgstr "Fecha de matrimonio"
 
-msgid "Health Status"
-msgstr "Estado de salud"
+#: templates_backup/core/patient_form_dialog.html:65
+#: templates_backup/templates/core/patient_form_dialog.html:65
+msgid "Désignation mutuelle"
+msgstr "Designación del seguro"
 
-msgid "Insurance"
-msgstr "Seguro médico"
+#: templates_backup/core/patient_form_dialog.html:68
+#: templates_backup/templates/core/patient_form_dialog.html:68
+msgid "Caisse d'Affectation"
+msgstr "Caja de asignación"
 
-msgid "Insurance Name"
-msgstr "Nombre del seguro"
-
-msgid "Fund"
-msgstr "Fondo"
-
-msgid "Scheme"
+#: templates_backup/core/patient_form_dialog.html:71
+#: templates_backup/templates/core/patient_form_dialog.html:71
+msgid "Régime"
 msgstr "Régimen"
 
-msgid "Care Booklet No."
-msgstr "N° libreta de atención"
+#: templates_backup/core/patient_form_dialog.html:74
+#: templates_backup/templates/core/patient_form_dialog.html:74
+msgid "N° carnet de soin"
+msgstr "N° de carnet de salud"
 
-msgid "Insurance Expiry"
-msgstr "Vencimiento del seguro"
+#: templates_backup/core/patient_form_dialog.html:77
+#: templates_backup/templates/core/patient_form_dialog.html:77
+msgid "Date validité mutuelle"
+msgstr "Fecha de validez del seguro"
 
+#: templates_backup/core/reglement_form.html:49
+#: templates_backup/templates/core/reglement_form.html:49
+msgid "Désignation Mutuelle"
+msgstr "Désignation Mutuelle"
+
+#: templates_backup/core/shared.html:263
+#: templates_backup/templates/core/shared.html:263
+msgid "Calendrier de grossesse"
+msgstr "Calendrier de grossesse"
+
+#~ msgid "Demande d'accès"
+#~ msgstr "Solicitud de acceso"
+
+#~ msgid "Demande envoyée !"
+#~ msgstr "¡Solicitud enviada!"
+
+#~ msgid "Remplissez ce formulaire pour demander un accès médecin."
+#~ msgstr "Rellene este formulario para solicitar acceso de médico."
+
+#~ msgid "Nom complet"
+#~ msgstr "Nombre completo"
+
+#~ msgid "Envoyer la demande"
+#~ msgstr "Enviar solicitud"
+
+#~ msgid "Déjà un compte ? Se connecter"
+#~ msgstr "¿Ya tienes cuenta? Iniciar sesión"
+
+#~ msgid "Laboratoire/Biologie"
+#~ msgstr "Laboratorio/Biología"
+
+#~ msgid "Laboratoire/Anapath"
+#~ msgstr "Laboratorio/Anatomía Patológica"
+
+#~ msgid "CR opératoire"
+#~ msgstr "Informe operatorio"
+
+#~ msgid "Autres"
+#~ msgstr "Otros"
+
+#, fuzzy
+#~| msgid "Nom de naissance"
+#~ msgid "Nom de famille"
+#~ msgstr "Apellido de nacimiento"
+
+#, fuzzy
+#~| msgid "Téléphone 2"
+#~ msgid "Téléphone autre"
+#~ msgstr "Teléfono 2"
+
+#, fuzzy
+#~| msgid "Praticien patient"
+#~ msgid "Praticien principal"
+#~ msgstr "Praticien patient"
+
+#, fuzzy
+#~| msgid "Nb de Fœtus"
+#~ msgid "Nombre de cigarettes"
+#~ msgstr "Número de fetos"
+
+#~ msgid "Save these credentials — they will not be shown again."
+#~ msgstr "Guarde estas credenciales — no se mostrarán nuevamente."
+
+#~ msgid "Primary Practitioner"
+#~ msgstr "Médico principal"
 
 #~ msgid "With DICOM AE Title"
 #~ msgstr "Con título AE DICOM"
@@ -7073,9 +7568,6 @@ msgstr "Vencimiento del seguro"
 
 #~ msgid "Réceptionniste"
 #~ msgstr "Recepcionista"
-
-#~ msgid "Prise de rendez-vous"
-#~ msgstr "Tomar una cita"
 
 #, fuzzy
 #~| msgid "Messagerie"
@@ -7184,9 +7676,6 @@ msgstr "Vencimiento del seguro"
 #~ msgid "Antécédents cardio-vasculaires"
 #~ msgstr "Antécédents cardio-vasculaires"
 
-#~ msgid "FCV"
-#~ msgstr "FCV"
-
 #~ msgid "---Choisir une prestation---"
 #~ msgstr "---Choisir une prestation---"
 
@@ -7233,32 +7722,11 @@ msgstr "Vencimiento del seguro"
 #~ msgid "Mutuelles"
 #~ msgstr "Mutuelles"
 
-#~ msgid "PMA"
-#~ msgstr "PMA"
-
 #~ msgid "Dashboard"
 #~ msgstr "Dashboard"
 
-msgid "Has Insurance (Mutuelle)"
-msgstr "Tiene seguro (Mutua)"
+#~ msgid "Secrétaire"
+#~ msgstr "Secretaria"
 
-msgid "Relationship"
-msgstr "Parentesco"
-
-msgid "Family Doctor Code"
-msgstr "Código médico de familia"
-
-msgid "APCI Code"
-msgstr "Código APCI"
-
-msgid "Compte désactivé"
-msgstr "Cuenta desactivada"
-
-msgid "Votre compte a été désactivé. Veuillez contacter votre administrateur."
-msgstr "Su cuenta ha sido desactivada. Por favor, contacte a su administrador."
-
-msgid "Secrétaire"
-msgstr "Secretaria"
-
-msgid "Administrateur"
-msgstr "Administrador"
+#~ msgid "Administrateur"
+#~ msgstr "Administrador"

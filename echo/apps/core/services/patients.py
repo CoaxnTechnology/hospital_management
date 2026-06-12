@@ -223,9 +223,12 @@ def get_grossesse_data(patient):
                 'Foetus 2': {'bip': [[12, 43.5], [13, 49.5]]}
                 }
 """
-def get_obs_measure_history(attr, grossesse):
+def get_obs_measure_history(attr, grossesse, until_consultation_id=None):
     result = {}
-    for c in grossesse.consultationobstetrique_set.all().order_by('id'):
+    qs = grossesse.consultationobstetrique_set.all().order_by('id')
+    if until_consultation_id:
+        qs = qs.filter(id__lte=until_consultation_id)
+    for c in qs:
         fs = c.donneesfoetus_set.all()
         for idx, foetus_data in enumerate(fs):
             f_idx = 'Foetus ' + str(idx+1)
@@ -244,11 +247,11 @@ def get_obs_measure_history(attr, grossesse):
     return result
 
 
-def get_all_obs_measure_history(grossesse):
+def get_all_obs_measure_history(grossesse, until_consultation_id=None):
     result = {}
     attrs = ["poids", "lcc", "dat", "cn", "fc", "bip", "pc", "pa", "femur", ]
     for a in attrs:
-        res = get_obs_measure_history(a, grossesse)
+        res = get_obs_measure_history(a, grossesse, until_consultation_id=until_consultation_id)
         for key, value in res.items():
             if key in result:
                 result[key] = {**result[key], **value}

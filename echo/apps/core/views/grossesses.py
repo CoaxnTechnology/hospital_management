@@ -66,5 +66,11 @@ class CalendrierGrossesseDetail(PermissionRequiredMixin, DetailView):
 @permission_required('core.view_patient', raise_exception=True)
 def mesures(request, pk):
     grossesse = get_object_or_404(Grossesse, pk=pk)
-    data = patients.get_all_obs_measure_history(grossesse)
+    until = request.GET.get('until')
+    if until:
+        try:
+            until = int(until)
+        except (ValueError, TypeError):
+            until = None
+    data = patients.get_all_obs_measure_history(grossesse, until_consultation_id=until)
     return JsonResponse(data, safe=False)

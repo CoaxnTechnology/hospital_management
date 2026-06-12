@@ -17,6 +17,15 @@
             font-weight: 400;
         }
 
+        .input-group-label {
+            width: 50px !important;
+        }
+
+        .legendLayer .background {
+            fill: rgba(255, 255, 255, 0.85);
+            stroke: rgba(0, 0, 0, 0.85);
+            stroke-width: 1;
+        }
     </style>
 
 {% endblock %}
@@ -143,30 +152,30 @@
                                             </div>
 
                                             {% if patient.grossesse_encours != None %}
-                                                <div class="menu-item px-3">
-                                                    <a href="/patients/{{ object.pk }}/consultation_obs_echo_11SA/ajouter"
-                                                       class="menu-link px-3">{% trans "Echo" %} < 11 SA</a>
-                                                </div>
-                                                <div class="menu-item px-3">
-                                                    <a href="/patients/{{ object.pk }}/consultation_obs_echo_premier_trimestre/ajouter"
-                                                       class="menu-link px-3">{% trans "1er trimestre" %}</a>
-                                                </div>
-                                                <div class="menu-item px-3">
-                                                    <a href="/patients/{{ object.pk }}/consultation_obs_echo_deuxieme_trimestre/ajouter"
-                                                       class="menu-link px-3">{% trans "2ème trimestre" %}</a>
-                                                </div>
-                                                <div class="menu-item px-3">
-                                                    <a href="/patients/{{ object.pk }}/consultation_obs_echo_troisieme_trimestre/ajouter"
-                                                       class="menu-link px-3">{% trans "3ème trimestre" %}</a>
-                                                </div>
-                                                <div class="menu-item px-3">
-                                                    <a href="/patients/{{ object.pk }}/consultation_obs_echo_croissance/ajouter"
-                                                       class="menu-link px-3">{% trans "Echo de croissance" %}</a>
-                                                </div>
-                                                <div class="menu-item px-3">
-                                                    <a href="/patients/{{ object.pk }}/consultation/ajouter?motif=obs-libre"
-                                                       class="menu-link px-3">{% trans "Consultation libre" %}</a>
-                                                </div>
+                                            <div class="menu-item px-3">
+                                                <a href="/patients/{{ object.pk }}?consultation=new&type=11SA"
+                                                   class="menu-link px-3">{% trans "Echo" %} < 11 SA</a>
+                                            </div>
+                                            <div class="menu-item px-3">
+                                                <a href="/patients/{{ object.pk }}?consultation=new&type=premier_trimestre"
+                                                   class="menu-link px-3">{% trans "1er trimestre" %}</a>
+                                            </div>
+                                            <div class="menu-item px-3">
+                                                <a href="/patients/{{ object.pk }}?consultation=new&type=deuxieme_trimestre"
+                                                   class="menu-link px-3">{% trans "2ème trimestre" %}</a>
+                                            </div>
+                                            <div class="menu-item px-3">
+                                                <a href="/patients/{{ object.pk }}?consultation=new&type=troisieme_trimestre"
+                                                   class="menu-link px-3">{% trans "3ème trimestre" %}</a>
+                                            </div>
+                                            <div class="menu-item px-3">
+                                                <a href="/patients/{{ object.pk }}?consultation=new&type=croissance"
+                                                   class="menu-link px-3">{% trans "Echo de croissance" %}</a>
+                                            </div>
+                                            <div class="menu-item px-3">
+                                                <a href="/patients/{{ object.pk }}?consultation=new&type=troisieme_trimestre"
+                                                   class="menu-link px-3">{% trans "Consultation libre" %}</a>
+                                            </div>
                                             {% else %}
                                                 <div class="menu-item px-3">
                                                     <div class="menu-content pb-2 px-3 fs-7">
@@ -548,10 +557,33 @@
             <!--end::Details-->
             <!--begin::Navs-->
 
+            {% if grossesse_encours %}
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <div class="d-flex align-items-center">
+                    <label class="fw-bold me-3 text-nowrap">{% trans "Consultation du" %}:</label>
+                    <select id="consultation-date-filter" class="form-select form-select-sm w-auto"
+                            onchange="if(this.value) window.location.href='?consultation=' + this.value + (this.value === 'new' ? '&type=troisieme_trimestre' : '');">
+                        {% if consultations_obs_list %}
+                            {% for c in consultations_obs_list %}
+                            <option value="{{ c.id }}" {% if consultation_active and consultation_active.id == c.id %}selected{% endif %}>
+                                {{ c.date|date:'d/m/Y' }} — {{ c.terme_sa }} SA
+                            </option>
+                            {% endfor %}
+                        {% endif %}
+                        <option value="new" {% if is_new_consultation %}selected{% endif %}>
+                            {% trans "Nouvelle consultation" %}
+                        </option>
+                    </select>
+                </div>
+                {% if consultation_active or is_new_consultation %}
+                {% include 'core/partials/consultation_toolbar.html' with patient=object %}
+                {% endif %}
+            </div>
+            {% endif %}
             <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold">
                 <!--begin:::Tab item-->
                 <li class="nav-item">
-                    <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab"
+                    <a class="nav-link text-active-primary pb-4 {% if not consultation_active and not is_new_consultation %}active{% endif %}" data-bs-toggle="tab"
                        href="#tab-accueil">{% trans "Accueil" %}</a>
                 </li>
                 <!--end:::Tab item-->
@@ -576,6 +608,32 @@
                        href="#tab-documents">{% trans "Documents" %}</a>
                 </li>
                 <!--end:::Tab item-->
+                {% if grossesse_encours %}
+                <li class="nav-item ms-4 border-start ps-4">
+                    <a class="nav-link text-active-primary pb-4 {% if consultation_active or is_new_consultation %}active{% endif %}" data-bs-toggle="tab"
+                       href="#tab-mesures">{% trans "Mesures foetales" %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab"
+                       href="#tab-mere">{% trans "Mesures maternelles" %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab"
+                       href="#tab-examen">{% trans "Examen clinique" %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab"
+                       href="#tab-conclusion">{% trans "Conclusion" %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab"
+                       href="#tab-images">{% trans "Images" %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab"
+                       href="#tab-graphs">{% trans "Graphiques" %}</a>
+                </li>
+                {% endif %}
             </ul>
             <!--begin::Navs-->
         </div>
@@ -583,7 +641,7 @@
 
     <div class="tab-content mt-8">
 
-        <div id="tab-accueil" class="g-5 g-xxl-8 tab-pane fade show active">
+        <div id="tab-accueil" class="g-5 g-xxl-8 tab-pane fade {% if not consultation_active and not is_new_consultation %}show active{% endif %}">
             <div class="row">
 
                 <!--begin::Col-->
@@ -1503,8 +1561,208 @@
             {% include 'core/patient_fichiers_v2.html' with patient=object %}
         </div>
 
+        {% if grossesse_encours and consultation_tabs_form %}
+        <form id="form_1" class="form" method="post" action="">
+            {% csrf_token %}
+
+            {% if motif %}
+            <div class="d-flex align-items-center mb-4">
+                <span class="badge badge-light-primary me-2">
+                    <i class="bi bi-clipboard-check"></i>
+                    {{ motif.libelle }}
+                </span>
+            </div>
+            {% endif %}
+
+            {% for hidden in consultation_tabs_form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+
+        <div id="tab-mesures" class="tab-pane fade {% if consultation_active or is_new_consultation %}active show{% endif %}">
+            {% if fetal_partial %}
+            {% include fetal_partial with form=consultation_tabs_form foetus=consultation_foetus %}
+            {% endif %}
+        </div>
+
+        <div id="tab-mere" class="g-5 g-xxl-8 tab-pane fade">
+            {% include 'core/partials/examen_obs_maternel.html' with form=consultation_tabs_form %}
+        </div>
+
+        <div id="tab-examen" class="g-5 g-xxl-8 tab-pane fade">
+            {% include 'core/partials/examen_clinique.html' with form=consultation_tabs_form afficher=True %}
+        </div>
+
+        <div id="tab-conclusion" class="g-5 g-xxl-8 tab-pane fade">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        {% if consultation_tabs_form.echo_t3 %}
+                        <div class="col-12 form-group mb-4">
+                            <label class="fw-bold mb-2">{{ consultation_tabs_form.echo_t3.label }}</label>
+                            {{ consultation_tabs_form.echo_t3 }}
+                        </div>
+                        {% endif %}
+                        {% if consultation_tabs_form.echo_morpho %}
+                        <div class="col-12 form-group mb-4">
+                            <label class="fw-bold mb-2">{{ consultation_tabs_form.echo_morpho.label }}</label>
+                            {{ consultation_tabs_form.echo_morpho }}
+                        </div>
+                        {% endif %}
+                        <div class="col-12 form-group mb-4">
+                            <label class="fw-bold mb-2">{{ consultation_tabs_form.conclusion.label }}</label>
+                            {{ consultation_tabs_form.conclusion }}
+                        </div>
+                        <div class="col-12 form-group mb-4">
+                            <label class="fw-bold mb-2">{{ consultation_tabs_form.conduite.label }}</label>
+                            {{ consultation_tabs_form.conduite }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-images" class="tab-pane fade">
+            {% include 'core/partials/consultation_images.html' with consultation=consultation_active %}
+        </div>
+
+        <div id="tab-graphs" class="tab-pane tab-graph fade">
+            {% include 'core/partials/consultation_graph.html' with consultation=consultation_active %}
+        </div>
+
+        </form>
+        {% elif grossesse_encours and not consultation_tabs_form %}
+        <div id="tab-mesures" class="tab-pane fade"></div>
+        <div id="tab-mere" class="g-5 g-xxl-8 tab-pane fade"></div>
+        <div id="tab-examen" class="g-5 g-xxl-8 tab-pane fade"></div>
+        <div id="tab-conclusion" class="g-5 g-xxl-8 tab-pane fade"></div>
+        <div id="tab-images" class="tab-pane fade"></div>
+        <div id="tab-graphs" class="tab-pane tab-graph fade"></div>
+        {% endif %}
 
     </div>
+
+    {% if consultation_active or is_new_consultation %}
+    <div class="modal fade" id="pdf-modal" tabindex="-1" aria-labelledby="Aperçu PDF" aria-hidden="true">
+        <div class="modal-dialog modal-xl h-100 my-0">
+            <div class="modal-content h-100">
+                <div class="modal-header">
+                    <h5 class="modal-title">{% trans "Impression" %}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <iframe src="" id="pdf-frame" width="100%" height="100%"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">{% trans "Annuler" %}</button>
+                    <button id="btn-demarrer-impression" type="button" class="btn btn-primary">{% trans "Imprimer" %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="edition-modal" tabindex="-1" aria-labelledby="Edition" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen p-9 m-auto mw-1500px">
+            <div class="modal-content h-100 modal-rounded">
+                <div class="modal-header py-7 d-flex justify-content-between">
+                    <h2>{% trans "Edition" %}</h2>
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                        <span class="svg-icon svg-icon-1">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor"/>
+                                <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex mb-4 justify-content-between">
+                        <div class="d-flex">
+                            {% if templates %}
+                            <div class="row me-8">
+                                <label for="id_template_edition_obs" class="col-4 col-form-label py-2">{% trans "Modèle" %}</label>
+                                <div class="col-8">
+                                    <select name="template_edition_obs" id="id_template_edition_obs"
+                                            class="form-select form-select-solid form-select-sm">
+                                        <option value="-1">---------</option>
+                                        {% for temp in templates %}
+                                        <option value="{{ temp.id }}">{{ temp.libelle }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <div class="me-8 py-2">
+                                <label class="form-check form-check-inline form-check-custom form-check-solid">
+                                    <input type="checkbox" id="cb-inserer-antecedents" class="form-check-input h-20px w-20px">
+                                    <span class="form-check-label fw-semibold">{% trans "Ajouter les antécédents" %}</span>
+                                </label>
+                            </div>
+                            <div class="me-8 py-2">
+                                <label class="form-check form-check-inline form-check-custom form-check-solid">
+                                    <input type="checkbox" id="cb-inserer-notes" class="form-check-input h-20px w-20px">
+                                    <span class="form-check-label fw-semibold">{% trans "Ajouter les notes" %}</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <a onclick="demarrerImpression()" class="btn btn-sm btn-warning font-weight-bolder">
+                                <i class="bi bi-printer"></i> {% trans "Imprimer" %}
+                            </a>
+                        </div>
+                    </div>
+                    <div id="editor-2" class="editor min-h-400px" style="font-size: 10pt">
+                        {% if consultation_active %}{{ consultation_active.text|safe }}{% endif %}
+                    </div>
+                </div>
+                <div class="modal-footer border-0 p-1"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="consultation-print" class="hide" style="height: 1px"></div>
+
+    <script type="text/html" id="image-item-template">
+        <div data-image-id="<%= img.id %>" class="col-3">
+            <div class="card card-custom gutter-b card-stretch bg-white border">
+                <div class="card-header border-0 px-1 h-30px" style="min-height: 0px;">
+                    <h3 class="card-title pl-2">
+                        <div class="form-group">
+                            <label for="img-cb-<%= img.id %>">
+                                <input data-id="<%= img.id %>" name="img-cb-<%= img.id %>" class="img-cb" type="checkbox"/>
+                                <i class="la la-print"></i>
+                            </label>
+                        </div>
+                    </h3>
+                    <div class="card-toolbar">
+                        <div class="dropdown dropdown-inline" data-toggle="tooltip" title="{% trans 'Actions' %}" data-placement="left">
+                            <a href="#" class="btn btn-clean btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="ki ki-bold-more-hor"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
+                                <ul class="navi navi-hover py-1">
+                                    <li class="navi-item">
+                                        <a href="#" onclick="supprimerImage(event, <%= img.id %>)" class="navi-link">
+                                            <span class="navi-icon"><i class="flaticon2-delete icon-sm"></i></span>
+                                            <span class="navi-text">{% trans "Supprimer" %}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-2 pl-2 pr-2 pb-6 text-center">
+                    <a class="d-block overlay" href="<%= img.url %>" data-fslightbox="lightbox-basic">
+                        <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px" style="background-image:url(<%= img.url %>)"></div>
+                        <div class="overlay-layer card-rounded bg-dark bg-opacity-25 shadow">
+                            <i class="bi bi-eye-fill text-white fs-3x"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </script>
+    {% endif %}
 
     {% include 'core/shared.html' %}
 
@@ -1585,7 +1843,7 @@
     <script src="{% static "plugins/custom/tinymce/tinymce.bundle.js" %}"></script>
     <script type="text/javascript">
 
-        const patient = {{ object.pk }};
+        let patient = {{ object.pk }};
         const list_mots = {{ mot_patient|safe }};
 
         {% if msg %}
@@ -1658,6 +1916,31 @@
         let grossesse_data = {};
         {% if grossesse_data %}grossesse_data = JSON.parse(`{{ grossesse_data|safe }}`);{% endif %}
 
+        // Consultation tabs variables
+        const patient_pk = {{ object.pk }};
+        let consultation_pk = {{ consultation_active.pk|default:'-1' }};
+        let consultation_date = '{{ consultation_active.date|date:'Y-m-d'|default:'' }}';
+        let listes_choix = {{ listes_choix_json|safe }};
+        let devices = {{ devices_json|safe }};
+        let medecins = {{ medecins_json|safe }};
+        let images_json = {{ images_json|safe }};
+        let sr_json = {{ sr_json|safe }};
+        let consultationImages = {{ images_json|safe }};
+        let addAntecedents = {% if user.profil.compte.parametrescompte.ajouter_antecedents_edition %}true{% else %}false{% endif %};
+        const ajouterDateLieuEdition = {% if user.profil.compte.parametrescompte.ajouter_date_cro %}true{% else %}false{% endif %};
+        let templates_edition = {{ templates_json|safe }};
+        let modeEdition = {% if mode_edition %}true{% else %}false{% endif %};
+        const motif_pk = {% if motif %}{{ motif.pk }}{% else %}null{% endif %};
+        const motif_code = '{% if motif %}{{ motif.code }}{% endif %}';
+        {% if consultation_active or is_new_consultation %}
+        patient = {{ patient_json|safe }};
+        {% endif %}
+        const logo_url = '{{ logo_url|safe }}';
+        const footer_url = '{{ footer_url|safe }}';
+        const signature_url = '{{ signature_url|safe }}';
+        const entete = '{{ entete|escapejs }}';
+        let doublon_url = {% if doublon_consultation %}'{{ doublon_consultation.modif_url }}'{% else %}null{% endif %};
+
     </script>
     <script src="{% static 'plugins/custom/jqbootstrapmodalforms/jquery.bootstrap.modal.forms.min.js' %}"></script>
     <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
@@ -1665,5 +1948,55 @@
     <script src="{% static "js/core/fichiers_patient.js" %}"></script>
     <script src="{% static "js/core/patient_detail.js" %}?v=2"></script>
     <script src="{% static "js/core/patient_info_panel.js" %}"></script>
+
+    {% if consultation_active or is_new_consultation %}
+    <script src="{% static 'plugins/custom/flot/flot.bundle.js' %}"></script>
+    <script src="{% static 'plugins/custom/fslightbox/fslightbox.bundle.js' %}"></script>
+    <script src="{% static 'js/core/editique.js' %}"></script>
+    <script src="{% static 'js/core/consultation_form.js' %}"></script>
+    <script src="{% static 'js/core/consultation_obstetrique_form.js' %}"></script>
+    <script src="{% static 'js/core/consultation_obstetrique_graph.js' %}"></script>
+    {% if consultation_type == '11SA' %}
+    <script src="{% static 'js/core/consultation_obs_echo_11SA_form.js' %}"></script>
+    {% elif consultation_type == 'premier_trimestre' %}
+    <script src="{% static 'js/core/consultation_obs_echo_premier_trimestre_form.js' %}"></script>
+    {% elif consultation_type == 'deuxieme_trimestre' %}
+    <script src="{% static 'js/core/consultation_obs_echo_deuxieme_trimestre_form.js' %}"></script>
+    {% elif consultation_type == 'troisieme_trimestre' %}
+    <script src="{% static 'js/core/consultation_obs_echo_troisieme_trimestre_form.js' %}"></script>
+    {% elif consultation_type == 'croissance' %}
+    <script src="{% static 'js/core/consultation_obs_echo_croissance_form.js' %}"></script>
+    {% endif %}
+    <script>
+        $(document).ready(function() {
+            // Override chargerMesures to include consultation filter for graphs
+            if (consultation_pk && typeof chargerMesures === 'function') {
+                var origCharger = chargerMesures;
+                chargerMesures = function(grossesseId) {
+                    return new Promise(function(resolve, reject) {
+                        $.get('/grossesses/' + grossesseId + '/mesures/?until=' + consultation_pk)
+                            .done(function(result) {
+                                resolve(result);
+                            })
+                            .fail(function() {
+                                console.error("Impossible de charger les mesures");
+                            });
+                    });
+                };
+            }
+            // Trigger graph loading if consultation is active
+            if (typeof chargerMesures === 'function' && grossesse && grossesse.id) {
+                chargerMesures(grossesse.id).then(function(mesures) {
+                    if (typeof updateAllGraphs === 'function') {
+                        updateAllGraphs(mesures);
+                    }
+                });
+            }
+            if (typeof checkReceptionDonnees === 'function' && consultation_pk) {
+                setInterval(function() { checkReceptionDonnees(); }, 10000);
+            }
+        });
+    </script>
+    {% endif %}
 
 {% endblock %}

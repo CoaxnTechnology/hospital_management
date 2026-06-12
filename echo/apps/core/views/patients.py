@@ -16,14 +16,18 @@ from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, FormView
 from pydicom.uid import generate_uid
-from apps.core.forms import EtablissementForm, AntecedentObstetriqueForm, GrossesseForm, MesuresPatientForm
+from apps.core.forms import EtablissementForm, AntecedentObstetriqueForm, GrossesseForm, MesuresPatientForm, \
+    DonneesFoetusFormset
 from apps.core.data import adresses
-from apps.core.forms import PatientForm, AdresseForm, ConsultationForm
+from apps.core.forms import PatientForm, AdresseForm, ConsultationForm, ConsultationEcho11SAForm, \
+    ConsultationEchoPremierTrimestreForm, ConsultationEchoDeuxiemeTrimestreForm, \
+    ConsultationEchoTroisiemeTrimestreForm, ConsultationEchoCroissanceForm
 from apps.core.models import *
 from apps.core.serializers import PhrasierSerializer, PatientSerializer, ListeChoixSerializer, \
     SousCategorieAntecedentSerializer, AntecedentSerializer, MedecinSerializer, ConsultationSerializer, \
     GrossesseSerializer, ConsultationObstetriqueSerializer, AntecedentObstetriqueSerializer, PraticienSerializer, \
-    TentativePMASerializer, AdmissionSerializer, MotifSerializer, ConsultationRapportSerializer
+    TentativePMASerializer, AdmissionSerializer, MotifSerializer, ConsultationRapportSerializer, DeviceSerializer, \
+    ImageConsultationSerializerLight, SRConsultationSerializer, TemplateEditionSerializer
 from bootstrap_modal_forms.generic import BSModalCreateView, BSModalUpdateView
 
 from apps.core.services.patients import get_grossesse_data
@@ -87,6 +91,29 @@ def charger_info_panel_context(request, context, patient):
     return context
 
 
+CONSULTATION_TYPE_CONFIG = [
+    ('11SA', ConsultationEcho11SA, ConsultationEcho11SAForm, None),
+    ('premier_trimestre', ConsultationEchoPremierTrimestre, ConsultationEchoPremierTrimestreForm,
+     'core/partials/examen_obs_t1_foetal.html'),
+    ('deuxieme_trimestre', ConsultationEchoDeuxiemeTrimestre, ConsultationEchoDeuxiemeTrimestreForm,
+     'core/partials/examen_obs_t23_foetal.html'),
+    ('troisieme_trimestre', ConsultationEchoTroisiemeTrimestre, ConsultationEchoTroisiemeTrimestreForm,
+     'core/partials/examen_obs_t23_foetal.html'),
+    ('croissance', ConsultationEchoCroissance, ConsultationEchoCroissanceForm,
+     'core/partials/examen_obs_t23_foetal.html'),
+]
+
+CONSULTATION_TYPE_MAP = {t[1]: (t[0], t[2], t[3]) for t in CONSULTATION_TYPE_CONFIG}
+CONSULTATION_TYPE_STR_MAP = {t[0]: (t[2], t[3]) for t in CONSULTATION_TYPE_CONFIG}
+CONSULTATION_MOTIF_CODES = {
+    '11SA': 'obs_echo_11SA',
+    'premier_trimestre': 'obs_echo_trimestre_1',
+    'deuxieme_trimestre': 'obs_echo_trimestre_2',
+    'troisieme_trimestre': 'obs_echo_trimestre_3',
+    'croissance': 'obs_echo_croissance',
+}
+
+
 class PatientView(PermissionRequiredMixin, DetailView):
     model = Patient
     form_class = PatientForm
@@ -126,6 +153,87 @@ class PatientView(PermissionRequiredMixin, DetailView):
 
         consult_obs_query = ConsultationObstetrique.objects.filter(patient=self.object)
         context['consultations_obs_json'] = json.dumps(ConsultationObstetriqueSerializer(consult_obs_query, many=True).data)
+
+        # Consultation tabs context
+        context['consultation_active'] = getattr(self, 'consultation_active', None)
+        context['consultation_tabs_form'] = getattr(self, 'consultation_form', None)
+        context['consultation_foetus'] = getattr(self, 'consultation_foetus_formset', None)
+        context['consultation_type'] = getattr(self, 'consultation_type_str', None)
+        context['fetal_partial'] = getattr(self, 'fetal_partial', None)
+        context['is_new_consultation'] = getattr(self, 'is_new_consultation', False)
+
+        if context.get('consultation_active'):
+            context['consultation_active_json'] = json.dumps(
+                ConsultationObstetriqueSerializer(context['consultation_active']).data)
+        else:
+            context['consultation_active_json'] = 'null'
+
+        grossesse_encours = context.get('grossesse_encours')
+        if grossesse_encours:
+            cons_list = ConsultationObstetrique.objects.filter(grossesse=grossesse_encours).order_by('-date')
+            context['consultations_obs_list'] = cons_list
+        else:
+            context['consultations_obs_list'] = []
+
+        devices = Device.objects.filter(compte=self.request.user.profil.compte)
+        context['devices'] = devices
+        context['devices_json'] = json.dumps(DeviceSerializer(devices, many=True).data)
+
+        medecins = Medecin.objects.filter(compte=self.request.user.profil.compte)
+        context['medecins_json'] = json.dumps(MedecinSerializer(medecins, many=True).data)
+
+        listes_choix = ListeChoix.objects.filter(
+            Q(formulaire='consultation_obs_foetus') | Q(formulaire='consultation_obs'))
+        context['listes_choix_json'] = json.dumps(ListeChoixSerializer(listes_choix, many=True).data)
+
+        # Consultation motif / templates / images / JS context
+        consultation_active = context.get('consultation_active')
+        consultation_type = context.get('consultation_type')
+        is_new = context.get('is_new_consultation')
+        motif = None
+        context['images_json'] = '[]'
+        context['sr_json'] = 'null'
+        context['templates'] = []
+        context['templates_json'] = '[]'
+        context['mode_edition'] = False
+        context['doublon_consultation'] = None
+
+        if consultation_active:
+            motif = consultation_active.motif
+            if hasattr(consultation_active, 'imageconsultation_set'):
+                images_qs = consultation_active.imageconsultation_set.all()
+                if images_qs.exists():
+                    context['images_json'] = json.dumps(ImageConsultationSerializerLight(images_qs, many=True).data)
+            if hasattr(consultation_active, 'srconsultation_set'):
+                last_sr = consultation_active.srconsultation_set.last()
+                if last_sr:
+                    context['sr_json'] = json.dumps(SRConsultationSerializer(last_sr).data)
+            context['doublon_consultation'] = self.object.check_doublon_consultation(motif=motif, date=date.today())
+            if 'edition' in self.request.GET:
+                context['mode_edition'] = True
+        elif is_new and consultation_type:
+            motif_code = CONSULTATION_MOTIF_CODES.get(consultation_type)
+            if motif_code:
+                motif_qs = MotifConsultation.objects.filter(code=motif_code)
+                if motif_qs.exists():
+                    motif = motif_qs[0]
+                    context['doublon_consultation'] = self.object.check_doublon_consultation(motif=motif, date=date.today())
+
+        if motif:
+            context['motif'] = motif
+            templates = TemplateEdition.objects.filter(
+                compte=self.request.user.profil.compte,
+                motif_consultation=motif,
+            )
+            context['templates'] = templates
+            context['templates_json'] = json.dumps(TemplateEditionSerializer(templates, many=True).data)
+
+        context['patient_json'] = json.dumps(PatientSerializer(self.object).data)
+        compte = self.request.user.profil.compte
+        context['logo_url'] = compte.parametrescompte.logo_a4.url if compte.parametrescompte.logo_a4 else ''
+        context['footer_url'] = compte.parametrescompte.footer_a4.url if compte.parametrescompte.footer_a4 else ''
+        context['signature_url'] = self.request.user.profil.signature.url if self.request.user.profil.signature and self.request.user.profil.ajouter_signature_edition else ''
+        context['entete'] = compte.parametrescompte.nom_entete
 
         ord_query = self.object.ordonnance_set.all() \
             .select_related('patient') \
@@ -200,6 +308,54 @@ class PatientView(PermissionRequiredMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
+        self.consultation_active = None
+        self.consultation_form = None
+        self.consultation_foetus_formset = None
+        self.consultation_type_str = None
+        self.fetal_partial = None
+        self.is_new_consultation = False
+
+        consultation_param = request.GET.get('consultation')
+        if consultation_param == 'new':
+            self.is_new_consultation = True
+            consultation_type = request.GET.get('type', 'troisieme_trimestre')
+            config = CONSULTATION_TYPE_STR_MAP.get(consultation_type)
+            if config:
+                form_class, fetal_partial = config
+                initial = {
+                    'patient': self.object.pk,
+                    'praticien': request.user.profil,
+                    'date': timezone.now(),
+                }
+                grossesse_encours = self.object.grossesse_set.filter(encours=True).first()
+                if grossesse_encours:
+                    initial['grossesse'] = grossesse_encours.pk
+                if self.object.mesures_jour:
+                    initial['poids'] = self.object.mesures_jour.poids
+                    initial['ta'] = self.object.mesures_jour.ta
+                    initial['temperature'] = self.object.mesures_jour.temperature
+                    initial['gly'] = self.object.mesures_jour.gly
+                self.consultation_form = form_class(compte=request.user.profil.compte, initial=initial)
+                self.consultation_foetus_formset = DonneesFoetusFormset()
+                self.consultation_type_str = consultation_type
+                self.fetal_partial = fetal_partial
+        elif consultation_param:
+            try:
+                pk = int(consultation_param)
+                for type_str, model_class, form_class, fetal_partial in CONSULTATION_TYPE_CONFIG:
+                    try:
+                        cons = model_class.objects.get(pk=pk)
+                        self.consultation_active = cons
+                        self.consultation_form = form_class(instance=cons, compte=request.user.profil.compte)
+                        self.consultation_foetus_formset = DonneesFoetusFormset(instance=cons)
+                        self.consultation_type_str = type_str
+                        self.fetal_partial = fetal_partial
+                        break
+                    except model_class.DoesNotExist:
+                        continue
+            except (ValueError, TypeError):
+                pass
+
         context = self.get_context_data(object=self.object)
         today = date.today()
         if 'action' in self.request.GET:

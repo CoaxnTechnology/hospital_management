@@ -332,6 +332,11 @@
     </script>
 
     <script type="text/html" id="actions-rdv-template">
+        <button type="button" onclick="mettreEnSalle(<%- id %>)"
+                class="btn btn-icon btn-sm btn-primary <% if(statut != 1) { %>invisible<% } %>"
+                title="{% trans 'Mettre en salle' %}">
+            <i class="la la-play icon-md"></i>
+        </button>
         <button type="button"
                 onclick="afficherRdvModal('/rdvs/<%- id %>/modifier/?next=/rdvs/#liste')"
                 class="btn btn-icon btn-sm btn-warning"
@@ -346,6 +351,7 @@
 {% endblock %}
 
 {% block scripts %}
+    {{ block.super }}
     <script type="text/javascript">
         const timezone = '{{ user.profil.compte.parametrescompte.timezone }}';
         let rdvs = {{ object_list | safe }};
@@ -373,6 +379,11 @@
         // Use stringformat:"d" to force ASCII digits regardless of active locale (Arabic numerals would break JS arithmetic)
         const duree_defaut = 1000 * 60 * {{ user.profil.compte.parametrescompte.duree_rdv_defaut|stringformat:"d" }};
         const currentLanguage = '{{ LANGUAGE_CODE }}';
+        {% trans "Choisir la machine" as s_choisir_machine %}
+        {% trans "Annuler" as s_annuler %}
+        window.dispositifs = {{ devices_json|safe }};
+        window.S_CHOISIR_MACHINE = '{{ s_choisir_machine|escapejs }}';
+        window.S_ANNULER = '{{ s_annuler|escapejs }}';
     </script>
 
     <script src="{% static "js/core/rdv_calendrier.js" %}"></script>

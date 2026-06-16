@@ -218,22 +218,14 @@ function afficherEdition() {
     bootstrap.Modal.getOrCreateInstance('#edition-modal').show();
 }
 
-function enregistrerConsultationAndPrint() {
-    enregistrerConsultation(tinymce.activeEditor);
-    createPdf().then(pdfDoc => {
-        let f = document.getElementById('pdf-frame');
-        pdfDoc.getDataUrl(url => f.setAttribute('src', url));
-        bootstrap.Modal.getOrCreateInstance('#pdf-modal').show();
-    });
-}
-
 function imprimerClick() {
     //getConsultationImagesB64();
     enregistrerConsultation(tinymce.activeEditor);
     createPdf().then(pdfDoc => {
-        let f = document.getElementById('pdf-frame');
-        pdfDoc.getDataUrl(url => f.setAttribute('src', url));
-        bootstrap.Modal.getOrCreateInstance('#pdf-modal').show();
+        pdfDoc.open();
+        //let f = document.getElementById('pdf-frame');
+        //pdfDoc.getDataUrl(url => f.setAttribute('src', url));
+        //$('#pdf-modal').modal();
     });
 }
 
@@ -695,6 +687,129 @@ function demarrerImpression() {
     createPdf().then(pdfDoc => {
         pdfDoc.print();
     });
+}
+
+function afficherImpressionImages() {
+    const container = $('#print-images-container');
+    const empty = $('#print-images-empty');
+    container.empty();
+
+    const images = window.consultationImages || [];
+    const activeImages = consultation_pk > 0
+        ? _.filter(images, i => i.consultation == consultation_pk || i.consultation === null)
+        : images;
+
+    if (activeImages.length === 0) {
+        empty.show();
+        container.hide();
+    } else {
+        empty.hide();
+        container.show();
+        _.each(activeImages, img => {
+            const imgUrl = img.url || img.image;
+            container.append(
+                `<div class="col-4 mb-3">
+                    <div class="card card-custom gutter-b bg-white border h-100">
+                        <div class="card-body p-2 text-center d-flex flex-column align-items-center justify-content-center">
+                            <label class="d-block cursor-pointer w-100">
+                                <input type="checkbox" class="img-cb-print mb-2" data-id="${img.id}" ${img.impression ? 'checked' : ''}>
+                                <br>
+                                <img src="${imgUrl}" class="img-fluid" style="max-height:120px;object-fit:contain">
+                            </label>
+                        </div>
+                    </div>
+                </div>`
+            );
+        });
+    }
+
+    bootstrap.Modal.getOrCreateInstance('#modal-impression-images').show();
+}
+
+function selectionnerToutesImages(select) {
+    $('#modal-impression-images .img-cb-print').prop('checked', select);
+}
+
+function imprimerImagesSelectionnees() {
+    const selectedIds = [];
+    $('#modal-impression-images .img-cb-print:checked').each(function () {
+        selectedIds.push($(this).attr('data-id'));
+    });
+
+    if (selectedIds.length === 0) {
+        toastr.warning(typeof S_PRINT !== 'undefined' ? S_PRINT.select_one : "Veuillez sélectionner au moins une image");
+        return;
+    }
+
+    bootstrap.Modal.getOrCreateInstance('#modal-impression-images').hide();
+
+    const allImages = window.consultationImages || [];
+    const imagesToPrint = _.filter(allImages, i => selectedIds.indexOf(String(i.id)) > -1);
+
+    const promises = _.map(imagesToPrint, img =>
+        new Promise((resolve) => {
+            chargerImageB64(img.url || img.image, (b64) => resolve(b64));
+        })
+    );
+
+    Promise.all(promises).then(imagesB64 => {
+        const rows = Math.ceil(imagesB64.length / 3);
+        let content = [];
+        if (rows) content.push({ text: 'Images', style: 'header', margin: [0, 0, 0, 10] });
+        for (let row = 0; row < rows; row++) {
+            let cols = [];
+            for (let col = 0; col < 3 && row * 3 + col < imagesB64.length; col++) {
+                cols.push({ width: 170, image: imagesB64[row * 3 + col] });
+            }
+            if (cols.length) content.push({ columns: cols, margin: [0, 0, 0, 10] });
+        }
+
+        const docDefinition = {
+            pageMargins: [20, 20, 20, 20],
+            content: content,
+            styles: { header: { fontSize: 16, bold: true } }
+        };
+
+        pdfMake.createPdf(docDefinition).print();
+    });
+}
+
+function imprimerGraphique() {
+    const graphConfig = [
+        { id: 'graph-poids', label: 'Poids foetal' },
+        { id: 'graph-bip', label: 'Diamètre bipariétal' },
+        { id: 'graph-pc', label: 'Périmètre céphalique' },
+        { id: 'graph-pa', label: 'Périmètre abdominal' },
+        { id: 'graph-femur', label: 'Longueur du fémur' },
+    ];
+
+    let content = [];
+    let hasGraph = false;
+
+    _.each(graphConfig, cfg => {
+        const canvas = $(`#${cfg.id} canvas`)[0];
+        if (canvas) {
+            hasGraph = true;
+            const b64 = canvas.toDataURL('image/png');
+            content.push({ text: cfg.label, style: 'header', margin: [0, 10, 0, 5] });
+            content.push({ image: b64, width: 500, alignment: 'center', margin: [0, 0, 0, 10] });
+        }
+    });
+
+    if (!hasGraph) {
+        toastr.warning(typeof S_PRINT !== 'undefined' ? S_PRINT.no_graph : "Aucun graphique disponible pour cette consultation");
+        return;
+    }
+
+    const docDefinition = {
+        pageMargins: [40, 40, 40, 40],
+        content: content,
+        styles: {
+            header: { fontSize: 14, bold: true, margin: [0, 10, 0, 5] }
+        }
+    };
+
+    pdfMake.createPdf(docDefinition).print();
 }
 
 $(document).ready(function () {

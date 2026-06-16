@@ -29,12 +29,11 @@ $(document).ready(function () {
         autoclose: true,
         language: currentLang,
         weekStart: 1,
-        format: 'dd/mm/yyyy',
-        startDate: 'today'
+        format: 'dd/mm/yyyy'
     }).on('changeDate', () => {
 
         debut = moment($('#date_debut').val() + ' ' + $('#heure_debut').val(), "DD/MM/YYYY HH:mm");
-        if (debut.isBefore(now)) {
+        if (debut.isBefore(moment().startOf('day'))) {
             $('#invalide_date').addClass('d-block');
         } else {
             $('#invalide_date').addClass('invalid-feedback');
@@ -52,8 +51,7 @@ $(document).ready(function () {
         autoclose: true,
         language: currentLang,
         weekStart: 1,
-        format: 'dd/mm/yyyy',
-        startDate: 'today'
+        format: 'dd/mm/yyyy'
     }).on('changeDate', () => {
         if ($('#heure_fin').val()) {
             $('#id_fin').val($('#date_fin').val() + 'T' + $('#heure_fin').val());
@@ -189,80 +187,6 @@ $(document).ready(function () {
         completerChampsPatient(suggestion);
     });
 
-    // Patient Search Box
-    $('#patient-search').typeahead(null, {
-        name: 'patientes',
-        display: function(item) {
-            return item.nom_naissance + ' ' + item.nom + ' ' + item.prenom;
-        },
-        source: function(query, syncResults, asyncResults) {
-            var csrfToken = $('input[name="csrfmiddlewaretoken"]').val() || 
-                           $('meta[name="csrf-token"]').attr('content') ||
-                           document.cookie.split('csrftoken=')[1];
-            $.ajax({
-                url: '/patients/recherche_async/',
-                type: 'POST',
-                data: JSON.stringify({'query': query}),
-                contentType: 'application/json',
-                headers: {'X-CSRFToken': csrfToken},
-                success: function(data) {
-                    let items = JSON.parse(data);
-                    asyncResults(items);
-                },
-                error: function() {
-                    asyncResults([]);
-                }
-            });
-        },
-        minLength: 2,
-        templates: {
-            notFound: '<div class="p-3 text-muted text-center">' + (typeof no_patient_text !== 'undefined' ? no_patient_text : 'Aucun patient trouvé') + '</div>',
-            pending: '<div class="p-3 text-muted text-center">' + (typeof searching_text !== 'undefined' ? searching_text : 'Recherche en cours...') + '</div>',
-            suggestion: function(item) {
-                var birthDate = item.date_naissance ? item.date_naissance : '';
-                var phone = item.telephone ? item.telephone : '';
-                return '<div class="patient-result-item">' +
-                    '<div class="patient-name">' +
-                    '<strong>' + item.nom_naissance + '</strong>' +
-                    (item.nom ? ' <span class="text-muted">(ép. ' + item.nom + ')</span>' : '') +
-                    ' ' + item.prenom +
-                    (birthDate ? ' <span class="patient-dob">(' + birthDate + ')</span>' : '') +
-                    '</div>' +
-                    (phone ? '<div class="patient-phone"><i class="la la-phone"></i> ' + phone + '</div>' : '') +
-                    '</div>';
-            }
-        }
-    }).on('typeahead:render', function() {
-        $('.tt-suggestion').css('borderBottom', '1px solid #eee');
-        $('.tt-suggestion:last').css('borderBottom', 'none');
-    }).on('typeahead:select', function(e, suggestion) {
-        completerChampsPatient(suggestion);
-        $('#patient-search').val('');
-        // Show selected patient indicator
-        var _selectedText = (typeof selected_text !== 'undefined') ? selected_text : 'selected';
-        $('#patient-search-results').html('<span class="text-success"><i class="la la-check"></i> ' + 
-            suggestion.nom_naissance + ' ' + (suggestion.nom ? 'ep. ' + suggestion.nom : '') + ' ' + 
-            suggestion.prenom + ' ' + _selectedText + '</span>');
-        // Mark as not new patient
-        $('[name="nouveau"]').prop("checked", false);
-    });
-    
-    // Clear patient when "Nouveau patient" is checked
-    $('[name="nouveau"]').on('change', function() {
-        if ($(this).is(':checked')) {
-            $('#id_patient').val('');
-            $('#patient-search-results').html('');
-            // Clear form fields
-            $('[name="prenom"]').typeahead('val', '');
-            $('[name="nom"]').typeahead('val', '');
-            $('[name="nom_naissance"]').typeahead('val', '');
-            $('[name="telephone"]').val('');
-            $('[name="ville"]').typeahead('val', '');
-            $('[name="cp"]').typeahead('val', '');
-            $('[name="gouvernorat"]').typeahead('val', '');
-        }
-    });
-
     FormValidation.formValidation(
         document.getElementById('form_1'),
         {
@@ -285,9 +209,6 @@ $(document).ready(function () {
 
                 'telephone': {
                     validators: {
-                        notEmpty: {
-                            message: (typeof RDV_MESSAGES !== 'undefined') ? RDV_MESSAGES.telephone_obligatoire : 'Téléphone est obligatoire'
-                        },
                         numeric: {
                             message: (typeof RDV_MESSAGES !== 'undefined') ? RDV_MESSAGES.telephone_chiffres : 'Téléphone doit contenir des chiffres uniquement'
                         },

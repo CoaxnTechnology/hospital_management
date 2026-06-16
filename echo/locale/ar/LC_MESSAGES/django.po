@@ -7700,5 +7700,33 @@ msgstr "Calendrier de grossesse"
 #~ msgid "Secrétaire"
 #~ msgstr "أمينة سر"
 
+#: templates/core/patient_detail_v2.html
+msgid "Sélectionner les images à imprimer"
+msgstr "اختر الصور للطباعة"
+
+#: templates/core/patient_detail_v2.html
+msgid "Aucune image pour cette consultation"
+msgstr "لا توجد صور لهذه الاستشارة"
+
+#: templates/core/patient_detail_v2.html
+msgid "Imprimer les images sélectionnées"
+msgstr "طباعة الصور المحددة"
+
+#: templates/core/patient_detail_v2.html
+msgid "Tout sélectionner"
+msgstr "تحديد الكل"
+
+#: templates/core/patient_detail_v2.html
+msgid "Tout désélectionner"
+msgstr "إلغاء تحديد الكل"
+
+#: templates/core/patient_detail_v2.html
+msgid "Veuillez sélectionner au moins une image"
+msgstr "يرجى تحديد صورة واحدة على الأقل"
+
+#: templates/core/patient_detail_v2.html
+msgid "Aucun graphique disponible pour cette consultation"
+msgstr "لا يتوفر رسم بياني لهذه الاستشارة"
+
 #~ msgid "Administrateur"
 #~ msgstr "مدير"

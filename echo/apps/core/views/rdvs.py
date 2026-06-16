@@ -5,18 +5,22 @@ from dateutil.parser import *
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core import serializers
+from django.db.models import Max, Q
 from django.http import HttpResponseNotFound, JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse, reverse_lazy
+from django.utils import timezone
 from django.views import View
 from django.views.generic import CreateView, UpdateView
 from datetimerange import DateTimeRange
+from pydicom.uid import generate_uid
 
 from apps.core.data import adresses
 from apps.core.forms import RdvForm, RdvDispoForm, AbsenceMedecinForm
-from apps.core.models import Rdv, Patient, Praticien, AbsenceMedecin, MotifAbsence, ProgrammeOperatoire
+from apps.core.models import Rdv, Patient, Praticien, AbsenceMedecin, MotifAbsence, ProgrammeOperatoire, Device, \
+    Admission, WorklistItem, Consultation, Medecin, MotifConsultation
 from apps.core.serializers import PatientSerializer, DateTimeEncoder, PraticienSerializer, MotifAbsenceSerializer, \
-    ProgrammeOperatoireSerializer
+    ProgrammeOperatoireSerializer, DeviceSerializer
 from apps.core.services.rdvs import *
 
 
@@ -42,8 +46,14 @@ class RdvList(PermissionRequiredMixin, View):
         data_programme = json.dumps(
             ProgrammeOperatoireSerializer(programme_operatoires, many=True).data)
 
-        return render(request, self.template_name,
-                      {'object_list': data, 'absence_list': data_absence, 'programme_operatoire': data_programme})
+        devices = Device.objects.filter(compte=self.request.user.profil.compte)
+        context = {
+            'object_list': data,
+            'absence_list': data_absence,
+            'programme_operatoire': data_programme,
+            'devices_json': json.dumps(DeviceSerializer(devices, many=True).data),
+        }
+        return render(request, self.template_name, context)
 
 
 class RdvCreate(PermissionRequiredMixin, CreateView):
@@ -206,6 +216,143 @@ def modifier_horaire(request, pk):
     rdv.save()
     data = {'message': "Rendez-vous modifié"}
     return JsonResponse(data)
+
+
+@login_required
+@permission_required('core.change_rdv', raise_exception=True)
+def mettre_en_salle(request, pk):
+    rdv = get_object_or_404(Rdv, pk=pk)
+    compte = request.user.profil.compte
+    today = dt.date.today()
+
+    # 1. Create Patient from RDV data if not linked
+    if rdv.patient is None:
+        patient = Patient.objects.create(
+            compte=compte,
+            prenom=rdv.prenom,
+            nom=rdv.nom or '',
+            nom_naissance=rdv.nom_naissance or rdv.nom or '',
+            sexe='F',
+            civilite='mme',
+            date_naissance=today,
+            telephone=rdv.telephone or '',
+            adresse=None,
+        )
+        rdv.patient = patient
+    else:
+        patient = rdv.patient
+
+    # 2. Link patient & set rdv statut
+    rdv.statut = 2
+    rdv.save(update_fields=['statut', 'patient'])
+
+    # 3. Handle admission
+    jour_min = dt.datetime.combine(today, dt.time.min)
+    jour_max = dt.datetime.combine(today, dt.time.max)
+
+    completed = Admission.objects.filter(
+        patient=patient,
+        date__gte=jour_min,
+        date__lte=jour_max,
+        statut='3',
+    ).first()
+
+    praticien = rdv.praticien or patient.praticien_principal or \
+        getattr(request.user, 'medecin', None) or Medecin.objects.filter(compte=compte).first()
+    motif = rdv.motif
+
+    if completed:
+        ordre_max = Admission.objects.filter(
+            Q(patient__compte=compte) & Q(date__gte=jour_min) & Q(date__lte=jour_max)
+        ).aggregate(Max('ordre'))['ordre__max']
+        completed.ordre = (ordre_max or 0) + 1
+        completed.statut = '1'
+        completed.date = timezone.now()
+        completed.praticien = praticien
+        completed.motif = motif
+        completed.save()
+        admission = completed
+    else:
+        ordre_max = Admission.objects.filter(
+            Q(patient__compte=compte) & Q(date__gte=jour_min) & Q(date__lte=jour_max)
+        ).aggregate(Max('ordre'))['ordre__max']
+        ordre = 1 if ordre_max is None else ordre_max + 1
+
+        numero_max = Admission.objects.filter(
+            patient__compte=compte, date__year=today.year
+        ).aggregate(Max('numero'))['numero__max']
+        numero = 1 if numero_max is None else numero_max + 1
+
+        admission = Admission.objects.create(
+            numero=numero,
+            patient=patient,
+            praticien=praticien,
+            date=timezone.now(),
+            ordre=ordre,
+            statut='1',
+            motif=motif,
+        )
+
+        if patient.admission_set.count() > 1 and patient.nouveau:
+            patient.nouveau = False
+            patient.save()
+
+    # 4. Handle device + worklist
+    device_id = request.POST.get('device_id')
+    if device_id:
+        device = get_object_or_404(Device, pk=device_id, compte=compte)
+
+        # Check existing exam conflict
+        existing_exam = Admission.objects.filter(
+            date__gte=jour_min,
+            date__lte=jour_max,
+            statut='2',
+            patient__compte=compte,
+        ).exclude(patient=patient).first()
+        if existing_exam:
+            from urllib.parse import quote
+            nom = quote(existing_exam.patient.nom_complet)
+            return JsonResponse({
+                'error': 'exam_en_cours',
+                'message': f"Un examen est déjà en cours pour {nom}",
+            }, status=409)
+
+        # Cancel pending worklist items
+        WorklistItem.objects.filter(
+            device__compte=compte,
+            mpps_status__in=[WorklistItem.MPPS_STATUS_PENDING, WorklistItem.MPPS_STATUS_INPROGRESS],
+        ).update(mpps_status=WorklistItem.MPPS_STATUS_DISCONTINUED)
+
+        # Find or create today's consultation
+        consultation = Consultation.objects.filter(
+            patient=patient,
+            date__gte=jour_min,
+            date__lte=jour_max,
+        ).order_by('-id').first()
+        if not consultation:
+            motif_consultation = MotifConsultation.objects.first()
+            consultation = Consultation.objects.create(
+                patient=patient,
+                motif=motif_consultation,
+                date=timezone.now(),
+                praticien=getattr(request.user, 'medecin', None) or Medecin.objects.filter(compte=compte).first(),
+            )
+
+        # Create worklist item
+        WorklistItem.objects.create(
+            consultation=consultation,
+            study_instance_uid=generate_uid(),
+            mpps_status=WorklistItem.MPPS_STATUS_PENDING,
+            device=device,
+        )
+
+        # Promote admission to in-consultation
+        admission.statut = '2'
+        admission.debut_consultation = timezone.now()
+        admission.praticien = praticien
+        admission.save(update_fields=['statut', 'debut_consultation', 'praticien'])
+
+    return JsonResponse({'message': "Patient mis en salle avec succès"})
 
 
 class RdvDispoCreate(PermissionRequiredMixin, CreateView):

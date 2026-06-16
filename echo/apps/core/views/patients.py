@@ -1,7 +1,9 @@
 import json
 import logging
+import datetime
 from datetime import date
 from pprint import pformat
+from urllib.parse import quote
 
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -362,17 +364,44 @@ class PatientView(PermissionRequiredMixin, DetailView):
             if self.request.GET['action'] == 'demarrer_consultation':
                 patient = self.object
                 compte = request.user.profil.compte
+                jour_min = datetime.datetime.combine(today, datetime.time.min)
+                jour_max = datetime.datetime.combine(today, datetime.time.max)
                 existing_exam = Admission.objects.filter(
-                    Q(date__day=today.day) & Q(date__month=today.month) & Q(date__year=today.year),
+                    date__gte=jour_min,
+                    date__lte=jour_max,
                     statut='2',
-                    patient__compte=compte
-                ).first()
+                    patient__compte=compte,
+                ).exclude(patient=patient).first()
                 if existing_exam:
-                    context['error_msg'] = f"Impossible de démarrer la consultation. Un examen est déjà en cours pour {existing_exam.patient.nom_complet}."
-                    return self.render_to_response(context)
-                patient.admission_set.filter(Q(date__day=today.day)
-                                             & Q(date__month=today.month)
-                                             & Q(date__year=today.year)).update(statut='2')
+                    nom = quote(existing_exam.patient.nom_complet)
+                    return redirect(
+                        f"/accueil?error=exam_en_cours&nom={nom}#liste_en_consultation"
+                    )
+                today_admissions = patient.admission_set.filter(
+                    Q(date__day=today.day)
+                    & Q(date__month=today.month)
+                    & Q(date__year=today.year)
+                )
+                rdv = Rdv.objects.filter(
+                    patient=patient,
+                    debut__day=today.day,
+                    debut__month=today.month,
+                    debut__year=today.year,
+                ).first()
+                praticien = None
+                if rdv and rdv.praticien:
+                    praticien = rdv.praticien
+                elif patient.praticien_principal:
+                    praticien = patient.praticien_principal
+                else:
+                    praticien = getattr(request.user, 'medecin', None) or Medecin.objects.filter(compte=compte).first()
+                update_kwargs = {
+                    'statut': '2',
+                    'debut_consultation': timezone.now(),
+                }
+                if praticien:
+                    update_kwargs['praticien'] = praticien
+                today_admissions.update(**update_kwargs)
                 consultation = Consultation.objects.filter(
                     patient=patient,
                     date__day=today.day,
@@ -403,8 +432,7 @@ class PatientView(PermissionRequiredMixin, DetailView):
                         mpps_status=WorklistItem.MPPS_STATUS_PENDING,
                         device=device,
                     )
-                if not self.request.user.profil.is_medecin():
-                    return redirect("/accueil?msg=consultation_demarree_succes#liste_en_consultation")
+                return redirect("/accueil?msg=consultation_demarree_succes#liste_en_consultation")
 
         return self.render_to_response(context)
 

@@ -7728,5 +7728,33 @@ msgstr "Calendrier de grossesse"
 #~ msgid "Secrétaire"
 #~ msgstr "Secretaria"
 
+#: templates/core/patient_detail_v2.html
+msgid "Sélectionner les images à imprimer"
+msgstr "Seleccionar imágenes para imprimir"
+
+#: templates/core/patient_detail_v2.html
+msgid "Aucune image pour cette consultation"
+msgstr "Sin imágenes para esta consulta"
+
+#: templates/core/patient_detail_v2.html
+msgid "Imprimer les images sélectionnées"
+msgstr "Imprimir imágenes seleccionadas"
+
+#: templates/core/patient_detail_v2.html
+msgid "Tout sélectionner"
+msgstr "Seleccionar todo"
+
+#: templates/core/patient_detail_v2.html
+msgid "Tout désélectionner"
+msgstr "Deseleccionar todo"
+
+#: templates/core/patient_detail_v2.html
+msgid "Veuillez sélectionner au moins une image"
+msgstr "Seleccione al menos una imagen"
+
+#: templates/core/patient_detail_v2.html
+msgid "Aucun graphique disponible pour cette consultation"
+msgstr "No hay gráfico disponible para esta consulta"
+
 #~ msgid "Administrateur"
 #~ msgstr "Administrador"

@@ -274,24 +274,22 @@
                         </div>
 
                         <div class="tab-pane" id="liste_consultations" role="tabpanel">
-                            <div class="tab-pane active" id="liste_complete" role="tabpanel">
-                                <table class="table table-row-bordered table-striped gy-5" id="kt_datatable_consultations">
-                                    <thead>
-                                    <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
-                                        <th>{% trans "Nom de naissance" %}</th>
-                                        <th>{% trans "Nom marital" %}</th>
-                                        <th>{% trans "Prénom" %}</th>
-                                        <th>{% trans "Age" %}</th>
-                                        <th>{% trans "Ville" %}</th>
-                                        <th>{% trans "Motif" %}</th>
-                                        <th class="w-200px">{% trans "Praticien" %}</th>
-                                        <th class="w-200px">{% trans "Actions" %}</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody class="text-gray-600 fw-semibold">
-                                    </tbody>
-                                </table>
-                            </div>
+                            <table class="table table-row-bordered table-striped gy-5" id="kt_datatable_consultations">
+                                <thead>
+                                <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
+                                    <th>{% trans "Nom de naissance" %}</th>
+                                    <th>{% trans "Nom marital" %}</th>
+                                    <th>{% trans "Prénom" %}</th>
+                                    <th>{% trans "Age" %}</th>
+                                    <th>{% trans "Ville" %}</th>
+                                    <th>{% trans "Motif" %}</th>
+                                    <th class="w-200px">{% trans "Praticien" %}</th>
+                                    <th class="w-200px">{% trans "Actions" %}</th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-gray-600 fw-semibold">
+                                </tbody>
+                            </table>
                         </div>
 
                         <div class="tab-pane" id="liste_modifies_annules" role="tabpanel">
@@ -322,10 +320,11 @@
     </div>
 
     <script id="actions-rdv-template" type="text/html">
-        <a href="/patients/recherche/?rdv=<%- id %>" class="btn btn-icon btn-sm btn-primary <%- admission %>"
-           title="{% trans 'Admission' %}">
-            <i class="la la-folder-plus icon-md"></i>
-        </a>
+        <button onclick="mettreEnSalle(<%- id %>)"
+           class="btn btn-icon btn-sm btn-primary <% if(statut != 1) { %>invisible<% } %>"
+           title="{% trans 'Mettre en salle' %}">
+            <i class="la la-play icon-md"></i>
+        </button>
 
         <a onclick="javascript:afficherRdvModal('/rdvs/<%- id %>/modifier/?next=accueil')" class="btn btn-warning btn-icon btn-sm"
            title="{% trans 'Modifier le rendez-vous' %}">
@@ -359,11 +358,6 @@
     </script>
 
     <script id="actions-rdv-modif-template" type="text/html">
-        <a href="/patients/recherche/?rdv=<%- id %>" class="btn btn-icon btn-sm btn-primary <%- admission %>"
-           title="{% trans 'Admission' %}">
-            <i class="la la-folder-plus icon-md"></i>
-        </a>
-
         <a onclick="javascript:afficherRdvModal('/rdvs/<%- id %>/modifier/?next=accueil')" class="btn btn-warning btn-icon btn-sm"
            title="{% trans 'Modifier le rendez-vous' %}">
             <i class="la la-edit icon-md"></i>
@@ -376,7 +370,7 @@
     </script>
 
     <script id="actions-consultation-template" type="text/html">
-        <% if (consultationId) { %>
+        <% if (typeof consultationId !== 'undefined' && consultationId) { %>
         <a href="/consultation/<%- consultationId %>/rapport/" class="btn btn-warning btn-icon btn-sm" title="{% trans 'Rapport' %}">
             <i class="la la-file-text icon-md"></i>
         </a>
@@ -484,54 +478,64 @@
 {% endblock %}
 
 {% block scripts %}
+    {{ block.super }}
     <script type="text/javascript">
 
         {% if msg %}
             toastr.success("{{ msg }}");
         {% endif %}
-
-
-        let filterPraticienId = -1;
-        {% if user.profil.groupe == 'Médecin' %}
-            filterPraticienId = {{ user.profil.id }};
+        {% if error_msg %}
+            toastr.warning("{{ error_msg|escapejs }}", "", {timeOut: 8000});
         {% endif %}
 
-        let rdvs_jour = {{ rdvs_json | safe }};
+
+        window.filterPraticienId = -1;
+        {% if user.profil.groupe == 'Médecin' %}
+            window.filterPraticienId = {{ user.profil.id }};
+        {% endif %}
+
+        var rdvs_jour = {{ rdvs_jour_today | safe }};
+        var rdvs_jour_all = {{ rdvs_json | safe }};
         console.log('Rdv jour', rdvs_jour);
-        let rdvs_modifies_annules = _.filter(rdvs_jour, rdv => {
+        var rdvs_modifies_annules = _.filter(rdvs_jour_all, rdv => {
                 return rdv.statut == 10 || (rdv.statut == 1 && rdv.ancien_debut && !moment(rdv.debut).isSame(moment(), 'day'));
             }
         );
         console.log("Modifiés", rdvs_modifies_annules);
 
-        let admissions = {{ admissions_json|safe }};
+        var admissions = {{ admissions_json|safe }};
         admissions = _.map(admissions, p => {
-            // Si un rdv est associé au patient à la date du jour, récupérer les informations du rdv
-            const rdv = _.find(rdvs_jour, {'patient': p.patient.id});
+            const rdv = _.find(rdvs_jour_all, r => {
+                if (!r.patient) return false;
+                const rdvPatientId = typeof r.patient === 'object' ? r.patient.id : r.patient;
+                return rdvPatientId === p.patient.id;
+            });
             if (rdv) {
-                p = _.extend(p, _.pick(rdv, ['debut', 'nouveau']));
+                p = _.extend({}, p, _.pick(rdv, ['debut', 'nouveau']));
             } else {
-                p.debut = '-';
+                p = _.extend({}, p);
+                p.debut = p.debut_consultation || '-';
                 p.nouveau = p.patient.nouveau;
             }
             return p;
         });
+        var admissions_json_initial = admissions;
         patients_en_attente = _.filter(admissions, p => p.statut == 1);
         consultations_en_cours = _.filter(admissions, p => p.statut == 2);
 
-        let motifs_consultation = {{ motifs_consultation_json|safe }};
+        var motifs_consultation = {{ motifs_consultation_json|safe }};
         motifs_consultation = _.map(motifs_consultation, p => _.merge({pk: p.pk}, p.fields));
 
-        let motifs_rdvs = {{ motifs_rdv_json|safe }};
+        var motifs_rdvs = {{ motifs_rdv_json|safe }};
 
-        let consultations = {{ consultations_json|safe }};
+        var consultations = {{ consultations_json|safe }};
         consultations = _.filter(consultations, c => moment(c.date).isSame(moment(), 'day'));
         console.log('Consultations', consultations);
 
-        let praticiens = {{ praticiens_json|safe }};
-        let motifs_rdv = {{ motifs_rdv_json|safe }};
+        var praticiens = {{ praticiens_json|safe }};
+        var motifs_rdv = {{ motifs_rdv_json|safe }};
 
-        let dispositifs = {{ devices_json|safe }};
+        window.dispositifs = {{ devices_json|safe }};
 
         {% trans "Choisir la machine" as s_choisir_machine %}
         {% trans "Annuler" as s_annuler %}
@@ -567,9 +571,11 @@
             });
         }
 
+        window.S_CHOISIR_MACHINE = '{{ s_choisir_machine|escapejs }}';
+        window.S_ANNULER = '{{ s_annuler|escapejs }}';
     </script>
     <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
-    <script src="{% static "js/core/accueil.js" %}"></script>
+    <script src="{% static "js/core/accueil.js" %}?v=20250616b"></script>
     <script>
     // Live polling: refresh admissions every 15s
     setInterval(function() {
@@ -577,21 +583,7 @@
             .then(r => r.json())
             .then(data => {
                 if (!data.admissions) return;
-                var table = $('#admissions-table').DataTable();
-                if (!table) return;
-                var currentIds = {};
-                table.rows().every(function() {
-                    var d = this.data();
-                    if (d) currentIds[d.id] = d;
-                });
-                data.admissions.forEach(function(adm) {
-                    var row = table.row('#' + adm.id);
-                    if (row.length) {
-                        if (currentIds[adm.id] && currentIds[adm.id].statut !== adm.statut) {
-                            table.row('#' + adm.id).data(adm).draw(false);
-                        }
-                    }
-                });
+                refreshAdmissionsFromApi(data.admissions);
             })
             .catch(function(e) {});
     }, 15000);

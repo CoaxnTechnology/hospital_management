@@ -1093,7 +1093,10 @@
             });
 
             function fermerModals(toastMsg) {
-                $('.modal').modal('hide');
+                document.querySelectorAll('.modal').forEach(m => {
+                    const modal = bootstrap.Modal.getInstance(m);
+                    if (modal) modal.hide();
+                });
                 if (toastMsg) toastr.success(toastMsg);
             }
 

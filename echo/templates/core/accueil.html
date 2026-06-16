@@ -273,23 +273,21 @@
                         </div>
 
                         <div class="tab-pane" id="liste_consultations" role="tabpanel">
-                            <div class="tab-pane active" id="liste_complete" role="tabpanel">
-                                <table class="table table-bordered table-checkable table-striped"
-                                       id="kt_datatable_consultations">
-                                    <thead>
-                                    <tr>
-                                        <th>{% trans "Nom de naissance" %}</th>
-                                        <th>{% trans "Nom marital" %}</th>
-                                        <th>{% trans "Prénom" %}</th>
-                                        <th>{% trans "Age" %}</th>
-                                        <th>{% trans "Ville" %}</th>
-                                        <th>{% trans "Motif" %}</th>
-                                        <th>{% trans "Praticien" %}</th>
-                                        <th>{% trans "Actions" %}</th>
-                                    </tr>
-                                    </thead>
-                                </table>
-                            </div>
+                            <table class="table table-bordered table-checkable table-striped"
+                                   id="kt_datatable_consultations">
+                                <thead>
+                                <tr>
+                                    <th>{% trans "Nom de naissance" %}</th>
+                                    <th>{% trans "Nom marital" %}</th>
+                                    <th>{% trans "Prénom" %}</th>
+                                    <th>{% trans "Age" %}</th>
+                                    <th>{% trans "Ville" %}</th>
+                                    <th>{% trans "Motif" %}</th>
+                                    <th>{% trans "Praticien" %}</th>
+                                    <th>{% trans "Actions" %}</th>
+                                </tr>
+                                </thead>
+                            </table>
                         </div>
 
                         <div class="tab-pane" id="liste_modifies_annules" role="tabpanel">
@@ -319,10 +317,11 @@
     </div>
 
     <script id="actions-rdv-template" type="text/html">
-        <a href="/patients/recherche/?rdv=<%- id %>" class="btn btn-icon btn-sm btn-primary <%- admission %>"
-           title="{% trans 'Admission' %}">
-            <i class="la la-folder-plus icon-md"></i>
-        </a>
+        <button onclick="mettreEnSalle(<%- id %>)"
+           class="btn btn-icon btn-sm btn-primary <% if(statut != 1) { %>invisible<% } %>"
+           title="{% trans 'Mettre en salle' %}">
+            <i class="la la-play icon-md"></i>
+        </button>
 
         <a onclick="javascript:afficherRdvModal('/rdvs/<%- id %>/modifier/?next=accueil')" class="btn btn-warning btn-icon btn-sm"
            title="{% trans 'Modifier le rendez-vous' %}">
@@ -356,11 +355,6 @@
     </script>
 
     <script id="actions-rdv-modif-template" type="text/html">
-        <a href="/patients/recherche/?rdv=<%- id %>" class="btn btn-icon btn-sm btn-primary <%- admission %>"
-           title="{% trans 'Admission' %}">
-            <i class="la la-folder-plus icon-md"></i>
-        </a>
-
         <a onclick="javascript:afficherRdvModal('/rdvs/<%- id %>/modifier/?next=accueil')" class="btn btn-warning btn-icon btn-sm"
            title="{% trans 'Modifier le rendez-vous' %}">
             <i class="la la-edit icon-md"></i>
@@ -480,9 +474,10 @@
             filterPraticienId = {{ user.profil.id }};
         {% endif %}
 
-        let rdvs_jour = {{ rdvs_json | safe }};
+        let rdvs_jour = {{ rdvs_jour_today | safe }};
+        let rdvs_jour_all = {{ rdvs_json | safe }};
         console.log('Rdv jour', rdvs_jour);
-        let rdvs_modifies_annules = _.filter(rdvs_jour, rdv => {
+        let rdvs_modifies_annules = _.filter(rdvs_jour_all, rdv => {
                 return rdv.statut == 10 || (rdv.statut == 1 && rdv.ancien_debut && !moment(rdv.debut).isSame(moment(), 'day'));
             }
         );
@@ -491,7 +486,7 @@
         let admissions = {{ admissions_json|safe }};
         admissions = _.map(admissions, p => {
             // Si un rdv est associé au patient à la date du jour, récupérer les informations du rdv
-            const rdv = _.find(rdvs_jour, {'patient': p.patient.id});
+            const rdv = _.find(rdvs_jour_all, {'patient': p.patient.id});
             if (rdv) {
                 p = _.extend(p, _.pick(rdv, ['debut', 'nouveau']));
             } else {
@@ -515,8 +510,13 @@
         let praticiens = {{ praticiens_json|safe }};
         let motifs_rdv = {{ motifs_rdv_json|safe }};
 
+        {% trans "Choisir la machine" as s_choisir_machine %}
+        {% trans "Annuler" as s_annuler %}
+        window.dispositifs = {{ devices_json|safe }};
+        window.S_CHOISIR_MACHINE = '{{ s_choisir_machine|escapejs }}';
+        window.S_ANNULER = '{{ s_annuler|escapejs }}';
     </script>
     <script src="{% static "plugins/custom/datatables/datatables.bundle.js" %}"></script>
     <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
-    <script src="{% static "js/core/accueil.js" %}"></script>
+    <script src="{% static "js/core/accueil.js" %}?v=20250616b"></script>
 {% endblock %}

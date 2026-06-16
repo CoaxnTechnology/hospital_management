@@ -473,7 +473,6 @@ class TentativePMASerializer(serializers.ModelSerializer):
 
 class RdvSerializer(serializers.ModelSerializer):
     praticien = MedecinSerializer(read_only=True)
-    statut = serializers.CharField(source='get_statut_display')
 
     class Meta:
         model = Rdv

@@ -28,6 +28,66 @@ function classParStatutRdv(statut, motif) {
     return cls;
 }
 
+function mettreEnSalle(pk) {
+    var dispositifs = window.dispositifs || [];
+    if (dispositifs.length === 0) {
+        $.post(`/rdvs/${pk}/mettre_en_salle/`)
+            .done(function () {
+                toastr.success("Patient mis en salle");
+                location.reload();
+            })
+            .fail(function (xhr) {
+                var msg = "Erreur lors du changement de statut";
+                if (xhr.responseJSON && xhr.responseJSON.message) msg = xhr.responseJSON.message;
+                toastr.error(msg);
+            });
+        return;
+    }
+    if (dispositifs.length === 1) {
+        $.post(`/rdvs/${pk}/mettre_en_salle/`, {device_id: dispositifs[0].id})
+            .done(function () {
+                toastr.success("Patient mis en salle");
+                location.reload();
+            })
+            .fail(function (xhr) {
+                var msg = "Erreur lors du changement de statut";
+                if (xhr.responseJSON && xhr.responseJSON.message) msg = xhr.responseJSON.message;
+                toastr.error(msg);
+            });
+        return;
+    }
+    var html = '<div class="list-group">';
+    dispositifs.forEach(function(d) {
+        html += '<button type="button" class="list-group-item list-group-item-action device-option" data-device-id="' + d.id + '">' + (d.libelle || d.ae_title || 'Machine ' + d.id) + '</button>';
+    });
+    html += '</div>';
+    swal.fire({
+        title: window.S_CHOISIR_MACHINE || 'Choisir la machine',
+        html: html,
+        showConfirmButton: false,
+        showCancelButton: true,
+        cancelButtonText: window.S_ANNULER || 'Annuler',
+        didRender: function() {
+            document.querySelectorAll('.device-option').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var deviceId = this.getAttribute('data-device-id');
+                    swal.close();
+                    $.post(`/rdvs/${pk}/mettre_en_salle/`, {device_id: deviceId})
+                        .done(function () {
+                            toastr.success("Patient mis en salle");
+                            location.reload();
+                        })
+                        .fail(function (xhr) {
+                            var msg = "Erreur lors du changement de statut";
+                            if (xhr.responseJSON && xhr.responseJSON.message) msg = xhr.responseJSON.message;
+                            toastr.error(msg);
+                        });
+                });
+            });
+        }
+    });
+}
+
 function supprimer(pk) {
     const _swal = (typeof SWAL_RDV !== 'undefined') ? SWAL_RDV : {};
     swal.fire({
@@ -168,17 +228,17 @@ jQuery(document).ready(function () {
             endTime: '21:00',
         },
 
-        minTime: '8:00',
-        maxTime: '21:00',
+        slotMinTime: '08:00:00',
+        slotMaxTime: '21:00:00',
 
         initialView: KTUtil.isMobileDevice() ? 'timeGridDay' : 'timeGridWeek',
-        defaultDate: TODAY,
+        initialDate: TODAY,
 
         editable: true, //https://fullcalendar.io/docs/event-dragging-resizing
         eventOverlap: false,
         eventDurationEditable: false,
         selectable: true, // https://fullcalendar.io/docs/selectable
-        eventLimit: true, // allow "more" link when too many events
+        dayMaxEvents: true, // allow "more" link when too many events
         navLinks: true,
         selectLongPressDelay: 100,
 
@@ -221,23 +281,20 @@ jQuery(document).ready(function () {
             isDragging = true;
         },
 
-        eventDragEnd: function () {
+        eventDragStop: function () {
             isDragging = false;
         },
 
-        eventRender: function (info) {
-            //if (isDragging) return;
-            //console.log('Event render ', info);
+        eventDidMount: function (info) {
             var element = $(info.el);
             element.css('margin:', '0px');
             element.data('title', info.event.title);
             element.data('content', info.event.extendedProps.description);
             element.data('placement', 'top');
-            //KTApp.initPopover(element);
         },
 
-        viewRender: function () {
-            console.log('viewRender');
+        datesSet: function () {
+            console.log('datesSet');
         },
 
         eventDrop: function (info) {
@@ -418,7 +475,7 @@ jQuery(document).ready(function () {
                 {
                     targets: 6, title: 'Actions', orderable: false, width: '150px',
                     render: function (data, type, full, meta) {
-                        return _t({id: full.pk});
+                        return _t({id: full.pk, statut: full.statut});
                     }
                 },
                 {

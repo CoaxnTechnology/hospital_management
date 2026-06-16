@@ -7338,5 +7338,33 @@ msgstr ""
 #~ msgid "Secrétaire"
 #~ msgstr "Secretary"
 
+#: templates/core/patient_detail_v2.html
+msgid "Sélectionner les images à imprimer"
+msgstr "Select images to print"
+
+#: templates/core/patient_detail_v2.html
+msgid "Aucune image pour cette consultation"
+msgstr "No images for this consultation"
+
+#: templates/core/patient_detail_v2.html
+msgid "Imprimer les images sélectionnées"
+msgstr "Print selected images"
+
+#: templates/core/patient_detail_v2.html
+msgid "Tout sélectionner"
+msgstr "Select all"
+
+#: templates/core/patient_detail_v2.html
+msgid "Tout désélectionner"
+msgstr "Deselect all"
+
+#: templates/core/patient_detail_v2.html
+msgid "Veuillez sélectionner au moins une image"
+msgstr "Please select at least one image"
+
+#: templates/core/patient_detail_v2.html
+msgid "Aucun graphique disponible pour cette consultation"
+msgstr "No chart available for this consultation"
+
 #~ msgid "Administrateur"
 #~ msgstr "Administrator"

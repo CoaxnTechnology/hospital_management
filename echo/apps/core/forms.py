@@ -63,7 +63,7 @@ class MdpForm(BSModalForm):
 
 
 class RdvForm(forms.ModelForm):
-    date_debut = forms.DateField(required=True)
+    date_debut = forms.DateField(required=True, input_formats=['%d/%m/%Y', '%Y-%m-%d'])
     heure_debut = forms.TimeField(required=True)
     heure_fin = forms.TimeField(required=True)
     observation = forms.CharField(widget=forms.Textarea, required=False)

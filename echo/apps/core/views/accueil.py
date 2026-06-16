@@ -44,6 +44,13 @@ class Accueil(PermissionRequiredMixin, TemplateView):
             if self.request.GET['msg'] == 'consultation_demarree_succes':
                 context['msg'] = 'Consultation démarrée avec succès'
 
+        if self.request.GET.get('error') == 'exam_en_cours':
+            nom = self.request.GET.get('nom', '')
+            context['error_msg'] = (
+                f"Un examen est déjà en cours pour {nom}. "
+                f"Terminez-le depuis l'onglet « En examen » avant d'en démarrer un autre."
+            )
+
         today = date.today()
 
         if 'date' in self.request.GET:
@@ -78,6 +85,9 @@ class Accueil(PermissionRequiredMixin, TemplateView):
                                               """
         rdvs_json = RdvSerializer(rdvs, many=True)
         context['rdvs_json'] = json.dumps(rdvs_json.data)
+
+        rdvs_today = [r for r in rdvs if r.debut.date() == today and r.statut != '10']
+        context['rdvs_jour_today'] = json.dumps(RdvSerializer(rdvs_today, many=True).data)
 
         admissions = Admission.objects.filter(date__gte=jour_min,
                                               date__lte=jour_max,

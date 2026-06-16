@@ -33,7 +33,7 @@ $(document).ready(function () {
     }).on('changeDate', () => {
 
         debut = moment($('#date_debut').val() + ' ' + $('#heure_debut').val(), "DD/MM/YYYY HH:mm");
-        if (debut.isBefore(now)) {
+        if (debut.isBefore(moment().startOf('day'))) {
             $('#invalide_date').addClass('d-block');
         } else {
             $('#invalide_date').addClass('invalid-feedback');
@@ -209,9 +209,6 @@ $(document).ready(function () {
 
                 'telephone': {
                     validators: {
-                        notEmpty: {
-                            message: (typeof RDV_MESSAGES !== 'undefined') ? RDV_MESSAGES.telephone_obligatoire : 'Téléphone est obligatoire'
-                        },
                         numeric: {
                             message: (typeof RDV_MESSAGES !== 'undefined') ? RDV_MESSAGES.telephone_chiffres : 'Téléphone doit contenir des chiffres uniquement'
                         },

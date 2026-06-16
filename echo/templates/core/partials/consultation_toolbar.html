@@ -16,13 +16,12 @@
         {% trans "Terminer la consultation" %}
     </a>
 
-    {% if editor_only %}
-        <a onclick="imprimerClick()" href="javascript:void(0)"
-           class="btn btn-sm btn-warning font-weight-bolder">
-            <i class="bi bi-printer"></i>
-            {% trans "Imprimer" %}
-        </a>
-    {% else %}
+    <a onclick="imprimerClick()" href="javascript:void(0)"
+       class="btn btn-sm btn-warning font-weight-bolder me-2">
+        <i class="bi bi-printer"></i>
+        {% trans "Imprimer" %}
+    </a>
+    {% if not editor_only %}
         <a onclick="editionClick()" href="javascript:void(0)"
            class="btn btn-sm btn-warning font-weight-bolder">
             <i class="bi bi-file-word"></i>

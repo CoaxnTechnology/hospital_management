@@ -1,4 +1,13 @@
+import os
 import threading
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'echo.settings.production')
+
+import django
+from django.conf import settings
+
+django.setup()
+
 from apps.core.services import worklist_scp, storage_scp
 
 if __name__ == "__main__":

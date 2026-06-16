@@ -157,6 +157,7 @@ urlpatterns = [
     ),
     path("rdvs/<int:pk>/supprimer/", rdvs.supprimer_rdv, name="rdv_supprimer"),
     path("rdvs/<int:pk>/rappel/", rdvs.rappel_rdv, name="rdv_rappel"),
+    path("rdvs/<int:pk>/mettre_en_salle/", rdvs.mettre_en_salle, name="rdv_mettre_en_salle"),
     re_path(r"rdvs/dispo/ajouter/$", rdvs.RdvDispoCreate.as_view(), name="rdv_dispo"),
     path("absence/ajouter/", absence.AbsenceCreate.as_view(), name="absence_form"),
     path(

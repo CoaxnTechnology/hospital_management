@@ -1,5 +1,107 @@
 let statutTemplate;
 
+function findRdvForPatient(patientId) {
+    return _.find(rdvs_jour, r => {
+        if (!r.patient) return false;
+        const rdvPatientId = typeof r.patient === 'object' ? r.patient.id : r.patient;
+        return rdvPatientId === patientId;
+    });
+}
+
+function enrichAdmissions(admissionsList) {
+    return _.map(admissionsList, p => {
+        const rdv = findRdvForPatient(p.patient.id);
+        if (rdv) {
+            return _.extend({}, p, _.pick(rdv, ['debut', 'nouveau']));
+        }
+        p = _.extend({}, p);
+        p.debut = p.debut_consultation || '-';
+        p.nouveau = p.patient.nouveau;
+        return p;
+    });
+}
+
+function initAdmissionsData(admissionsJson) {
+    admissions = enrichAdmissions(admissionsJson);
+    patients_en_attente = _.filter(admissions, p => p.statut == 1);
+    consultations_en_cours = _.filter(admissions, p => p.statut == 2);
+    syncAccueilKpiCounts();
+}
+
+function syncAccueilKpiCounts() {
+    if (typeof patients_en_attente === 'undefined' || typeof consultations_en_cours === 'undefined') {
+        return;
+    }
+    $('#nb_attente').text(patients_en_attente.length);
+    $('#nb_consultations_en_cours').text(consultations_en_cours.length);
+    $('#kpi_nb_attente').text(patients_en_attente.length);
+    $('#kpi_nb_en_cours').text(consultations_en_cours.length);
+}
+
+function refreshAdmissionsFromApi(apiAdmissions) {
+    initAdmissionsData(apiAdmissions);
+    if (typeof window.filtrerPraticien === 'function') {
+        window.filtrerPraticien(window.filterPraticienId != null ? window.filterPraticienId : -1);
+    }
+}
+
+const ACCUEIL_TAB_IDS = [
+    'liste_complete',
+    'liste_salle_attente',
+    'liste_en_consultation',
+    'liste_consultations',
+    'liste_modifies_annules',
+];
+
+const ACCUEIL_TAB_LINKS = {
+    liste_complete: 'link_rdv_jour',
+    liste_salle_attente: 'link_salle',
+    liste_en_consultation: 'link_en_consultation',
+    liste_consultations: 'link_consultations',
+    liste_modifies_annules: 'link_modifications',
+};
+
+function activateAccueilTab(tabPaneId) {
+    const linkId = ACCUEIL_TAB_LINKS[tabPaneId];
+    const trigger = linkId ? document.getElementById(linkId) : document.querySelector(`[data-bs-toggle="tab"][href="#${tabPaneId}"]`);
+    if (!trigger) {
+        return;
+    }
+    if (window.bootstrap && bootstrap.Tab) {
+        bootstrap.Tab.getOrCreateInstance(trigger).show();
+    } else {
+        trigger.click();
+    }
+}
+
+function saveAccueilTab(tabPaneId) {
+    if (!ACCUEIL_TAB_IDS.includes(tabPaneId)) {
+        return;
+    }
+    try {
+        localStorage.setItem('accueil_active_tab', tabPaneId);
+    } catch (e) {}
+    if (window.history && window.history.replaceState) {
+        const baseUrl = window.location.pathname + window.location.search;
+        window.history.replaceState(null, '', `${baseUrl}#${tabPaneId}`);
+    }
+}
+
+function restoreAccueilTab() {
+    let tabId = window.location.hash ? window.location.hash.slice(1) : '';
+    if (!ACCUEIL_TAB_IDS.includes(tabId)) {
+        try {
+            tabId = localStorage.getItem('accueil_active_tab') || '';
+        } catch (e) {
+            tabId = '';
+        }
+    }
+    if (ACCUEIL_TAB_IDS.includes(tabId)) {
+        activateAccueilTab(tabId);
+        setTimeout(adjustDashboardTables, 150);
+    }
+}
+
 function annulerRdv(pk) {
     const _swal = (typeof SWAL_RDV !== 'undefined') ? SWAL_RDV : {};
     swal.fire({
@@ -38,6 +140,31 @@ function changeDonneesTable(datatable, data) {
     datatable.clear();
     datatable.rows.add(data);
     datatable.draw();
+    adjustDashboardTables();
+}
+
+function formatHeureAdmission(data) {
+    if (!data || data === '-') return '';
+    const m = moment(data);
+    return m.isValid() ? m.format('HH:mm') : '';
+}
+
+function adjustDashboardTables() {
+    [
+        '#kt_datatable_rdvs',
+        '#kt_datatable_salle',
+        '#kt_datatable_en_consultation',
+        '#kt_datatable_consultations',
+        '#kt_datatable_modifies_annules',
+    ].forEach(sel => {
+        if ($.fn.DataTable.isDataTable(sel)) {
+            const dt = $(sel).DataTable();
+            dt.columns.adjust();
+            if (dt.responsive && dt.responsive.recalc) {
+                dt.responsive.recalc();
+            }
+        }
+    });
 }
 
 function afficherStatut(ligne) {
@@ -99,6 +226,66 @@ function rappel(el, id, r) {
         });
 }
 
+function mettreEnSalle(pk) {
+    var dispositifs = window.dispositifs || [];
+    if (dispositifs.length === 0) {
+        $.post(`/rdvs/${pk}/mettre_en_salle/`)
+            .done(function () {
+                toastr.success("Patient mis en salle");
+                location.reload();
+            })
+            .fail(function (xhr) {
+                var msg = "Erreur lors du changement de statut";
+                if (xhr.responseJSON && xhr.responseJSON.message) msg = xhr.responseJSON.message;
+                toastr.error(msg);
+            });
+        return;
+    }
+    if (dispositifs.length === 1) {
+        $.post(`/rdvs/${pk}/mettre_en_salle/`, {device_id: dispositifs[0].id})
+            .done(function () {
+                toastr.success("Patient mis en salle");
+                location.reload();
+            })
+            .fail(function (xhr) {
+                var msg = "Erreur lors du changement de statut";
+                if (xhr.responseJSON && xhr.responseJSON.message) msg = xhr.responseJSON.message;
+                toastr.error(msg);
+            });
+        return;
+    }
+    var html = '<div class="list-group">';
+    dispositifs.forEach(function(d) {
+        html += '<button type="button" class="list-group-item list-group-item-action device-option" data-device-id="' + d.id + '">' + (d.libelle || d.ae_title || 'Machine ' + d.id) + '</button>';
+    });
+    html += '</div>';
+    swal.fire({
+        title: window.S_CHOISIR_MACHINE || 'Choisir la machine',
+        html: html,
+        showConfirmButton: false,
+        showCancelButton: true,
+        cancelButtonText: window.S_ANNULER || 'Annuler',
+        didRender: function() {
+            document.querySelectorAll('.device-option').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var deviceId = this.getAttribute('data-device-id');
+                    swal.close();
+                    $.post(`/rdvs/${pk}/mettre_en_salle/`, {device_id: deviceId})
+                        .done(function () {
+                            toastr.success("Patient mis en salle");
+                            location.reload();
+                        })
+                        .fail(function (xhr) {
+                            var msg = "Erreur lors du changement de statut";
+                            if (xhr.responseJSON && xhr.responseJSON.message) msg = xhr.responseJSON.message;
+                            toastr.error(msg);
+                        });
+                });
+            });
+        }
+    });
+}
+
 function modifierPraticien(el, admissionId, praticienId) {
     $('.praticien-dropdown').dropdown('toggle');
     $.post(`/admissions/${admissionId}/modifier/`, {
@@ -133,8 +320,12 @@ function modifierMotifRdv(el, admissionId, motifRdvId) {
         });
 }
 
-jQuery(document).ready(function () {
+function bootstrapAccueilDashboard() {
+    if (window.accueilDashboardBootstrapped) {
+        return;
+    }
 
+    try {
     statutTemplate = _.template(unescapeTemplate($('#statut-template').html()));
 
     let tableRdvs;
@@ -182,8 +373,8 @@ jQuery(document).ready(function () {
                             {
                                 id: full.id,
                                 rappele: full.patient_rappele,
-                                admission: moment(full.debut).isSame(moment(), 'day') && full.statut == 1 ? 'visible' : 'invisible',
-                                annulation: full.statut == 10 ? 'invisible' : 'visible'
+                                annulation: full.statut == 10 ? 'invisible' : 'visible',
+                                statut: full.statut
                             });
                     }
                 },
@@ -242,37 +433,37 @@ jQuery(document).ready(function () {
             rowId: 'id',
 
             columns: [
-                {data: 'ordre'},
-                {data: 'nouveau'},
-                {data: 'patient.nom_naissance'},
-                {data: 'patient.nom'},
+                {data: 'ordre', width: '40px'},
+                {data: 'nouveau', width: '60px'},
+                {data: 'patient.nom_naissance', width: '120px'},
+                {data: 'patient.nom', width: '120px'},
                 {data: 'patient.prenom', width: '100px'},
-                {data: 'patient.age'},
-                {data: 'patient.adresse', render: (data, type, full, meta) => data ? data.ville : '', width: '200px'},
-                {data: 'patient.telephone', width: '100px'},
-                {data: 'date'},
-                {data: null},
+                {data: 'patient.age', width: '60px'},
+                {data: 'patient.adresse', render: (data, type, full, meta) => data ? data.ville : '', width: '100px'},
+                {data: 'patient.telephone', width: '100px', className: 'phone-cell'},
+                {data: 'date', width: '80px'},
+                {data: null, width: '80px', className: 'admission-cell'},
                 {
                     data: 'motif',
                     render: (data, type, full, meta) => {
                         return _motifRdvTemp({id: full.id, motif: data.libelle});
-                    }, width: '200px'
+                    }, width: '150px'
                 },
                 {
                     data: 'praticien',
                     render: (data, type, full, meta) => {
                         let nom = data ? data.nom : '';
                         return _pratTemp({id: full.id, nom: nom});
-                    }, width: '200px'
+                    }, width: '150px', className: 'praticien-cell'
                 },
-                {data: null},
+                {data: null, width: '100px', className: 'waiting-cell'},
             ],
 
             order: [[0, "asc"]],
 
             columnDefs: [
                 {
-                    targets: 12, title: 'Actions', orderable: false, width: '450px', className: 'w-100px',
+                    targets: 12, title: 'Actions', orderable: false, width: '100px', className: 'w-100px',
                     render: (data, type, full, meta) => {
                         const mesures = full.patient.mesures_jour;
                         return _t({id: full.patient.id, admission_id: full.id, mesuresId: mesures ? mesures.id : -1});
@@ -283,18 +474,18 @@ jQuery(document).ready(function () {
                     render: (data, type, full, meta) => '<i class="fas fa-arrows-alt-v mr-3"></i>' + data,
                 },
                 {
-                    targets: 1, width: '10px',
+                    targets: 1, width: '60px', className: 'new-cell',
                     render: (data, type, full, meta) =>
                         data ? `<span class="label label-pill label-inline label-info">Nouveau</span>` : '',
                 },
-                {targets: 2, width: '320px'},
-                {targets: 3, width: '320px'},
-                {targets: 4, width: '320px'},
-                {targets: 5, width: '100px'},
-                {targets: 6, width: '320px'},
-                {targets: 7, width: '320px'},
+                {targets: 2, width: '120px', className: 'nom-naissance-cell'},
+                {targets: 3, width: '120px', className: 'nom-cell'},
+                {targets: 4, width: '100px', className: 'prenom-cell'},
+                {targets: 5, width: '60px', className: 'age-cell'},
+                {targets: 6, width: '100px', className: 'ville-cell'},
+                {targets: 7, width: '100px', className: 'phone-cell'},
                 {
-                    targets: 8, width: '100px',
+                    targets: 8, width: '80px', className: 'date-cell',
                     render: (data, type, full, meta) => {
                         if (!data) return '';
                         const date = moment(data);
@@ -302,13 +493,15 @@ jQuery(document).ready(function () {
                     },
                 },
                 {
-                    targets: 9, width: '80px', className: 'attente-cell',
+                    targets: 9, width: '80px', className: 'admission-cell',
                     render: (data, type, full, meta) => '',
                     createdCell: function (td, cellData, rowData, row, col) {
                         $(td).attr('data-heure', rowData['date']);
                     }
                 },
-                {targets: 10, width: '320px'}
+                {targets: 10, width: '150px', className: 'motif-cell'},
+                {targets: 11, width: '150px', className: 'praticien-cell'},
+                {targets: 12, width: '100px', className: 'waiting-cell'}
             ],
         });
 
@@ -347,9 +540,7 @@ jQuery(document).ready(function () {
         const tab = $('#kt_datatable_en_consultation').DataTable({
             language: window.DT_LANGUAGE || {},
             responsive: true,
-            // Pagination settings
-
-            // read more: https://datatables.net/examples/basic_init/dom.html
+            rowId: 'id',
 
             lengthMenu: [10, 25, 50, 75, 100],
             pageLength: 100,
@@ -363,14 +554,14 @@ jQuery(document).ready(function () {
             columns: [
                 {data: 'id'},
                 {data: 'nouveau'},
-                {data: 'patient.nom_naissance'},
+                {data: 'patient.nom_naissance', defaultContent: ''},
                 {data: 'patient.nom'},
                 {data: 'patient.prenom'},
                 {data: 'patient.age'},
                 {data: 'patient.adresse', render: (data, type, full, meta) => data ? data.ville : ''},
-                {data: 'patient.telephone'},
+                {data: 'patient.telephone', defaultContent: ''},
                 {data: 'debut'},
-                {data: 'motif.libelle'},
+                {data: 'motif.libelle', defaultContent: ''},
                 {data: 'praticien', render: (data, type, full, meta) => data ? data.nom : '', width: '300px'},
                 {data: null},
             ],
@@ -380,7 +571,15 @@ jQuery(document).ready(function () {
             columnDefs: [
                 {
                     targets: 11, title: 'Actions', orderable: false, width: '450px',
-                    render: (data, type, full, meta) => _t({id: full.patient.id})
+                    render: (data, type, full, meta) => {
+                        const cons = typeof consultations !== 'undefined'
+                            ? _.find(consultations, c => c.patient && c.patient.id === full.patient.id)
+                            : null;
+                        return _t({
+                            id: full.patient.id,
+                            consultationId: cons ? cons.id : null,
+                        });
+                    }
                 },
                 {targets: 0, width: '100px'},
                 {
@@ -396,7 +595,7 @@ jQuery(document).ready(function () {
                 {targets: 7, width: '320px'},
                 {
                     targets: 8, width: '80px',
-                    render: (data, type, full, meta) => data != '-' ? moment(data).format('HH:mm') : '',
+                    render: (data, type, full, meta) => formatHeureAdmission(data),
                 },
                 {targets: 9, width: '320px'},
 
@@ -449,7 +648,7 @@ jQuery(document).ready(function () {
             columnDefs: [
                 {
                     targets: 7, title: 'Actions', orderable: false, width: '450px',
-                    render: (data, type, full, meta) => _t({id: full.patient.id})
+                    render: (data, type, full, meta) => _t({id: full.patient.id, consultationId: full.id})
                 },
                 {targets: 0, width: '360px'},
                 {targets: 1, width: '360px'},
@@ -512,7 +711,6 @@ jQuery(document).ready(function () {
                         return _t(
                             {
                                 id: full.id,
-                                admission: moment(full.debut).isSame(moment(), 'day') && full.statut == 1 ? 'visible' : 'invisible',
                                 annulation: full.statut == 10 ? 'invisible' : 'visible'
                             });
                     }
@@ -547,7 +745,7 @@ jQuery(document).ready(function () {
         console.info('Filtrage sur la date', dt.format('YYYY-MM-DD'));
         filtreDate = dt;
         if (!dt.isSame(moment(), 'day')) {
-            $('#link_rdv_jour').tab('show');
+            activateAccueilTab('liste_complete');
             $('#link_salle,#link_consultations,#link_modifications').addClass('disabled');
         } else {
             $('#link_salle,#link_consultations,#link_modifications').removeClass('disabled');
@@ -556,8 +754,8 @@ jQuery(document).ready(function () {
             return moment(rdv.debut).isSame(dt, 'day') || moment(rdv.ancien_debut).isSame(dt, 'day');
         });
 
-        if (filterPraticienId > 0)
-            data = _.filter(data, rdv => rdv.praticien ? rdv.praticien.id == filterPraticienId : false);
+        if (window.filterPraticienId > 0)
+            data = _.filter(data, rdv => rdv.praticien ? rdv.praticien.id == window.filterPraticienId : false);
         changeDonneesTable(tableRdvs, data);
         $('#nb_rdvs').text(data.length);
         $('#kpi_nb_rdvs').text(data.length);
@@ -610,7 +808,7 @@ jQuery(document).ready(function () {
 
     function filtrerPraticien(praticienId) {
 
-        filterPraticienId = praticienId;
+        window.filterPraticienId = praticienId;
         console.log('Filtre sur praticien', praticienId);
 
         let rdvs, salle, encours, realises, modifies;
@@ -622,11 +820,11 @@ jQuery(document).ready(function () {
             realises = consultations;
             modifies = rdvs_modifies_annules;
         } else {
-            rdvs = _.filter(rdvs_jour, rdv => rdv.praticien ? rdv.praticien.id == filterPraticienId : false)
-            salle = _.filter(patients_en_attente, c => c.praticien ? c.praticien.id == filterPraticienId : false);
-            encours = _.filter(consultations_en_cours, c => c.praticien ? c.praticien.id == filterPraticienId : false);
-            realises = _.filter(consultations, c => c.praticien ? c.praticien.id == filterPraticienId : false);
-            modifies = _.filter(rdvs_modifies_annules, rdv => rdv.praticien ? rdv.praticien.id == filterPraticienId : false)
+            rdvs = _.filter(rdvs_jour, rdv => rdv.praticien ? rdv.praticien.id == praticienId : false)
+            salle = _.filter(patients_en_attente, c => !c.praticien || c.praticien.id == praticienId);
+            encours = _.filter(consultations_en_cours, c => !c.praticien || c.praticien.id == praticienId);
+            realises = _.filter(consultations, c => c.praticien ? c.praticien.id == praticienId : false);
+            modifies = _.filter(rdvs_modifies_annules, rdv => rdv.praticien ? rdv.praticien.id == praticienId : false)
         }
 
         changeDonneesTable(tableRdvs, rdvs);
@@ -648,9 +846,22 @@ jQuery(document).ready(function () {
         $('#kpi_nb_realises').text(realises.length);
         $('#kpi_nb_modifies_card').text(modifies.length);
     }
-    filtrerPraticien(filterPraticienId);
+    window.filtrerPraticien = filtrerPraticien;
+    filtrerPraticien(window.filterPraticienId != null ? window.filterPraticienId : -1);
     filtreDate = moment();
     filtrerDate(filtreDate);
+
+    document.querySelectorAll('a[data-bs-toggle="tab"], .kpi-card[data-bs-toggle="tab"]').forEach(el => {
+        el.addEventListener('shown.bs.tab', (event) => {
+            const href = event.target.getAttribute('href');
+            if (href && href.charAt(0) === '#') {
+                saveAccueilTab(href.slice(1));
+            }
+            setTimeout(adjustDashboardTables, 50);
+        });
+    });
+    $('.kpi-card[data-bs-toggle="tab"]').on('click', () => setTimeout(adjustDashboardTables, 150));
+    restoreAccueilTab();
 
     let initStats = function () {
         let element = document.getElementById("stats");
@@ -749,8 +960,44 @@ jQuery(document).ready(function () {
     setInterval(handler, 1000);
     handler();
 
-    const url = window.location.href;
-    const activeTab = url.substring(url.indexOf("#") + 1);
-    if (activeTab) $(`a[href="#${activeTab}"]`).tab('show');
+    window.accueilDashboardBootstrapped = true;
+    } catch (error) {
+        console.error('Accueil dashboard init failed:', error);
+        syncAccueilKpiCounts();
+    }
+}
 
+function initAccueilPage() {
+    if (typeof admissions_json_initial !== 'undefined') {
+        initAdmissionsData(admissions_json_initial);
+    } else if (typeof patients_en_attente !== 'undefined' && typeof consultations_en_cours !== 'undefined') {
+        syncAccueilKpiCounts();
+    }
+    bootstrapAccueilDashboard();
+}
+
+jQuery(function() {
+    initAccueilPage();
 });
+
+function terminerConsultation(patientId) {
+    if (!confirm("Terminer la consultation en cours ?")) return;
+    fetch(`/patients/${patientId}/terminer-consultation/`, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': getCookie('csrftoken') }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            toastr.success("Consultation terminée");
+            const tab = window.location.hash || (localStorage.getItem('accueil_active_tab') ? '#' + localStorage.getItem('accueil_active_tab') : '');
+            setTimeout(() => { window.location.href = '/accueil' + tab; }, 1000);
+        } else {
+            toastr.error(data.message || "Erreur");
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        toastr.error("Erreur de connexion");
+    });
+}

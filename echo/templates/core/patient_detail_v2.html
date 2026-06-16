@@ -576,7 +576,27 @@
                     </select>
                 </div>
                 {% if consultation_active or is_new_consultation %}
-                {% include 'core/partials/consultation_toolbar.html' with patient=object %}
+                <div class="card-toolbar">
+                    <a href="/patients/{{ object.pk }}"
+                       class="btn btn-sm btn-light-primary font-weight-bolder me-2">
+                        <i class="ki ki-long-arrow-back icon-sm"></i>
+                        {% trans "Précédent" %}
+                    </a>
+                    <button id="btn_enregistrer" class="btn btn-sm btn-primary font-weight-bolder me-2 enregistrer" type="button">
+                        <i class="bi bi-save icon-sm"></i>
+                        {% trans "Enregistrer" %}
+                    </button>
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-warning font-weight-bolder dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="bi bi-printer"></i> {% trans "Imprimer" %}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="showFrameLoading(); $('#consultation-modal iframe').attr('src', '/consultation/' + consultation_pk + '/rapport'); bootstrap.Modal.getOrCreateInstance('#consultation-modal').show();"><i class="bi bi-file-text me-2"></i> {% trans "Rapport" %}</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="afficherImpressionImages()"><i class="bi bi-image me-2"></i> {% trans "Images" %}</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="imprimerGraphique()"><i class="bi bi-graph-up me-2"></i> {% trans "Graphique" %}</a></li>
+                        </ul>
+                    </div>
+                </div>
                 {% endif %}
             </div>
             {% endif %}
@@ -1719,6 +1739,33 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modal-impression-images" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{% trans "Sélectionner les images à imprimer" %}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex mb-3 gap-3">
+                        <button class="btn btn-sm btn-primary" onclick="selectionnerToutesImages(true)">{% trans "Tout sélectionner" %}</button>
+                        <button class="btn btn-sm btn-secondary" onclick="selectionnerToutesImages(false)">{% trans "Tout désélectionner" %}</button>
+                    </div>
+                    <div class="row" id="print-images-container"></div>
+                    <div class="text-center text-muted py-5" id="print-images-empty" style="display:none">
+                        {% trans "Aucune image pour cette consultation" %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">{% trans "Annuler" %}</button>
+                    <button type="button" class="btn btn-warning" onclick="imprimerImagesSelectionnees()">
+                        <i class="bi bi-printer"></i> {% trans "Imprimer les images sélectionnées" %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="consultation-print" class="hide" style="height: 1px"></div>
 
     <script type="text/html" id="image-item-template">
@@ -1941,6 +1988,15 @@
         const entete = '{{ entete|escapejs }}';
         let doublon_url = {% if doublon_consultation %}'{{ doublon_consultation.modif_url }}'{% else %}null{% endif %};
 
+        const S_PRINT = {
+            select_images: '{% trans "Sélectionner les images à imprimer"|escapejs %}',
+            no_images: '{% trans "Aucune image pour cette consultation"|escapejs %}',
+            print_selected: '{% trans "Imprimer les images sélectionnées"|escapejs %}',
+            select_all: '{% trans "Tout sélectionner"|escapejs %}',
+            deselect_all: '{% trans "Tout désélectionner"|escapejs %}',
+            select_one: '{% trans "Veuillez sélectionner au moins une image"|escapejs %}',
+            no_graph: '{% trans "Aucun graphique disponible pour cette consultation"|escapejs %}',
+        };
     </script>
     <script src="{% static 'plugins/custom/jqbootstrapmodalforms/jquery.bootstrap.modal.forms.min.js' %}"></script>
     <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>

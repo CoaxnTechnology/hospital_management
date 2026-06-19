@@ -7756,5 +7756,9 @@ msgstr "Seleccione al menos una imagen"
 msgid "Aucun graphique disponible pour cette consultation"
 msgstr "No hay gráfico disponible para esta consulta"
 
+#: templates/core/accueil_v2.html
+msgid "Renvoyer en salle d'attente"
+msgstr "Devolver a la sala de espera"
+
 #~ msgid "Administrateur"
 #~ msgstr "Administrador"

@@ -29,63 +29,16 @@ function classParStatutRdv(statut, motif) {
 }
 
 function mettreEnSalle(pk) {
-    var dispositifs = window.dispositifs || [];
-    if (dispositifs.length === 0) {
-        $.post(`/rdvs/${pk}/mettre_en_salle/`)
-            .done(function () {
-                toastr.success("Patient mis en salle");
-                location.reload();
-            })
-            .fail(function (xhr) {
-                var msg = "Erreur lors du changement de statut";
-                if (xhr.responseJSON && xhr.responseJSON.message) msg = xhr.responseJSON.message;
-                toastr.error(msg);
-            });
-        return;
-    }
-    if (dispositifs.length === 1) {
-        $.post(`/rdvs/${pk}/mettre_en_salle/`, {device_id: dispositifs[0].id})
-            .done(function () {
-                toastr.success("Patient mis en salle");
-                location.reload();
-            })
-            .fail(function (xhr) {
-                var msg = "Erreur lors du changement de statut";
-                if (xhr.responseJSON && xhr.responseJSON.message) msg = xhr.responseJSON.message;
-                toastr.error(msg);
-            });
-        return;
-    }
-    var html = '<div class="list-group">';
-    dispositifs.forEach(function(d) {
-        html += '<button type="button" class="list-group-item list-group-item-action device-option" data-device-id="' + d.id + '">' + (d.libelle || d.ae_title || 'Machine ' + d.id) + '</button>';
-    });
-    html += '</div>';
-    swal.fire({
-        title: window.S_CHOISIR_MACHINE || 'Choisir la machine',
-        html: html,
-        showConfirmButton: false,
-        showCancelButton: true,
-        cancelButtonText: window.S_ANNULER || 'Annuler',
-        didRender: function() {
-            document.querySelectorAll('.device-option').forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    var deviceId = this.getAttribute('data-device-id');
-                    swal.close();
-                    $.post(`/rdvs/${pk}/mettre_en_salle/`, {device_id: deviceId})
-                        .done(function () {
-                            toastr.success("Patient mis en salle");
-                            location.reload();
-                        })
-                        .fail(function (xhr) {
-                            var msg = "Erreur lors du changement de statut";
-                            if (xhr.responseJSON && xhr.responseJSON.message) msg = xhr.responseJSON.message;
-                            toastr.error(msg);
-                        });
-                });
-            });
-        }
-    });
+    $.post(`/rdvs/${pk}/mettre_en_salle/`)
+        .done(function () {
+            toastr.success("Patient mis en salle");
+            location.reload();
+        })
+        .fail(function (xhr) {
+            var msg = "Erreur lors du changement de statut";
+            if (xhr.responseJSON && xhr.responseJSON.message) msg = xhr.responseJSON.message;
+            toastr.error(msg);
+        });
 }
 
 function supprimer(pk) {
@@ -431,9 +384,15 @@ jQuery(document).ready(function () {
 
     $('#lien_creer').click((e) => {
         e.preventDefault();
-        $('#rdv-modal iframe').attr('src', $(e.target).attr('href'));
-        bootstrap.Modal.getOrCreateInstance('#rdv-modal').show();
+        if (typeof debut !== 'undefined' && typeof fin !== 'undefined') {
+            $('#rdv-modal iframe').attr('src', `/rdvs/ajouter?debut=${debut}&fin=${fin}`);
+            bootstrap.Modal.getOrCreateInstance('#rdv-modal').show();
+        }
         bootstrap.Modal.getOrCreateInstance('#dialog').hide();
+    });
+
+    $('#rdv-modal').on('hidden.bs.modal', function () {
+        $('#rdv-modal iframe').attr('src', '');
     });
 
     const rdvs_ouverts = _.filter(rdvs_futurs, rdv => rdv.statut == 1 || rdv.statut == 2);

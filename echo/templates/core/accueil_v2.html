@@ -369,6 +369,17 @@
 
     </script>
 
+    <script id="actions-cons-modif-template" type="text/html">
+        <a href="/patients/<%- id %>" class="btn btn-primary btn-icon btn-sm" title="{% trans 'Dossier patient' %}">
+            <i class="la la-eye icon-md"></i>
+        </a>
+        <button type="button"
+                onclick="afficherTelechargerFichierModal(<%- id %>)"
+                class="btn btn-info btn-icon btn-sm" title="{% trans 'Télécharger fichier' %}">
+            <i class="la la-upload icon-md"></i>
+        </button>
+    </script>
+
     <script id="actions-consultation-template" type="text/html">
         <% if (typeof consultationId !== 'undefined' && consultationId) { %>
         <a href="/consultation/<%- consultationId %>/rapport/" class="btn btn-warning btn-icon btn-sm" title="{% trans 'Rapport' %}">
@@ -386,10 +397,17 @@
             <i class="la la-upload icon-md"></i>
         </button>
         <button type="button"
+                onclick="remettreEnSalle(<%- id %>)"
+                class="btn btn-secondary btn-icon btn-sm" title="{% trans 'Renvoyer en salle d\'attente' %}">
+            <i class="la la-undo icon-md"></i>
+        </button>
+        <% if (!consultationId) { %>
+        <button type="button"
                 onclick="terminerConsultation(<%- id %>)"
                 class="btn btn-success btn-icon btn-sm" title="{% trans 'Terminer consultation' %}">
             <i class="la la-check icon-md"></i>
         </button>
+        <% } %>
     </script>
 
     <script id="actions-attente-template" type="text/html">
@@ -501,7 +519,26 @@
                 return rdv.statut == 10 || (rdv.statut == 1 && rdv.ancien_debut && !moment(rdv.debut).isSame(moment(), 'day'));
             }
         );
-        console.log("Modifiés", rdvs_modifies_annules);
+        var terminated_admissions = {{ terminated_admissions_json|safe }};
+        var terminated_patients = _.map(terminated_admissions, a => ({
+            isTerminated: true,
+            statut: a.statut,
+            nom_naissance: a.patient.nom_naissance,
+            nom: a.patient.nom,
+            prenom: a.patient.prenom,
+            ville: a.patient.adresse ? a.patient.adresse.ville : '',
+            telephone: a.patient.telephone || '',
+            debut: a.debut_consultation || a.date,
+            motif: a.motif,
+            praticien: a.praticien,
+            id: a.patient.id,
+            patientId: a.patient.id,
+            nouveau: a.patient.nouveau,
+            patient: a.patient,
+            admission_id: a.id,
+        }));
+        rdvs_modifies_annules = rdvs_modifies_annules.concat(terminated_patients);
+        console.log("Modifiés + Terminés", rdvs_modifies_annules);
 
         var admissions = {{ admissions_json|safe }};
         admissions = _.map(admissions, p => {
@@ -575,7 +612,7 @@
         window.S_ANNULER = '{{ s_annuler|escapejs }}';
     </script>
     <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
-    <script src="{% static "js/core/accueil.js" %}?v=20250616b"></script>
+    <script src="{% static "js/core/accueil.js" %}?v=20250617b"></script>
     <script>
     // Live polling: refresh admissions every 15s
     setInterval(function() {

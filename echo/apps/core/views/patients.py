@@ -1004,16 +1004,16 @@ def rechercher_patient(request):
 
     if request.body is not None:
         try:
-            fltr = {}
             body = json.loads(request.body)
-            if 'nom' in body:
-                fltr['nom__icontains'] = body['nom']
-            if 'nom_naissance' in body:
-                fltr['nom_naissance__icontains'] = body['nom_naissance']
-            if 'prenom' in body:
-                fltr['prenom__icontains'] = body['prenom']
-            # Typeahead autocomplete request
-            filtered = objects.filter(**fltr).order_by('nom_naissance')[:20]
+            query = body.get('nom') or body.get('nom_naissance') or body.get('prenom') or ''
+            if query:
+                from django.db.models import Q
+                objects = objects.filter(
+                    Q(nom__icontains=query) |
+                    Q(nom_naissance__icontains=query) |
+                    Q(prenom__icontains=query)
+                )
+            filtered = objects.order_by('nom_naissance')[:20]
             resp = PatientSerializer(filtered, many=True)
             return JsonResponse(json.dumps(resp.data), safe=False)
         except:

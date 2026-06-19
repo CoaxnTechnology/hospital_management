@@ -97,9 +97,17 @@ class Accueil(PermissionRequiredMixin, TemplateView):
         admissions_json = AdmissionSerializer(admissions, many=True)
         context['admissions_json'] = json.dumps(admissions_json.data)
 
+        terminated_admissions = Admission.objects.filter(date__gte=jour_min,
+                                                         date__lte=jour_max,
+                                                         patient__compte=self.request.user.profil.compte,
+                                                         statut='4') \
+                                                   .order_by('ordre') \
+                                                   .select_related('patient').select_related('patient__adresse')
+        context['terminated_admissions_json'] = json.dumps(AdmissionSerializer(terminated_admissions, many=True).data)
+
         consultations = Consultation.objects.filter(patient__compte=self.request.user.profil.compte,
                                                     date__gte=periode_debut, date__lte=periode_fin) \
-                                            .exclude(patient__admission__statut='2',
+                                            .exclude(patient__admission__statut__in=['2', '4'],
                                                      patient__admission__date__gte=jour_min,
                                                      patient__admission__date__lte=jour_max)
         consultations_json = ConsultationSerializer(consultations, many=True)

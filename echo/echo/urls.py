@@ -690,6 +690,11 @@ urlpatterns = [
         name="terminer_consultation_patient",
     ),
     path(
+        "patients/<int:patient_pk>/remettre-en-salle/",
+        worklists.remettre_en_salle_patient,
+        name="remettre_en_salle_patient",
+    ),
+    path(
         "consultations/<int:pk>/sr/", worklists.consultation_sr, name="consultation_sr"
     ),
     path(

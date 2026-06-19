@@ -4,15 +4,17 @@ import os
 import re
 
 from django.contrib.auth.decorators import login_required, permission_required
+from django.utils import timezone
 from django.core.files import File
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
-from django.db.models import Q
+from django.db.models import Max, Q
 
 from apps.core.models import WorklistItem, ImageConsultation, repertoire_images_utilisateur, SRConsultation, \
-    Consultation, Device, Patient, Admission, DonneesFoetus
+    Consultation, Device, Patient, Admission, DonneesFoetus, MotifRdv, Medecin
 from apps.core.serializers import WorklistItemSerializer, SRConsultationSerializer
 
 
@@ -486,13 +488,73 @@ def terminer_consultation_patient(request, patient_pk):
             date__year=today.year,
         ).order_by('-id').first()
         if consultation:
-            consultation.worklistitem_set.all().update(mpps_status=WorklistItem.MPPS_STATUS_COMPLETED)
+            items = consultation.worklistitem_set.all()
+            items.filter(mpps_status=WorklistItem.MPPS_STATUS_INPROGRESS).update(
+                mpps_status=WorklistItem.MPPS_STATUS_DISCONTINUED
+            )
+            items.filter(mpps_status=WorklistItem.MPPS_STATUS_PENDING).update(
+                mpps_status=WorklistItem.MPPS_STATUS_DISCONTINUED
+            )
         patient.admission_set.filter(
             Q(date__day=today.day) & Q(date__month=today.month) & Q(date__year=today.year)
-        ).update(statut='3')
+        ).update(statut='4')
         patient.rdv_set.filter(
             debut__day=today.day, debut__month=today.month, debut__year=today.year
         ).update(statut=3)
         return JsonResponse({'status': 'success', 'message': 'Consultation terminée'})
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+
+@login_required
+@require_POST
+def remettre_en_salle_patient(request, patient_pk):
+    from django.db.models import Q
+    from datetime import date
+    import datetime as dt
+    try:
+        patient = get_object_or_404(Patient, pk=patient_pk)
+        today = date.today()
+        jour_min = dt.datetime.combine(today, dt.time.min)
+        jour_max = dt.datetime.combine(today, dt.time.max)
+
+        consultation = Consultation.objects.filter(
+            patient=patient,
+            date__gte=jour_min,
+            date__lte=jour_max,
+        ).order_by('-id').first()
+        if consultation:
+            consultation.worklistitem_set.filter(
+                mpps_status__in=[WorklistItem.MPPS_STATUS_INPROGRESS, WorklistItem.MPPS_STATUS_PENDING]
+            ).update(mpps_status=WorklistItem.MPPS_STATUS_DISCONTINUED)
+
+        admission = Admission.objects.filter(
+            patient=patient,
+            date__gte=jour_min,
+            date__lte=jour_max,
+        ).order_by('-id').first()
+
+        if admission:
+            admission.statut = '1'
+            admission.debut_consultation = None
+            admission.save(update_fields=['statut', 'debut_consultation'])
+        else:
+            compte = request.user.profil.compte
+            praticien = getattr(request.user, 'medecin', None) or Medecin.objects.filter(compte=compte).first()
+            motif = MotifRdv.objects.first()
+            ordre_max = Admission.objects.filter(
+                Q(patient__compte=compte) & Q(date__gte=jour_min) & Q(date__lte=jour_max)
+            ).aggregate(Max('ordre'))['ordre__max']
+            ordre = 1 if ordre_max is None else ordre_max + 1
+            numero_max = Admission.objects.filter(
+                patient__compte=compte, date__year=today.year
+            ).aggregate(Max('numero'))['numero__max']
+            numero = 1 if numero_max is None else numero_max + 1
+            Admission.objects.create(
+                numero=numero, patient=patient, praticien=praticien,
+                date=timezone.now(), ordre=ordre, statut='1', motif=motif,
+            )
+
+        return JsonResponse({'status': 'success', 'message': 'Patient renvoyé en salle d\'attente'})
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)

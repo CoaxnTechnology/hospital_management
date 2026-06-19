@@ -7728,5 +7728,9 @@ msgstr "يرجى تحديد صورة واحدة على الأقل"
 msgid "Aucun graphique disponible pour cette consultation"
 msgstr "لا يتوفر رسم بياني لهذه الاستشارة"
 
+#: templates/core/accueil_v2.html
+msgid "Renvoyer en salle d'attente"
+msgstr "إعادة إلى غرفة الانتظار"
+
 #~ msgid "Administrateur"
 #~ msgstr "مدير"

@@ -297,61 +297,6 @@ def mettre_en_salle(request, pk):
             patient.nouveau = False
             patient.save()
 
-    # 4. Handle device + worklist
-    device_id = request.POST.get('device_id')
-    if device_id:
-        device = get_object_or_404(Device, pk=device_id, compte=compte)
-
-        # Check existing exam conflict
-        existing_exam = Admission.objects.filter(
-            date__gte=jour_min,
-            date__lte=jour_max,
-            statut='2',
-            patient__compte=compte,
-        ).exclude(patient=patient).first()
-        if existing_exam:
-            from urllib.parse import quote
-            nom = quote(existing_exam.patient.nom_complet)
-            return JsonResponse({
-                'error': 'exam_en_cours',
-                'message': f"Un examen est déjà en cours pour {nom}",
-            }, status=409)
-
-        # Cancel pending worklist items
-        WorklistItem.objects.filter(
-            device__compte=compte,
-            mpps_status__in=[WorklistItem.MPPS_STATUS_PENDING, WorklistItem.MPPS_STATUS_INPROGRESS],
-        ).update(mpps_status=WorklistItem.MPPS_STATUS_DISCONTINUED)
-
-        # Find or create today's consultation
-        consultation = Consultation.objects.filter(
-            patient=patient,
-            date__gte=jour_min,
-            date__lte=jour_max,
-        ).order_by('-id').first()
-        if not consultation:
-            motif_consultation = MotifConsultation.objects.first()
-            consultation = Consultation.objects.create(
-                patient=patient,
-                motif=motif_consultation,
-                date=timezone.now(),
-                praticien=getattr(request.user, 'medecin', None) or Medecin.objects.filter(compte=compte).first(),
-            )
-
-        # Create worklist item
-        WorklistItem.objects.create(
-            consultation=consultation,
-            study_instance_uid=generate_uid(),
-            mpps_status=WorklistItem.MPPS_STATUS_PENDING,
-            device=device,
-        )
-
-        # Promote admission to in-consultation
-        admission.statut = '2'
-        admission.debut_consultation = timezone.now()
-        admission.praticien = praticien
-        admission.save(update_fields=['statut', 'debut_consultation', 'praticien'])
-
     return JsonResponse({'message': "Patient mis en salle avec succès"})
 
 

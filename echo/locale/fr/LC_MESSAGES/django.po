@@ -7857,5 +7857,9 @@ msgstr "Veuillez sélectionner au moins une image"
 msgid "Aucun graphique disponible pour cette consultation"
 msgstr "Aucun graphique disponible pour cette consultation"
 
+#: templates/core/accueil_v2.html
+msgid "Renvoyer en salle d'attente"
+msgstr "Renvoyer en salle d'attente"
+
 #~ msgid "search_placeholder"
 #~ msgstr " search_placeholder"

@@ -1202,6 +1202,7 @@ class Admission(models.Model):
             (1, "En attente"),
             (2, "En consultation"),
             (3, "Consultation terminée"),
+            (4, "Examen terminé"),
             (10, "Annulé"),
         ],
     )

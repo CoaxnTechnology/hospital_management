@@ -123,19 +123,13 @@ $(document).ready(function () {
                 prepare: function (query, settings) {
                     settings.type = "POST";
                     settings.contentType = "application/json; charset=UTF-8";
-                    data = {};
-                    data[key] = query;
-                    settings.data = JSON.stringify(data);
+                    settings.data = JSON.stringify({[key]: query});
                     return settings;
                 },
                 transform: function (data) {
-                    let newData = [];
-                    let items = JSON.parse(data);
+                    let items = typeof data === 'string' ? JSON.parse(data) : data;
                     console.log('Autocomplete count', items.length);
-                    items.forEach(function (item) {
-                        newData.push(item);
-                    });
-                    return newData;
+                    return items;
                 }
             },
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace(key),

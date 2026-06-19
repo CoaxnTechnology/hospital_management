@@ -200,6 +200,11 @@ function afficherStatut(ligne) {
             cssClass = `fc-event-type-${ligne.statut}`;
             smiley = 'la-smile-o';
             break;
+        case '4':
+            msg = 'Examen terminé';
+            cssClass = 'bg-secondary';
+            smiley = 'la-check-circle';
+            break;
         case '10':
             msg = 'Annulé';
             cssClass = `fc-event-type-${ligne.statut}`;
@@ -227,63 +232,16 @@ function rappel(el, id, r) {
 }
 
 function mettreEnSalle(pk) {
-    var dispositifs = window.dispositifs || [];
-    if (dispositifs.length === 0) {
-        $.post(`/rdvs/${pk}/mettre_en_salle/`)
-            .done(function () {
-                toastr.success("Patient mis en salle");
-                location.reload();
-            })
-            .fail(function (xhr) {
-                var msg = "Erreur lors du changement de statut";
-                if (xhr.responseJSON && xhr.responseJSON.message) msg = xhr.responseJSON.message;
-                toastr.error(msg);
-            });
-        return;
-    }
-    if (dispositifs.length === 1) {
-        $.post(`/rdvs/${pk}/mettre_en_salle/`, {device_id: dispositifs[0].id})
-            .done(function () {
-                toastr.success("Patient mis en salle");
-                location.reload();
-            })
-            .fail(function (xhr) {
-                var msg = "Erreur lors du changement de statut";
-                if (xhr.responseJSON && xhr.responseJSON.message) msg = xhr.responseJSON.message;
-                toastr.error(msg);
-            });
-        return;
-    }
-    var html = '<div class="list-group">';
-    dispositifs.forEach(function(d) {
-        html += '<button type="button" class="list-group-item list-group-item-action device-option" data-device-id="' + d.id + '">' + (d.libelle || d.ae_title || 'Machine ' + d.id) + '</button>';
-    });
-    html += '</div>';
-    swal.fire({
-        title: window.S_CHOISIR_MACHINE || 'Choisir la machine',
-        html: html,
-        showConfirmButton: false,
-        showCancelButton: true,
-        cancelButtonText: window.S_ANNULER || 'Annuler',
-        didRender: function() {
-            document.querySelectorAll('.device-option').forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    var deviceId = this.getAttribute('data-device-id');
-                    swal.close();
-                    $.post(`/rdvs/${pk}/mettre_en_salle/`, {device_id: deviceId})
-                        .done(function () {
-                            toastr.success("Patient mis en salle");
-                            location.reload();
-                        })
-                        .fail(function (xhr) {
-                            var msg = "Erreur lors du changement de statut";
-                            if (xhr.responseJSON && xhr.responseJSON.message) msg = xhr.responseJSON.message;
-                            toastr.error(msg);
-                        });
-                });
-            });
-        }
-    });
+    $.post(`/rdvs/${pk}/mettre_en_salle/`)
+        .done(function () {
+            toastr.success("Patient mis en salle");
+            location.reload();
+        })
+        .fail(function (xhr) {
+            var msg = "Erreur lors du changement de statut";
+            if (xhr.responseJSON && xhr.responseJSON.message) msg = xhr.responseJSON.message;
+            toastr.error(msg);
+        });
 }
 
 function modifierPraticien(el, admissionId, praticienId) {
@@ -670,14 +628,12 @@ function bootstrapAccueilDashboard() {
 
     let initTableRdvsModifiesAnnules = function () {
 
-        const _t = _.template($('#actions-rdv-modif-template').html());
+        const _tRdv = _.template($('#actions-rdv-modif-template').html());
+        const _tCons = _.template($('#actions-cons-modif-template').html());
 
         const tab = $('#kt_datatable_modifies_annules').DataTable({
             language: window.DT_LANGUAGE || {},
             responsive: true,
-            // Pagination settings
-
-            // read more: https://datatables.net/examples/basic_init/dom.html
 
             lengthMenu: [10, 25, 50, 75, 100],
             pageLength: 100,
@@ -708,7 +664,10 @@ function bootstrapAccueilDashboard() {
                 {
                     targets: 9, title: 'Actions', orderable: false, width: '300px',
                     render: function (data, type, full, meta) {
-                        return _t(
+                        if (full.isTerminated) {
+                            return _tCons({id: full.id});
+                        }
+                        return _tRdv(
                             {
                                 id: full.id,
                                 annulation: full.statut == 10 ? 'invisible' : 'visible'
@@ -990,8 +949,27 @@ function terminerConsultation(patientId) {
     .then(data => {
         if (data.status === 'success') {
             toastr.success("Consultation terminée");
-            const tab = window.location.hash || (localStorage.getItem('accueil_active_tab') ? '#' + localStorage.getItem('accueil_active_tab') : '');
-            setTimeout(() => { window.location.href = '/accueil' + tab; }, 1000);
+            setTimeout(() => { window.location.href = '/accueil/#liste_modifies_annules'; }, 1000);
+        } else {
+            toastr.error(data.message || "Erreur");
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        toastr.error("Erreur de connexion");
+    });
+}
+
+function remettreEnSalle(patientId) {
+    fetch(`/patients/${patientId}/remettre-en-salle/`, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': getCookie('csrftoken') }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            toastr.success("Patient renvoyé en salle d'attente");
+            setTimeout(() => { location.reload(); }, 1000);
         } else {
             toastr.error(data.message || "Erreur");
         }

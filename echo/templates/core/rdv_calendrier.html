@@ -315,7 +315,7 @@
                     <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">
                         {% trans "Annuler" %}
                     </button>
-                    <a id="lien_creer" href="" class="btn btn-primary font-weight-bold">{% trans "Créer" %}</a>
+                    <a id="lien_creer" href="javascript:void(0)" class="btn btn-primary font-weight-bold">{% trans "Créer" %}</a>
                 </div>
             </div>
         </div>
@@ -386,5 +386,5 @@
         window.S_ANNULER = '{{ s_annuler|escapejs }}';
     </script>
 
-    <script src="{% static "js/core/rdv_calendrier.js" %}"></script>
+    <script src="{% static "js/core/rdv_calendrier.js" %}?v=20250617a"></script>
 {% endblock %}

@@ -979,3 +979,87 @@ function remettreEnSalle(patientId) {
         toastr.error("Erreur de connexion");
     });
 }
+
+function ouvrirAjoutPatientSalle() {
+    document.getElementById('recherche_patient_salle').value = '';
+    bootstrap.Modal.getOrCreateInstance('#modal_ajout_patient_salle').show();
+    setTimeout(function() {
+        document.getElementById('recherche_patient_salle').focus();
+        rechercherPatientAjax();
+    }, 300);
+}
+
+function rechercherPatientAjax() {
+    var msg = window.MESSAGES_SALLE || {};
+    var query = document.getElementById('recherche_patient_salle').value.trim();
+    var container = document.getElementById('resultats_recherche_salle');
+    container.innerHTML = '<div class="text-center py-4"><i class="la la-spinner la-spin la-2x"></i></div>';
+    fetch('/patients/recherche_async/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=UTF-8', 'X-CSRFToken': getCookie('csrftoken') },
+        body: JSON.stringify({nom: query})
+    })
+    .then(function(response) { return response.text(); })
+    .then(function(text) {
+        var items = JSON.parse(text);
+        if (!items || items.length === 0) {
+            container.innerHTML = '<div class="text-center text-muted py-4">' + (msg.aucun_patient || 'Aucun patient trouv\u00e9') + '</div>';
+            return;
+        }
+        var html = '';
+        items.forEach(function(p) {
+            var ville = p.adresse ? (p.adresse.ville || '') : '';
+            html += '<div class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">' +
+                '<div>' +
+                '<strong>' + escapeHtml(p.nom_naissance || '') + '</strong>' +
+                (p.nom ? ' ep. ' + escapeHtml(p.nom) : '') +
+                ' <span class="text-muted">' + escapeHtml(p.prenom || '') + '</span>' +
+                (ville ? ' <small class="text-muted"> - ' + escapeHtml(ville) + '</small>' : '') +
+                (p.telephone ? ' <small class="text-muted"> - ' + escapeHtml(p.telephone) + '</small>' : '') +
+                '</div>' +
+                '<button class="btn btn-sm btn-success" onclick="ajouterPatientSalle(' + p.id + ')">' +
+                '<i class="la la-plus"></i> ' + (msg.ajouter || 'Ajouter') + '</button>' +
+                '</div>';
+        });
+        container.innerHTML = html;
+    })
+    .catch(function() {
+        container.innerHTML = '<div class="text-center text-danger py-4">' + (msg.erreur_recherche || 'Erreur lors de la recherche') + '</div>';
+    });
+}
+
+function ajouterPatientSalle(patientId) {
+    var msg = window.MESSAGES_SALLE || {};
+    var btn = event.target;
+    if (btn.disabled) return;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="la la-spinner la-spin"></i>';
+    fetch('/patients/' + patientId + '/admission-rapide/', {
+        method: 'POST',
+        headers: { 'X-CSRFToken': getCookie('csrftoken') }
+    })
+    .then(function(response) { return response.json(); })
+    .then(function(data) {
+        if (data.status === 'success') {
+            toastr.success(msg.ajoute || "Patient ajout\u00e9 en salle d'attente");
+            bootstrap.Modal.getOrCreateInstance('#modal_ajout_patient_salle').hide();
+            setTimeout(function() { location.reload(); }, 500);
+        } else {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="la la-plus"></i> ' + (msg.ajouter || 'Ajouter');
+            toastr.error(data.message || "Erreur");
+        }
+    })
+    .catch(function() {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="la la-plus"></i> ' + (msg.ajouter || 'Ajouter');
+        toastr.error(msg.erreur_connexion || "Erreur de connexion");
+    });
+}
+
+function escapeHtml(str) {
+    if (!str) return '';
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+}

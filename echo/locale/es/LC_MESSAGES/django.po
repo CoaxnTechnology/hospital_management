@@ -6742,8 +6742,8 @@ msgstr "Confirmer le rendez-vous"
 #: templates/core/rdv_form.html:81
 #, fuzzy
 #| msgid "Recherche patient"
-msgid "Rechercher un patient"
-msgstr "Buscar paciente"
+msgid "Rechercher un patient..."
+msgstr "Buscar paciente..."
 
 #: templates/core/rdv_form.html:83
 msgid "Tapez le nom, prénom ou téléphone..."
@@ -7759,6 +7759,34 @@ msgstr "No hay gráfico disponible para esta consulta"
 #: templates/core/accueil_v2.html
 msgid "Renvoyer en salle d'attente"
 msgstr "Devolver a la sala de espera"
+
+#: templates/core/accueil_v2.html
+msgid "Ajouter patient"
+msgstr "Agregar paciente"
+
+#: templates/core/accueil_v2.html
+msgid "Ajouter un patient en salle d'attente"
+msgstr "Agregar un paciente a la sala de espera"
+
+#: templates/core/accueil_v2.html
+msgid "Rechercher"
+msgstr "Buscar"
+
+#: templates/core/accueil_v2.html
+msgid "Saisissez un nom ou prénom pour rechercher"
+msgstr "Ingrese un nombre o apellido para buscar"
+
+#: templates/core/accueil_v2.html
+msgid "Erreur lors de la recherche"
+msgstr "Error al buscar"
+
+#: templates/core/accueil_v2.html
+msgid "Patient ajouté en salle d'attente"
+msgstr "Paciente agregado a la sala de espera"
+
+#: templates/core/accueil_v2.html
+msgid "Erreur de connexion"
+msgstr "Error de conexión"
 
 #~ msgid "Administrateur"
 #~ msgstr "Administrador"

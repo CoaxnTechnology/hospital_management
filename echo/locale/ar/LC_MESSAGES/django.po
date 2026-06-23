@@ -6727,8 +6727,8 @@ msgstr "Confirmer le rendez-vous"
 #: templates/core/rdv_form.html:81
 #, fuzzy
 #| msgid "Recherche patient"
-msgid "Rechercher un patient"
-msgstr "بحث عن مريض"
+msgid "Rechercher un patient..."
+msgstr "بحث عن مريض..."
 
 #: templates/core/rdv_form.html:83
 msgid "Tapez le nom, prénom ou téléphone..."
@@ -7731,6 +7731,34 @@ msgstr "لا يتوفر رسم بياني لهذه الاستشارة"
 #: templates/core/accueil_v2.html
 msgid "Renvoyer en salle d'attente"
 msgstr "إعادة إلى غرفة الانتظار"
+
+#: templates/core/accueil_v2.html
+msgid "Ajouter patient"
+msgstr "إضافة مريض"
+
+#: templates/core/accueil_v2.html
+msgid "Ajouter un patient en salle d'attente"
+msgstr "إضافة مريض إلى غرفة الانتظار"
+
+#: templates/core/accueil_v2.html
+msgid "Rechercher"
+msgstr "بحث"
+
+#: templates/core/accueil_v2.html
+msgid "Saisissez un nom ou prénom pour rechercher"
+msgstr "أدخل اسما أو لقبا للبحث"
+
+#: templates/core/accueil_v2.html
+msgid "Erreur lors de la recherche"
+msgstr "خطأ في البحث"
+
+#: templates/core/accueil_v2.html
+msgid "Patient ajouté en salle d'attente"
+msgstr "تمت إضافة المريض إلى غرفة الانتظار"
+
+#: templates/core/accueil_v2.html
+msgid "Erreur de connexion"
+msgstr "خطأ في الاتصال"
 
 #~ msgid "Administrateur"
 #~ msgstr "مدير"

@@ -192,6 +192,11 @@ urlpatterns = [
         name="patient_admission",
     ),
     path(
+        "patients/<int:patient_pk>/admission-rapide/",
+        patients.admission_rapide,
+        name="patient_admission_rapide",
+    ),
+    path(
         "patients/<int:pk>/admissions/",
         patients.liste_admissions_patient,
         name="patient_admissions_list",

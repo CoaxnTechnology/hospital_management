@@ -6910,8 +6910,8 @@ msgid "Confirmer le rendez-vous"
 msgstr "Confirmer le rendez-vous"
 
 #: templates/core/rdv_form.html:81
-msgid "Rechercher un patient"
-msgstr "Rechercher un patient"
+msgid "Rechercher un patient..."
+msgstr "Rechercher un patient..."
 
 #: templates/core/rdv_form.html:83
 msgid "Tapez le nom, prénom ou téléphone..."
@@ -7860,6 +7860,34 @@ msgstr "Aucun graphique disponible pour cette consultation"
 #: templates/core/accueil_v2.html
 msgid "Renvoyer en salle d'attente"
 msgstr "Renvoyer en salle d'attente"
+
+#: templates/core/accueil_v2.html
+msgid "Ajouter patient"
+msgstr "Ajouter patient"
+
+#: templates/core/accueil_v2.html
+msgid "Ajouter un patient en salle d'attente"
+msgstr "Ajouter un patient en salle d'attente"
+
+#: templates/core/accueil_v2.html
+msgid "Rechercher"
+msgstr "Rechercher"
+
+#: templates/core/accueil_v2.html
+msgid "Saisissez un nom ou prénom pour rechercher"
+msgstr "Saisissez un nom ou prénom pour rechercher"
+
+#: templates/core/accueil_v2.html
+msgid "Erreur lors de la recherche"
+msgstr "Erreur lors de la recherche"
+
+#: templates/core/accueil_v2.html
+msgid "Patient ajouté en salle d'attente"
+msgstr "Patient ajouté en salle d'attente"
+
+#: templates/core/accueil_v2.html
+msgid "Erreur de connexion"
+msgstr "Erreur de connexion"
 
 #~ msgid "search_placeholder"
 #~ msgstr " search_placeholder"

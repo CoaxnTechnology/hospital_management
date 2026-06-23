@@ -44,6 +44,9 @@
                         {% endfor %}
                     </select>
                 </div>
+                <button type="button" class="btn btn-sm btn-success" onclick="ouvrirAjoutPatientSalle()">
+                    <i class="la la-plus me-1"></i> {% trans "Ajouter patient" %}
+                </button>
             </div>
         </div>
         <!--end::Container-->
@@ -493,6 +496,33 @@
         </span>
     </script>
 
+    <div class="modal fade" id="modal_ajout_patient_salle" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{% trans "Ajouter un patient en salle d'attente" %}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-4">
+                        <input type="text" class="form-control form-control-lg" id="recherche_patient_salle"
+                                placeholder="{% trans 'Rechercher un patient...' %}" autocomplete="off"
+                               oninput="rechercherPatientAjax()"
+                               onkeydown="if(event.key==='Enter') rechercherPatientAjax()">
+                        <button class="btn btn-primary" type="button" onclick="rechercherPatientAjax()">
+                            <i class="la la-search"></i> {% trans "Rechercher" %}
+                        </button>
+                    </div>
+                    <div id="resultats_recherche_salle" class="list-group" style="max-height: 400px; overflow-y: auto;">
+                        <div class="text-center text-muted py-4" id="recherche_empty">
+                            {% trans "Saisissez un nom ou prénom pour rechercher" %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block scripts %}
@@ -574,6 +604,15 @@
 
         window.dispositifs = {{ devices_json|safe }};
 
+        window.MESSAGES_SALLE = {
+            recherche_prompt: '{% trans "Saisissez un nom ou prénom pour rechercher" %}',
+            aucun_patient: '{% trans "Aucun patient trouvé" %}',
+            erreur_recherche: '{% trans "Erreur lors de la recherche" %}',
+            ajouter: '{% trans "Ajouter" %}',
+            ajoute: '{% trans "Patient ajouté en salle d\'attente" %}',
+            erreur_connexion: '{% trans "Erreur de connexion" %}',
+        };
+
         {% trans "Choisir la machine" as s_choisir_machine %}
         {% trans "Annuler" as s_annuler %}
         function demarrerConsultation(patientId) {
@@ -612,7 +651,7 @@
         window.S_ANNULER = '{{ s_annuler|escapejs }}';
     </script>
     <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
-    <script src="{% static "js/core/accueil.js" %}?v=20250617b"></script>
+    <script src="{% static "js/core/accueil.js" %}?v=20250618d"></script>
     <script>
     // Live polling: refresh admissions every 15s
     setInterval(function() {

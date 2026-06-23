@@ -6,6 +6,7 @@ from pprint import pformat
 from urllib.parse import quote
 
 from django.contrib.auth.decorators import login_required, permission_required
+from django.views.decorators.http import require_POST
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Max, Q, F
 # Create your views here.
@@ -501,6 +502,69 @@ def admission_patient(request, pk):
         patient.save()
 
     return redirect("/accueil?msg=admission_succes#liste_salle_attente")
+
+
+@login_required
+@require_POST
+def admission_rapide(request, patient_pk):
+    try:
+        patient = get_object_or_404(Patient, pk=patient_pk)
+        compte = request.user.profil.compte
+        today = date.today()
+        import datetime as dt
+        jour_min = dt.datetime.combine(today, dt.time.min)
+        jour_max = dt.datetime.combine(today, dt.time.max)
+        from django.db.models import Q
+
+        existing = Admission.objects.filter(
+            patient=patient,
+            date__gte=jour_min,
+            date__lte=jour_max,
+            statut__in=['1', '2'],
+        ).first()
+        if existing:
+            return JsonResponse({
+                'status': 'error',
+                'message': 'Patient déjà en salle d\'attente ou en examen'
+            }, status=409)
+
+        completed = Admission.objects.filter(
+            patient=patient,
+            date__gte=jour_min,
+            date__lte=jour_max,
+            statut='3',
+        ).first()
+        if completed:
+            ordre_max = Admission.objects.filter(
+                Q(patient__compte=compte) & Q(date__gte=jour_min) & Q(date__lte=jour_max)
+            ).aggregate(Max('ordre'))['ordre__max']
+            completed.ordre = (ordre_max or 0) + 1
+            completed.statut = '1'
+            completed.date = timezone.now()
+            completed.praticien = patient.praticien_principal or \
+                getattr(request.user, 'medecin', None) or Medecin.objects.filter(compte=compte).first()
+            completed.motif = MotifRdv.objects.first()
+            completed.save()
+        else:
+            ordre_max = Admission.objects.filter(
+                Q(patient__compte=compte) & Q(date__gte=jour_min) & Q(date__lte=jour_max)
+            ).aggregate(Max('ordre'))['ordre__max']
+            ordre = 1 if ordre_max is None else ordre_max + 1
+            numero_max = Admission.objects.filter(
+                patient__compte=compte, date__year=today.year
+            ).aggregate(Max('numero'))['numero__max']
+            numero = 1 if numero_max is None else numero_max + 1
+            Admission.objects.create(
+                numero=numero, patient=patient,
+                praticien=patient.praticien_principal or \
+                    getattr(request.user, 'medecin', None) or Medecin.objects.filter(compte=compte).first(),
+                date=timezone.now(), ordre=ordre, statut='1',
+                motif=MotifRdv.objects.first(),
+            )
+
+        return JsonResponse({'status': 'success'})
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
 
 class PatientCreate(PermissionRequiredMixin, View):
@@ -1015,7 +1079,7 @@ def rechercher_patient(request):
                 )
             filtered = objects.order_by('nom_naissance')[:20]
             resp = PatientSerializer(filtered, many=True)
-            return JsonResponse(json.dumps(resp.data), safe=False)
+            return JsonResponse(resp.data, safe=False)
         except:
             pass
 

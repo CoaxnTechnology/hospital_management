@@ -628,6 +628,14 @@
                        href="#tab-documents">{% trans "Documents" %}</a>
                 </li>
                 <!--end:::Tab item-->
+                <li class="nav-item ms-4 border-start ps-4">
+                    <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab"
+                       href="#tab-images">{% trans "Images" %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab"
+                       href="#tab-graphs">{% trans "Graphiques" %}</a>
+                </li>
                 {% if grossesse_encours %}
                 <li class="nav-item ms-4 border-start ps-4">
                     <a class="nav-link text-active-primary pb-4 {% if consultation_active or is_new_consultation %}active{% endif %}" data-bs-toggle="tab"
@@ -1657,6 +1665,61 @@
         <div id="tab-conclusion" class="g-5 g-xxl-8 tab-pane fade"></div>
         <div id="tab-images" class="tab-pane fade"></div>
         <div id="tab-graphs" class="tab-pane tab-graph fade"></div>
+        {% else %}
+        <div id="tab-images" class="tab-pane fade">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row p-2">
+                        {% for img in patient_images_echo %}
+                        <div class="col-3 mb-3">
+                            <div class="card card-custom gutter-b card-stretch bg-white border">
+                                <div class="card-body pt-2 pl-2 pr-2 pb-6 text-center">
+                                    <a class="d-block overlay" href="{{ img.image.url }}" data-fslightbox="lightbox-patient-images">
+                                        <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px"
+                                            style="background-image:url({{ img.image.url }})">
+                                        </div>
+                                        <div class="overlay-layer card-rounded bg-dark bg-opacity-25 shadow">
+                                            <i class="bi bi-eye-fill text-white fs-3x"></i>
+                                        </div>
+                                    </a>
+                                    <div class="mt-2 text-muted small">{{ img.date|date:"d/m/Y H:i" }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="col-12 text-center text-muted py-4">{% trans "Aucune image" %}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="tab-graphs" class="tab-pane fade">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row p-2">
+                        {% for img in patient_images_graph %}
+                        <div class="col-3 mb-3">
+                            <div class="card card-custom gutter-b card-stretch bg-white border">
+                                <div class="card-body pt-2 pl-2 pr-2 pb-6 text-center">
+                                    <a class="d-block overlay" href="{{ img.image.url }}" data-fslightbox="lightbox-patient-graphs">
+                                        <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px"
+                                            style="background-image:url({{ img.image.url }})">
+                                        </div>
+                                        <div class="overlay-layer card-rounded bg-dark bg-opacity-25 shadow">
+                                            <i class="bi bi-eye-fill text-white fs-3x"></i>
+                                        </div>
+                                    </a>
+                                    <div class="mt-2 text-muted small">{{ img.date|date:"d/m/Y H:i" }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="col-12 text-center text-muted py-4">{% trans "Aucune image" %}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
         {% endif %}
 
     </div>

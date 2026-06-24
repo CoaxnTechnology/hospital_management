@@ -17,6 +17,7 @@ import json
 
 from apps.core.models import (
     Consultation,
+    ImageConsultation,
     SRConsultation,
     MesuresConsultation,
     CategorieConsultation,
@@ -238,16 +239,20 @@ class ConsultationRapportView(PermissionRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         consultation = self.get_object()
         context['patient'] = consultation.patient
-        # Safely get parametres - handle missing profil
         try:
             context['parametres'] = self.request.user.profil.compte.parametrescompte
         except:
             context['parametres'] = None
         context['praticien'] = consultation.praticien
 
+        images = consultation.imageconsultation_set.all().order_by('-date')
+        context['images_echo'] = images.filter(type=ImageConsultation.IMG_ECHO)
+        context['images_graph'] = images.filter(type=ImageConsultation.IMG_GRAPH)
+        context['waveforms'] = consultation.waveforms.all()
+
         data, source = _get_measurements(consultation)
         context['sr'] = data
-        context['sr_source'] = source  # 'manual' | 'dicom' | None
+        context['sr_source'] = source
         return context
 
 

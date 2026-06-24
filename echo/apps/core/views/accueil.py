@@ -97,6 +97,13 @@ class Accueil(PermissionRequiredMixin, TemplateView):
         admissions_json = AdmissionSerializer(admissions, many=True)
         context['admissions_json'] = json.dumps(admissions_json.data)
 
+        en_exam_count = Admission.objects.filter(
+            date__gte=jour_min, date__lte=jour_max,
+            patient__compte=self.request.user.profil.compte,
+            statut='2',
+        ).count()
+        context['en_exam_count'] = en_exam_count
+
         terminated_admissions = Admission.objects.filter(date__gte=jour_min,
                                                          date__lte=jour_max,
                                                          patient__compte=self.request.user.profil.compte,

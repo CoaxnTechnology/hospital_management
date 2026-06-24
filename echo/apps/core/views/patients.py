@@ -18,7 +18,6 @@ from django.utils import timezone
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, FormView
-from pydicom.uid import generate_uid
 from apps.core.forms import EtablissementForm, AntecedentObstetriqueForm, GrossesseForm, MesuresPatientForm, \
     DonneesFoetusFormset
 from apps.core.data import adresses
@@ -184,6 +183,14 @@ class PatientView(PermissionRequiredMixin, DetailView):
 
         medecins = Medecin.objects.filter(compte=self.request.user.profil.compte)
         context['medecins_json'] = json.dumps(MedecinSerializer(medecins, many=True).data)
+
+        patient = self.object
+        context['patient_images_echo'] = ImageConsultation.objects.filter(
+            consultation__patient=patient, type=ImageConsultation.IMG_ECHO
+        ).order_by('-date')
+        context['patient_images_graph'] = ImageConsultation.objects.filter(
+            consultation__patient=patient, type=ImageConsultation.IMG_GRAPH
+        ).order_by('-date')
 
         listes_choix = ListeChoix.objects.filter(
             Q(formulaire='consultation_obs_foetus') | Q(formulaire='consultation_obs'))
@@ -416,22 +423,6 @@ class PatientView(PermissionRequiredMixin, DetailView):
                         motif=motif,
                         date=timezone.now(),
                         praticien=getattr(request.user, 'medecin', None) or Medecin.objects.filter(compte=compte).first(),
-                    )
-                device_id = self.request.GET.get('device')
-                if device_id:
-                    device = get_object_or_404(Device, pk=device_id, compte=compte)
-                else:
-                    device = Device.objects.filter(compte=compte).first()
-                if device:
-                    WorklistItem.objects.filter(
-                        device__compte=compte,
-                        mpps_status__in=[WorklistItem.MPPS_STATUS_PENDING, WorklistItem.MPPS_STATUS_INPROGRESS]
-                    ).update(mpps_status=WorklistItem.MPPS_STATUS_DISCONTINUED)
-                    WorklistItem.objects.create(
-                        consultation=consultation,
-                        study_instance_uid=generate_uid(),
-                        mpps_status=WorklistItem.MPPS_STATUS_PENDING,
-                        device=device,
                     )
                 return redirect("/accueil?msg=consultation_demarree_succes#liste_en_consultation")
 

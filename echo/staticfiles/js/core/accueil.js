@@ -424,7 +424,7 @@ function bootstrapAccueilDashboard() {
                     targets: 12, title: 'Actions', orderable: false, width: '100px', className: 'w-100px',
                     render: (data, type, full, meta) => {
                         const mesures = full.patient.mesures_jour;
-                        return _t({id: full.patient.id, admission_id: full.id, mesuresId: mesures ? mesures.id : -1});
+                        return _t({id: full.patient.id, admission_id: full.id, mesuresId: mesures ? mesures.id : -1, en_exam_occupied: en_exam_count > 0});
                     }
                 },
                 {
@@ -960,6 +960,25 @@ function terminerConsultation(patientId) {
     });
 }
 
+function demarrerExamen(patientId) {
+    fetch(`/patients/${patientId}/demarrer-examen/`, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': getCookie('csrftoken') }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            window.location.href = data.redirect;
+        } else {
+            toastr.error(data.message || "Erreur");
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        toastr.error("Erreur de connexion");
+    });
+}
+
 function remettreEnSalle(patientId) {
     fetch(`/patients/${patientId}/remettre-en-salle/`, {
         method: 'POST',
@@ -989,17 +1008,26 @@ function ouvrirAjoutPatientSalle() {
     }, 300);
 }
 
+var rechercheTimer = null;
 function rechercherPatientAjax() {
     var msg = window.MESSAGES_SALLE || {};
     var query = document.getElementById('recherche_patient_salle').value.trim();
     var container = document.getElementById('resultats_recherche_salle');
+    if (rechercheTimer) clearTimeout(rechercheTimer);
+    rechercheTimer = setTimeout(function() {
+    rechercheTimer = null;
     container.innerHTML = '<div class="text-center py-4"><i class="la la-spinner la-spin la-2x"></i></div>';
     fetch('/patients/recherche_async/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json; charset=UTF-8', 'X-CSRFToken': getCookie('csrftoken') },
         body: JSON.stringify({nom: query})
     })
-    .then(function(response) { return response.text(); })
+    .then(function(response) {
+        if (!response.ok) {
+            throw new Error('HTTP ' + response.status);
+        }
+        return response.text();
+    })
     .then(function(text) {
         var items = JSON.parse(text);
         if (!items || items.length === 0) {
@@ -1023,9 +1051,11 @@ function rechercherPatientAjax() {
         });
         container.innerHTML = html;
     })
-    .catch(function() {
+    .catch(function(err) {
+        console.error('Search error:', err);
         container.innerHTML = '<div class="text-center text-danger py-4">' + (msg.erreur_recherche || 'Erreur lors de la recherche') + '</div>';
     });
+    }, 300);
 }
 
 function ajouterPatientSalle(patientId) {

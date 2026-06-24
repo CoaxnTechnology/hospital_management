@@ -508,6 +508,48 @@ def terminer_consultation_patient(request, patient_pk):
 
 @login_required
 @require_POST
+def demarrer_examen(request, patient_pk):
+    from django.shortcuts import redirect
+    from pydicom.uid import generate_uid
+    try:
+        patient = get_object_or_404(Patient, pk=patient_pk)
+        compte = request.user.profil.compte
+        today = datetime.date.today()
+        jour_min = datetime.datetime.combine(today, datetime.time.min)
+        jour_max = datetime.datetime.combine(today, datetime.time.max)
+
+        consultation = Consultation.objects.filter(
+            patient=patient,
+            date__gte=jour_min,
+            date__lte=jour_max,
+        ).order_by('-id').first()
+
+        if not consultation:
+            return JsonResponse({'status': 'error', 'message': 'Aucune consultation trouvée pour ce patient aujourd\'hui'}, status=404)
+
+        device = Device.objects.filter(compte=compte).first()
+        if not device:
+            return JsonResponse({'status': 'error', 'message': 'Aucun dispositif DICOM configuré'}, status=400)
+
+        WorklistItem.objects.filter(
+            device__compte=compte,
+            mpps_status__in=[WorklistItem.MPPS_STATUS_PENDING, WorklistItem.MPPS_STATUS_INPROGRESS]
+        ).exclude(consultation=consultation).update(mpps_status=WorklistItem.MPPS_STATUS_DISCONTINUED)
+
+        WorklistItem.objects.create(
+            consultation=consultation,
+            study_instance_uid=generate_uid(),
+            mpps_status=WorklistItem.MPPS_STATUS_PENDING,
+            device=device,
+        )
+
+        return JsonResponse({'status': 'success', 'redirect': f'/consultation/{consultation.pk}/rapport/'})
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+
+@login_required
+@require_POST
 def remettre_en_salle_patient(request, patient_pk):
     from django.db.models import Q
     from datetime import date

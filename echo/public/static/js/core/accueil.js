@@ -424,7 +424,7 @@ function bootstrapAccueilDashboard() {
                     targets: 12, title: 'Actions', orderable: false, width: '100px', className: 'w-100px',
                     render: (data, type, full, meta) => {
                         const mesures = full.patient.mesures_jour;
-                        return _t({id: full.patient.id, admission_id: full.id, mesuresId: mesures ? mesures.id : -1});
+                        return _t({id: full.patient.id, admission_id: full.id, mesuresId: mesures ? mesures.id : -1, en_exam_occupied: en_exam_count > 0});
                     }
                 },
                 {
@@ -950,6 +950,25 @@ function terminerConsultation(patientId) {
         if (data.status === 'success') {
             toastr.success("Consultation terminée");
             setTimeout(() => { window.location.href = '/accueil/#liste_modifies_annules'; }, 1000);
+        } else {
+            toastr.error(data.message || "Erreur");
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        toastr.error("Erreur de connexion");
+    });
+}
+
+function demarrerExamen(patientId) {
+    fetch(`/patients/${patientId}/demarrer-examen/`, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': getCookie('csrftoken') }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            window.location.href = data.redirect;
         } else {
             toastr.error(data.message || "Erreur");
         }

@@ -406,6 +406,11 @@
         </button>
         <% if (!consultationId) { %>
         <button type="button"
+                onclick="demarrerExamen(<%- id %>)"
+                class="btn btn-primary btn-icon btn-sm" title="{% trans 'Démarrer l\'examen' %}">
+            <i class="la la-play icon-md"></i>
+        </button>
+        <button type="button"
                 onclick="terminerConsultation(<%- id %>)"
                 class="btn btn-success btn-icon btn-sm" title="{% trans 'Terminer consultation' %}">
             <i class="la la-check icon-md"></i>
@@ -414,17 +419,21 @@
     </script>
 
     <script id="actions-attente-template" type="text/html">
-        <!--<a href="/patients/<%- id %>" class="btn btn-sm btn-clean btn-icon" title="{% trans 'Dossier patient' %}">
-            <i class="la la-eye icon-xl text-primary"></i>
-        </a>-->
         <a href="/reglements/<%- admission_id %>/ajouter/" class="btn btn-sm btn-success btn-icon"
            title="{% trans 'Paiement' %}">
             <i class="fa fa-money-bill icon-sm"></i>
         </a>
+        <% if (en_exam_occupied) { %>
+        <button class="btn btn-sm btn-secondary btn-icon disabled" disabled
+                title="{% trans 'Un patient est déjà en examen' %}">
+            <i class="fa fa-play icon-sm"></i>
+        </button>
+        <% } else { %>
         <button onclick="demarrerConsultation(<%- id %>)" class="btn btn-sm btn-primary btn-icon"
            title="{% trans 'Démarrer la consultation' %}">
             <i class="fa fa-play icon-sm"></i>
         </button>
+        <% } %>
         <a onclick="annulerAdmission(<%- admission_id %>)" class="btn btn-icon btn-sm btn-danger"
            title="{% trans 'Annuler l\'admission' %}">
             <i class="la la-trash icon-md"></i>
@@ -434,7 +443,6 @@
                 class="btn btn-info btn-icon btn-sm" title="{% trans 'Télécharger fichier' %}">
             <i class="la la-upload icon-md"></i>
         </button>
-
         <button type="button"
                 onclick="afficherMesuresModal(<%- id %>, <%= mesuresId %>)"
                 class="btn btn-light-dark btn-icon btn-sm" title="{% trans 'Saisir des mesures' %}">
@@ -600,6 +608,7 @@
         console.log('Consultations', consultations);
 
         var praticiens = {{ praticiens_json|safe }};
+        var en_exam_count = {{ en_exam_count }};
         var motifs_rdv = {{ motifs_rdv_json|safe }};
 
         window.dispositifs = {{ devices_json|safe }};
@@ -609,49 +618,21 @@
             aucun_patient: '{% trans "Aucun patient trouvé" %}',
             erreur_recherche: '{% trans "Erreur lors de la recherche" %}',
             ajouter: '{% trans "Ajouter" %}',
-            ajoute: '{% trans "Patient ajouté en salle d\'attente" %}',
+            {% trans "Patient ajouté en salle d'attente" as s_ajoute %}
+            ajoute: '{{ s_ajoute|escapejs }}',
             erreur_connexion: '{% trans "Erreur de connexion" %}',
         };
 
-        {% trans "Choisir la machine" as s_choisir_machine %}
-        {% trans "Annuler" as s_annuler %}
         function demarrerConsultation(patientId) {
-            if (dispositifs.length === 0) {
-                window.location.href = '/patients/' + patientId + '/?action=demarrer_consultation';
-                return;
-            }
-            if (dispositifs.length === 1) {
-                window.location.href = '/patients/' + patientId + '/?action=demarrer_consultation&device=' + dispositifs[0].id;
-                return;
-            }
-            var html = '<div class="list-group">';
-            dispositifs.forEach(function(d) {
-                html += '<button type="button" class="list-group-item list-group-item-action device-option" data-device-id="' + d.id + '">' + (d.libelle || d.ae_title || 'Machine ' + d.id) + '</button>';
-            });
-            html += '</div>';
-            swal.fire({
-                title: '{{ s_choisir_machine|escapejs }}',
-                html: html,
-                showConfirmButton: false,
-                showCancelButton: true,
-                cancelButtonText: '{{ s_annuler|escapejs }}',
-                didRender: function() {
-                    document.querySelectorAll('.device-option').forEach(function(btn) {
-                        btn.addEventListener('click', function() {
-                            var deviceId = this.getAttribute('data-device-id');
-                            swal.close();
-                            window.location.href = '/patients/' + patientId + '/?action=demarrer_consultation&device=' + deviceId;
-                        });
-                    });
-                }
-            });
+            window.location.href = '/patients/' + patientId + '/?action=demarrer_consultation';
+        }
         }
 
         window.S_CHOISIR_MACHINE = '{{ s_choisir_machine|escapejs }}';
         window.S_ANNULER = '{{ s_annuler|escapejs }}';
     </script>
     <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
-    <script src="{% static "js/core/accueil.js" %}?v=20250618d"></script>
+    <script src="{% static "js/core/accueil.js" %}?v=20250618f"></script>
     <script>
     // Live polling: refresh admissions every 15s
     setInterval(function() {

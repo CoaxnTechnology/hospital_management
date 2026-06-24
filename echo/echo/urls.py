@@ -700,6 +700,11 @@ urlpatterns = [
         name="remettre_en_salle_patient",
     ),
     path(
+        "patients/<int:patient_pk>/demarrer-examen/",
+        worklists.demarrer_examen,
+        name="demarrer_examen",
+    ),
+    path(
         "consultations/<int:pk>/sr/", worklists.consultation_sr, name="consultation_sr"
     ),
     path(

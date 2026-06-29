@@ -3944,7 +3944,7 @@ msgstr ""
 #, fuzzy
 #| msgid "GEU"
 msgid "OGE"
-msgstr "Ectopic pregnancy"
+msgstr "External genitalia"
 
 #: echo/templates/core/partials/examen_obs_t23_foetal.html:393
 msgid "Placenta"

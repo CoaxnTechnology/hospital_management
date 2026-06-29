@@ -3656,7 +3656,7 @@ msgstr "Périmètre céphalique"
 #: templates/core/partials/examen_obs_t1_foetal.html:232
 #: templates/core/partials/examen_obs_t23_foetal.html:370
 msgid "Membres"
-msgstr ""
+msgstr "Membres"
 
 #: templates/core/consultation_obs_echo_11SA_form.html:114
 #: templates/core/partials/examen_obs_t1_foetal.html:92
@@ -5448,7 +5448,7 @@ msgstr "Posologie"
 #: templates/core/partials/examen_obs_t1_foetal.html:212
 #: templates/core/partials/examen_obs_t23_foetal.html:345
 msgid "Coeur"
-msgstr ""
+msgstr "Coeur"
 
 #: templates/core/partials/examen_obs_t1_foetal.html:217
 #, fuzzy
@@ -5621,7 +5621,7 @@ msgstr ""
 
 #: templates/core/partials/examen_obs_t23_foetal.html:375
 msgid "OGE"
-msgstr ""
+msgstr "OGE"
 
 #: templates/core/partials/examen_obs_t23_foetal.html:393
 msgid "Placenta"

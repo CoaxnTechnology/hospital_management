@@ -5506,7 +5506,7 @@ msgstr ""
 
 #: templates/core/partials/examen_obs_t23_foetal.html:375
 msgid "OGE"
-msgstr ""
+msgstr "الأعضاء التناسلية الخارجية"
 
 #: templates/core/partials/examen_obs_t23_foetal.html:393
 msgid "Placenta"

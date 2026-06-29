@@ -20,6 +20,7 @@ from apps.core.models import (
     ImageConsultation,
     SRConsultation,
     MesuresConsultation,
+    WaveformConsultation,
     CategorieConsultation,
     MotifConsultation,
     Praticien,
@@ -203,7 +204,7 @@ class ConsultationView(PermissionRequiredMixin, DetailView):
 def _get_measurements(consultation):
     """
     Returns the final measurement dict for a consultation.
-    Priority: MesuresConsultation (manual edits) > SRConsultation (raw DICOM).
+    Priority: MesuresConsultation (manual edits) > SRConsultation (raw DICOM, date-based).
     """
     # 1. Try manual overrides first
     try:
@@ -216,9 +217,15 @@ def _get_measurements(consultation):
         logger.warning(f"_get_measurements (manual) failed for consultation {consultation.id}: {e}")
         pass
 
-    # 2. Fall back to raw DICOM SR
+    # 2. Fall back to raw DICOM SR (date-based — same day, any consultation for this patient)
     try:
-        sr = consultation.srconsultation_set.last()
+        if consultation.date:
+            sr = SRConsultation.objects.filter(
+                consultation__patient=consultation.patient,
+                date__date=consultation.date.date()
+            ).last()
+        else:
+            sr = None
         if sr and sr.data:
             data = json.loads(sr.data)
             if data:
@@ -245,10 +252,22 @@ class ConsultationRapportView(PermissionRequiredMixin, DetailView):
             context['parametres'] = None
         context['praticien'] = consultation.praticien
 
-        images = consultation.imageconsultation_set.all().order_by('-date')
-        context['images_echo'] = images.filter(type=ImageConsultation.IMG_ECHO)
-        context['images_graph'] = images.filter(type=ImageConsultation.IMG_GRAPH)
-        context['waveforms'] = consultation.waveforms.all()
+        if consultation.date:
+            cons_date = consultation.date.date()
+            images_qs = ImageConsultation.objects.filter(
+                consultation__patient=consultation.patient,
+                date__date=cons_date
+            ).order_by('-date')
+            context['images_echo'] = images_qs.filter(type=ImageConsultation.IMG_ECHO)
+            context['images_graph'] = images_qs.filter(type=ImageConsultation.IMG_GRAPH)
+            context['waveforms'] = WaveformConsultation.objects.filter(
+                consultation__patient=consultation.patient,
+                created_at__date=cons_date
+            )
+        else:
+            context['images_echo'] = ImageConsultation.objects.none()
+            context['images_graph'] = ImageConsultation.objects.none()
+            context['waveforms'] = WaveformConsultation.objects.none()
 
         data, source = _get_measurements(consultation)
         context['sr'] = data

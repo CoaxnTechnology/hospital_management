@@ -423,7 +423,7 @@ function ajouterAntecedentParChamp(champ) {
         return;
     }
     const antecedentText = getLocalizedListeChoixLabel(antecedent_selectionne);
-    $.post(`/patients/${patient}/antecedents/ajouter`, {
+    $.post(`/patients/${patient_pk}/antecedents/ajouter`, {
         'sous_categorie': sous_categorie.id,
         'date': dateMoment.format('YYYY-MM-DD'),
         'text': antecedentText
@@ -446,7 +446,7 @@ function ajouterAntecedentParChamp(champ) {
 
 function enregistrerAntecedents(editor, idx) {
     let type = idx;
-    return $.post(`/patients/${patient}/antecedents`, {
+    return $.post(`/patients/${patient_pk}/antecedents`, {
         'type_antecedent': type,
         'text': $(`#antecedents-${idx} .ql-editor`).html().replace('<p', '<p style="margin:0"')
     })
@@ -460,7 +460,7 @@ function enregistrerAntecedents(editor, idx) {
 
 function enregistrerNotes(editor) {
     console.log('Contents', editor.root.innerHTML);
-    return $.post(`/patients/${patient}/notes`, {
+    return $.post(`/patients/${patient_pk}/notes`, {
         'text': $(`#edt-notes .ql-editor`).html().replace('<p', '<p style="margin:0"')
     })
         .done(() => {
@@ -477,7 +477,7 @@ window.fermerAntecedentObstetrique = function () {
 
 function nouvelAntecedentObstetrique() {
     showFrameLoading();
-    $('#antecedent-obstetrique-modal iframe').attr('src', `/patients/${patient}/antecedent_obstetrique/ajouter`);
+    $('#antecedent-obstetrique-modal iframe').attr('src', `/patients/${patient_pk}/antecedent_obstetrique/ajouter`);
     bootstrap.Modal.getOrCreateInstance('#antecedent-obstetrique-modal').show();
 
 }
@@ -520,7 +520,7 @@ function priseRdv() {
     showFrameLoading();
     const debut = $('#id_rdv_suivant_apres').val() || moment().add(1, 'days').format('YYYY-MM-DD');
     const fin = $('#id_rdv_suivant_avant').val() || moment().add(9, 'days').format('YYYY-MM-DD');
-    $('#dispo-rdv-modal iframe').attr('src', `/rdvs/dispo/ajouter/?patient=${patient}&debut=${debut}&fin=${fin}`);
+    $('#dispo-rdv-modal iframe').attr('src', `/rdvs/dispo/ajouter/?patient=${patient_pk}&debut=${debut}&fin=${fin}`);
     bootstrap.Modal.getOrCreateInstance('#dispo-rdv-modal').show();
 }
 

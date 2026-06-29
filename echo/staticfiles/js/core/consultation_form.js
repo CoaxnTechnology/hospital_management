@@ -523,6 +523,7 @@ function checkReceptionDonnees() {
                     consultationImages.push(img);
                 }
             });
+            filterImagesByDevice();
         })
         .fail(function () {
             console.error("Impossible de charger les images");
@@ -537,7 +538,7 @@ function checkReceptionDonnees() {
             }
             console.info('Received data', data);
 
-            if (_.isEqual(consultationSR, data)){
+            if (typeof consultationSR !== 'undefined' && _.isEqual(consultationSR, data)){
                 console.log('No new data received');
             } else {
                 toastr.success("Nouvelles mesures reçue de l'échographe");
@@ -593,6 +594,18 @@ function supprimerImage(eve, id) {
             console.error("Impossible de supprimer l'image");
             toastr.error("Une erreur s'est produite");
         });
+}
+
+function filterImagesByDevice() {
+    const deviceId = $('#materiel').val();
+    $('#images-container > div[data-image-id]').each(function () {
+        const imgDevice = $(this).attr('data-device') || '';
+        if (deviceId === '-1' || imgDevice === deviceId || imgDevice === '') {
+            $(this).show();
+        } else {
+            $(this).hide();
+        }
+    });
 }
 
 function toggleGrossesseInfo(afficher) {
@@ -694,10 +707,7 @@ function afficherImpressionImages() {
     const empty = $('#print-images-empty');
     container.empty();
 
-    const images = window.consultationImages || [];
-    const activeImages = consultation_pk > 0
-        ? _.filter(images, i => i.consultation == consultation_pk || i.consultation === null)
-        : images;
+    const activeImages = consultationImages || [];
 
     if (activeImages.length === 0) {
         empty.show();
@@ -743,7 +753,7 @@ function imprimerImagesSelectionnees() {
 
     bootstrap.Modal.getOrCreateInstance('#modal-impression-images').hide();
 
-    const allImages = window.consultationImages || [];
+    const allImages = consultationImages || [];
     const imagesToPrint = _.filter(allImages, i => selectedIds.indexOf(String(i.id)) > -1);
 
     const promises = _.map(imagesToPrint, img =>
@@ -775,31 +785,103 @@ function imprimerImagesSelectionnees() {
 }
 
 function imprimerGraphique() {
+    const gl = (typeof S_PRINT !== 'undefined' && S_PRINT.graph_labels) || {};
     const graphConfig = [
-        { id: 'graph-poids', label: 'Poids foetal' },
-        { id: 'graph-bip', label: 'Diamètre bipariétal' },
-        { id: 'graph-pc', label: 'Périmètre céphalique' },
-        { id: 'graph-pa', label: 'Périmètre abdominal' },
-        { id: 'graph-femur', label: 'Longueur du fémur' },
+        { id: 'graph-poids', label: gl['graph-poids'] || 'Poids foetal' },
+        { id: 'graph-bip', label: gl['graph-bip'] || 'Diamètre bipariétal' },
+        { id: 'graph-pc', label: gl['graph-pc'] || 'Périmètre céphalique' },
+        { id: 'graph-pa', label: gl['graph-pa'] || 'Périmètre abdominal' },
+        { id: 'graph-femur', label: gl['graph-femur'] || 'Longueur du fémur' },
     ];
 
-    let content = [];
-    let hasGraph = false;
+    const $tabGraphs = $('#tab-graphs');
+    const wasHidden = $tabGraphs.is(':hidden');
+    if (wasHidden) {
+        $tabGraphs.css({ display: 'block', visibility: 'hidden', position: 'absolute' });
+    }
 
-    _.each(graphConfig, cfg => {
-        const canvas = $(`#${cfg.id} canvas`)[0];
-        if (canvas) {
-            hasGraph = true;
-            const b64 = canvas.toDataURL('image/png');
-            content.push({ text: cfg.label, style: 'header', margin: [0, 10, 0, 5] });
+    const populateAndShow = () => {
+        const $container = $('#print-graphs-container').empty();
+        const $empty = $('#print-graphs-empty');
+        let hasGraph = false;
+
+        _.each(graphConfig, cfg => {
+            const canvas = $(`#${cfg.id} canvas`)[0];
+            if (canvas && canvas.width > 0 && canvas.height > 0) {
+                hasGraph = true;
+                const b64 = canvas.toDataURL('image/png');
+                $container.append(`
+                    <div class="col-6 mb-4">
+                        <div class="card card-custom gutter-b bg-white border h-100">
+                            <div class="card-body p-3 text-center">
+                                <h6 class="fw-bold mb-3">${cfg.label}</h6>
+                                <img src="${b64}" class="img-fluid" style="max-height:350px;object-fit:contain">
+                            </div>
+                        </div>
+                    </div>
+                `);
+            }
+        });
+
+        if (wasHidden) {
+            $tabGraphs.css({ display: '', visibility: '', position: '' });
+        }
+
+        if (hasGraph) {
+            $empty.hide();
+            $container.show();
+        } else {
+            $empty.show();
+            $container.hide();
+        }
+        bootstrap.Modal.getOrCreateInstance('#modal-impression-graphs').show();
+    };
+
+    const waitForFlotResize = (callback, retries = 30) => {
+        const firstCanvas = $(`#${graphConfig[0].id} canvas`)[0];
+        if (firstCanvas && firstCanvas.width > 100) {
+            callback();
+        } else if (retries > 0) {
+            requestAnimationFrame(() => waitForFlotResize(callback, retries - 1));
+        } else {
+            callback();
+        }
+    };
+
+    if (wasHidden) {
+        requestAnimationFrame(() => waitForFlotResize(populateAndShow));
+    } else {
+        waitForFlotResize(populateAndShow);
+    }
+}
+
+function imprimerGraphiquesSelectionnes() {
+    const $container = $('#print-graphs-container');
+    const gl = (typeof S_PRINT !== 'undefined' && S_PRINT.graph_labels) || {};
+    const labels = {
+        'graph-poids': gl['graph-poids'] || 'Poids foetal',
+        'graph-bip': gl['graph-bip'] || 'Diamètre bipariétal',
+        'graph-pc': gl['graph-pc'] || 'Périmètre céphalique',
+        'graph-pa': gl['graph-pa'] || 'Périmètre abdominal',
+        'graph-femur': gl['graph-femur'] || 'Longueur du fémur',
+    };
+    let content = [];
+    $container.find('img').each(function () {
+        const $parent = $(this).closest('.col-6');
+        const label = $parent.find('h6').text();
+        const b64 = $(this).attr('src');
+        if (b64 && b64.length > 100) {
+            content.push({ text: label, style: 'header', margin: [0, 10, 0, 5] });
             content.push({ image: b64, width: 500, alignment: 'center', margin: [0, 0, 0, 10] });
         }
     });
 
-    if (!hasGraph) {
+    if (content.length === 0) {
         toastr.warning(typeof S_PRINT !== 'undefined' ? S_PRINT.no_graph : "Aucun graphique disponible pour cette consultation");
         return;
     }
+
+    bootstrap.Modal.getOrCreateInstance('#modal-impression-graphs').hide();
 
     const docDefinition = {
         pageMargins: [40, 40, 40, 40],
@@ -997,6 +1079,7 @@ $(document).ready(function () {
         $.post(`/worklists/${consultation_pk}/modifier/`, data)
             .done(function (result) {
                 console.log('Matériel changé')
+                filterImagesByDevice();
             })
             .fail(function () {
                 console.error('Impossible de sauvegarder');
@@ -1040,5 +1123,7 @@ $(document).ready(function () {
     initTimer();
 
     setInterval(checkReceptionDonnees, 10000);
+
+    filterImagesByDevice();
 });
 

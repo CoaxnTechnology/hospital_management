@@ -192,6 +192,28 @@ class PatientView(PermissionRequiredMixin, DetailView):
             consultation__patient=patient, type=ImageConsultation.IMG_GRAPH
         ).order_by('-date')
 
+        context['consultation_date_images'] = ImageConsultation.objects.none()
+        context['consultation_date_graphs'] = ImageConsultation.objects.none()
+        context['date_waveforms'] = WaveformConsultation.objects.none()
+        consultation_active = getattr(self, 'consultation_active', None)
+        if consultation_active and consultation_active.date:
+            cons_date = consultation_active.date.date()
+            cons_date_qs = ImageConsultation.objects.filter(
+                consultation__patient=patient,
+                date__date=cons_date
+            )
+            default_device = self.request.user.profil.default_device
+            if default_device:
+                cons_date_qs = cons_date_qs.filter(
+                    Q(device=default_device) | Q(device__isnull=True)
+                )
+            context['consultation_date_images'] = cons_date_qs.filter(type=ImageConsultation.IMG_ECHO).order_by('-date')
+            context['consultation_date_graphs'] = cons_date_qs.filter(type=ImageConsultation.IMG_GRAPH).order_by('-date')
+            context['date_waveforms'] = WaveformConsultation.objects.filter(
+                consultation__patient=patient,
+                created_at__date=cons_date
+            )
+
         listes_choix = ListeChoix.objects.filter(
             Q(formulaire='consultation_obs_foetus') | Q(formulaire='consultation_obs'))
         context['listes_choix_json'] = json.dumps(ListeChoixSerializer(listes_choix, many=True).data)
@@ -208,16 +230,27 @@ class PatientView(PermissionRequiredMixin, DetailView):
         context['mode_edition'] = False
         context['doublon_consultation'] = None
 
-        if consultation_active:
+        if consultation_active and consultation_active.date:
             motif = consultation_active.motif
-            if hasattr(consultation_active, 'imageconsultation_set'):
-                images_qs = consultation_active.imageconsultation_set.all()
-                if images_qs.exists():
-                    context['images_json'] = json.dumps(ImageConsultationSerializerLight(images_qs, many=True).data)
-            if hasattr(consultation_active, 'srconsultation_set'):
-                last_sr = consultation_active.srconsultation_set.last()
-                if last_sr:
-                    context['sr_json'] = json.dumps(SRConsultationSerializer(last_sr).data)
+            cons_date = consultation_active.date.date()
+            date_images_qs = ImageConsultation.objects.filter(
+                consultation__patient=self.object,
+                date__date=cons_date
+            )
+            default_device = self.request.user.profil.default_device
+            if default_device:
+                date_images_qs = date_images_qs.filter(
+                    Q(device=default_device) | Q(device__isnull=True)
+                )
+            if date_images_qs.exists():
+                context['images_json'] = json.dumps(ImageConsultationSerializerLight(date_images_qs, many=True).data)
+            date_sr_qs = SRConsultation.objects.filter(
+                consultation__patient=self.object,
+                date__date=cons_date
+            )
+            last_sr = date_sr_qs.last()
+            if last_sr:
+                context['sr_json'] = json.dumps(SRConsultationSerializer(last_sr).data)
             context['doublon_consultation'] = self.object.check_doublon_consultation(motif=motif, date=date.today())
             if 'edition' in self.request.GET:
                 context['mode_edition'] = True
@@ -365,6 +398,52 @@ class PatientView(PermissionRequiredMixin, DetailView):
                         continue
             except (ValueError, TypeError):
                 pass
+
+        # Auto-detect latest consultation when none specified in URL
+        if (
+            not self.consultation_active
+            and not self.is_new_consultation
+            and 'action' not in self.request.GET
+            and self.object.grossesse_encours is not None
+        ):
+            latest_obs = ConsultationObstetrique.objects.filter(
+                patient=self.object
+            ).order_by('-id').first()
+            if latest_obs:
+                for type_str, model_class, form_class, fetal_partial in CONSULTATION_TYPE_CONFIG:
+                    try:
+                        child = model_class.objects.get(pk=latest_obs.pk)
+                    except model_class.DoesNotExist:
+                        continue
+                    self.consultation_active = child
+                    self.consultation_form = form_class(instance=child, compte=request.user.profil.compte)
+                    self.consultation_foetus_formset = DonneesFoetusFormset(instance=child)
+                    self.consultation_type_str = type_str
+                    self.fetal_partial = fetal_partial
+                    break
+            if not self.consultation_active:
+                self.is_new_consultation = True
+                consultation_type = 'troisieme_trimestre'
+                config = CONSULTATION_TYPE_STR_MAP.get(consultation_type)
+                if config:
+                    form_class, fetal_partial = config
+                    initial = {
+                        'patient': self.object.pk,
+                        'praticien': self.request.user.profil,
+                        'date': timezone.now(),
+                    }
+                    grossesse_encours = self.object.grossesse_set.filter(encours=True).first()
+                    if grossesse_encours:
+                        initial['grossesse'] = grossesse_encours.pk
+                    if self.object.mesures_jour:
+                        initial['poids'] = self.object.mesures_jour.poids
+                        initial['ta'] = self.object.mesures_jour.ta
+                        initial['temperature'] = self.object.mesures_jour.temperature
+                        initial['gly'] = self.object.mesures_jour.gly
+                    self.consultation_form = form_class(compte=self.request.user.profil.compte, initial=initial)
+                    self.consultation_foetus_formset = DonneesFoetusFormset()
+                    self.consultation_type_str = consultation_type
+                    self.fetal_partial = fetal_partial
 
         context = self.get_context_data(object=self.object)
         today = date.today()

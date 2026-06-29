@@ -169,7 +169,9 @@ def ajouter_image(request):
 
     if 'path' in request.POST:
         path = request.POST['path']
+        device = Device.objects.filter(ae_title=calling_aet).first() if calling_aet else None
         ic = ImageConsultation(type=ImageConsultation.IMG_ECHO, consultation=consultation,
+                               device=device,
                                date=datetime.datetime.now(), impression=False)
         ic.save()
         patient = consultation.patient
@@ -446,9 +448,14 @@ def ajouter_waveform(request):
 @permission_required('core.change_patient', raise_exception=True)
 def consultation_sr(request, pk):
     consult = get_object_or_404(Consultation, pk=pk)
-    srs = SRConsultation.objects.filter(consultation=consult)
-    print(srs)
-    sr = consult.srconsultation_set.last()
+    if consult.date:
+        srs = SRConsultation.objects.filter(
+            consultation__patient=consult.patient,
+            date__date=consult.date.date()
+        )
+        sr = srs.last()
+    else:
+        sr = None
     if sr:
         data = {'data': json.dumps(SRConsultationSerializer(sr).data)}
     else:

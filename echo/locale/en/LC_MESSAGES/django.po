@@ -4204,8 +4204,6 @@ msgid "Nouveau compte-rendu"
 msgstr "New report"
 
 #: echo/templates/core/patient_detail_v2.html:554
-#, fuzzy
-#| msgid "Consultation"
 msgid "Consultation du"
 msgstr "Consultation of"
 
@@ -7397,6 +7395,14 @@ msgstr "No chart available for this consultation"
 #: templates/core/accueil_v2.html
 msgid "Renvoyer en salle d'attente"
 msgstr "Send back to waiting room"
+
+#: templates/core/patient_detail_v2.html:682
+msgid "Aucune admission"
+msgstr "No admission"
+
+#: templates/core/patient_detail_v2.html:683
+msgid "Ce patient n'a pas d'admission en cours. Veuillez d'abord créer une admission."
+msgstr "This patient has no current admission. Please create one first."
 
 #~ msgid "Administrateur"
 #~ msgstr "Administrator"

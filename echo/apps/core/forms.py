@@ -677,6 +677,8 @@ class ConsultationObstetriqueForm(ConsultationForm):
             'grossesse': forms.HiddenInput(),
             'rdv_suivant_apres': forms.HiddenInput(),
             'rdv_suivant_avant': forms.HiddenInput(),
+            'conclusion': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'conduite': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
         }
 
 
@@ -719,12 +721,16 @@ class ConsultationEchoDeuxiemeTrimestreForm(ConsultationObstetriqueForm):
     class Meta(ConsultationObstetriqueForm.Meta):
         model = ConsultationEchoDeuxiemeTrimestre
         fields = '__all__'
+        widgets = dict(ConsultationObstetriqueForm.Meta.widgets,
+                       **{'echo_morpho': forms.Textarea(attrs={'class': 'form-control', 'rows': 4})})
 
 
 class ConsultationEchoTroisiemeTrimestreForm(ConsultationObstetriqueForm):
     class Meta(ConsultationObstetriqueForm.Meta):
         model = ConsultationEchoTroisiemeTrimestre
         fields = '__all__'
+        widgets = dict(ConsultationObstetriqueForm.Meta.widgets,
+                       **{'echo_t3': forms.Textarea(attrs={'class': 'form-control', 'rows': 4})})
 
 
 class ConsultationEchoCroissanceForm(ConsultationObstetriqueForm):

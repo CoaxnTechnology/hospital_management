@@ -7757,8 +7757,19 @@ msgid "Patient ajouté en salle d'attente"
 msgstr "تمت إضافة المريض إلى غرفة الانتظار"
 
 #: templates/core/accueil_v2.html
+msgid "Consultation du"
+msgstr "استشارة يوم"
+
 msgid "Erreur de connexion"
 msgstr "خطأ في الاتصال"
+
+#: templates/core/patient_detail_v2.html:682
+msgid "Aucune admission"
+msgstr "لا يوجد دخول"
+
+#: templates/core/patient_detail_v2.html:683
+msgid "Ce patient n'a pas d'admission en cours. Veuillez d'abord créer une admission."
+msgstr "هذا المريض ليس لديه دخول حالي. الرجاء إنشاء دخول أولاً."
 
 #~ msgid "Administrateur"
 #~ msgstr "مدير"

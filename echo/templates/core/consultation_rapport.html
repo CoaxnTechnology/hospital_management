@@ -53,13 +53,6 @@ body { font-family: Arial, sans-serif; font-size:10pt; color:#1a1a1a; background
 .meta-item .lbl { font-size:7.5pt; font-weight:700; color:#7B8FA6; text-transform:uppercase; }
 .meta-item .val { font-size:9.5pt; font-weight:500; color:#1a2a3a; margin-top:1px; }
 
-/* ── Images grid ── */
-.images-grid { display:flex; flex-wrap:wrap; gap:12px; padding:12px 18px; justify-content:center; }
-.img-item { text-align:center; width:160px; page-break-inside:avoid; }
-.img-thumb { max-width:100%; max-height:140px; border:1px solid #CFDCE8; border-radius:4px; padding:2px; }
-.img-label { font-size:7.5pt; color:#546E7A; margin-top:4px; }
-@media print { .img-item { width:140px; } .img-thumb { max-height:120px; } }
-
 /* ── Section headers ── */
 .sec { background:#1565C0; color:#fff; padding:5px 16px; font-size:8.5pt; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; margin-top:12px; }
 .sec.sub { background:#E3F0FF; color:#0D2137; font-size:8pt; padding:4px 16px; margin-top:0; border-left:3px solid #1565C0; }
@@ -123,8 +116,6 @@ tr:nth-child(even) td { background:#F7FAFD; }
   .fetus-hd { page-break-after: avoid; page-break-before: auto; }
   .sign-row { page-break-inside: avoid; }
   .report-text { page-break-inside: avoid; }
-  .images-grid { page-break-inside: avoid; }
-  .img-item { page-break-inside: avoid; }
   .no-measurements-block { display: none !important; }
 }
 </style>
@@ -171,33 +162,6 @@ tr:nth-child(even) td { background:#F7FAFD; }
     <div class="meta-item"><div class="lbl">Reason</div><div class="val">{{ object.motif.libelle|default:"—" }}</div></div>
     <div class="meta-item"><div class="lbl">Physician</div><div class="val">{% if praticien %}{{ praticien.nom_complet }}{% else %}—{% endif %}</div></div>
   </div>
-
-  <!-- Images -->
-  {% if images_echo or images_graph or waveforms %}
-  <div class="sec">Ultrasound Images &amp; Graphs</div>
-  <div class="images-grid">
-    {% for img in images_echo %}
-    <div class="img-item">
-      <img src="{{ img.image.url }}" alt="Echo {{ forloop.counter }}" class="img-thumb"/>
-      <div class="img-label">Echographie {{ forloop.counter }}</div>
-    </div>
-    {% endfor %}
-    {% for img in images_graph %}
-    <div class="img-item">
-      <img src="{{ img.image.url }}" alt="Graph {{ forloop.counter }}" class="img-thumb"/>
-      <div class="img-label">Graphique {{ forloop.counter }}</div>
-    </div>
-    {% endfor %}
-    {% for wf in waveforms %}
-    {% if wf.image_preview %}
-    <div class="img-item">
-      <img src="{{ wf.image_preview.url }}" alt="Waveform {{ forloop.counter }}" class="img-thumb"/>
-      <div class="img-label">{{ wf.modality }} — {{ wf.description|default:"Doppler" }}</div>
-    </div>
-    {% endif %}
-    {% endfor %}
-  </div>
-  {% endif %}
 
   <!-- Report text -->
   {% if object.text %}

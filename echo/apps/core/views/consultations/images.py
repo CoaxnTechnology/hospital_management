@@ -9,7 +9,7 @@ from django.db.models import ImageField
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 
-from apps.core.models import Consultation, ImageConsultation
+from apps.core.models import Consultation, Device, ImageConsultation, WorklistItem
 from apps.core.serializers import ImageConsultationSerializer, ImageConsultationSerializerLight
 
 
@@ -56,10 +56,16 @@ def get_image_from_data_url(root_folder, data_url, resize=True, base_width=600):
 def ajouter_image(request, pk):
     consult = get_object_or_404(Consultation, pk=pk)
     root_folder = repertoire_images_utilisateur(consult)
+    device_id = request.POST.get('device')
+    device = Device.objects.filter(pk=device_id).first() if device_id else None
+    if not device:
+        wl = WorklistItem.objects.filter(consultation=consult).first()
+        device = wl.device if wl else None
     image = ImageConsultation(image=get_image_from_data_url(root_folder, request.POST.get('file'))[0],
                               type=request.POST.get('type'),
                               date=datetime.now(),
-                              consultation=consult)
+                              consultation=consult,
+                              device=device)
     image.save()
     consult.imageconsultation_set.add(image)
     consult.save()
@@ -104,5 +110,12 @@ def modifier_image(request, pk):
 @permission_required('core.change_patient', raise_exception=True)
 def consultation_images(request, pk):
     consult = get_object_or_404(Consultation, pk=pk)
-    data = {'images': json.dumps(ImageConsultationSerializerLight(consult.imageconsultation_set.all(), many=True).data)}
+    if consult.date:
+        images_qs = ImageConsultation.objects.filter(
+            consultation__patient=consult.patient,
+            date__date=consult.date.date()
+        )
+    else:
+        images_qs = ImageConsultation.objects.none()
+    data = {'images': json.dumps(ImageConsultationSerializerLight(images_qs, many=True).data)}
     return JsonResponse(data)

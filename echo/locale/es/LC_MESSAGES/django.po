@@ -7785,8 +7785,19 @@ msgid "Patient ajouté en salle d'attente"
 msgstr "Paciente agregado a la sala de espera"
 
 #: templates/core/accueil_v2.html
+msgid "Consultation du"
+msgstr "Consulta del"
+
 msgid "Erreur de connexion"
 msgstr "Error de conexión"
+
+#: templates/core/patient_detail_v2.html:682
+msgid "Aucune admission"
+msgstr "Ninguna admisión"
+
+#: templates/core/patient_detail_v2.html:683
+msgid "Ce patient n'a pas d'admission en cours. Veuillez d'abord créer une admission."
+msgstr "Este paciente no tiene una admisión en curso. Por favor, cree una primero."
 
 #~ msgid "Administrateur"
 #~ msgstr "Administrador"

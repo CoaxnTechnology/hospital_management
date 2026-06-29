@@ -376,6 +376,7 @@ class ImageConsultationSerializer(serializers.ModelSerializer):
 
 class ImageConsultationSerializerLight(serializers.ModelSerializer):
     url = serializers.SerializerMethodField()
+    device_label = serializers.SerializerMethodField()
 
     class Meta:
         model = ImageConsultation
@@ -390,6 +391,11 @@ class ImageConsultationSerializerLight(serializers.ModelSerializer):
         except:
             pass
         return url
+
+    def get_device_label(self, image):
+        if image.device:
+            return str(image.device)
+        return ''
 
 
 class SRConsultationSerializer(serializers.ModelSerializer):

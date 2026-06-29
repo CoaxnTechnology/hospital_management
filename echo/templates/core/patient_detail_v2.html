@@ -4,6 +4,15 @@
 {% load widget_tweaks %}
 {% block styles %}
     <style>
+        /* Fix: form wraps tab-panes so Bootstrap's .tab-content > .tab-pane doesn't match */
+        .tab-content .tab-pane {
+            display: none;
+        }
+        .tab-content .tab-pane.active,
+        .tab-content .tab-pane.show {
+            display: block;
+        }
+
         .la-trash {
             color: red;
         }
@@ -607,11 +616,6 @@
                        href="#tab-accueil">{% trans "Accueil" %}</a>
                 </li>
                 <!--end:::Tab item-->
-                <!--begin:::Tab item-->
-                <li class="nav-item">
-                    <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-consultations">{% trans "Consultations" %}</a>
-                </li>
-
                 {% if user.profil and user.profil.compte and 3 in user.profil.compte.categories %}
                 <li class="nav-item">
                     <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-pma">PMA</a>
@@ -628,6 +632,7 @@
                        href="#tab-documents">{% trans "Documents" %}</a>
                 </li>
                 <!--end:::Tab item-->
+                {% if not grossesse_encours or grossesse_encours and not consultation_active and not is_new_consultation %}
                 <li class="nav-item ms-4 border-start ps-4">
                     <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab"
                        href="#tab-images">{% trans "Images" %}</a>
@@ -636,7 +641,8 @@
                     <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab"
                        href="#tab-graphs">{% trans "Graphiques" %}</a>
                 </li>
-                {% if grossesse_encours %}
+                {% endif %}
+                {% if grossesse_encours and consultation_active or grossesse_encours and is_new_consultation %}
                 <li class="nav-item ms-4 border-start ps-4">
                     <a class="nav-link text-active-primary pb-4 {% if consultation_active or is_new_consultation %}active{% endif %}" data-bs-toggle="tab"
                        href="#tab-mesures">{% trans "Mesures foetales" %}</a>
@@ -670,6 +676,13 @@
     <div class="tab-content mt-8">
 
         <div id="tab-accueil" class="g-5 g-xxl-8 tab-pane fade {% if not consultation_active and not is_new_consultation %}show active{% endif %}">
+            <div class="alert alert-warning d-flex align-items-center p-5 mb-8">
+                <i class="bi bi-exclamation-triangle fs-2x text-warning me-4"></i>
+                <div>
+                    <h4 class="alert-heading fw-bold">{% trans "Aucune admission" %}</h4>
+                    <p class="mb-0">{% trans "Ce patient n'a pas d'admission en cours. Veuillez d'abord créer une admission." %}</p>
+                </div>
+            </div>
             <div class="row">
 
                 <!--begin::Col-->
@@ -879,7 +892,7 @@
                         <!--begin::Body-->
                         <div class="card-body py-4">
                             <div class="min-h-50px p-2">
-                                <form id="editor-1" class="ql-quil ql-quil-plain pb-3">
+                                <form id="antecedents-form-1" class="ql-quil ql-quil-plain pb-3">
                                     <!--begin::Editor-->
                                     <div id="antecedents-1" data-id="1"
                                          class="antecedent-editor pb-6 min-h-100px">
@@ -962,7 +975,7 @@
                         <!--begin::Body-->
                         <div class="card-body py-4">
                             <div class="min-h-50px p-2">
-                                <form id="editor-2" class="ql-quil ql-quil-plain pb-3">
+                                <form id="antecedents-form-2" class="ql-quil ql-quil-plain pb-3">
                                     <!--begin::Editor-->
                                     <div id="antecedents-2" class="antecedent-editor pb-6 min-h-100px">
                                         {% if object.antecedents_medico_chirurgicaux %}
@@ -1043,7 +1056,7 @@
                         <!--begin::Body-->
                         <div class="card-body py-4">
                             <div class="min-h-50px p-2">
-                                <form id="editor-3" class="ql-quil ql-quil-plain pb-3">
+                                <form id="antecedents-form-3" class="ql-quil ql-quil-plain pb-3">
                                     <!--begin::Editor-->
                                     <div id="antecedents-3" class="antecedent-editor pb-6 min-h-100px">
                                         {% if object.antecedents_gynecologiques %}
@@ -1124,7 +1137,7 @@
                         <!--begin::Body-->
                         <div class="card-body py-4">
                             <div class="min-h-50px p-2">
-                                <form id="editor-4" class="ql-quil ql-quil-plain pb-3">
+                                <form id="antecedents-form-4" class="ql-quil ql-quil-plain pb-3">
                                     <!--begin::Editor-->
                                     <div id="antecedents-4" class="antecedent-editor pb-6 min-h-100px">
                                         {% if object.allergies %}
@@ -1567,14 +1580,6 @@
 
         </div>
 
-        <div id="tab-consultations" class="tab-pane fade">
-            <div class="card px-4">
-                <div class="card-body">
-                    {% include 'core/partials/consultations_patient.html' with consultations=consultations %}
-                </div>
-            </div>
-
-        </div>
         <div id="tab-pma" class="tab-pane fade">
             <div class="card px-4">
                 <div class="card-body">
@@ -1593,6 +1598,11 @@
         <form id="form_1" class="form" method="post" action="">
             {% csrf_token %}
 
+            {% for hidden in consultation_tabs_form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+
+        <div id="tab-mesures" class="tab-pane fade {% if consultation_active or is_new_consultation %}active show{% endif %}">
             {% if motif %}
             <div class="d-flex align-items-center mb-4">
                 <span class="badge badge-light-primary me-2">
@@ -1601,12 +1611,6 @@
                 </span>
             </div>
             {% endif %}
-
-            {% for hidden in consultation_tabs_form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
-
-        <div id="tab-mesures" class="tab-pane fade {% if consultation_active or is_new_consultation %}active show{% endif %}">
             {% if fetal_partial %}
             {% include fetal_partial with form=consultation_tabs_form foetus=consultation_foetus %}
             {% endif %}
@@ -1624,17 +1628,19 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        {% if consultation_tabs_form.echo_t3 %}
+                        {% if consultation_tabs_form.echo_t3 and consultation_type == 'troisieme_trimestre' %}
                         <div class="col-12 form-group mb-4">
                             <label class="fw-bold mb-2">{{ consultation_tabs_form.echo_t3.label }}</label>
                             {{ consultation_tabs_form.echo_t3 }}
                         </div>
                         {% endif %}
                         {% if consultation_tabs_form.echo_morpho %}
+                            {% if consultation_type == 'deuxieme_trimestre' or consultation_type == 'troisieme_trimestre' %}
                         <div class="col-12 form-group mb-4">
                             <label class="fw-bold mb-2">{{ consultation_tabs_form.echo_morpho.label }}</label>
                             {{ consultation_tabs_form.echo_morpho }}
                         </div>
+                            {% endif %}
                         {% endif %}
                         <div class="col-12 form-group mb-4">
                             <label class="fw-bold mb-2">{{ consultation_tabs_form.conclusion.label }}</label>
@@ -1650,27 +1656,43 @@
         </div>
 
         <div id="tab-images" class="tab-pane fade">
-            {% include 'core/partials/consultation_images.html' with consultation=consultation_active %}
+            {% include 'core/partials/consultation_images.html' with consultation_date_images=consultation_date_images date_waveforms=date_waveforms %}
         </div>
 
         <div id="tab-graphs" class="tab-pane tab-graph fade">
             {% include 'core/partials/consultation_graph.html' with consultation=consultation_active %}
+            {% if consultation_date_graphs %}
+            <div class="row p-2 mt-4">
+                {% for img in consultation_date_graphs %}
+                {% if img.image %}
+                <div class="col-3 mb-3">
+                    <div class="card card-custom gutter-b card-stretch bg-white border">
+                        <div class="card-body pt-2 pl-2 pr-2 pb-6 text-center">
+                            <a class="d-block overlay" href="{{ img.image.url }}" data-fslightbox="lightbox-basic">
+                                <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px"
+                                    style="background-image:url({{ img.image.url }})">
+                                </div>
+                                <div class="overlay-layer card-rounded bg-dark bg-opacity-25 shadow">
+                                    <i class="bi bi-eye-fill text-white fs-3x"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
         </div>
 
         </form>
-        {% elif grossesse_encours and not consultation_tabs_form %}
-        <div id="tab-mesures" class="tab-pane fade"></div>
-        <div id="tab-mere" class="g-5 g-xxl-8 tab-pane fade"></div>
-        <div id="tab-examen" class="g-5 g-xxl-8 tab-pane fade"></div>
-        <div id="tab-conclusion" class="g-5 g-xxl-8 tab-pane fade"></div>
-        <div id="tab-images" class="tab-pane fade"></div>
-        <div id="tab-graphs" class="tab-pane tab-graph fade"></div>
         {% else %}
         <div id="tab-images" class="tab-pane fade">
             <div class="card">
                 <div class="card-body">
                     <div class="row p-2">
                         {% for img in patient_images_echo %}
+                        {% if img.image %}
                         <div class="col-3 mb-3">
                             <div class="card card-custom gutter-b card-stretch bg-white border">
                                 <div class="card-body pt-2 pl-2 pr-2 pb-6 text-center">
@@ -1686,6 +1708,7 @@
                                 </div>
                             </div>
                         </div>
+                        {% endif %}
                         {% empty %}
                         <div class="col-12 text-center text-muted py-4">{% trans "Aucune image" %}</div>
                         {% endfor %}
@@ -1698,6 +1721,7 @@
                 <div class="card-body">
                     <div class="row p-2">
                         {% for img in patient_images_graph %}
+                        {% if img.image %}
                         <div class="col-3 mb-3">
                             <div class="card card-custom gutter-b card-stretch bg-white border">
                                 <div class="card-body pt-2 pl-2 pr-2 pb-6 text-center">
@@ -1713,6 +1737,7 @@
                                 </div>
                             </div>
                         </div>
+                        {% endif %}
                         {% empty %}
                         <div class="col-12 text-center text-muted py-4">{% trans "Aucune image" %}</div>
                         {% endfor %}
@@ -1829,10 +1854,33 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modal-impression-graphs" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{% trans "Graphiques" %}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" id="print-graphs-container"></div>
+                    <div class="text-center text-muted py-5" id="print-graphs-empty" style="display:none">
+                        {% trans "Aucun graphique disponible pour cette consultation" %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">{% trans "Annuler" %}</button>
+                    <button type="button" class="btn btn-warning" onclick="imprimerGraphiquesSelectionnes()">
+                        <i class="bi bi-printer"></i> {% trans "Imprimer les graphiques" %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="consultation-print" class="hide" style="height: 1px"></div>
 
     <script type="text/html" id="image-item-template">
-        <div data-image-id="<%= img.id %>" class="col-3">
+        <div data-image-id="<%= img.id %>" data-device="<%= img.device %>" class="col-3">
             <div class="card card-custom gutter-b card-stretch bg-white border">
                 <div class="card-header border-0 px-1 h-30px" style="min-height: 0px;">
                     <h3 class="card-title pl-2">
@@ -2035,6 +2083,7 @@
         let medecins = {{ medecins_json|safe }};
         let images_json = {{ images_json|safe }};
         let sr_json = {{ sr_json|safe }};
+        var consultationSR = sr_json;
         let consultationImages = {{ images_json|safe }};
         let addAntecedents = {% if user.profil.compte.parametrescompte.ajouter_antecedents_edition %}true{% else %}false{% endif %};
         const ajouterDateLieuEdition = {% if user.profil.compte.parametrescompte.ajouter_date_cro %}true{% else %}false{% endif %};
@@ -2059,6 +2108,13 @@
             deselect_all: '{% trans "Tout désélectionner"|escapejs %}',
             select_one: '{% trans "Veuillez sélectionner au moins une image"|escapejs %}',
             no_graph: '{% trans "Aucun graphique disponible pour cette consultation"|escapejs %}',
+            graph_labels: {
+                'graph-poids': '{% trans "Poids foetal"|escapejs %}',
+                'graph-bip': '{% trans "Diamètre bipariétal"|escapejs %}',
+                'graph-pc': '{% trans "Périmètre céphalique"|escapejs %}',
+                'graph-pa': '{% trans "Périmètre abdominal"|escapejs %}',
+                'graph-femur': '{% trans "Longueur du fémur"|escapejs %}',
+            },
         };
     </script>
     <script src="{% static 'plugins/custom/jqbootstrapmodalforms/jquery.bootstrap.modal.forms.min.js' %}"></script>

@@ -8,9 +8,11 @@
         <div class="card card-custom gutter-bs">
             <!--begin::Header-->
             <div class="card-header card-header-tabs-line">
-                <!--<div class="card-title">
-                    <h3 class="card-label">Rendez-vous du jour</h3>
-                </div>-->
+                <div class="card-title">
+                    <a href="{% url 'accueil' %}" class="btn btn-sm btn-light-primary me-3">
+                        <i class="la la-arrow-left"></i> {% trans "Tableau de bord" %}
+                    </a>
+                </div>
 
                 <div class="card-toolbar">
                     <ul class="nav nav-tabs nav-tabs-space-lg nav-tabs-line nav-tabs-bold nav-tabs-line-3x"

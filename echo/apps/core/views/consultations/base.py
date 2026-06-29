@@ -218,11 +218,40 @@ class ConsultationUpdateBase(UpdateView):
         context['devices'] = devices
         context['devices_json'] = json.dumps(DeviceSerializer(devices, many=True).data)
         patients.charger_info_panel_context(self.request, context, patient)
-        if hasattr(self.object, 'imageconsultation_set'):
-            context['images_json'] = json.dumps(ImageConsultationSerializerLight(
-                self.object.imageconsultation_set.all(), many=True).data)
-        if hasattr(self.object, 'srconsultation_set'):
-            context['sr_json'] = json.dumps(SRConsultationSerializer(self.object.srconsultation_set.last()).data)
+        cons = self.object
+        if cons.date:
+            cons_date = cons.date.date()
+            date_images_qs = models.ImageConsultation.objects.filter(
+                consultation__patient=patient,
+                date__date=cons_date
+            )
+            default_device = self.request.user.profil.default_device
+            if default_device:
+                date_images_qs = date_images_qs.filter(
+                    Q(device=default_device) | Q(device__isnull=True)
+                )
+            context['images_json'] = json.dumps(
+                ImageConsultationSerializerLight(date_images_qs, many=True).data
+            )
+            context['consultation_date_images'] = date_images_qs.filter(type=models.ImageConsultation.IMG_ECHO).order_by('-date')
+            context['consultation_date_graphs'] = date_images_qs.filter(type=models.ImageConsultation.IMG_GRAPH).order_by('-date')
+            context['date_waveforms'] = models.WaveformConsultation.objects.filter(
+                consultation__patient=patient,
+                created_at__date=cons_date
+            )
+            date_sr_qs = models.SRConsultation.objects.filter(
+                consultation__patient=patient,
+                date__date=cons_date
+            )
+            last_sr = date_sr_qs.last()
+            if last_sr:
+                context['sr_json'] = json.dumps(SRConsultationSerializer(last_sr).data)
+        else:
+            context['images_json'] = '[]'
+            context['sr_json'] = 'null'
+            context['consultation_date_images'] = models.ImageConsultation.objects.none()
+            context['consultation_date_graphs'] = models.ImageConsultation.objects.none()
+            context['date_waveforms'] = models.WaveformConsultation.objects.none()
         if 'edition' in self.request.GET:
             context['mode_edition'] = True
         return context
@@ -301,17 +330,9 @@ def enregistrer_consultation(request, pk):
 
 
 def get_tab_by_motif_categorie(categorie):
-    if categorie == 1:
-        tab = "tab-obstetrique"
-    if categorie == 2:
-        tab = "tab-gynecologique"
     if categorie == 3:
-        tab = "tab-pma"
-    if categorie == 4:
-        tab = "tab-examen-libre"
-    if categorie == 7:
-        tab = "tab-cro"
-    return tab
+        return "tab-pma"
+    return "tab-accueil"
 
 
 @login_required

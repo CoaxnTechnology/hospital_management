@@ -3187,6 +3187,7 @@ class ImageConsultation(models.Model):
         max_length=1, choices=[(IMG_GRAPH, "Graphique"), (IMG_ECHO, "Echographie")]
     )
     consultation = models.ForeignKey(Consultation, on_delete=models.CASCADE)
+    device = models.ForeignKey('Device', on_delete=models.SET_NULL, null=True, blank=True)
     date = models.DateTimeField()
     impression = models.BooleanField(default=False)
 

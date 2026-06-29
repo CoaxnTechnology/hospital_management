@@ -7886,8 +7886,19 @@ msgid "Patient ajouté en salle d'attente"
 msgstr "Patient ajouté en salle d'attente"
 
 #: templates/core/accueil_v2.html
+msgid "Consultation du"
+msgstr "Consultation du"
+
 msgid "Erreur de connexion"
 msgstr "Erreur de connexion"
+
+#: templates/core/patient_detail_v2.html:682
+msgid "Aucune admission"
+msgstr "Aucune admission"
+
+#: templates/core/patient_detail_v2.html:683
+msgid "Ce patient n'a pas d'admission en cours. Veuillez d'abord créer une admission."
+msgstr "Ce patient n'a pas d'admission en cours. Veuillez d'abord créer une admission."
 
 #~ msgid "search_placeholder"
 #~ msgstr " search_placeholder"

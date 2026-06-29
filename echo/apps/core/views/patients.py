@@ -197,10 +197,8 @@ class PatientView(PermissionRequiredMixin, DetailView):
         context['date_waveforms'] = WaveformConsultation.objects.none()
         consultation_active = getattr(self, 'consultation_active', None)
         if consultation_active and consultation_active.date:
-            cons_date = consultation_active.date.date()
             cons_date_qs = ImageConsultation.objects.filter(
-                consultation__patient=patient,
-                date__date=cons_date
+                consultation=consultation_active
             )
             default_device = self.request.user.profil.default_device
             if default_device:
@@ -210,8 +208,7 @@ class PatientView(PermissionRequiredMixin, DetailView):
             context['consultation_date_images'] = cons_date_qs.filter(type=ImageConsultation.IMG_ECHO).order_by('-date')
             context['consultation_date_graphs'] = cons_date_qs.filter(type=ImageConsultation.IMG_GRAPH).order_by('-date')
             context['date_waveforms'] = WaveformConsultation.objects.filter(
-                consultation__patient=patient,
-                created_at__date=cons_date
+                consultation=consultation_active
             )
 
         listes_choix = ListeChoix.objects.filter(
@@ -592,11 +589,14 @@ def admission_rapide(request, patient_pk):
             date__lte=jour_max,
             statut__in=['1', '2'],
         ).first()
-        if existing:
+        if existing and existing.statut == '1':
             return JsonResponse({
                 'status': 'error',
-                'message': 'Patient déjà en salle d\'attente ou en examen'
+                'message': 'Patient déjà en salle d\'attente'
             }, status=409)
+        if existing and existing.statut == '2':
+            existing.statut = '3'
+            existing.save()
 
         completed = Admission.objects.filter(
             patient=patient,

@@ -15,7 +15,6 @@ from django.utils.translation import gettext_lazy as _
 
 APP_VERSION = '2.0.0'
 os.environ["EE_VERSION"] = APP_VERSION
-os.system(f'echo "export EE_VERSION={APP_VERSION}" >> ~/.bashrc')
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

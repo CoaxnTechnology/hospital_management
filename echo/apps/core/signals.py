@@ -38,18 +38,20 @@ def creer_worklist_item(sender, instance, **kwargs):
     Fonction qui crée automatiquement un worklist item pour chaque consultation
     """
     print('creer_worklist_item')
-    if len(instance.worklistitem_set.all()) == 0:
-        # Créer un WorklistItem pour cette consultation
-        print(f'Création work list item pour la consultation {instance.id}')
-        item = WorklistItem()
-        item.consultation = instance
-        item.study_instance_uid = generate_uid()
-        item.requested_procedure_description = 'US'
-        item.requested_procedure_id = 'US'
-        item.mpps_status = WorklistItem.MPPS_STATUS_PENDING
-        if instance.praticien and instance.praticien.default_device:
-            item.device = instance.praticien.default_device
-        item.save()
+    _, created = WorklistItem.objects.get_or_create(
+        consultation=instance,
+        defaults={
+            'study_instance_uid': generate_uid(),
+            'requested_procedure_description': 'US',
+            'requested_procedure_id': 'US',
+            'mpps_status': WorklistItem.MPPS_STATUS_PENDING,
+            'device': instance.praticien.default_device if instance.praticien and instance.praticien.default_device else None,
+        }
+    )
+    if created:
+        print(f'WorklistItem créé pour la consultation {instance.id}')
+    else:
+        print(f'WorklistItem existe déjà pour la consultation {instance.id}')
 
 
 @receiver(post_save, sender=TentativePMA)

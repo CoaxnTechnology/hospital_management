@@ -49,17 +49,7 @@
                     <div data-image-id="{{ img.pk }}" data-device="{{ img.device_id|default:'' }}" class="col-3">
                         <div class="card card-custom gutter-b card-stretch bg-white border">
                             <div class="card-header border-0 px-1 h-30px" style="min-height: 0px;">
-                                <h3 class="card-title pl-2">
-                                    <div class="form-group">
-                                        <label for="img-cb-{{ img.pk }}">
-                                            <input data-id="{{ img.pk }}"
-                                                   name="img-cb-{{ img.pk }}"
-                                                   class="img-cb" type="checkbox"
-                                                   {% if img.impression %}checked{% endif %}/>
-                                            <i class="la la-print"></i>
-                                        </label>
-                                    </div>
-                                </h3>
+                            
                                 <div class="card-toolbar">
                                     <div class="dropdown dropdown-inline" data-toggle="tooltip"
                                          title="{% trans 'Actions' %}" data-placement="left">

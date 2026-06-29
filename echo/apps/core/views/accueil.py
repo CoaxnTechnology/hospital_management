@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.core.cache import cache
 from django.db.models import Q, F
 from django.http import JsonResponse
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView, View
 from django.core import serializers
 
@@ -38,11 +39,11 @@ class Accueil(PermissionRequiredMixin, TemplateView):
 
         if 'msg' in self.request.GET:
             if self.request.GET['msg'] == 'admission_succes':
-                context['msg'] = 'Patient admis avec succès'
+                context['msg'] = _('Patient admis avec succès')
             if self.request.GET['msg'] == 'consultation_terminee_succes':
-                context['msg'] = 'Consultation terminée avec succès'
+                context['msg'] = _('Consultation terminée avec succès')
             if self.request.GET['msg'] == 'consultation_demarree_succes':
-                context['msg'] = 'Consultation démarrée avec succès'
+                context['msg'] = _('Consultation démarrée avec succès')
 
         if self.request.GET.get('error') == 'exam_en_cours':
             nom = self.request.GET.get('nom', '')

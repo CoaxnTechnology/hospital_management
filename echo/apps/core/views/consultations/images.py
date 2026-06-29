@@ -112,8 +112,7 @@ def consultation_images(request, pk):
     consult = get_object_or_404(Consultation, pk=pk)
     if consult.date:
         images_qs = ImageConsultation.objects.filter(
-            consultation__patient=consult.patient,
-            date__date=consult.date.date()
+            consultation=consult
         )
     else:
         images_qs = ImageConsultation.objects.none()

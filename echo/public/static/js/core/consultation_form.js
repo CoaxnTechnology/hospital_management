@@ -540,6 +540,9 @@ function checkReceptionDonnees() {
 
             if (typeof consultationSR !== 'undefined' && _.isEqual(consultationSR, data)){
                 console.log('No new data received');
+            } else if (typeof consultationSR === 'undefined') {
+                consultationSR = data;
+                updateSR(data);
             } else {
                 toastr.success("Nouvelles mesures reçue de l'échographe");
                 consultationSR = data;
@@ -896,7 +899,7 @@ function imprimerGraphiquesSelectionnes() {
 
 $(document).ready(function () {
 
-    if (doublon_url != null)  {
+    if (false)  {
         const _sm = (typeof SWAL_MESSAGES !== 'undefined') ? SWAL_MESSAGES : {};
         swal.fire({
             title: _sm.message_important || "Message important",

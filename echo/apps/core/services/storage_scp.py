@@ -3,6 +3,7 @@ import logging as _logging
 import os
 import pdb
 import random
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from dataclasses import dataclass
 from typing import Callable, Dict, List, Optional, Union, cast
@@ -78,10 +79,11 @@ class ServiceClassProvider:
             cx.transfer_syntax = ALL_TRANSFER_SYNTAXES
 
         self.ae.add_supported_context(sop_class.VerificationSOPClass, ALL_TRANSFER_SYNTAXES)
-            # print(abstract_syntax.abstract_syntax)
 
         # self.ae.require_calling_aet = ["MODALITY"]
         self.ae.require_calling_aet = []  # Leave blank to accept all caller AEs
+
+        self.executor = ThreadPoolExecutor(max_workers=2)
 
     # Implement a handler for evt.EVT_C_ECHO
     def handle_echo(self, event: Event) -> int:
@@ -90,6 +92,65 @@ class ServiceClassProvider:
         logger.info(f"C-ECHO received from {calling}")
         return 0x0000
 
+    def _process_sr(self, ds, studyId, called_aet, calling_aet):
+        try:
+            result = parse_ds(ds)
+            logger.info(f"Parsed SR data: {result}")
+            if result:
+                patient_name = str(ds.get('PatientName', ''))
+                post_data = {
+                    'study_uid': studyId,
+                    'data': json.dumps(_sanitize(result)),
+                    'called_aet': called_aet,
+                    'calling_aet': calling_aet,
+                    'patient_name': patient_name,
+                }
+                for attempt in range(3):
+                    try:
+                        response = requests.post(f'{web_url}:{web_port}/worklists/sr/', data=post_data, timeout=10)
+                        logger.info(f"SR POST to /worklists/sr/ status={response.status_code}")
+                        if response.status_code == 200:
+                            break
+                    except requests.RequestException as e:
+                        logger.warning(f"SR POST attempt {attempt + 1} failed: {e}")
+                        if attempt < 2:
+                            __import__('time').sleep(1)
+                    else:
+                        if attempt < 2:
+                            logger.warning(f"SR POST attempt {attempt + 1} returned {response.status_code}, retrying...")
+                            __import__('time').sleep(1)
+        except Exception as e:
+            logger.error(f"Failed to process SR: {e}", exc_info=True)
+
+    def _process_image(self, ds, studyId, outfile, filename, called_aet, calling_aet):
+        out_img_file = outfile + '.jpg'
+        try:
+            ds_to_jpeg(ds, out_img_file)
+            patient_name = str(ds.get('PatientName', ''))
+            post_data = {
+                'study_uid': studyId,
+                'path': os.path.abspath(out_img_file),
+                'called_aet': called_aet,
+                'calling_aet': calling_aet,
+                'patient_name': patient_name,
+            }
+            requests.post(f'{web_url}:{web_port}/worklists/image/', data=post_data, timeout=30)
+        except Exception as e:
+            logger.error(f"Failed to save image for study {studyId}: {e}")
+            try:
+                if os.path.exists(out_img_file):
+                    os.remove(out_img_file)
+            except OSError:
+                pass
+
+    def _process_waveform(self, ds, studyId, called_aet):
+        try:
+            waveform_data = save_waveform(ds, studyId, called_aet)
+            if waveform_data:
+                logger.info(f'Waveform saved: {waveform_data}')
+        except Exception as e:
+            logger.error(f'Failed to save waveform: {e}')
+
     def handle_c_store(self, event: Event) -> int:
         try:
             ds = event.dataset
@@ -97,6 +158,15 @@ class ServiceClassProvider:
 
             called_aet = cast(str, event.assoc.acceptor.ae_title.strip()) if hasattr(event.assoc, 'acceptor') else ''
             calling_aet = cast(str, event.assoc.requestor.ae_title.strip())
+
+            # Reject images from unregistered devices
+            try:
+                from apps.core.models import Device
+                if not Device.objects.filter(ae_title=calling_aet).exists():
+                    logger.warning(f"Rejected C-STORE from unregistered device AE={calling_aet}")
+                    return 0xC000
+            except Exception as e:
+                logger.error(f"Device lookup failed for AE={calling_aet}: {e}")
             metadata: Dict[str, Optional[ParsedElementValue]] = {
                 "CallingAET": cast(str, event.assoc.requestor.ae_title.strip()),
                 "CalledAET": called_aet,
@@ -109,62 +179,11 @@ class ServiceClassProvider:
             log_message_meta = " - ".join([f"{k}={v}" for k, v in metadata.items() if v])
             logger.info(f"Processed C-STORE {log_message_meta}")
 
-            print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
             studyId = ds.StudyInstanceUID
-            print('Study Instance UID', studyId)
+            logger.info(f'Study Instance UID: {studyId}')
 
             is_sr = ds.Modality == 'SR' or sop_class_uid.startswith('1.2.840.10008.5.1.4.1.1.88')
             logger.info(f"SR detection: sop_class_uid={sop_class_uid} modality={ds.get('Modality','')} is_sr={is_sr}")
-
-            if is_sr:
-                logger.info(f"SR received: StudyInstanceUID={studyId}, PatientName={str(ds.get('PatientName', ''))}, SOPClassUID={sop_class_uid}")
-                try:
-                    result = parse_ds(ds)
-                    logger.info(f"Parsed SR data: {result}")
-                    if result:
-                        has_doppler = bool(result.get('doppler_uterin')) or any(
-                            f.get('doppler_ombilical') or f.get('doppler_acm') or f.get('doppler_dv')
-                            for f in result.get('foetus', [])
-                        )
-                        logger.info(f"SR doppler check: uterine={bool(result.get('doppler_uterin'))}, "
-                                    f"any_fetal_doppler={has_doppler}, "
-                                    f"num_foetus={len(result.get('foetus', []))}")
-                        patient_name = str(ds.get('PatientName', ''))
-                        post_data = {
-                            'study_uid': studyId,
-                            'data': json.dumps(_sanitize(result)),
-                            'called_aet': called_aet,
-                            'calling_aet': calling_aet,
-                            'patient_name': patient_name,
-                        }
-                        for attempt in range(3):
-                            try:
-                                response = requests.post(f'{web_url}:{web_port}/worklists/sr/', data=post_data, timeout=10)
-                                logger.info(f"SR POST to /worklists/sr/ status={response.status_code}")
-                                if response.status_code == 200:
-                                    break
-                            except requests.RequestException as e:
-                                logger.warning(f"SR POST attempt {attempt + 1} failed: {e}")
-                                if attempt < 2:
-                                    __import__('time').sleep(1)
-                            else:
-                                if attempt < 2:
-                                    logger.warning(f"SR POST attempt {attempt + 1} returned {response.status_code}, retrying...")
-                                    __import__('time').sleep(1)
-                except Exception as e:
-                    logger.error(f"Failed to process SR: {e}", exc_info=True)
-
-            elif ds.Modality in ['WF', 'OT'] or hasattr(ds, 'WaveformSequence'):
-                print(f'Waveform received: {ds.Modality}')
-                try:
-                    waveform_data = save_waveform(ds, studyId, called_aet)
-                    if waveform_data:
-                        print(f'Waveform saved: {waveform_data}')
-                except Exception as e:
-                    logger.error(f'Failed to save waveform: {e}')
-
-            else:
-                print('Image received')
 
             outfile = f'./data/studies/{studyId}/'
             if not os.path.exists(outfile):
@@ -177,27 +196,23 @@ class ServiceClassProvider:
             else:
                 outfile += 'img_'
                 outfile += filename
-                out_img_file = outfile + '.jpg'
-                try:
-                    ds_to_jpeg(ds, out_img_file)
-                    patient_name = str(ds.get('PatientName', ''))
-                    post_data = {
-                        'study_uid': studyId,
-                        'path': os.path.abspath(out_img_file),
-                        'called_aet': called_aet,
-                        'calling_aet': calling_aet,
-                        'patient_name': patient_name,
-                    }
-                    response = requests.post(f'{web_url}:{web_port}/worklists/image/', data=post_data)
-                except Exception as e:
-                    logger.error(f"Failed to save image for study {studyId}: {e}")
 
+            # Write raw DICOM file synchronously (fast I/O)
+            dcm_path = outfile + '.dcm'
             if archive_dicom_files:
-                with open(outfile + '.dcm', 'wb') as f:
+                with open(dcm_path, 'wb') as f:
                     f.write(b'\x00' * 128)
                     f.write(b'DICM')
                     write_file_meta_info(f, event.file_meta)
                     f.write(event.request.DataSet.getvalue())
+
+            # Offload CPU-intensive processing to thread pool
+            if is_sr:
+                self.executor.submit(self._process_sr, ds, studyId, called_aet, calling_aet)
+            elif ds.Modality in ['WF', 'OT'] or hasattr(ds, 'WaveformSequence'):
+                self.executor.submit(self._process_waveform, ds, studyId, called_aet)
+            else:
+                self.executor.submit(self._process_image, ds, studyId, outfile, filename, called_aet, calling_aet)
 
             return 0x0000
 

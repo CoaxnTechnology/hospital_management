@@ -6838,6 +6838,18 @@ msgstr "Patient added to waiting room"
 msgid "Erreur de connexion"
 msgstr "Connection error"
 
+#: apps/core/views/accueil.py:41
+msgid "Patient admis avec succès"
+msgstr "Patient admitted successfully"
+
+#: apps/core/views/accueil.py:43
+msgid "Consultation terminée avec succès"
+msgstr "Consultation completed successfully"
+
+#: apps/core/views/accueil.py:45
+msgid "Consultation démarrée avec succès"
+msgstr "Consultation started successfully"
+
 #~ msgid "Conjoint"
 #~ msgstr "Spouse"
 

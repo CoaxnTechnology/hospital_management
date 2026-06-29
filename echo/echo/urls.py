@@ -977,7 +977,7 @@ urlpatterns = [
         name="consultation_afficher",
     ),
     path(
-        "consultation/<int:pk>/rapport",
+        "consultation/<int:pk>/rapport/",
         rapports.ConsultationRapportView.as_view(),
         name="consultation_rapport",
     ),

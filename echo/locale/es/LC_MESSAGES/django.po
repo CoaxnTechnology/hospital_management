@@ -7493,6 +7493,18 @@ msgstr "Désignation Mutuelle"
 msgid "Calendrier de grossesse"
 msgstr "Calendrier de grossesse"
 
+#: apps/core/views/accueil.py:41
+msgid "Patient admis avec succès"
+msgstr "Paciente admitido con éxito"
+
+#: apps/core/views/accueil.py:43
+msgid "Consultation terminée avec succès"
+msgstr "Consulta terminada con éxito"
+
+#: apps/core/views/accueil.py:45
+msgid "Consultation démarrée avec succès"
+msgstr "Consulta iniciada con éxito"
+
 #~ msgid "Demande d'accès"
 #~ msgstr "Solicitud de acceso"
 

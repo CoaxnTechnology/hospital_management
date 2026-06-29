@@ -66,7 +66,7 @@ def rechercher_worklists(request):
         except Exception as e:
             print(f'Error filtering by device AE title: {e}')
 
-    items = items.filter(mpps_status__in=[WorklistItem.MPPS_STATUS_PENDING, WorklistItem.MPPS_STATUS_INPROGRESS])
+    items = items.filter(mpps_status__in=[WorklistItem.MPPS_STATUS_PENDING, WorklistItem.MPPS_STATUS_INPROGRESS]).distinct()
     print('Items found', items)
     data = WorklistItemSerializer(items, many=True)
     resp = {
@@ -136,33 +136,6 @@ def ajouter_image(request):
             if item:
                 consultation = item.consultation
                 print(f'Found consultation {item.consultation.id} by WorklistItem for device={calling_aet}')
-
-    if consultation is None and 'patient_name' in request.POST:
-        patient_name = request.POST['patient_name']
-        parts = patient_name.split('^')
-        if len(parts) >= 2 and parts[0] and parts[1]:
-            last_name = parts[0]
-            first_name = parts[1]
-            today = datetime.datetime.now().date()
-            from apps.core.models import Consultation as ConsultationModel
-            match = ConsultationModel.objects.filter(
-                patient__nom__iexact=last_name,
-                patient__prenom__iexact=first_name,
-                date__date=today,
-            ).order_by('-id').first()
-            if match:
-                consultation = match
-                print(f'Found consultation by patient name: {match.id}')
-
-    if consultation is None:
-        from apps.core.models import Consultation as ConsultationModel
-        today = datetime.datetime.now().date()
-        active = ConsultationModel.objects.filter(
-            date__date=today,
-        ).order_by('-id').first()
-        if active:
-            consultation = active
-            print(f'Found consultation by active admission fallback: {active.id}')
 
     if consultation is None:
         return JsonResponse({'message': 'No matching consultation found'}, status=404)
@@ -539,15 +512,17 @@ def demarrer_examen(request, patient_pk):
             return JsonResponse({'status': 'error', 'message': 'Aucun dispositif DICOM configuré'}, status=400)
 
         WorklistItem.objects.filter(
-            device__compte=compte,
+            consultation__patient=patient,
             mpps_status__in=[WorklistItem.MPPS_STATUS_PENDING, WorklistItem.MPPS_STATUS_INPROGRESS]
         ).exclude(consultation=consultation).update(mpps_status=WorklistItem.MPPS_STATUS_DISCONTINUED)
 
-        WorklistItem.objects.create(
+        WorklistItem.objects.update_or_create(
             consultation=consultation,
-            study_instance_uid=generate_uid(),
-            mpps_status=WorklistItem.MPPS_STATUS_PENDING,
-            device=device,
+            defaults={
+                'study_instance_uid': generate_uid(),
+                'mpps_status': WorklistItem.MPPS_STATUS_PENDING,
+                'device': device,
+            },
         )
 
         return JsonResponse({'status': 'success', 'redirect': f'/consultation/{consultation.pk}/rapport/'})

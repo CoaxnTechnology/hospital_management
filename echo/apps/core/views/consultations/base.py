@@ -220,10 +220,8 @@ class ConsultationUpdateBase(UpdateView):
         patients.charger_info_panel_context(self.request, context, patient)
         cons = self.object
         if cons.date:
-            cons_date = cons.date.date()
             date_images_qs = models.ImageConsultation.objects.filter(
-                consultation__patient=patient,
-                date__date=cons_date
+                consultation=cons
             )
             default_device = self.request.user.profil.default_device
             if default_device:
@@ -236,12 +234,10 @@ class ConsultationUpdateBase(UpdateView):
             context['consultation_date_images'] = date_images_qs.filter(type=models.ImageConsultation.IMG_ECHO).order_by('-date')
             context['consultation_date_graphs'] = date_images_qs.filter(type=models.ImageConsultation.IMG_GRAPH).order_by('-date')
             context['date_waveforms'] = models.WaveformConsultation.objects.filter(
-                consultation__patient=patient,
-                created_at__date=cons_date
+                consultation=cons
             )
             date_sr_qs = models.SRConsultation.objects.filter(
-                consultation__patient=patient,
-                date__date=cons_date
+                consultation=cons
             )
             last_sr = date_sr_qs.last()
             if last_sr:

@@ -3411,7 +3411,7 @@ class WorklistItem(models.Model):
         (MPPS_STATUS_COMPLETED, "completed"),
         (MPPS_STATUS_DISCONTINUED, "discontinued"),
     ]
-    consultation = models.ForeignKey(Consultation, on_delete=models.CASCADE)
+    consultation = models.ForeignKey(Consultation, unique=True, on_delete=models.CASCADE)
     device = models.ForeignKey(Device, on_delete=models.SET_NULL, blank=True, null=True)
     study_instance_uid = models.CharField(max_length=256)
     requested_procedure_description = models.CharField(

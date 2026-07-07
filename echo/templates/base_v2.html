@@ -879,7 +879,7 @@
             const APP_VERSION = '{{ APP_VERSION }}';
             const hostUrl = "{% static "v2/" %}";
             const base_ws_server_path = "{{ request.ws_server_path }}";
-            window.user = {{ request.user.profil.pk|stringformat:"d" }};
+            window.user = {% if request.user.profil %}{{ request.user.profil.pk }}{% else %}0{% endif %};
         </script>
 
 		<!--begin::Global Javascript Bundle(mandatory for all pages)-->
@@ -1132,7 +1132,7 @@
             let nom_utilisateur = '';
             {% if user and user.profil %}nom_utilisateur='{{ user.get_full_name }}'{% endif %}
 
-            const parametresCompte = {{ PARAMETRES_COMPTE|safe }};
+            const parametresCompte = {% if PARAMETRES_COMPTE %}{{ PARAMETRES_COMPTE|safe }}{% else %}{}{% endif %};
 
         </script>
         <!--end::Page Scripts-->

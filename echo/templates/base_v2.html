@@ -879,7 +879,7 @@
             const APP_VERSION = '{{ APP_VERSION }}';
             const hostUrl = "{% static "v2/" %}";
             const base_ws_server_path = "{{ request.ws_server_path }}";
-            const user = {{ request.user.profil.pk|stringformat:"d" }};
+            window.user = {{ request.user.profil.pk|stringformat:"d" }};
         </script>
 
 		<!--begin::Global Javascript Bundle(mandatory for all pages)-->

@@ -44,6 +44,19 @@ class Accueil(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
         try:
             compte = self.request.user.profil.compte
         except:
+            context['rdvs_json'] = '[]'
+            context['rdvs_jour_today'] = '[]'
+            context['admissions_json'] = '[]'
+            context['en_exam_count'] = 0
+            context['terminated_admissions_json'] = '[]'
+            context['consultations_json'] = '[]'
+            context['motifs_consultation_json'] = '[]'
+            context['praticiens'] = []
+            context['praticiens_json'] = '[]'
+            context['motifs_rdv'] = []
+            context['motifs_rdv_json'] = '[]'
+            context['devices_json'] = '[]'
+            context['date'] = date.today()
             return context
 
         if 'msg' in self.request.GET:
@@ -139,11 +152,15 @@ class Accueil(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
 
 class AdmissionsAujourdhuiJson(LoginRequiredMixin, View):
     def get(self, request):
+        try:
+            compte = request.user.profil.compte
+        except:
+            return JsonResponse({'admissions': []})
         today = date.today()
         jour_min = datetime.now().replace(hour=0, minute=0)
         jour_max = datetime.now().replace(hour=23, minute=59)
         admissions = Admission.objects.filter(date__gte=jour_min, date__lte=jour_max,
-                                              patient__compte=request.user.profil.compte) \
+                                              patient__compte=compte) \
                                       .order_by('ordre') \
                                       .select_related('patient__adresse')
         data = AdmissionSerializer(admissions, many=True).data

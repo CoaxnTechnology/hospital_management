@@ -3,7 +3,7 @@ import json
 
 from dateutil.parser import *
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core import serializers
 from django.db.models import Max, Q
 from django.http import HttpResponseNotFound, JsonResponse
@@ -24,21 +24,24 @@ from apps.core.serializers import PatientSerializer, DateTimeEncoder, PraticienS
 from apps.core.services.rdvs import *
 
 
-class RdvList(PermissionRequiredMixin, View):
+class RdvList(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = 'core.view_rdv'
     template_name = 'core/rdv_calendrier.html'
 
     def get(self, request):
-        # , debut__gte=dt.date.today()) \
-        qs = Rdv.objects.filter(compte=self.request.user.profil.compte) \
+        try:
+            compte = request.user.profil.compte
+        except:
+            return render(request, self.template_name)
+        qs = Rdv.objects.filter(compte=compte) \
             .select_related('compte') \
             .select_related('motif') \
             .select_related('patient') \
             .prefetch_related('praticien') \
             .prefetch_related('praticien__user')
         data = serializers.serialize('json', list(qs), use_natural_foreign_keys=True)
-        absence = AbsenceMedecin.objects.filter(praticien__compte=self.request.user.profil.compte)
-        programme_operatoires = ProgrammeOperatoire.objects.filter(compte=self.request.user.profil.compte) \
+        absence = AbsenceMedecin.objects.filter(praticien__compte=compte)
+        programme_operatoires = ProgrammeOperatoire.objects.filter(compte=compte) \
             .select_related('patient') \
             .select_related('lieu_accouchement')
 
@@ -46,7 +49,7 @@ class RdvList(PermissionRequiredMixin, View):
         data_programme = json.dumps(
             ProgrammeOperatoireSerializer(programme_operatoires, many=True).data)
 
-        devices = Device.objects.filter(compte=self.request.user.profil.compte)
+        devices = Device.objects.filter(compte=compte)
         context = {
             'object_list': data,
             'absence_list': data_absence,

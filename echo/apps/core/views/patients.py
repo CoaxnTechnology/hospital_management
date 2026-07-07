@@ -1134,7 +1134,11 @@ def supprimer_alerte(request, pk):
 @login_required
 @permission_required('core.view_patient', raise_exception=True)
 def rechercher_patient(request):
-    objects = Patient.objects.filter(compte=request.user.profil.compte)
+    try:
+        compte = request.user.profil.compte
+    except:
+        return JsonResponse({'draw': 0, 'recordsTotal': 0, 'recordsFiltered': 0, 'data': []})
+    objects = Patient.objects.filter(compte=compte)
     total = objects.count()
 
     if request.body is not None:

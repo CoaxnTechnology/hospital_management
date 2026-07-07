@@ -1131,6 +1131,7 @@ def supprimer_alerte(request, pk):
     return JsonResponse(data, safe=False)
 
 
+@login_required
 @permission_required('core.view_patient', raise_exception=True)
 def rechercher_patient(request):
     objects = Patient.objects.filter(compte=request.user.profil.compte)

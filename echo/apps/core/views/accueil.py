@@ -18,9 +18,13 @@ from apps.core.serializers import AdmissionSerializer, ConsultationSerializer, R
 # Todo transférer comme signal ou dans le module patients
 def reinitialiser_ordre_passage(request):
     today = date.today()
+    try:
+        compte = request.user.profil.compte
+    except:
+        return
     admissions = Admission.objects.filter(date__day=today.day, date__month=today.month, date__year=today.year,
                                           statut='1',
-                                          patient__compte=request.user.profil.compte).order_by('ordre')
+                                          patient__compte=compte).order_by('ordre')
     count = 1
     for adm in admissions:
         # print('Admission {} ordre {}'.format(adm.patient, adm.ordre))
@@ -29,7 +33,7 @@ def reinitialiser_ordre_passage(request):
         count = count + 1
 
 
-class Accueil(PermissionRequiredMixin, TemplateView):
+class Accueil(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     template_name = 'core/accueil_v2.html'
     permission_required = 'core.view_rdv'
 

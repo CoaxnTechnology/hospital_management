@@ -13,7 +13,11 @@ from apps.core.serializers import ProfilSerializer
 
 @login_required
 def liste_utilisateurs(request):
-    profils = Profil.objects.filter(compte=request.user.profil.compte).order_by('-user__last_name')
+    try:
+        compte = request.user.profil.compte
+    except:
+        return JsonResponse({'users': []})
+    profils = Profil.objects.filter(compte=compte).order_by('-user__last_name')
     profils_json = ProfilSerializer(profils, many=True)
     data = {'users': profils_json.data}
     return JsonResponse(data)

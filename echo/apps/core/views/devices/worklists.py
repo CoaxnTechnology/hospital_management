@@ -521,7 +521,7 @@ def demarrer_examen(request, patient_pk):
             defaults={
                 'study_instance_uid': generate_uid(),
                 'mpps_status': WorklistItem.MPPS_STATUS_PENDING,
-                'device': device,
+                'device': None,
             },
         )
 

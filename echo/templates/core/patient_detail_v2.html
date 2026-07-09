@@ -1621,27 +1621,28 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
+                        {% load widget_tweaks %}
                         {% if consultation_tabs_form.echo_t3 and consultation_type == 'troisieme_trimestre' %}
                         <div class="col-12 form-group mb-4">
                             <label class="fw-bold mb-2">{{ consultation_tabs_form.echo_t3.label }}</label>
-                            {{ consultation_tabs_form.echo_t3 }}
+                            {% render_field consultation_tabs_form.echo_t3 class+="form-control form-control-solid form-control-sm h-100px" %}
                         </div>
                         {% endif %}
                         {% if consultation_tabs_form.echo_morpho %}
                             {% if consultation_type == 'deuxieme_trimestre' or consultation_type == 'troisieme_trimestre' %}
                         <div class="col-12 form-group mb-4">
                             <label class="fw-bold mb-2">{{ consultation_tabs_form.echo_morpho.label }}</label>
-                            {{ consultation_tabs_form.echo_morpho }}
+                            {% render_field consultation_tabs_form.echo_morpho class+="form-control form-control-solid form-control-sm h-100px" %}
                         </div>
                             {% endif %}
                         {% endif %}
                         <div class="col-12 form-group mb-4">
                             <label class="fw-bold mb-2">{{ consultation_tabs_form.conclusion.label }}</label>
-                            {{ consultation_tabs_form.conclusion }}
+                            {% render_field consultation_tabs_form.conclusion class+="form-control form-control-solid form-control-sm h-100px" %}
                         </div>
                         <div class="col-12 form-group mb-4">
                             <label class="fw-bold mb-2">{{ consultation_tabs_form.conduite.label }}</label>
-                            {{ consultation_tabs_form.conduite }}
+                            {% render_field consultation_tabs_form.conduite class+="form-control form-control-solid form-control-sm h-100px" %}
                         </div>
                     </div>
                 </div>

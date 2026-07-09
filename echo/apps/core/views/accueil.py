@@ -137,8 +137,15 @@ class Accueil(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
         context['motifs_consultation_json'] = motifs_consultation_json
 
         praticiens = Medecin.objects.filter(compte=compte)
-        context['praticiens'] = praticiens
-        context['praticiens_json'] = json.dumps(MedecinSerializer(praticiens, many=True).data)
+        seen = set()
+        unique_praticiens = []
+        for p in praticiens:
+            key = p.nom
+            if key not in seen:
+                seen.add(key)
+                unique_praticiens.append(p)
+        context['praticiens'] = unique_praticiens
+        context['praticiens_json'] = json.dumps(MedecinSerializer(unique_praticiens, many=True).data)
 
         motifs_rdvs = MotifRdv.objects.all()
         context['motifs_rdv'] = motifs_rdvs

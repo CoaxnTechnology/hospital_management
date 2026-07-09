@@ -171,43 +171,37 @@
                                     <span class="menu-text">{% trans "Patients" %}</span>
                                 </a>
                             </li>
+                        {% if user.profil.groupe != 'Secrétaire' %}
                             <li class="menu-item {% if "/rapports" in request.path %}menu-item-active{% endif %}"
                                 aria-haspopup="true">
-                                {% if user.profil.responsable %}
-                                    <a href="/rapports/consultation/" class="menu-link">
-                                        <i class="menu-icon la la-bar-chart"></i>
-                                        <span class="menu-text">{% trans "Rapports" %}</span>
-                                    </a>
-                                {% endif %}
+                                     <a href="/rapports/consultation/" class="menu-link">
+                                         <i class="menu-icon la la-bar-chart"></i>
+                                         <span class="menu-text">{% trans "Rapports" %}</span>
+                                     </a>
+                             </li>
+                         <li class="menu-item {% if "/mutuelle" in request.path %}menu-item-active{% endif %}"
+                                 aria-haspopup="true">
+                                     <a href="/mutuelle" class="menu-link">
+                                         <i class="menu-icon la la-bar-chart"></i>
+                                         <span class="menu-text">{% trans "Mutuelle" %}</span>
+                                     </a>
+                             </li>
+                             <li class="menu-item {% if "/utilisateurs" in request.path %}menu-item-active{% endif %}"
+                                 aria-haspopup="true">
+                                     <a href="/utilisateurs" class="menu-link">
+                                         <i class="menu-icon flaticon-users"></i>
+                                         <span class="menu-text">{% trans "Utilisateurs" %}</span>
+                                     </a>
+                             </li>
+                             <li class="menu-item {% if "/parametres" in request.path %}menu-item-active{% endif %}"
+                                 aria-haspopup="true">
+                                     <a href="/parametres/{{ user.profil.compte.parametrescompte.id }}"
+                                        class="menu-link">
+                                         <i class="menu-icon flaticon-settings"></i>
+                                         <span class="menu-text">{% trans "Paramètres" %}</span>
+                                     </a>
                             </li>
-                        <li class="menu-item {% if "/mutuelle" in request.path %}menu-item-active{% endif %}"
-                                aria-haspopup="true">
-                                {% if user.profil.responsable %}
-                                    <a href="/mutuelle" class="menu-link">
-                                        <i class="menu-icon la la-bar-chart"></i>
-                                        <span class="menu-text">{% trans "Mutuelle" %}</span>
-                                    </a>
-                                {% endif %}
-                            </li>
-                            <li class="menu-item {% if "/utilisateurs" in request.path %}menu-item-active{% endif %}"
-                                aria-haspopup="true">
-                                {% if user.profil.responsable %}
-                                    <a href="/utilisateurs" class="menu-link">
-                                        <i class="menu-icon flaticon-users"></i>
-                                        <span class="menu-text">{% trans "Utilisateurs" %}</span>
-                                    </a>
-                                {% endif %}
-                            </li>
-                            <li class="menu-item {% if "/parametres" in request.path %}menu-item-active{% endif %}"
-                                aria-haspopup="true">
-                                {% if user.profil.responsable %}
-                                    <a href="/parametres/{{ user.profil.compte.parametrescompte.id }}"
-                                       class="menu-link">
-                                        <i class="menu-icon flaticon-settings"></i>
-                                        <span class="menu-text">{% trans "Paramètres" %}</span>
-                                    </a>
-                                {% endif %}
-                            </li>
+                        {% endif %}
 
 
                         </ul>

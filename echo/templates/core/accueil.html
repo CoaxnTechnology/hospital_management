@@ -46,15 +46,21 @@
                         <div class="">
                             <h2 class="pt-2 m-0 ml-4">
                                 <div class="form-group">
-                                    <select class="form-control" id="praticien">
-                                        <option value="-1">{% trans "Tous les praticiens" %}</option>
-                                        {% for p in praticiens %}
-                                            <option value="{{ p.id }}"
-                                                    {% if user.profil.groupe == 'Médecin' and user.profil.id == p.id %}selected{% endif %}>
-                                                {{ p.nom }}
-                                            </option>
-                                        {% endfor %}
-                                    </select>
+                                    {% if user.profil.groupe == 'Médecin' %}
+                                        <span class="form-control border-0 bg-transparent fw-bold" id="praticien">
+                                            {{ user.get_full_name|default:user.username }}
+                                        </span>
+                                    {% else %}
+                                        <select class="form-control" id="praticien">
+                                            <option value="-1">{% trans "Tous les praticiens" %}</option>
+                                            {% for p in praticiens %}
+                                                <option value="{{ p.id }}"
+                                                        {% if user.profil.groupe == 'Médecin' and user.profil.id == p.id %}selected{% endif %}>
+                                                    {{ p.nom }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    {% endif %}
                                 </div>
                             </h2>
                         </div>

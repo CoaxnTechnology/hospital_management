@@ -32,6 +32,8 @@ logger.info("-------------------------------------------------------------------
 
 archive_dicom_files = True
 
+_study_images = {}
+
 web_url = os.environ.get('EE_URL', 'http://localhost')
 web_port = os.environ.get('EE_HTTP_PORT', '8000')
 
@@ -61,16 +63,38 @@ class ServiceClassProvider:
     # Implement a handler for evt.EVT_C_ECHO
     def handle_echo(self, event: Event) -> int:
         """Handle a C-ECHO request event."""
-        print('AE', event.assoc.requestor.ae_title.strip().decode('UTF-8'))
+        logger.info(f"C-ECHO from {event.assoc.requestor.ae_title.strip().decode('UTF-8')}")
+        return 0x0000
+
+    def handle_established(self, event: Event) -> int:
+        """Log all negotiated presentation contexts on association."""
+        try:
+            assoc = event.assoc
+            calling = assoc.requestor.ae_title.strip().decode('UTF-8')
+            called = assoc.acceptor.ae_title.strip().decode('UTF-8') if hasattr(assoc, 'acceptor') else ''
+            contexts = []
+            for cx in assoc.negotiated:
+                sop = cx.abstract_syntax
+                ts = cx.transfer_syntax
+                contexts.append(f"cx_id={cx.context_id} sop={sop} ts={ts}")
+            logger.info(f"=== ASSOCIATION ESTABLISHED === calling={calling} called={called}")
+            for c in contexts:
+                logger.info(f"  Accepted context: {c}")
+            has_sr = any('1.2.840.10008.5.1.4.1.1.88' in cx.abstract_syntax for cx in assoc.negotiated)
+            if has_sr:
+                logger.info(f"*** DEVICE {calling} NEGOTIATED SR CONTEXT ***")
+        except Exception as e:
+            logger.warning(f"Failed to log association details: {e}")
         return 0x0000
 
     def handle_c_store(self, event: Event) -> int:
         ds = event.dataset
         ds.file_meta = event.file_meta
 
-        called_aet = cast(str, event.assoc.acceptor.ae_title.strip()) if hasattr(event.assoc, 'acceptor') else ''
+        called_aet = event.assoc.acceptor.ae_title.strip().decode('UTF-8') if hasattr(event.assoc, 'acceptor') else ''
+        calling_aet = event.assoc.requestor.ae_title.strip().decode('UTF-8')
         metadata: Dict[str, Optional[ParsedElementValue]] = {
-            "CallingAET": cast(str, event.assoc.requestor.ae_title.strip()),
+            "CallingAET": calling_aet,
             "CalledAET": called_aet,
             "SopInstanceUID": safe_get(ds, 0x00080018),
             "StudyInstanceUID": safe_get(ds, 0x0020000D),
@@ -79,43 +103,45 @@ class ServiceClassProvider:
         log_message_meta = " - ".join([f"{k}={v}" for k, v in metadata.items() if v])
         logger.info(f"Processed C-STORE {log_message_meta}")
 
-        print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
         studyId = ds.StudyInstanceUID
-        print('Study Instance UID', studyId)
+        logger.info(f"Study Instance UID: {studyId}")
+
+        patient_name = str(ds.get('PatientName', ''))
 
         if ds.Modality == 'SR':
-            print('Structured report received')
-            # print(ds)
+            if studyId in _study_images:
+                _study_images[studyId]['sr_received'] = True
+                logger.info(f"SR received for study {studyId} (patient={patient_name}) after {len(_study_images[studyId]['images'])} prior images")
+            logger.info(f"=== SR INVESTIGATION === sop_class={safe_get(ds, 0x00080016)} calling_aet={calling_aet} patient={patient_name} study={studyId}")
+            logger.info('Structured report received')
             concept_name_code_sequence = safe_get(ds, 0x0040A043)
-            #print('Concept Name Code Sequence Attribute', concept_name_code_sequence)
             content_template_sequence = safe_get(ds, 0x0040A504)
-            #print('Content Template Sequence', content_template_sequence)
             content_sequence = safe_get(ds, 0x0040A730)
-            #print('Content Sequence', content_sequence)
 
             code_value = concept_name_code_sequence[0].CodeValue
-            #print(code_value)
+            logger.info(f"SR concept code value: {code_value}")
 
             if code_value == '125000':
-                # OB-GYN Ultrasound Procedure Report
-                print('OB-GYN Ultrasound Procedure Report')
+                logger.info('SR type: OB-GYN Ultrasound Procedure Report')
                 result = parse_ds(ds)
-                print(result)
+                logger.info(f"SR parsed result: {result}")
                 post_data = {'study_uid': studyId, 'data': json.dumps(result), 'called_aet': called_aet}
                 response = requests.post(f'{web_url}:{web_port}/worklists/sr/', data=post_data)
             elif code_value == '125100':
-                # Vascular Ultrasound Procedure Report
-                print('Vascular Ultrasound Procedure Report')
+                logger.info('SR type: Vascular Ultrasound Procedure Report')
             elif code_value == '125200':
-                # Adult Echocardiography Procedure Report
-                print('Adult Echocardiography Procedure Report')
+                logger.info('SR type: Adult Echocardiography Procedure Report')
             for item in content_sequence:
                 pass
                 #print(item)
             # pdb.set_trace()
 
         else:
-            print('Image received')
+            logger.info(f"Image received patient='{patient_name}' study={studyId} calling_aet={calling_aet}")
+            if studyId not in _study_images:
+                _study_images[studyId] = {'images': [], 'sr_received': False, 'patient_name': patient_name, 'calling_aet': calling_aet}
+            _study_images[studyId]['images'].append({'time': datetime.now().isoformat()})
+            logger.info('Image received')
 
         outfile = f'./data/studies/{studyId}/'
         if not os.path.exists(outfile):
@@ -156,6 +182,7 @@ class ServiceClassProvider:
         self.handlers = [
             (events.EVT_C_STORE, self.handle_c_store),
             (events.EVT_C_ECHO, self.handle_echo),
+            (events.EVT_ESTABLISHED, self.handle_established),
         ]
         self.ae.start_server(self.address, block=True, evt_handlers=self.handlers)
 

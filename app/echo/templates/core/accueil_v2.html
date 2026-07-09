@@ -376,16 +376,9 @@
     </script>
 
     <script id="actions-consultation-template" type="text/html">
-        <% if (consultationId) { %>
-        <a href="/consultation/<%- consultationId %>/rapport/" class="btn btn-warning btn-icon btn-sm" title="{% trans 'Rapport' %}">
-            <i class="la la-file-text icon-md"></i>
+        <a href="/patients/<%- id %>" class="btn btn-primary btn-icon btn-sm" title="{% trans 'Dossier patient' %}">
+            <i class="la la-eye icon-md"></i>
         </a>
-        <% } %>
-        {% if user.profil.groupe == 'Médecin' %}
-            <a href="/patients/<%- id %>" class="btn btn-primary btn-icon btn-sm" title="{% trans 'Dossier patient' %}">
-                <i class="la la-eye icon-md"></i>
-            </a>
-        {% endif %}
         <button type="button"
                 onclick="afficherTelechargerFichierModal(<%- id %>)"
                 class="btn btn-info btn-icon btn-sm" title="{% trans 'Télécharger fichier' %}">
@@ -516,7 +509,10 @@
         let motifs_rdvs = {{ motifs_rdv_json|safe }};
 
         let consultations = {{ consultations_json|safe }};
-        consultations = _.filter(consultations, c => moment(c.date).isSame(moment(), 'day'));
+        consultations = _.filter(consultations || [], c => {
+            if (!c || !c.date) return false;
+            return moment(c.date).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD');
+        });
         console.log('Consultations', consultations);
 
         let praticiens = {{ praticiens_json|safe }};

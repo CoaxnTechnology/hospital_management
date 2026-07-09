@@ -492,13 +492,18 @@ class PatientView(PermissionRequiredMixin, DetailView):
                     date__month=today.month,
                     date__year=today.year,
                 ).order_by('-id').first()
-                if not consultation:
+                praticien = getattr(request.user, 'medecin', None) or Medecin.objects.filter(compte=compte).first()
+                if consultation:
+                    if not consultation.praticien:
+                        consultation.praticien = praticien
+                        consultation.save(update_fields=['praticien'])
+                else:
                     motif = MotifConsultation.objects.first()
                     consultation = Consultation.objects.create(
                         patient=patient,
                         motif=motif,
                         date=timezone.now(),
-                        praticien=getattr(request.user, 'medecin', None) or Medecin.objects.filter(compte=compte).first(),
+                        praticien=praticien,
                     )
                 return redirect("/accueil?msg=consultation_demarree_succes#liste_en_consultation")
 

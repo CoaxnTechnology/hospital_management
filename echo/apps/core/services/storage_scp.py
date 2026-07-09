@@ -58,6 +58,8 @@ logger.info("-------------------------------------------------------------------
 
 archive_dicom_files = True
 
+_study_images = {}
+
 web_url = os.environ.get('EE_URL', 'http://localhost')
 web_port = os.environ.get('EE_HTTP_PORT', '8001')
 
@@ -92,10 +94,46 @@ class ServiceClassProvider:
         logger.info(f"C-ECHO received from {calling}")
         return 0x0000
 
+    def handle_established(self, event: Event) -> int:
+        """Log all negotiated presentation contexts on association."""
+        try:
+            assoc = event.assoc
+            calling = assoc.requestor.ae_title.strip().decode('UTF-8')
+            called = assoc.acceptor.ae_title.strip().decode('UTF-8') if hasattr(assoc, 'acceptor') else ''
+            contexts = []
+            for cx in assoc.negotiated:
+                sop = cx.abstract_syntax
+                ts = cx.transfer_syntax
+                contexts.append(f"cx_id={cx.context_id} sop={sop} ts={ts}")
+            logger.info(f"=== ASSOCIATION ESTABLISHED === calling={calling} called={called}")
+            for c in contexts:
+                logger.info(f"  Accepted context: {c}")
+            has_sr = any('1.2.840.10008.5.1.4.1.1.88' in cx.abstract_syntax for cx in assoc.negotiated)
+            if has_sr:
+                logger.info(f"*** DEVICE {calling} NEGOTIATED SR CONTEXT ***")
+        except Exception as e:
+            logger.warning(f"Failed to log association details: {e}")
+        return 0x0000
+
     def _process_sr(self, ds, studyId, called_aet, calling_aet):
         try:
+            patient_name = str(ds.get('PatientName', ''))
+            sop_class_uid = str(ds.get('SOPClassUID', ''))
+            concept_name = ''
+            code_value = ''
+            try:
+                cncs = ds.ConceptNameCodeSequence
+                if cncs:
+                    concept_name = str(cncs[0].CodeMeaning)
+                    code_value = str(cncs[0].CodeValue)
+            except Exception:
+                pass
+            logger.info(f"=== SR RECEIVED === patient='{patient_name}' study={studyId} calling_aet={calling_aet} sop_class={sop_class_uid} concept='{concept_name}' code={code_value}")
+            if studyId in _study_images:
+                _study_images[studyId]['sr_received'] = True
+                logger.info(f"SR received for study {studyId} (patient={patient_name}) after {len(_study_images[studyId]['images'])} prior images")
             result = parse_ds(ds)
-            logger.info(f"Parsed SR data: {result}")
+            logger.info(f"Parsed SR data for {patient_name}: {result}")
             if result:
                 patient_name = str(ds.get('PatientName', ''))
                 post_data = {
@@ -125,8 +163,12 @@ class ServiceClassProvider:
     def _process_image(self, ds, studyId, outfile, filename, called_aet, calling_aet):
         out_img_file = outfile + '.jpg'
         try:
-            ds_to_jpeg(ds, out_img_file)
             patient_name = str(ds.get('PatientName', ''))
+            logger.info(f"Image saved patient='{patient_name}' study={studyId} calling_aet={calling_aet}")
+            if studyId not in _study_images:
+                _study_images[studyId] = {'images': [], 'sr_received': False, 'patient_name': patient_name, 'calling_aet': calling_aet}
+            _study_images[studyId]['images'].append({'file': filename, 'time': datetime.now().isoformat()})
+            ds_to_jpeg(ds, out_img_file)
             post_data = {
                 'study_uid': studyId,
                 'path': os.path.abspath(out_img_file),
@@ -156,8 +198,8 @@ class ServiceClassProvider:
             ds = event.dataset
             ds.file_meta = event.file_meta
 
-            called_aet = cast(str, event.assoc.acceptor.ae_title.strip()) if hasattr(event.assoc, 'acceptor') else ''
-            calling_aet = cast(str, event.assoc.requestor.ae_title.strip())
+            called_aet = event.assoc.acceptor.ae_title.strip().decode('UTF-8') if hasattr(event.assoc, 'acceptor') else ''
+            calling_aet = event.assoc.requestor.ae_title.strip().decode('UTF-8')
 
             # Reject images from unregistered devices
             try:
@@ -168,7 +210,7 @@ class ServiceClassProvider:
             except Exception as e:
                 logger.error(f"Device lookup failed for AE={calling_aet}: {e}")
             metadata: Dict[str, Optional[ParsedElementValue]] = {
-                "CallingAET": cast(str, event.assoc.requestor.ae_title.strip()),
+                "CallingAET": calling_aet,
                 "CalledAET": called_aet,
                 "SopInstanceUID": safe_get(ds, 0x00080018),
                 "StudyInstanceUID": safe_get(ds, 0x0020000D),
@@ -184,6 +226,15 @@ class ServiceClassProvider:
 
             is_sr = ds.Modality == 'SR' or sop_class_uid.startswith('1.2.840.10008.5.1.4.1.1.88')
             logger.info(f"SR detection: sop_class_uid={sop_class_uid} modality={ds.get('Modality','')} is_sr={is_sr}")
+            if is_sr:
+                try:
+                    cncs = ds.ConceptNameCodeSequence
+                    concept = str(cncs[0].CodeMeaning) if cncs else 'N/A'
+                    code_val = str(cncs[0].CodeValue) if cncs else 'N/A'
+                except Exception:
+                    concept = 'N/A'
+                    code_val = 'N/A'
+                logger.info(f"=== SR INVESTIGATION === sop_class={sop_class_uid} concept='{concept}' code={code_val} calling_aet={calling_aet} patient={safe_get(ds, 0x00100010)} study={studyId}")
 
             outfile = f'./data/studies/{studyId}/'
             if not os.path.exists(outfile):
@@ -225,6 +276,7 @@ class ServiceClassProvider:
         self.handlers = [
             (events.EVT_C_STORE, self.handle_c_store),
             (events.EVT_C_ECHO, self.handle_echo),
+            (events.EVT_ESTABLISHED, self.handle_established),
         ]
         self.ae.start_server(self.address, block=True, evt_handlers=self.handlers)
 

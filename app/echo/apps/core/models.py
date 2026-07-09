@@ -304,6 +304,16 @@ class MedecinManager(DefaultSelectOrPrefetchManager):
         qs = super(DefaultSelectOrPrefetchManager, self).get_queryset(*args, **kwargs)
         return qs.filter(user__groups__name="Médecin")
 
+    def distinct_by_nom_qs(self, compte):
+        seen = set()
+        pks = []
+        for m in self.filter(compte=compte).select_related('user'):
+            key = m.nom
+            if key not in seen:
+                seen.add(key)
+                pks.append(m.pk)
+        return self.filter(pk__in=pks)
+
 
 class Medecin(Profil):
     objects = MedecinManager(prefetch_related=("user",))

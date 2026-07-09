@@ -67,6 +67,9 @@ def create_doctor_compte(name: str, email: str, specialty: str = '', distributio
         username = f"{base_username}{suffix}"
         suffix += 1
 
+    if email and User.objects.filter(email=email).exists():
+        raise ValueError(f"A user with email '{email}' already exists.")
+
     if hashed_password and is_password_usable(hashed_password):
         user = User.objects.create_user(username=username, email=email, password=None)
         user.password = hashed_password
@@ -107,6 +110,7 @@ def create_doctor_compte(name: str, email: str, specialty: str = '', distributio
         'username': username,
         'ae_title': ae_title,
         'compte_id': compte.pk,
+        'user_id': user.pk,
     }
 
 

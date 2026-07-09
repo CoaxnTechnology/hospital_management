@@ -146,40 +146,40 @@ def parse_ovary(seq, result):
 
 
 def parse_umbilical_artery(seq, result):
-    print('parse_umbilical_artery ===================')
+    _logger.info('parse_umbilical_artery ===================')
     for it in seq:
         cd = it[c_name_code_seq][0][code_val_tag].value
-        print(cd)
+        _logger.info(cd)
 
         foetus = None
         # print(_c)
         if cd == '11951-1':
             # Foetus ID
             id = it[0x0040A160].value
-            print('Foetus ID', id)
+            _logger.info('Foetus ID', id)
             foetus = get_foetus(id, result)
             foetus['arteres'] = {}
-            print(foetus)
+            _logger.info(foetus)
         try:
             c_seq = it[0x0040A300]
             for seq_item in c_seq:
                 units_seq = seq_item[0x004008EA]
                 unit = units_seq[0][code_val_tag].value
-                print('Unit', unit)
+                _logger.info('Unit', unit)
                 value = seq_item[0x0040A30A].value
                 if foetus is not None and cd in codes_concept_label:
                     cpt = codes_concept_label[cd]
                     foetus['arteres'][cpt] = value
         except Exception as e:
-            print(f'parse_umbilical_artery error: {e}')
-    print('===========================================')
+            _logger.info(f'parse_umbilical_artery error: {e}')
+    _logger.info('===========================================')
 
 
 def parse_follicule(seq, result):
     for it in seq:
         cd = it[c_name_code_seq][0][code_val_tag].value
-        print(cd)
-        print('************************')
+        _logger.info(cd)
+        _logger.info('************************')
 
         if cd in ['11829-9', '11840-6', '11857-0', '12164-0', '11830-7', '11841-4', '11858-8', '12165-7']:
             c_seq = it[0x0040A300]
@@ -206,7 +206,7 @@ def parse_doppler_samsung(dataset, result):
                         innercncs = innerds.ConceptNameCodeSequence[0].CodeValue
                         #############################################################################
                         if innercncs == "T-46820":
-                            print('<<<<< Uterine Artery >>>>>>')
+                            _logger.info('<<<<< Uterine Artery >>>>>>')
                             doppler_uterin = {}
                             if 'doppler_uterin' in result:
                                 doppler_uterin = result['doppler_uterin']
@@ -222,7 +222,7 @@ def parse_doppler_samsung(dataset, result):
                                                     laterality = "droit"
                                                 else:
                                                     laterality = "gauche"
-                                                print("Laterality", laterality)
+                                                _logger.info("Laterality", laterality)
                                         else:
                                             # print(_cv)
                                             if "ConceptNameCodeSequence" in _ds:
@@ -230,19 +230,19 @@ def parse_doppler_samsung(dataset, result):
                                                 if "MeasuredValueSequence" in _ds:
                                                     for valitem in _ds.MeasuredValueSequence:
                                                         val = valitem.NumericValue
-                                                        print(f"{_ccs.CodeValue} ({_ccs.CodeMeaning}) = {val}")
+                                                        _logger.info(f"{_ccs.CodeValue} ({_ccs.CodeMeaning}) = {val}")
                                                     if _ccs.CodeValue == '12023-8':
                                                         doppler_uterin['ir_' + laterality] = val
                                                     if _ccs.CodeValue == '12008-9':
                                                         doppler_uterin['ip_' + laterality] = val
 
-                            print('Doppler utérin', doppler_uterin)
+                            _logger.info('Doppler utérin', doppler_uterin)
                             result['doppler_uterin'] = doppler_uterin
 
                             #############################################################################
 
                         if innercncs == "T-F1810":
-                            print('<<<<< Umbilical Artery >>>>>>')
+                            _logger.info('<<<<< Umbilical Artery >>>>>>')
                             doppler_ombilical = {}
                             foetusId = None
                             if "ContentSequence" in innerds:
@@ -251,10 +251,10 @@ def parse_doppler_samsung(dataset, result):
                                         _cv = _ds.ConceptNameCodeSequence[0].CodeValue
                                         if _cv == "11951-1":
                                             foetusId = _ds.TextValue
-                                            print("Foetus ID", foetusId)
+                                            _logger.info("Foetus ID", foetusId)
                                         else:
                                             if not foetusId:
-                                                print("No foetus ID")
+                                                _logger.info("No foetus ID")
                                                 continue
                                             f = get_foetus(foetusId, result)
                                             if "ConceptNameCodeSequence" in _ds:
@@ -262,7 +262,7 @@ def parse_doppler_samsung(dataset, result):
                                                 if "MeasuredValueSequence" in _ds:
                                                     for valitem in _ds.MeasuredValueSequence:
                                                         val = valitem.NumericValue
-                                                        print(f"{_ccs.CodeValue} ({_ccs.CodeMeaning}) = {val}")
+                                                        _logger.info(f"{_ccs.CodeValue} ({_ccs.CodeMeaning}) = {val}")
                                                     if _ccs.CodeValue == '12023-8':
                                                         doppler_ombilical['doppler_cordon_ir'] = val
                                                     if _ccs.CodeValue == '12008-9':
@@ -272,7 +272,7 @@ def parse_doppler_samsung(dataset, result):
                                                     f['doppler_ombilical'] = {**f['doppler_ombilical'], **doppler_ombilical}
                                                 else:
                                                     f['doppler_ombilical'] = doppler_ombilical
-                            print('Doppler ombilical', doppler_ombilical)
+                            _logger.info('Doppler ombilical', doppler_ombilical)
 
                             #############################################################################
 
@@ -292,8 +292,8 @@ def get_foetus(id, result):
 def print_attrib(code, sub):
     count = 0
     for i in sub[c_name_code_seq]:
-        print(i[code_val_tag].value)
-    print(count)
+        _logger.info(i[code_val_tag].value)
+    _logger.info(count)
     param = sub[c_name_code_seq][0][code_val_tag].value
     meaning = sub[c_name_code_seq][0][code_val_meaning].value
     seq = safe_get(sub, 0x0040A300)
@@ -306,7 +306,7 @@ def parse_ds(ds):
     result = {}
     concept_name_code_sequence = safe_get(ds, c_name_code_seq)
     report_type = _val(concept_name_code_sequence[0], 0x00080104)
-    print('Report type ', report_type)
+    _logger.info('Report type ', report_type)
     # print(v.tag, v.VR, v.value)
     # print('Concept Name Code Sequence Attribute', concept_name_code_sequence)
     content_template_sequence = safe_get(ds, 0x0040A504)
@@ -330,7 +330,7 @@ def parse_ds(ds):
 
             if code == '121111':
                 if 0x0040A730 in seq:
-                    print('Summary section')
+                    _logger.info('Summary section')
                     # Next sequence is summary
                     c_seq = seq[0x0040A730]
                     for it in c_seq:
@@ -386,7 +386,7 @@ def parse_ds(ds):
                                 if v == '11948-7':
                                     foetus['fc'] = c[0x0040A121].value
                             except:
-                                print("Error reading foetus summary data")
+                                _logger.info("Error reading foetus summary data")
 
                     #print('Foetus', foetus)
                     if 'foetus' not in result:
@@ -453,7 +453,7 @@ def parse_ds(ds):
                         _c = it[c_name_code_seq][0][code_val_tag].value
                         if (0x0040, 0xA168) in it:
                             cd = it[0x0040A168][0][code_val_tag].value
-                            print(cd)
+                            _logger.info(cd)
                         if _c == '99100':
                             if 0x0040A730 in it:
                                 for el in it[0x0040A730]:
@@ -471,7 +471,7 @@ def parse_ds(ds):
                                                         if lat == 'G-A100':
                                                             lat = 'droit'
                                                 except Exception as e:
-                                                    print(f"Uterus laterality can't be evaluated: {e}")
+                                                    _logger.info(f"Uterus laterality can't be evaluated: {e}")
 
                                     if lat:
                                         param = el[c_name_code_seq][0][code_val_tag].value
@@ -482,7 +482,7 @@ def parse_ds(ds):
                                                 if param == '12008-9':
                                                     dop['ip_' + lat] = el[0x0040A300][0][0x0040A30A].value
                     # After loop: store final result once
-                    print('Doppler utérin', dop)
+                    _logger.info('Doppler utérin', dop)
                     result['doppler_uterin'] = dop
 
             if code == '99000':
@@ -497,10 +497,10 @@ def parse_ds(ds):
                         if _c == '11951-1':
                             # Foetus ID
                             id = it[0x0040A160].value
-                            print('Foetus', id)
+                            _logger.info('Foetus', id)
                         if _c == '99100':
                             if 0x0040A730 in it:
-                                print('Group not empty')
+                                _logger.info('Group not empty')
                                 for el in it[0x0040A730]:
                                     # el[0x0040A730][0][c_name_code_seq][0][code_val_tag].value
                                     site = el[c_content_sequence][0][c_code_seq][0][code_val_tag].value
@@ -529,9 +529,9 @@ def parse_ds(ds):
                                                     f['doppler_ombilical'] = {**f['doppler_ombilical'], **dop}
                                                 else:
                                                     f['doppler_ombilical'] = dop
-                                            print('Doppler ombilical', dop)
+                                            _logger.info('Doppler ombilical', dop)
                                         except:
-                                            print("Problem parsing ombilical doppler")
+                                            _logger.info("Problem parsing ombilical doppler")
                                     if site == "T-45600":
                                         # ACM
                                         f = get_foetus(id, result)
@@ -556,9 +556,9 @@ def parse_ds(ds):
                                                     f['doppler_acm'] = {**f['doppler_acm'], **dop}
                                                 else:
                                                     f['doppler_acm'] = dop
-                                            print('Doppler acm', dop)
+                                            _logger.info('Doppler acm', dop)
                                         except:
-                                            print("Problem parsing acm doppler")
+                                            _logger.info("Problem parsing acm doppler")
 
                                     if site == "VP-0001":
                                         # DV
@@ -584,9 +584,9 @@ def parse_ds(ds):
                                                     f['doppler_dv'] = {**f['doppler_dv'], **dop}
                                                 else:
                                                     f['doppler_dv'] = dop
-                                            print('Doppler DV', dop)
+                                            _logger.info('Doppler DV', dop)
                                         except:
-                                            print("Problem parsing DV doppler")
+                                            _logger.info("Problem parsing DV doppler")
 
             if code == '125002' or code == '125009':
                 if 0x0040A730 in seq:
@@ -702,7 +702,7 @@ def parse_ds(ds):
                         #print('Seq code', cd)
                         # print('Sequence count', seq_count)
                         if cd == 'T-87000':
-                            print('Parse ovary')
+                            _logger.info('Parse ovary')
                             if 0x0040A730 in it:
                                 parse_ovary(it[0x0040A730], result)
                                 continue
@@ -820,9 +820,9 @@ def parse_ds(ds):
 
                             # sub_items = it[c_name_code_seq]
 """
-    print('*******************************')
-    print(result)
-    print('*******************************')
+    _logger.info('*******************************')
+    _logger.info(result)
+    _logger.info('*******************************')
     return result
 
 
@@ -836,4 +836,4 @@ if __name__ == '__main__':
     #ds = pydicom.dcmread('./data/gyneco/sr_55852573.dcm')
     #ds = pydicom.dcmread('./data/obstetrique/sr_77634075.dcm')
     #ds = pydicom.dcmread('./data/obstetrique/sr_88393973.dcm')
-    print(parse_ds(ds))
+    _logger.info(parse_ds(ds))

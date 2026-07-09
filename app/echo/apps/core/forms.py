@@ -46,11 +46,23 @@ class UserForm(forms.ModelForm):
         fields = ['is_active', 'first_name', 'last_name', 'email', 'group', 'username', 'password']
         labels = {'group': _('Profil')}
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email and User.objects.filter(email=email).exists():
+            raise forms.ValidationError(_('Un utilisateur avec cet email existe déjà.'))
+        return email
+
 
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['is_active', 'first_name', 'last_name', 'email', 'username']
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email and User.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError(_('Un utilisateur avec cet email existe déjà.'))
+        return email
 
 
 class MdpForm(BSModalForm):
@@ -77,7 +89,7 @@ class RdvForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         compte = kwargs.pop('compte')
         super().__init__(*args, **kwargs)
-        self.fields['praticien'].queryset = Medecin.objects.filter(compte=compte)
+        self.fields['praticien'].queryset = Medecin.objects.distinct_by_nom_qs(compte)
 
 
 class ProgrammeOperatoireForm(forms.ModelForm):
@@ -93,7 +105,7 @@ class ProgrammeOperatoireForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         compte = kwargs.pop('compte')
         super().__init__(*args, **kwargs)
-        self.fields['praticien'].queryset = Medecin.objects.filter(compte=compte)
+        self.fields['praticien'].queryset = Medecin.objects.distinct_by_nom_qs(compte)
 
 
 class RdvDispoForm(forms.ModelForm):
@@ -113,7 +125,7 @@ class RdvDispoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         compte = kwargs.pop('compte')
         super().__init__(*args, **kwargs)
-        self.fields['praticien'].queryset = Medecin.objects.filter(compte=compte)
+        self.fields['praticien'].queryset = Medecin.objects.distinct_by_nom_qs(compte)
 
 
 class AbsenceMedecinForm(forms.ModelForm):
@@ -129,8 +141,8 @@ class AbsenceMedecinForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         compte = kwargs.pop('compte')
         super().__init__(*args, **kwargs)
-        self.fields['praticien'].queryset = Medecin.objects.filter(compte=compte)
-        self.fields['praticien_remplacant'].queryset = Medecin.objects.filter(compte=compte)
+        self.fields['praticien'].queryset = Medecin.objects.distinct_by_nom_qs(compte)
+        self.fields['praticien_remplacant'].queryset = Medecin.objects.distinct_by_nom_qs(compte)
 
 
 class PatientForm(forms.ModelForm):
@@ -154,7 +166,8 @@ class PatientForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         compte = kwargs.pop('compte')
         super().__init__(*args, **kwargs)
-        self.fields['praticien_principal'].queryset = Medecin.objects.filter(compte=compte)
+        self.fields['praticien_principal'].queryset = Medecin.objects.distinct_by_nom_qs(compte)
+        self.fields['nom_naissance'].required = False
         self.fields['praticien_principal'].required = True
         for f in ('date_naissance', 'date_mariage', 'date_validite_mutuelle', 'date_naissance_conjoint'):
             self.fields[f].input_formats = ['%d/%m/%Y', '%Y-%m-%d']
@@ -210,7 +223,7 @@ class ParametresGenerauxForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         compte = kwargs.pop('compte')
         super().__init__(*args, **kwargs)
-        self.fields['praticien_defaut'].queryset = Medecin.objects.filter(compte=compte)
+        self.fields['praticien_defaut'].queryset = Medecin.objects.distinct_by_nom_qs(compte)
 
 
 class ConsultationForm(forms.ModelForm):
@@ -221,7 +234,7 @@ class ConsultationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         compte = kwargs.pop('compte')
         super().__init__(*args, **kwargs)
-        self.fields['praticien'].queryset = Medecin.objects.filter(compte=compte)
+        self.fields['praticien'].queryset = Medecin.objects.distinct_by_nom_qs(compte)
         self.fields['date'].required = False
 
 
@@ -251,7 +264,7 @@ class OrdonnanceForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         compte = kwargs.pop('compte')
         super().__init__(*args, **kwargs)
-        self.fields['praticien'].queryset = Medecin.objects.filter(compte=compte)
+        self.fields['praticien'].queryset = Medecin.objects.distinct_by_nom_qs(compte)
         self.fields['type'].queryset = TypeOrdonnance.objects.filter(compte=compte).order_by('libelle')
 
 
@@ -266,7 +279,7 @@ class CertificatForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         compte = kwargs.pop('compte')
         super().__init__(*args, **kwargs)
-        self.fields['praticien'].queryset = Medecin.objects.filter(compte=compte)
+        self.fields['praticien'].queryset = Medecin.objects.distinct_by_nom_qs(compte)
 
 
 class TraitementForm(forms.ModelForm):
@@ -823,7 +836,7 @@ class InterrogatoirePMAForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         compte = kwargs.pop('compte')
         super().__init__(*args, **kwargs)
-        self.fields['praticien'].queryset = Medecin.objects.filter(compte=compte)
+        self.fields['praticien'].queryset = Medecin.objects.distinct_by_nom_qs(compte)
         self.fields['date'].required = False
 
 
@@ -859,7 +872,7 @@ class TentativePMAForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         compte = kwargs.pop('compte')
         super().__init__(*args, **kwargs)
-        self.fields['praticien'].queryset = Medecin.objects.filter(compte=compte)
+        self.fields['praticien'].queryset = Medecin.objects.distinct_by_nom_qs(compte)
 
 
 class TentativePMAClotureForm(forms.ModelForm):

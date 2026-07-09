@@ -34,15 +34,21 @@
                     <span class="input-group-text"><i class="la la-calendar"></i></span>
                 </div>
                 <div style="min-width:200px">
-                    <select class="form-select form-select-sm form-select-solid" data-kt-select2="true" id="praticien">
-                        <option value="-1">{% trans "Tous les praticiens" %}</option>
-                        {% for p in praticiens %}
-                            <option value="{{ p.id }}"
-                                    {% if user.profil.groupe == 'Médecin' and user.profil.id == p.id %}selected{% endif %}>
-                                {{ p.nom }}
-                            </option>
-                        {% endfor %}
-                    </select>
+                    {% if user.profil.groupe == 'Médecin' %}
+                        <span class="form-control form-control-sm form-control-solid border-0 bg-transparent fw-bold" id="praticien">
+                            {{ user.get_full_name|default:user.username }}
+                        </span>
+                    {% else %}
+                        <select class="form-select form-select-sm form-select-solid" data-kt-select2="true" id="praticien">
+                            <option value="-1">{% trans "Tous les praticiens" %}</option>
+                            {% for p in praticiens %}
+                                <option value="{{ p.id }}"
+                                        {% if user.profil.groupe == 'Médecin' and user.profil.id == p.id %}selected{% endif %}>
+                                    {{ p.nom }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
                 </div>
                 <button type="button" class="btn btn-sm btn-success" onclick="ouvrirAjoutPatientSalle()">
                     <i class="la la-plus me-1"></i> {% trans "Ajouter patient" %}
@@ -384,16 +390,9 @@
     </script>
 
     <script id="actions-consultation-template" type="text/html">
-        <% if (typeof consultationId !== 'undefined' && consultationId) { %>
-        <a href="/consultation/<%- consultationId %>/rapport/" class="btn btn-warning btn-icon btn-sm" title="{% trans 'Rapport' %}">
-            <i class="la la-file-text icon-md"></i>
+        <a href="/patients/<%- id %>" class="btn btn-primary btn-icon btn-sm" title="{% trans 'Dossier patient' %}">
+            <i class="la la-eye icon-md"></i>
         </a>
-        <% } %>
-        {% if user.profil.groupe == 'Médecin' %}
-            <a href="/patients/<%- id %>" class="btn btn-primary btn-icon btn-sm" title="{% trans 'Dossier patient' %}">
-                <i class="la la-eye icon-md"></i>
-            </a>
-        {% endif %}
         <button type="button"
                 onclick="afficherTelechargerFichierModal(<%- id %>)"
                 class="btn btn-info btn-icon btn-sm" title="{% trans 'Télécharger fichier' %}">
@@ -536,7 +535,7 @@
 {% block scripts %}
     {{ block.super }}
     <script type="text/javascript">
-
+        try {
         {% if msg %}
             toastr.success("{{ msg }}");
         {% endif %}
@@ -604,7 +603,10 @@
         var motifs_rdvs = {{ motifs_rdv_json|safe }};
 
         var consultations = {{ consultations_json|safe }};
-        consultations = _.filter(consultations, c => moment(c.date).isSame(moment(), 'day'));
+        consultations = _.filter(consultations || [], c => {
+            if (!c || !c.date) return false;
+            return moment(c.date).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD');
+        });
         console.log('Consultations', consultations);
 
         var praticiens = {{ praticiens_json|safe }};
@@ -629,6 +631,10 @@
 
         window.S_CHOISIR_MACHINE = '{{ s_choisir_machine|escapejs }}';
         window.S_ANNULER = '{{ s_annuler|escapejs }}';
+    } catch(e) {
+        console.error('Inline script error:', e.message, e.stack);
+        document.getElementById('kpi_nb_realises').textContent = 'ERR:' + e.message;
+    }
     </script>
     <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
     <script src="{% static "js/core/accueil.js" %}?v=20250618f"></script>

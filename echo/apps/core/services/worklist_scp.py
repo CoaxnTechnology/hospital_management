@@ -225,6 +225,10 @@ class ServiceClassProvider:
             identifier.RequestedProcedureDescription = instance['requested_procedure_description']
             identifier.RequestedProcedureID = instance['requested_procedure_id']
 
+            praticien = consultation.get('praticien')
+            if praticien and praticien.get('nom'):
+                identifier.ReferringPhysicianName = praticien['nom']
+
             if 'ScheduledStationAETitle' in ds:
                 identifier.ScheduledStationAETitle = ds.ScheduledStationAETitle
             if 'ScheduledProcedureStepStartDate' in ds:

@@ -7838,6 +7838,14 @@ msgstr "Consultation démarrée avec succès"
 #~ msgid "Secrétaire"
 #~ msgstr "Secrétaire"
 
+#: apps/core/views/devices/worklists.py:475
+msgid "Aucune consultation trouvée pour ce patient aujourd'hui"
+msgstr "Aucune consultation trouvée pour ce patient aujourd'hui"
+
+#: apps/core/views/devices/worklists.py:479
+msgid "Aucun dispositif DICOM configuré"
+msgstr "Aucun dispositif DICOM configuré"
+
 #~ msgid "Administrateur"
 #~ msgstr "Administrateur"
 

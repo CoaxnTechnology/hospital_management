@@ -9,7 +9,8 @@ from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
 
-from apps.core.models import Compte, SuperAdminProfile, DoctorSignupRequest, Device
+from apps.core.models import Compte, Profil, SuperAdminProfile, DoctorSignupRequest, Device
+from django.contrib.auth.models import User
 from apps.core.services.doctor_setup import create_doctor_compte, load_default_templates
 
 
@@ -49,6 +50,8 @@ def dashboard(request):
 @super_admin_required
 @require_POST
 def create_doctor(request):
+    result = None
+    created_compte = None
     try:
         data = json.loads(request.body)
         name = data.get('name', '').strip()
@@ -59,6 +62,7 @@ def create_doctor(request):
             return JsonResponse({'error': 'Name and email are required.'}, status=400)
 
         result = create_doctor_compte(name=name, email=email, specialty=specialty, password=password)
+        created_compte = result.get('compte_id')
 
         try:
             compte = Compte.objects.get(pk=result['compte_id'])
@@ -69,6 +73,16 @@ def create_doctor(request):
 
         return JsonResponse(result)
     except Exception as e:
+        # Clean up orphan user if compte creation failed
+        if created_compte:
+            try:
+                compte = Compte.objects.get(pk=created_compte)
+                user_id = result.get('user_id') if result else None
+                compte.delete()
+                if user_id:
+                    User.objects.filter(pk=user_id).delete()
+            except Exception:
+                pass
         return JsonResponse({'error': str(e)}, status=500)
 
 
@@ -77,6 +91,10 @@ def create_doctor(request):
 def delete_compte(request, pk):
     try:
         compte = Compte.objects.get(pk=pk)
+        # Hard-delete all users of this compte
+        user_ids = Profil.objects_with_deleted.filter(compte=compte).values_list('user_id', flat=True)
+        User.objects.filter(pk__in=list(user_ids)).delete()
+        # Hard-delete the compte — cascades to patients, consultations, etc.
         compte.delete()
         return JsonResponse({'status': 'deleted'})
     except Compte.DoesNotExist:
@@ -275,6 +293,8 @@ def doctor_signup(request):
             errors['full_name'] = 'Full name is required.'
         if not email:
             errors['email'] = 'Email address is required.'
+        elif User.objects.filter(email=email).exists():
+            errors['email'] = 'A user with this email already exists.'
         elif DoctorSignupRequest.objects.filter(email=email).exists():
             errors['email'] = 'A request with this email already exists.'
         if not password:

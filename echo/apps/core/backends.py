@@ -22,3 +22,18 @@ class EmailOrUsernameBackend(ModelBackend):
             if request is not None:
                 request._account_inactive = True
         return None
+
+    def user_can_authenticate(self, user):
+        if not super().user_can_authenticate(user):
+            return False
+        # Superusers bypass the Profil/Compte check
+        if user.is_superuser:
+            return True
+        # Regular users must have an active Profil tied to a non-deleted Compte
+        if not hasattr(user, 'profil'):
+            return False
+        if user.profil.deleted_at is not None:
+            return False
+        if user.profil.compte_id is None:
+            return False
+        return True

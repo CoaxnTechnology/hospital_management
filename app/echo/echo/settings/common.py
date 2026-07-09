@@ -227,3 +227,9 @@ CHAT_WS_SERVER_PROTOCOL = 'ws'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+REST_FRAMEWORK = {
+    'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%S',
+    'DATE_FORMAT': '%Y-%m-%d',
+    'TIME_FORMAT': '%H:%M:%S',
+}

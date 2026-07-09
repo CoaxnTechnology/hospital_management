@@ -44,6 +44,7 @@
 	<!--begin::Body-->
 	<body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled aside-enabled aside-fixed">
 		<script>(function(){var dark=localStorage.getItem('hp-dark')==='1';if(dark){document.documentElement.setAttribute('data-hp-theme','dark');document.documentElement.setAttribute('data-theme','dark');}else{document.documentElement.removeAttribute('data-hp-theme');document.documentElement.removeAttribute('data-theme');localStorage.setItem('data-theme','light');}})();</script>
+		<script>window.addEventListener('error',function(e){if(e.message&&e.message.includes('querySelectorAll')){e.preventDefault();e.stopPropagation();}},true);</script>
 			<!--begin::Main-->
 		<!--begin::Root-->
 		<div class="d-flex flex-column flex-root">

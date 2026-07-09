@@ -383,7 +383,7 @@ function initOrdonnancesDatatable() {
 function afficherOrdonnance(id) {
     showFrameLoading();
     $('#ordonnances-modal iframe').attr('src', `/ordonnances/${id}`);
-    bootstrap.Modal.getOrCreateInstance('#ordonnances-modal').show();
+    _showModal('ordonnances-modal');
 }
 
 function ajouterAntecedent(editor, phrasierId) {
@@ -471,21 +471,24 @@ function enregistrerNotes(editor) {
         });
 }
 
+function _modal(id) { var el = document.getElementById(id); return el ? bootstrap.Modal.getOrCreateInstance(el) : null; }
+function _showModal(id) { var m = _modal(id); if (m) m.show(); }
+function _hideModal(id) { var m = _modal(id); if (m) m.hide(); }
+
 window.fermerAntecedentObstetrique = function () {
-    bootstrap.Modal.getOrCreateInstance('#antecedent-obstetrique-modal').hide();
+    _hideModal('antecedent-obstetrique-modal');
 };
 
 function nouvelAntecedentObstetrique() {
     showFrameLoading();
     $('#antecedent-obstetrique-modal iframe').attr('src', `/patients/${patient_pk}/antecedent_obstetrique/ajouter`);
-    bootstrap.Modal.getOrCreateInstance('#antecedent-obstetrique-modal').show();
-
+    _showModal('antecedent-obstetrique-modal');
 }
 
 function modifierAntecedentObstetrique(id) {
     showFrameLoading();
     $('#antecedent-obstetrique-modal iframe').attr('src', `/antecedent_obstetrique/${id}/modifier`);
-    bootstrap.Modal.getOrCreateInstance('#antecedent-obstetrique-modal').show();
+    _showModal('antecedent-obstetrique-modal');
 }
 
 function supprimerAntecedentObstetrique(id) {
@@ -521,7 +524,7 @@ function priseRdv() {
     const debut = $('#id_rdv_suivant_apres').val() || moment().add(1, 'days').format('YYYY-MM-DD');
     const fin = $('#id_rdv_suivant_avant').val() || moment().add(9, 'days').format('YYYY-MM-DD');
     $('#dispo-rdv-modal iframe').attr('src', `/rdvs/dispo/ajouter/?patient=${patient_pk}&debut=${debut}&fin=${fin}`);
-    bootstrap.Modal.getOrCreateInstance('#dispo-rdv-modal').show();
+    _showModal('dispo-rdv-modal');
 }
 
 function rechargerInfosGrossesse() {
@@ -749,7 +752,7 @@ function afficherConsultation(id, motif) {
     }
     showFrameLoading();
     $('#consultation-modal iframe').attr('src', `/consultation/${id}`);
-    bootstrap.Modal.getOrCreateInstance('#consultation-modal').show();
+    _showModal('consultation-modal');
 }
 
 $(document).ready(() => {
@@ -883,7 +886,7 @@ $(document).ready(() => {
         if (formulaire && champ) {
             showFrameLoading();
             $('#liste-choix-modal iframe').attr('src', `/listes/?formulaire=${formulaire}&champ=${champ}`);
-            bootstrap.Modal.getOrCreateInstance('#liste-choix-modal').show();
+            _showModal('liste-choix-modal');
             targetListeChoix = $el;
         }
     });

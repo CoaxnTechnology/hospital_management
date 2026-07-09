@@ -17,7 +17,7 @@ $.fn.dataTable.ext.search.push(
 
 jQuery(document).ready(function () {
 
-    const initTableAccangement = function () {
+    const initTableAccouchement = function () {
         // begin first table
         const _t = _.template(unescapeTemplate($('#actions-rapport-accoucher_ent-template').html()));
 

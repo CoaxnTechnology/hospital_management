@@ -6041,3 +6041,6 @@ msgstr "Creating…"
 
 #~ msgid "Administrateur"
 #~ msgstr "Administrator"
+#: templates/core/accueil_v2.html:398 templates/core/accueil.html:397
+msgid "Annuler l'admission"
+msgstr "Cancel admission"

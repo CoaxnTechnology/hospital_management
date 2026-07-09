@@ -25,6 +25,7 @@ def creer_parametres_compte(sender, instance, **kwargs):
         params.save()
 
 
+@receiver(post_save, sender=Consultation)
 @receiver(post_save, sender=ConsultationObstetrique)
 @receiver(post_save, sender=ConsultationEcho11SA)
 @receiver(post_save, sender=ConsultationEchoPremierTrimestre)

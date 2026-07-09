@@ -7416,5 +7416,16 @@ msgstr "No admission"
 msgid "Ce patient n'a pas d'admission en cours. Veuillez d'abord créer une admission."
 msgstr "This patient has no current admission. Please create one first."
 
+#: apps/core/views/devices/worklists.py:475
+msgid "Aucune consultation trouvée pour ce patient aujourd'hui"
+msgstr "No consultation found for this patient today"
+
+#: apps/core/views/devices/worklists.py:479
+msgid "Aucun dispositif DICOM configuré"
+msgstr "No DICOM device configured"
+
 #~ msgid "Administrateur"
 #~ msgstr "Administrator"
+#: templates/core/accueil_v2.html:437 templates/core/accueil.html:397
+msgid "Annuler l'admission"
+msgstr "Cancel admission"

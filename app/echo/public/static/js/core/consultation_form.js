@@ -400,6 +400,7 @@ function insererTemplateEdition($select) {
 }
 
 function updateSR(data) {
+    if (!data || typeof data !== 'object') return;
     // Uterus
     $(`#id_longueur`).val(data['uterus_longueur']);
     $(`#id_largeur`).val(data['uterus_largeur']);
@@ -507,6 +508,18 @@ function updateSR(data) {
     updateEditor();
 }
 
+var MESURES_MESSAGES = {
+    fr: "Nouvelles mesures reçue de l'échographe",
+    en: "New measurements received from the ultrasound machine",
+    ar: "تم استلام قياسات جديدة من جهاز الإيكوغراف",
+    es: "Nuevas mediciones recibidas del ecógrafo"
+};
+
+function getMesuresMessage() {
+    var lang = document.documentElement.lang || 'fr';
+    return MESURES_MESSAGES[lang] || MESURES_MESSAGES.fr;
+}
+
 function checkReceptionDonnees() {
     if(!isConsultationEnregistree()) return;
     console.log('Check reception mise à jour donnees');
@@ -514,15 +527,19 @@ function checkReceptionDonnees() {
 
     $.get(`/consultations/${consultation_pk}/images/`)
         .done(function (result) {
-            let images = JSON.parse(result.images);
-            console.info('Received images', images);
-            _.each(images, img => {
-                if (_.findIndex(consultationImages, {id: img.id}) == -1) {
-                    $('#images-container').append(imgItemTpl({img}));
-                    $(`[name=img-cb-${img.id}]`).click(onImageCbClick);
-                    consultationImages.push(img);
-                }
-            });
+            try {
+                let images = JSON.parse(result.images);
+                console.info('Received images', images);
+                _.each(images, img => {
+                    if (_.findIndex(consultationImages, {id: img.id}) == -1) {
+                        $('#images-container').append(imgItemTpl({img}));
+                        $(`[name=img-cb-${img.id}]`).click(onImageCbClick);
+                        consultationImages.push(img);
+                    }
+                });
+            } catch (e) {
+                console.error('Error processing images', e);
+            }
         })
         .fail(function () {
             console.error("Impossible de charger les images");
@@ -530,19 +547,27 @@ function checkReceptionDonnees() {
 
     $.get(`/consultations/${consultation_pk}/sr/`)
         .done(function (result) {
-            let data = result.data;
-            // data may be a JSON string or already an object depending on backend
-            if (typeof data === 'string') {
-                data = JSON.parse(data);
-            }
-            console.info('Received data', data);
-
-            if (_.isEqual(consultationSR, data)){
-                console.log('No new data received');
-            } else {
-                toastr.success("Nouvelles mesures reçue de l'échographe");
-                consultationSR = data;
-                updateSR(data);
+            try {
+                let data = result.data;
+                // data may be a JSON string or already an object depending on backend
+                if (typeof data === 'string') {
+                    data = JSON.parse(data);
+                }
+                // Treat null and {} as equivalent empty states
+                let prev = (consultationSR && typeof consultationSR === 'object' && !_.isEmpty(consultationSR)) ? consultationSR : null;
+                let cur = (data && typeof data === 'object' && !_.isEmpty(data)) ? data : null;
+                if (prev === null && cur === null) {
+                    console.log('No new data received');
+                } else if (typeof consultationSR === 'undefined') {
+                    consultationSR = data;
+                    updateSR(data);
+                } else if (!_.isEqual(consultationSR, data)) {
+                    toastr.success(getMesuresMessage());
+                    consultationSR = data;
+                    updateSR(data);
+                }
+            } catch (e) {
+                console.error('Error processing SR data', e);
             }
         })
         .fail(function () {
@@ -915,7 +940,5 @@ $(document).ready(function () {
     });
 
     initTimer();
-
-    setInterval(checkReceptionDonnees, 10000);
 });
 

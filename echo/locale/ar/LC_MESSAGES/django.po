@@ -7783,5 +7783,16 @@ msgstr "لا يوجد دخول"
 msgid "Ce patient n'a pas d'admission en cours. Veuillez d'abord créer une admission."
 msgstr "هذا المريض ليس لديه دخول حالي. الرجاء إنشاء دخول أولاً."
 
+#: apps/core/views/devices/worklists.py:475
+msgid "Aucune consultation trouvée pour ce patient aujourd'hui"
+msgstr "لم يتم العثور على استشارة لهذا المريض اليوم"
+
+#: apps/core/views/devices/worklists.py:479
+msgid "Aucun dispositif DICOM configuré"
+msgstr "لا يوجد جهاز DICOM مهيأ"
+
 #~ msgid "Administrateur"
 #~ msgstr "مدير"
+#: templates/core/accueil_v2.html:437 templates/core/accueil.html:397
+msgid "Annuler l'admission"
+msgstr "إلغاء القبول"

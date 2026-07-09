@@ -17,6 +17,13 @@ class CustomLoginView(LoginView):
     """LoginView that distinguishes inactive accounts from wrong credentials."""
     template_name = 'core/login_v2.html'
 
+    def get_success_url(self):
+        # Super admin subdomain → redirect to admin dashboard
+        host = self.request.get_host()
+        if 'admin.' in host and self.request.user.is_superuser:
+            return '/super-admin/'
+        return super().get_success_url()
+
     def form_invalid(self, form):
         if getattr(self.request, '_account_inactive', False):
             ctx = self.get_context_data(form=form, account_inactive=True)

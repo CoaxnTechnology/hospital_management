@@ -4,6 +4,7 @@ import os
 import re
 
 from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.translation import gettext as _
 from django.utils import timezone
 from django.core.files import File
 from django.http import JsonResponse
@@ -61,6 +62,13 @@ def rechercher_worklists(request):
                     Q(device=device) | Q(device__isnull=True),
                     consultation__patient__compte=device.compte
                 )
+                from apps.core.models import Medecin
+                device_doctors = Medecin.objects.filter(default_device=device).values_list('id', flat=True)
+                if device_doctors:
+                    items = items.filter(consultation__praticien__in=device_doctors)
+                    print(f'Filtered by device doctors: {list(device_doctors)}')
+                else:
+                    print(f'No doctors configured for device {device_ae_title}, returning all account items')
             else:
                 print(f'No Device found with AE title {device_ae_title}')
         except Exception as e:
@@ -90,20 +98,13 @@ def modifier_worklist_statut(request):
 
             if status.upper() == 'COMPLETED':
                 consultation = item.consultation
-                has_data = (
-                    consultation.imageconsultation_set.exists() or
-                    consultation.srconsultation_set.exists()
-                )
-                if has_data:
-                    today = datetime.date.today()
-                    consultation.patient.admission_set.filter(
-                        date__day=today.day,
-                        date__month=today.month,
-                        date__year=today.year,
-                        statut='2'
-                    ).update(statut='3')
-                else:
-                    pass
+                today = datetime.date.today()
+                consultation.patient.admission_set.filter(
+                    date__day=today.day,
+                    date__month=today.month,
+                    date__year=today.year,
+                    statut='2'
+                ).update(statut='3')
     resp = {
         'status': 'success',
     }
@@ -115,29 +116,71 @@ def ajouter_image(request):
     consultation = None
     calling_aet = request.POST.get('calling_aet', '')
     study_uid = request.POST.get('study_uid', '')
+    patient_name = request.POST.get('patient_name', '')
     if study_uid:
-        print(f'Requesting worklist item with study id {study_uid}')
+        logger.info(f'ajouter_image: searching WorklistItem by study_uid={study_uid}')
         item = WorklistItem.objects.filter(study_instance_uid=study_uid).first()
         if item:
-            print(f'Found item {item}')
+            logger.info(f'Found WorklistItem {item.id} for consultation {item.consultation.id}')
             consultation = item.consultation
         else:
-            print(f'WorklistItem with UID {study_uid} not found')
+            logger.info(f'WorklistItem with UID {study_uid} not found')
 
     if consultation is None and calling_aet:
         device = Device.objects.filter(ae_title=calling_aet).first()
         if device:
             today = datetime.datetime.now().date()
+            # Only match consultations for doctors who have this device as their default
+            from apps.core.models import Medecin
+            device_doctors = Medecin.objects.filter(default_device=device).values_list('id', flat=True)
             item = WorklistItem.objects.filter(
-                device=device,
+                Q(device=device) | Q(device__isnull=True),
                 consultation__date__date=today,
+                consultation__praticien__in=device_doctors,
                 mpps_status__in=[WorklistItem.MPPS_STATUS_PENDING, WorklistItem.MPPS_STATUS_INPROGRESS]
             ).order_by('-id').first()
             if item:
                 consultation = item.consultation
-                print(f'Found consultation {item.consultation.id} by WorklistItem for device={calling_aet}')
+                logger.info(f'Found consultation {item.consultation.id} by WorklistItem for device={calling_aet} (doctors={list(device_doctors)})')
+            else:
+                logger.info(f'No WorklistItem found for device={calling_aet} today with doctors={list(device_doctors)}')
+
+    if consultation is None and patient_name:
+        logger.info(f'ajouter_image: trying patient name fallback: {patient_name}')
+        try:
+            if '^' in patient_name:
+                parts = patient_name.split('^')
+                nom_dcm = parts[0].strip()
+                prenom_dcm = parts[1].strip() if len(parts) > 1 else ''
+            else:
+                nom_dcm = patient_name.strip()
+                prenom_dcm = ''
+            patient_qs = Patient.objects.filter(nom__iexact=nom_dcm, prenom__iexact=prenom_dcm)
+            if not patient_qs:
+                patient_qs = Patient.objects.filter(nom__icontains=nom_dcm, prenom__icontains=prenom_dcm)
+            if patient_qs:
+                patient = patient_qs.first()
+                today = datetime.datetime.now().date()
+                jour_min = datetime.datetime.combine(today, datetime.time.min)
+                jour_max = datetime.datetime.combine(today, datetime.time.max)
+                cons_qs = Consultation.objects.filter(patient=patient, date__gte=jour_min, date__lte=jour_max)
+                # If device info available, restrict to its doctors
+                if calling_aet:
+                    device = Device.objects.filter(ae_title=calling_aet).first()
+                    if device:
+                        from apps.core.models import Medecin
+                        device_doctors = Medecin.objects.filter(default_device=device).values_list('id', flat=True)
+                        cons_qs = cons_qs.filter(praticien__in=device_doctors)
+                        logger.info(f'Restricted patient name fallback to device doctors={list(device_doctors)}')
+                cons = cons_qs.order_by('-id').first()
+                if cons:
+                    logger.info(f'Found consultation {cons.id} for patient {patient.id} via name+date fallback')
+                    consultation = cons
+        except Exception as e:
+            logger.error(f'ajouter_image patient name fallback failed: {e}', exc_info=True)
 
     if consultation is None:
+        logger.info(f'ajouter_image: no matching consultation found for study={study_uid} patient={patient_name}')
         return JsonResponse({'message': 'No matching consultation found'}, status=404)
 
     if 'path' in request.POST:
@@ -181,48 +224,57 @@ def ajouter_sr(request):
         device = Device.objects.filter(ae_title=calling_aet).first()
         if device:
             today = datetime.datetime.now().date()
+            from apps.core.models import Medecin
+            device_doctors = Medecin.objects.filter(default_device=device).values_list('id', flat=True)
             item = WorklistItem.objects.filter(
-                device=device,
+                Q(device=device) | Q(device__isnull=True),
                 consultation__date__date=today,
+                consultation__praticien__in=device_doctors,
                 mpps_status__in=[WorklistItem.MPPS_STATUS_PENDING, WorklistItem.MPPS_STATUS_INPROGRESS]
             ).order_by('-id').first()
             if item:
-                logger.info(f'Found consultation {item.consultation.id} by WorklistItem for device={calling_aet}')
+                logger.info(f'Found consultation {item.consultation.id} by WorklistItem for device={calling_aet} (doctors={list(device_doctors)})')
                 consultation = item.consultation
+            else:
+                logger.info(f'No WorklistItem found for device={calling_aet} today with doctors={list(device_doctors)}')
 
     if consultation is None and patient_name:
-        parts = patient_name.split('^')
-        if len(parts) >= 2 and parts[0] and parts[1]:
-            last_name = parts[0]
-            first_name = parts[1]
-            today = datetime.datetime.now().date()
-            from apps.core.models import Consultation as ConsultationModel
-            match = ConsultationModel.objects.filter(
-                patient__nom__iexact=last_name,
-                patient__prenom__iexact=first_name,
-                date__date=today,
-            ).order_by('-id').first()
-            if match:
-                if not match.srconsultation_set.exists():
-                    consultation = match
-                    logger.info(f'Found consultation {match.id} by patient name fallback')
-                else:
-                    logger.info(f'Consultation {match.id} by patient name already has SR, checking for closer match')
-                    consultation = match
+        logger.info(f'Trying patient name fallback: patient_name={patient_name}')
+        try:
+            if '^' in patient_name:
+                parts = patient_name.split('^')
+                nom_dcm = parts[0].strip()
+                prenom_dcm = parts[1].strip() if len(parts) > 1 else ''
             else:
-                logger.info(f'No consultation found by patient name {last_name}^{first_name}')
-        else:
-            logger.info(f'Patient name parts insufficient: {parts}')
-
-    if consultation is None:
-        from apps.core.models import Consultation as ConsultationModel
-        today = datetime.datetime.now().date()
-        active = ConsultationModel.objects.filter(
-            date__date=today,
-        ).order_by('-id').first()
-        if active and not active.srconsultation_set.exists():
-            consultation = active
-            logger.info(f'Found consultation {active.id} by most-recent-today fallback')
+                nom_dcm = patient_name.strip()
+                prenom_dcm = ''
+            from apps.core.models import Patient
+            patient_qs = Patient.objects.filter(nom__iexact=nom_dcm, prenom__iexact=prenom_dcm)
+            if not patient_qs:
+                patient_qs = Patient.objects.filter(nom__icontains=nom_dcm, prenom__icontains=prenom_dcm)
+            if patient_qs:
+                patient = patient_qs.first()
+                today = datetime.datetime.now().date()
+                jour_min = datetime.datetime.combine(today, datetime.time.min)
+                jour_max = datetime.datetime.combine(today, datetime.time.max)
+                cons_qs = Consultation.objects.filter(patient=patient, date__gte=jour_min, date__lte=jour_max)
+                if calling_aet:
+                    device = Device.objects.filter(ae_title=calling_aet).first()
+                    if device:
+                        from apps.core.models import Medecin
+                        device_doctors = Medecin.objects.filter(default_device=device).values_list('id', flat=True)
+                        cons_qs = cons_qs.filter(praticien__in=device_doctors)
+                        logger.info(f'Restricted patient name fallback to device doctors={list(device_doctors)}')
+                cons = cons_qs.order_by('-id').first()
+                if cons:
+                    logger.info(f'Found consultation {cons.id} for patient {patient.id} via name+date fallback')
+                    consultation = cons
+                else:
+                    logger.info(f'No consultation today for patient {patient.id} (nom={nom_dcm} prenom={prenom_dcm})')
+            else:
+                logger.info(f'No patient found matching name: {nom_dcm} {prenom_dcm}')
+        except Exception as e:
+            logger.error(f'Patient name fallback failed: {e}', exc_info=True)
 
     if consultation is None:
         logger.error('No matching consultation found for SR - returning 404')
@@ -432,7 +484,7 @@ def consultation_sr(request, pk):
     if sr:
         data = {'data': json.dumps(SRConsultationSerializer(sr).data)}
     else:
-        data = {'data': '{}'}
+        data = {'data': 'null'}
     return JsonResponse(data)
 
 
@@ -477,7 +529,7 @@ def terminer_consultation_patient(request, patient_pk):
             )
         patient.admission_set.filter(
             Q(date__day=today.day) & Q(date__month=today.month) & Q(date__year=today.year)
-        ).update(statut='4')
+        ).update(statut='3')
         patient.rdv_set.filter(
             debut__day=today.day, debut__month=today.month, debut__year=today.year
         ).update(statut=3)
@@ -505,25 +557,29 @@ def demarrer_examen(request, patient_pk):
         ).order_by('-id').first()
 
         if not consultation:
-            return JsonResponse({'status': 'error', 'message': 'Aucune consultation trouvée pour ce patient aujourd\'hui'}, status=404)
+            return JsonResponse({'status': 'error', 'message': _('Aucune consultation trouvée pour ce patient aujourd\'hui')}, status=404)
 
         device = Device.objects.filter(compte=compte).first()
         if not device:
-            return JsonResponse({'status': 'error', 'message': 'Aucun dispositif DICOM configuré'}, status=400)
+            return JsonResponse({'status': 'error', 'message': _('Aucun dispositif DICOM configuré')}, status=400)
 
         WorklistItem.objects.filter(
             consultation__patient=patient,
             mpps_status__in=[WorklistItem.MPPS_STATUS_PENDING, WorklistItem.MPPS_STATUS_INPROGRESS]
         ).exclude(consultation=consultation).update(mpps_status=WorklistItem.MPPS_STATUS_DISCONTINUED)
 
-        WorklistItem.objects.update_or_create(
+        item, created = WorklistItem.objects.get_or_create(
             consultation=consultation,
             defaults={
                 'study_instance_uid': generate_uid(),
                 'mpps_status': WorklistItem.MPPS_STATUS_PENDING,
-                'device': None,
+                'device': device,
             },
         )
+        if not created:
+            item.mpps_status = WorklistItem.MPPS_STATUS_PENDING
+            item.device = device
+            item.save(update_fields=['mpps_status', 'device'])
 
         return JsonResponse({'status': 'success', 'redirect': f'/consultation/{consultation.pk}/rapport/'})
     except Exception as e:

@@ -9,7 +9,8 @@ from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
 
-from apps.core.models import Compte, SuperAdminProfile, DoctorSignupRequest, Device
+from apps.core.models import Compte, Profil, SuperAdminProfile, DoctorSignupRequest, Device
+from django.contrib.auth.models import User
 from apps.core.services.doctor_setup import create_doctor_compte, load_default_templates
 
 
@@ -77,6 +78,9 @@ def create_doctor(request):
 def delete_compte(request, pk):
     try:
         compte = Compte.objects.get(pk=pk)
+        # Hard-delete all users of this compte before deleting it
+        user_ids = Profil.objects_with_deleted.filter(compte=compte).values_list('user_id', flat=True)
+        User.objects.filter(pk__in=list(user_ids)).delete()
         compte.delete()
         return JsonResponse({'status': 'deleted'})
     except Compte.DoesNotExist:
@@ -275,6 +279,8 @@ def doctor_signup(request):
             errors['full_name'] = 'Full name is required.'
         if not email:
             errors['email'] = 'Email address is required.'
+        elif User.objects.filter(email=email).exists():
+            errors['email'] = 'A user with this email already exists.'
         elif DoctorSignupRequest.objects.filter(email=email).exists():
             errors['email'] = 'A request with this email already exists.'
         if not password:

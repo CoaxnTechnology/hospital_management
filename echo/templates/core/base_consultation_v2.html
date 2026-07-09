@@ -672,6 +672,12 @@
     <script src="{% static "js/core/patient_info_panel.js" %}"></script>
     <script src="{% static "js/core/consultation_form.js" %}"></script>
     <script src="{% static "js/core/obstetrique.js" %}"></script>
-
+    <script>
+        $(document).ready(function () {
+            if (typeof checkReceptionDonnees === 'function') {
+                setInterval(function() { checkReceptionDonnees(); }, 10000);
+            }
+        });
+    </script>
 
 {% endblock %}

@@ -101,14 +101,14 @@ class ServiceClassProvider:
             calling = assoc.requestor.ae_title.strip().decode('UTF-8')
             called = assoc.acceptor.ae_title.strip().decode('UTF-8') if hasattr(assoc, 'acceptor') else ''
             contexts = []
-            for cx in assoc.negotiated:
+            for cx in assoc.accepted_contexts:
                 sop = cx.abstract_syntax
                 ts = cx.transfer_syntax
                 contexts.append(f"cx_id={cx.context_id} sop={sop} ts={ts}")
             logger.info(f"=== ASSOCIATION ESTABLISHED === calling={calling} called={called}")
             for c in contexts:
                 logger.info(f"  Accepted context: {c}")
-            has_sr = any('1.2.840.10008.5.1.4.1.1.88' in cx.abstract_syntax for cx in assoc.negotiated)
+            has_sr = any('1.2.840.10008.5.1.4.1.1.88' in cx.abstract_syntax for cx in assoc.accepted_contexts)
             if has_sr:
                 logger.info(f"*** DEVICE {calling} NEGOTIATED SR CONTEXT ***")
         except Exception as e:
@@ -164,11 +164,13 @@ class ServiceClassProvider:
         out_img_file = outfile + '.jpg'
         try:
             patient_name = str(ds.get('PatientName', ''))
-            logger.info(f"Image saved patient='{patient_name}' study={studyId} calling_aet={calling_aet}")
             if studyId not in _study_images:
                 _study_images[studyId] = {'images': [], 'sr_received': False, 'patient_name': patient_name, 'calling_aet': calling_aet}
             _study_images[studyId]['images'].append({'file': filename, 'time': datetime.now().isoformat()})
             ds_to_jpeg(ds, out_img_file)
+            if not os.path.exists(out_img_file):
+                logger.warning(f"JPEG not created (likely multi-frame) for study {studyId}, skipping")
+                return
             post_data = {
                 'study_uid': studyId,
                 'path': os.path.abspath(out_img_file),
@@ -176,7 +178,11 @@ class ServiceClassProvider:
                 'calling_aet': calling_aet,
                 'patient_name': patient_name,
             }
-            requests.post(f'{web_url}:{web_port}/worklists/image/', data=post_data, timeout=30)
+            response = requests.post(f'{web_url}:{web_port}/worklists/image/', data=post_data, timeout=30)
+            if response.status_code == 200:
+                logger.info(f"Image saved patient='{patient_name}' study={studyId} calling_aet={calling_aet}")
+            else:
+                logger.warning(f"Image POST returned {response.status_code} for study {studyId}")
         except Exception as e:
             logger.error(f"Failed to save image for study {studyId}: {e}")
             try:

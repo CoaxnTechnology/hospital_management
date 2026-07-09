@@ -1,7 +1,10 @@
 import datetime
 import json
+import logging
 import os
 import re
+
+logger = logging.getLogger('dicom.storage')
 
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.files import File
@@ -71,9 +74,6 @@ def modifier_worklist_statut(request):
 
 @csrf_exempt
 def ajouter_image(request):
-    import logging
-    logger = logging.getLogger('dicom.storage')
-
     consultation = None
     study_uid = request.POST.get('study_uid', '')
     calling_aet = request.POST.get('calling_aet', '')
@@ -145,11 +145,13 @@ def ajouter_image(request):
 
     if 'path' in request.POST:
         path = request.POST['path']
+        if not os.path.exists(path):
+            logger.warning(f"Image file not found: {path}")
+            return JsonResponse({'message': 'Image file not found'}, status=404)
         device = Device.objects.filter(ae_title=calling_aet).first() if calling_aet else None
         ic = ImageConsultation(type=ImageConsultation.IMG_ECHO, consultation=consultation,
                                device=device,
                                date=datetime.datetime.now(), impression=False)
-        ic.save()
         patient = consultation.patient
         out_path = repertoire_images_utilisateur(patient.compte.pk, patient.pk, os.path.basename(path))
         ic.image.save(out_path, File(open(path, 'rb')))
@@ -161,9 +163,6 @@ def ajouter_image(request):
 
 @csrf_exempt
 def ajouter_sr(request):
-    import logging
-    logger = logging.getLogger('dicom.storage')
-
     consultation = None
     study_uid = request.POST.get('study_uid', '')
     patient_name = request.POST.get('patient_name', '')

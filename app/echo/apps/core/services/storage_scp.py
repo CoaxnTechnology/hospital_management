@@ -73,14 +73,14 @@ class ServiceClassProvider:
             calling = assoc.requestor.ae_title.strip().decode('UTF-8')
             called = assoc.acceptor.ae_title.strip().decode('UTF-8') if hasattr(assoc, 'acceptor') else ''
             contexts = []
-            for cx in assoc.negotiated:
+            for cx in assoc.accepted_contexts:
                 sop = cx.abstract_syntax
                 ts = cx.transfer_syntax
                 contexts.append(f"cx_id={cx.context_id} sop={sop} ts={ts}")
             logger.info(f"=== ASSOCIATION ESTABLISHED === calling={calling} called={called}")
             for c in contexts:
                 logger.info(f"  Accepted context: {c}")
-            has_sr = any('1.2.840.10008.5.1.4.1.1.88' in cx.abstract_syntax for cx in assoc.negotiated)
+            has_sr = any('1.2.840.10008.5.1.4.1.1.88' in cx.abstract_syntax for cx in assoc.accepted_contexts)
             if has_sr:
                 logger.info(f"*** DEVICE {calling} NEGOTIATED SR CONTEXT ***")
         except Exception as e:
@@ -159,9 +159,12 @@ class ServiceClassProvider:
             out_img_file = outfile + '.jpg'
             try:
                 ds_to_jpeg(ds, out_img_file)
-                post_data = {'study_uid': studyId, 'path': os.path.abspath(out_img_file), 'called_aet': called_aet}
-                response = requests.post(f'{web_url}:{web_port}/worklists/image/', data=post_data)
-                # res = response.json()
+                if not os.path.exists(out_img_file):
+                    logger.warning(f"JPEG not created (likely multi-frame) for study {studyId}, skipping")
+                else:
+                    post_data = {'study_uid': studyId, 'path': os.path.abspath(out_img_file), 'called_aet': called_aet}
+                    response = requests.post(f'{web_url}:{web_port}/worklists/image/', data=post_data)
+                    # res = response.json()
             except Exception as e:
                 logger.error(f"Failed to save image for study {studyId}: {e}")
 

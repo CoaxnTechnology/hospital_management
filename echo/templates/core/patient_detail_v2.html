@@ -591,16 +591,16 @@
                         <i class="ki ki-long-arrow-back icon-sm"></i>
                         {% trans "Précédent" %}
                     </a>
-                    <button id="btn_enregistrer" class="btn btn-sm btn-primary font-weight-bolder me-2 enregistrer" type="button">
-                        <i class="bi bi-save icon-sm"></i>
-                        {% trans "Enregistrer" %}
-                    </button>
+                    <a href="javascript:void(0)"
+                       class="btn btn-sm btn-info font-weight-bolder me-2"
+                       onclick="showFrameLoading(); $('#consultation-modal iframe').attr('src', '/consultation/' + consultation_pk + '/rapport'); bootstrap.Modal.getOrCreateInstance('#consultation-modal').show();">
+                        <i class="bi bi-file-text me-2"></i> {% trans "Rapport" %}
+                    </a>
                     <div class="btn-group">
                         <button class="btn btn-sm btn-warning font-weight-bolder dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="bi bi-printer"></i> {% trans "Imprimer" %}
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="showFrameLoading(); $('#consultation-modal iframe').attr('src', '/consultation/' + consultation_pk + '/rapport'); bootstrap.Modal.getOrCreateInstance('#consultation-modal').show();"><i class="bi bi-file-text me-2"></i> {% trans "Rapport" %}</a></li>
                             <li><a class="dropdown-item" href="javascript:void(0)" onclick="afficherImpressionImages()"><i class="bi bi-image me-2"></i> {% trans "Images" %}</a></li>
                             <li><a class="dropdown-item" href="javascript:void(0)" onclick="imprimerGraphique()"><i class="bi bi-graph-up me-2"></i> {% trans "Graphique" %}</a></li>
                         </ul>

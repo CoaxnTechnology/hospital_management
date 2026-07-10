@@ -921,26 +921,8 @@ function imprimerGraphiquesSelectionnes() {
 
 $(document).ready(function () {
 
-    if (false)  {
-        const _sm = (typeof SWAL_MESSAGES !== 'undefined') ? SWAL_MESSAGES : {};
-        swal.fire({
-            title: _sm.message_important || "Message important",
-            text: _sm.consultation_doublon || "Une autre consultation du même patient avec le même motif existe, souhaitez vous l'afficher avant d'en créer une nouvelle?",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonClass: "btn-primary",
-            confirmButtonText: _sm.afficher_consultation_existante || "Oui, afficher la consultation existante",
-            cancelButtonText: _sm.creer_nouvelle_consultation || "Non, créer une nouvelle consultation",
-            closeOnConfirm: false
-        }).then(function (result) {
-            if (result.value) {
-                window.location.replace(doublon_url);
-            }
-        });
-    } else {
-        if (!isConsultationEnregistree()) {
-            setTimeout(() => enregistrerConsultation(), 2000);
-        }
+    if (!isConsultationEnregistree()) {
+        setTimeout(() => enregistrerConsultation(), 2000);
     }
 
     imgItemTpl = _.template($('#image-item-template').html())

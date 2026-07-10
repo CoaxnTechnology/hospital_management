@@ -2092,7 +2092,7 @@
         const footer_url = '{{ footer_url|safe }}';
         const signature_url = '{{ signature_url|safe }}';
         const entete = '{{ entete|escapejs }}';
-        let doublon_url = {% if doublon_consultation %}'{{ doublon_consultation.modif_url }}'{% else %}null{% endif %};
+
 
         const S_PRINT = {
             select_images: '{% trans "Sélectionner les images à imprimer"|escapejs %}',

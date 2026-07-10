@@ -248,7 +248,6 @@ class PatientView(PermissionRequiredMixin, DetailView):
             last_sr = date_sr_qs.last()
             if last_sr:
                 context['sr_json'] = json.dumps(SRConsultationSerializer(last_sr).data)
-            context['doublon_consultation'] = self.object.check_doublon_consultation(motif=motif, date=date.today())
             if 'edition' in self.request.GET:
                 context['mode_edition'] = True
         elif is_new and consultation_type:
@@ -257,7 +256,6 @@ class PatientView(PermissionRequiredMixin, DetailView):
                 motif_qs = MotifConsultation.objects.filter(code=motif_code)
                 if motif_qs.exists():
                     motif = motif_qs[0]
-                    context['doublon_consultation'] = self.object.check_doublon_consultation(motif=motif, date=date.today())
 
         if motif:
             context['motif'] = motif

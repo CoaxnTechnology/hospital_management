@@ -788,15 +788,22 @@ function imprimerImagesSelectionnees() {
     );
 
     Promise.all(promises).then(imagesB64 => {
-        const rows = Math.ceil(imagesB64.length / 3);
+        const IMAGES_PER_PAGE = 6;
         let content = [];
-        if (rows) content.push({ text: 'Images', style: 'header', margin: [0, 0, 0, 10] });
-        for (let row = 0; row < rows; row++) {
-            let cols = [];
-            for (let col = 0; col < 3 && row * 3 + col < imagesB64.length; col++) {
-                cols.push({ width: 170, image: imagesB64[row * 3 + col] });
+        if (imagesB64.length) content.push({ text: 'Images', style: 'header', margin: [0, 0, 0, 10] });
+        for (let i = 0; i < imagesB64.length; i += IMAGES_PER_PAGE) {
+            const pageImages = imagesB64.slice(i, i + IMAGES_PER_PAGE);
+            const rows = Math.ceil(pageImages.length / 3);
+            for (let row = 0; row < rows; row++) {
+                let cols = [];
+                for (let col = 0; col < 3 && row * 3 + col < pageImages.length; col++) {
+                    cols.push({ width: 170, image: pageImages[row * 3 + col] });
+                }
+                if (cols.length) content.push({ columns: cols, margin: [0, 0, 0, 10] });
             }
-            if (cols.length) content.push({ columns: cols, margin: [0, 0, 0, 10] });
+            if (i + IMAGES_PER_PAGE < imagesB64.length) {
+                content.push({ text: '', pageBreak: 'after' });
+            }
         }
 
         const docDefinition = {

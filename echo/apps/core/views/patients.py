@@ -900,8 +900,12 @@ def ajouter_fichier(request, pk):
     patient = get_object_or_404(Patient, pk=pk)
     print(patient)
     id_dossier = request.POST.get('dossier', None)
-    print(id_dossier)
-    dossier = get_object_or_404(DossierFichiersPatient, id=id_dossier)
+    if id_dossier:
+        dossier = get_object_or_404(DossierFichiersPatient, id=id_dossier)
+    else:
+        dossier = DossierFichiersPatient.objects.first()
+        if not dossier:
+            dossier = DossierFichiersPatient.objects.create(nom="General")
     fichier = FichierPatient(nom=request.FILES['file'].name, fichier=request.FILES['file'], dossier=dossier,
                              date=datetime.datetime.now(),
                              patient=patient)

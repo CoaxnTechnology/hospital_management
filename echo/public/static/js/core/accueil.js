@@ -599,9 +599,10 @@ function bootstrapAccueilDashboard() {
                 {data: 'motif.libelle'},
                 {data: 'praticien', width: '300px', render: (data, type, full, meta) => data ? data.nom : '-'},
                 {data: null},
+                {data: 'date', visible: false},
             ],
 
-            order: [[0, "asc"]],
+            order: [[8, "desc"]],
 
             columnDefs: [
                 {

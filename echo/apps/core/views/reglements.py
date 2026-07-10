@@ -230,27 +230,41 @@ class ReglementCreate(LoginRequiredMixin, CreateView):
     init = {}
 
     def dispatch(self, request, *args, **kwargs):
+        print(f"REQ {request.method} {request.path} auth={request.user.is_authenticated}",
+              flush=True, file=__import__('sys').stderr)
         if not request.user.is_authenticated or not hasattr(request.user, 'profil'):
             from django.http import HttpResponseRedirect
             return HttpResponseRedirect('/accounts/login/?next=' + request.path)
         return super().dispatch(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs):
-        print('Get context data')
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        context = self.get_context_data()
 
-        admission = get_object_or_404(Admission, pk=self.kwargs['pk'])
-        patient = get_object_or_404(Patient, pk=admission.patient.id)
+        from django.template.loader import render_to_string
+        html = render_to_string(self.template_name, context, request=request)
+
+        from django.http import HttpResponse
+        return HttpResponse(html)
+
+    def get_context_data(self, **kwargs):
+        print("GCTX step 1", flush=True, file=__import__('sys').stderr)
+        admission = get_object_or_404(Admission.objects.select_related('patient'), pk=self.kwargs['pk'])
+        patient = admission.patient
+        print("GCTX step 2 patient", flush=True, file=__import__('sys').stderr)
+
         praticien = None
         today = date.today()
-        consultations = patient.consultation_set.filter(Q(date__day=today.day)
+        consultations = list(patient.consultation_set.filter(Q(date__day=today.day)
                                                         & Q(date__month=today.month)
-                                                        & Q(date__year=today.year))
-        if len(consultations):
+                                                        & Q(date__year=today.year)))
+        print("GCTX step 3 consultations", flush=True, file=__import__('sys').stderr)
+        if consultations:
             praticien = consultations[0].praticien
 
-        prestations = Prestation.objects.filter(compte=self.request.user.profil.compte).order_by('code')
-
-        prestation_mutuelle = Prestation.objects.filter(compte=self.request.user.profil.compte, code="C2")
+        prestations = list(Prestation.objects.filter(compte=self.request.user.profil.compte).order_by('code'))
+        prestation_mutuelle_list = list(Prestation.objects.filter(compte=self.request.user.profil.compte, code="C2"))
+        print("GCTX step 4 prestations", flush=True, file=__import__('sys').stderr)
 
         self.init = {'admission': admission.pk,
                      'patient': patient.pk,
@@ -258,60 +272,58 @@ class ReglementCreate(LoginRequiredMixin, CreateView):
                      'date_cheque': today,
                      'mutuelle': patient.mutuelle}
 
-        context = super().get_context_data(**kwargs)
-
-        extra = 1
+        if 'form' not in kwargs:
+            form = ReglementForm(initial=self.init)
+        else:
+            form = kwargs['form']
         LigneReglementFormset = inlineformset_factory(Reglement, LigneReglement,
-                                                      form=LigneReglementForm, fields='__all__',
-                                                      extra=extra, can_delete=True)
-        if self.request.POST:
-            context["formset"] = LigneReglementFormset(self.request.POST, instance=self.object)
+                                                       form=LigneReglementForm, fields='__all__',
+                                                       extra=1, can_delete=True)
+        if 'formset' in kwargs:
+            formset = kwargs['formset']
         else:
-            context["formset"] = LigneReglementFormset(instance=self.object)
+            formset = LigneReglementFormset()
+        print("GCTX step 5 form+formset", flush=True, file=__import__('sys').stderr)
 
-        context['reglement'] = context["form"]
-        context['patient'] = patient
-        if prestation_mutuelle:
-            context['prestation_mutuelle'] = prestation_mutuelle[0]
-        context['prestations'] = prestations
-        context['prestations_json'] = json.dumps(PrestationSerializer(prestations, many=True).data)
-        context['praticien'] = praticien
-        if patient.mutuelle and prestation_mutuelle:
-            prestation_par_defaut = prestation_mutuelle
+        prestations_json = json.dumps(PrestationSerializer(prestations, many=True).data)
+        print("GCTX step 6 serialized", flush=True, file=__import__('sys').stderr)
+
+        context = {
+            'form': form,
+            'formset': formset,
+            'view': self,
+            'reglement': form,
+            'patient': patient,
+            'prestations': prestations,
+            'prestations_json': prestations_json,
+            'praticien': praticien,
+        }
+        if prestation_mutuelle_list:
+            context['prestation_mutuelle'] = prestation_mutuelle_list[0]
+        if patient.mutuelle and prestation_mutuelle_list:
+            prestation_par_defaut = prestation_mutuelle_list
         else:
-            prestation_par_defaut = Prestation.objects.filter(compte=self.request.user.profil.compte, par_defaut=True)
-        if len(prestation_par_defaut):
+            prestation_par_defaut = list(Prestation.objects.filter(compte=self.request.user.profil.compte, par_defaut=True))
+        if prestation_par_defaut:
             context['prestation_par_defaut'] = prestation_par_defaut[0]
             context['prestation_par_defaut_json'] = json.dumps(PrestationSerializer(prestation_par_defaut[0]).data)
-        print('prestation_par_defaut', prestation_par_defaut)
+        print("GCTX step 7 done", flush=True, file=__import__('sys').stderr)
 
         return context
 
     def get_initial(self):
-        print('Get initial')
         init = super().get_initial()
-        print("Initial", self.init)
         return {**init, **(self.init)}
 
     def form_invalid(self, form):
-        print(form.errors)
+        print(f"POST form_invalid errors: {form.errors}", flush=True, file=__import__('sys').stderr)
         return super().form_invalid(form)
 
     def form_valid(self, form):
-        context = self.get_context_data()
-        formset = context["formset"]
-        if form.is_valid():
-            with transaction.atomic():
-                self.object = form.save()
-                print('form valid')
-                if formset.is_valid():
-                    print('formset valid')
-                    formset.instance = self.object
-                    formset.save()
-        else:
-            print('Form not valid', form.errors)
-
-        return super().form_valid(form)
+        print("POST form_valid", flush=True, file=__import__('sys').stderr)
+        self.object = form.save()
+        print("POST saved, redirecting", flush=True, file=__import__('sys').stderr)
+        return redirect(self.get_success_url())
 
 
 class ReglementUpdate(UpdateView):

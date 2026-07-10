@@ -778,10 +778,18 @@ $(document).ready(() => {
         });
     });
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    const url = window.location.href;
-    const activeTab = url.substring(url.indexOf("#") + 1);
-    if (activeTab) {
-        setTimeout(() => $(`a[href="#${activeTab}"]`).tab('show'), 1500);
+    // Tab state persistence: save on click, restore on load
+    const STORAGE_KEY = 'patient_detail_active_tab';
+    $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+        const hash = e.target.getAttribute('href');
+        localStorage.setItem(STORAGE_KEY, hash);
+        history.replaceState(null, null, hash);
+    });
+    const hashTab = window.location.hash;
+    const savedTab = localStorage.getItem(STORAGE_KEY);
+    const tabToShow = hashTab || savedTab || '';
+    if (tabToShow) {
+        setTimeout(() => $(`a[href="${tabToShow}"]`).tab('show'), 1500);
     }
 
     const nowDate = new Date();

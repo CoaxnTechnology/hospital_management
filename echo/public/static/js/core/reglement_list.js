@@ -58,7 +58,7 @@ function download_facture(pk) {
         }
     };
     pdfDoc = pdfMake.createPdf(docDefinition);
-    pdfDoc.open();
+    pdfDoc.download("facture_" + numero + ".pdf");
 
 }
 

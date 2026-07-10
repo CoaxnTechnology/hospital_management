@@ -21,7 +21,7 @@ if (signature_url && signature_url != '') {
 
 function defaultHeader(currentPage, pageCount, pageSize) {
     return [
-        addEntetes ?
+        addEntetes && logoB64 ?
             {image: logoB64, width: pageSize.width, margin: [0, 0, 0, 0], alignment: 'center'} :
             {text: ' ', fit: [420, 55], margin: [0, 0, 0, 0], alignment: 'center'}
     ];
@@ -29,7 +29,7 @@ function defaultHeader(currentPage, pageCount, pageSize) {
 
 function defaultFooter(currentPage, pageCount, pageSize) {
     return [
-        addEntetes ?
+        addEntetes && footerB64 ?
             {image: footerB64, width: pageSize.width, margin: [0, 0, 0, 0], alignment: 'center'} :
             {text: ' ', fit: [420, 85], margin: [0, 0, 0, 0], alignment: 'center'},
             {

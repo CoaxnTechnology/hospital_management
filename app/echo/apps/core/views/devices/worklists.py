@@ -50,6 +50,8 @@ def rechercher_worklists(request):
                 print(f'Filtered by device doctors: {list(device_doctors)}')
 
     #items = items.filter(mpps_status__in=[WorklistItem.MPPS_STATUS_PENDING, WorklistItem.MPPS_STATUS_INPROGRESS])
+    # Deduplicate: only the most recent WorklistItem per patient (handles double-click duplicates)
+    items = items.order_by('consultation__patient_id', '-id').distinct('consultation__patient_id')
     print('Items found', items)
     data = WorklistItemSerializer(items, many=True)
     resp = {

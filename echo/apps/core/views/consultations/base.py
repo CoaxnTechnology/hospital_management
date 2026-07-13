@@ -84,7 +84,7 @@ class ConsultationCreateBase(CreateView):
         medecins = Medecin.objects.filter(compte=self.request.user.profil.compte)
         medecins_json = MedecinSerializer(medecins, many=True)
         context['medecins_json'] = json.dumps(medecins_json.data)
-        devices = Device.objects.filter(compte=self.request.user.profil.compte)
+        devices = Device.for_user(self.request.user)
         context['devices'] = devices
         context['devices_json'] = json.dumps(DeviceSerializer(devices, many=True).data)
         patients.charger_info_panel_context(self.request, context, patient)
@@ -214,7 +214,7 @@ class ConsultationUpdateBase(UpdateView):
         medecins = Medecin.objects.filter(compte=self.request.user.profil.compte)
         medecins_json = MedecinSerializer(medecins, many=True)
         context['medecins_json'] = json.dumps(medecins_json.data)
-        devices = Device.objects.filter(compte=self.request.user.profil.compte)
+        devices = Device.for_user(self.request.user)
         context['devices'] = devices
         context['devices_json'] = json.dumps(DeviceSerializer(devices, many=True).data)
         patients.charger_info_panel_context(self.request, context, patient)

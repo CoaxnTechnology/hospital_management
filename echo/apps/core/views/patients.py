@@ -177,7 +177,7 @@ class PatientView(PermissionRequiredMixin, DetailView):
         else:
             context['consultations_obs_list'] = []
 
-        devices = Device.objects.filter(compte=self.request.user.profil.compte)
+        devices = Device.for_user(self.request.user)
         context['devices'] = devices
         context['devices_json'] = json.dumps(DeviceSerializer(devices, many=True).data)
 

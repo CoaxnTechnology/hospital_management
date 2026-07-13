@@ -65,7 +65,8 @@ class DeviceAdmin(admin.ModelAdmin):
     list_display = ('marque', 'modele', 'ae_title', 'ip', 'port', 'compte')
     list_filter = ('compte',)
     search_fields = ('marque', 'modele', 'ae_title', 'compte__raison_sociale')
-    fields = ('compte', 'marque', 'modele', 'ae_title', 'ip', 'port', 'mise_circulation', 'reference', 'informations')
+    fields = ('compte', 'marque', 'modele', 'ae_title', 'ip', 'port', 'mise_circulation', 'reference', 'informations', 'doctors')
+    filter_horizontal = ('doctors',)
 
     def get_queryset(self, request):
         return Device.all_objects.all()

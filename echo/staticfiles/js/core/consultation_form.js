@@ -352,14 +352,15 @@ function createPdf() {
             }
             content.push(htmlToPdfmake(templateSignature(signatureData)));
             const images = _.values(consultationImagesB64);
-            const rows = images.length % 3 > 0 ? Math.floor(images.length / 3) + 1 : Math.floor(images.length / 3);
+            const colsPerRow = 2;
+            const rows = Math.ceil(images.length / colsPerRow);
             if (rows) content.push({ text: '_', pageBreak: 'after'});
             for (let row = 0; row < rows; row++) {
                 let cols = [];
-                for (let col = 0; col < 3 && row * 3 + col < images.length; col++) {
-                    cols.push({width: 170, image:images[row*3+col]});
+                for (let col = 0; col < colsPerRow && row * colsPerRow + col < images.length; col++) {
+                    cols.push({width: '*', image:images[row*colsPerRow+col]});
                 }
-                content.push({columns: cols});
+                content.push({columns: cols, margin: [0, 0, 0, 15], columnGap: 15});
             }
 
             const docDefinition = {
@@ -761,6 +762,14 @@ function afficherImpressionImages() {
     bootstrap.Modal.getOrCreateInstance('#modal-impression-images').show();
 }
 
+let selectedImageLayout = '2x3';
+
+function setImageLayout(layout) {
+    selectedImageLayout = layout;
+    $('#modal-impression-images .btn-group .btn').removeClass('active');
+    $(`#modal-impression-images .btn-group .btn[data-layout="${layout}"]`).addClass('active');
+}
+
 function selectionnerToutesImages(select) {
     $('#modal-impression-images .img-cb-print').prop('checked', select);
 }
@@ -788,30 +797,42 @@ function imprimerImagesSelectionnees() {
     );
 
     Promise.all(promises).then(imagesB64 => {
-        const IMAGES_PER_PAGE = 6;
+        const colsPerRow = 2;
+        const rowsPerPage = selectedImageLayout === '2x4' ? 4 : 3;
+        const marginLr = 10;
+        const marginTb = 10;
+        const columnGap = 5;
+        const rowGap = 12;
+        const pageW = 595.28 - marginLr * 2;
+        const contentH = 841.89 - marginTb * 2;
+        const colW = (pageW - columnGap) / colsPerRow;
+        const maxRowH = (contentH - (rowsPerPage - 1) * rowGap) / rowsPerPage;
+        const imgW = rowsPerPage === 4 ? Math.floor(Math.min(colW, maxRowH * 4 / 3)) : Math.floor(colW);
+        const totalW = colsPerRow * imgW + (colsPerRow - 1) * columnGap;
+        const centerMargin = Math.max(0, (pageW - totalW) / 2);
+        const IMAGES_PER_PAGE = colsPerRow * rowsPerPage;
+        const estImgH = imgW * 0.75;
         let content = [];
-        if (imagesB64.length) content.push({ text: 'Images', style: 'header', margin: [0, 0, 0, 10] });
         for (let i = 0; i < imagesB64.length; i += IMAGES_PER_PAGE) {
             const pageImages = imagesB64.slice(i, i + IMAGES_PER_PAGE);
-            const rows = Math.ceil(pageImages.length / 3);
+            const rows = Math.ceil(pageImages.length / colsPerRow);
+            const totalContentH = rows * estImgH + (rows - 1) * rowGap;
+            const extraTop = Math.max(0, Math.floor((contentH - totalContentH) / 2));
             for (let row = 0; row < rows; row++) {
                 let cols = [];
-                for (let col = 0; col < 3 && row * 3 + col < pageImages.length; col++) {
-                    cols.push({ width: 170, image: pageImages[row * 3 + col] });
+                for (let col = 0; col < colsPerRow && row * colsPerRow + col < pageImages.length; col++) {
+                    cols.push({ image: pageImages[row * colsPerRow + col], width: imgW });
                 }
-                if (cols.length) content.push({ columns: cols, margin: [0, 0, 0, 10] });
+                if (cols.length) content.push({ columns: cols, columnGap: columnGap, margin: [centerMargin, row === 0 ? extraTop : 0, 0, row === rows - 1 ? 0 : rowGap] });
             }
             if (i + IMAGES_PER_PAGE < imagesB64.length) {
                 content.push({ text: '', pageBreak: 'after' });
             }
         }
-
         const docDefinition = {
-            pageMargins: [20, 20, 20, 20],
-            content: content,
-            styles: { header: { fontSize: 16, bold: true } }
+            pageMargins: [marginLr, marginTb, marginLr, marginTb],
+            content: content
         };
-
         pdfMake.createPdf(docDefinition).print();
     });
 }
@@ -826,64 +847,72 @@ function imprimerGraphique() {
         { id: 'graph-femur', label: gl['graph-femur'] || 'Longueur du fémur' },
     ];
 
-    const $tabGraphs = $('#tab-graphs');
-    const wasHidden = $tabGraphs.is(':hidden');
-    if (wasHidden) {
-        $tabGraphs.css({ display: 'block', visibility: 'hidden', position: 'absolute' });
-    }
-
-    const populateAndShow = () => {
+    const doCapture = () => {
         const $container = $('#print-graphs-container').empty();
         const $empty = $('#print-graphs-empty');
         let hasGraph = false;
+        let pending = 0;
 
         _.each(graphConfig, cfg => {
-            const canvas = $(`#${cfg.id} canvas`)[0];
-            if (canvas && canvas.width > 0 && canvas.height > 0) {
+            const el = document.getElementById(cfg.id);
+            const cnv = el && el.querySelector('canvas');
+            if (cnv && cnv.width > 100 && cnv.height > 100) {
                 hasGraph = true;
-                const b64 = canvas.toDataURL('image/png');
-                $container.append(`
-                    <div class="col-6 mb-4">
-                        <div class="card card-custom gutter-b bg-white border h-100">
-                            <div class="card-body p-3 text-center">
-                                <h6 class="fw-bold mb-3">${cfg.label}</h6>
-                                <img src="${b64}" class="img-fluid" style="max-height:350px;object-fit:contain">
+                pending++;
+                html2canvas(el, { backgroundColor: '#ffffff', scale: 1.5, logging: false }).then(captureCanvas => {
+                    $container.append(`
+                        <div class="col-6 mb-4">
+                            <div class="card card-custom gutter-b bg-white border h-100">
+                                <div class="card-body p-3 text-center">
+                                    <h6 class="fw-bold mb-3">${cfg.label}</h6>
+                                    <img src="${captureCanvas.toDataURL('image/png')}" class="img-fluid" style="max-height:350px;object-fit:contain">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `);
+                    `);
+                    pending--;
+                    if (pending === 0) {
+                        if (hasGraph) { $empty.hide(); $container.show(); }
+                        else { $empty.show(); $container.hide(); }
+                        bootstrap.Modal.getOrCreateInstance('#modal-impression-graphs').show();
+                    }
+                });
             }
         });
 
-        if (wasHidden) {
-            $tabGraphs.css({ display: '', visibility: '', position: '' });
-        }
-
-        if (hasGraph) {
-            $empty.hide();
-            $container.show();
-        } else {
+        if (!hasGraph) {
             $empty.show();
             $container.hide();
-        }
-        bootstrap.Modal.getOrCreateInstance('#modal-impression-graphs').show();
-    };
-
-    const waitForFlotResize = (callback, retries = 30) => {
-        const firstCanvas = $(`#${graphConfig[0].id} canvas`)[0];
-        if (firstCanvas && firstCanvas.width > 100) {
-            callback();
-        } else if (retries > 0) {
-            requestAnimationFrame(() => waitForFlotResize(callback, retries - 1));
-        } else {
-            callback();
+            bootstrap.Modal.getOrCreateInstance('#modal-impression-graphs').show();
         }
     };
 
+    const $tabGraphs = $('#tab-graphs');
+    const wasHidden = $tabGraphs.is(':hidden');
     if (wasHidden) {
-        requestAnimationFrame(() => waitForFlotResize(populateAndShow));
+        $tabGraphs.css({ display: 'block', opacity: '0', position: 'static' });
+        _.each(graphConfig, cfg => $(`#${cfg.id}`).trigger('resize'));
+    }
+
+    const existingCanvas = $(`#${graphConfig[0].id} canvas`)[0];
+    const resetTab = () => { if (wasHidden) $tabGraphs.css({ display: '', opacity: '', position: '' }); };
+
+    if (existingCanvas && existingCanvas.width > 100 && existingCanvas.height > 100) {
+        resetTab();
+        doCapture();
+    } else if (existingCanvas) {
+        setTimeout(() => { resetTab(); doCapture(); }, 800);
+    } else if (typeof chargerMesures === 'function' && typeof updateAllGraphs === 'function' &&
+               typeof grossesse !== 'undefined' && grossesse && grossesse.id) {
+        chargerMesures(grossesse.id).then(mesures => {
+            updateAllGraphs(mesures);
+            setTimeout(() => { resetTab(); doCapture(); }, 800);
+        }).catch(() => {
+            resetTab();
+            doCapture();
+        });
     } else {
-        waitForFlotResize(populateAndShow);
+        setTimeout(() => { resetTab(); doCapture(); }, 800);
     }
 }
 
@@ -904,7 +933,7 @@ function imprimerGraphiquesSelectionnes() {
         const b64 = $(this).attr('src');
         if (b64 && b64.length > 100) {
             content.push({ text: label, style: 'header', margin: [0, 10, 0, 5] });
-            content.push({ image: b64, width: 500, alignment: 'center', margin: [0, 0, 0, 10] });
+            content.push({ image: b64, width: '*', alignment: 'center', margin: [0, 0, 0, 10] });
         }
     });
 
@@ -915,15 +944,25 @@ function imprimerGraphiquesSelectionnes() {
 
     bootstrap.Modal.getOrCreateInstance('#modal-impression-graphs').hide();
 
-    const docDefinition = {
-        pageMargins: [40, 40, 40, 40],
-        content: content,
-        styles: {
-            header: { fontSize: 14, bold: true, margin: [0, 10, 0, 5] }
-        }
-    };
+    let html = '<html><head><style>@page{margin:15mm}body{font-family:sans-serif;padding:0}img{max-width:100%;margin:10px auto;display:block}h4{text-align:center;font-size:16px;margin:20px 0 5px}.page-break{page-break-after:always}</style></head><body>';
+    for (let i = 0; i < content.length; i++) {
+        if (content[i].text) html += `<h4>${content[i].text}</h4>`;
+        if (content[i].image) html += `<img src="${content[i].image}">`;
+    }
+    html += '</body></html>';
 
-    pdfMake.createPdf(docDefinition).print();
+    $('body').append(
+        `<iframe id="graph-print-frame" style="position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;border:none"></iframe>`
+    );
+    const frame = document.getElementById('graph-print-frame');
+    const doc = frame.contentWindow.document;
+    doc.open();
+    doc.write(html);
+    doc.close();
+    setTimeout(() => {
+        frame.contentWindow.print();
+        setTimeout(() => $(frame).remove(), 1000);
+    }, 500);
 }
 
 $(document).ready(function () {

@@ -49,7 +49,7 @@ class RdvList(LoginRequiredMixin, PermissionRequiredMixin, View):
         data_programme = json.dumps(
             ProgrammeOperatoireSerializer(programme_operatoires, many=True).data)
 
-        devices = Device.objects.filter(compte=compte)
+        devices = Device.for_user(self.request.user)
         context = {
             'object_list': data,
             'absence_list': data_absence,

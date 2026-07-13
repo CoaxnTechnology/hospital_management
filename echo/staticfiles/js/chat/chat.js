@@ -51,8 +51,10 @@ function traiterEvenement(event) {
             console.log('Socket non trouvée');
             ouvrirDiscussion(null, id);
         } else {
-            const popupSelector = '#discussion-' + disc.id;
-            bootstrap.Modal.getOrCreateInstance(popupSelector).show()
+            const popupEl = document.getElementById('discussion-' + disc.id);
+            if (popupEl) {
+                bootstrap.Modal.getOrCreateInstance(popupEl).show();
+            }
         }
     }
 }
@@ -170,10 +172,16 @@ function ouvrirDiscussion(event, pk) {
             maxScrollbarLength: $scroll.attr('data-height'),
             suppressScrollX: true
         });*/
-        popups.push(bootstrap.Modal.getOrCreateInstance(popupSelector).show());
+        const popupEl = document.getElementById('discussion-' + pk);
+        if (popupEl) {
+            popups.push(bootstrap.Modal.getOrCreateInstance(popupEl).show());
+        }
         scrollToEnd($scroll.get(0));
     } else {
-        bootstrap.Modal.getOrCreateInstance(popupSelector).show();
+        const popupEl = document.getElementById('discussion-' + pk);
+        if (popupEl) {
+            bootstrap.Modal.getOrCreateInstance(popupEl).show();
+        }
     }
 
     let disc = trouverDiscussion(pk);

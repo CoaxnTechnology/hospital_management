@@ -225,29 +225,6 @@ tr:nth-child(even) td { background:#F7FAFD; }
   </table>
   {% endif %}
 
-  <!-- Uterine Doppler -->
-  {% if sr.doppler_uterin %}{% with d=sr.doppler_uterin %}
-  {% if d.ir_gauche or d.ir_droit or d.ip_gauche or d.ip_droit or d.peak_systolic_velocity_gauche or d.peak_systolic_velocity_droit %}
-  <div class="sec sub">Doppler utérin</div>
-  <table>
-    <tr><th>Paramètre</th><th>Gauche</th><th>Droit</th></tr>
-    {% if d.ir_gauche or d.ir_droit %}<tr><td>Index de résistance (IR)</td><td class="v">{{ d.ir_gauche|default:"—" }}</td><td class="v">{{ d.ir_droit|default:"—" }}</td></tr>{% endif %}
-    {% if d.ip_gauche or d.ip_droit %}<tr><td>Index de pulsatilité (IP)</td><td class="v">{{ d.ip_gauche|default:"—" }}</td><td class="v">{{ d.ip_droit|default:"—" }}</td></tr>{% endif %}
-    {% if d.peak_systolic_velocity_gauche or d.peak_systolic_velocity_droit %}<tr><td>PS</td><td class="v">{{ d.peak_systolic_velocity_gauche|default:"—" }}</td><td class="v">{{ d.peak_systolic_velocity_droit|default:"—" }}</td></tr>{% endif %}
-    {% if d.end_diastolic_velocity_gauche or d.end_diastolic_velocity_droit %}<tr><td>ED</td><td class="v">{{ d.end_diastolic_velocity_gauche|default:"—" }}</td><td class="v">{{ d.end_diastolic_velocity_droit|default:"—" }}</td></tr>{% endif %}
-    {% if d.time_averaged_peak_velocity_gauche or d.time_averaged_peak_velocity_droit %}<tr><td>TAmax</td><td class="v">{{ d.time_averaged_peak_velocity_gauche|default:"—" }}</td><td class="v">{{ d.time_averaged_peak_velocity_droit|default:"—" }}</td></tr>{% endif %}
-    {% if d.time_averaged_mean_velocity_gauche or d.time_averaged_mean_velocity_droit %}<tr><td>TAmean</td><td class="v">{{ d.time_averaged_mean_velocity_gauche|default:"—" }}</td><td class="v">{{ d.time_averaged_mean_velocity_droit|default:"—" }}</td></tr>{% endif %}
-    {% if d.peak_gradient_gauche or d.peak_gradient_droit %}<tr><td>PGmax</td><td class="v">{{ d.peak_gradient_gauche|default:"—" }}</td><td class="v">{{ d.peak_gradient_droit|default:"—" }}</td></tr>{% endif %}
-    {% if d.mean_gradient_gauche or d.mean_gradient_droit %}<tr><td>PGmean</td><td class="v">{{ d.mean_gradient_gauche|default:"—" }}</td><td class="v">{{ d.mean_gradient_droit|default:"—" }}</td></tr>{% endif %}
-    {% if d.acceleration_time_gauche or d.acceleration_time_droit %}<tr><td>AccT</td><td class="v">{{ d.acceleration_time_gauche|default:"—" }}</td><td class="v">{{ d.acceleration_time_droit|default:"—" }}</td></tr>{% endif %}
-    {% if d.acceleration_slope_gauche or d.acceleration_slope_droit %}<tr><td>Acc</td><td class="v">{{ d.acceleration_slope_gauche|default:"—" }}</td><td class="v">{{ d.acceleration_slope_droit|default:"—" }}</td></tr>{% endif %}
-    {% if d.deceleration_time_gauche or d.deceleration_time_droit %}<tr><td>DecT</td><td class="v">{{ d.deceleration_time_gauche|default:"—" }}</td><td class="v">{{ d.deceleration_time_droit|default:"—" }}</td></tr>{% endif %}
-    {% if d.deceleration_slope_gauche or d.deceleration_slope_droit %}<tr><td>Dec</td><td class="v">{{ d.deceleration_slope_gauche|default:"—" }}</td><td class="v">{{ d.deceleration_slope_droit|default:"—" }}</td></tr>{% endif %}
-    {% if d.diastolic_to_systolic_velocity_ratio_gauche or d.diastolic_to_systolic_velocity_ratio_droit %}<tr><td>ED/PS</td><td class="v">{{ d.diastolic_to_systolic_velocity_ratio_gauche|default:"—" }}</td><td class="v">{{ d.diastolic_to_systolic_velocity_ratio_droit|default:"—" }}</td></tr>{% endif %}
-    {% if d.heart_rate_gauche or d.heart_rate_droit %}<tr><td>HR</td><td class="v">{{ d.heart_rate_gauche|default:"—" }}</td><td class="v">{{ d.heart_rate_droit|default:"—" }}</td></tr>{% endif %}
-  </table>
-  {% endif %}{% endwith %}{% endif %}
-
   <!-- ── FETUSES ── -->
   {% for fetus in sr.foetus %}
   <div class="fetus-hd">
@@ -397,6 +374,29 @@ tr:nth-child(even) td { background:#F7FAFD; }
   {% empty %}
   <!-- No fetuses in SR -->
   {% endfor %}
+
+  <!-- Uterine Doppler -->
+  {% if sr.doppler_uterin %}{% with d=sr.doppler_uterin %}
+  {% if d.ir_gauche or d.ir_droit or d.ip_gauche or d.ip_droit or d.peak_systolic_velocity_gauche or d.peak_systolic_velocity_droit %}
+  <div class="sec sub">Doppler utérin</div>
+  <table>
+    <tr><th>Paramètre</th><th>Gauche</th><th>Droit</th></tr>
+    {% if d.ir_gauche or d.ir_droit %}<tr><td>Index de résistance (IR)</td><td class="v">{{ d.ir_gauche|default:"—" }}</td><td class="v">{{ d.ir_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.ip_gauche or d.ip_droit %}<tr><td>Index de pulsatilité (IP)</td><td class="v">{{ d.ip_gauche|default:"—" }}</td><td class="v">{{ d.ip_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.peak_systolic_velocity_gauche or d.peak_systolic_velocity_droit %}<tr><td>PS</td><td class="v">{{ d.peak_systolic_velocity_gauche|default:"—" }}</td><td class="v">{{ d.peak_systolic_velocity_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.end_diastolic_velocity_gauche or d.end_diastolic_velocity_droit %}<tr><td>ED</td><td class="v">{{ d.end_diastolic_velocity_gauche|default:"—" }}</td><td class="v">{{ d.end_diastolic_velocity_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.time_averaged_peak_velocity_gauche or d.time_averaged_peak_velocity_droit %}<tr><td>TAmax</td><td class="v">{{ d.time_averaged_peak_velocity_gauche|default:"—" }}</td><td class="v">{{ d.time_averaged_peak_velocity_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.time_averaged_mean_velocity_gauche or d.time_averaged_mean_velocity_droit %}<tr><td>TAmean</td><td class="v">{{ d.time_averaged_mean_velocity_gauche|default:"—" }}</td><td class="v">{{ d.time_averaged_mean_velocity_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.peak_gradient_gauche or d.peak_gradient_droit %}<tr><td>PGmax</td><td class="v">{{ d.peak_gradient_gauche|default:"—" }}</td><td class="v">{{ d.peak_gradient_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.mean_gradient_gauche or d.mean_gradient_droit %}<tr><td>PGmean</td><td class="v">{{ d.mean_gradient_gauche|default:"—" }}</td><td class="v">{{ d.mean_gradient_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.acceleration_time_gauche or d.acceleration_time_droit %}<tr><td>AccT</td><td class="v">{{ d.acceleration_time_gauche|default:"—" }}</td><td class="v">{{ d.acceleration_time_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.acceleration_slope_gauche or d.acceleration_slope_droit %}<tr><td>Acc</td><td class="v">{{ d.acceleration_slope_gauche|default:"—" }}</td><td class="v">{{ d.acceleration_slope_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.deceleration_time_gauche or d.deceleration_time_droit %}<tr><td>DecT</td><td class="v">{{ d.deceleration_time_gauche|default:"—" }}</td><td class="v">{{ d.deceleration_time_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.deceleration_slope_gauche or d.deceleration_slope_droit %}<tr><td>Dec</td><td class="v">{{ d.deceleration_slope_gauche|default:"—" }}</td><td class="v">{{ d.deceleration_slope_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.diastolic_to_systolic_velocity_ratio_gauche or d.diastolic_to_systolic_velocity_ratio_droit %}<tr><td>ED/PS</td><td class="v">{{ d.diastolic_to_systolic_velocity_ratio_gauche|default:"—" }}</td><td class="v">{{ d.diastolic_to_systolic_velocity_ratio_droit|default:"—" }}</td></tr>{% endif %}
+    {% if d.heart_rate_gauche or d.heart_rate_droit %}<tr><td>HR</td><td class="v">{{ d.heart_rate_gauche|default:"—" }}</td><td class="v">{{ d.heart_rate_droit|default:"—" }}</td></tr>{% endif %}
+  </table>
+  {% endif %}{% endwith %}{% endif %}
 
   {% else %}
   <!-- ══ NO MEASUREMENTS ══ -->

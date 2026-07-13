@@ -18,7 +18,7 @@ class DeviceList(PermissionRequiredMixin, ListView):
     permission_required = 'core.view_patient'
 
     def get_queryset(self):
-        return Device.objects.filter(compte=self.request.user.profil.compte)
+        return Device.for_user(self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -34,6 +34,11 @@ class DeviceCreate(PermissionRequiredMixin, CreateView):
     permission_required = 'core.change_patient'
     success_url = reverse_lazy('devices_list')
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
 
 class DeviceUpdate(PermissionRequiredMixin, UpdateView):
     model = Device
@@ -41,6 +46,11 @@ class DeviceUpdate(PermissionRequiredMixin, UpdateView):
     template_name = 'core/device_form.html'
     permission_required = 'core.change_patient'
     success_url = reverse_lazy('devices_list')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
 
 @login_required

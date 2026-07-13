@@ -3405,9 +3405,19 @@ class Device(CompteModelBase):
     ae_title = models.CharField(max_length=256)
     ip = models.CharField(max_length=14)
     port = models.PositiveSmallIntegerField()
+    doctors = models.ManyToManyField('Medecin', blank=True)
 
     def __str__(self):
         return f"{self.marque} - {self.modele}"
+
+    @classmethod
+    def for_user(cls, user):
+        qs = cls.objects.filter(compte=user.profil.compte)
+        try:
+            medecin = Medecin.objects.get(pk=user.profil.pk)
+            return qs.filter(doctors=medecin)
+        except Medecin.DoesNotExist:
+            return qs.none()
 
 
 class WorklistItem(models.Model):

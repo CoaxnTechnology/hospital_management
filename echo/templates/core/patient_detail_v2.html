@@ -1829,9 +1829,15 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="d-flex mb-3 gap-3">
+                    <div class="d-flex mb-3 gap-3 align-items-center">
                         <button class="btn btn-sm btn-primary" onclick="selectionnerToutesImages(true)">{% trans "Tout sélectionner" %}</button>
                         <button class="btn btn-sm btn-secondary" onclick="selectionnerToutesImages(false)">{% trans "Tout désélectionner" %}</button>
+                        <span class="ms-auto"></span>
+                        <span class="text-muted me-1 small">{% trans "Format:" %}</span>
+                        <div class="btn-group btn-group-sm" role="group">
+                            <button type="button" class="btn btn-outline-primary active" data-layout="2x3" onclick="setImageLayout('2x3')">2×3</button>
+                            <button type="button" class="btn btn-outline-primary" data-layout="2x4" onclick="setImageLayout('2x4')">2×4</button>
+                        </div>
                     </div>
                     <div class="row" id="print-images-container"></div>
                     <div class="text-center text-muted py-5" id="print-images-empty" style="display:none">
@@ -2125,7 +2131,7 @@
     <script src="{% static 'plugins/custom/flot/flot.bundle.js' %}"></script>
     <script src="{% static 'plugins/custom/fslightbox/fslightbox.bundle.js' %}"></script>
     <script src="{% static 'js/core/editique.js' %}"></script>
-    <script src="{% static 'js/core/consultation_form.js' %}"></script>
+    <script src="{% static 'js/core/consultation_form.js' %}?v=5"></script>
     <script src="{% static 'js/core/consultation_obstetrique_form.js' %}"></script>
     <script src="{% static 'js/core/consultation_obstetrique_graph.js' %}"></script>
     {% if consultation_type == '11SA' %}

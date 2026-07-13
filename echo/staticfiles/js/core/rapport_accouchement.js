@@ -19,7 +19,7 @@ jQuery(document).ready(function () {
 
     const initTableAccouchement = function () {
         // begin first table
-        const _t = _.template(unescapeTemplate($('#actions-rapport-accoucher_ent-template').html()));
+        const _t = _.template(unescapeTemplate($('#actions-rapport-accouchement-template').html()));
 
         var table = $('#rapport_accoucher_ent_datatable').DataTable({
             language: window.DT_LANGUAGE || {},

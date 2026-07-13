@@ -151,7 +151,7 @@ class Accueil(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
         context['motifs_rdv'] = motifs_rdvs
         context['motifs_rdv_json'] = json.dumps(MotifRdvSerializer(motifs_rdvs, many=True).data)
 
-        devices = Device.objects.filter(compte=compte)
+        devices = Device.for_user(self.request.user)
         context['devices_json'] = json.dumps(DeviceSerializer(devices, many=True).data)
 
         return context

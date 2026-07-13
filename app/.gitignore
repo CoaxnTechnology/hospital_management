@@ -11,8 +11,9 @@ __pycache__/
 public/static/
 db.sqlite3
 
-# App data (only top-level, not apps/core/data/)
+# App data
 /echo/data/
+/data/
 logs/
 
 # OS
@@ -23,3 +24,4 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+

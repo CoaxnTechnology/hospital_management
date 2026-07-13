@@ -1,0 +1,97 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="no-print text-end p-2">
+        <button id="btn-imprimer" type="button" class="btn btn-primary">
+            <i class="flaticon2-printer"></i> {% trans "Imprimer" %}
+        </button>
+    </div>
+
+    <div id="calendrier" style="width:100%; max-width:100%; padding:10px; font-size:12px; line-height:1.5; box-sizing:border-box;">
+        <!-- Header Info Card -->
+        <div style="background:#E1E9FF; padding:10px; margin-bottom:12px; border-radius:6px;">
+            <div style="display:flex; flex-wrap:wrap; gap:15px; margin-bottom:6px;">
+                <div><strong>DDG :</strong> <span class="ddg"></span></div>
+                <div><strong>DDR :</strong> <span class="ddr"></span></div>
+                <div><strong>Terme actuel :</strong> <span class="terme"></span></div>
+            </div>
+            <div><strong>Terme prevu :</strong> <span class="accoucher"></span></div>
+        </div>
+
+        <!-- Two Column Table Layout - Responsive -->
+        <table style="width:100%; border-collapse:collapse; table-layout:fixed;">
+            <tr>
+                <td style="vertical-align:top; width:50%; padding-right:10px; word-wrap:break-word;">
+                    <div style="font-size:12px; font-weight:bold; color:#1565C0; border-bottom:2px solid #1565C0; padding-bottom:4px; margin-bottom:6px;">Echographies</div>
+                    <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #eee; font-size:11px;"><span style="color:#555;">Echo. datation</span><span class="cal-echo-datation-int" style="max-width:100px; overflow:hidden; text-overflow:ellipsis;"></span></div>
+                    <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #eee; font-size:11px;"><span style="color:#555;">1ere Echo.</span><span class="cal-echo-1-int" style="max-width:100px; overflow:hidden; text-overflow:ellipsis;"></span></div>
+                    <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #eee; font-size:11px;"><span style="color:#555;">2eme Echo.</span><span class="cal-echo-2-int" style="max-width:100px; overflow:hidden; text-overflow:ellipsis;"></span></div>
+                    <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #eee; font-size:11px;"><span style="color:#555;">3eme Echo.</span><span class="cal-echo-3-int" style="max-width:100px; overflow:hidden; text-overflow:ellipsis;"></span></div>
+
+                    <div style="font-size:12px; font-weight:bold; color:#1565C0; border-bottom:2px solid #1565C0; padding-bottom:4px; margin:10px 0 6px 0;">Depistage</div>
+                    <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #eee; font-size:11px;"><span style="color:#555;">12 SA</span><span class="cal-12-sa" style="background:#E3F2FD; padding:1px 5px; border-radius:3px; font-size:10px;"></span></div>
+                    <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #eee; font-size:11px;"><span style="color:#555;">22 SA</span><span class="cal-22-sa" style="background:#E3F2FD; padding:1px 5px; border-radius:3px; font-size:10px;"></span></div>
+                    <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #eee; font-size:11px;"><span style="color:#555;">32 SA</span><span class="cal-32-sa" style="background:#E3F2FD; padding:1px 5px; border-radius:3px; font-size:10px;"></span></div>
+                    <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #eee; font-size:11px;"><span style="color:#555;">34 SA</span><span class="cal-34-sa" style="background:#E3F2FD; padding:1px 5px; border-radius:3px; font-size:10px;"></span></div>
+                    <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #eee; font-size:11px;"><span style="color:#555;">35 SA</span><span class="cal-35-sa" style="background:#E3F2FD; padding:1px 5px; border-radius:3px; font-size:10px;"></span></div>
+                </td>
+                
+                <td style="vertical-align:top; width:50%; padding-left:10px; border-left:1px solid #ddd; word-wrap:break-word;">
+                    <div style="font-size:12px; font-weight:bold; color:#1565C0; border-bottom:2px solid #1565C0; padding-bottom:4px; margin-bottom:6px;">Trisomie 21</div>
+                    <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #eee; font-size:11px;"><span style="color:#555;">Combine 1er</span><span class="cal-triso-1-int" style="max-width:100px; overflow:hidden; text-overflow:ellipsis;"></span></div>
+                    <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #eee; font-size:11px;"><span style="color:#555;">2eme trim.</span><span class="cal-triso-2-int" style="max-width:100px; overflow:hidden; text-overflow:ellipsis;"></span></div>
+
+                    <div style="font-size:12px; font-weight:bold; color:#1565C0; border-bottom:2px solid #1565C0; padding-bottom:4px; margin:10px 0 6px 0;">Diabete</div>
+                    <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #eee; font-size:11px;"><span style="color:#555;">Glycemie</span><span></span></div>
+                    <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #eee; font-size:11px;"><span style="color:#555;">HGPO 75g</span><span class="cal-gly-int" style="max-width:100px; overflow:hidden; text-overflow:ellipsis;"></span></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script type="text/html" id="template-header">
+        <div style="text-align:right;">
+            <span><%= date %></span>
+        </div>
+        <div style="text-align:center; margin-top:10px;">
+            <h4 style="font-size:14pt;">Calendrier de grossesse</h4>
+        </div>
+        <p>
+            <strong>{{ femme.patient.civilite|title }} {{ femme.patient.nom_complet }}</strong>
+            <span>{% if femme.patient.sexe == 'F' %} nee {% else %} ne {% endif %} le {{ femme.patient.date_naissance }}</span>
+        </p>
+    </script>
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        var logo_url = '';
+        var footer_url = '';
+        var signature_url = '';
+        var dureeGrossesse = 280;
+        
+        {% if user.profil and user.profil.compte and user.profil.compte.parametrescompte %}
+            {% if user.profil.compte.parametrescompte.logo %}
+                logo_url = '{{ user.profil.compte.parametrescompte.logo.url }}';
+            {% endif %}
+            {% if user.profil.compte.parametrescompte.footer %}
+                footer_url = '{{ user.profil.compte.parametrescompte.footer.url }}';
+            {% endif %}
+            dureeGrossesse = {{ user.profil.compte.parametrescompte.duree_grossesse|default:280 }};
+        {% endif %}
+        
+        {% if user.profil and user.profil.signature and user.profil.ajouter_signature_edition %}
+            signature_url = '{{ user.profil.signature.url }}';
+        {% endif %}
+        
+        var femme = {{ gauche_json|safe }};
+    </script>
+    <script src="{% static "plugins/custom/datatables/datatables.bundle.js" %}"></script>
+    <script src="{% static "js/core/editique.js" %}"></script>
+    <script src="{% static "js/core/obstetrique.js" %}"></script>
+    <script src="{% static "js/core/grossesse_calendrier_detail.js" %}"></script>
+{% endblock %}

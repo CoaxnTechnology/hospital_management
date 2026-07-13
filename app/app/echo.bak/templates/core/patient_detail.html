@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block styles %}
+<style>
+.la-trash { color: red; }
+.tagify .tagify__tag.tagify--notAllowed { background-color: var(--hp-input-bg); }
+.tagify .tagify__tag.tagify--notAllowed div .tagify__tag-text {
+    color: var(--hp-text-muted);
+    font-weight: 400;
+}
+.nav .show > .nav-link, .nav .nav-link {
+    height: 32px !important;
+    border-bottom: 0 !important;
+}
+</style>
+{% endblock %}
+
+{% block header %}
+<div class="subheader py-2 py-lg-4 subheader-solid">
+    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+        <div class="d-flex align-items-center flex-wrap mr-2">
+            <h5 class="text-dark font-weight-normal mt-2 mb-2 mr-5 font-size-h3">
+                {% trans "Patient" %}{% if object.sexe == 'F' %}e{% endif %}
+                <strong>{{ object.nom_complet }}</strong>
+            </h5>
+            <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+                <li class="breadcrumb-item">
+                    <a href="/accueil/#liste_salle_attente" class="text-muted">
+                        {% trans "Liste des patients en salle" %}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

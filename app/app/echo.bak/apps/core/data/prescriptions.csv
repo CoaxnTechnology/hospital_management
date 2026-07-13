@@ -1,0 +1,390 @@
+compte;libelle;categorie;text
+7;2 genoux de face;examen_complementaire;2 genoux de face
+7;2 mains de face;examen_complementaire;2 mains de face
+7;2 pieds de face;examen_complementaire;2 pieds de face
+7;4 axes / Examen crânien;examen_complementaire;4 axes / Examen crânien
+7;abalataion par radio-fréquence frais de salle;examen_complementaire;abalataion par radio-fréquence frais de salle
+7;Abdomen sans préparation (ASP):Une incidence au lit de malade;examen_complementaire;Abdomen sans préparation (ASP):Une incidence au lit de malade
+7;Abdomen sans préparation: Par incidence supplémentaire (sans dépasser les trois incidences);examen_complementaire;Abdomen sans préparation: Par incidence supplémentaire (sans dépasser les trois incidences)
+7;Abdomen sans préparation: Une incidence;examen_complementaire;Abdomen sans préparation: Une incidence
+7;Acte de radiologie interventionnelle Par échographie;examen_complementaire;Acte de radiologie interventionnelle Par échographie
+7;Age osseux: Par incidence supplémentaire;examen_complementaire;Age osseux: Par incidence supplémentaire
+7;Age osseux: Une incidence;examen_complementaire;Age osseux: Une incidence
+7;Angiographie médullaire;examen_complementaire;Angiographie médullaire
+7;Angiographie transcutanée des malformations des parties molles;examen_complementaire;Angiographie transcutanée des malformations des parties molles
+7;Angioplastie de l'artère sous clavière;examen_complementaire;Angioplastie de l'artère sous clavière
+7;Angioplastie des carotides ou des vaisceaux intracrâniens;examen_complementaire;Angioplastie des carotides ou des vaisceaux intracrâniens
+7;Angioplastie peripherique avec mise en place éventuelle d'un stent fémorale;examen_complementaire;Angioplastie peripherique avec mise en place éventuelle d'un stent fémorale
+7;Angioplastie peripherique avec mise en place éventuelle d'un stent iliaque;examen_complementaire;Angioplastie peripherique avec mise en place éventuelle d'un stent iliaque
+7;Angioplastie peripherique avec mise en place éventuelle d'un stent poplité;examen_complementaire;Angioplastie peripherique avec mise en place éventuelle d'un stent poplité
+7;Angioplastie viscérale;examen_complementaire;Angioplastie viscérale
+7;Angioscanner de l'aorte et de ses branches;examen_complementaire;Angioscanner de l'aorte et de ses branches
+7;Angioscanner des troncs supra aortiques;examen_complementaire;Angioscanner des troncs supra aortiques
+7;Angioscanner des vaisceaux de l'abdomen;examen_complementaire;Angioscanner des vaisceaux de l'abdomen
+7;Angioscanner des vaisseaux périphériques (membre supérieur ou inférieur);examen_complementaire;Angioscanner des vaisseaux périphériques (membre supérieur ou inférieur)
+7;Angioscanner du polygone de Willis;examen_complementaire;Angioscanner du polygone de Willis
+7;Angioscanner thoracique;examen_complementaire;Angioscanner thoracique
+7;Arthrographie de l'epaule avec dilataion;examen_complementaire;Arthrographie de l'epaule avec dilataion
+7;Articulation inter-apophysaire postérieur comprenant l'acte d'injection de produit de contraste;examen_complementaire;Articulation inter-apophysaire postérieur comprenant l'acte d'injection de produit de contraste
+7;Articulation inter-phalangienne comprenant l'acte d'injection de produit de contraste;examen_complementaire;Articulation inter-phalangienne comprenant l'acte d'injection de produit de contraste
+7;Articulation métacarpo-phalangienne comprenant l'acte d'injection de produit de contraste;examen_complementaire;Articulation métacarpo-phalangienne comprenant l'acte d'injection de produit de contraste
+7;Articulation sacro-iliaque comprenant l'acte d'injection de produit de contraste;examen_complementaire;Articulation sacro-iliaque comprenant l'acte d'injection de produit de contraste
+7;Avant-bras F+P;examen_complementaire;Avant-bras F+P
+7;Axiales 2 genoux 2 incidences;examen_complementaire;Axiales 2 genoux 2 incidences
+7;Bassin,Hanche,Articulation: une incidence;examen_complementaire;Bassin,Hanche,Articulation: une incidence
+7;Bassin,Hanche,Articulations sacro-iliaques: Par incidence supplémentaire;examen_complementaire;Bassin,Hanche,Articulations sacro-iliaques: Par incidence supplémentaire
+7;Biopsie vertébrale;examen_complementaire;Biopsie vertébrale
+7;Cavernographie;examen_complementaire;Cavernographie
+7;Cavographie;examen_complementaire;Cavographie
+7;Cavum;examen_complementaire;Cavum
+7;Cémentoplastie;examen_complementaire;Cémentoplastie
+7;Changement de cathéter ou de prothèse biliaire;examen_complementaire;Changement de cathéter ou de prothèse biliaire
+7;Changement d'un drain percutané;examen_complementaire;Changement d'un drain percutané
+7;Charnière cervico-occipitale: Par incidence supplémentaire;examen_complementaire;Charnière cervico-occipitale: Par incidence supplémentaire
+7;Charnière cervico-occipitale: Une incidence;examen_complementaire;Charnière cervico-occipitale: Une incidence
+7;Cheville comprenant l'acte d'injection de produit de contraste;examen_complementaire;Cheville comprenant l'acte d'injection de produit de contraste
+7;Cheville F+P;examen_complementaire;Cheville F+P
+7;Cholangiographie par drain;examen_complementaire;Cholangiographie par drain
+7;Clavicule;examen_complementaire;Clavicule
+7;COLLOSCOPIE PARTIELLE;examen_complementaire;COLLOSCOPIE PARTIELLE
+7;COLLOSCOPIE PARTIELLE+BIOPSIE;examen_complementaire;COLLOSCOPIE PARTIELLE+BIOPSIE
+7;COLLOSCOPIE TOTALE;examen_complementaire;COLLOSCOPIE TOTALE
+7;COLLOSCOPIE TOTALE AVEC BIOBSI;examen_complementaire;COLLOSCOPIE TOTALE AVEC BIOBSI
+7;COLLOSCOPIE TOTALE AVEC BIOBSI + PHOTO;examen_complementaire;COLLOSCOPIE TOTALE AVEC BIOBSI + PHOTO
+7;COLLOSCOPIE TOTALE AVEC PHOTO;examen_complementaire;COLLOSCOPIE TOTALE AVEC PHOTO
+7;Coloscanner;examen_complementaire;Coloscanner
+7;Coloscopie gauche avec anesthésie;examen_complementaire;Coloscopie gauche avec anesthésie
+7;Coloscopie gauche sans anesthésie;examen_complementaire;Coloscopie gauche sans anesthésie
+7;Coloscopie totale;examen_complementaire;Coloscopie totale
+7;Colpocystographie, injection non comprise;examen_complementaire;Colpocystographie, injection non comprise
+7;Complément Cliché GM;examen_complementaire;Complément Cliché GM
+7;Complément Cliché PM;examen_complementaire;Complément Cliché PM
+7;Complément clichets GM;examen_complementaire;Complément clichets GM
+7;Complément clichets PM;examen_complementaire;Complément clichets PM
+7;Complément IRM;examen_complementaire;Complément IRM
+7;Complément PEC 100;examen_complementaire;Complément PEC 100
+7;Complément PEC 150;examen_complementaire;Complément PEC 150
+7;Complément PEC 250;examen_complementaire;Complément PEC 250
+7;Complément PEC 60;examen_complementaire;Complément PEC 60
+7;Complément PEC 90;examen_complementaire;Complément PEC 90
+7;Contenu utérin;examen_complementaire;Contenu utérin
+7;CORONAROGRAPHIE;examen_complementaire;CORONAROGRAPHIE
+7;coronarographie frais de salle;examen_complementaire;coronarographie frais de salle
+7;Costovertébrales;examen_complementaire;Costovertébrales
+7;Coude comprenant l'acte d'injection de produit de contraste;examen_complementaire;Coude comprenant l'acte d'injection de produit de contraste
+7;coude F+P;examen_complementaire;coude F+P
+7;CPRE;examen_complementaire;CPRE
+7;Crâne: Par incidence supplémentaire;examen_complementaire;Crâne: Par incidence supplémentaire
+7;Crâne: Une incidence;examen_complementaire;Crâne: Une incidence
+7;Cystographie, injection non comprise;examen_complementaire;Cystographie, injection non comprise
+7;Dacryocystographie;examen_complementaire;Dacryocystographie
+7;Défécographie;examen_complementaire;Défécographie
+7;Dentascanner;examen_complementaire;Dentascanner
+7;Désinvagination intestinale aigue par lavement;examen_complementaire;Désinvagination intestinale aigue par lavement
+7;Désinvagination sous controle scopique;examen_complementaire;Désinvagination sous controle scopique
+7;Deux Talons de profil;examen_complementaire;Deux Talons de profil
+7;dilatation coronaire frais de salle;examen_complementaire;dilatation coronaire frais de salle
+7;dilatation des artères rénales  frais de salle;examen_complementaire;dilatation des artères rénales  frais de salle
+7;dilatation mitrale frais de salle;examen_complementaire;dilatation mitrale frais de salle
+7;DILATATION MONOTRONCULAIRE (stent actif);examen_complementaire;DILATATION MONOTRONCULAIRE (stent actif)
+7;DILATATION MONOTRONCULAIRE (stent nu);examen_complementaire;DILATATION MONOTRONCULAIRE (stent nu)
+7;DILATATION MONOTRONCULAIRE+2 STENTS ACTIFS;examen_complementaire;DILATATION MONOTRONCULAIRE+2 STENTS ACTIFS
+7;DILATATION MULTITRONCULAIRE;examen_complementaire;DILATATION MULTITRONCULAIRE
+7;dilatation pulmonaire frais de salle;examen_complementaire;dilatation pulmonaire frais de salle
+7;dilatation vasculaire frais de salle;examen_complementaire;dilatation vasculaire frais de salle
+7;Discographie;examen_complementaire;Discographie
+7;Doigt F+P;examen_complementaire;Doigt F+P
+7;Drainage biliaire externe;examen_complementaire;Drainage biliaire externe
+7;Drainage biliaire interne-externe;examen_complementaire;Drainage biliaire interne-externe
+7;Drainage percutané d'une collection abdominale;examen_complementaire;Drainage percutané d'une collection abdominale
+7;Drainage percutané d'une collection thoracique;examen_complementaire;Drainage percutané d'une collection thoracique
+7;echo-doppler 2 regions;examen_complementaire;echo-doppler 2 regions
+7;Echo-doppler de l'aorte et de ses branches;examen_complementaire;Echo-doppler de l'aorte et de ses branches
+7;Echo-doppler des artères rénales;examen_complementaire;Echo-doppler des artères rénales
+7;Echo-doppler des toncs supra aortiques y compris l'exploration transcrânienne éventuelle;examen_complementaire;Echo-doppler des toncs supra aortiques y compris l'exploration transcrânienne éventuelle
+7;echo-doppler des troncs s;examen_complementaire;echo-doppler des troncs s
+7;Echo-doppler des vaisseaux des membres inférieurs artériel ou veineux;examen_complementaire;Echo-doppler des vaisseaux des membres inférieurs artériel ou veineux
+7;Echo-doppler des vaisseaux des membres supérieurs artériel ou veineux;examen_complementaire;Echo-doppler des vaisseaux des membres supérieurs artériel ou veineux
+7;echo-doppler membres infé;examen_complementaire;echo-doppler membres infé
+7;Echo-doppler morphologique d'un ftus;examen_complementaire;Echo-doppler morphologique d'un ftus
+7;Echo-doppler morphologique par ftus supplémentaire;examen_complementaire;Echo-doppler morphologique par ftus supplémentaire
+7;Echo-doppler orbitaire;examen_complementaire;Echo-doppler orbitaire
+7;Echo-doppler pénien;examen_complementaire;Echo-doppler pénien
+7;Echo-doppler spermatique;examen_complementaire;Echo-doppler spermatique
+7;Echo-doppler trans-crânien;examen_complementaire;Echo-doppler trans-crânien
+7;Echographie abdominale;examen_complementaire;Echographie abdominale
+7;Echographie abdomino_pelvienne;examen_complementaire;Echographie abdomino_pelvienne
+7;Echographie articulaire;examen_complementaire;Echographie articulaire
+7;echographie cardiaque;examen_complementaire;echographie cardiaque
+7;echographie cardiaque tra;examen_complementaire;echographie cardiaque tra
+7;Echographie de repérage et de marquage à la peau;examen_complementaire;Echographie de repérage et de marquage à la peau
+7;Echographie des parties molles;examen_complementaire;Echographie des parties molles
+7;Echographie du 3ème trimestre;examen_complementaire;Echographie du 3ème trimestre
+7;Echographie ftale du 12ème ou 13ème semaine d'aménorrhée avec doppler des artères utérines;examen_complementaire;Echographie ftale du 12ème ou 13ème semaine d'aménorrhée avec doppler des artères utérines
+7;Echographie mammaire;examen_complementaire;Echographie mammaire
+7;Echographie obstétricale du 1er trimestre gestationnel (datation);examen_complementaire;Echographie obstétricale du 1er trimestre gestationnel (datation)
+7;Echographie orbitaire;examen_complementaire;Echographie orbitaire
+7;Echographie par voie endo-cavitaire;examen_complementaire;Echographie par voie endo-cavitaire
+7;Echographie pelvienne (par voie sus pubienne);examen_complementaire;Echographie pelvienne (par voie sus pubienne)
+7;Echographie transfontanellaire;examen_complementaire;Echographie transfontanellaire
+7;Echographie trans-oeusophagienne;examen_complementaire;Echographie trans-oeusophagienne
+7;ecographie cardiaque sh;examen_complementaire;ecographie cardiaque sh
+7;Embolisation artérielle des hémorragies utérovaginales;examen_complementaire;Embolisation artérielle des hémorragies utérovaginales
+7;Embolisation artérielle ou percutanée des malformations artérioveineuses périphériques;examen_complementaire;Embolisation artérielle ou percutanée des malformations artérioveineuses périphériques
+7;Embolisation artérielle rénale;examen_complementaire;Embolisation artérielle rénale
+7;Embolisation bronchique;examen_complementaire;Embolisation bronchique
+7;Embolisation d'anévrysme artériel pulmonaire;examen_complementaire;Embolisation d'anévrysme artériel pulmonaire
+7;Embolisation de malformation artérioveineuse;examen_complementaire;Embolisation de malformation artérioveineuse
+7;Embolisation de varicocèles;examen_complementaire;Embolisation de varicocèles
+7;Embolisation des artères à destinée cervicoencéphalique;examen_complementaire;Embolisation des artères à destinée cervicoencéphalique
+7;Embolisation des malformations lymphatiques superficielles;examen_complementaire;Embolisation des malformations lymphatiques superficielles
+7;Embolisation des malformations vasculaires;examen_complementaire;Embolisation des malformations vasculaires
+7;Embolisation des malformations veineuses superficielles;examen_complementaire;Embolisation des malformations veineuses superficielles
+7;Embolisation des malformations veineuses superficielles à extension profonde;examen_complementaire;Embolisation des malformations veineuses superficielles à extension profonde
+7;Embolisation des masses pelviennes;examen_complementaire;Embolisation des masses pelviennes
+7;Embolisation des vaisseaux intracrâniens ( anévrysme, malformations artérioveineuses);examen_complementaire;Embolisation des vaisseaux intracrâniens ( anévrysme, malformations artérioveineuses)
+7;Embolisation d'une fistule carotido-caverneuse;examen_complementaire;Embolisation d'une fistule carotido-caverneuse
+7;Embolisation d'une fistule durale;examen_complementaire;Embolisation d'une fistule durale
+7;Embolisation médullaire;examen_complementaire;Embolisation médullaire
+7;Endoprothèse urétérale par voie antégrade;examen_complementaire;Endoprothèse urétérale par voie antégrade
+7;Entéroscanner;examen_complementaire;Entéroscanner
+7;Epaule comprenant l'acte d'injection de produit de contraste;examen_complementaire;Epaule comprenant l'acte d'injection de produit de contraste
+7;Epaule: Par incidence supplémentaire;examen_complementaire;Epaule: Par incidence supplémentaire
+7;Epaule: Une incidence;examen_complementaire;Epaule: Une incidence
+7;Eppreuve d effort sh;examen_complementaire;Eppreuve d effort sh
+7;Epreuve d effort;examen_complementaire;Epreuve d effort
+7;Epreuve d'effort;examen_complementaire;Epreuve d'effort
+7;ETO;examen_complementaire;ETO
+7;ETO SH;examen_complementaire;ETO SH
+7;ETT+ETO SH;examen_complementaire;ETT+ETO SH
+7;Examen crânien: Hypersélctif;examen_complementaire;Examen crânien: Hypersélctif
+7;Examen périphérique: Global;examen_complementaire;Examen périphérique: Global
+7;Examen périphérique: Sélectif;examen_complementaire;Examen périphérique: Sélectif
+7;Examen radiologique du colon;examen_complementaire;Examen radiologique du colon
+7;Examen sans préparation;examen_complementaire;Examen sans préparation
+7;Examen viscéral: Hypersélctif  ;examen_complementaire;Examen viscéral: Hypersélctif  
+7;Examen viscéral: Sélectif;examen_complementaire;Examen viscéral: Sélectif
+7;exploration électrophysiologique frais de salle;examen_complementaire;exploration électrophysiologique frais de salle
+7;Extraction de corps étranger intra vasculaire;examen_complementaire;Extraction de corps étranger intra vasculaire
+7;Fémur F+P;examen_complementaire;Fémur F+P
+7;FIBRO AVEC BIOBSI;examen_complementaire;FIBRO AVEC BIOBSI
+7;FIBRO AVEC PHOTO;examen_complementaire;FIBRO AVEC PHOTO
+7;FIBRO AVEC PHOTO + BIOBSI;examen_complementaire;FIBRO AVEC PHOTO + BIOBSI
+7;FIBRO BRONCHIQUE;examen_complementaire;FIBRO BRONCHIQUE
+7;FIBRO SIMPLE;examen_complementaire;FIBRO SIMPLE
+7;FIBRO+LIGATURE DE V.O;examen_complementaire;FIBRO+LIGATURE DE V.O
+7;Fibro-colo;examen_complementaire;Fibro-colo
+7;Fibroscopie avec anesthesie;examen_complementaire;Fibroscopie avec anesthesie
+7;Fibroscopie bronchique;examen_complementaire;Fibroscopie bronchique
+7;Fibroscopie digestive;examen_complementaire;Fibroscopie digestive
+7;Fibroscopie sans anesthésie;examen_complementaire;Fibroscopie sans anesthésie
+7;Fistulographie artérioveineuse;examen_complementaire;Fistulographie artérioveineuse
+7;Fistulographie, injection non comprise;examen_complementaire;Fistulographie, injection non comprise
+7;Galactographie, injection non comprise;examen_complementaire;Galactographie, injection non comprise
+7;Genou comprenant l'acte d'injection de produit de contraste;examen_complementaire;Genou comprenant l'acte d'injection de produit de contraste
+7;Genou: 2 incidences;examen_complementaire;Genou: 2 incidences
+7;Genou: Par incidence supplémentaire;examen_complementaire;Genou: Par incidence supplémentaire
+7;Gril costal, ou sternum, ou hémithorax, ou articulation sterno-claviculaire: Une incidence  ;examen_complementaire;Gril costal, ou sternum, ou hémithorax, ou articulation sterno-claviculaire: Une incidence  
+7;Guidage biopsie prostatique;examen_complementaire;Guidage biopsie prostatique
+7;Hanche (coxometrie) : une incidence;examen_complementaire;Hanche (coxometrie) : une incidence
+7;Hanche comprenant l'acte d'injection de produit de contraste;examen_complementaire;Hanche comprenant l'acte d'injection de produit de contraste
+7;holter rythmique;examen_complementaire;holter rythmique
+7;holter rythmique sh;examen_complementaire;holter rythmique sh
+7;holter tensionnel;examen_complementaire;holter tensionnel
+7;holter tensionnel sh;examen_complementaire;holter tensionnel sh
+7;Humérus F+P;examen_complementaire;Humérus F+P
+7;Hystérosalpingographie,injection non comprise;examen_complementaire;Hystérosalpingographie,injection non comprise
+7;Iléus méconial lavement;examen_complementaire;Iléus méconial lavement
+7;Injction intra-veineuse;examen_complementaire;Injction intra-veineuse
+7;Injection du produit de contrast pour Urétro-Cystographie Rétrograde;examen_complementaire;Injection du produit de contrast pour Urétro-Cystographie Rétrograde
+7;Injection intra-veineuse;examen_complementaire;Injection intra-veineuse
+7;IRM Abdomen;examen_complementaire;IRM Abdomen
+7;IRM Abdomino Pelvienne;examen_complementaire;IRM Abdomino Pelvienne
+7;IRM Bassin;examen_complementaire;IRM Bassin
+7;IRM Cardiaque;examen_complementaire;IRM Cardiaque
+7;IRM cardiaque + épreuve de stress;examen_complementaire;IRM cardiaque + épreuve de stress
+7;IRM cérébrale;examen_complementaire;IRM cérébrale
+7;IRM cérébrale + spectroscopie;examen_complementaire;IRM cérébrale + spectroscopie
+7;IRM cérébrale + tractographie;examen_complementaire;IRM cérébrale + tractographie
+7;IRM Cérébro Cervicale;examen_complementaire;IRM Cérébro Cervicale
+7;IRM Cérébro Médulaire Totale;examen_complementaire;IRM Cérébro Médulaire Totale
+7;IRM Cheville;examen_complementaire;IRM Cheville
+7;IRM Coude;examen_complementaire;IRM Coude
+7;IRM Cuisse;examen_complementaire;IRM Cuisse
+7;IRM de deux régions anatomiques contiguës;examen_complementaire;IRM de deux régions anatomiques contiguës
+7;IRM de deux régions anatomiques non contiguës ou plus;examen_complementaire;IRM de deux régions anatomiques non contiguës ou plus
+7;IRM Dorso lombaire;examen_complementaire;IRM Dorso lombaire
+7;IRM du corps entier;examen_complementaire;IRM du corps entier
+7;IRM d'une articulation ou d'un segment de membre;examen_complementaire;IRM d'une articulation ou d'un segment de membre
+7;IRM d'une région anatomique;examen_complementaire;IRM d'une région anatomique
+7;IRM Genou;examen_complementaire;IRM Genou
+7;IRM Jambe;examen_complementaire;IRM Jambe
+7;IRM Lombaire;examen_complementaire;IRM Lombaire
+7;IRM Main;examen_complementaire;IRM Main
+7;IRM Mammaire;examen_complementaire;IRM Mammaire
+7;IRM Pelvis;examen_complementaire;IRM Pelvis
+7;IRM Pied;examen_complementaire;IRM Pied
+7;IRM Poignet;examen_complementaire;IRM Poignet
+7;IRM Rachis Cervicale;examen_complementaire;IRM Rachis Cervicale
+7;IRM Rachis Dorsal;examen_complementaire;IRM Rachis Dorsal
+7;IRM Rachis Entier;examen_complementaire;IRM Rachis Entier
+7;Jambe F+P;examen_complementaire;Jambe F+P
+7;Laser osseux;examen_complementaire;Laser osseux
+7;Main F+3/4;examen_complementaire;Main F+3/4
+7;Mammographie diagnostique bilatérale avec échographie mammaire: Examen complet;examen_complementaire;Mammographie diagnostique bilatérale avec échographie mammaire: Examen complet
+7;Mammographie unilatérale avec échographie mammaire;examen_complementaire;Mammographie unilatérale avec échographie mammaire
+7;MANOMETRIE;examen_complementaire;MANOMETRIE
+7;Membre Supérieur Entier-2 Incidences (enfant);examen_complementaire;Membre Supérieur Entier-2 Incidences (enfant)
+7;Mise en place d'un filtre cave;examen_complementaire;Mise en place d'un filtre cave
+7;Mode de guidage par échographie;examen_complementaire;Mode de guidage par échographie
+7;Mode de guidage par fluoroscopie de courte durée;examen_complementaire;Mode de guidage par fluoroscopie de courte durée
+7;Mode de guidage par fluoroscopie de longue durée;examen_complementaire;Mode de guidage par fluoroscopie de longue durée
+7;Mode de guidage par IRM;examen_complementaire;Mode de guidage par IRM
+7;Mode de guidage par scanner;examen_complementaire;Mode de guidage par scanner
+7;montée de sonde (EES) frais de salle;examen_complementaire;montée de sonde (EES) frais de salle
+7;Myélographie;examen_complementaire;Myélographie
+7;Myéloscanner;examen_complementaire;Myéloscanner
+7;Néphrostomie percutanée;examen_complementaire;Néphrostomie percutanée
+7;Neurolyse de la fosse ptérygopalatine;examen_complementaire;Neurolyse de la fosse ptérygopalatine
+7;Omoplate: Par incidence supplémentaire;examen_complementaire;Omoplate: Par incidence supplémentaire
+7;Omoplate: Une incidence  ;examen_complementaire;Omoplate: Une incidence  
+7;Opacification biliaire par ponction de la vésicule biliaire ou des voies biliaires;examen_complementaire;Opacification biliaire par ponction de la vésicule biliaire ou des voies biliaires
+7;Orteil;examen_complementaire;Orteil
+7;Ostéodensitométrie;examen_complementaire;Ostéodensitométrie
+7;Phlébographie 1 membre;examen_complementaire;Phlébographie 1 membre
+7;Phlébographie 2 membres;examen_complementaire;Phlébographie 2 membres
+7;Phlébographie membres inférieurs;examen_complementaire;Phlébographie membres inférieurs
+7;PHMETRIE;examen_complementaire;PHMETRIE
+7;Pied (podométrie) : une incidence;examen_complementaire;Pied (podométrie) : une incidence
+7;Pied F+P;examen_complementaire;Pied F+P
+7;Poignet comprenant l'acte d'injection de produit de contraste;examen_complementaire;Poignet comprenant l'acte d'injection de produit de contraste
+7;Poignet F+P;examen_complementaire;Poignet F+P
+7;Poignet F+P+Scaphoïde;examen_complementaire;Poignet F+P+Scaphoïde
+7;POLYPECTOMIE 1;examen_complementaire;POLYPECTOMIE 1
+7;POLYPECTOMIE 2;examen_complementaire;POLYPECTOMIE 2
+7;Ponction biopsie de la sphère ORL;examen_complementaire;Ponction biopsie de la sphère ORL
+7;Ponction cytologie superficielle;examen_complementaire;Ponction cytologie superficielle
+7;Ponction d'abcès sous périosité;examen_complementaire;Ponction d'abcès sous périosité
+7;Ponction lavage des articulations périarticulaires;examen_complementaire;Ponction lavage des articulations périarticulaires
+7;Ponction mammaire de kyste ou pour cytologie;examen_complementaire;Ponction mammaire de kyste ou pour cytologie
+7;Ponction percutanée du rein par voie transjugulaire;examen_complementaire;Ponction percutanée du rein par voie transjugulaire
+7;Ponction thyroidienne sous Echo;examen_complementaire;Ponction thyroidienne sous Echo
+7;Ponction-aspiration percutanée d'un abcès;examen_complementaire;Ponction-aspiration percutanée d'un abcès
+7;Ponction-biopsie percutanée rénale ou d'une masse rétropéritonéale;examen_complementaire;Ponction-biopsie percutanée rénale ou d'une masse rétropéritonéale
+7;Ponction-biopsie viscérale ou ganglionnaire profonde;examen_complementaire;Ponction-biopsie viscérale ou ganglionnaire profonde
+7;pose de ballon de contre pulsion intra-aeortique frais de salle;examen_complementaire;pose de ballon de contre pulsion intra-aeortique frais de salle
+7;pose de filtre cave frais de salle;examen_complementaire;pose de filtre cave frais de salle
+7;Pose de harpon;examen_complementaire;Pose de harpon
+7;pose de pace make frais de salle;examen_complementaire;pose de pace make frais de salle
+7;Pyélographie ou urétéropyélographie retrograde;examen_complementaire;Pyélographie ou urétéropyélographie retrograde
+7;Rachis Cervical: Par incidence supplémentaire;examen_complementaire;Rachis Cervical: Par incidence supplémentaire
+7;Rachis Cervical: Une incidence;examen_complementaire;Rachis Cervical: Une incidence
+7;Rachis Dorsal: Par incidence supplémentaire;examen_complementaire;Rachis Dorsal: Par incidence supplémentaire
+7;Rachis Dorsal: Une incidence;examen_complementaire;Rachis Dorsal: Une incidence
+7;Rachis entier petit enfant F+P;examen_complementaire;Rachis entier petit enfant F+P
+7;Rachis lombaire ou lombosacré: F+P (comprenant l'étude de la charnière);examen_complementaire;Rachis lombaire ou lombosacré: F+P (comprenant l'étude de la charnière)
+7;Rachis lombaire ou lombosacré: Par incidence supplémentaire (oblique ou dynamique);examen_complementaire;Rachis lombaire ou lombosacré: Par incidence supplémentaire (oblique ou dynamique)
+7;Radiofréquence osseuse;examen_complementaire;Radiofréquence osseuse
+7;Radiographie de la pièce opératoire mammaire ou produit de biopsie;examen_complementaire;Radiographie de la pièce opératoire mammaire ou produit de biopsie
+7;Radiographie du thorax: Par incidence supplémentaire;examen_complementaire;Radiographie du thorax: Par incidence supplémentaire
+7;Radiographie du thorax: Par incidence supplémentaire au lit d malade;examen_complementaire;Radiographie du thorax: Par incidence supplémentaire au lit d malade
+7;Radiographie du thorax: Une incidence;examen_complementaire;Radiographie du thorax: Une incidence
+7;Radiographie du thorax: Une incidence au lit de malade;examen_complementaire;Radiographie du thorax: Une incidence au lit de malade
+7;Radiographie dynamique du genou (Télos);examen_complementaire;Radiographie dynamique du genou (Télos)
+7;Radiographie panoramique: Par incidence supplémentaire;examen_complementaire;Radiographie panoramique: Par incidence supplémentaire
+7;Radiographie panoramique: Une incidence  ;examen_complementaire;Radiographie panoramique: Une incidence  
+7;Radiopelvimétrie;examen_complementaire;Radiopelvimétrie
+7;réadaptation cardiaque;examen_complementaire;réadaptation cardiaque
+7;Recanalisation tubaire par salpingographie;examen_complementaire;Recanalisation tubaire par salpingographie
+7;Rectoscopie;examen_complementaire;Rectoscopie
+7;RI: Arthographie globale thoracique ou abdominale;examen_complementaire;RI: Arthographie globale thoracique ou abdominale
+7;RI: Arthrodilataion sous scanner;examen_complementaire;RI: Arthrodilataion sous scanner
+7;RI: Arthrographie de l'epaul avec dilataion;examen_complementaire;RI: Arthrographie de l'epaul avec dilataion
+7;RI: Arthroscanner;examen_complementaire;RI: Arthroscanner
+7;RI: Autres radiologie interventionnelle ostéoarticulaires;examen_complementaire;RI: Autres radiologie interventionnelle ostéoarticulaires
+7;RI: Biopsie discovertébrale;examen_complementaire;RI: Biopsie discovertébrale
+7;RI: Biopsie hépatique sous Echo;examen_complementaire;RI: Biopsie hépatique sous Echo
+7;RI: Biopsie intra abdominale;examen_complementaire;RI: Biopsie intra abdominale
+7;RI: Biopsie mammaire;examen_complementaire;RI: Biopsie mammaire
+7;RI: Biopsie médiastinale;examen_complementaire;RI: Biopsie médiastinale
+7;RI: Biopsie osseuse périphérique;examen_complementaire;RI: Biopsie osseuse périphérique
+7;RI: Biopsie prostatique ou séminale;examen_complementaire;RI: Biopsie prostatique ou séminale
+7;RI: Biopsie pulmonaire;examen_complementaire;RI: Biopsie pulmonaire
+7;RI: Biopsie vertebrale;examen_complementaire;RI: Biopsie vertebrale
+7;RI: Infilitration Périradiculaire;examen_complementaire;RI: Infilitration Périradiculaire
+7;RI: Infiltration Articulaire, périarticulaire, épidurale ou par le hiatus saccrococcygien;examen_complementaire;RI: Infiltration Articulaire, périarticulaire, épidurale ou par le hiatus saccrococcygien
+7;RI: Infiltration au concentré plaquettaire: épaule, coude, cheville;examen_complementaire;RI: Infiltration au concentré plaquettaire: épaule, coude, cheville
+7;RI: Infiltration avec arthroscopie: articulation postérieures cervicales;examen_complementaire;RI: Infiltration avec arthroscopie: articulation postérieures cervicales
+7;RI: Infiltration avec arthroscopie: articulation postérieures lombaire;examen_complementaire;RI: Infiltration avec arthroscopie: articulation postérieures lombaire
+7;RI: Infiltration foraminale;examen_complementaire;RI: Infiltration foraminale
+7;RI: Infiltration Peridurale;examen_complementaire;RI: Infiltration Peridurale
+7;RI: Infiltration Pudendale;examen_complementaire;RI: Infiltration Pudendale
+7;RI: Infiltration rachis sous scanner;examen_complementaire;RI: Infiltration rachis sous scanner
+7;RI: Infiltration sous echo;examen_complementaire;RI: Infiltration sous echo
+7;RI: Infiltration sous echo sus épineux;examen_complementaire;RI: Infiltration sous echo sus épineux
+7;RI: Macrobiopsie mammaire;examen_complementaire;RI: Macrobiopsie mammaire
+7;RI: Microbiopsie mammaire;examen_complementaire;RI: Microbiopsie mammaire
+7;RI: Nephrostomie percutanée sous guidage;examen_complementaire;RI: Nephrostomie percutanée sous guidage
+7;RI:Hystérosonographie;examen_complementaire;RI:Hystérosonographie
+7;Sacco-radiculographie;examen_complementaire;Sacco-radiculographie
+7;Scanner cardiaque (Coroscanner);examen_complementaire;Scanner cardiaque (Coroscanner)
+7;Scanner cérébral SPC;examen_complementaire;Scanner cérébral SPC
+7;Scanner rénal SPC;examen_complementaire;Scanner rénal SPC
+7;Scanopelvimétrie;examen_complementaire;Scanopelvimétrie
+7;Scaphoïde (2 incidendes);examen_complementaire;Scaphoïde (2 incidendes)
+7;Sialographie;examen_complementaire;Sialographie
+7;Squelette entier;examen_complementaire;Squelette entier
+7;Sympatholyse chimique étage lombaire;examen_complementaire;Sympatholyse chimique étage lombaire
+7;Sympatholyse chimique étage thoracique;examen_complementaire;Sympatholyse chimique étage thoracique
+7;Synoviorthèse des articulations profondes à l'acide osmique;examen_complementaire;Synoviorthèse des articulations profondes à l'acide osmique
+7;Talon;examen_complementaire;Talon
+7;Tarse comprenant l'acte d'injection de produit de contraste;examen_complementaire;Tarse comprenant l'acte d'injection de produit de contraste
+7;TDM abdominale;examen_complementaire;TDM abdominale
+7;TDM abdomino-pelvienne;examen_complementaire;TDM abdomino-pelvienne
+7;TDM articulaire (quel que soit le type d'articulation);examen_complementaire;TDM articulaire (quel que soit le type d'articulation)
+7;TDM cérébrale;examen_complementaire;TDM cérébrale
+7;TDM cervico-thoracique;examen_complementaire;TDM cervico-thoracique
+7;TDM de deux régions craniennes;examen_complementaire;TDM de deux régions craniennes
+7;TDM de deux régions du rachis;examen_complementaire;TDM de deux régions du rachis
+7;TDM de la charnière cervico-occipitale, cervico-dorsale, dorso-lombaire, lombo-sacrée;examen_complementaire;TDM de la charnière cervico-occipitale, cervico-dorsale, dorso-lombaire, lombo-sacrée
+7;TDM de l'articulation temporo-mandibulaire;examen_complementaire;TDM de l'articulation temporo-mandibulaire
+7;TDM de larynx;examen_complementaire;TDM de larynx
+7;TDM de mensuration;examen_complementaire;TDM de mensuration
+7;TDM de pharynx;examen_complementaire;TDM de pharynx
+7;TDM de repérage;examen_complementaire;TDM de repérage
+7;TDM de simulation;examen_complementaire;TDM de simulation
+7;TDM des rochers;examen_complementaire;TDM des rochers
+7;TDM du bassin ou d'un segment de membre (humérus, fémur, jambe);examen_complementaire;TDM du bassin ou d'un segment de membre (humérus, fémur, jambe)
+7;TDM du cavum;examen_complementaire;TDM du cavum
+7;TDM du corps entier (polytraumatisé ou de trois régions ou plus);examen_complementaire;TDM du corps entier (polytraumatisé ou de trois régions ou plus)
+7;TDM du cou;examen_complementaire;TDM du cou
+7;TDM du crane et du rachis cervical;examen_complementaire;TDM du crane et du rachis cervical
+7;TDM du massif facial;examen_complementaire;TDM du massif facial
+7;TDM du rachis cervical ou dorsal ou lombaire;examen_complementaire;TDM du rachis cervical ou dorsal ou lombaire
+7;TDM du rachis entier (enfant);examen_complementaire;TDM du rachis entier (enfant)
+7;TDM orbitaire;examen_complementaire;TDM orbitaire
+7;TDM pelvienne;examen_complementaire;TDM pelvienne
+7;TDM thoracique (standart ou haute résolution);examen_complementaire;TDM thoracique (standart ou haute résolution)
+7;TDM thoraco-abdominale;examen_complementaire;TDM thoraco-abdominale
+7;Télémétrie du membre inférieur;examen_complementaire;Télémétrie du membre inférieur
+7;Télémétrie du membre supérieur;examen_complementaire;Télémétrie du membre supérieur
+7;Télémétrie du rachis : une incidence;examen_complementaire;Télémétrie du rachis : une incidence
+7;Télémétrie membre inférieur adulte : une incidence;examen_complementaire;Télémétrie membre inférieur adulte : une incidence
+7;Télémétrie membre inférieur enfant: une incidence;examen_complementaire;Télémétrie membre inférieur enfant: une incidence
+7;Téléradiographie de crâne: Par incidence supplémentaire;examen_complementaire;Téléradiographie de crâne: Par incidence supplémentaire
+7;Téléradiographie de crâne: Une incidence;examen_complementaire;Téléradiographie de crâne: Une incidence
+7;Ténotomie+infiltration tendineuse;examen_complementaire;Ténotomie+infiltration tendineuse
+7;Thrombo-aspiration;examen_complementaire;Thrombo-aspiration
+7;Thrombolyse intra artérielle;examen_complementaire;Thrombolyse intra artérielle
+7;Traitement percutané du kyste rénal;examen_complementaire;Traitement percutané du kyste rénal
+7;Transit du grêle;examen_complementaire;Transit du grêle
+7;Transit gastro-duodénal prolongé sur le grêle;examen_complementaire;Transit gastro-duodénal prolongé sur le grêle
+7;Transit Oeso-gastro-duodénal;examen_complementaire;Transit Oeso-gastro-duodénal
+7;Transit Oesophagien;examen_complementaire;Transit Oesophagien
+7;Transit pharyngo-oesophagien;examen_complementaire;Transit pharyngo-oesophagien
+7;Transport Medicalisé;examen_complementaire;Transport Medicalisé
+7;Uretrocystographie injection non comprise;examen_complementaire;Uretrocystographie injection non comprise
+7;Urographie intraveineuse (y compris ASP), injection non comprise (Adulte);examen_complementaire;Urographie intraveineuse (y compris ASP), injection non comprise (Adulte)
+7;Urographie intraveineuse (y compris ASP), injection non comprise (Enfant);examen_complementaire;Urographie intraveineuse (y compris ASP), injection non comprise (Enfant)
+7;Uroscanner;examen_complementaire;Uroscanner
+7;VO2 max;examen_complementaire;VO2 max

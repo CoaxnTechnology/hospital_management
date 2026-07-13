@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+<script type="text/javascript">
+    try {
+        if (typeof window.parent.fermerModals === 'function') {
+            window.parent.fermerModals();
+        }
+    } catch (e) {
+        console.error(e);
+    }
+    let params = new URLSearchParams(window.location.search);
+    if (params.has('next'))
+        window.parent.location.replace(params.get('next'));
+    else
+        window.parent.location.reload();
+</script>
+</body>
+</html>

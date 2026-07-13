@@ -847,6 +847,35 @@ function imprimerGraphique() {
         { id: 'graph-femur', label: gl['graph-femur'] || 'Longueur du fémur' },
     ];
 
+    const captureGraphElement = el => new Promise(resolve => {
+        const canvas = el.querySelector('canvas');
+        if (!canvas) { resolve(null); return; }
+        const w = el.offsetWidth || canvas.width;
+        const h = el.offsetHeight || canvas.height;
+        const out = document.createElement('canvas');
+        out.width = w;
+        out.height = h;
+        const ctx = out.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(canvas, 0, 0, w, h);
+        const svgDiv = el.querySelector('.flot-svg');
+        if (svgDiv) {
+            const svg = svgDiv.querySelector('svg');
+            if (svg) {
+                const svgData = new XMLSerializer().serializeToString(svg);
+                const img = new Image();
+                const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                img.onload = () => { ctx.drawImage(img, 0, 0); URL.revokeObjectURL(url); resolve(out); };
+                img.onerror = () => resolve(out);
+                img.src = url;
+                return;
+            }
+        }
+        resolve(out);
+    });
+
     const doCapture = () => {
         const $container = $('#print-graphs-container').empty();
         const $empty = $('#print-graphs-empty');
@@ -859,7 +888,8 @@ function imprimerGraphique() {
             if (cnv && cnv.width > 100 && cnv.height > 100) {
                 hasGraph = true;
                 pending++;
-                html2canvas(el, { backgroundColor: '#ffffff', scale: 1.5, logging: false }).then(captureCanvas => {
+                captureGraphElement(el).then(captureCanvas => {
+                    if (!captureCanvas) { pending--; return; }
                     $container.append(`
                         <div class="col-6 mb-4">
                             <div class="card card-custom gutter-b bg-white border h-100">

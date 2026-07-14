@@ -856,7 +856,7 @@ $(document).ready(() => {
     const savedTab = localStorage.getItem(STORAGE_KEY);
     const tabToShow = hashTab || savedTab || '';
     if (tabToShow) {
-        setTimeout(() => $(`a[href="${tabToShow}"]`).tab('show'), 1500);
+        $(`a[href="${tabToShow}"]`).tab('show');
     }
 
     const nowDate = new Date();

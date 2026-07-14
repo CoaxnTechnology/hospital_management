@@ -847,6 +847,38 @@ function imprimerGraphique() {
         { id: 'graph-femur', label: gl['graph-femur'] || 'Longueur du fémur' },
     ];
 
+    const captureGraphElement = el => new Promise(resolve => {
+        const canvas = el.querySelector('canvas');
+        if (!canvas) { resolve(null); return; }
+        const w = el.offsetWidth || canvas.width;
+        const h = el.offsetHeight || canvas.height;
+        const out = document.createElement('canvas');
+        out.width = w;
+        out.height = h;
+        const ctx = out.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(canvas, 0, 0, w, h);
+        const svgDiv = el.querySelector('.flot-svg');
+        if (svgDiv) {
+            const svg = svgDiv.querySelector('svg');
+            if (svg) {
+                const svgClone = svg.cloneNode(true);
+                svgClone.setAttribute('width', w);
+                svgClone.setAttribute('height', h);
+                const svgData = new XMLSerializer().serializeToString(svgClone);
+                const img = new Image();
+                const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                img.onload = () => { ctx.drawImage(img, 0, 0, w, h); URL.revokeObjectURL(url); resolve(out); };
+                img.onerror = () => resolve(out);
+                img.src = url;
+                return;
+            }
+        }
+        resolve(out);
+    });
+
     const doCapture = () => {
         const $container = $('#print-graphs-container').empty();
         const $empty = $('#print-graphs-empty');
@@ -859,7 +891,8 @@ function imprimerGraphique() {
             if (cnv && cnv.width > 100 && cnv.height > 100) {
                 hasGraph = true;
                 pending++;
-                html2canvas(el, { backgroundColor: '#ffffff', scale: 1.5, logging: false }).then(captureCanvas => {
+                captureGraphElement(el).then(captureCanvas => {
+                    if (!captureCanvas) { pending--; return; }
                     $container.append(`
                         <div class="col-6 mb-4">
                             <div class="card card-custom gutter-b bg-white border h-100">
@@ -944,10 +977,12 @@ function imprimerGraphiquesSelectionnes() {
 
     bootstrap.Modal.getOrCreateInstance('#modal-impression-graphs').hide();
 
-    let html = '<html><head><style>@page{margin:15mm}body{font-family:sans-serif;padding:0}img{max-width:100%;margin:10px auto;display:block}h4{text-align:center;font-size:16px;margin:20px 0 5px}.page-break{page-break-after:always}</style></head><body>';
+    let html = '<html><head><style>@page{margin:15mm}body{font-family:sans-serif;padding:0}.graph-item{page-break-inside:avoid;margin-bottom:10px}img{max-width:100%;margin:0 auto;display:block}h4{text-align:center;font-size:16px;margin:10px 0 5px}</style></head><body>';
     for (let i = 0; i < content.length; i++) {
+        html += '<div class="graph-item">';
         if (content[i].text) html += `<h4>${content[i].text}</h4>`;
         if (content[i].image) html += `<img src="${content[i].image}">`;
+        html += '</div>';
     }
     html += '</body></html>';
 

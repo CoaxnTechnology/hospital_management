@@ -863,11 +863,14 @@ function imprimerGraphique() {
         if (svgDiv) {
             const svg = svgDiv.querySelector('svg');
             if (svg) {
-                const svgData = new XMLSerializer().serializeToString(svg);
+                const svgClone = svg.cloneNode(true);
+                svgClone.setAttribute('width', w);
+                svgClone.setAttribute('height', h);
+                const svgData = new XMLSerializer().serializeToString(svgClone);
                 const img = new Image();
                 const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
                 const url = URL.createObjectURL(blob);
-                img.onload = () => { ctx.drawImage(img, 0, 0); URL.revokeObjectURL(url); resolve(out); };
+                img.onload = () => { ctx.drawImage(img, 0, 0, w, h); URL.revokeObjectURL(url); resolve(out); };
                 img.onerror = () => resolve(out);
                 img.src = url;
                 return;
@@ -974,10 +977,12 @@ function imprimerGraphiquesSelectionnes() {
 
     bootstrap.Modal.getOrCreateInstance('#modal-impression-graphs').hide();
 
-    let html = '<html><head><style>@page{margin:15mm}body{font-family:sans-serif;padding:0}img{max-width:100%;margin:10px auto;display:block}h4{text-align:center;font-size:16px;margin:20px 0 5px}.page-break{page-break-after:always}</style></head><body>';
+    let html = '<html><head><style>@page{margin:15mm}body{font-family:sans-serif;padding:0}.graph-item{page-break-inside:avoid;margin-bottom:10px}img{max-width:100%;margin:0 auto;display:block}h4{text-align:center;font-size:16px;margin:10px 0 5px}</style></head><body>';
     for (let i = 0; i < content.length; i++) {
+        html += '<div class="graph-item">';
         if (content[i].text) html += `<h4>${content[i].text}</h4>`;
         if (content[i].image) html += `<img src="${content[i].image}">`;
+        html += '</div>';
     }
     html += '</body></html>';
 

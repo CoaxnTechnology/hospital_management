@@ -586,6 +586,9 @@
                 </div>
                 {% if consultation_active or is_new_consultation %}
                 <div class="card-toolbar">
+                    {% if logo_url %}
+                    <img src="{{ logo_url }}" alt="Logo" class="me-3" style="max-height:40px;max-width:120px;object-fit:contain;">
+                    {% endif %}
                     <a href="/patients/{{ object.pk }}"
                        class="btn btn-sm btn-light-primary font-weight-bolder me-2">
                         <i class="ki ki-long-arrow-back icon-sm"></i>
@@ -612,7 +615,7 @@
             <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold">
                 <!--begin:::Tab item-->
                 <li class="nav-item">
-                    <a class="nav-link text-active-primary pb-4 {% if not consultation_active and not is_new_consultation %}active{% endif %}" data-bs-toggle="tab"
+                    <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab"
                        href="#tab-accueil">{% trans "Accueil" %}</a>
                 </li>
                 <!--end:::Tab item-->
@@ -644,7 +647,7 @@
                 {% endif %}
                 {% if grossesse_encours and consultation_active or grossesse_encours and is_new_consultation %}
                 <li class="nav-item ms-4 border-start ps-4">
-                    <a class="nav-link text-active-primary pb-4 {% if consultation_active or is_new_consultation %}active{% endif %}" data-bs-toggle="tab"
+                    <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab"
                        href="#tab-mesures">{% trans "Mesures foetales" %}</a>
                 </li>
                 <li class="nav-item">
@@ -675,7 +678,7 @@
 
     <div class="tab-content mt-8">
 
-        <div id="tab-accueil" class="g-5 g-xxl-8 tab-pane fade {% if not consultation_active and not is_new_consultation %}show active{% endif %}">
+        <div id="tab-accueil" class="g-5 g-xxl-8 tab-pane fade show active">
             <div class="row">
 
                 <!--begin::Col-->
@@ -1595,7 +1598,7 @@
                 {{ hidden }}
             {% endfor %}
 
-        <div id="tab-mesures" class="tab-pane fade {% if consultation_active or is_new_consultation %}active show{% endif %}">
+        <div id="tab-mesures" class="tab-pane fade">
             {% if motif %}
             <div class="d-flex align-items-center mb-4">
                 <span class="badge badge-light-primary me-2">
@@ -2124,7 +2127,7 @@
         const upload_success_msg = '{% trans "File uploaded successfully" %}';
     </script>
     <script src="{% static "js/core/fichiers_patient.js" %}"></script>
-    <script src="{% static "js/core/patient_detail.js" %}?v=2"></script>
+    <script src="{% static "js/core/patient_detail.js" %}?v=3"></script>
     <script src="{% static "js/core/patient_info_panel.js" %}"></script>
 
     {% if consultation_active or is_new_consultation %}

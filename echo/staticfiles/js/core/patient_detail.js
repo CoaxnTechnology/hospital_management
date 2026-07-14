@@ -14,6 +14,43 @@ let minDate;
 let maxDate;
 let tagify;
 
+const _pdLang = (typeof currentLang !== 'undefined' ? currentLang : 'fr').split('-')[0];
+const _phLang = _pdLang;
+const _pdLabels = {
+  fr: { notes: 'Saisir des notes', antecedents: 'Saisir des antécédents' },
+  en: { notes: 'Enter notes',      antecedents: 'Enter medical history'  },
+  ar: { notes: 'أدخل ملاحظات',    antecedents: 'أدخل السوابق الطبية'   },
+  es: { notes: 'Ingresar notas',   antecedents: 'Ingresar antecedentes'  },
+};
+const _pdL = _pdLabels[_pdLang] || _pdLabels.fr;
+
+function getLocalizedField(item, field) {
+    if (!item) return '';
+    if (_phLang === 'en' && item[`${field}_en`]) return item[`${field}_en`];
+    if (_phLang === 'ar' && item[`${field}_ar`]) return item[`${field}_ar`];
+    if (_phLang === 'es' && item[`${field}_es`]) return item[`${field}_es`];
+    return item[field] || '';
+}
+
+function getLocalizedListeChoixLabel(item) {
+    return getLocalizedField(item, 'libelle');
+}
+
+function getLocalizedPhrasierText(item) {
+    return getLocalizedField(item, 'text');
+}
+
+function getLocalizedPhrasierLabel(item) {
+    if (!item) return '';
+    if (_phLang === 'fr') return item.libelle || '';
+    const translatedText = getLocalizedPhrasierText(item);
+    if (translatedText) {
+        // Use first line as dropdown label for translated phrase text.
+        return translatedText.split(/\r?\n/)[0].trim();
+    }
+    return item.libelle || '';
+}
+
 function resetDates() {
     minDate = moment().subtract(180, 'days');
     maxDate = moment().add(180, 'days');
@@ -346,22 +383,25 @@ function initOrdonnancesDatatable() {
 function afficherOrdonnance(id) {
     showFrameLoading();
     $('#ordonnances-modal iframe').attr('src', `/ordonnances/${id}`);
-    bootstrap.Modal.getOrCreateInstance('#ordonnances-modal').show();
+    _showModal('ordonnances-modal');
 }
 
-function ajouterAntecedent(editor) {
+function ajouterAntecedent(editor, phrasierId) {
     console.log('Editor', editor);
-    const id = parseInt($(event.target).attr('data-id'));
+    const id = parseInt(phrasierId, 10);
     const phrasier = _.find(phrasiers, {id: id});
+    if (!phrasier) {
+        return;
+    }
     quill = Quill.find(document.getElementById(`antecedents-${editor}`));
-    quill.insertText(0, phrasier.text + "\n");
+    quill.insertText(0, getLocalizedPhrasierText(phrasier) + "\n");
     enregistrerAntecedents(quill, editor);
 }
 
-function afficherDateAntecedent(champ) {
+function afficherDateAntecedent(champ, listeChoixId) {
     $('.antecedent-date-container').css('display', 'none');
     $(champ + '-date-container').css('display', 'flex');
-    const id = parseInt($(event.target).attr('data-id'));
+    const id = parseInt(listeChoixId, 10);
     antecedent_selectionne = _.find(formulaire_antecedents_liste_choix, i => i.id == id);
 }
 
@@ -369,18 +409,32 @@ function ajouterAntecedentParChamp(champ) {
     const selector = antecedents_list_choix_map[champ].liste;
     let date = $(selector + '-date').val();
     const sous_categorie = _.find(sous_categories_antecedents, sc => sc.libelle == champ);
+    if (!antecedent_selectionne || !antecedent_selectionne.id) {
+        toastr.warning("Veuillez sélectionner une valeur");
+        return;
+    }
+    if (!sous_categorie || !sous_categorie.id) {
+        toastr.warning("Impossible de trouver la sous-catégorie");
+        return;
+    }
+    const dateMoment = moment(date, 'DD/MM/YYYY', true);
+    if (!dateMoment.isValid()) {
+        toastr.warning("Date invalide");
+        return;
+    }
+    const antecedentText = getLocalizedListeChoixLabel(antecedent_selectionne);
     $.post(`/patients/${patient_pk}/antecedents/ajouter`, {
         'sous_categorie': sous_categorie.id,
-        'date': moment(date, 'DD/MM/YYYY').format('YYYY-MM-DD'),
-        'text': antecedent_selectionne.valeur
+        'date': dateMoment.format('YYYY-MM-DD'),
+        'text': antecedentText
     })
         .done(() => {
             toastr.success("Modifications enregistrées");
             $('.antecedent-date-container').css('display', 'none');
             $(selector + '-timeline-empty').css('display', 'none');
             const html = template_antecedent_timeline({
-                date: moment(date, 'DD/MM/YYYY').format('DD/MM/YYYY'),
-                valeur: antecedent_selectionne.valeur
+                date: dateMoment.format('DD/MM/YYYY'),
+                valeur: antecedentText
             });
             $(selector + '-timeline').append(html);
         })
@@ -417,21 +471,24 @@ function enregistrerNotes(editor) {
         });
 }
 
+function _modal(id) { var el = document.getElementById(id); return el ? bootstrap.Modal.getOrCreateInstance(el) : null; }
+function _showModal(id) { var m = _modal(id); if (m) m.show(); }
+function _hideModal(id) { var m = _modal(id); if (m) m.hide(); }
+
 window.fermerAntecedentObstetrique = function () {
-    bootstrap.Modal.getOrCreateInstance('#antecedent-obstetrique-modal').hide();
+    _hideModal('antecedent-obstetrique-modal');
 };
 
 function nouvelAntecedentObstetrique() {
     showFrameLoading();
     $('#antecedent-obstetrique-modal iframe').attr('src', `/patients/${patient_pk}/antecedent_obstetrique/ajouter`);
-    bootstrap.Modal.getOrCreateInstance('#antecedent-obstetrique-modal').show();
-
+    _showModal('antecedent-obstetrique-modal');
 }
 
 function modifierAntecedentObstetrique(id) {
     showFrameLoading();
     $('#antecedent-obstetrique-modal iframe').attr('src', `/antecedent_obstetrique/${id}/modifier`);
-    bootstrap.Modal.getOrCreateInstance('#antecedent-obstetrique-modal').show();
+    _showModal('antecedent-obstetrique-modal');
 }
 
 function supprimerAntecedentObstetrique(id) {
@@ -467,7 +524,7 @@ function priseRdv() {
     const debut = $('#id_rdv_suivant_apres').val() || moment().add(1, 'days').format('YYYY-MM-DD');
     const fin = $('#id_rdv_suivant_avant').val() || moment().add(9, 'days').format('YYYY-MM-DD');
     $('#dispo-rdv-modal iframe').attr('src', `/rdvs/dispo/ajouter/?patient=${patient_pk}&debut=${debut}&fin=${fin}`);
-    bootstrap.Modal.getOrCreateInstance('#dispo-rdv-modal').show();
+    _showModal('dispo-rdv-modal');
 }
 
 function rechargerInfosGrossesse() {
@@ -475,10 +532,16 @@ function rechargerInfosGrossesse() {
 }
 
 function ajouterOptionAntecedent(liste, item) {
-    const str = item.valeur.length > 50 ? item.valeur.substring(0, 50) + '...' : item.valeur;
+    let libelle = getLocalizedListeChoixLabel(item);
+    const str = libelle.length > 50 ? libelle.substring(0, 50) + '...' : libelle;
     console.log(liste)
-    $(liste).append(`<div class="menu-item px-3"><a onclick="afficherDateAntecedent('${liste}')" class="menu-link" data-id="${item.id}" href="javascript:void(0)">${str}</a></div>`);
-    //$(val.liste).append(`<div class="menu-item px-3"><a onclick="ajouterAntecedent(${val.editor})" class="menu-link" data-id="${p.id}" href="javascript:void(0)">${str}</a></div>`);
+    $(liste).append(`<div class="menu-item px-3"><a onclick="afficherDateAntecedent('${liste}', ${item.id})" class="menu-link" data-id="${item.id}" href="javascript:void(0)">${str}</a></div>`);
+}
+
+function toggleAntecedentDateSubmit(inputEl) {
+    const dateValue = $(inputEl).val();
+    const isValidDate = moment(dateValue, 'DD/MM/YYYY', true).isValid();
+    $(inputEl).closest('.input-group').find('button').prop('disabled', !isValidDate);
 }
 
 function ajouterAlerte(text) {
@@ -525,7 +588,7 @@ function initEditors() {
                 container: "#kt_forms_widget_1_editor_toolbar"
             }
         },
-        placeholder: 'Saisir des notes',
+        placeholder: _pdL.notes,
         theme: 'snow'
     };
 
@@ -547,7 +610,7 @@ function initEditors() {
                     container: "#antecedent-editor-toolbar-" + (idx+1)
                 }
             },
-            placeholder: 'Saisir des antécédents',
+            placeholder: _pdL.antecedents,
             theme: 'snow'
         };
         quill = new Quill('#'+el.id, options);
@@ -689,7 +752,7 @@ function afficherConsultation(id, motif) {
     }
     showFrameLoading();
     $('#consultation-modal iframe').attr('src', `/consultation/${id}`);
-    bootstrap.Modal.getOrCreateInstance('#consultation-modal').show();
+    _showModal('consultation-modal');
 }
 
 $(document).ready(() => {
@@ -758,22 +821,26 @@ $(document).ready(() => {
     // Phrasiers
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     const phrasiers_antecedents_map = {
-        'Antécédents familiaux': {liste: '#phrases-antecedents-familiaux', editor: 1},
-        'Antécédents médico-chirurgicaux': {liste: '#phrases-antecedents-chirurgicaux', editor: 2},
-        'Antécédents gynécologiques': {liste: '#phrases-antecedents-gynecologiques', editor: 3},
-        'Allergies': {liste: '#phrases-allergies', editor: 4}
+        1: {liste: '#phrases-antecedents-familiaux', editor: 1},
+        2: {liste: '#phrases-antecedents-chirurgicaux', editor: 2},
+        3: {liste: '#phrases-antecedents-gynecologiques', editor: 3},
+        6: {liste: '#phrases-allergies', editor: 4}
     };
     _.each(phrasiers_antecedents_map, (val, key) => {
-        _.each(phrasiers_par_categorie[key], p => {
-            const str = p.libelle.length > 50 ? p.libelle.substring(0, 50) + '...' : p.libelle;
-            $(val.liste).append(`<div class="menu-item px-3"><a onclick="ajouterAntecedent(${val.editor})" class="menu-link" data-id="${p.id}" href="javascript:void(0)">${str}</a></div>`);
-        });
+        if (phrasiers_par_categorie[key]) {
+            _.each(phrasiers_par_categorie[key], p => {
+                let libelle = getLocalizedPhrasierLabel(p);
+                const str = libelle.length > 50 ? libelle.substring(0, 50) + '...' : libelle;
+                $(val.liste).append(`<div class="menu-item px-3"><a onclick="ajouterAntecedent(${val.editor}, ${p.id})" class="menu-link" data-id="${p.id}" href="javascript:void(0)">${str}</a></div>`);
+            });
+        }
     });
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Antécédents
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     _.each(antecedents_list_choix_map, (val, key) => {
-        _.each(formulaire_antecedents_liste_choix_par_champ[key], p => {
+        const choix = formulaire_antecedents_liste_choix_par_champ[key] || [];
+        _.each(choix, p => {
             ajouterOptionAntecedent(val.liste, p);
         });
     });
@@ -789,7 +856,7 @@ $(document).ready(() => {
     const savedTab = localStorage.getItem(STORAGE_KEY);
     const tabToShow = hashTab || savedTab || '';
     if (tabToShow) {
-        setTimeout(() => $(`a[href="${tabToShow}"]`).tab('show'), 1500);
+        $(`a[href="${tabToShow}"]`).tab('show');
     }
 
     const nowDate = new Date();
@@ -803,11 +870,8 @@ $(document).ready(() => {
         max: DD + '/' + MM + '/' + nowDate.getFullYear(),
     }).mask(document.querySelectorAll('.date-picker'));
 
-    $('.date-picker').on('keyup', (e) => {
-        let m = Inputmask().mask(e.target);
-        if (m.isComplete())
-            $(e.target).siblings().children('button').prop('disabled', false);
-    }).on('change', (e) => {
+    $('.date-picker').on('keyup change blur', (e) => {
+        toggleAntecedentDateSubmit(e.target);
     });
 
     $('#cloturer-tentative-pma').modalForm({
@@ -830,7 +894,7 @@ $(document).ready(() => {
         if (formulaire && champ) {
             showFrameLoading();
             $('#liste-choix-modal iframe').attr('src', `/listes/?formulaire=${formulaire}&champ=${champ}`);
-            bootstrap.Modal.getOrCreateInstance('#liste-choix-modal').show();
+            _showModal('liste-choix-modal');
             targetListeChoix = $el;
         }
     });
@@ -892,11 +956,15 @@ $(document).ready(() => {
 
     EventManager.subscribe("liste:updated", function (event, payload) {
         console.info('Event liste:updated', event, payload);
-        let sel = $(`[data-form="${payload.formulaire}"][data-champ="${payload.champ}"]`).siblings('.dropdown-menu');
+        const selector = antecedents_list_choix_map[payload.champ] && antecedents_list_choix_map[payload.champ].liste;
+        if (!selector) {
+            return;
+        }
+        let sel = $(selector);
         sel.empty();
         formulaire_antecedents_liste_choix = payload.liste;
         payload.liste.forEach(item => {
-            ajouterOptionAntecedent('#'+sel.attr('id'), item);
+            ajouterOptionAntecedent(selector, item);
         });
     });
 
@@ -908,4 +976,3 @@ $(document).ready(() => {
         antecedent_selectionne = listechoix;
     });
 });
-

@@ -1,3 +1,5 @@
+import logging
+
 from bootstrap_modal_forms.generic import BSModalUpdateView
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -12,6 +14,8 @@ from django.views.generic import ListView, CreateView, UpdateView
 from apps.core.forms import ProfilFormset, UserForm, MdpForm, UserUpdateForm
 from apps.core.models import Profil
 
+logger = logging.getLogger(__name__)
+
 
 class CustomLoginView(LoginView):
     """LoginView that distinguishes inactive accounts from wrong credentials."""
@@ -25,10 +29,19 @@ class CustomLoginView(LoginView):
         return super().get_success_url()
 
     def form_invalid(self, form):
-        if getattr(self.request, '_account_inactive', False):
+        account_inactive = getattr(self.request, '_account_inactive', False)
+        if account_inactive:
+            logger.warning("LOGIN_FORM_INVALID account_inactive=True user=%s",
+                           form.cleaned_data.get('username'))
             ctx = self.get_context_data(form=form, account_inactive=True)
             return self.render_to_response(ctx)
+        logger.info("LOGIN_FORM_INVALID wrong_credentials user=%s errors=%s",
+                    form.cleaned_data.get('username'), form.errors.as_text())
         return super().form_invalid(form)
+
+    def form_valid(self, form):
+        logger.info("LOGIN_SUCCESS user=%s", form.cleaned_data.get('username'))
+        return super().form_valid(form)
 
 
 class ProfilList(PermissionRequiredMixin, ListView):

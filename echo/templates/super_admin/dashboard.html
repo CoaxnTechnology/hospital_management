@@ -192,7 +192,7 @@
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;">
         <div style="padding:16px 18px;border-right:1px solid rgba(255,255,255,0.06);">
           <div style="font-size:11px;font-weight:600;color:#9BAFCA;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">{% trans "Server IP" %}</div>
-          <span class="ae-tag">129.121.75.225</span>
+          <span class="ae-tag">187.77.184.12</span>
         </div>
         <div style="padding:16px 18px;border-right:1px solid rgba(255,255,255,0.06);">
           <div style="font-size:11px;font-weight:600;color:#9BAFCA;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">{% trans "Storage Port" %}</div>
@@ -380,7 +380,7 @@
       </div>
       <div class="form-group">
         <label>{% trans "IP Address" %}</label>
-        <input type="text" id="eq-ip" placeholder="192.168.1.100" value="129.121.75.225"/>
+        <input type="text" id="eq-ip" placeholder="192.168.1.100" value="187.77.184.12"/>
       </div>
     </div>
     <div class="form-row">
@@ -650,7 +650,7 @@ if (!name || !email) { alert('Name and email are required.'); return; }
 
   function clearEquipForm() {
     ['eq-ae_title','eq-marque','eq-modele'].forEach(id => { document.getElementById(id).value = ''; });
-    document.getElementById('eq-ip').value = '129.121.75.225';
+    document.getElementById('eq-ip').value = '187.77.184.12';
     document.getElementById('eq-port').value = '104';
   }
 

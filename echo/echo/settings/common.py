@@ -199,11 +199,17 @@ LOGGING = {
         #}
     },
     'root': {
-        'handlers': ['console'],# 'graypy'],
+        'handlers': ['console'],
         'level': 'WARNING',
         'propagate': True,
     },
-
+    'loggers': {
+        'apps.core': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
 }
 
 """

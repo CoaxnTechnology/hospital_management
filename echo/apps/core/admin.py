@@ -2,6 +2,8 @@ import csv
 from io import TextIOWrapper
 
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
+from django.contrib.auth.models import User
 
 # Register your models here.
 from django.forms import forms
@@ -18,8 +20,31 @@ class BaseModelAdmin(admin.ModelAdmin):
         return self.model.objects_with_deleted.all()
 
 
+class ProfilInline(admin.StackedInline):
+    model = Profil
+    can_delete = False
+    verbose_name_plural = 'Profil'
+    fields = ('compte', 'titre', 'telephone_principal', 'telephone_secondaire')
+
+
+admin.site.unregister(User)
+
+
+@admin.register(User)
+class UserAdmin(DjangoUserAdmin):
+    inlines = (ProfilInline,)
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'is_active')
+    list_filter = ('is_staff', 'is_active', 'is_superuser')
+
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        if not change and not hasattr(obj, 'profil'):
+            default_compte = Compte.objects.first()
+            if default_compte:
+                Profil.objects.get_or_create(user=obj, defaults={'compte': default_compte, 'titre': 'dr'})
+
+
 admin.site.register(Compte)
-admin.site.register(Profil)
 admin.site.register(Adresse)
 admin.site.register(Consultation, BaseModelAdmin)
 admin.site.register(Rdv)

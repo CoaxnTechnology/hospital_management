@@ -1,0 +1,970 @@
+const antecedents_list_choix_map = {
+    'FCV': {liste: '#fcv'},
+    'Mammographie': {liste: '#mammographie'},
+    'Echo Mammaire': {liste: '#echo-mammaire'},
+};
+let antecedent_selectionne = '';
+
+const template_antecedent_timeline = _.template(unescapeTemplate($('#antecedent-timeline-item-template').html()));
+
+// ListeChoix Item dont les valeurs sont entrain d'être modifiés
+let targetListeChoix = null;
+
+let minDate;
+let maxDate;
+let tagify;
+
+const _pdLang = (typeof currentLang !== 'undefined' ? currentLang : 'fr').split('-')[0];
+const _phLang = _pdLang;
+const _pdLabels = {
+  fr: { notes: 'Saisir des notes', antecedents: 'Saisir des antécédents' },
+  en: { notes: 'Enter notes',      antecedents: 'Enter medical history'  },
+  ar: { notes: 'أدخل ملاحظات',    antecedents: 'أدخل السوابق الطبية'   },
+  es: { notes: 'Ingresar notas',   antecedents: 'Ingresar antecedentes'  },
+};
+const _pdL = _pdLabels[_pdLang] || _pdLabels.fr;
+
+function getLocalizedField(item, field) {
+    if (!item) return '';
+    if (_phLang === 'en' && item[`${field}_en`]) return item[`${field}_en`];
+    if (_phLang === 'ar' && item[`${field}_ar`]) return item[`${field}_ar`];
+    if (_phLang === 'es' && item[`${field}_es`]) return item[`${field}_es`];
+    return item[field] || '';
+}
+
+function getLocalizedListeChoixLabel(item) {
+    return getLocalizedField(item, 'libelle');
+}
+
+function getLocalizedPhrasierText(item) {
+    return getLocalizedField(item, 'text');
+}
+
+function getLocalizedPhrasierLabel(item) {
+    if (!item) return '';
+    if (_phLang === 'fr') return item.libelle || '';
+    const translatedText = getLocalizedPhrasierText(item);
+    if (translatedText) {
+        // Use first line as dropdown label for translated phrase text.
+        return translatedText.split(/\r?\n/)[0].trim();
+    }
+    return item.libelle || '';
+}
+
+function resetDates() {
+    minDate = moment().subtract(180, 'days');
+    maxDate = moment().add(180, 'days');
+}
+
+resetDates();
+
+/* Custom filtering function which will search data in column four between two values */
+$.fn.dataTable.ext.search.push(
+    function (settings, data, dataIndex) {
+        /*console.log(maxDate, minDate); */
+        if (settings.nTable.id == "table-tentatives-pma")
+            return true;
+        const dt = moment(data[3], "DD/MM/YYYY").set('minute', 1);
+        //console.log('Date', dt.format('DD/MM/YY'));
+        let ret = dt.isBefore(maxDate) && dt.isAfter(minDate);
+        //if (ret) console.log('Condition true');
+        return ret;
+    }
+);
+
+function resetSearch() {
+    $('input').val('');
+    $('select').val('');
+    resetDates();
+}
+
+function getConsultationsModifsUrl(consultation) {
+    switch (consultation.motif.code) {
+        case 'gynecologique-defaut':
+            return `/consultation_gynecologique/${consultation.id}/modifier/`;
+        case 'colposcopie':
+            return `/consultation_colposcopie/${consultation.id}/modifier/`;
+        case 'echo-pelvienne':
+            return `/consultation_echo_pelvienne/${consultation.id}/modifier/`;
+        case 'obs_echo_11SA':
+            return `/consultation_obs_echo_11SA/${consultation.id}/modifier/`;
+        case 'obs_echo_trimestre_1':
+            return `/consultation_obs_echo_premier_trimestre/${consultation.id}/modifier/`;
+        case 'obs_echo_trimestre_2':
+            return `/consultation_obs_echo_deuxieme_trimestre/${consultation.id}/modifier/`;
+        case 'obs_echo_trimestre_3':
+            return `/consultation_obs_echo_troisieme_trimestre/${consultation.id}/modifier/`;
+        case 'obs_echo_croissance':
+            return `/consultation_obs_echo_croissance/${consultation.id}/modifier/`;
+
+        default:
+            return `/patients/${consultation.patient.id}/consultation/${consultation.id}/modifier/`;
+    }
+}
+
+function getConsultationDeleteUrl(id) {
+    return `/consultation/${id}/supprimer/`;
+}
+
+function supprimerConsultation(id) {
+    swal.fire({
+        title: _sm.attention || "Attention",
+        text: _sm.supprimer_consultation || "Voulez vous supprimer cette consultation ?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: _sm.confirmer_supprimer || "Oui, supprimer!",
+        cancelButtonText: _sm.annuler || "Non, annuler",
+        closeOnConfirm: false
+    }).then(function (result) {
+        if (result.value) {
+            window.location.replace(getConsultationDeleteUrl(id));
+        }
+    });
+}
+
+function supprimerPMA(id) {
+    swal.fire({
+        title: _sm.attention || "Attention",
+        text: _sm.supprimer_tentative_pma || "Voulez vous supprimer cette tentative PMA ?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: _sm.confirmer_supprimer || "Oui, supprimer!",
+        cancelButtonText: _sm.annuler || "Non, annuler",
+        closeOnConfirm: false
+    }).then(function (result) {
+        if (result.value) {
+            window.location.replace(`/tentative-pma/${id}/supprimer/`);
+        }
+    });
+}
+
+function initTentativesPMADatatable() {
+    let _t = _.template(unescapeTemplate($('#actions-pma-template').html()));
+
+    $('#table-tentatives-pma').DataTable({
+            language: window.DT_LANGUAGE || {},
+        dom: `<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
+        responsive: true, lengthMenu: [5, 10, 25, 50], pageLength: 5, searchDelay: 500, processing: true, serverSide: false,
+        data: tentativesPMA,
+        columns: [
+            {data: 'updated_at'},
+            {data: null},
+            {data: 'reussie'},
+            {data: 'praticien.nom'},
+            {data: null, responsivePriority: -1},
+        ],
+        order: [[0, "desc"]],
+        columnDefs: [
+            {
+                targets: -1, title: 'Actions', orderable: false, width: '150px',
+                render: (data, type, full, meta) => _t({modifUrl: `/tentative-pma/${full.id}/modifier`, id: full.id}),
+            },
+            {
+                targets: 0, width: '100px',
+                render: function (data, type, full, meta) {
+                    // https://datatables.net/forums/discussion/45692/how-to-date-sort-as-date-instead-of-string
+                    return type === 'sort' ? data : moment(data).format('DD/MM/YYYY');
+                }
+            },
+            { targets: 1, width: '360px', render: (data, type, full, meta) => 'Tentative PMA' },
+            { targets: 2, width: '360px', render: (data, type, full, meta) => data ? 'Résussite' : 'Echec' },
+            { targets: 3, width: '320px', }
+        ],
+    });
+}
+
+function initConsultationDatatable(el) {
+    let _t = _.template(unescapeTemplate($('#actions-template').html()));
+
+    let data = [];
+    const cat = $(el).attr('data-categorie');
+    if (cat == 1) {
+        if (grossesse != null) {
+            // Catégorie Obstetrique
+            // Filtrer sur la grossesse en cours
+            data = consultations_obs[grossesse.id];
+
+            $(el).DataTable({
+            language: window.DT_LANGUAGE || {},
+                responsive: true,
+                // Pagination settings
+                dom: `<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
+                // read more: https://datatables.net/examples/basic_init/dom.html
+                lengthMenu: [5, 10, 25, 50],
+                pageLength: 5,
+                searchDelay: 500,
+                processing: true,
+                serverSide: false,
+                data: data,
+                columns: [
+                    {data: 'date'},
+                    {data: 'terme'},
+                    {data: 'motif.libelle'},
+                    {data: 'praticien'},
+                    {data: null, responsivePriority: -1},
+                ],
+                order: [[0, "desc"]],
+                columnDefs: [
+                    {
+                        targets: -1, title: 'Actions', orderable: false, width: '150px',
+                        render: (data, type, full, meta) => _t({modifUrl: getConsultationsModifsUrl(full), id: full.id}),
+                    },
+                    {
+                        targets: 0, width: '150px',
+                        render: function (data, type, full, meta) {
+                            // https://datatables.net/forums/discussion/45692/how-to-date-sort-as-date-instead-of-string
+                            return type === 'sort' ? data : moment(data).format('DD/MM/YYYY');
+                        }
+                    },
+                    {
+                        targets: 1, width: '160px',
+                    },
+                    {
+                        targets: 2, width: '360px',
+                    },
+                    {
+                        targets: 3, width: '320px',
+                        render: function (data, type, full, meta) {
+                            return data ? data.nom : '-';
+                        }
+                    }
+                ],
+            });
+        }
+    } else {
+        data = _.filter(consultations, c => c.motif.categorie.id == $(el).attr('data-categorie'));
+
+        $(el).DataTable({
+            language: window.DT_LANGUAGE || {},
+            responsive: true,
+            // Pagination settings
+            dom: `<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
+            // read more: https://datatables.net/examples/basic_init/dom.html
+            lengthMenu: [5, 10, 25, 50],
+            pageLength: 5,
+            searchDelay: 500,
+            processing: true,
+            serverSide: false,
+            data: data,
+            columns: [
+                {data: 'date'},
+                {data: 'motif.libelle'},
+                {data: 'praticien'},
+                {data: null, responsivePriority: -1},
+            ],
+            order: [[0, "desc"]],
+            columnDefs: [
+                {
+                    targets: -1, title: 'Actions', orderable: false, width: '150px',
+                    render: (data, type, full, meta) => _t({modifUrl: getConsultationsModifsUrl(full), id: full.id}),
+                },
+                {
+                    targets: 0, width: '150px',
+                    render: function (data, type, full, meta) {
+                        // https://datatables.net/forums/discussion/45692/how-to-date-sort-as-date-instead-of-string
+                        return type === 'sort' ? data : moment(data).format('DD/MM/YYYY');
+                    }
+                },
+                {
+                    targets: 1, width: '360px',
+                },
+                {
+                    targets: 2, width: '320px',
+                    render: function (data, type, full, meta) {
+                        return data ? data.nom : '-';
+                    }
+                }
+            ],
+        });
+    }
+    console.log('initConsultationDatatable', data);
+}
+
+function showConsultationsObstetriques(el) {
+
+    const antecedent_id = el.id.split('collapse')[1];
+    console.log('Show accordion antecedent', antecedent_id);
+
+    const tableId = '#table' + antecedent_id;
+    // Si le table existe déjà, ne pas la créer
+    if ($.fn.DataTable.isDataTable(tableId)) {
+        console.log('La table existe déjà');
+        return;
+    }
+
+    let _t = _.template(unescapeTemplate($('#actions-template').html()));
+
+    let data;
+    const ant = _.filter(antecedents_obstetriques_patient, a => a.id == antecedent_id);
+    if (ant && ant.length > 0) {
+        if (ant[0].grossesse_patient) {
+            console.log('Grossess patient', ant[0].grossesse_patient.id);
+            data = consultations_obs[ant[0].grossesse_patient.id];
+            console.log('data', consultations_obs);
+            console.log('data', data);
+        }
+    }
+
+    $(tableId).DataTable({
+            language: window.DT_LANGUAGE || {},
+        dom: `<'row'<'col-sm-12'tr>>`, responsive: true,
+        lengthMenu: [5, 10, 25, 50], pageLength: -1, searchDelay: 500,
+        processing: true, serverSide: false,
+        data: data,
+        columns: [
+            {data: 'date'},
+            {data: 'terme'},
+            {data: 'motif.libelle'},
+            {data: 'praticien.nom'},
+            {data: null, responsivePriority: -1},
+        ],
+        order: [[0, "desc"]],
+        columnDefs: [
+            {
+                targets: -1, title: 'Actions', orderable: false, width: '150px',
+                render: (data, type, full, meta) => _t({id: full.id, modifUrl: getConsultationsModifsUrl(full)}),
+            },
+            {
+                targets: 0, width: '150px',
+                render: function (data, type, full, meta) {
+                    return moment(data).format('DD/MM/YYYY');
+                }
+            },
+            {targets: 1, width: '160px'},
+            {targets: 2, width: '360px'},
+            {targets: 3, width: '320px'}
+        ],
+    });
+}
+
+function initOrdonnancesDatatable() {
+    let _t = _.template(unescapeTemplate($('#actions-ordonnances-template').html()));
+
+    $('#ordonnances-table').DataTable({
+            language: window.DT_LANGUAGE || {},
+        responsive: true,
+        // Pagination settings
+        dom: `<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
+        // read more: https://datatables.net/examples/basic_init/dom.html
+        lengthMenu: [5, 10, 25, 50],
+        pageLength: 5,
+        searchDelay: 500,
+        processing: true,
+        serverSide: false,
+        data: ordonnances,
+        columns: [
+            {data: 'date'},
+            {data: 'type'},
+            {data: 'praticien'},
+            {data: null, responsivePriority: -1},
+        ],
+        order: [[0, "desc"]],
+        columnDefs: [
+            {
+                targets: -1, title: 'Actions', orderable: false, width: '150px',
+                render: (data, type, full, meta) => _t({id: full.pk}),
+            },
+            {
+                targets: 0, width: '150px',
+                render: function (data, type, full, meta) {
+                    return moment(data).format('DD/MM/YYYY');
+                }
+            },
+            {
+                targets: 1, width: '360px',
+            },
+        ],
+    });
+}
+
+
+function afficherOrdonnance(id) {
+    showFrameLoading();
+    $('#ordonnances-modal iframe').attr('src', `/ordonnances/${id}`);
+    _showModal('ordonnances-modal');
+}
+
+function ajouterAntecedent(editor, phrasierId) {
+    console.log('Editor', editor);
+    const id = parseInt(phrasierId, 10);
+    const phrasier = _.find(phrasiers, {id: id});
+    if (!phrasier) {
+        return;
+    }
+    quill = Quill.find(document.getElementById(`antecedents-${editor}`));
+    quill.insertText(0, getLocalizedPhrasierText(phrasier) + "\n");
+    enregistrerAntecedents(quill, editor);
+}
+
+function afficherDateAntecedent(champ, listeChoixId) {
+    $('.antecedent-date-container').css('display', 'none');
+    $(champ + '-date-container').css('display', 'flex');
+    const id = parseInt(listeChoixId, 10);
+    antecedent_selectionne = _.find(formulaire_antecedents_liste_choix, i => i.id == id);
+}
+
+function ajouterAntecedentParChamp(champ) {
+    const selector = antecedents_list_choix_map[champ].liste;
+    let date = $(selector + '-date').val();
+    const sous_categorie = _.find(sous_categories_antecedents, sc => sc.libelle == champ);
+    if (!antecedent_selectionne || !antecedent_selectionne.id) {
+        toastr.warning("Veuillez sélectionner une valeur");
+        return;
+    }
+    if (!sous_categorie || !sous_categorie.id) {
+        toastr.warning("Impossible de trouver la sous-catégorie");
+        return;
+    }
+    const dateMoment = moment(date, 'DD/MM/YYYY', true);
+    if (!dateMoment.isValid()) {
+        toastr.warning("Date invalide");
+        return;
+    }
+    const antecedentText = getLocalizedListeChoixLabel(antecedent_selectionne);
+    $.post(`/patients/${patient}/antecedents/ajouter`, {
+        'sous_categorie': sous_categorie.id,
+        'date': dateMoment.format('YYYY-MM-DD'),
+        'text': antecedentText
+    })
+        .done(() => {
+            toastr.success("Modifications enregistrées");
+            $('.antecedent-date-container').css('display', 'none');
+            $(selector + '-timeline-empty').css('display', 'none');
+            const html = template_antecedent_timeline({
+                date: dateMoment.format('DD/MM/YYYY'),
+                valeur: antecedentText
+            });
+            $(selector + '-timeline').append(html);
+        })
+        .fail(() => {
+            toastr.warning("Impossible d'enregistrer les modifications");
+        });
+
+}
+
+function enregistrerAntecedents(editor, idx) {
+    let type = idx;
+    return $.post(`/patients/${patient}/antecedents`, {
+        'type_antecedent': type,
+        'text': $(`#antecedents-${idx} .ql-editor`).html().replace('<p', '<p style="margin:0"')
+    })
+        .done(() => {
+            toastr.success("Modifications enregistrées");
+        })
+        .fail(() => {
+            toastr.warning("Impossible d'enregistrer les modifications");
+        });
+}
+
+function enregistrerNotes(editor) {
+    console.log('Contents', editor.root.innerHTML);
+    return $.post(`/patients/${patient}/notes`, {
+        'text': $(`#edt-notes .ql-editor`).html().replace('<p', '<p style="margin:0"')
+    })
+        .done(() => {
+            toastr.success("Modifications enregistrées");
+        })
+        .fail(() => {
+            toastr.warning("Impossible d'enregistrer les modifications");
+        });
+}
+
+function _modal(id) { var el = document.getElementById(id); return el ? bootstrap.Modal.getOrCreateInstance(el) : null; }
+function _showModal(id) { var m = _modal(id); if (m) m.show(); }
+function _hideModal(id) { var m = _modal(id); if (m) m.hide(); }
+
+window.fermerAntecedentObstetrique = function () {
+    _hideModal('antecedent-obstetrique-modal');
+};
+
+function nouvelAntecedentObstetrique() {
+    showFrameLoading();
+    $('#antecedent-obstetrique-modal iframe').attr('src', `/patients/${patient}/antecedent_obstetrique/ajouter`);
+    _showModal('antecedent-obstetrique-modal');
+}
+
+function modifierAntecedentObstetrique(id) {
+    showFrameLoading();
+    $('#antecedent-obstetrique-modal iframe').attr('src', `/antecedent_obstetrique/${id}/modifier`);
+    _showModal('antecedent-obstetrique-modal');
+}
+
+function supprimerAntecedentObstetrique(id) {
+    swal.fire({
+        title: _sm.attention || "Attention",
+        text: _sm.supprimer_antecedent || "Voulez vous supprimer cet antécédent ?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-danger",
+        confirmButtonText: _sm.confirmer_supprimer || "Oui, supprimer!",
+        cancelButtonText: _sm.annuler || "Non, annuler",
+        closeOnConfirm: false
+    }).then(function (result) {
+        if (result.value) {
+            window.location.replace(`/antecedent_obstetrique/${id}/supprimer/`);
+        }
+    });
+}
+
+function supprimerAntecedent(event, id) {
+    $.get(`/antecedent/${id}/supprimer/`)
+        .done(function (result) {
+            $(event.target).parents('.timeline-item').remove();
+            toastr.success('Antécédent supprimé');
+        })
+        .fail(function () {
+            toastr.error("Une erreur s'est produite");
+        });
+}
+
+function priseRdv() {
+    showFrameLoading();
+    const debut = $('#id_rdv_suivant_apres').val() || moment().add(1, 'days').format('YYYY-MM-DD');
+    const fin = $('#id_rdv_suivant_avant').val() || moment().add(9, 'days').format('YYYY-MM-DD');
+    $('#dispo-rdv-modal iframe').attr('src', `/rdvs/dispo/ajouter/?patient=${patient}&debut=${debut}&fin=${fin}`);
+    _showModal('dispo-rdv-modal');
+}
+
+function rechargerInfosGrossesse() {
+    window.location.reload();
+}
+
+function ajouterOptionAntecedent(liste, item) {
+    let libelle = getLocalizedListeChoixLabel(item);
+    const str = libelle.length > 50 ? libelle.substring(0, 50) + '...' : libelle;
+    console.log(liste)
+    $(liste).append(`<div class="menu-item px-3"><a onclick="afficherDateAntecedent('${liste}', ${item.id})" class="menu-link" data-id="${item.id}" href="javascript:void(0)">${str}</a></div>`);
+}
+
+function toggleAntecedentDateSubmit(inputEl) {
+    const dateValue = $(inputEl).val();
+    const isValidDate = moment(dateValue, 'DD/MM/YYYY', true).isValid();
+    $(inputEl).closest('.input-group').find('button').prop('disabled', !isValidDate);
+}
+
+function ajouterAlerte(text) {
+    $.post(`/patients/${patientId}/alerte/`, {
+        'text': text
+    })
+        .done(function (result) {
+            console.log('Succes');
+            const _t = _.template($('#alerte-template').html());
+            const date = moment(result.date, 'YYYY-MM-DD').format('DD/MM/YYYY');
+            $('#alertes-container').append(_t({id: result.id, text, date}));
+        })
+        .fail(function () {
+            console.error("Impossible d'ajouter une alerte patient");
+        });
+}
+
+function dismissAlerte(id) {
+    $.post(`/alertes/${id}/supprimer/`, {})
+        .done(function (result) {
+            console.log('Succes');
+           $(`#alerte-${id}`).remove();
+        })
+        .fail(function () {
+            console.error("Impossible de supprimer une alerte patient");
+        });
+}
+
+function gotoAlerte(lien) {
+    const tokens = lien.split(':');
+    if (tokens[0] == 'dialog') {
+        if (tokens[1] == 'analyses')
+            modifierPrescription(tokens[2]);
+    }
+}
+
+
+function initEditors() {
+
+    // init editor
+    let options = {
+        modules: {
+            toolbar: {
+                container: "#kt_forms_widget_1_editor_toolbar"
+            }
+        },
+        placeholder: _pdL.notes,
+        theme: 'snow'
+    };
+
+    let quill = new Quill('#edt-notes', options);
+    quill.on('text-change', function (delta, oldDelta, source) {
+        if (source == 'api') {
+            console.log("An API call triggered this change.");
+        } else if (source == 'user') {
+            enregistrerNotes(quill);
+        }
+    });
+
+
+
+    $('.antecedent-editor').each( (idx, el) => {
+        options = {
+            modules: {
+                toolbar: {
+                    container: "#antecedent-editor-toolbar-" + (idx+1)
+                }
+            },
+            placeholder: _pdL.antecedents,
+            theme: 'snow'
+        };
+        quill = new Quill('#'+el.id, options);
+        quill.on('text-change', function (delta, oldDelta, source) {
+            if (source == 'api') {
+                console.log("An API call triggered this change.");
+            } else if (source == 'user') {
+                enregistrerAntecedents(quill, idx+1);
+            }
+        });
+    });
+}
+
+function initTableConsultations() {
+    // begin first table
+    const _t = _.template(unescapeTemplate($('#actions-rapport-template').html()));
+
+    var table = $('#rapport_consultation_datatable').DataTable({
+            language: window.DT_LANGUAGE || {},
+        responsive: true,
+        // read more: https://datatables.net/examples/basic_init/dom.html
+        lengthMenu: [5, 10, 25, 50],
+        pageLength: 25,
+        searchDelay: 1000,
+        processing: true,
+        serverSide: true,
+
+        ajax: {url: `/patient/${patientId}/consultation/rechercher/`, type: 'POST'},
+
+        columns: [
+            {
+                data: 'date',
+                render: function (data) {
+                    return moment(data).format('DD/MM/YYYY');
+                }
+            },
+            {data: 'motif.categorie.libelle'},
+            {data: 'motif.libelle'},
+            {data: 'praticien.nom'},
+            {data: 'patient.mot_cle', "visible": false},
+            {data: 'date', "visible": false},
+            {data: 'date', "visible": false},
+            {
+                data: null, title: 'Actions', orderable: false, width: '80px',
+                render: (data, type, full, meta) => _t({
+                    id: full.id,
+                    patientId: full.patient.id,
+                    motif: full.motif.code,
+                    modifUrl: getConsultationsModifsUrl(full)
+                }),
+            },
+        ],
+
+        order: [[0, "desc"]],
+
+        initComplete: function () {
+            chercher();
+        },
+
+        drawCallback: function (settings) {
+            if (settings.fnRecordsDisplay() === 0) {
+                const temp = _.template($('#creer-patient-template').html());
+                const data = _.map($('[data-search-key]').get(), el => $(el).attr('data-search-key') + '=' + $(el).val());
+                const html = temp({params: '&' + data.join('&')});
+                $('.dataTables_empty').html(html);
+            }
+        },
+
+
+    });
+
+
+    // Filtrer la table à la saisie sans click sur le bouton chercher
+    $('input,select').on('keyup', chercher);
+    $('input,select').on('change', chercher);
+
+    $('#praticiens-correspondants,#praticien').select2()
+        .on('select2:select', function (e) {
+            chercher();
+        });
+
+
+    function innerSearch() {
+        let debut = $('#debut').val();
+        let fin = $('#fin').val();
+        if (debut != "") {
+            minDate = moment(debut, 'DD/MM/YYYY');
+        }
+        if (fin != "") {
+            maxDate = moment(fin, 'DD/MM/YYYY');
+        }
+
+        let params = {};
+        $('[data-col-index]').each(function () {
+            var i = $(this).data('col-index');
+            let val = $(this).val();
+            if (val != '' && (i == 11 || i == 12)) {
+                val = moment(val, "DD/MM/YYYY").format("YYYY-MM-DD");
+            }
+            if (params[i]) {
+                params[i] += '|' + val;
+            } else {
+                params[i] = val;
+            }
+        });
+
+        //console.log(params);
+
+        $.each(params, function (i, val) {
+            // apply search params to datatable
+            table.column(i).search(val ? val : '', false, false);
+        });
+        table.table().draw();
+    }
+
+    let toCtrl = null;
+
+    function chercher() {
+        if (toCtrl)
+            clearTimeout(toCtrl);
+        toCtrl = setTimeout(innerSearch, 500);
+    }
+
+}
+
+function afficherConsultation(id, motif) {
+    if (motif == 'pma') {
+        $.get(`/tentative-pma/chercher/${id}/`)
+            .done(function (result) {
+                console.log('Tentative', result);
+                const tentative = JSON.parse(result.tentative);
+                if (tentative != -1)
+                    window.location.href = `/tentative-pma/${tentative}/modifier/`;
+            })
+            .fail(function () {
+                console.error("Impossible de chercher la tentative PMA");
+            });
+        return;
+    }
+    showFrameLoading();
+    $('#consultation-modal iframe').attr('src', `/consultation/${id}`);
+    _showModal('consultation-modal');
+}
+
+$(document).ready(() => {
+
+    initEditors();
+
+
+    tinymce.init({
+        selector: '.editor_antecedent',
+        language: 'fr_FR',
+        plugins: ['link', 'lists', 'autolink', 'paste'],
+        paste_as_text: true,
+        contextmenu: 'image table',
+
+        toolbar: [
+            'undo redo | bold italic underline | fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignfull | numlist bullist outdent indent'
+        ],
+        menubar: false,
+        inline: true,
+        forced_root_block: '',
+        //content_style: ".editor_antecedent { font-family: arial, sans-serif; }",
+        init_instance_callback: function (editor) {
+            const idx = -1 + parseInt(editor.id.substring(editor.id.indexOf('-') + 1));
+            if (editor.getContent() === '' && idx < antecedents_defaut.length) {
+                editor.setContent(antecedents_defaut[idx]);
+            }
+            editor.on('Change', e => {
+                enregistrerAntecedents(editor);
+            });
+        }
+    });
+
+    tinymce.init({
+        selector: '#editor-notes',
+        language: 'fr_FR',
+        plugins: ['link', 'lists', 'autolink', 'paste'],
+        paste_as_text: true,
+        contextmenu: 'image table',
+
+        toolbar: [
+            'undo redo | bold italic underline | fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignfull | numlist bullist outdent indent'
+        ],
+        menubar: false,
+        inline: true,
+        forced_root_block: false,
+        init_instance_callback: function (editor) {
+            editor.on('Change', e => {
+                enregistrerNotes(editor);
+            });
+        }
+    });
+
+    $('.table-examen').each((i, el) => {
+        initConsultationDatatable(el);
+    });
+
+    initOrdonnancesDatatable();
+
+    initTentativesPMADatatable();
+
+    //$('[data-toggle="popover"]').popover();
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Phrasiers
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    const phrasiers_antecedents_map = {
+        1: {liste: '#phrases-antecedents-familiaux', editor: 1},
+        2: {liste: '#phrases-antecedents-chirurgicaux', editor: 2},
+        3: {liste: '#phrases-antecedents-gynecologiques', editor: 3},
+        6: {liste: '#phrases-allergies', editor: 4}
+    };
+    _.each(phrasiers_antecedents_map, (val, key) => {
+        if (phrasiers_par_categorie[key]) {
+            _.each(phrasiers_par_categorie[key], p => {
+                let libelle = getLocalizedPhrasierLabel(p);
+                const str = libelle.length > 50 ? libelle.substring(0, 50) + '...' : libelle;
+                $(val.liste).append(`<div class="menu-item px-3"><a onclick="ajouterAntecedent(${val.editor}, ${p.id})" class="menu-link" data-id="${p.id}" href="javascript:void(0)">${str}</a></div>`);
+            });
+        }
+    });
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Antécédents
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    _.each(antecedents_list_choix_map, (val, key) => {
+        const choix = formulaire_antecedents_liste_choix_par_champ[key] || [];
+        _.each(choix, p => {
+            ajouterOptionAntecedent(val.liste, p);
+        });
+    });
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    const url = window.location.href;
+    const activeTab = url.substring(url.indexOf("#") + 1);
+    if (activeTab) {
+        setTimeout(() => $(`a[href="#${activeTab}"]`).tab('show'), 1500);
+    }
+
+    const nowDate = new Date();
+    const DD = ((nowDate.getDate()) < 10 ? '0' : '') + (nowDate.getDate());
+    const MM = ((nowDate.getMonth() + 1) < 10 ? '0' : '') + (nowDate.getMonth() + 1);
+
+    Inputmask("datetime", {
+        inputFormat: 'dd/mm/yyyy',
+        placeholder: "jj/mm/aaaa",
+        min: '01/01/1900',
+        max: DD + '/' + MM + '/' + nowDate.getFullYear(),
+    }).mask(document.querySelectorAll('.date-picker'));
+
+    $('.date-picker').on('keyup change blur', (e) => {
+        toggleAntecedentDateSubmit(e.target);
+    });
+
+    $('#cloturer-tentative-pma').modalForm({
+        formURL: `/tentative-pma/${tentativePMAId}/cloturer/?next=/patients/${patientId}/#tab-pma`
+    });
+
+    $('#new-alerte').keydown(e => {
+        if(e.which == 13) {
+            ajouterAlerte($('#new-alerte').val());
+            $('#new-alerte').val('');
+        }
+    })
+
+    $('[data-form]').contextmenu(e => {
+        e.preventDefault();
+        const $el = $(e.target);
+        targetListeChoix = null;
+        let formulaire = $el.attr('data-form');
+        let champ = $el.attr('data-champ');
+        if (formulaire && champ) {
+            showFrameLoading();
+            $('#liste-choix-modal iframe').attr('src', `/listes/?formulaire=${formulaire}&champ=${champ}`);
+            _showModal('liste-choix-modal');
+            targetListeChoix = $el;
+        }
+    });
+
+    $('#consult-cat-tabs .tab-pane').first().addClass(['active', 'show']);
+
+    $('.collapse').on('show.bs.collapse', e => {
+        showConsultationsObstetriques(e.target)
+    });
+
+    if (grossesse) {
+        $('#terme').text(calcTerme(moment(grossesse.ddr, 'YYYY-MM-DD'), grossesse.cycle));
+        $('#ddg').text(calcDDG(moment(grossesse.ddr, 'YYYY-MM-DD'), grossesse.cycle));
+        $('#ddr').text(moment(grossesse.ddr, 'YYYY-MM-DD').format('DD/MM/YYYY'));
+        $('#accouchement').text(calcDateAccouchement(moment(grossesse.ddr, 'YYYY-MM-DD'), grossesse.cycle));
+    }
+
+    $('#categorie').on("change", function (e) {
+        $("#motif").empty();
+        let motifs_categorie = _.filter(motifs_json, c => c.categorie.id == $('#categorie').val());
+        $("#motif").append('<option value="" disabled selected> -------- </option>');
+        motifs_categorie.map((item) => {
+            if (item.code != '-')
+                $('#motif').append(`<option value="${item.id}">${item.libelle}</option>`);
+                console.log('code', item.libelle)
+        });
+    });
+
+    $('#debut').datepicker({
+        todayHighlight: true,
+        autoclose: true,
+        language: currentLang,
+        weekStart: 1,
+        format: 'dd/mm/yyyy',
+        orientation: 'bottom',
+    });
+
+    $('#fin').datepicker({
+        todayHighlight: true,
+        autoclose: true,
+        language: currentLang,
+        weekStart: 1,
+        format: 'dd/mm/yyyy',
+        orientation: 'bottom'
+    });
+
+
+    initTableConsultations();
+
+    EventManager.subscribe("patient:updated", function (event) {
+        console.info('Event patient:updated', event);
+        window.location.reload();
+    });
+
+    EventManager.subscribe("grossesse:updated", function (event) {
+        console.info('Event grossesse:updated', event);
+        rechargerInfosGrossesse();
+    });
+
+    EventManager.subscribe("liste:updated", function (event, payload) {
+        console.info('Event liste:updated', event, payload);
+        const selector = antecedents_list_choix_map[payload.champ] && antecedents_list_choix_map[payload.champ].liste;
+        if (!selector) {
+            return;
+        }
+        let sel = $(selector);
+        sel.empty();
+        formulaire_antecedents_liste_choix = payload.liste;
+        payload.liste.forEach(item => {
+            ajouterOptionAntecedent(selector, item);
+        });
+    });
+
+    EventManager.subscribe("liste:selected", function (event, listechoix) {
+        console.info('Event liste:selected', event, listechoix);
+        const el = antecedents_list_choix_map[listechoix.champ].liste;
+        $('.antecedent-date-container').css('display', 'none');
+        $(el + '-date-container').css('display', 'flex');
+        antecedent_selectionne = listechoix;
+    });
+});

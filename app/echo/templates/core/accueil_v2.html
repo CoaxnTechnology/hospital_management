@@ -1,0 +1,653 @@
+{% extends "base_v2.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block styles %}
+    <link href="{% static "css/core/rdv_calendrier.css" %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block header %}
+    <div class="toolbar py-3 py-lg-5" id="kt_toolbar">
+        <!--begin::Container-->
+        <div id="kt_toolbar_container" class="container-xxl d-flex align-items-center flex-wrap gap-3">
+            <!--begin::Page title-->
+            <div class="page-title me-auto">
+                <h1 class="d-flex text-white fw-bold my-0 fs-3">{% trans "Tableau de bord" %}</h1>
+            </div>
+            <!--end::Page title-->
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <div class="btn-group btn-group-sm" role="group">
+                    <button id="btn_jour_precedent" type="button" class="btn btn-light"
+                            aria-label="prev"><span class="fc-icon fc-icon-chevron-left"></span>
+                    </button>
+                    <button id="btn_aujourdhui" type="button" class="btn btn-primary px-4">
+                        {% trans "Aujourd'hui" %}
+                    </button>
+                    <button id="btn_jour_suivant" type="button" class="btn btn-light"
+                            aria-label="next"><span class="fc-icon fc-icon-chevron-right"></span>
+                    </button>
+                </div>
+                <div class="input-group input-group-sm" style="width:160px">
+                    <input type="text" class="form-control form-control-sm" readonly="readonly" value=""
+                           id="date_courante_picker"/>
+                    <span class="input-group-text"><i class="la la-calendar"></i></span>
+                </div>
+                <div style="min-width:200px">
+                    {% if user.profil.groupe == 'Médecin' %}
+                        <span class="form-control form-control-sm form-control-solid border-0 bg-transparent fw-bold" id="praticien">
+                            {{ user.get_full_name|default:user.username }}
+                        </span>
+                    {% else %}
+                        <select class="form-select form-select-sm form-select-solid" data-kt-select2="true" id="praticien">
+                            <option value="-1">{% trans "Tous les praticiens" %}</option>
+                            {% for p in praticiens %}
+                                <option value="{{ p.id }}"
+                                        {% if user.profil.groupe == 'Médecin' and user.profil.id == p.id %}selected{% endif %}>
+                                    {{ p.nom }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                </div>
+                <button type="button" class="btn btn-sm btn-success" onclick="ouvrirAjoutPatientSalle()">
+                    <i class="la la-plus me-1"></i> {% trans "Ajouter patient" %}
+                </button>
+            </div>
+        </div>
+        <!--end::Container-->
+    </div>
+{% endblock %}
+
+{% block content %}
+    <!-- KPI Summary Cards -->
+    <div class="kpi-row mb-6">
+        <a href="#liste_complete" class="kpi-card kpi-primary" id="kpi_rdvs" data-bs-toggle="tab" onclick="document.getElementById('link_rdv_jour').click()">
+            <div class="kpi-icon"><i class="la la-calendar-check fs-2"></i></div>
+            <div class="kpi-body">
+                <div class="kpi-value" id="kpi_nb_rdvs">0</div>
+                <div class="kpi-label">{% trans "RDV du jour" %}</div>
+            </div>
+        </a>
+        <a href="#liste_salle_attente" class="kpi-card kpi-warning" id="kpi_attente" data-bs-toggle="tab" onclick="document.getElementById('link_salle').click()">
+            <div class="kpi-icon"><i class="la la-user-clock fs-2"></i></div>
+            <div class="kpi-body">
+                <div class="kpi-value" id="kpi_nb_attente">0</div>
+                <div class="kpi-label">{% trans "Salle d'attente" %}</div>
+            </div>
+        </a>
+        <a href="#liste_en_consultation" class="kpi-card kpi-purple" data-bs-toggle="tab" onclick="document.getElementById('link_en_consultation').click()">
+            <div class="kpi-icon"><i class="la la-first-aid fs-2"></i></div>
+            <div class="kpi-body">
+                <div class="kpi-value" id="kpi_nb_en_cours">0</div>
+                <div class="kpi-label">{% trans "En examen" %}</div>
+            </div>
+        </a>
+        <a href="#liste_consultations" class="kpi-card kpi-success" data-bs-toggle="tab" onclick="document.getElementById('link_consultations').click()">
+            <div class="kpi-icon"><i class="la la-user-check fs-2"></i></div>
+            <div class="kpi-body">
+                <div class="kpi-value" id="kpi_nb_realises">0</div>
+                <div class="kpi-label">{% trans "Réalisés" %}</div>
+            </div>
+        </a>
+        <a href="#liste_modifies_annules" class="kpi-card kpi-secondary" data-bs-toggle="tab" onclick="document.getElementById('link_modifications').click()">
+            <div class="kpi-icon"><i class="la la-edit fs-2"></i></div>
+            <div class="kpi-body">
+                <div class="kpi-value" id="kpi_nb_modifies_card">0</div>
+                <div class="kpi-label">{% trans "Modifications" %}</div>
+            </div>
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-custom gutter-bs">
+                <div class="card-header card-header-tabs-line d-none">
+                    <div class="card-toolbar py-4">
+                        <div class="">
+                            <ul class="nav nav-pills nav-tabs-bold" role="tablist">
+                                <li class="nav-item">
+                                    <a id="link_rdv_jour" class="nav-link px-3 py-3 mx-xs-1 mx-md-2 active"
+                                       data-bs-toggle="tab" href="#liste_complete">
+                                        <span class="nav-text font-weight-bold">{% trans "RDV du jour" %}</span>
+                                        <span id="nb_rdvs" class="badge badge-square badge-light-primary ms-2">0</span>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a id="link_salle" class="nav-link px-3 py-3 mx-xs-1 mx-md-2" data-bs-toggle="tab"
+                                       href="#liste_salle_attente">
+                                        <span class="nav-text font-weight-bold">{% trans "Salle d'attente" %}</span>
+                                        <span id="nb_attente" class="badge badge-square badge-light-primary ms-2">0</span>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a id="link_en_consultation" class="nav-link px-3 py-3 mx-xs-1 mx-md-2" data-bs-toggle="tab"
+                                       href="#liste_en_consultation">
+                                        <span class="nav-text font-weight-bold">{% trans "En examen" %}</span>
+                                        <span id="nb_consultations_en_cours" class="badge badge-square badge-light-primary ms-2">0</span>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a id="link_consultations" class="nav-link px-3 py-3 mx-xs-1 mx-md-2"
+                                       data-bs-toggle="tab"
+                                       href="#liste_consultations">
+                                        <span class="nav-text font-weight-bold">{% trans "Réalisés" %}</span>
+                                        <span id="nb_realises" class="badge badge-square badge-light-primary ms-2">0</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a id="link_modifications" class="nav-link px-3 py-3 mx-xs-1 mx-md-2"
+                                       data-bs-toggle="tab"
+                                       href="#liste_modifies_annules">
+                                        <span class="nav-text font-weight-bold">{% trans "Modifications" %}</span>
+                                        <span id="nb_modifies" class="badge badge-square badge-light-primary ms-2">0</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--<ul class="nav nav-tabs nav-tabs-space-lg nav-tabs-line nav-tabs-bold nav-tabs-line-3x d-lg-none d-xl-none d-xxl-none"
+                            role="tablist">
+                            <li class="nav-item me-1">
+                                <a id="link_rdv_jour" class="nav-link active mx-1" data-bs-toggle="tab" href="#liste_complete">
+									<span class="nav-icon me-2">
+                                        <i class="flaticon-calendar-1 me-1"></i>
+                                    </span>
+                                    <span class="nav-text font-weight-bold">{% trans "RDV du jour" %}</span>
+                                    <span id="nb_rdvs"
+                                          class="label label-xl p-0 font-weight-bold label-success ms-2">0</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item me-1">
+                                <a id="link_salle" class="nav-link mx-1" data-bs-toggle="tab" href="#liste_salle_attente">
+														<span class="nav-icon me-1">
+															<i class="la la-user-clock icon-xl me-1"></i>
+														</span>
+                                    <span class="nav-text font-weight-bold">{% trans "Salle d'attente" %}</span>
+                                    <span id="nb_attente"
+                                          class="label label-xl p-0 font-weight-bold label-success ms-2">0</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item me-1">
+                                <a id="link_salle" class="nav-link mx-1" data-bs-toggle="tab" href="#liste_en_consultation">
+														<span class="nav-icon me-1">
+															<i class="la la-first-aid icon-xl me-1"></i>
+														</span>
+                                    <span class="nav-text font-weight-bold">{% trans "Consultations en cours" %}</span>
+                                    <span id="nb_consultations_en_cours"
+                                          class="label label-xl p-0 font-weight-bold label-success ms-2">0</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item me-1">
+                                <a id="link_consultations" class="nav-link mx-1" data-bs-toggle="tab"
+                                   href="#liste_consultations">
+														<span class="nav-icon me-1">
+															<i class="la la-user-check icon-xl me-1"></i>
+														</span>
+                                    <span class="nav-text font-weight-bold">{% trans "Consultations réalisées" %}</span>
+                                    <span id="nb_realises"
+                                          class="label label-xl p-0 font-weight-bold label-success ms-2">0</span>
+                                </a>
+                            </li>
+                            <li class="nav-item me-1">
+                                <a id="link_modifications" class="nav-link mx-1" data-bs-toggle="tab"
+                                   href="#liste_modifies_annules">
+														<span class="nav-icon me-1">
+															<i class="la la-user-minus icon-xl me-1"></i>
+														</span>
+                                    <span class="nav-text font-weight-bold">{% trans "Modifications" %}</span>
+                                    <span id="nb_modifies"
+                                          class="label label-xl p-0 font-weight-bold label-success ms-2">0</span>
+                                </a>
+                            </li>
+                        </ul>-->
+                    </div>
+
+                </div>
+                <!--end::Header-->
+                <!--begin::Body-->
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="liste_complete" role="tabpanel">
+                            <table class="table table-row-bordered table-striped gy-5" id="kt_datatable_rdvs">
+                                <thead>
+                                <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
+                                    <th>{% trans "E." %}</th>
+                                    <th>{% trans "Etat" %}</th>
+                                    <th>{% trans "Nom de naissance" %}</th>
+                                    <th>{% trans "Nom marital" %}</th>
+                                    <th>{% trans "Prénom" %}</th>
+                                    <th>{% trans "Ville" %}</th>
+                                    <th>{% trans "Tél." %}</th>
+                                    <th>{% trans "Heure" %}</th>
+                                    <th>{% trans "Motif" %}</th>
+                                    <th>{% trans "Praticien" %}</th>
+                                    <th class="w-200px">{% trans "Actions" %}</th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-gray-600 fw-semibold">
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="tab-pane" id="liste_salle_attente" role="tabpanel">
+                            <table class="table table-row-bordered table-striped gy-5" id="kt_datatable_salle">
+                                <thead>
+                                <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
+                                    <th class="w-30px">#</th>
+                                    <th>{% trans "E." %}</th>
+                                    <th class="w-150px">{% trans "Nom de naissance" %}</th>
+                                    <th class="w-150px">{% trans "Nom marital" %}</th>
+                                    <th class="w-150px">{% trans "Prénom" %}</th>
+                                    <th>{% trans "Age" %}</th>
+                                    <th class="w-100px">{% trans "Ville" %}</th>
+                                    <th>{% trans "Tél." %}</th>
+                                    <th>{% trans "Admission" %}</th>
+                                    <th>{% trans "Attente" %}</th>
+                                    <th>{% trans "Motif" %}</th>
+                                    <th class="w-200px">{% trans "Praticien" %}</th>
+                                    <th class="w-200px">{% trans "Actions" %}</th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-gray-600 fw-semibold">
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="tab-pane" id="liste_en_consultation" role="tabpanel">
+                            <table class="table table-row-bordered table-striped gy-5"  id="kt_datatable_en_consultation">
+                                <thead>
+                                <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
+                                    <th>#</th>
+                                    <th>{% trans "E." %}</th>
+                                    <th>{% trans "Nom de naissance" %}</th>
+                                    <th>{% trans "Nom marital" %}</th>
+                                    <th>{% trans "Prénom" %}</th>
+                                    <th>{% trans "Age" %}</th>
+                                    <th>{% trans "Ville" %}</th>
+                                    <th>{% trans "Tél." %}</th>
+                                    <th>{% trans "Heure" %}</th>
+                                    <th>{% trans "Motif" %}</th>
+                                    <th class="w-200px">{% trans "Praticien" %}</th>
+                                    <th class="w-200px">{% trans "Actions" %}</th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-gray-600 fw-semibold">
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="tab-pane" id="liste_consultations" role="tabpanel">
+                            <table class="table table-row-bordered table-striped gy-5" id="kt_datatable_consultations">
+                                <thead>
+                                <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
+                                    <th>{% trans "Nom de naissance" %}</th>
+                                    <th>{% trans "Nom marital" %}</th>
+                                    <th>{% trans "Prénom" %}</th>
+                                    <th>{% trans "Age" %}</th>
+                                    <th>{% trans "Ville" %}</th>
+                                    <th>{% trans "Motif" %}</th>
+                                    <th class="w-200px">{% trans "Praticien" %}</th>
+                                    <th class="w-200px">{% trans "Actions" %}</th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-gray-600 fw-semibold">
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="tab-pane" id="liste_modifies_annules" role="tabpanel">
+                            <table class="table table-row-bordered table-striped gy-5" id="kt_datatable_modifies_annules">
+                                <thead>
+                                <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
+                                    <th>{% trans "Etat" %}</th>
+                                    <th>{% trans "Nom de naissance" %}</th>
+                                    <th>{% trans "Nom marital" %}</th>
+                                    <th>{% trans "Prénom" %}</th>
+                                    <th>{% trans "Ville" %}</th>
+                                    <th>{% trans "Tél." %}</th>
+                                    <th>{% trans "Heure" %}</th>
+                                    <th>{% trans "Motif" %}</th>
+                                    <th class="w-200px">{% trans "Praticien" %}</th>
+                                    <th class="w-200px">{% trans "Actions" %}</th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-gray-600 fw-semibold">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Body-->
+            </div>
+        </div>
+    </div>
+
+    <script id="actions-rdv-template" type="text/html">
+        <button onclick="mettreEnSalle(<%- id %>)"
+           class="btn btn-icon btn-sm btn-primary <% if(statut != 1) { %>invisible<% } %>"
+           title="{% trans 'Mettre en salle' %}">
+            <i class="la la-play icon-md"></i>
+        </button>
+
+        <a onclick="javascript:afficherRdvModal('/rdvs/<%- id %>/modifier/?next=accueil')" class="btn btn-warning btn-icon btn-sm"
+           title="{% trans 'Modifier le rendez-vous' %}">
+            <i class="la la-edit icon-md"></i>
+        </a>
+        <a onclick="annulerRdv(<%- id %>)" class="btn btn-icon btn-sm btn-danger <%- annulation %>"
+           title="{% trans 'Annuler le rendez-vous' %}">
+            <i class="la la-trash icon-md"></i>
+        </a>
+
+        <div class="rappel-container d-inline">
+            <% if (rappele) { %>
+            <a onclick="rappel(this, <%- id %>, 0)" class="btn btn-icon btn-sm btn-success" title="{% trans 'Patient rappelé' %}">
+                <i class="la la-phone icon-md"></i>
+            </a>
+            <% } else { %>
+            <a onclick="rappel(this, <%- id %>, 1)" class="btn btn-icon btn-sm btn-outline-danger"
+               title="{% trans 'Patient non rappelé' %}">
+                <i class="la la-phone-slash icon-md"></i>
+            </a>
+            <% } %>
+        </div>
+    </script>
+
+    <script id="action-rappel-rdv" type="text/html">
+        <a onclick="rappel(this, <%- id %>, <%- action %>)"
+           class="btn btn-icon btn-sm <% if(action==1) { %>btn-outline-danger<% } else { %>btn-success<% }%>"
+           title="<% if(action==1) { %>Patient non rappelé<% } else { %>Patient rappelé<% }%>">
+            <i class="la <% if(action==1) { %>la-phone-slash<% } else { %>la-phone<% } %> icon-md"></i>
+        </a>
+    </script>
+
+    <script id="actions-rdv-modif-template" type="text/html">
+        <a onclick="javascript:afficherRdvModal('/rdvs/<%- id %>/modifier/?next=accueil')" class="btn btn-warning btn-icon btn-sm"
+           title="{% trans 'Modifier le rendez-vous' %}">
+            <i class="la la-edit icon-md"></i>
+        </a>
+        <a onclick="annulerRdv(<%- id %>)" class="btn btn-icon btn-sm btn-danger <%- annulation %>"
+           title="{% trans 'Annuler le rendez-vous' %}">
+            <i class="la la-trash icon-md"></i>
+        </a>
+
+    </script>
+
+    <script id="actions-cons-modif-template" type="text/html">
+        <a href="/patients/<%- id %>" class="btn btn-primary btn-icon btn-sm" title="{% trans 'Dossier patient' %}">
+            <i class="la la-eye icon-md"></i>
+        </a>
+        <button type="button"
+                onclick="afficherTelechargerFichierModal(<%- id %>)"
+                class="btn btn-info btn-icon btn-sm" title="{% trans 'Télécharger fichier' %}">
+            <i class="la la-upload icon-md"></i>
+        </button>
+    </script>
+
+    <script id="actions-consultation-template" type="text/html">
+        <a href="/patients/<%- id %>" class="btn btn-primary btn-icon btn-sm" title="{% trans 'Dossier patient' %}">
+            <i class="la la-eye icon-md"></i>
+        </a>
+        <button type="button"
+                onclick="afficherTelechargerFichierModal(<%- id %>)"
+                class="btn btn-info btn-icon btn-sm" title="{% trans 'Télécharger fichier' %}">
+            <i class="la la-upload icon-md"></i>
+        </button>
+        <button type="button"
+                onclick="remettreEnSalle(<%- id %>)"
+                class="btn btn-secondary btn-icon btn-sm" title="{% trans 'Renvoyer en salle d\'attente' %}">
+            <i class="la la-undo icon-md"></i>
+        </button>
+        <% if (!consultationId) { %>
+        <button type="button"
+                onclick="demarrerExamen(<%- id %>)"
+                class="btn btn-primary btn-icon btn-sm" title="{% trans 'Démarrer l\'examen' %}">
+            <i class="la la-play icon-md"></i>
+        </button>
+        <button type="button"
+                onclick="terminerConsultation(<%- id %>)"
+                class="btn btn-success btn-icon btn-sm" title="{% trans 'Terminer consultation' %}">
+            <i class="la la-check icon-md"></i>
+        </button>
+        <% } %>
+    </script>
+
+    <script id="actions-attente-template" type="text/html">
+        <a href="/reglements/<%- admission_id %>/ajouter/" class="btn btn-sm btn-success btn-icon"
+           title="{% trans 'Paiement' %}">
+            <i class="fa fa-money-bill icon-sm"></i>
+        </a>
+        <% if (en_exam_occupied) { %>
+        <button class="btn btn-sm btn-secondary btn-icon disabled" disabled
+                title="{% trans 'Un patient est déjà en examen' %}">
+            <i class="fa fa-play icon-sm"></i>
+        </button>
+        <% } else { %>
+        <button onclick="demarrerConsultation(<%- id %>)" class="btn btn-sm btn-primary btn-icon"
+           title="{% trans 'Démarrer la consultation' %}">
+            <i class="fa fa-play icon-sm"></i>
+        </button>
+        <% } %>
+        <a onclick="annulerAdmission(<%- admission_id %>)" class="btn btn-icon btn-sm btn-danger"
+           title="{% trans 'Annuler l\'admission' %}">
+            <i class="la la-trash icon-md"></i>
+        </a>
+        <button type="button"
+                onclick="afficherTelechargerFichierModal(<%- id %>)"
+                class="btn btn-info btn-icon btn-sm" title="{% trans 'Télécharger fichier' %}">
+            <i class="la la-upload icon-md"></i>
+        </button>
+        <button type="button"
+                onclick="afficherMesuresModal(<%- id %>, <%= mesuresId %>)"
+                class="btn btn-light-dark btn-icon btn-sm" title="{% trans 'Saisir des mesures' %}">
+            <i class="la la-pen icon-md"></i>
+        </button>
+    </script>
+
+    <script type="text/html" id="statut-template">
+        <div class="d-flex flex-grow-1 align-items-center rounded">
+            <div class="me-1 flex-shrink-0 text-center">
+                <div class="symbol symbol-circle symbol-25px">
+                    <span class="symbol-label <%= cssClass %>">
+                    <i class="la <%= smiley %> fs-3 text-white"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="text-dark-75"><%= msg %></div>
+        </div>
+    </script>
+
+    <script type="text/html" id="praticien-template">
+        <%= nom %>
+        <span class="dropup dropdown-inline" title="{% trans 'Modifier praticien' %}">
+            <a href="javascript:void(0)" class="btn btn-sm btn-secondary btn-icon praticien-dropdown"
+               data-bs-toggle="dropdown">
+                <i class="fa fa-pen icon-sm"></i>
+            </a>
+            <ul class="dropdown-menu">
+                {% for p in praticiens %}
+                    <li class="dropdown-item" title="{% trans 'Modifier praticien' %}">
+                        <a href="javascript:void(0)" onclick="modifierPraticien(this, <%= id %>, {{ p.id }})">
+                            <span class="navi-text">{{ p.nom }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </span>
+    </script>
+
+    <script type="text/html" id="motif-rdv-template">
+        <%= motif %>
+        <span class="dropup dropdown-inline" title="{% trans 'Modifier motif' %}">
+            <a href="javascript:void(0)" class="btn btn-sm btn-secondary btn-icon motif-rdv-dropdown"
+               data-bs-toggle="dropdown">
+                <i class="fa fa-pen icon-sm"></i>
+            </a>
+
+            <ul class="dropdown-menu">
+                {% for p in motifs_rdv %}
+                    <li class="dropdown-item" title="{% trans 'Modifier motif rendez-vous' %}">
+                        <a href="javascript:void(0)" onclick="modifierMotifRdv(this, <%= id %>, {{ p.id }})"
+                           class="">
+                            <span class="">{{ p.libelle }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </span>
+    </script>
+
+    <div class="modal fade" id="modal_ajout_patient_salle" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{% trans "Ajouter un patient en salle d'attente" %}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-4">
+                        <input type="text" class="form-control form-control-lg" id="recherche_patient_salle"
+                                placeholder="{% trans 'Rechercher un patient...' %}" autocomplete="off"
+                               oninput="rechercherPatientAjax()"
+                               onkeydown="if(event.key==='Enter') rechercherPatientAjax()">
+                        <button class="btn btn-primary" type="button" onclick="rechercherPatientAjax()">
+                            <i class="la la-search"></i> {% trans "Rechercher" %}
+                        </button>
+                    </div>
+                    <div id="resultats_recherche_salle" class="list-group" style="max-height: 400px; overflow-y: auto;">
+                        <div class="text-center text-muted py-4" id="recherche_empty">
+                            {% trans "Saisissez un nom ou prénom pour rechercher" %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript">
+        try {
+        {% if msg %}
+            toastr.success("{{ msg }}");
+        {% endif %}
+        {% if error_msg %}
+            toastr.warning("{{ error_msg|escapejs }}", "", {timeOut: 8000});
+        {% endif %}
+
+
+        window.filterPraticienId = -1;
+        {% if user.profil.groupe == 'Médecin' %}
+            window.filterPraticienId = {{ user.profil.id }};
+        {% endif %}
+
+        var rdvs_jour = {{ rdvs_jour_today | safe }};
+        var rdvs_jour_all = {{ rdvs_json | safe }};
+        console.log('Rdv jour', rdvs_jour);
+        var rdvs_modifies_annules = _.filter(rdvs_jour_all, rdv => {
+                return rdv.statut == 10 || (rdv.statut == 1 && rdv.ancien_debut && !moment(rdv.debut).isSame(moment(), 'day'));
+            }
+        );
+        var terminated_admissions = {{ terminated_admissions_json|safe }};
+        var terminated_patients = _.map(terminated_admissions, a => ({
+            isTerminated: true,
+            statut: a.statut,
+            nom_naissance: a.patient.nom_naissance,
+            nom: a.patient.nom,
+            prenom: a.patient.prenom,
+            ville: a.patient.adresse ? a.patient.adresse.ville : '',
+            telephone: a.patient.telephone || '',
+            debut: a.debut_consultation || a.date,
+            motif: a.motif,
+            praticien: a.praticien,
+            id: a.patient.id,
+            patientId: a.patient.id,
+            nouveau: a.patient.nouveau,
+            patient: a.patient,
+            admission_id: a.id,
+        }));
+        rdvs_modifies_annules = rdvs_modifies_annules.concat(terminated_patients);
+        console.log("Modifiés + Terminés", rdvs_modifies_annules);
+
+        var admissions = {{ admissions_json|safe }};
+        admissions = _.map(admissions, p => {
+            const rdv = _.find(rdvs_jour_all, r => {
+                if (!r.patient) return false;
+                const rdvPatientId = typeof r.patient === 'object' ? r.patient.id : r.patient;
+                return rdvPatientId === p.patient.id;
+            });
+            if (rdv) {
+                p = _.extend({}, p, _.pick(rdv, ['debut', 'nouveau']));
+            } else {
+                p = _.extend({}, p);
+                p.debut = p.debut_consultation || '-';
+                p.nouveau = p.patient.nouveau;
+            }
+            return p;
+        });
+        var admissions_json_initial = admissions;
+        patients_en_attente = _.filter(admissions, p => p.statut == 1);
+        consultations_en_cours = _.filter(admissions, p => p.statut == 2);
+
+        var motifs_consultation = {{ motifs_consultation_json|safe }};
+        motifs_consultation = _.map(motifs_consultation, p => _.merge({pk: p.pk}, p.fields));
+
+        var motifs_rdvs = {{ motifs_rdv_json|safe }};
+
+        var consultations = {{ consultations_json|safe }};
+        consultations = _.filter(consultations || [], c => {
+            if (!c || !c.date) return false;
+            return moment(c.date).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD');
+        });
+        console.log('Consultations', consultations);
+
+        var praticiens = {{ praticiens_json|safe }};
+        var en_exam_count = {{ en_exam_count }};
+        var motifs_rdv = {{ motifs_rdv_json|safe }};
+
+        window.dispositifs = {{ devices_json|safe }};
+
+        window.MESSAGES_SALLE = {
+            recherche_prompt: '{% trans "Saisissez un nom ou prénom pour rechercher" %}',
+            aucun_patient: '{% trans "Aucun patient trouvé" %}',
+            erreur_recherche: '{% trans "Erreur lors de la recherche" %}',
+            ajouter: '{% trans "Ajouter" %}',
+            {% trans "Patient ajouté en salle d'attente" as s_ajoute %}
+            ajoute: '{{ s_ajoute|escapejs }}',
+            erreur_connexion: '{% trans "Erreur de connexion" %}',
+        };
+
+        function demarrerConsultation(patientId) {
+            window.location.href = '/patients/' + patientId + '/?action=demarrer_consultation';
+        }
+
+        window.S_CHOISIR_MACHINE = '{{ s_choisir_machine|escapejs }}';
+        window.S_ANNULER = '{{ s_annuler|escapejs }}';
+    } catch(e) {
+        console.error('Inline script error:', e.message, e.stack);
+        document.getElementById('kpi_nb_realises').textContent = 'ERR:' + e.message;
+    }
+    </script>
+    <script src="{% static "plugins/custom/typeahead/typeahead.bundle.js" %}"></script>
+    <script src="{% static "js/core/accueil.js" %}?v=20250618f"></script>
+    <script>
+    // Live polling: refresh admissions every 15s
+    setInterval(function() {
+        fetch('/admissions/aujourdhui/json/')
+            .then(r => r.json())
+            .then(data => {
+                if (!data.admissions) return;
+                refreshAdmissionsFromApi(data.admissions);
+            })
+            .catch(function(e) {});
+    }, 15000);
+    </script>
+{% endblock %}

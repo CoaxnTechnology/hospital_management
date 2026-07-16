@@ -1,0 +1,11 @@
+<script type="text/javascript">
+    window.parent.fermerModals();
+    setTimeout(() => {
+            let params = new URLSearchParams(window.location.search);
+            if (params.has('next'))
+                window.parent.location.replace(params.get('next'));
+            else
+                window.parent.location.reload();
+        },
+        500);
+</script>

@@ -1,0 +1,6 @@
+<script type="text/javascript">
+    window.parent.fermerModals();
+    {% if event %}
+        window.parent.EventManager.publish('{{ event }}');
+    {% endif %}
+</script>

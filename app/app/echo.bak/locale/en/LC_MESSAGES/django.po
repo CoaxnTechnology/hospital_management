@@ -1,0 +1,6046 @@
+# English translations for Echo.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-11 12:59+0100\n"
+"PO-Revision-Date: 2026-02-26 07:00+0100\n"
+"Last-Translator: \n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: app/echo/apps/chat/models.py:14
+msgid "Dialog owner"
+msgstr "Dialog owner"
+
+#: app/echo/apps/chat/models.py:16
+msgid "Dialog opponent"
+msgstr "Dialog opponent"
+
+#: app/echo/apps/chat/models.py:19
+msgid "Discussion avec "
+msgstr "Discussion with"
+
+#: app/echo/apps/chat/models.py:23
+msgid "Dialog"
+msgstr "Dialog"
+
+#: app/echo/apps/chat/models.py:24
+msgid "Author"
+msgstr "Author"
+
+#: app/echo/apps/chat/models.py:26
+msgid "Message text"
+msgstr "Message text"
+
+#: app/echo/apps/chat/models.py:27
+msgid "Read"
+msgstr "Read"
+
+#: app/echo/apps/core/forms.py:22
+#: app/echo/templates/core/consultation_gynecologique_form.html:106
+#: app/echo/templates/core/grossesse_form.html:44
+#: app/echo/templates/core/patient_form.html:58
+#: app/echo/templates/core/patient_form.html:83
+#: app/echo/templates/core/patient_list.html:49
+#: app/echo/templates/core/patient_list.html:93
+#: app/echo/templates/core/patient_list_v2.html:56
+#: app/echo/templates/core/patient_list_v2.html:102
+#: app/echo/templates/core/profil_form.html:98
+msgid "Date de naissance"
+msgstr "Date of birth"
+
+#: app/echo/apps/core/forms.py:23
+#, fuzzy
+#| msgid "Téléphone 2"
+msgid "Téléphone principal"
+msgstr "Phone 2"
+
+#: app/echo/apps/core/forms.py:24
+msgid "Téléphone secondaire"
+msgstr "Secondary phone"
+
+#: app/echo/apps/core/forms.py:25 app/echo/templates/core/profil_form.html:176
+#, fuzzy
+#| msgid "Nature"
+msgid "Signature"
+msgstr "Nature"
+
+#: app/echo/apps/core/forms.py:26 app/echo/templates/core/profil_form.html:152
+msgid "Code sécurité sociale"
+msgstr "Social security number"
+
+#: app/echo/apps/core/forms.py:27
+#: app/echo/templates/core/bordereau_detail.html:50
+#: app/echo/templates/core/bordereau_mutuelle.html:7
+#: app/echo/templates/core/profil_form.html:164
+msgid "Code conventionnel"
+msgstr "Conventional code"
+
+#: app/echo/apps/core/forms.py:28 app/echo/templates/core/profil_form.html:231
+msgid "Ajouter la signature aux éditions"
+msgstr "Add signature to editions"
+
+#: app/echo/apps/core/forms.py:29
+#, fuzzy
+#| msgid "Echographe par défaut"
+msgid "Échographe par défaut"
+msgstr "Default ultrasound machine"
+
+#: app/echo/apps/core/forms.py:30 app/echo/templates/core/partials/pma.html:48
+#: app/echo/templates/core/praticien_form.html:20
+#: app/echo/templates/core/profil_form.html:62
+msgid "Titre"
+msgstr "Title"
+
+#: app/echo/apps/core/forms.py:47 app/echo/templates/core/profil_form.html:262
+msgid "Profil"
+msgstr "Profile"
+
+#: app/echo/apps/core/models.py:209
+msgid "Docteur"
+msgstr "Doctor"
+
+#: app/echo/apps/core/models.py:210
+msgid "Professeur"
+msgstr "Professor"
+
+#: app/echo/apps/core/models.py:211 app/echo/apps/core/models.py:629
+msgid "Madame"
+msgstr "Mrs."
+
+#: app/echo/apps/core/models.py:212 app/echo/apps/core/models.py:630
+msgid "Mademoiselle"
+msgstr "Miss"
+
+#: app/echo/apps/core/models.py:213 app/echo/apps/core/models.py:631
+msgid "Monsieur"
+msgstr "Mr."
+
+#: app/echo/apps/core/models.py:638
+msgid "Femme"
+msgstr "Female"
+
+#: app/echo/apps/core/models.py:638
+msgid "Homme"
+msgstr "Male"
+
+#: app/echo/apps/core/models.py:656
+msgid "A négatif"
+msgstr "A negative"
+
+#: app/echo/apps/core/models.py:657
+msgid "A positif"
+msgstr "A positive"
+
+#: app/echo/apps/core/models.py:658
+msgid "B négatif"
+msgstr "B negative"
+
+#: app/echo/apps/core/models.py:659
+msgid "B positif"
+msgstr "B positive"
+
+#: app/echo/apps/core/models.py:660
+msgid "AB négatif"
+msgstr "AB negative"
+
+#: app/echo/apps/core/models.py:661
+msgid "AB positif"
+msgstr "AB positive"
+
+#: app/echo/apps/core/models.py:662
+msgid "O négatif"
+msgstr "O negative"
+
+#: app/echo/apps/core/models.py:663
+msgid "O positif"
+msgstr "O positive"
+
+#: app/echo/apps/core/models.py:676
+msgid "Europe/Afrique du nord"
+msgstr "Europe/North Africa"
+
+#: app/echo/apps/core/models.py:677
+msgid "Afrique sud-saharienne"
+msgstr "Sub-Saharan Africa"
+
+#: app/echo/apps/core/models.py:678
+msgid "Amérique latine"
+msgstr "Latin America"
+
+#: app/echo/apps/core/models.py:679
+msgid "Asie"
+msgstr "Asia"
+
+#: app/echo/apps/core/models.py:680
+msgid "Autre"
+msgstr "Other"
+
+#: app/echo/echo/settings/common.py:147
+msgid "Français"
+msgstr "French"
+
+#: app/echo/echo/settings/common.py:148
+msgid "English"
+msgstr "English"
+
+#: app/echo/echo/settings/common.py:149
+msgid "العربية"
+msgstr "Arabic"
+
+#: app/echo/echo/settings/common.py:150
+msgid "Español"
+msgstr "Spanish"
+
+#: app/echo/templates/base.html:139 app/echo/templates/base.html:161
+#: app/echo/templates/base_v2.html:97 app/echo/templates/base_v2.html:246
+#: app/echo/templates/base_v2.html:365
+msgid "Agenda"
+msgstr "Schedule"
+
+#: app/echo/templates/base.html:146 app/echo/templates/base.html:154
+#: app/echo/templates/base_v2.html:81 app/echo/templates/base_v2.html:239
+#: app/echo/templates/base_v2.html:358
+#: app/echo/templates/core/accueil_v2.html:16
+msgid "Tableau de bord"
+msgstr "Dashboard"
+
+#: app/echo/templates/base.html:171 app/echo/templates/base_v2.html:89
+#: app/echo/templates/base_v2.html:254 app/echo/templates/base_v2.html:373
+msgid "Patients"
+msgstr "Patients"
+
+#: app/echo/templates/base.html:179 app/echo/templates/base_v2.html:106
+#: app/echo/templates/base_v2.html:262 app/echo/templates/base_v2.html:381
+#: app/echo/templates/core/consultation_gynecologique_form.html:246
+msgid "Rapports"
+msgstr "Reports"
+
+#: app/echo/templates/base.html:188 app/echo/templates/base_v2.html:131
+#: app/echo/templates/base_v2.html:271 app/echo/templates/base_v2.html:390
+#: app/echo/templates/core/cloture_detail.html:42
+#: app/echo/templates/core/patient_info_panel.html:157
+#: app/echo/templates/core/reglement_form.html:44
+#: app/echo/templates/core/reglement_form_2.html:28
+#: app/echo/templates/core/reglement_rapport.html:25
+#: app/echo/templates/core/reglement_rapport_list.html:72
+#: app/echo/templates/core/reglement_rapport_list.html:117
+msgid "Mutuelle"
+msgstr "Insurance"
+
+#: app/echo/templates/base.html:197 app/echo/templates/base_v2.html:162
+#: app/echo/templates/base_v2.html:318 app/echo/templates/base_v2.html:437
+#: app/echo/templates/core/profil_list.html:13
+msgid "Utilisateurs"
+msgstr "Users"
+
+#: app/echo/templates/base.html:207 app/echo/templates/base_v2.html:168
+#: app/echo/templates/base_v2.html:337 app/echo/templates/base_v2.html:456
+msgid "Paramètres"
+msgstr "Settings"
+
+#: app/echo/templates/base.html:219 app/echo/templates/base.html:597
+#: app/echo/templates/base_v2.html:610 app/echo/templates/base_v2.html:809
+msgid "Support"
+msgstr "Support"
+
+#: app/echo/templates/base.html:249 app/echo/templates/base.html:443
+msgid "Discussions"
+msgstr "Discussions"
+
+#: app/echo/templates/base.html:277
+msgid "Bonjour,"
+msgstr "Hello,"
+
+#: app/echo/templates/base.html:331
+msgid "Profil utilisateur"
+msgstr "User profile"
+
+#: app/echo/templates/base.html:409 app/echo/templates/base_v2.html:187
+#: app/echo/templates/base_v2.html:568
+msgid "Déconnexion"
+msgstr "Logout"
+
+#: app/echo/templates/base.html:509
+msgid "En ligne"
+msgstr "Online"
+
+#: app/echo/templates/base.html:512
+msgid "Hors ligne"
+msgstr "Offline"
+
+#: app/echo/templates/base.html:517 app/echo/templates/chat/chat.html:121
+#: app/echo/templates/super_admin/dashboard.html:263
+#: app/echo/templates/super_admin/dashboard.html:292
+#: app/echo/templates/super_admin/dashboard.html:428
+msgid "Active"
+msgstr "Active"
+
+#: app/echo/templates/base.html:547 app/echo/templates/base_v2.html:763
+msgid "Ecrire un message"
+msgstr "Write a message"
+
+#: app/echo/templates/base.html:581
+msgid "Moi"
+msgstr "Me"
+
+#: app/echo/templates/base.html:604 app/echo/templates/base_v2.html:829
+msgid "Veuillez saisir votre requête"
+msgstr "Please enter your request"
+
+#: app/echo/templates/base.html:609 app/echo/templates/base_v2.html:834
+msgid "Version"
+msgstr "Version"
+
+#: app/echo/templates/base.html:611 app/echo/templates/base_v2.html:839
+msgid "Envoyer"
+msgstr "Send"
+
+#: app/echo/templates/base.html:624 app/echo/templates/base_v2.html:851
+msgid "Règlements & Encaissements"
+msgstr "Payments & Collections"
+
+#: app/echo/templates/base.html:778 app/echo/templates/base.html:790
+#: app/echo/templates/base_dialog.html:166 app/echo/templates/base_v2.html:1013
+#: app/echo/templates/base_v2.html:1025
+#: app/echo/templates/core/rdv_form_dialog.html:222
+msgid "Etes vous sûr ?"
+msgstr "Are you sure?"
+
+#: app/echo/templates/base.html:779 app/echo/templates/base_v2.html:1014
+#: app/echo/templates/core/rdv_form_dialog.html:223
+msgid "Oui, annuler le rendez-vous!"
+msgstr "Yes, cancel the appointment!"
+
+#: app/echo/templates/base.html:780 app/echo/templates/base_v2.html:1015
+#: app/echo/templates/core/rdv_form_dialog.html:224
+msgid "Non, conserver le rendez-vous"
+msgstr "No, keep the appointment"
+
+#: app/echo/templates/base.html:781 app/echo/templates/base_v2.html:1016
+msgid "Oui, déplacer le rendez-vous"
+msgstr "Yes, move the appointment"
+
+#: app/echo/templates/base.html:782 app/echo/templates/base_v2.html:1017
+msgid "Déplacer le rendez-vous au"
+msgstr "Move the appointment to"
+
+#: app/echo/templates/base.html:791 app/echo/templates/base_dialog.html:167
+#: app/echo/templates/base_v2.html:1026
+msgid "Attention"
+msgstr "Warning"
+
+#: app/echo/templates/base.html:792 app/echo/templates/base_dialog.html:168
+#: app/echo/templates/base_v2.html:1027
+msgid "Message important"
+msgstr "Important message"
+
+#: app/echo/templates/base.html:793 app/echo/templates/base_dialog.html:169
+#: app/echo/templates/base_v2.html:1028
+msgid "La suppression est définitive!"
+msgstr "This deletion is permanent!"
+
+#: app/echo/templates/base.html:794 app/echo/templates/base_dialog.html:170
+#: app/echo/templates/base_v2.html:1029
+msgid "Oui, supprimer!"
+msgstr "Yes, delete!"
+
+#: app/echo/templates/base.html:795 app/echo/templates/base_dialog.html:171
+#: app/echo/templates/base_v2.html:1030
+msgid "Non, annuler"
+msgstr "No, cancel"
+
+#: app/echo/templates/base.html:796 app/echo/templates/base_dialog.html:172
+#: app/echo/templates/base_v2.html:1031
+#: app/echo/templates/core/base_pma.html:378
+#: app/echo/templates/core/patient_detail_v2.html:397
+#: app/echo/templates/core/patient_detail_v2.html:517
+#: app/echo/templates/core/reglement_rapport.html:30
+msgid "Non"
+msgstr "No"
+
+#: app/echo/templates/base.html:797 app/echo/templates/base_dialog.html:173
+#: app/echo/templates/base_v2.html:1032
+#: app/echo/templates/core/base_pma.html:260
+#: app/echo/templates/core/patient_detail_v2.html:397
+#: app/echo/templates/core/patient_detail_v2.html:517
+#: app/echo/templates/core/reglement_rapport.html:29
+msgid "Oui"
+msgstr "Yes"
+
+#: app/echo/templates/base.html:798 app/echo/templates/base_dialog.html:174
+#: app/echo/templates/base_v2.html:1033
+msgid "Ok"
+msgstr ""
+
+#: app/echo/templates/base.html:799 app/echo/templates/base_dialog.html:175
+#: app/echo/templates/base_v2.html:1034
+msgid "Oui, annuler l'admission!"
+msgstr "Yes, cancel the admission!"
+
+#: app/echo/templates/base.html:800 app/echo/templates/base_dialog.html:176
+#: app/echo/templates/base_v2.html:1035
+msgid "Non, conserver l'admission"
+msgstr "No, keep the admission"
+
+#: app/echo/templates/base.html:801 app/echo/templates/base_dialog.html:177
+#: app/echo/templates/base_v2.html:1036
+msgid "Oui, supprimer le praticien!"
+msgstr "Yes, remove the practitioner!"
+
+#: app/echo/templates/base.html:802 app/echo/templates/base_dialog.html:178
+#: app/echo/templates/base_v2.html:1037
+msgid "Non, conserver le praticien"
+msgstr "No, keep the practitioner"
+
+#: app/echo/templates/base.html:803 app/echo/templates/base_dialog.html:179
+#: app/echo/templates/base_v2.html:1038
+msgid "Oui, supprimer la prescription!"
+msgstr "Yes, delete the prescription!"
+
+#: app/echo/templates/base.html:804 app/echo/templates/base_dialog.html:180
+#: app/echo/templates/base_v2.html:1039
+msgid "Non, conserver la prescription"
+msgstr "No, keep the prescription"
+
+#: app/echo/templates/base.html:805 app/echo/templates/base_dialog.html:181
+#: app/echo/templates/base_v2.html:1040
+msgid "Voulez vous supprimer cette consultation ?"
+msgstr "Do you want to delete this consultation?"
+
+#: app/echo/templates/base.html:806 app/echo/templates/base_dialog.html:182
+#: app/echo/templates/base_v2.html:1041
+msgid "Voulez vous supprimer cette tentative PMA ?"
+msgstr "Do you want to delete this IVF attempt?"
+
+#: app/echo/templates/base.html:807 app/echo/templates/base_dialog.html:183
+#: app/echo/templates/base_v2.html:1042
+msgid "Voulez vous supprimer cet antécédent ?"
+msgstr "Do you want to delete this antecedent?"
+
+#: app/echo/templates/base.html:808 app/echo/templates/base_dialog.html:184
+#: app/echo/templates/base_v2.html:1043
+msgid "Voulez vous archiver ce patient ?"
+msgstr "Do you want to archive this patient?"
+
+#: app/echo/templates/base.html:809 app/echo/templates/base_dialog.html:185
+#: app/echo/templates/base_v2.html:1044
+msgid "Oui, archiver!"
+msgstr "Yes, archive!"
+
+#: app/echo/templates/base.html:810 app/echo/templates/base_dialog.html:186
+#: app/echo/templates/base_v2.html:1045
+msgid ""
+"Une autre admission est en cours pour ce patient, souhaitez vous faire une "
+"nouvelle admission?"
+msgstr ""
+"Another admission is in progress for this patient, do you want to create a "
+"new admission?"
+
+#: app/echo/templates/base.html:811 app/echo/templates/base_dialog.html:187
+#: app/echo/templates/base_v2.html:1046
+msgid "Oui, faire une nouvelle admission"
+msgstr "Yes, create a new admission"
+
+#: app/echo/templates/base.html:812 app/echo/templates/base_dialog.html:188
+#: app/echo/templates/base_v2.html:1047
+msgid "Non, garder l'admission en cours"
+msgstr "No, keep the current admission"
+
+#: app/echo/templates/base.html:813 app/echo/templates/base_dialog.html:189
+#: app/echo/templates/base_v2.html:1048
+msgid ""
+"Une autre consultation du même patient avec le même motif existe, souhaitez "
+"vous l'afficher avant d'en créer une nouvelle?"
+msgstr ""
+"Another consultation for this patient with the same reason exists, do you "
+"want to view it before creating a new one?"
+
+#: app/echo/templates/base.html:814 app/echo/templates/base_dialog.html:190
+#: app/echo/templates/base_v2.html:1049
+msgid "Oui, afficher la consultation existante"
+msgstr "Yes, show the existing consultation"
+
+#: app/echo/templates/base.html:815 app/echo/templates/base_dialog.html:191
+#: app/echo/templates/base_v2.html:1050
+msgid "Non, créer une nouvelle consultation"
+msgstr "No, create a new consultation"
+
+#: app/echo/templates/base.html:816 app/echo/templates/base_dialog.html:192
+#: app/echo/templates/base_v2.html:1051
+msgid "Remplacer la saisie ?"
+msgstr "Replace the content?"
+
+#: app/echo/templates/base.html:817 app/echo/templates/base_dialog.html:193
+#: app/echo/templates/base_v2.html:1052
+msgid "Signature ajoutée"
+msgstr "Signature added"
+
+#: app/echo/templates/base.html:818 app/echo/templates/base_dialog.html:194
+#: app/echo/templates/base_v2.html:1053
+msgid "Signature supprimée"
+msgstr "Signature removed"
+
+#: app/echo/templates/base_v2.html:76
+#: app/echo/templates/core/base_consultation_v2.html:102
+#: app/echo/templates/core/patient_detail_v2.html:264
+msgid "Menu"
+msgstr ""
+
+#: app/echo/templates/base_v2.html:113
+#: app/echo/templates/core/partials/header_rapport.html:5
+#: app/echo/templates/core/patient_detail_v2.html:560
+msgid "Consultations"
+msgstr "Consultations"
+
+#: app/echo/templates/base_v2.html:120
+#: app/echo/templates/core/partials/header_rapport.html:11
+msgid "Accouchements previstos"
+msgstr "Expected deliveries"
+
+#: app/echo/templates/base_v2.html:138 app/echo/templates/base_v2.html:280
+#: app/echo/templates/base_v2.html:399
+#: app/echo/templates/core/mutuelle_list.html:25
+#: app/echo/templates/core/reglement_caisses.html:5
+msgid "Liste des règlements"
+msgstr "List of regulations"
+
+#: app/echo/templates/base_v2.html:144 app/echo/templates/base_v2.html:286
+#: app/echo/templates/base_v2.html:405
+msgid "Liste des bordereaux"
+msgstr "List of bordereaux"
+
+#: app/echo/templates/base_v2.html:150 app/echo/templates/base_v2.html:155
+#: app/echo/templates/base_v2.html:297 app/echo/templates/base_v2.html:416
+msgid "Administration"
+msgstr "Administration"
+
+#: app/echo/templates/base_v2.html:652
+msgid "Messagerie"
+msgstr "Messaging"
+
+#: app/echo/templates/core/absence_medecin_form.html:25
+#: app/echo/templates/core/rdv_calendrier.html:140
+msgid "Absence médecin"
+msgstr "Doctor absence"
+
+#: app/echo/templates/core/absence_medecin_form.html:33
+msgid "Absence"
+msgstr "Absence"
+
+#: app/echo/templates/core/absence_medecin_form.html:39
+#: app/echo/templates/core/rdv_calendrier.html:143
+msgid "Programme opératoire"
+msgstr "Surgical program"
+
+#: app/echo/templates/core/absence_medecin_form.html:45
+msgid "Confirmer l'absence"
+msgstr "Confirm absence"
+
+#: app/echo/templates/core/absence_medecin_form.html:58
+#: app/echo/templates/core/rapport_consultation.html:62
+#: app/echo/templates/core/rapport_consultation.html:137
+msgid "Date début"
+msgstr "Start date"
+
+#: app/echo/templates/core/absence_medecin_form.html:63
+#: app/echo/templates/core/programme_operatoire.html:33
+#: app/echo/templates/core/programme_operatoire_form.html:57
+#: app/echo/templates/core/rdv_form.html:207
+#: app/echo/templates/core/rdv_form_dialog.html:155
+msgid "Heure début"
+msgstr "Start time"
+
+#: app/echo/templates/core/absence_medecin_form.html:73
+#: app/echo/templates/core/rapport_consultation.html:68
+#: app/echo/templates/core/rapport_consultation.html:138
+msgid "Date fin"
+msgstr "End date"
+
+#: app/echo/templates/core/absence_medecin_form.html:78
+#: app/echo/templates/core/programme_operatoire.html:34
+#: app/echo/templates/core/programme_operatoire_form.html:65
+#: app/echo/templates/core/rdv_form.html:215
+#: app/echo/templates/core/rdv_form_dialog.html:163
+msgid "Heure fin"
+msgstr "End time"
+
+#: app/echo/templates/core/absence_medecin_form.html:83
+#: app/echo/templates/core/accueil.html:224
+#: app/echo/templates/core/accueil.html:246
+#: app/echo/templates/core/accueil.html:268
+#: app/echo/templates/core/accueil.html:287
+#: app/echo/templates/core/accueil.html:308
+#: app/echo/templates/core/accueil_v2.html:220
+#: app/echo/templates/core/accueil_v2.html:244
+#: app/echo/templates/core/accueil_v2.html:267
+#: app/echo/templates/core/accueil_v2.html:287
+#: app/echo/templates/core/accueil_v2.html:309
+#: app/echo/templates/core/certificat_list.html:22
+#: app/echo/templates/core/certificat_list.html:34
+#: app/echo/templates/core/ordonnance_list.html:22
+#: app/echo/templates/core/ordonnance_list.html:35
+#: app/echo/templates/core/partials/consultations_patient.html:52
+#: app/echo/templates/core/partials/pma.html:50
+#: app/echo/templates/core/patient_detail_v2.html:1463
+#: app/echo/templates/core/programme_operatoire.html:37
+#: app/echo/templates/core/programme_operatoire_form.html:99
+#: app/echo/templates/core/rapport_consultation.html:74
+#: app/echo/templates/core/rapport_consultation.html:135
+#: app/echo/templates/core/rdv_form.html:233
+#: app/echo/templates/core/rdv_form_dialog.html:184
+msgid "Praticien"
+msgstr "Practitioner"
+
+#: app/echo/templates/core/absence_medecin_form.html:88
+msgid "Praticien remplaçant"
+msgstr "Replacing practitioner"
+
+#: app/echo/templates/core/accueil.html:50
+#: app/echo/templates/core/accueil_v2.html:38
+msgid "Tous les praticiens"
+msgstr "All practitioners"
+
+#: app/echo/templates/core/accueil.html:90
+#: app/echo/templates/core/accueil.html:153
+#: app/echo/templates/core/accueil_v2.html:60
+#: app/echo/templates/core/accueil_v2.html:103
+#: app/echo/templates/core/accueil_v2.html:149
+msgid "RDV du jour"
+msgstr "Today's appointments"
+
+#: app/echo/templates/core/accueil.html:102
+#: app/echo/templates/core/accueil.html:164
+#: app/echo/templates/core/accueil_v2.html:67
+#: app/echo/templates/core/accueil_v2.html:111
+#: app/echo/templates/core/accueil_v2.html:160
+#: app/echo/templates/core/patient_detail_v2.html:30
+msgid "Salle d'attente"
+msgstr "Waiting room"
+
+#: app/echo/templates/core/accueil.html:114
+#: app/echo/templates/core/accueil_v2.html:74
+#: app/echo/templates/core/accueil_v2.html:119
+msgid "En examen"
+msgstr "In exam"
+
+#: app/echo/templates/core/accueil.html:127
+#: app/echo/templates/core/accueil_v2.html:81
+#: app/echo/templates/core/accueil_v2.html:128
+msgid "Réalisés"
+msgstr "Completed"
+
+#: app/echo/templates/core/accueil.html:139
+#: app/echo/templates/core/accueil.html:198
+#: app/echo/templates/core/accueil_v2.html:88
+#: app/echo/templates/core/accueil_v2.html:136
+#: app/echo/templates/core/accueil_v2.html:194
+msgid "Modifications"
+msgstr "Changes"
+
+#: app/echo/templates/core/accueil.html:175
+#: app/echo/templates/core/accueil_v2.html:171
+msgid "Consultations en cours"
+msgstr "Ongoing consultations"
+
+#: app/echo/templates/core/accueil.html:187
+#: app/echo/templates/core/accueil_v2.html:183
+msgid "Consultations réalisées"
+msgstr "Completed consultations"
+
+#: app/echo/templates/core/accueil.html:215
+#: app/echo/templates/core/accueil.html:236
+#: app/echo/templates/core/accueil.html:259
+#: app/echo/templates/core/accueil_v2.html:211
+#: app/echo/templates/core/accueil_v2.html:234
+#: app/echo/templates/core/accueil_v2.html:258
+msgid "E."
+msgstr "S."
+
+#: app/echo/templates/core/accueil.html:216
+#: app/echo/templates/core/accueil.html:300
+#: app/echo/templates/core/accueil_v2.html:212
+#: app/echo/templates/core/accueil_v2.html:301
+msgid "Etat"
+msgstr "Status"
+
+#: app/echo/templates/core/accueil.html:217
+#: app/echo/templates/core/accueil.html:237
+#: app/echo/templates/core/accueil.html:260
+#: app/echo/templates/core/accueil.html:281
+#: app/echo/templates/core/accueil.html:301
+#: app/echo/templates/core/accueil_v2.html:213
+#: app/echo/templates/core/accueil_v2.html:235
+#: app/echo/templates/core/accueil_v2.html:259
+#: app/echo/templates/core/accueil_v2.html:281
+#: app/echo/templates/core/accueil_v2.html:302
+#: app/echo/templates/core/cloture_detail.html:39
+#: app/echo/templates/core/patient_form.html:77
+#: app/echo/templates/core/patient_list.html:90
+#: app/echo/templates/core/rdv_form.html:107
+#: app/echo/templates/core/rdv_form_dialog.html:55
+#: app/echo/templates/core/reglement_caisses.html:29
+#: app/echo/templates/core/reglement_list.html:62
+msgid "Nom de naissance"
+msgstr "Birth name"
+
+#: app/echo/templates/core/accueil.html:218
+#: app/echo/templates/core/accueil.html:238
+#: app/echo/templates/core/accueil.html:261
+#: app/echo/templates/core/accueil.html:282
+#: app/echo/templates/core/accueil.html:302
+#: app/echo/templates/core/accueil_v2.html:214
+#: app/echo/templates/core/accueil_v2.html:236
+#: app/echo/templates/core/accueil_v2.html:260
+#: app/echo/templates/core/accueil_v2.html:282
+#: app/echo/templates/core/accueil_v2.html:303
+#: app/echo/templates/core/patient_list.html:37
+#: app/echo/templates/core/patient_list.html:91
+#: app/echo/templates/core/patient_list_v2.html:44
+#: app/echo/templates/core/patient_list_v2.html:100
+#: app/echo/templates/core/rdv_form.html:117
+#: app/echo/templates/core/rdv_form_dialog.html:65
+msgid "Nom marital"
+msgstr "Marital name"
+
+#: app/echo/templates/core/accueil.html:219
+#: app/echo/templates/core/accueil.html:239
+#: app/echo/templates/core/accueil.html:262
+#: app/echo/templates/core/accueil.html:283
+#: app/echo/templates/core/accueil.html:303
+#: app/echo/templates/core/accueil_v2.html:215
+#: app/echo/templates/core/accueil_v2.html:237
+#: app/echo/templates/core/accueil_v2.html:261
+#: app/echo/templates/core/accueil_v2.html:283
+#: app/echo/templates/core/accueil_v2.html:304
+#: app/echo/templates/core/antecedent_obstetrique_form.html:183
+#: app/echo/templates/core/antecedent_obstetrique_form.html:268
+#: app/echo/templates/core/antecedent_obstetrique_form.html:353
+#: app/echo/templates/core/certificat_list.html:33
+#: app/echo/templates/core/cloture_detail.html:40
+#: app/echo/templates/core/consultation_gynecologique_form.html:98
+#: app/echo/templates/core/grossesse_form.html:40
+#: app/echo/templates/core/ordonnance_list.html:33
+#: app/echo/templates/core/patient_form.html:55
+#: app/echo/templates/core/patient_form.html:80
+#: app/echo/templates/core/patient_list.html:43
+#: app/echo/templates/core/patient_list.html:92
+#: app/echo/templates/core/patient_list_v2.html:50
+#: app/echo/templates/core/patient_list_v2.html:101
+#: app/echo/templates/core/praticien_form.html:39
+#: app/echo/templates/core/profil_form.html:86
+#: app/echo/templates/core/rapport_accouchement.html:70
+#: app/echo/templates/core/rapport_consultation.html:30
+#: app/echo/templates/core/rapport_consultation.html:132
+#: app/echo/templates/core/rdv_calendrier.html:227
+#: app/echo/templates/core/rdv_calendrier.html:278
+#: app/echo/templates/core/rdv_form.html:128
+#: app/echo/templates/core/rdv_form_dialog.html:76
+#: app/echo/templates/core/reglement_caisses.html:30
+#: app/echo/templates/core/reglement_list.html:63
+#: app/echo/templates/core/reglement_rapport.html:66
+#: app/echo/templates/core/reglement_rapport_list.html:115
+msgid "Prénom"
+msgstr "First name"
+
+#: app/echo/templates/core/accueil.html:220
+#: app/echo/templates/core/accueil.html:241
+#: app/echo/templates/core/accueil.html:264
+#: app/echo/templates/core/accueil.html:285
+#: app/echo/templates/core/accueil.html:304
+#: app/echo/templates/core/accueil_v2.html:216
+#: app/echo/templates/core/accueil_v2.html:239
+#: app/echo/templates/core/accueil_v2.html:263
+#: app/echo/templates/core/accueil_v2.html:285
+#: app/echo/templates/core/accueil_v2.html:305
+#: app/echo/templates/core/patient_form.html:89
+#: app/echo/templates/core/patient_list.html:94
+#: app/echo/templates/core/patient_list_v2.html:103
+#: app/echo/templates/core/rdv_calendrier.html:233
+#: app/echo/templates/core/rdv_calendrier.html:279
+#: app/echo/templates/core/rdv_form.html:142
+#: app/echo/templates/core/rdv_form_dialog.html:90
+msgid "Ville"
+msgstr "City"
+
+#: app/echo/templates/core/accueil.html:221
+#: app/echo/templates/core/accueil.html:242
+#: app/echo/templates/core/accueil.html:265
+#: app/echo/templates/core/accueil_v2.html:217
+#: app/echo/templates/core/accueil_v2.html:240
+#: app/echo/templates/core/accueil_v2.html:264
+#: app/echo/templates/core/accueil_v2.html:306
+msgid "Tél."
+msgstr "Phone"
+
+#: app/echo/templates/core/accueil.html:222
+#: app/echo/templates/core/accueil.html:266
+#: app/echo/templates/core/accueil.html:306
+#: app/echo/templates/core/accueil_v2.html:218
+#: app/echo/templates/core/accueil_v2.html:265
+#: app/echo/templates/core/accueil_v2.html:307
+#: app/echo/templates/core/rdv_calendrier.html:276
+msgid "Heure"
+msgstr "Time"
+
+#: app/echo/templates/core/accueil.html:223
+#: app/echo/templates/core/accueil.html:245
+#: app/echo/templates/core/accueil.html:267
+#: app/echo/templates/core/accueil.html:286
+#: app/echo/templates/core/accueil.html:307
+#: app/echo/templates/core/accueil_v2.html:219
+#: app/echo/templates/core/accueil_v2.html:243
+#: app/echo/templates/core/accueil_v2.html:266
+#: app/echo/templates/core/accueil_v2.html:286
+#: app/echo/templates/core/accueil_v2.html:308
+#: app/echo/templates/core/motif_list.html:21
+#: app/echo/templates/core/patient_detail_v2.html:1462
+#: app/echo/templates/core/rdv_calendrier.html:327
+#: app/echo/templates/core/rdv_form_dialog.html:176
+#: app/echo/templates/core/template_edition_form.html:33
+msgid "Motif"
+msgstr "Reason"
+
+#: app/echo/templates/core/accueil.html:225
+#: app/echo/templates/core/accueil.html:247
+#: app/echo/templates/core/accueil.html:269
+#: app/echo/templates/core/accueil.html:288
+#: app/echo/templates/core/accueil.html:309
+#: app/echo/templates/core/accueil_v2.html:221
+#: app/echo/templates/core/accueil_v2.html:245
+#: app/echo/templates/core/accueil_v2.html:268
+#: app/echo/templates/core/accueil_v2.html:288
+#: app/echo/templates/core/accueil_v2.html:310
+#: app/echo/templates/core/analyse_biologique_list.html:45
+#: app/echo/templates/core/certificat_list.html:36
+#: app/echo/templates/core/collection_analyse_list.html:42
+#: app/echo/templates/core/device_list.html:23
+#: app/echo/templates/core/etablissement_list.html:20
+#: app/echo/templates/core/liste_choix_list.html:33
+#: app/echo/templates/core/motif_list.html:22
+#: app/echo/templates/core/ordonnance_list.html:36
+#: app/echo/templates/core/partials/consultation_images.html:37
+#: app/echo/templates/core/partials/consultations_patient.html:56
+#: app/echo/templates/core/partials/pma.html:51
+#: app/echo/templates/core/patient_detail_v2.html:1464
+#: app/echo/templates/core/patient_fichiers.html:75
+#: app/echo/templates/core/patient_fichiers.html:145
+#: app/echo/templates/core/patient_fichiers.html:215
+#: app/echo/templates/core/patient_fichiers_v2.html:62
+#: app/echo/templates/core/patient_list.html:98
+#: app/echo/templates/core/patient_list_v2.html:107
+#: app/echo/templates/core/prescription_list.html:23
+#: app/echo/templates/core/prestation_list.html:25
+#: app/echo/templates/core/profil_list.html:17
+#: app/echo/templates/core/profil_list.html:25
+#: app/echo/templates/core/rapport_accouchement.html:77
+#: app/echo/templates/core/rapport_consultation.html:139
+#: app/echo/templates/core/rdv_calendrier.html:281
+#: app/echo/templates/core/reglement_caisses.html:33
+#: app/echo/templates/core/reglement_caisses.html:61
+#: app/echo/templates/core/reglement_list.html:65
+#: app/echo/templates/core/template_edition_list.html:23
+#: app/echo/templates/core/traitement_list.html:23
+#: app/echo/templates/core/traitement_pma_list.html:23
+#: app/echo/templates/super_admin/dashboard.html:223
+#: app/echo/templates/super_admin/dashboard.html:264
+msgid "Actions"
+msgstr "Actions"
+
+#: app/echo/templates/core/accueil.html:240
+#: app/echo/templates/core/accueil.html:263
+#: app/echo/templates/core/accueil.html:284
+#: app/echo/templates/core/accueil_v2.html:238
+#: app/echo/templates/core/accueil_v2.html:262
+#: app/echo/templates/core/accueil_v2.html:284
+#: app/echo/templates/core/patient_form.html:86
+msgid "Age"
+msgstr "Age"
+
+#: app/echo/templates/core/accueil.html:243
+#: app/echo/templates/core/accueil.html:323
+#: app/echo/templates/core/accueil.html:360
+#: app/echo/templates/core/accueil_v2.html:241
+#: app/echo/templates/core/accueil_v2.html:326
+#: app/echo/templates/core/accueil_v2.html:363
+#: app/echo/templates/core/patient_list.html:123
+msgid "Admission"
+msgstr "Admission"
+
+#: app/echo/templates/core/accueil.html:244
+#: app/echo/templates/core/accueil_v2.html:242
+msgid "Attente"
+msgstr "Waiting"
+
+#: app/echo/templates/core/accueil.html:328
+#: app/echo/templates/core/accueil.html:365
+#: app/echo/templates/core/accueil_v2.html:331
+#: app/echo/templates/core/accueil_v2.html:368
+#: app/echo/templates/core/rdv_calendrier.html:338
+#: app/echo/templates/core/rdv_form_dialog.html:21
+msgid "Modifier le rendez-vous"
+msgstr "Edit appointment"
+
+#: app/echo/templates/core/accueil.html:332
+#: app/echo/templates/core/accueil.html:369
+#: app/echo/templates/core/accueil_v2.html:335
+#: app/echo/templates/core/accueil_v2.html:372
+#: app/echo/templates/core/rdv_calendrier.html:342
+#: app/echo/templates/core/rdv_form.html:59
+#: app/echo/templates/core/rdv_form_dialog.html:30
+msgid "Annuler le rendez-vous"
+msgstr "Cancel appointment"
+
+#: app/echo/templates/core/accueil.html:338
+#: app/echo/templates/core/accueil_v2.html:341
+msgid "Patient rappelé"
+msgstr "Patient called back"
+
+#: app/echo/templates/core/accueil.html:343
+#: app/echo/templates/core/accueil_v2.html:346
+msgid "Patient non rappelé"
+msgstr "Patient not called back"
+
+#: app/echo/templates/core/accueil.html:377
+#: app/echo/templates/core/accueil.html:389
+#: app/echo/templates/core/accueil_v2.html:385
+#: app/echo/templates/core/accueil_v2.html:397
+#: app/echo/templates/core/login_v2.html:620
+#: app/echo/templates/core/parametres_base.html:75
+msgid "Dossier patient"
+msgstr "Patient file"
+
+#: app/echo/templates/core/accueil.html:383
+#: app/echo/templates/core/accueil.html:402
+#: app/echo/templates/core/accueil_v2.html:391
+#: app/echo/templates/core/accueil_v2.html:410
+#: app/echo/templates/core/patient_list.html:142
+msgid "Télécharger fichier"
+msgstr "Upload file"
+
+#: app/echo/templates/core/accueil.html:393
+#: app/echo/templates/core/accueil_v2.html:401
+msgid "Démarrer la consultation"
+msgstr "Start consultation"
+
+#: app/echo/templates/core/accueil.html:397
+#: app/echo/templates/core/accueil_v2.html:405
+msgid "Annuler l\\"
+msgstr "Cancel operation"
+
+#: app/echo/templates/core/accueil.html:408
+#: app/echo/templates/core/accueil_v2.html:416
+msgid "Saisir des mesures"
+msgstr "Enter measurements"
+
+#: app/echo/templates/core/accueil.html:428
+#: app/echo/templates/core/accueil.html:435
+#: app/echo/templates/core/accueil_v2.html:436
+#: app/echo/templates/core/accueil_v2.html:443
+msgid "Modifier praticien"
+msgstr "Edit practitioner"
+
+#: app/echo/templates/core/accueil.html:449
+#: app/echo/templates/core/accueil_v2.html:455
+msgid "Modifier motif"
+msgstr "Edit reason"
+
+#: app/echo/templates/core/accueil.html:456
+#: app/echo/templates/core/accueil_v2.html:463
+msgid "Modifier motif rendez-vous"
+msgstr "Edit appointment reason"
+
+#: app/echo/templates/core/accueil_v2.html:25
+#: app/echo/templates/core/rdv_calendrier.html:175
+msgid "Aujourd'hui"
+msgstr "Today"
+
+#: app/echo/templates/core/accueil_v2.html:380
+#: app/echo/templates/core/reglement_list.html:42
+#: app/echo/templates/core/reglement_rapport_list.html:39
+msgid "Rapport"
+msgstr "Report"
+
+#: app/echo/templates/core/accueil_v2.html:527
+msgid "Choisir la machine"
+msgstr "Choose the machine"
+
+#: app/echo/templates/core/accueil_v2.html:528
+#: app/echo/templates/core/analyse_biologique_form.html:70
+#: app/echo/templates/core/antecedent_obstetrique_form.html:33
+#: app/echo/templates/core/base_consultation.html:121
+#: app/echo/templates/core/base_consultation_v2.html:427
+#: app/echo/templates/core/base_pma.html:485
+#: app/echo/templates/core/collection_analyse_form.html:36
+#: app/echo/templates/core/device_form.html:89
+#: app/echo/templates/core/etablissement_form.html:36
+#: app/echo/templates/core/fichier_form.html:43
+#: app/echo/templates/core/grossesse_form.html:20
+#: app/echo/templates/core/liste_choix_form.html:53
+#: app/echo/templates/core/mdp_form.html:33
+#: app/echo/templates/core/mesures_patient_form.html:30
+#: app/echo/templates/core/motif_form.html:26
+#: app/echo/templates/core/parametres.html:37
+#: app/echo/templates/core/parametres.html:167
+#: app/echo/templates/core/patient_list.html:78
+#: app/echo/templates/core/patient_list_v2.html:85
+#: app/echo/templates/core/praticien_form.html:104
+#: app/echo/templates/core/prescription_analyse_form.html:30
+#: app/echo/templates/core/prescription_form.html:47
+#: app/echo/templates/core/prestation_form.html:60
+#: app/echo/templates/core/profil_form.html:336
+#: app/echo/templates/core/programme_operatoire_form.html:24
+#: app/echo/templates/core/rdv_calendrier.html:263
+#: app/echo/templates/core/rdv_calendrier.html:316
+#: app/echo/templates/core/reglement_form.html:88
+#: app/echo/templates/core/reglement_form_2.html:62
+#: app/echo/templates/core/template_edition_form.html:55
+#: app/echo/templates/core/tentative_pma_cloture_form.html:44
+#: app/echo/templates/core/traitement_form.html:53
+msgid "Annuler"
+msgstr "Cancel"
+
+#: app/echo/templates/core/analyse_biologique_form.html:25
+#: app/echo/templates/core/analyse_biologique_list.html:44
+#: app/echo/templates/core/liste_choix_form.html:20
+#: app/echo/templates/core/liste_choix_list.html:30
+#: app/echo/templates/core/prescription_analyse_form.html:81
+#: app/echo/templates/core/prescription_analyse_form.html:149
+#: app/echo/templates/core/prescription_analyse_form.html:218
+#: app/echo/templates/core/prescription_list.html:21
+#: app/echo/templates/core/template_edition_list.html:21
+#: app/echo/templates/core/traitement_list.html:21
+msgid "Libellé"
+msgstr "Label"
+
+#: app/echo/templates/core/analyse_biologique_form.html:43
+msgid "Unité"
+msgstr "Unit"
+
+#: app/echo/templates/core/analyse_biologique_form.html:53
+msgid "Modèle résultat"
+msgstr "Result template"
+
+#: app/echo/templates/core/analyse_biologique_form.html:64
+#: app/echo/templates/core/analyse_biologique_list.html:42
+msgid "Ordre"
+msgstr "Order"
+
+#: app/echo/templates/core/analyse_biologique_form.html:73
+#: app/echo/templates/core/antecedent_obstetrique_form.html:37
+#: app/echo/templates/core/base_pma.html:437
+#: app/echo/templates/core/certificat_form.html:31
+#: app/echo/templates/core/collection_analyse_form.html:39
+#: app/echo/templates/core/consultation_colposcopie_form.html:49
+#: app/echo/templates/core/consultation_form.back.html:34
+#: app/echo/templates/core/device_form.html:93
+#: app/echo/templates/core/etablissement_form.html:40
+#: app/echo/templates/core/grossesse_form.html:21
+#: app/echo/templates/core/liste_choix_form.html:57
+#: app/echo/templates/core/mesures_patient_form.html:34
+#: app/echo/templates/core/motif_form.html:29
+#: app/echo/templates/core/ordonnance_form.html:121
+#: app/echo/templates/core/parametres.html:36
+#: app/echo/templates/core/parametres.html:166
+#: app/echo/templates/core/parametres.html:493
+#: app/echo/templates/core/parametres.html:780
+#: app/echo/templates/core/partials/consultation_toolbar.html:10
+#: app/echo/templates/core/patient_form.html:38
+#: app/echo/templates/core/prescription_analyse_form.html:33
+#: app/echo/templates/core/prescription_form.html:51
+#: app/echo/templates/core/prestation_form.html:63
+#: app/echo/templates/core/profil_form.html:341
+#: app/echo/templates/core/reglement_form.html:90
+#: app/echo/templates/core/reglement_form_2.html:64
+#: app/echo/templates/core/template_edition_form.html:59
+#: app/echo/templates/core/traitement_form.html:57
+msgid "Enregistrer"
+msgstr "Save"
+
+#: app/echo/templates/core/analyse_biologique_list.html:13
+#: app/echo/templates/core/collection_analyse_list.html:13
+#: app/echo/templates/core/prescription_analyse_form.html:52
+msgid "Analyses"
+msgstr "Analysis"
+
+#: app/echo/templates/core/analyse_biologique_list.html:22
+#: app/echo/templates/core/collection_analyse_list.html:21
+#: app/echo/templates/core/prescription_analyse_form.html:61
+msgid "Packs"
+msgstr "Packs"
+
+#: app/echo/templates/core/analyse_biologique_list.html:29
+#: app/echo/templates/core/collection_analyse_list.html:28
+#: app/echo/templates/core/etablissement_list.html:8
+#: app/echo/templates/core/liste_choix_list.html:14
+msgid "Recherche"
+msgstr "Search"
+
+#: app/echo/templates/core/analyse_biologique_list.html:35
+msgid "Ajouter une analyse"
+msgstr "Add an analysis"
+
+#: app/echo/templates/core/analyse_biologique_list.html:43
+#: app/echo/templates/core/prescription_analyse_form.html:80
+#: app/echo/templates/core/prescription_analyse_form.html:148
+#: app/echo/templates/core/prescription_analyse_form.html:217
+#: app/echo/templates/core/prestation_list.html:22
+msgid "Code"
+msgstr "Code"
+
+#: app/echo/templates/core/analyse_biologique_list.html:52
+#: app/echo/templates/core/antecedent_obstetrique_form.html:432
+#: app/echo/templates/core/certificat_form.html:25
+#: app/echo/templates/core/collection_analyse_list.html:49
+#: app/echo/templates/core/device_list.html:30
+#: app/echo/templates/core/form_header.html:5
+#: app/echo/templates/core/grossesse_form.html:16
+#: app/echo/templates/core/liste_choix_list.html:43
+#: app/echo/templates/core/mdp_form.html:34
+#: app/echo/templates/core/motif_list.html:29
+#: app/echo/templates/core/parametres.html:520
+#: app/echo/templates/core/parametres.html:547
+#: app/echo/templates/core/parametres.html:575
+#: app/echo/templates/core/parametres.html:603
+#: app/echo/templates/core/patient_detail_v2.html:1439
+#: app/echo/templates/core/patient_info_panel.html:41
+#: app/echo/templates/core/patient_info_panel.html:535
+#: app/echo/templates/core/patient_list.html:133
+#: app/echo/templates/core/patient_list_v2.html:139
+#: app/echo/templates/core/praticien_form.html:10
+#: app/echo/templates/core/praticien_form.html:105
+#: app/echo/templates/core/prescription_analyse_form.html:26
+#: app/echo/templates/core/prescription_list.html:30
+#: app/echo/templates/core/prestation_list.html:32
+#: app/echo/templates/core/profil_form.html:34
+#: app/echo/templates/core/profil_list.html:79
+#: app/echo/templates/core/programme_operatoire_form.html:19
+#: app/echo/templates/core/reglement_caisses.html:47
+#: app/echo/templates/core/reglement_form.html:10
+#: app/echo/templates/core/reglement_form_2.html:10
+#: app/echo/templates/core/reglement_rapport.html:76
+#: app/echo/templates/core/reglement_rapport_list.html:125
+#: app/echo/templates/core/template_edition_list.html:30
+#: app/echo/templates/core/traitement_list.html:30
+#: app/echo/templates/core/traitement_pma_list.html:30
+msgid "Modifier"
+msgstr "Edit"
+
+#: app/echo/templates/core/analyse_biologique_list.html:55
+#: app/echo/templates/core/base_consultation.html:160
+#: app/echo/templates/core/base_consultation_v2.html:543
+#: app/echo/templates/core/base_pma.html:601
+#: app/echo/templates/core/bordereau_mutuelle.html:20
+#: app/echo/templates/core/certificat_list.html:46
+#: app/echo/templates/core/collection_analyse_list.html:52
+#: app/echo/templates/core/device_list.html:33
+#: app/echo/templates/core/etablissement_list.html:33
+#: app/echo/templates/core/motif_list.html:32
+#: app/echo/templates/core/ordonnance_list.html:46
+#: app/echo/templates/core/partials/consultation_images.html:53
+#: app/echo/templates/core/patient_detail_v2.html:1147
+#: app/echo/templates/core/patient_detail_v2.html:1223
+#: app/echo/templates/core/patient_detail_v2.html:1297
+#: app/echo/templates/core/patient_detail_v2.html:1444
+#: app/echo/templates/core/patient_detail_v2.html:1517
+#: app/echo/templates/core/patient_detail_v2.html:1527
+#: app/echo/templates/core/patient_detail_v2.html:1575
+#: app/echo/templates/core/patient_fichiers.html:101
+#: app/echo/templates/core/patient_fichiers.html:171
+#: app/echo/templates/core/patient_fichiers.html:241
+#: app/echo/templates/core/patient_fichiers.html:317
+#: app/echo/templates/core/patient_fichiers_v2.html:82
+#: app/echo/templates/core/patient_fichiers_v2.html:161
+#: app/echo/templates/core/patient_list.html:136
+#: app/echo/templates/core/patient_list_v2.html:142
+#: app/echo/templates/core/prescription_list.html:33
+#: app/echo/templates/core/prestation_list.html:35
+#: app/echo/templates/core/profil_list.html:82
+#: app/echo/templates/core/template_edition_list.html:33
+#: app/echo/templates/core/traitement_list.html:33
+#: app/echo/templates/core/traitement_pma_list.html:33
+msgid "Supprimer"
+msgstr "Delete"
+
+#: app/echo/templates/core/antecedent_obstetrique_form.html:80
+#: app/echo/templates/core/partials/antecedents.html:39
+#: app/echo/templates/core/partials/antecedents.html:43
+#: app/echo/templates/core/partials/antecedents_lettre.html:38
+#: app/echo/templates/core/partials/antecedents_lettre.html:42
+msgid "Issue de grossesse"
+msgstr "Pregnancy outcome"
+
+#: app/echo/templates/core/antecedent_obstetrique_form.html:93
+#: app/echo/templates/core/grossesse_form.html:108
+msgid "Nb de Fœtus"
+msgstr "Number of fetuses"
+
+#: app/echo/templates/core/antecedent_obstetrique_form.html:102
+#: app/echo/templates/core/base_consultation.html:242
+#: app/echo/templates/core/certificat_form.html:386
+#: app/echo/templates/core/certificat_list.html:17
+#: app/echo/templates/core/certificat_list.html:31
+#: app/echo/templates/core/cloture_detail.html:37
+#: app/echo/templates/core/ordonnance_list.html:17
+#: app/echo/templates/core/ordonnance_list.html:31
+#: app/echo/templates/core/partials/consultations_patient.html:5
+#: app/echo/templates/core/partials/consultations_patient.html:11
+#: app/echo/templates/core/partials/consultations_patient.html:49
+#: app/echo/templates/core/partials/pma.html:22
+#: app/echo/templates/core/partials/pma.html:47
+#: app/echo/templates/core/patient_detail_v2.html:1113
+#: app/echo/templates/core/patient_detail_v2.html:1189
+#: app/echo/templates/core/patient_detail_v2.html:1263
+#: app/echo/templates/core/patient_detail_v2.html:1460
+#: app/echo/templates/core/prescription_analyse_form.html:196
+#: app/echo/templates/core/prescription_analyse_form.html:201
+#: app/echo/templates/core/programme_operatoire.html:32
+#: app/echo/templates/core/programme_operatoire_form.html:49
+#: app/echo/templates/core/rapport_consultation.html:129
+#: app/echo/templates/core/rdv_calendrier.html:275
+#: app/echo/templates/core/rdv_form.html:199
+#: app/echo/templates/core/rdv_form_dialog.html:147
+#: app/echo/templates/core/reglement_caisses.html:27
+#: app/echo/templates/core/reglement_caisses.html:58
+#: app/echo/templates/core/reglement_rapport_list.html:112
+#: app/echo/templates/core/tentative_pma_form.html:83
+msgid "Date"
+msgstr "Date"
+
+#: app/echo/templates/core/antecedent_obstetrique_form.html:110
+#: app/echo/templates/core/partials/antecedents.html:63
+#: app/echo/templates/core/partials/antecedents_lettre.html:62
+msgid "Evacuation"
+msgstr "Evacuation"
+
+#: app/echo/templates/core/antecedent_obstetrique_form.html:122
+#: app/echo/templates/core/antecedent_obstetrique_form.html:207
+#: app/echo/templates/core/antecedent_obstetrique_form.html:292
+#, fuzzy
+#| msgid "Nb de Fœtus"
+msgid "Fœtus"
+msgstr "Number of fetuses"
+
+#: app/echo/templates/core/antecedent_obstetrique_form.html:125
+#: app/echo/templates/core/antecedent_obstetrique_form.html:210
+#: app/echo/templates/core/antecedent_obstetrique_form.html:295
+#: app/echo/templates/core/base_consultation_v2.html:290
+#: app/echo/templates/core/base_pma.html:315
+#: app/echo/templates/core/patient_detail_v2.html:452
+#: app/echo/templates/core/patient_detail_v2.html:1461
+#: app/echo/templates/core/patient_info_panel.html:65
+#: app/echo/templates/core/patient_info_panel.html:556
+#: app/echo/templates/core/rapport_accouchement.html:54
+#: app/echo/templates/core/rapport_accouchement.html:72
+msgid "Terme"
+msgstr "Term"
+
+#: app/echo/templates/core/antecedent_obstetrique_form.html:140
+#: app/echo/templates/core/antecedent_obstetrique_form.html:225
+#: app/echo/templates/core/antecedent_obstetrique_form.html:310
+msgid "Sexe"
+msgstr "Gender"
+
+#: app/echo/templates/core/antecedent_obstetrique_form.html:150
+#: app/echo/templates/core/antecedent_obstetrique_form.html:235
+#: app/echo/templates/core/antecedent_obstetrique_form.html:320
+#, fuzzy
+#| msgid "Nom de naissance"
+msgid "Poids de naissance"
+msgstr "Birth name"
+
+#: app/echo/templates/core/antecedent_obstetrique_form.html:165
+#: app/echo/templates/core/antecedent_obstetrique_form.html:250
+#: app/echo/templates/core/antecedent_obstetrique_form.html:335
+#: app/echo/templates/core/consultation_gynecologique_form.html:140
+#: app/echo/templates/core/grossesse_form.html:60
+#: app/echo/templates/core/patient_form.html:70
+msgid "Etat de santé"
+msgstr "Health status"
+
+#: app/echo/templates/core/antecedent_obstetrique_form.html:176
+#: app/echo/templates/core/antecedent_obstetrique_form.html:261
+#: app/echo/templates/core/antecedent_obstetrique_form.html:346
+msgid "Trisomie"
+msgstr "Trisomy"
+
+#: app/echo/templates/core/antecedent_obstetrique_form.html:194
+#: app/echo/templates/core/antecedent_obstetrique_form.html:279
+#: app/echo/templates/core/antecedent_obstetrique_form.html:364
+#, fuzzy
+#| msgid "Paiement"
+msgid "Allaitement"
+msgstr "Payment"
+
+#: app/echo/templates/core/antecedent_obstetrique_form.html:379
+#: app/echo/templates/core/partials/antecedents.html:71
+#: app/echo/templates/core/partials/antecedents_lettre.html:70
+msgid "Périnée"
+msgstr "Perineum"
+
+#: app/echo/templates/core/antecedent_obstetrique_form.html:389
+#: app/echo/templates/core/partials/antecedents.html:75
+#: app/echo/templates/core/partials/antecedents_lettre.html:74
+msgid "Suite de couche"
+msgstr "Postpartum"
+
+#: app/echo/templates/core/antecedent_obstetrique_form.html:397
+#: app/echo/templates/core/antecedent_obstetrique_form.html:436
+#: app/echo/templates/core/liste_choix_form.html:41
+msgid "&nbsp;"
+msgstr "&nbsp;"
+
+#: app/echo/templates/core/antecedent_obstetrique_form.html:409
+msgid "ATCD à surligner"
+msgstr "History to highlight"
+
+#: app/echo/templates/core/antecedent_obstetrique_form.html:420
+#: app/echo/templates/core/grossesse_form.html:253
+#: app/echo/templates/core/partials/antecedents.html:85
+#: app/echo/templates/core/partials/antecedents_lettre.html:86
+#: app/echo/templates/core/patient_info_panel.html:369
+#: app/echo/templates/core/rapport_accouchement.html:75
+msgid "Lieu d'accouchement"
+msgstr "Place of delivery"
+
+#: app/echo/templates/core/antecedent_obstetrique_form.html:426
+#: app/echo/templates/core/certificat_list.html:32
+#: app/echo/templates/core/cloture_detail.html:38
+#: app/echo/templates/core/collection_analyse_list.html:41
+#: app/echo/templates/core/consultation_gynecologique_form.html:90
+#: app/echo/templates/core/etablissement_form.html:17
+#: app/echo/templates/core/etablissement_list.html:18
+#: app/echo/templates/core/grossesse_form.html:36
+#: app/echo/templates/core/login.html:113
+#: app/echo/templates/core/ordonnance_list.html:32
+#: app/echo/templates/core/patient_form.html:52
+#: app/echo/templates/core/praticien_form.html:24
+#: app/echo/templates/core/profil_form.html:75
+#: app/echo/templates/core/rapport_accouchement.html:69
+#: app/echo/templates/core/rapport_consultation.html:23
+#: app/echo/templates/core/rapport_consultation.html:130
+#: app/echo/templates/core/rapport_consultation.html:131
+#: app/echo/templates/core/rdv_calendrier.html:221
+#: app/echo/templates/core/rdv_calendrier.html:277
+#: app/echo/templates/core/reglement_caisses.html:28
+#: app/echo/templates/core/reglement_list.html:61
+#: app/echo/templates/core/reglement_rapport.html:66
+#: app/echo/templates/core/reglement_rapport_list.html:93
+#: app/echo/templates/core/reglement_rapport_list.html:115
+msgid "Nom"
+msgstr "Name"
+
+#: app/echo/templates/core/antecedent_obstetrique_form.html:450
+#: app/echo/templates/core/grossesse_form.html:257
+msgid "Préciser"
+msgstr "Specify"
+
+#: app/echo/templates/core/antecedent_obstetrique_form.html:459
+msgid "Honoraires"
+msgstr "Fees"
+
+#: app/echo/templates/core/base_consultation.html:27
+#: app/echo/templates/core/patient_detail.html:32
+msgid "Liste des patients en salle"
+msgstr "Patients in waiting room"
+
+#: app/echo/templates/core/base_consultation.html:62
+#: app/echo/templates/core/base_consultation_v2.html:31
+#: app/echo/templates/core/base_pma.html:56
+#: app/echo/templates/core/base_rapport.html:34
+#: app/echo/templates/core/parametres.html:919
+#: app/echo/templates/core/parametres.html:947
+#: app/echo/templates/core/parametres.html:984
+#: app/echo/templates/core/parametres.html:1023
+#: app/echo/templates/core/parametres.html:1060
+#: app/echo/templates/core/parametres.html:1097
+#: app/echo/templates/core/parametres.html:1133
+msgid "Chargement"
+msgstr "Loading"
+
+#: app/echo/templates/core/base_consultation.html:81
+#: app/echo/templates/core/shared.html:437
+#, fuzzy
+#| msgid "Fichiers patient"
+msgid "Fichiers"
+msgstr "Patient files"
+
+#: app/echo/templates/core/base_consultation.html:112
+#: app/echo/templates/core/base_consultation_v2.html:420
+#: app/echo/templates/core/base_pma.html:478
+msgid "Impression"
+msgstr "Print"
+
+#: app/echo/templates/core/base_consultation.html:122
+#: app/echo/templates/core/base_consultation_v2.html:428
+#: app/echo/templates/core/base_consultation_v2.html:490
+#: app/echo/templates/core/base_pma.html:451
+#: app/echo/templates/core/base_pma.html:486
+#: app/echo/templates/core/base_pma.html:548
+#: app/echo/templates/core/certificat_form.html:36
+#: app/echo/templates/core/cloture_detail.html:16
+#: app/echo/templates/core/consultation_colposcopie_form.html:61
+#: app/echo/templates/core/consultation_form.back.html:46
+#: app/echo/templates/core/grossesse_calendrier_detail.html:10
+#: app/echo/templates/core/ordonnance_form.html:117
+#: app/echo/templates/core/partials/consultation_toolbar.html:23
+#: app/echo/templates/core/prescription_analyse_form.html:38
+msgid "Imprimer"
+msgstr "Print"
+
+#: app/echo/templates/core/base_consultation_v2.html:97
+#: app/echo/templates/core/base_pma.html:122
+#: app/echo/templates/core/partials/antecedents.html:35
+#: app/echo/templates/core/partials/antecedents_lettre.html:34
+#: app/echo/templates/core/patient_detail_v2.html:259
+msgid "Grossesse"
+msgstr "Pregnancy"
+
+#: app/echo/templates/core/base_consultation_v2.html:106
+#: app/echo/templates/core/base_pma.html:131
+#: app/echo/templates/core/patient_detail_v2.html:268
+#: app/echo/templates/core/rdv_calendrier.html:52
+msgid "Calendrier"
+msgstr "Calender"
+
+#: app/echo/templates/core/base_consultation_v2.html:109
+#: app/echo/templates/core/base_pma.html:134
+#: app/echo/templates/core/patient_detail_v2.html:271
+#: app/echo/templates/core/tentative_pma_cloture_form.html:45
+msgid "Clôturer"
+msgstr "Close"
+
+#: app/echo/templates/core/base_consultation_v2.html:115
+#: app/echo/templates/core/base_pma.html:140
+#: app/echo/templates/core/patient_detail_v2.html:277
+msgid "Nouvelle grossesse"
+msgstr "New pregnancy"
+
+#: app/echo/templates/core/base_consultation_v2.html:125
+#: app/echo/templates/core/base_pma.html:150
+#: app/echo/templates/core/parametres.html:812
+#: app/echo/templates/core/parametres.html:962
+#: app/echo/templates/core/patient_detail_v2.html:287
+#: app/echo/templates/core/patient_info_panel.html:438
+msgid "Biologie"
+msgstr "Biology"
+
+#: app/echo/templates/core/base_consultation_v2.html:131
+#: app/echo/templates/core/base_pma.html:156
+#: app/echo/templates/core/patient_detail_v2.html:293
+msgid "Dernières analyses"
+msgstr "Latest analysis"
+
+#: app/echo/templates/core/base_consultation_v2.html:150
+#: app/echo/templates/core/base_pma.html:175
+#: app/echo/templates/core/patient_detail_v2.html:247
+#: app/echo/templates/core/patient_detail_v2.html:312
+msgid "Fermer"
+msgstr "Close"
+
+#: app/echo/templates/core/base_consultation_v2.html:155
+#: app/echo/templates/core/base_pma.html:180
+#: app/echo/templates/core/patient_detail_v2.html:317
+msgid "Nouveau"
+msgstr "New"
+
+#: app/echo/templates/core/base_consultation_v2.html:164
+#: app/echo/templates/core/base_pma.html:189
+#: app/echo/templates/core/login_v2.html:626
+#: app/echo/templates/core/parametres.html:690
+#: app/echo/templates/core/patient_detail_v2.html:326
+#: app/echo/templates/core/patient_info_panel.html:459
+msgid "Ordonnances"
+msgstr "Prescriptions"
+
+#: app/echo/templates/core/base_consultation_v2.html:167
+#: app/echo/templates/core/base_pma.html:192
+#: app/echo/templates/core/parametres.html:657
+#: app/echo/templates/core/patient_detail_v2.html:329
+#: app/echo/templates/core/patient_info_panel.html:476
+#: app/echo/templates/core/shared.html:391
+msgid "Courriers"
+msgstr "Letters"
+
+#: app/echo/templates/core/base_consultation_v2.html:170
+#: app/echo/templates/core/base_pma.html:195
+#: app/echo/templates/core/patient_detail_v2.html:332
+#: app/echo/templates/core/patient_detail_v2.html:709
+#: app/echo/templates/core/patient_info_panel.html:326
+#: app/echo/templates/core/shared.html:29
+msgid "Rendez-vous"
+msgstr "Appointment"
+
+#: app/echo/templates/core/base_consultation_v2.html:173
+#: app/echo/templates/core/base_pma.html:198
+#: app/echo/templates/core/ordonnance_form.html:113
+#: app/echo/templates/core/patient_detail_v2.html:335
+#: app/echo/templates/core/patient_detail_v2.html:571
+msgid "Historique"
+msgstr "History"
+
+#: app/echo/templates/core/base_consultation_v2.html:176
+#: app/echo/templates/core/base_pma.html:201
+#: app/echo/templates/core/consultation_form.back.html:85
+#: app/echo/templates/core/patient_detail_v2.html:338
+#: app/echo/templates/core/patient_detail_v2.html:752
+#: app/echo/templates/core/shared.html:374
+msgid "Antécédents"
+msgstr "Medical History"
+
+#: app/echo/templates/core/base_consultation_v2.html:197
+#: app/echo/templates/core/base_pma.html:222
+#: app/echo/templates/core/parametres_base.html:55
+#: app/echo/templates/core/patient_detail_v2.html:359
+#: app/echo/templates/core/patient_info_panel.html:163
+#: app/echo/templates/core/patient_info_panel.html:649
+msgid "Adresse"
+msgstr "Address"
+
+#: app/echo/templates/core/base_consultation_v2.html:225
+#: app/echo/templates/core/base_pma.html:250
+#: app/echo/templates/core/patient_detail_v2.html:387
+#: app/echo/templates/core/patient_info_panel.html:195
+#: app/echo/templates/core/patient_info_panel.html:676
+msgid "Origine"
+msgstr "Origin"
+
+#: app/echo/templates/core/base_consultation_v2.html:232
+#: app/echo/templates/core/base_pma.html:257
+#: app/echo/templates/core/patient_detail_v2.html:394
+#: app/echo/templates/core/patient_info_panel.html:226
+#: app/echo/templates/core/patient_info_panel.html:707
+msgid "Fumeur"
+msgstr "Smoker"
+
+#: app/echo/templates/core/base_consultation_v2.html:240
+#: app/echo/templates/core/base_pma.html:265
+#: app/echo/templates/core/patient_detail_v2.html:402
+msgid "Mots clés"
+msgstr "Keywords"
+
+#: app/echo/templates/core/base_consultation_v2.html:257
+#: app/echo/templates/core/base_pma.html:282
+#: app/echo/templates/core/partials/echo_pelvienne.html:42
+#: app/echo/templates/core/patient_detail_v2.html:419
+#: app/echo/templates/core/patient_info_panel.html:203
+#: app/echo/templates/core/patient_info_panel.html:684
+msgid "Taille"
+msgstr "Height"
+
+#: app/echo/templates/core/base_consultation_v2.html:265
+#: app/echo/templates/core/base_pma.html:290
+#: app/echo/templates/core/mesures_patient_form.html:50
+#: app/echo/templates/core/partials/examen_clinique.html:12
+#: app/echo/templates/core/partials/examen_obs_t1_foetal.html:147
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:163
+#: app/echo/templates/core/patient_detail_v2.html:427
+#: app/echo/templates/core/patient_info_panel.html:209
+#: app/echo/templates/core/patient_info_panel.html:690
+msgid "Poids"
+msgstr "Weight"
+
+#: app/echo/templates/core/base_consultation_v2.html:306
+#: app/echo/templates/core/base_pma.html:331
+msgid "Accouchement"
+msgstr "Delivery"
+
+#: app/echo/templates/core/base_consultation_v2.html:319
+#: app/echo/templates/core/base_pma.html:344
+#: app/echo/templates/core/patient_detail_v2.html:483
+#: app/echo/templates/core/patient_info_panel.html:83
+#: app/echo/templates/core/patient_info_panel.html:574
+msgid "Risque"
+msgstr ""
+
+#: app/echo/templates/core/base_consultation_v2.html:324
+#: app/echo/templates/core/base_consultation_v2.html:334
+#: app/echo/templates/core/base_consultation_v2.html:345
+#: app/echo/templates/core/base_pma.html:359
+#: app/echo/templates/core/base_pma.html:370
+#: app/echo/templates/core/patient_detail_v2.html:488
+#: app/echo/templates/core/patient_detail_v2.html:498
+#: app/echo/templates/core/patient_detail_v2.html:509
+#: app/echo/templates/core/patient_info_panel.html:88
+#: app/echo/templates/core/patient_info_panel.html:98
+#: app/echo/templates/core/patient_info_panel.html:579
+#, fuzzy
+#| msgid "Aucun lieu défini"
+msgid "Non défini"
+msgstr "Not defined"
+
+#: app/echo/templates/core/base_consultation_v2.html:329
+#: app/echo/templates/core/base_pma.html:354
+#: app/echo/templates/core/patient_detail_v2.html:493
+msgid "Toxo"
+msgstr "Toxo"
+
+#: app/echo/templates/core/base_consultation_v2.html:340
+#: app/echo/templates/core/base_pma.html:365
+#: app/echo/templates/core/grossesse_form.html:199
+#: app/echo/templates/core/patient_detail_v2.html:504
+#: app/echo/templates/core/patient_info_panel.html:104
+#: app/echo/templates/core/patient_info_panel.html:595
+msgid "Diabète"
+msgstr "Diabetes"
+
+#: app/echo/templates/core/base_consultation_v2.html:351
+#: app/echo/templates/core/base_pma.html:376
+#: app/echo/templates/core/patient_detail_v2.html:515
+#: app/echo/templates/core/patient_info_panel.html:112
+#: app/echo/templates/core/patient_info_panel.html:603
+msgid "Aspegic"
+msgstr "Aspirin"
+
+#: app/echo/templates/core/base_consultation_v2.html:358
+#: app/echo/templates/core/base_pma.html:383
+#: app/echo/templates/core/consultation_form.back.html:91
+#: app/echo/templates/core/patient_detail_v2.html:522
+#: app/echo/templates/core/patient_detail_v2.html:650
+#: app/echo/templates/core/patient_form_dialog.html:118
+#: app/echo/templates/core/patient_info_panel.html:120
+#: app/echo/templates/core/patient_info_panel.html:611
+#: app/echo/templates/core/praticien_form.html:96
+msgid "Notes"
+msgstr "Notes"
+
+#: app/echo/templates/core/base_consultation_v2.html:439
+#: app/echo/templates/core/base_pma.html:497
+#: app/echo/templates/core/consultation_colposcopie_form.html:32
+#: app/echo/templates/core/consultation_form.back.html:18
+#: app/echo/templates/core/consultation_form.back.html:103
+#: app/echo/templates/core/parametres_base.html:83
+msgid "Edition"
+msgstr "Print Settings"
+
+#: app/echo/templates/core/base_consultation_v2.html:463
+#: app/echo/templates/core/base_pma.html:521
+#: app/echo/templates/core/consultation_form.back.html:64
+#: app/echo/templates/core/consultation_form.html:34
+#: app/echo/templates/core/device_form.html:25
+#: app/echo/templates/core/device_list.html:22
+msgid "Modèle"
+msgstr "Template"
+
+#: app/echo/templates/core/base_consultation_v2.html:478
+#: app/echo/templates/core/base_pma.html:536
+#: app/echo/templates/core/consultation_colposcopie_form.html:256
+#: app/echo/templates/core/consultation_form.html:57
+msgid "Ajouter les antécédents"
+msgstr "Add medical history"
+
+#: app/echo/templates/core/base_consultation_v2.html:484
+#: app/echo/templates/core/base_pma.html:542
+#: app/echo/templates/core/consultation_colposcopie_form.html:262
+#: app/echo/templates/core/consultation_form.html:63
+msgid "Ajouter les notes"
+msgstr "Add notes"
+
+#: app/echo/templates/core/base_consultation_v2.html:574
+#: app/echo/templates/core/base_pma.html:632
+#: app/echo/templates/core/patient_info_panel.html:417
+#: app/echo/templates/core/patient_info_panel.html:501
+msgid "Supprimer le lieu d\\"
+msgstr "Delete delivery location"
+
+#: app/echo/templates/core/base_pma.html:432
+#: app/echo/templates/core/bordereau_detail.html:28
+#: app/echo/templates/core/certificat_list.html:11
+#: app/echo/templates/core/cloture_detail.html:13
+#: app/echo/templates/core/consultation_colposcopie_form.html:44
+#: app/echo/templates/core/consultation_form.back.html:30
+#: app/echo/templates/core/ordonnance_list.html:11
+#: app/echo/templates/core/partials/consultation_toolbar.html:6
+#: app/echo/templates/core/patient_form.html:35
+#: app/echo/templates/core/rdv_form.html:52
+msgid "Précédent"
+msgstr "Previous"
+
+#: app/echo/templates/core/base_pma.html:443
+#, fuzzy
+#| msgid "Terme"
+msgid "Terminer"
+msgstr "Term"
+
+#: app/echo/templates/core/base_rapport.html:27
+#, fuzzy
+#| msgid "Motif de consultation"
+msgid "Compte-rendu de consultation"
+msgstr "Consultation reason"
+
+#: app/echo/templates/core/bordereau_detail.html:14
+msgid "Bordereau"
+msgstr "Bordereau"
+
+#: app/echo/templates/core/bordereau_detail.html:35
+msgid ""
+"NOTE D'HONORAIRES DES CONSULTATIONS ET DES ACTES AMBULATOIRES EFFECTUÉS PAR "
+"MÉDECIN CONVENTIONNÉ DANS LE CADRE DU TIERS PAYANT"
+msgstr ""
+"FEE NOTE FOR CONSULTATIONS AND OUTPATIENT PROCEDURES BY CONTRACTED PHYSICIAN "
+"UNDER THIRD-PARTY PAYMENT"
+
+#: app/echo/templates/core/bordereau_detail.html:43
+msgid "Médecin"
+msgstr "Doctor"
+
+#: app/echo/templates/core/bordereau_detail.html:59
+#: app/echo/templates/core/bordereau_mutuelle.html:8
+msgid "Période"
+msgstr "Period"
+
+#: app/echo/templates/core/bordereau_detail.html:70
+#: app/echo/templates/core/bordereau_mutuelle.html:5
+#: app/echo/templates/core/mutuelle_list.html:77
+#: app/echo/templates/core/reglement_caisses.html:26
+msgid "N°"
+msgstr "No."
+
+#: app/echo/templates/core/bordereau_detail.html:71
+#: app/echo/templates/core/mutuelle_list.html:78
+msgid "Date des soins"
+msgstr "Care date"
+
+#: app/echo/templates/core/bordereau_detail.html:72
+#: app/echo/templates/core/mutuelle_list.html:79
+msgid "IU de l'assuré"
+msgstr "Insured IU"
+
+#: app/echo/templates/core/bordereau_detail.html:74
+#: app/echo/templates/core/mutuelle_list.html:80
+msgid "L'identité du bénéficiaire"
+msgstr "Beneficiary identity"
+
+#: app/echo/templates/core/bordereau_detail.html:75
+#: app/echo/templates/core/mutuelle_list.html:81
+msgid "Acte effectué"
+msgstr "Act performed"
+
+#: app/echo/templates/core/bordereau_detail.html:77
+#: app/echo/templates/core/cloture_detail.html:41
+#: app/echo/templates/core/mutuelle_list.html:82
+#: app/echo/templates/core/reglement_caisses.html:59
+msgid "Montant total"
+msgstr "Total amount"
+
+#: app/echo/templates/core/bordereau_detail.html:78
+#: app/echo/templates/core/mutuelle_list.html:84
+msgid "Montant à la charge de la CNAM"
+msgstr "Amount covered by CNAM"
+
+#: app/echo/templates/core/bordereau_detail.html:79
+#: app/echo/templates/core/mutuelle_list.html:83
+msgid "Ticket modérateur perçu de l'assuré"
+msgstr "Co-payment collected"
+
+#: app/echo/templates/core/bordereau_detail.html:80
+#: app/echo/templates/core/mutuelle_list.html:85
+msgid "Code conventionnel du médecin traitant"
+msgstr "Treating doctor code"
+
+#: app/echo/templates/core/bordereau_detail.html:84
+#: app/echo/templates/core/mutuelle_list.html:90
+msgid "Nom et prénom patient"
+msgstr "Patient name"
+
+#: app/echo/templates/core/bordereau_detail.html:85
+#: app/echo/templates/core/mutuelle_list.html:91
+msgid "Qualité"
+msgstr "Quality"
+
+#: app/echo/templates/core/bordereau_detail.html:86
+#: app/echo/templates/core/mutuelle_list.html:92
+msgid "Code APCI"
+msgstr "APCI code"
+
+#: app/echo/templates/core/bordereau_detail.html:87
+#: app/echo/templates/core/mutuelle_list.html:93
+msgid "Code acte"
+msgstr "Act code"
+
+#: app/echo/templates/core/bordereau_detail.html:88
+#: app/echo/templates/core/mutuelle_list.html:94
+msgid "Cotation"
+msgstr "Rating"
+
+#: app/echo/templates/core/bordereau_detail.html:98
+msgid "Total à payer"
+msgstr "Total to pay"
+
+#: app/echo/templates/core/bordereau_detail.html:110
+msgid "Télécharger fichier d'échange"
+msgstr "Download exchange file"
+
+#: app/echo/templates/core/bordereau_mutuelle.html:6
+msgid "Nom du médecin"
+msgstr "Doctor's name"
+
+#: app/echo/templates/core/bordereau_mutuelle.html:9
+#: app/echo/templates/core/reglement_rapport.html:69
+#: app/echo/templates/core/reglement_rapport_list.html:118
+msgid "Action"
+msgstr "Action"
+
+#: app/echo/templates/core/bordereau_mutuelle.html:17
+#: app/echo/templates/core/certificat_list.html:43
+#: app/echo/templates/core/etablissement_list.html:30
+#: app/echo/templates/core/ordonnance_list.html:43
+#: app/echo/templates/core/partials/pma.html:29
+#: app/echo/templates/core/patient_detail_v2.html:1513
+#: app/echo/templates/core/patient_detail_v2.html:1523
+#: app/echo/templates/core/patient_list.html:127
+#: app/echo/templates/core/patient_list_v2.html:134
+#: app/echo/templates/core/reglement_caisses.html:68
+msgid "Consulter"
+msgstr "View"
+
+#: app/echo/templates/core/certificat_form.html:25
+#: app/echo/templates/core/form_header.html:5
+#: app/echo/templates/core/grossesse_form.html:16
+#: app/echo/templates/core/praticien_form.html:10
+#: app/echo/templates/core/praticien_form.html:106
+#: app/echo/templates/core/prescription_analyse_form.html:26
+#: app/echo/templates/core/profil_form.html:34
+#: app/echo/templates/core/rdv_calendrier.html:318
+msgid "Créer"
+msgstr "Create"
+
+#: app/echo/templates/core/certificat_form.html:25
+msgid "un courrier"
+msgstr "a letter"
+
+#: app/echo/templates/core/certificat_form.html:63
+#: app/echo/templates/core/certificat_list.html:35
+#: app/echo/templates/core/ordonnance_form.html:145
+msgid "Type"
+msgstr "Type"
+
+#: app/echo/templates/core/certificat_form.html:88
+#: app/echo/templates/core/consultation_gynecologique_form.html:186
+msgid "Durée (jours)"
+msgstr "Duration (days)"
+
+#: app/echo/templates/core/certificat_form.html:99
+msgid "Historique des courriers"
+msgstr "Letter history"
+
+#: app/echo/templates/core/certificat_form.html:174
+#: app/echo/templates/core/certificat_form.html:320
+#: app/echo/templates/core/certificat_form.html:331
+msgid "Je soussignée"
+msgstr ""
+
+#: app/echo/templates/core/certificat_form.html:174
+msgid "certifie avoir examiné ce jour"
+msgstr ""
+
+#: app/echo/templates/core/certificat_form.html:175
+#: app/echo/templates/core/certificat_form.html:321
+#: app/echo/templates/core/certificat_form.html:332
+msgid "âgée de"
+msgstr ""
+
+#: app/echo/templates/core/certificat_form.html:175
+msgid "enceinte à"
+msgstr ""
+
+#: app/echo/templates/core/certificat_form.html:175
+msgid "qui s’est présentée pour"
+msgstr ""
+
+#: app/echo/templates/core/certificat_form.html:179
+msgid "Compte tenu de son état de santé, un repos a été prescrit"
+msgstr ""
+
+#: app/echo/templates/core/certificat_form.html:207
+msgid "GROSSESSE ACTUELLE"
+msgstr "CURRENT PREGNANCY"
+
+#: app/echo/templates/core/certificat_form.html:213
+#: app/echo/templates/core/rapport_accouchement.html:73
+msgid "Terme actuel"
+msgstr "Current term"
+
+#: app/echo/templates/core/certificat_form.html:320
+#: app/echo/templates/core/certificat_form.html:331
+msgid "certifie que"
+msgstr ""
+
+#: app/echo/templates/core/certificat_form.html:321
+msgid "est actuellement enceinte à"
+msgstr ""
+
+#: app/echo/templates/core/certificat_form.html:321
+#, fuzzy
+#| msgid "Date prévue d'accouchement"
+msgid "et que ladate prévue de l’accouchement correspond au"
+msgstr "Expected delivery date"
+
+#: app/echo/templates/core/certificat_form.html:324
+msgid ""
+"Certificat délivré à la demande de l’intéressée et remis en mains propres "
+"pour servir et valoir ce que de droit"
+msgstr ""
+
+#: app/echo/templates/core/certificat_form.html:332
+msgid "actuellement enceinte à"
+msgstr ""
+
+#: app/echo/templates/core/certificat_form.html:333
+msgid "Son état de santé lui permet d’emprunter l’avion en direction de"
+msgstr ""
+
+#: app/echo/templates/core/certificat_form.html:337
+msgid ""
+"Certificat délivré à la demande de l’intéressée et remis en mains propres "
+"pour servir et valoir ce que de droit."
+msgstr ""
+
+#: app/echo/templates/core/cloture_detail.html:20
+msgid "Clôture du"
+msgstr "Closing of"
+
+#: app/echo/templates/core/cloture_detail.html:21
+msgid "Total"
+msgstr "Total"
+
+#: app/echo/templates/core/cloture_detail.html:26
+msgid "Dont"
+msgstr "Of which"
+
+#: app/echo/templates/core/cloture_detail.html:28
+#: app/echo/templates/core/reglement_caisses.html:31
+msgid "Espèces"
+msgstr "Cash"
+
+#: app/echo/templates/core/cloture_detail.html:29
+#: app/echo/templates/core/reglement_caisses.html:32
+msgid "Chèques"
+msgstr "Checks"
+
+#: app/echo/templates/core/cloture_detail.html:30
+msgid "CB"
+msgstr "Card"
+
+#: app/echo/templates/core/collection_analyse_list.html:34
+msgid "Ajouter un pack"
+msgstr "Add a pack"
+
+#: app/echo/templates/core/consultation_colposcopie_form.html:22
+msgid "Formulaire"
+msgstr "Form"
+
+#: app/echo/templates/core/consultation_colposcopie_form.html:55
+#: app/echo/templates/core/consultation_form.back.html:40
+#: app/echo/templates/core/partials/consultation_toolbar.html:16
+msgid "Terminer la consultation"
+msgstr "End consultation"
+
+#: app/echo/templates/core/consultation_colposcopie_form.html:83
+#: app/echo/templates/core/partials/antecedents.html:51
+#: app/echo/templates/core/partials/antecedents_lettre.html:50
+#, fuzzy
+#| msgid "Indications"
+msgid "Indications"
+msgstr "Indications"
+
+#: app/echo/templates/core/consultation_colposcopie_form.html:94
+msgid "Test"
+msgstr ""
+
+#: app/echo/templates/core/consultation_colposcopie_form.html:105
+msgid "Typage"
+msgstr ""
+
+#: app/echo/templates/core/consultation_colposcopie_form.html:117
+#: app/echo/templates/core/consultation_colposcopie_form.html:143
+#: app/echo/templates/core/consultation_colposcopie_form.html:199
+#: app/echo/templates/core/consultation_colposcopie_form.html:225
+#: app/echo/templates/core/consultation_gynecologique_form.html:395
+#: app/echo/templates/core/consultation_obs_echo_11SA_form.html:111
+#: app/echo/templates/core/partials/echo_pelvienne.html:10
+#: app/echo/templates/core/partials/echo_pelvienne.html:189
+#: app/echo/templates/core/partials/examen_obs_t1_foetal.html:252
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:215
+msgid "Commentaires"
+msgstr "Comments"
+
+#: app/echo/templates/core/consultation_colposcopie_form.html:131
+msgid "Examen sans préparation"
+msgstr ""
+
+#: app/echo/templates/core/consultation_colposcopie_form.html:157
+msgid "Acide acétique"
+msgstr "Acetic acid"
+
+#: app/echo/templates/core/consultation_colposcopie_form.html:167
+#, fuzzy
+#| msgid "TVA"
+msgid "TAG"
+msgstr "VAT"
+
+#: app/echo/templates/core/consultation_colposcopie_form.html:177
+#: app/echo/templates/core/consultation_obs_echo_11SA_form.html:54
+msgid "Localisation"
+msgstr "Location"
+
+#: app/echo/templates/core/consultation_colposcopie_form.html:187
+msgid "Lugol"
+msgstr ""
+
+#: app/echo/templates/core/consultation_colposcopie_form.html:213
+msgid "Biopsie"
+msgstr "Biopsy"
+
+#: app/echo/templates/core/consultation_colposcopie_form.html:238
+#: app/echo/templates/core/consultation_obs_echo_11SA_form.html:15
+#: app/echo/templates/core/consultation_obs_echo_11SA_form.html:125
+#: app/echo/templates/core/consultation_obs_echo_croissance_form.html:18
+#: app/echo/templates/core/consultation_obs_echo_croissance_form.html:51
+#: app/echo/templates/core/consultation_obs_echo_deuxieme_trimestre_form.html:18
+#: app/echo/templates/core/consultation_obs_echo_deuxieme_trimestre_form.html:55
+#: app/echo/templates/core/consultation_obs_echo_premier_trimestre_form.html:18
+#: app/echo/templates/core/consultation_obs_echo_premier_trimestre_form.html:51
+#: app/echo/templates/core/consultation_obs_echo_troisieme_trimestre_form.html:18
+#: app/echo/templates/core/consultation_obs_echo_troisieme_trimestre_form.html:55
+#: app/echo/templates/core/partials/echo_pelvienne.html:205
+msgid "Conclusion"
+msgstr "Conclusion"
+
+#: app/echo/templates/core/consultation_colposcopie_form.html:244
+#: app/echo/templates/core/consultation_obs_echo_11SA_form.html:129
+#: app/echo/templates/core/consultation_obs_echo_croissance_form.html:55
+#: app/echo/templates/core/consultation_obs_echo_deuxieme_trimestre_form.html:59
+#: app/echo/templates/core/consultation_obs_echo_premier_trimestre_form.html:55
+#: app/echo/templates/core/consultation_obs_echo_troisieme_trimestre_form.html:59
+#: app/echo/templates/core/partials/echo_pelvienne.html:207
+msgid "Conduite à tenir"
+msgstr "Conduct to follow"
+
+#: app/echo/templates/core/consultation_detail.html:11
+msgid "Editer le compte-rendu"
+msgstr "Edit report"
+
+#: app/echo/templates/core/consultation_echo_pelvienne_form.html:31
+#: app/echo/templates/core/consultation_gynecologique_form.html:36
+#: app/echo/templates/core/patient_detail_v2.html:126
+msgid "Echo pelvienne"
+msgstr "Pelvic ultrasound"
+
+#: app/echo/templates/core/consultation_echo_pelvienne_form.html:35
+#: app/echo/templates/core/consultation_gynecologique_form.html:43
+#: app/echo/templates/core/consultation_obs_echo_11SA_form.html:18
+#: app/echo/templates/core/consultation_obs_echo_croissance_form.html:21
+#: app/echo/templates/core/consultation_obs_echo_deuxieme_trimestre_form.html:21
+#: app/echo/templates/core/consultation_obs_echo_premier_trimestre_form.html:21
+#: app/echo/templates/core/consultation_obs_echo_troisieme_trimestre_form.html:21
+msgid "Images"
+msgstr "Images"
+
+#: app/echo/templates/core/consultation_echo_pelvienne_form.html:56
+#: app/echo/templates/core/consultation_gynecologique_form.html:63
+msgid "Motif de consultation"
+msgstr "Consultation reason"
+
+#: app/echo/templates/core/consultation_form.back.html:78
+#: app/echo/templates/core/consultation_form.html:49
+msgid "Informations de grossesse"
+msgstr "Pregnancy information"
+
+#: app/echo/templates/core/consultation_form.html:10
+#: app/echo/templates/core/rdv_calendrier.html:137
+#: app/echo/templates/core/shared.html:328
+msgid "Consultation"
+msgstr "Consultation"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:30
+#: app/echo/templates/core/partials/pma.html:5
+#: app/echo/templates/core/partials/pma.html:8
+#: app/echo/templates/core/patient_detail_v2.html:194
+#: app/echo/templates/core/patient_detail_v2.html:199
+msgid "Interrogatoire"
+msgstr "Medical interview"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:33
+#: app/echo/templates/core/consultation_obs_echo_11SA_form.html:12
+#: app/echo/templates/core/consultation_obs_echo_croissance_form.html:15
+#: app/echo/templates/core/consultation_obs_echo_deuxieme_trimestre_form.html:15
+#: app/echo/templates/core/consultation_obs_echo_premier_trimestre_form.html:15
+#: app/echo/templates/core/consultation_obs_echo_troisieme_trimestre_form.html:15
+msgid "Examen clinique"
+msgstr "Clinical examination"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:40
+#: app/echo/templates/core/consultation_gynecologique_form.html:434
+#: app/echo/templates/core/prescription_analyse_form.html:219
+msgid "Observations"
+msgstr "Observations"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:65
+msgid "Autre motif"
+msgstr "Other reason"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:79
+#: app/echo/templates/core/interrogatoire_pma_form.html:30
+msgid "Informations conjoint"
+msgstr "Spouse information"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:114
+#: app/echo/templates/core/etablissement_form.html:25
+#: app/echo/templates/core/etablissement_list.html:19
+#: app/echo/templates/core/grossesse_form.html:48
+#: app/echo/templates/core/parametres_base.html:47
+#: app/echo/templates/core/patient_form.html:61
+#: app/echo/templates/core/patient_form.html:98
+#: app/echo/templates/core/patient_info_panel.html:140
+#: app/echo/templates/core/patient_info_panel.html:628
+#: app/echo/templates/core/patient_list.html:55
+#: app/echo/templates/core/patient_list.html:95
+#: app/echo/templates/core/patient_list_v2.html:62
+#: app/echo/templates/core/patient_list_v2.html:104
+#: app/echo/templates/core/praticien_form.html:66
+#: app/echo/templates/core/profil_form.html:128
+#: app/echo/templates/core/profil_form.html:140
+#: app/echo/templates/core/profil_list.html:71
+#: app/echo/templates/core/rdv_calendrier.html:239
+#: app/echo/templates/core/rdv_calendrier.html:280
+#: app/echo/templates/core/rdv_form.html:175
+#: app/echo/templates/core/rdv_form_dialog.html:123
+msgid "Téléphone"
+msgstr "Phone"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:122
+#: app/echo/templates/core/grossesse_form.html:52
+#: app/echo/templates/core/patient_form.html:64
+#: app/echo/templates/core/patient_form.html:110
+msgid "Groupe sanguin"
+msgstr "Blood group"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:130
+#: app/echo/templates/core/grossesse_form.html:56
+#: app/echo/templates/core/patient_form.html:67
+msgid "Consanguinité"
+msgstr "Consanguinity"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:157
+#, fuzzy
+#| msgid "Age 1er rapport (ans)"
+msgid "Age ménarche (ans)"
+msgstr "Age at first intercourse (years)"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:168
+#, fuzzy
+#| msgid "Cycle (jours)"
+msgid "Cycles"
+msgstr "Cycle (days)"
+
+# DataTables translations
+#: app/echo/templates/core/consultation_gynecologique_form.html:196
+msgid "Abondance"
+msgstr "Abundance"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:206
+msgid "Douleur"
+msgstr "Pain"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:218
+msgid "Syndrome pré-menstruel"
+msgstr "Premenstrual syndrome"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:257
+msgid "Partenaire"
+msgstr "Partner"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:268
+msgid "Age 1er rapport (ans)"
+msgstr "Age at first intercourse (years)"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:285
+msgid "Mode"
+msgstr "Method"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:295
+#: app/echo/templates/core/grossesse_form.html:195
+#: app/echo/templates/core/partials/echo_pelvienne.html:71
+msgid "Commentaire"
+msgstr "Comment"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:305
+msgid "Observance"
+msgstr "Compliance"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:315
+msgid "Satisfaction"
+msgstr "Satisfaction"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:342
+msgid "Bouffées de chaleur"
+msgstr "Hot flashes"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:352
+msgid "Incontinence urinaire"
+msgstr "Urinary incontinence"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:362
+msgid "Pesanteur pelvienne"
+msgstr "Pelvic heaviness"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:372
+msgid "Dyspareunies"
+msgstr "Dyspareunia"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:383
+msgid "Signe clinique"
+msgstr "Clinical sign"
+
+#: app/echo/templates/core/consultation_gynecologique_form.html:409
+#, fuzzy
+#| msgid "Endomètre"
+msgid "Endométriose"
+msgstr "Endometrium"
+
+#: app/echo/templates/core/consultation_obs_echo_11SA_form.html:9
+#: app/echo/templates/core/consultation_obs_echo_croissance_form.html:9
+#: app/echo/templates/core/consultation_obs_echo_deuxieme_trimestre_form.html:9
+#: app/echo/templates/core/consultation_obs_echo_premier_trimestre_form.html:9
+#: app/echo/templates/core/consultation_obs_echo_troisieme_trimestre_form.html:9
+msgid "Mesures foetales"
+msgstr "Fetal measurements"
+
+#: app/echo/templates/core/consultation_obs_echo_11SA_form.html:45
+#: app/echo/templates/core/partials/echo_pelvienne.html:17
+#: app/echo/templates/core/partials/examen_obs_t1_foetal.html:20
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:20
+msgid "Tout normal"
+msgstr "All normal"
+
+#: app/echo/templates/core/consultation_obs_echo_11SA_form.html:58
+msgid "Tonicité"
+msgstr "Tonicity"
+
+#: app/echo/templates/core/consultation_obs_echo_11SA_form.html:62
+msgid "Trophoblaste"
+msgstr "Trophoblast"
+
+#: app/echo/templates/core/consultation_obs_echo_11SA_form.html:66
+msgid "Dimensions"
+msgstr "Dimensions"
+
+#: app/echo/templates/core/consultation_obs_echo_11SA_form.html:68
+msgid "Larg."
+msgstr ""
+
+#: app/echo/templates/core/consultation_obs_echo_11SA_form.html:68
+#, fuzzy
+#| msgid "Langue"
+msgid "Long."
+msgstr "Language"
+
+#: app/echo/templates/core/consultation_obs_echo_11SA_form.html:68
+msgid "Haut."
+msgstr ""
+
+#: app/echo/templates/core/consultation_obs_echo_11SA_form.html:68
+msgid "Diam."
+msgstr ""
+
+#: app/echo/templates/core/consultation_obs_echo_11SA_form.html:76
+#: app/echo/templates/core/partials/examen_obs_t1_foetal.html:241
+msgid "Décollement"
+msgstr "Detachment"
+
+#: app/echo/templates/core/consultation_obs_echo_11SA_form.html:90
+#, fuzzy
+#| msgid "Périmètre céphalique"
+msgid "Extrémité céphalique"
+msgstr "Head circumference"
+
+#: app/echo/templates/core/consultation_obs_echo_11SA_form.html:94
+#: app/echo/templates/core/partials/examen_obs_t1_foetal.html:210
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:194
+msgid "Membres"
+msgstr "Limbs"
+
+#: app/echo/templates/core/consultation_obs_echo_11SA_form.html:106
+#: app/echo/templates/core/partials/examen_obs_t1_foetal.html:92
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:108
+msgid "Activité cardiaque"
+msgstr "Cardiac activity"
+
+#: app/echo/templates/core/consultation_obs_echo_croissance_form.html:12
+#: app/echo/templates/core/consultation_obs_echo_deuxieme_trimestre_form.html:12
+#: app/echo/templates/core/consultation_obs_echo_premier_trimestre_form.html:12
+#: app/echo/templates/core/consultation_obs_echo_troisieme_trimestre_form.html:12
+msgid "Mesures maternelles"
+msgstr "Maternal measurements"
+
+#: app/echo/templates/core/consultation_obs_echo_croissance_form.html:25
+#: app/echo/templates/core/consultation_obs_echo_deuxieme_trimestre_form.html:25
+#: app/echo/templates/core/consultation_obs_echo_premier_trimestre_form.html:25
+#: app/echo/templates/core/consultation_obs_echo_troisieme_trimestre_form.html:25
+msgid "Graphiques"
+msgstr "Graphics"
+
+#: app/echo/templates/core/consultation_obs_echo_deuxieme_trimestre_form.html:51
+msgid "Echographie morphologique"
+msgstr "Morphological ultrasound"
+
+#: app/echo/templates/core/consultation_obs_echo_troisieme_trimestre_form.html:51
+msgid "Echographie T3"
+msgstr "3rd trimester ultrasound"
+
+#: app/echo/templates/core/device_form.html:17
+#: app/echo/templates/core/device_list.html:21
+msgid "Marque"
+msgstr "Brand"
+
+#: app/echo/templates/core/device_form.html:33
+msgid "Mise en circulation"
+msgstr "Commissioning date"
+
+#: app/echo/templates/core/device_form.html:44
+msgid "Référence"
+msgstr "Reference"
+
+#: app/echo/templates/core/device_form.html:52
+#: app/echo/templates/core/ordonnance_form.html:143
+#: app/echo/templates/core/patient_list.html:96
+#: app/echo/templates/core/patient_list_v2.html:105
+msgid "Informations"
+msgstr "Information"
+
+#: app/echo/templates/core/device_form.html:63
+#: app/echo/templates/super_admin/dashboard.html:261
+#: app/echo/templates/super_admin/dashboard.html:368
+msgid "AE Title"
+msgstr "AE Title"
+
+#: app/echo/templates/core/device_form.html:71
+msgid "IP"
+msgstr "IP"
+
+#: app/echo/templates/core/device_form.html:79
+#: app/echo/templates/super_admin/dashboard.html:388
+msgid "Port"
+msgstr "Port"
+
+#: app/echo/templates/core/device_list.html:11
+msgid "Ajouter un matériel"
+msgstr "Add equipment"
+
+#: app/echo/templates/core/device_list.html:15
+msgid "Recherche matériel"
+msgstr "Search equipment"
+
+#: app/echo/templates/core/doctor_signup.html:7
+msgid "Access Request"
+msgstr ""
+
+#: app/echo/templates/core/doctor_signup.html:42
+msgid "Request Sent!"
+msgstr ""
+
+#: app/echo/templates/core/doctor_signup.html:44
+msgid ""
+"Your access request has been received. The administrator will review it and "
+"you will receive an email notification."
+msgstr ""
+
+#: app/echo/templates/core/doctor_signup.html:46
+msgid "Back to login"
+msgstr ""
+
+#: app/echo/templates/core/doctor_signup.html:49
+#, fuzzy
+#| msgid "Doctor Accounts"
+msgid "Doctor Access Request"
+msgstr "Doctor Accounts"
+
+#: app/echo/templates/core/doctor_signup.html:50
+msgid "Fill in the form below to request doctor access."
+msgstr ""
+
+#: app/echo/templates/core/doctor_signup.html:55
+#, fuzzy
+#| msgid "Informations"
+msgid "Personal Information"
+msgstr "Information"
+
+#: app/echo/templates/core/doctor_signup.html:58
+#, fuzzy
+#| msgid "First Name"
+msgid "Full Name"
+msgstr "First Name"
+
+#: app/echo/templates/core/doctor_signup.html:66
+#, fuzzy
+#| msgid "Address"
+msgid "Email Address"
+msgstr "Address"
+
+#: app/echo/templates/core/doctor_signup.html:74
+#: app/echo/templates/core/patient_form_dialog.html:127
+#: app/echo/templates/super_admin/dashboard.html:221
+msgid "Phone"
+msgstr "Phone"
+
+#: app/echo/templates/core/doctor_signup.html:79
+msgid "Choose Your Password"
+msgstr ""
+
+#: app/echo/templates/core/doctor_signup.html:82
+#: app/echo/templates/super_admin/dashboard.html:329
+#: app/echo/templates/super_admin/dashboard.html:410
+msgid "Password"
+msgstr "Password"
+
+#: app/echo/templates/core/doctor_signup.html:85
+msgid "Minimum 8 characters."
+msgstr ""
+
+#: app/echo/templates/core/doctor_signup.html:90
+#, fuzzy
+#| msgid "Password"
+msgid "Confirm Password"
+msgstr "Password"
+
+#: app/echo/templates/core/doctor_signup.html:96
+msgid "Send Request"
+msgstr ""
+
+#: app/echo/templates/core/doctor_signup.html:99
+msgid "Already have an account? Log in"
+msgstr ""
+
+#: app/echo/templates/core/etablissement_list.html:12
+msgid "Ajouter un établissement"
+msgstr "Add establishment"
+
+#: app/echo/templates/core/fichier_form.html:11
+#, fuzzy
+#| msgid "Télécharger fichier"
+msgid "Déplacer un fichier"
+msgstr "Upload file"
+
+#: app/echo/templates/core/fichier_form.html:29
+msgid "Destination"
+msgstr "Destination"
+
+#: app/echo/templates/core/fichier_form.html:44
+#: app/echo/templates/core/patient_fichiers.html:92
+#: app/echo/templates/core/patient_fichiers.html:162
+#: app/echo/templates/core/patient_fichiers.html:232
+#: app/echo/templates/core/patient_fichiers.html:308
+#: app/echo/templates/core/patient_fichiers_v2.html:76
+#: app/echo/templates/core/patient_fichiers_v2.html:152
+msgid "Déplacer"
+msgstr "Move"
+
+#: app/echo/templates/core/grossesse_calendrier_detail.html:71
+msgid "Calendrier de grossesse"
+msgstr "Pregnancy calendar"
+
+#: app/echo/templates/core/grossesse_form.html:17
+msgid "une grossesse"
+msgstr "a pregnancy"
+
+#: app/echo/templates/core/grossesse_form.html:30
+#: app/echo/templates/core/patient_form.html:47
+msgid "Informations sur le conjoint"
+msgstr "Spouse information"
+
+#: app/echo/templates/core/grossesse_form.html:68
+msgid "Données générales"
+msgstr ""
+
+#: app/echo/templates/core/grossesse_form.html:71
+#, fuzzy
+#| msgid "Poids av. grossesse"
+msgid "Poids av. grossesse (kg)"
+msgstr "Pre-pregnancy weight"
+
+#: app/echo/templates/core/grossesse_form.html:75
+#: app/echo/templates/core/patient_form.html:104
+msgid "Taille (cm)"
+msgstr "Height (cm)"
+
+#: app/echo/templates/core/grossesse_form.html:79
+msgid "IMC"
+msgstr "BMI"
+
+#: app/echo/templates/core/grossesse_form.html:83
+#: app/echo/templates/core/rapport_accouchement.html:71
+msgid "DDR"
+msgstr "LMP"
+
+#: app/echo/templates/core/grossesse_form.html:87
+msgid "DDR corrigée"
+msgstr "Corrected LMP"
+
+#: app/echo/templates/core/grossesse_form.html:91
+msgid "DDG théorique"
+msgstr "Theoretical due date"
+
+#: app/echo/templates/core/grossesse_form.html:95
+msgid "DDG corrigée"
+msgstr "Corrected due date"
+
+#: app/echo/templates/core/grossesse_form.html:99
+msgid "Cycle (jours)"
+msgstr "Cycle (days)"
+
+#: app/echo/templates/core/grossesse_form.html:105
+#, fuzzy
+#| msgid "Données de la grossesse"
+msgid "Données grossesse"
+msgstr "Pregnancy data"
+
+#: app/echo/templates/core/grossesse_form.html:112
+#: app/echo/templates/core/rapport_accouchement.html:74
+msgid "Type de grossesse"
+msgstr "Pregnancy type"
+
+#: app/echo/templates/core/grossesse_form.html:116
+msgid "Conception"
+msgstr "Conception"
+
+#: app/echo/templates/core/grossesse_form.html:122
+#, fuzzy
+#| msgid "1er trimestre"
+msgid "Echo 1er trimestre"
+msgstr "1st trimester"
+
+#: app/echo/templates/core/grossesse_form.html:125
+msgid "Date de l'écho"
+msgstr "Ultrasound date"
+
+#: app/echo/templates/core/grossesse_form.html:129
+msgid "LCC"
+msgstr "CRL"
+
+#: app/echo/templates/core/grossesse_form.html:133
+msgid "CN"
+msgstr "NT"
+
+#: app/echo/templates/core/grossesse_form.html:137
+msgid "Score de Herman"
+msgstr "Herman score"
+
+#: app/echo/templates/core/grossesse_form.html:143
+msgid "Dépistage T21 Fait"
+msgstr "T21 screening done"
+
+#: app/echo/templates/core/grossesse_form.html:149
+#, fuzzy
+#| msgid "Risque T21 combiné"
+msgid "Risques T21"
+msgstr "Combined T21 risk"
+
+#: app/echo/templates/core/grossesse_form.html:152
+msgid "Risque T21 combiné"
+msgstr "Combined T21 risk"
+
+#: app/echo/templates/core/grossesse_form.html:156
+msgid "Risque T21 biochimique"
+msgstr "Biochemical T21 risk"
+
+#: app/echo/templates/core/grossesse_form.html:160
+msgid "Risque T21 lié à l'âge"
+msgstr "Age-related T21 risk"
+
+#: app/echo/templates/core/grossesse_form.html:164
+msgid "Risque T18 et 13"
+msgstr "T18 and T13 risk"
+
+#: app/echo/templates/core/grossesse_form.html:170
+msgid "Screening"
+msgstr "Screening"
+
+#: app/echo/templates/core/grossesse_form.html:173
+#: app/echo/templates/core/patient_detail_v2.html:152
+msgid "1er trimestre"
+msgstr "1st trimester"
+
+#: app/echo/templates/core/grossesse_form.html:177
+#: app/echo/templates/core/patient_detail_v2.html:156
+msgid "2ème trimestre"
+msgstr "2nd trimester"
+
+#: app/echo/templates/core/grossesse_form.html:181
+msgid "Caryotype"
+msgstr "Karyotype"
+
+#: app/echo/templates/core/grossesse_form.html:185
+#, fuzzy
+#| msgid "Résultat"
+msgid "Résultat caryotype"
+msgstr "Result"
+
+#: app/echo/templates/core/grossesse_form.html:186
+#: app/echo/templates/core/partials/pma.html:49
+msgid "Résultat"
+msgstr "Result"
+
+#: app/echo/templates/core/grossesse_form.html:190
+msgid "DPNI"
+msgstr "NIPT"
+
+#: app/echo/templates/core/grossesse_form.html:194
+#, fuzzy
+#| msgid "Commentaire"
+msgid "Commentaire DPNI"
+msgstr "Comment"
+
+#: app/echo/templates/core/grossesse_form.html:205
+#, fuzzy
+#| msgid "Informations complémentaires"
+msgid "Infos complémentaires"
+msgstr "Additional information"
+
+#: app/echo/templates/core/grossesse_form.html:210
+msgid "Listeria"
+msgstr "Listeria"
+
+#: app/echo/templates/core/grossesse_form.html:216
+msgid "CMV"
+msgstr "CMV"
+
+#: app/echo/templates/core/grossesse_form.html:222
+msgid "Alcool"
+msgstr "Alcohol"
+
+#: app/echo/templates/core/grossesse_form.html:226
+msgid "Toxoplasmose"
+msgstr "Toxoplasmosis"
+
+#: app/echo/templates/core/grossesse_form.html:232
+msgid "Sous traitement Aspegic"
+msgstr "Under Aspegic treatment"
+
+#: app/echo/templates/core/grossesse_form.html:238
+msgid "Projet d'accouchement"
+msgstr "Birth plan"
+
+#: app/echo/templates/core/grossesse_form.html:243
+msgid "Allaitement maternel"
+msgstr "Breastfeeding"
+
+#: app/echo/templates/core/grossesse_form.html:249
+msgid "Allaitement artificiel"
+msgstr "Bottle feeding"
+
+#: app/echo/templates/core/grossesse_form.html:261
+msgid "Autres informations"
+msgstr "Other information"
+
+#: app/echo/templates/core/interrogatoire_pma_form.html:10
+msgid "Type d'infertilité"
+msgstr "Infertility type"
+
+#: app/echo/templates/core/interrogatoire_pma_form.html:15
+msgid "Tentatives antérieures"
+msgstr "Previous attempts"
+
+#: app/echo/templates/core/interrogatoire_pma_form.html:20
+msgid "Technique proposée"
+msgstr "Proposed technique"
+
+#: app/echo/templates/core/interrogatoire_pma_form.html:25
+msgid "Bilan féminin"
+msgstr "Female assessment"
+
+#: app/echo/templates/core/interrogatoire_pma_form.html:35
+msgid "Bilan masculin"
+msgstr "Male assessment"
+
+#: app/echo/templates/core/liste_choix_form.html:30
+#: app/echo/templates/core/liste_choix_list.html:31
+msgid "Valeur"
+msgstr "Value"
+
+#: app/echo/templates/core/liste_choix_form.html:46
+msgid "Valeur normale"
+msgstr "Normal value"
+
+#: app/echo/templates/core/liste_choix_list.html:18
+msgid "Ajouter une entrée"
+msgstr "Add an entry"
+
+#: app/echo/templates/core/liste_choix_list.html:23
+msgid "Afficher les valeurs désactivées"
+msgstr ""
+
+#: app/echo/templates/core/liste_choix_list.html:32
+#: app/echo/templates/core/profil_form.html:310
+msgid "Actif"
+msgstr "Active"
+
+#: app/echo/templates/core/login.html:51
+#: app/echo/templates/core/login_v2.html:512
+msgid "L'application de gestion de cabinet de médecine."
+msgstr "Medical practice management application."
+
+#: app/echo/templates/core/login.html:98
+msgid "Connexion à l'application Expert"
+msgstr "Login to Expert Application"
+
+#: app/echo/templates/core/login.html:99
+msgid "Saisir votre nom d'utilisateur et mot de passe"
+msgstr "Enter your username and password"
+
+#: app/echo/templates/core/login.html:113
+msgid "d'utilisateur"
+msgstr "username"
+
+#: app/echo/templates/core/login.html:113
+msgid "ou mot de passe incorrect."
+msgstr "or password incorrect."
+
+#: app/echo/templates/core/login.html:114
+msgid "Merci de réessayer."
+msgstr "Please try again."
+
+#: app/echo/templates/core/login.html:133
+#: app/echo/templates/core/login_v2.html:7
+#: app/echo/templates/core/login_v2.html:584
+msgid "Connexion"
+msgstr "Login"
+
+#: app/echo/templates/core/login.html:145
+msgid "Enter your details to create your account"
+msgstr ""
+
+#: app/echo/templates/core/login.html:173
+#: app/echo/templates/core/login.html:197
+msgid "Submit"
+msgstr ""
+
+#: app/echo/templates/core/login.html:176
+#: app/echo/templates/core/login.html:200
+#: app/echo/templates/core/patient_form_dialog.html:49
+#: app/echo/templates/core/patient_form_dialog.html:268
+#: app/echo/templates/core/tentative_pma_form.html:228
+#: app/echo/templates/core/traitement_pma_form.html:38
+#: app/echo/templates/super_admin/dashboard.html:336
+#: app/echo/templates/super_admin/dashboard.html:349
+msgid "Cancel"
+msgstr "Cancel"
+
+#: app/echo/templates/core/login.html:186
+msgid "Forgotten Password ?"
+msgstr ""
+
+#: app/echo/templates/core/login.html:187
+msgid "Enter your email to reset your password"
+msgstr ""
+
+#: app/echo/templates/core/login_v2.html:520
+msgid "Compte désactivé"
+msgstr "Account disabled"
+
+#: app/echo/templates/core/login_v2.html:523
+msgid "Votre compte a été désactivé. Veuillez contacter votre administrateur."
+msgstr "Your account has been disabled. Please contact your administrator."
+
+#: app/echo/templates/core/login_v2.html:530
+#: app/echo/templates/core/login_v2.html:551
+msgid "Nom d'utilisateur ou mot de passe incorrect"
+msgstr "Incorrect username or password"
+
+#: app/echo/templates/core/login_v2.html:530
+#: app/echo/templates/core/login_v2.html:551
+msgid "Merci de réessayer"
+msgstr "Please try again"
+
+#: app/echo/templates/core/login_v2.html:540
+#, fuzzy
+#| msgid "Username"
+msgid "Username or Email"
+msgstr "Username"
+
+#: app/echo/templates/core/login_v2.html:577
+#: app/echo/templates/core/password_reset.html:24
+msgid "Mot de passe oublié ?"
+msgstr "Forgot your password?"
+
+#: app/echo/templates/core/login_v2.html:591
+msgid "Pas encore de compte ?"
+msgstr "Don't have an account?"
+
+#: app/echo/templates/core/login_v2.html:593
+msgid "Faire une demande d'accès"
+msgstr "Request access"
+
+#: app/echo/templates/core/login_v2.html:612
+msgid "L'application de"
+msgstr "The"
+
+#: app/echo/templates/core/login_v2.html:612
+msgid "gestion médicale"
+msgstr "medical management"
+
+#: app/echo/templates/core/login_v2.html:612
+msgid "nouvelle génération."
+msgstr "next generation."
+
+#: app/echo/templates/core/login_v2.html:615
+msgid "Dossiers patients, consultations, ordonnances et planning — tout en un."
+msgstr ""
+"Patient records, consultations, prescriptions and scheduling — all in one."
+
+#: app/echo/templates/core/login_v2.html:623
+msgid "Planning"
+msgstr "Scheduling"
+
+#: app/echo/templates/core/login_v2.html:629
+msgid "Statistiques"
+msgstr "Statistics"
+
+#: app/echo/templates/core/mdp_form.html:11
+msgid "Modifier Mot de passe"
+msgstr "Change password"
+
+#: app/echo/templates/core/mdp_form.html:21
+#: app/echo/templates/core/password_reset_confirm.html:7
+#: app/echo/templates/core/password_reset_confirm.html:25
+#: app/echo/templates/core/password_reset_confirm.html:29
+msgid "Nouveau mot de passe"
+msgstr "New password"
+
+#: app/echo/templates/core/mesures_patient_form.html:42
+msgid "Tension"
+msgstr "Blood pressure"
+
+#: app/echo/templates/core/mesures_patient_form.html:46
+#: app/echo/templates/core/partials/examen_clinique.html:34
+msgid "Température"
+msgstr "Temperature"
+
+#: app/echo/templates/core/mesures_patient_form.html:54
+msgid "Glycémie"
+msgstr "Blood sugar"
+
+#: app/echo/templates/core/motif_list.html:11
+msgid "Ajouter une motif d'absence"
+msgstr "Add absence reason"
+
+#: app/echo/templates/core/motif_list.html:15
+msgid "Recherche motif"
+msgstr "Search reason"
+
+#: app/echo/templates/core/mutuelle_list.html:28
+msgid "Liste des Bordereaux"
+msgstr "List of bordereaux"
+
+#: app/echo/templates/core/mutuelle_list.html:46
+#: app/echo/templates/core/rapport_accouchement.html:44
+msgid "intervalle de dates"
+msgstr "Date range"
+
+#: app/echo/templates/core/mutuelle_list.html:56
+#: app/echo/templates/core/partials/consultations_patient.html:41
+#: app/echo/templates/core/password_reset_confirm.html:38
+#: app/echo/templates/core/rapport_accouchement.html:59
+#: app/echo/templates/core/rapport_consultation.html:118
+#: app/echo/templates/core/reglement_rapport.html:56
+#: app/echo/templates/core/reglement_rapport_list.html:104
+msgid "Réinitialiser"
+msgstr "Reset"
+
+#: app/echo/templates/core/mutuelle_list.html:67
+msgid "Générer le Bordereau"
+msgstr "Generate bordereau"
+
+#: app/echo/templates/core/ordonnance_detail.html:10
+#, fuzzy
+#| msgid "une ordonnance"
+msgid "Editer l'ordonnance"
+msgstr "a prescription"
+
+#: app/echo/templates/core/ordonnance_detail.html:26
+msgid "Ordonnance médicale"
+msgstr "Medical prescription"
+
+#: app/echo/templates/core/ordonnance_form.html:108
+msgid "Modifier l'ordonnance"
+msgstr "Edit prescription"
+
+#: app/echo/templates/core/ordonnance_form.html:108
+msgid "Créer une ordonnance"
+msgstr "Create prescription"
+
+#: app/echo/templates/core/ordonnance_form.html:170
+msgid "Médicaments"
+msgstr "Medications"
+
+#: app/echo/templates/core/ordonnance_form.html:171
+msgid "Rechercher un traitement"
+msgstr "Search treatment"
+
+#: app/echo/templates/core/ordonnance_form.html:176
+#: app/echo/templates/core/ordonnance_form.html:207
+msgid "Parcourir la liste"
+msgstr "Browse list"
+
+#: app/echo/templates/core/ordonnance_form.html:182
+msgid "Prises/j"
+msgstr "Doses/day"
+
+#: app/echo/templates/core/ordonnance_form.html:186
+msgid "Nb jours"
+msgstr "Number of days"
+
+#: app/echo/templates/core/ordonnance_form.html:190
+msgid "Qté/prise"
+msgstr "Qty/dose"
+
+#: app/echo/templates/core/ordonnance_form.html:201
+msgid "Examens"
+msgstr "Exams"
+
+#: app/echo/templates/core/ordonnance_form.html:202
+msgid "Rechercher un examen"
+msgstr "Search for an exam"
+
+#: app/echo/templates/core/ordonnance_form.html:215
+msgid "Renseignements cliniques"
+msgstr "Clinical notes"
+
+#: app/echo/templates/core/ordonnance_form.html:217
+#, fuzzy
+#| msgid "Informations complémentaires"
+msgid "Informations cliniques..."
+msgstr "Additional information"
+
+#: app/echo/templates/core/parametres.html:32
+#: app/echo/templates/core/parametres_base.html:67
+msgid "Paramètres généraux"
+msgstr "General settings"
+
+#: app/echo/templates/core/parametres.html:33
+msgid "Modifier les paramètres du compte"
+msgstr "Edit account settings"
+
+#: app/echo/templates/core/parametres.html:45
+msgid "Médecin principal"
+msgstr "Main doctor"
+
+#: app/echo/templates/core/parametres.html:55
+msgid "Durée rendez-vous par défaut"
+msgstr "Default appointment duration"
+
+#: app/echo/templates/core/parametres.html:56
+msgid "minutes"
+msgstr "minutes"
+
+#: app/echo/templates/core/parametres.html:67
+msgid "Fuseau horaire"
+msgstr "Timezone"
+
+#: app/echo/templates/core/parametres.html:87
+msgid "Horaires d'ouverture"
+msgstr "Opening hours"
+
+#: app/echo/templates/core/parametres.html:90
+msgid "Lundi"
+msgstr "Monday"
+
+#: app/echo/templates/core/parametres.html:92
+#: app/echo/templates/core/parametres.html:102
+#: app/echo/templates/core/parametres.html:112
+#: app/echo/templates/core/parametres.html:122
+#: app/echo/templates/core/parametres.html:132
+#: app/echo/templates/core/parametres.html:142
+#: app/echo/templates/core/rdv_dispo_form_dialog.html:27
+msgid "Matin"
+msgstr "Morning"
+
+#: app/echo/templates/core/parametres.html:95
+#: app/echo/templates/core/parametres.html:105
+#: app/echo/templates/core/parametres.html:115
+#: app/echo/templates/core/parametres.html:125
+#: app/echo/templates/core/parametres.html:135
+#: app/echo/templates/core/parametres.html:145
+#: app/echo/templates/core/rdv_dispo_form_dialog.html:30
+msgid "Après-midi"
+msgstr "Afternoon"
+
+#: app/echo/templates/core/parametres.html:100
+msgid "Mardi"
+msgstr "Tuesday"
+
+#: app/echo/templates/core/parametres.html:110
+msgid "Mercredi"
+msgstr "Wednesday"
+
+#: app/echo/templates/core/parametres.html:120
+msgid "Jeudi"
+msgstr "Thursday"
+
+#: app/echo/templates/core/parametres.html:130
+msgid "Vendredi"
+msgstr "Friday"
+
+#: app/echo/templates/core/parametres.html:140
+msgid "Samedi"
+msgstr "Saturday"
+
+#: app/echo/templates/core/parametres.html:162
+msgid "Paramètres patients"
+msgstr "Patient settings"
+
+#: app/echo/templates/core/parametres.html:163
+msgid "Modifier les paramètres des patients"
+msgstr "Edit patient settings"
+
+#: app/echo/templates/core/parametres.html:175
+msgid "Antécédents familiaux par défaut"
+msgstr "Default family history"
+
+#: app/echo/templates/core/parametres.html:185
+msgid "Antécédents médico-chirurgicaux par défaut"
+msgstr "Default medical-surgical history"
+
+#: app/echo/templates/core/parametres.html:195
+msgid "Antécédents gynécologiques par défaut"
+msgstr "Default gynecological history"
+
+#: app/echo/templates/core/parametres.html:206
+msgid "Ajouter les antécédents aux éditions"
+msgstr "Add history to documents"
+
+#: app/echo/templates/core/parametres.html:217
+msgid "Durée de grossesse"
+msgstr "Pregnancy duration"
+
+#: app/echo/templates/core/parametres.html:238
+msgid "Écho. de datation"
+msgstr "Dating ultrasound"
+
+#: app/echo/templates/core/parametres.html:266
+msgid "1ère écho"
+msgstr "1st ultrasound"
+
+#: app/echo/templates/core/parametres.html:294
+msgid "2ème écho"
+msgstr "2nd ultrasound"
+
+#: app/echo/templates/core/parametres.html:322
+msgid "3ème écho"
+msgstr "3rd ultrasound"
+
+#: app/echo/templates/core/parametres.html:397
+msgid "T21 Combiné 1er trimestre"
+msgstr "Combined first trimester screening"
+
+#: app/echo/templates/core/parametres.html:425
+msgid "T21 2ème trimestre"
+msgstr "Second trimester screening"
+
+#: app/echo/templates/core/parametres.html:453
+msgid "Glycémie à jeun 1er trimestre"
+msgstr "Fasting blood glucose 1st trimester"
+
+#: app/echo/templates/core/parametres.html:489
+msgid "Paramètres d'édition"
+msgstr "Print settings"
+
+#: app/echo/templates/core/parametres.html:490
+msgid "Modifier les paramètres d'édition des documents"
+msgstr "Modify document print settings"
+
+#: app/echo/templates/core/parametres.html:501
+msgid "Nom du cabinet"
+msgstr "Office name"
+
+#: app/echo/templates/core/parametres.html:511
+msgid "Entête A5"
+msgstr "A5 header"
+
+#: app/echo/templates/core/parametres.html:538
+msgid "Entête A4"
+msgstr "A4 header"
+
+#: app/echo/templates/core/parametres.html:566
+msgid "Pied de page A5"
+msgstr "A5 footer"
+
+#: app/echo/templates/core/parametres.html:594
+msgid "Pied de page A4"
+msgstr "A4 footer"
+
+#: app/echo/templates/core/parametres.html:622
+msgid "Marges"
+msgstr "Margins"
+
+#: app/echo/templates/core/parametres.html:625
+msgid "Entête"
+msgstr "Header"
+
+#: app/echo/templates/core/parametres.html:632
+msgid "Pied de page"
+msgstr "Footer"
+
+#: app/echo/templates/core/parametres.html:639
+msgid "Marge gauche"
+msgstr "Left margin"
+
+#: app/echo/templates/core/parametres.html:646
+msgid "Marge droite"
+msgstr "Right margin"
+
+#: app/echo/templates/core/parametres.html:653
+msgid "Ajouter la date et lieu"
+msgstr "Add date and location"
+
+#: app/echo/templates/core/parametres.html:666
+msgid "Compte-rendus opératoires"
+msgstr "Surgical reports"
+
+#: app/echo/templates/core/parametres.html:676
+msgid "Ajouter l'entête et pied de page aux éditions"
+msgstr "Add header and footer to editions"
+
+#: app/echo/templates/core/parametres.html:680
+#: app/echo/templates/core/parametres.html:820
+msgid "Compte-rendus"
+msgstr "Reports"
+
+#: app/echo/templates/core/parametres.html:700
+msgid "Certificat médical"
+msgstr "Medical certificate"
+
+#: app/echo/templates/core/parametres.html:710
+msgid "Certificat de présence"
+msgstr "Attendance certificate"
+
+#: app/echo/templates/core/parametres.html:720
+msgid "Lettre d'accouchement"
+msgstr "Delivery letter"
+
+#: app/echo/templates/core/parametres.html:730
+msgid "Prescription analyses biologiques"
+msgstr "Lab test prescription"
+
+#: app/echo/templates/core/parametres.html:740
+msgid "Lettre confidentielle"
+msgstr "Confidential letter"
+
+#: app/echo/templates/core/parametres.html:750
+msgid "Attestation de grossesse"
+msgstr "Pregnancy certificate"
+
+#: app/echo/templates/core/parametres.html:760
+msgid "Lettre Fit-to-fly"
+msgstr "Fit-to-fly letter"
+
+#: app/echo/templates/core/parametres.html:776
+#: app/echo/templates/core/parametres_base.html:91
+msgid "Modèles"
+msgstr "Templates"
+
+#: app/echo/templates/core/parametres.html:777
+msgid "Modifier les paramètres des modèles"
+msgstr "Edit template settings"
+
+#: app/echo/templates/core/parametres.html:785
+#: app/echo/templates/core/parametres.html:905
+msgid "Modèles de traitements"
+msgstr "Treatment templates"
+
+#: app/echo/templates/core/parametres.html:788
+msgid "Traitements"
+msgstr "Treatments"
+
+#: app/echo/templates/core/parametres.html:793
+msgid "Modèles de traitements PMA"
+msgstr "PMA treatment templates"
+
+#: app/echo/templates/core/parametres.html:796
+msgid "Traitements PMA"
+msgstr "PMA Treatments"
+
+#: app/echo/templates/core/parametres.html:801
+#: app/echo/templates/core/parametres.html:933
+msgid "Modèles de prescriptions"
+msgstr "Prescription templates"
+
+#: app/echo/templates/core/parametres.html:804
+#: app/echo/templates/core/shared.html:296
+msgid "Prescriptions"
+msgstr "Prescriptions"
+
+#: app/echo/templates/core/parametres.html:809
+msgid "Modèles d'analyses biologiques"
+msgstr "Lab test templates"
+
+#: app/echo/templates/core/parametres.html:817
+msgid "Modèles de compte-rendus"
+msgstr "Report templates"
+
+#: app/echo/templates/core/parametres.html:832
+#: app/echo/templates/core/parametres.html:844
+#: app/echo/templates/core/parametres_base.html:99
+#: app/echo/templates/core/reglement_rapport.html:65
+#: app/echo/templates/core/reglement_rapport_list.html:114
+msgid "Prestations"
+msgstr "Services"
+
+#: app/echo/templates/core/parametres.html:833
+msgid "Gérer le catalogue des prestations"
+msgstr "Manage services catalog"
+
+#: app/echo/templates/core/parametres.html:856
+#: app/echo/templates/core/parametres.html:868
+msgid "Motifs des absences"
+msgstr "Absence reasons"
+
+#: app/echo/templates/core/parametres.html:857
+msgid "Gérer la liste des motifs d'absence des médecins"
+msgstr "Manage doctor absence reasons"
+
+#: app/echo/templates/core/parametres.html:880
+#: app/echo/templates/core/parametres.html:892
+#: app/echo/templates/core/parametres_base.html:115
+msgid "Matériel"
+msgstr "Equipment"
+
+#: app/echo/templates/core/parametres.html:881
+msgid "Gérer les échographes"
+msgstr "Manage ultrasound machines"
+
+#: app/echo/templates/core/parametres.html:1001
+msgid "Modèles de compte-rendu"
+msgstr "Report templates"
+
+#: app/echo/templates/core/parametres.html:1038
+msgid "Catalogue des prestations"
+msgstr "Services catalog"
+
+#: app/echo/templates/core/parametres.html:1075
+msgid "Liste du matériel"
+msgstr "Equipment list"
+
+#: app/echo/templates/core/parametres.html:1111
+msgid "Liste des motifs"
+msgstr "List of reasons"
+
+#: app/echo/templates/core/parametres_base.html:40
+#: app/echo/templates/core/profil_list.html:65
+msgid "Non renseigné"
+msgstr "Not provided"
+
+#: app/echo/templates/core/parametres_base.html:42
+#: app/echo/templates/core/patient_form.html:101
+#: app/echo/templates/core/patient_form_dialog.html:139
+#: app/echo/templates/core/praticien_form.html:81
+#: app/echo/templates/core/profil_form.html:110
+#: app/echo/templates/super_admin/dashboard.html:220
+#: app/echo/templates/super_admin/dashboard.html:260
+#: app/echo/templates/super_admin/dashboard.html:325
+msgid "Email"
+msgstr "Email"
+
+#: app/echo/templates/core/parametres_base.html:51
+msgid "Fax"
+msgstr "Fax"
+
+#: app/echo/templates/core/parametres_base.html:107
+msgid "Motifs d'absence médecin"
+msgstr "Doctor absence reasons"
+
+#: app/echo/templates/core/partials/antecedents.html:6
+#: app/echo/templates/core/partials/antecedents_lettre.html:6
+msgid "Antécédents Familiaux"
+msgstr "Family history"
+
+#: app/echo/templates/core/partials/antecedents.html:13
+#: app/echo/templates/core/partials/antecedents_lettre.html:13
+#, fuzzy
+#| msgid "Antécédents médico-chirurgicaux"
+msgid "Antécédents Médico-chirurgicaux"
+msgstr "Medical-surgical history"
+
+#: app/echo/templates/core/partials/antecedents.html:20
+#: app/echo/templates/core/partials/antecedents_lettre.html:20
+msgid "Antécédents Gynécologiques"
+msgstr "Gynecological history"
+
+#: app/echo/templates/core/partials/antecedents.html:28
+#: app/echo/templates/core/partials/antecedents_lettre.html:27
+msgid "Antécédents Obstétricaux"
+msgstr "Obstetric history"
+
+#: app/echo/templates/core/partials/antecedents.html:47
+#: app/echo/templates/core/partials/antecedents_lettre.html:46
+#, fuzzy
+#| msgid "Mise en circulation"
+msgid "Mise en travail"
+msgstr "Commissioning date"
+
+#: app/echo/templates/core/partials/antecedents.html:55
+#: app/echo/templates/core/partials/antecedents_lettre.html:54
+#, fuzzy
+#| msgid "Analyses"
+msgid "Analgésie"
+msgstr "Analysis"
+
+#: app/echo/templates/core/partials/antecedents.html:59
+#: app/echo/templates/core/partials/antecedents_lettre.html:58
+msgid "Date d'accouchement"
+msgstr "Delivery date"
+
+#: app/echo/templates/core/partials/antecedents.html:67
+#: app/echo/templates/core/partials/antecedents_lettre.html:66
+#, fuzzy
+#| msgid "Nombre de cycles"
+msgid "Nombre de foetus"
+msgstr "Number of cycles"
+
+#: app/echo/templates/core/partials/antecedents.html:81
+#: app/echo/templates/core/partials/antecedents_lettre.html:82
+#, fuzzy
+#| msgid "ATCD à surligner"
+msgid "A surligner"
+msgstr "History to highlight"
+
+#: app/echo/templates/core/partials/antecedents.html:94
+#: app/echo/templates/core/partials/antecedents.html:130
+#: app/echo/templates/core/partials/antecedents.html:166
+#: app/echo/templates/core/partials/antecedents_lettre.html:94
+#: app/echo/templates/core/partials/antecedents_lettre.html:125
+#: app/echo/templates/core/partials/antecedents_lettre.html:156
+msgid "Foetus"
+msgstr ""
+
+#: app/echo/templates/core/partials/antecedents.html:97
+#: app/echo/templates/core/partials/antecedents.html:133
+#: app/echo/templates/core/partials/antecedents.html:169
+msgid "SA"
+msgstr "weeks"
+
+#: app/echo/templates/core/partials/antecedents.html:106
+#: app/echo/templates/core/partials/antecedents.html:142
+#: app/echo/templates/core/partials/antecedents.html:178
+#: app/echo/templates/core/partials/antecedents_lettre.html:101
+#: app/echo/templates/core/partials/antecedents_lettre.html:132
+#: app/echo/templates/core/partials/antecedents_lettre.html:163
+msgid "gr"
+msgstr ""
+
+#: app/echo/templates/core/partials/antecedents.html:114
+#: app/echo/templates/core/partials/antecedents.html:150
+#: app/echo/templates/core/partials/antecedents.html:186
+msgid "T21"
+msgstr ""
+
+#: app/echo/templates/core/partials/antecedents.html:118
+#: app/echo/templates/core/partials/antecedents.html:154
+#: app/echo/templates/core/partials/antecedents.html:190
+#: app/echo/templates/core/partials/antecedents_lettre.html:113
+#: app/echo/templates/core/partials/antecedents_lettre.html:144
+#: app/echo/templates/core/partials/antecedents_lettre.html:175
+msgid "Allaité"
+msgstr ""
+
+#: app/echo/templates/core/partials/consultation_graph.html:8
+msgid "Poids foetal"
+msgstr "Fetal weight"
+
+#: app/echo/templates/core/partials/consultation_graph.html:21
+msgid "Diamètre bipariétal"
+msgstr "Biparietal diameter"
+
+#: app/echo/templates/core/partials/consultation_graph.html:34
+msgid "Périmètre céphalique"
+msgstr "Head circumference"
+
+#: app/echo/templates/core/partials/consultation_graph.html:48
+msgid "Périmètre abdominal"
+msgstr "Abdominal circumference"
+
+#: app/echo/templates/core/partials/consultation_graph.html:62
+msgid "Longueur du fémur"
+msgstr "Femur length"
+
+#: app/echo/templates/core/partials/consultation_images.html:6
+msgid "Echographe"
+msgstr "Ultrasound machine"
+
+#: app/echo/templates/core/partials/consultation_toolbar.html:29
+msgid "Compte-rendu"
+msgstr "Report"
+
+#: app/echo/templates/core/partials/consultations_patient.html:18
+#: app/echo/templates/core/partials/consultations_patient.html:50
+#: app/echo/templates/core/rapport_consultation.html:85
+#: app/echo/templates/core/rapport_consultation.html:133
+msgid "Catégorie Consultation"
+msgstr "Consultation category"
+
+#: app/echo/templates/core/partials/consultations_patient.html:30
+#: app/echo/templates/core/partials/consultations_patient.html:51
+#: app/echo/templates/core/rapport_consultation.html:109
+#: app/echo/templates/core/rapport_consultation.html:134
+msgid "Motif Consultation"
+msgstr "Consultation reason"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:6
+msgid "longueur"
+msgstr ""
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:7
+#, fuzzy
+#| msgid "Marges"
+msgid "largeur"
+msgstr "Margins"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:8
+msgid "hauteur"
+msgstr ""
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:9
+#, fuzzy
+#| msgid "Montant total"
+msgid "lon. totale"
+msgstr "Total amount"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:24
+msgid "Utérus"
+msgstr "Uterus"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:30
+#, fuzzy
+#| msgid "Edition"
+msgid "Position"
+msgstr "Edition"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:37
+#, fuzzy
+#| msgid "Localisation"
+msgid "Latéralisation"
+msgstr "Location"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:66
+msgid "Vol. utérin"
+msgstr ""
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:76
+#, fuzzy
+#| msgid "Biométrie"
+msgid "Asymétrie"
+msgstr "Biometry"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:81
+#, fuzzy
+#| msgid "Tentatives antérieures"
+msgid "Paroi antérieure"
+msgstr "Previous attempts"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:86
+msgid "Paroi postérieure"
+msgstr ""
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:91
+#: app/echo/templates/core/partials/examen_obs_t1_foetal.html:123
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:139
+msgid "Mobilité"
+msgstr "Mobility"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:96
+msgid "Structures"
+msgstr ""
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:103
+msgid "Commentaires myomètre"
+msgstr "Myometrium comments"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:112
+#, fuzzy
+#| msgid "Gravité"
+msgid "Cavité"
+msgstr "Gravity"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:117
+#, fuzzy
+#| msgid "Informations"
+msgid "Malformation"
+msgstr "Information"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:122
+#, fuzzy
+#| msgid "Signe clinique"
+msgid "Ligne cavitaire"
+msgstr "Clinical sign"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:127
+msgid "Largeur inter-ostiale"
+msgstr ""
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:132
+#, fuzzy
+#| msgid "Biométrie"
+msgid "Hystérométrie"
+msgstr "Biometry"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:143
+msgid "Endomètre"
+msgstr "Endometrium"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:148
+#, fuzzy
+#| msgid "Localisation"
+msgid "Visualisation"
+msgstr "Location"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:153
+#, fuzzy
+#| msgid "Tonicité"
+msgid "Echogénicité"
+msgstr "Tonicity"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:158
+msgid "Epaisseur"
+msgstr ""
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:169
+#: app/echo/templates/core/partials/examen_obs_maternel.html:82
+msgid "Col"
+msgstr "Cervix"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:174
+#, fuzzy
+#| msgid "Longueur du fémur"
+msgid "Longueur du col"
+msgstr "Femur length"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:179
+#, fuzzy
+#| msgid "Aspegic"
+msgid "Aspect"
+msgstr "Aspirin"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:184
+#, fuzzy
+#| msgid "Localisation"
+msgid "Vascularisation"
+msgstr "Location"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:198
+#, fuzzy
+#| msgid "Marge gauche"
+msgid "Ovaire gauche"
+msgstr "Left margin"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:199
+#, fuzzy
+#| msgid "Marge droite"
+msgid "Ovaire droit"
+msgstr "Right margin"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:201
+msgid "Cul de sac latéro"
+msgstr ""
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:203
+msgid "Conclusion échographie"
+msgstr "Ultrasound conclusion"
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:209
+msgid "Myomes"
+msgstr ""
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:211
+msgid "Adénomyose"
+msgstr ""
+
+#: app/echo/templates/core/partials/echo_pelvienne.html:213
+msgid "Follicules"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_clinique.html:23
+#, fuzzy
+#| msgid "TVA"
+msgid "TA"
+msgstr "VAT"
+
+#: app/echo/templates/core/partials/examen_clinique.html:45
+msgid "Alb"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_clinique.html:56
+msgid "Gly"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_clinique.html:67
+msgid "Seins"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_clinique.html:78
+msgid "Examen sous speculum"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_clinique.html:89
+#, fuzzy
+#| msgid "TVA"
+msgid "TV"
+msgstr "VAT"
+
+#: app/echo/templates/core/partials/examen_clinique.html:101
+msgid "Leucorrhées"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_clinique.html:137
+#, fuzzy
+#| msgid "Commentaires"
+msgid "Commentaires cliniques"
+msgstr "Comments"
+
+#: app/echo/templates/core/partials/examen_obs_maternel.html:11
+msgid "Doppler Utérin"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_obs_maternel.html:20
+#, fuzzy
+#| msgid "Marge gauche"
+msgid "IP gauche"
+msgstr "Left margin"
+
+#: app/echo/templates/core/partials/examen_obs_maternel.html:25
+#, fuzzy
+#| msgid "Marge gauche"
+msgid "IR gauche"
+msgstr "Left margin"
+
+#: app/echo/templates/core/partials/examen_obs_maternel.html:33
+msgid "Notch gauche"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_obs_maternel.html:50
+#, fuzzy
+#| msgid "Droit"
+msgid "IP droit"
+msgstr "Right"
+
+#: app/echo/templates/core/partials/examen_obs_maternel.html:55
+#, fuzzy
+#| msgid "Droit"
+msgid "IR droit"
+msgstr "Right"
+
+#: app/echo/templates/core/partials/examen_obs_maternel.html:63
+msgid "Notch droit"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_obs_maternel.html:88
+#, fuzzy
+#| msgid "Langue"
+msgid "Longueur"
+msgstr "Language"
+
+#: app/echo/templates/core/partials/examen_obs_maternel.html:106
+msgid "Orifice interne"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_obs_maternel.html:124
+msgid "Entonnoir"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_obs_maternel.html:143
+msgid "Pelvis"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_obs_maternel.html:147
+#, fuzzy
+#| msgid "Mesures maternelles"
+msgid "Pelvis maternel"
+msgstr "Maternal measurements"
+
+#: app/echo/templates/core/partials/examen_obs_t1_foetal.html:35
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:35
+msgid "Foetus A"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_obs_t1_foetal.html:42
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:42
+msgid "Foetus B"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_obs_t1_foetal.html:49
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:49
+msgid "Foetus C"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_obs_t1_foetal.html:86
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:102
+msgid "Vitalité"
+msgstr "Vitality"
+
+#: app/echo/templates/core/partials/examen_obs_t1_foetal.html:104
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:120
+#, fuzzy
+#| msgid "Activité cardiaque"
+msgid "Fréquence cardiaque"
+msgstr "Cardiac activity"
+
+#: app/echo/templates/core/partials/examen_obs_t1_foetal.html:139
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:155
+msgid "Biométrie"
+msgstr "Biometry"
+
+#: app/echo/templates/core/partials/examen_obs_t1_foetal.html:185
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:180
+msgid "Morphologie"
+msgstr "Morphology"
+
+#: app/echo/templates/core/partials/examen_obs_t1_foetal.html:190
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:189
+msgid "Coeur"
+msgstr "Heart"
+
+#: app/echo/templates/core/partials/examen_obs_t1_foetal.html:195
+#, fuzzy
+#| msgid "Périmètre céphalique"
+msgid "Pôle céphalique"
+msgstr "Head circumference"
+
+#: app/echo/templates/core/partials/examen_obs_t1_foetal.html:200
+msgid "Ligne médiane du cerveau"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_obs_t1_foetal.html:205
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:190
+#, fuzzy
+#| msgid "Périmètre abdominal"
+msgid "Paroi abdominale"
+msgstr "Abdominal circumference"
+
+#: app/echo/templates/core/partials/examen_obs_t1_foetal.html:221
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:204
+msgid "Annexes"
+msgstr "Adnexa"
+
+#: app/echo/templates/core/partials/examen_obs_t1_foetal.html:226
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:206
+#, fuzzy
+#| msgid "Liquide amniotique"
+msgid "Liquide amnio."
+msgstr "Amniotic fluid"
+
+#: app/echo/templates/core/partials/examen_obs_t1_foetal.html:231
+#, fuzzy
+#| msgid "Trophoblaste"
+msgid "Trophoblaste loc."
+msgstr "Trophoblast"
+
+#: app/echo/templates/core/partials/examen_obs_t1_foetal.html:236
+#, fuzzy
+#| msgid "Trophoblaste"
+msgid "Trophoblaste aspect"
+msgstr "Trophoblast"
+
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:88
+#, fuzzy
+#| msgid "Prestation"
+msgid "Présentation"
+msgstr "Service"
+
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:184
+msgid "Boîte crânienne"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:185
+#, fuzzy
+#| msgid "Artère Cérébrale Moy."
+msgid "Structure cérébrale"
+msgstr "Middle Cerebral Artery"
+
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:186
+msgid "Face"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:187
+#, fuzzy
+#| msgid "Coeur"
+msgid "Cou"
+msgstr "Heart"
+
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:188
+msgid "Thorax"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:191
+msgid "Appareil digestif"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:192
+msgid "Appareil urinaire"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:193
+msgid "Rachis"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:195
+#, fuzzy
+#| msgid "GEU"
+msgid "OGE"
+msgstr "Ectopic pregnancy"
+
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:207
+msgid "Placenta"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:208
+msgid "Cordon"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:222
+msgid "Doppler Ombilical"
+msgstr "Umbilical Doppler"
+
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:223
+msgid "Doppler ACM"
+msgstr ""
+
+#: app/echo/templates/core/partials/examen_obs_t23_foetal.html:224
+msgid "Doppler DV"
+msgstr ""
+
+#: app/echo/templates/core/partials/pma.html:12
+#: app/echo/templates/core/patient_detail_v2.html:206
+#, fuzzy
+#| msgid "Nouvelle consultation"
+msgid "Nouvelle tentative"
+msgstr "New consultation"
+
+#: app/echo/templates/core/partials/pma.html:20
+#, fuzzy
+#| msgid "Consultations en cours"
+msgid "Tentative en cours"
+msgstr "Ongoing consultations"
+
+#: app/echo/templates/core/partials/pma.html:22
+#, fuzzy
+#| msgid "création"
+msgid "de création"
+msgstr "creation"
+
+#: app/echo/templates/core/partials/pma.html:23
+msgid "Dernière mise à jour"
+msgstr "Last update"
+
+#: app/echo/templates/core/partials/pma.html:33
+#, fuzzy
+#| msgid "Clôturer la caisse"
+msgid "Clôturer la tentative"
+msgstr "Close cash register"
+
+#: app/echo/templates/core/partials/pma.html:41
+#, fuzzy
+#| msgid "Tentatives antérieures"
+msgid "Tentatives passées"
+msgstr "Previous attempts"
+
+#: app/echo/templates/core/partials/pma.html:47
+#, fuzzy
+#| msgid "Clôturer"
+msgid "de clôture"
+msgstr "Close"
+
+#: app/echo/templates/core/partials/prescription_list.html:48
+#, fuzzy
+#| msgid "Pas d'analyses disponibles"
+msgid "Pas d'analyses"
+msgstr "No analyses available"
+
+#: app/echo/templates/core/partials/timeline_patient.html:52
+#, fuzzy
+#| msgid "Réalisés"
+msgid "réalisé par"
+msgstr "Completed"
+
+#: app/echo/templates/core/password_reset.html:7
+#, fuzzy
+#| msgid "Mot de passe oublié ?"
+msgid "Mot de passe oublié"
+msgstr "Forgot your password?"
+
+#: app/echo/templates/core/password_reset.html:25
+msgid ""
+"Entrez votre adresse email et nous vous enverrons un lien de "
+"réinitialisation."
+msgstr "Enter your email address and we will send you a reset link."
+
+#: app/echo/templates/core/password_reset.html:28
+msgid "Adresse email"
+msgstr "Email address"
+
+#: app/echo/templates/core/password_reset.html:30
+msgid "Envoyer le lien"
+msgstr "Send reset link"
+
+#: app/echo/templates/core/password_reset.html:32
+#: app/echo/templates/core/password_reset_done.html:23
+msgid "Retour à la connexion"
+msgstr "Back to login"
+
+#: app/echo/templates/core/password_reset_complete.html:7
+#, fuzzy
+#| msgid "Mot de passe réinitialisé !"
+msgid "Mot de passe réinitialisé"
+msgstr "Password reset!"
+
+#: app/echo/templates/core/password_reset_complete.html:21
+msgid "Mot de passe réinitialisé !"
+msgstr "Password reset!"
+
+#: app/echo/templates/core/password_reset_complete.html:22
+msgid "Votre mot de passe a été mis à jour avec succès."
+msgstr "Your password has been updated successfully."
+
+#: app/echo/templates/core/password_reset_complete.html:23
+msgid "Se connecter"
+msgstr "Sign in"
+
+#: app/echo/templates/core/password_reset_confirm.html:26
+msgid "Choisissez un nouveau mot de passe pour votre compte."
+msgstr "Choose a new password for your account."
+
+#: app/echo/templates/core/password_reset_confirm.html:31
+msgid "Confirmer le mot de passe"
+msgstr "Confirm password"
+
+#: app/echo/templates/core/password_reset_confirm.html:42
+msgid "Lien invalide ou expiré"
+msgstr "Invalid or expired link"
+
+#: app/echo/templates/core/password_reset_confirm.html:43
+msgid ""
+"Ce lien de réinitialisation n'est plus valide. Veuillez en demander un "
+"nouveau."
+msgstr "This reset link is no longer valid. Please request a new one."
+
+#: app/echo/templates/core/password_reset_confirm.html:44
+msgid "Nouvelle demande"
+msgstr "Request new link"
+
+#: app/echo/templates/core/password_reset_done.html:7
+#, fuzzy
+#| msgid "Email envoyé !"
+msgid "Email envoyé"
+msgstr "Email sent!"
+
+#: app/echo/templates/core/password_reset_done.html:21
+msgid "Email envoyé !"
+msgstr "Email sent!"
+
+#: app/echo/templates/core/password_reset_done.html:22
+msgid ""
+"Si un compte existe avec cette adresse email, vous recevrez un lien de "
+"réinitialisation dans quelques minutes. Vérifiez également vos spams."
+msgstr ""
+"If an account exists with this email address, you will receive a reset link "
+"within a few minutes. Please also check your spam folder."
+
+#: app/echo/templates/core/patient_detail.html:26
+#: app/echo/templates/core/patient_form.html:7
+#: app/echo/templates/core/patient_list_v2.html:99
+#: app/echo/templates/core/programme_operatoire_form.html:37
+#: app/echo/templates/core/reglement_form.html:27
+#: app/echo/templates/core/reglement_form_2.html:20
+msgid "Patient"
+msgstr "Patient"
+
+#: app/echo/templates/core/patient_detail_v2.html:29
+msgid "Masquer"
+msgstr "Hide"
+
+#: app/echo/templates/core/patient_detail_v2.html:81
+#: app/echo/templates/core/patient_info_panel.html:551
+msgid "Grossesse en cours"
+msgstr "Ongoing pregnancy"
+
+#: app/echo/templates/core/patient_detail_v2.html:93
+#: app/echo/templates/core/patient_detail_v2.html:100
+msgid "Nouvelle consultation"
+msgstr "New consultation"
+
+#: app/echo/templates/core/patient_detail_v2.html:112
+msgid "Gynécologie"
+msgstr "Gynecology"
+
+#: app/echo/templates/core/patient_detail_v2.html:118
+msgid "Consultation gynécologique"
+msgstr "Gynecological consultation"
+
+#: app/echo/templates/core/patient_detail_v2.html:122
+msgid "Colposcopie"
+msgstr "Colposcopy"
+
+#: app/echo/templates/core/patient_detail_v2.html:130
+#: app/echo/templates/core/patient_detail_v2.html:168
+msgid "Consultation libre"
+msgstr "Free consultation"
+
+#: app/echo/templates/core/patient_detail_v2.html:141
+msgid "Obstétrique"
+msgstr "Obstetrics"
+
+#: app/echo/templates/core/patient_detail_v2.html:148
+msgid "Echo"
+msgstr "Echo"
+
+#: app/echo/templates/core/patient_detail_v2.html:160
+msgid "3ème trimestre"
+msgstr "3rd trimester"
+
+#: app/echo/templates/core/patient_detail_v2.html:164
+msgid "Echo de croissance"
+msgstr "Growth scan"
+
+#: app/echo/templates/core/patient_detail_v2.html:173
+msgid "Pas de grossesse en cours"
+msgstr "No ongoing pregnancy"
+
+#: app/echo/templates/core/patient_detail_v2.html:217
+msgid "Examen libre"
+msgstr "Free examination"
+
+#: app/echo/templates/core/patient_detail_v2.html:223
+msgid "Nouvel examen libre"
+msgstr "New free examination"
+
+#: app/echo/templates/core/patient_detail_v2.html:234
+msgid "Compte-rendu opératoire"
+msgstr "Operatory report"
+
+#: app/echo/templates/core/patient_detail_v2.html:240
+msgid "Nouveau compte-rendu"
+msgstr "New report"
+
+#: app/echo/templates/core/patient_detail_v2.html:555
+msgid "Accueil"
+msgstr "Home"
+
+#: app/echo/templates/core/patient_detail_v2.html:576
+msgid "Documents"
+msgstr "Documents"
+
+#: app/echo/templates/core/patient_detail_v2.html:597
+msgid "Alertes"
+msgstr "Alerts"
+
+#: app/echo/templates/core/patient_detail_v2.html:622
+msgid "Ajouter une alerte"
+msgstr "Add an alert"
+
+#: app/echo/templates/core/patient_detail_v2.html:727
+#: app/echo/templates/core/patient_info_panel.html:344
+msgid "Manqué"
+msgstr ""
+
+#: app/echo/templates/core/patient_detail_v2.html:739
+#: app/echo/templates/core/patient_info_panel.html:355
+msgid "Pas de rendez-vous prévus"
+msgstr "No upcoming appointments"
+
+#: app/echo/templates/core/patient_detail_v2.html:762
+msgid "Familiaux"
+msgstr "Family"
+
+#: app/echo/templates/core/patient_detail_v2.html:781
+#: app/echo/templates/core/patient_detail_v2.html:864
+#: app/echo/templates/core/patient_detail_v2.html:945
+#: app/echo/templates/core/patient_detail_v2.html:1026
+#: app/echo/templates/core/patient_detail_v2.html:1101
+#: app/echo/templates/core/patient_detail_v2.html:1177
+#: app/echo/templates/core/patient_detail_v2.html:1251
+#: app/echo/templates/core/patient_detail_v2.html:1355
+#: app/echo/templates/core/programme_operatoire_form.html:19
+#: app/echo/templates/core/reglement_form.html:10
+#: app/echo/templates/core/reglement_form_2.html:10
+msgid "Ajouter"
+msgstr "Add"
+
+#: app/echo/templates/core/patient_detail_v2.html:845
+msgid "Médico-chirurgicaux"
+msgstr "Medical-surgical"
+
+#: app/echo/templates/core/patient_detail_v2.html:926
+msgid "Gynécologiques"
+msgstr "Gynecological"
+
+#: app/echo/templates/core/patient_detail_v2.html:1007
+msgid "Allergies"
+msgstr "Allergies"
+
+#: app/echo/templates/core/patient_detail_v2.html:1091
+msgid "FCV"
+msgstr "FCV"
+
+#: app/echo/templates/core/patient_detail_v2.html:1155
+#: app/echo/templates/core/patient_detail_v2.html:1230
+#: app/echo/templates/core/patient_detail_v2.html:1304
+#: app/echo/templates/core/patient_list.html:184
+#: app/echo/templates/core/patient_list_v2.html:188
+msgid "Pas d'historique"
+msgstr "No history"
+
+#: app/echo/templates/core/patient_detail_v2.html:1167
+msgid "Mammographie"
+msgstr "Mammography"
+
+#: app/echo/templates/core/patient_detail_v2.html:1241
+msgid "Echo Mammaire"
+msgstr "Mammary Ultrasound"
+
+#: app/echo/templates/core/patient_detail_v2.html:1336
+msgid "Obstétricaux"
+msgstr "Obstetrical"
+
+#: app/echo/templates/core/patient_detail_v2.html:1406
+#: app/echo/templates/core/patient_detail_v2.html:1412
+msgid "Issue de grossesse à compléter"
+msgstr "Pregnancy outcome to complete"
+
+#: app/echo/templates/core/patient_detail_v2.html:1422
+msgid "foetus"
+msgstr "fetus"
+
+#: app/echo/templates/core/patient_detail_v2.html:1557
+msgid "Modifier consultation"
+msgstr "Edit consultation"
+
+#: app/echo/templates/core/patient_detail_v2.html:1585
+msgid "La DDR n'est pas renseignée pour la grossesse en cours"
+msgstr ""
+
+#: app/echo/templates/core/patient_fichiers.html:14
+#: app/echo/templates/core/patient_fichiers_telecharger.html:9
+#: app/echo/templates/core/patient_fichiers_v2.html:14
+msgid "Dossier"
+msgstr "File"
+
+#: app/echo/templates/core/patient_fichiers.html:22
+msgid "Administratif"
+msgstr "Administrative"
+
+#: app/echo/templates/core/patient_fichiers.html:31
+msgid "Laboratoire"
+msgstr "Laboratory"
+
+#: app/echo/templates/core/patient_fichiers.html:40
+msgid "Radiologie"
+msgstr "Radiology"
+
+#: app/echo/templates/core/patient_fichiers.html:51
+#: app/echo/templates/core/patient_fichiers_telecharger.html:22
+#: app/echo/templates/core/patient_fichiers_v2.html:36
+msgid "Déposer un fichier ou cliquer pour télécharger"
+msgstr "Drop a file or click to upload"
+
+#: app/echo/templates/core/patient_fichiers.html:52
+#: app/echo/templates/core/patient_fichiers_telecharger.html:23
+#: app/echo/templates/core/patient_fichiers_v2.html:37
+msgid "Le fichier sera  ajouté au dossier sélectionné"
+msgstr "The file will be added to the selected folder"
+
+#: app/echo/templates/core/patient_fichiers_v2.html:114
+msgid "Pas de fichiers"
+msgstr "No files"
+
+#: app/echo/templates/core/patient_form.html:24
+#: app/echo/templates/core/rdv_form.html:44
+msgid "Formulaire de"
+msgstr "Form"
+
+#: app/echo/templates/core/patient_form.html:26
+#: app/echo/templates/core/rdv_form.html:44
+msgid "modification"
+msgstr "modification"
+
+#: app/echo/templates/core/patient_form.html:28
+#: app/echo/templates/core/rdv_form.html:44
+msgid "création"
+msgstr "creation"
+
+#: app/echo/templates/core/patient_form.html:74
+msgid "Civilité"
+msgstr "Title"
+
+#: app/echo/templates/core/patient_form.html:92
+#: app/echo/templates/core/rdv_form.html:152
+#: app/echo/templates/core/rdv_form_dialog.html:100
+msgid "Code postal"
+msgstr "Postal code"
+
+#: app/echo/templates/core/patient_form.html:95
+msgid "Pays"
+msgstr "Country"
+
+#: app/echo/templates/core/patient_form.html:107
+msgid "Poids (kg)"
+msgstr "Weight (kg)"
+
+#: app/echo/templates/core/patient_form.html:113
+#: app/echo/templates/core/patient_info_panel.html:151
+#: app/echo/templates/core/patient_info_panel.html:640
+msgid "Profession"
+msgstr "Profession"
+
+#: app/echo/templates/core/patient_form_dialog.html:41
+msgid "Edit Patient"
+msgstr "Edit Patient"
+
+#: app/echo/templates/core/patient_form_dialog.html:43
+msgid "New Patient"
+msgstr "New Patient"
+
+#: app/echo/templates/core/patient_form_dialog.html:52
+#: app/echo/templates/core/patient_form_dialog.html:271
+#: app/echo/templates/core/traitement_pma_form.html:48
+msgid "Save"
+msgstr "Save"
+
+#: app/echo/templates/core/patient_form_dialog.html:60
+msgid "Identity"
+msgstr "Identity"
+
+#: app/echo/templates/core/patient_form_dialog.html:63
+msgid "Title"
+msgstr "Title"
+
+#: app/echo/templates/core/patient_form_dialog.html:68
+msgid "Sex"
+msgstr "Sex"
+
+#: app/echo/templates/core/patient_form_dialog.html:73
+#: app/echo/templates/core/patient_form_dialog.html:203
+msgid "First Name"
+msgstr "First Name"
+
+#: app/echo/templates/core/patient_form_dialog.html:78
+#: app/echo/templates/core/patient_form_dialog.html:199
+msgid "Last Name"
+msgstr "Last Name"
+
+#: app/echo/templates/core/patient_form_dialog.html:83
+msgid "Birth Name"
+msgstr "Birth Name"
+
+#: app/echo/templates/core/patient_form_dialog.html:88
+msgid "Date of Birth"
+msgstr "Date of Birth"
+
+#: app/echo/templates/core/patient_form_dialog.html:93
+msgid "Origin"
+msgstr "Origin"
+
+#: app/echo/templates/core/patient_form_dialog.html:97
+msgid "ID Number"
+msgstr "ID Number"
+
+#: app/echo/templates/core/patient_form_dialog.html:101
+msgid "Social Security Code"
+msgstr "Social Security Code"
+
+#: app/echo/templates/core/patient_form_dialog.html:105
+msgid "Old Number"
+msgstr "Old Number"
+
+#: app/echo/templates/core/patient_form_dialog.html:109
+#: app/echo/templates/core/patient_form_dialog.html:211
+msgid "Occupation"
+msgstr "Occupation"
+
+#: app/echo/templates/core/patient_form_dialog.html:113
+msgid "Primary Practitioner"
+msgstr "Primary Practitioner"
+
+#: app/echo/templates/core/patient_form_dialog.html:124
+#, fuzzy
+#| msgid "Montant"
+msgid "Contact"
+msgstr "Amount"
+
+#: app/echo/templates/core/patient_form_dialog.html:131
+msgid "Secondary Phone"
+msgstr "Secondary Phone"
+
+#: app/echo/templates/core/patient_form_dialog.html:135
+msgid "Other Phone"
+msgstr "Other Phone"
+
+#: app/echo/templates/core/patient_form_dialog.html:146
+msgid "Address"
+msgstr "Address"
+
+#: app/echo/templates/core/patient_form_dialog.html:149
+msgid "City"
+msgstr "City"
+
+#: app/echo/templates/core/patient_form_dialog.html:153
+msgid "Postal Code"
+msgstr "Postal Code"
+
+#: app/echo/templates/core/patient_form_dialog.html:157
+msgid "Governorate"
+msgstr "Governorate"
+
+#: app/echo/templates/core/patient_form_dialog.html:161
+msgid "Country"
+msgstr "Country"
+
+#: app/echo/templates/core/patient_form_dialog.html:167
+msgid "Health"
+msgstr "Health"
+
+#: app/echo/templates/core/patient_form_dialog.html:170
+msgid "Height (cm)"
+msgstr "Height (cm)"
+
+#: app/echo/templates/core/patient_form_dialog.html:174
+msgid "Weight (kg)"
+msgstr "Weight (kg)"
+
+#: app/echo/templates/core/patient_form_dialog.html:178
+msgid "Blood Type"
+msgstr "Blood Type"
+
+#: app/echo/templates/core/patient_form_dialog.html:182
+msgid "Smoker"
+msgstr "Smoker"
+
+#: app/echo/templates/core/patient_form_dialog.html:186
+msgid "Cigarettes / day"
+msgstr "Cigarettes / day"
+
+#: app/echo/templates/core/patient_form_dialog.html:192
+msgid "Spouse Information"
+msgstr "Spouse Information"
+
+#: app/echo/templates/core/patient_form_dialog.html:195
+msgid "Marriage Date"
+msgstr "Marriage Date"
+
+#: app/echo/templates/core/patient_form_dialog.html:207
+msgid "Spouse DOB"
+msgstr ""
+
+#: app/echo/templates/core/patient_form_dialog.html:215
+msgid "Health Status"
+msgstr "Health Status"
+
+#: app/echo/templates/core/patient_form_dialog.html:221
+msgid "Insurance"
+msgstr "Insurance"
+
+#: app/echo/templates/core/patient_form_dialog.html:226
+msgid "Has Insurance (Mutuelle)"
+msgstr "Has Insurance (Mutuelle)"
+
+#: app/echo/templates/core/patient_form_dialog.html:230
+msgid "Insurance Name"
+msgstr "Insurance Name"
+
+#: app/echo/templates/core/patient_form_dialog.html:234
+msgid "Fund"
+msgstr "Fund"
+
+#: app/echo/templates/core/patient_form_dialog.html:238
+msgid "Scheme"
+msgstr "Scheme"
+
+#: app/echo/templates/core/patient_form_dialog.html:242
+msgid "Relationship"
+msgstr "Relationship"
+
+#: app/echo/templates/core/patient_form_dialog.html:246
+msgid "Insurance Expiry"
+msgstr "Insurance Expiry"
+
+#: app/echo/templates/core/patient_form_dialog.html:250
+msgid "Care Booklet No."
+msgstr "Care Booklet No."
+
+#: app/echo/templates/core/patient_form_dialog.html:254
+msgid "Family Doctor Code"
+msgstr "Family Doctor Code"
+
+#: app/echo/templates/core/patient_form_dialog.html:258
+msgid "APCI Code"
+msgstr "APCI Code"
+
+#: app/echo/templates/core/patient_info_panel.html:60
+msgid "Grossesse en cours :"
+msgstr "Ongoing pregnancy:"
+
+#: app/echo/templates/core/patient_info_panel.html:132
+#: app/echo/templates/core/rapport_consultation.html:131
+msgid "naissance"
+msgstr "birth"
+
+#: app/echo/templates/core/patient_info_panel.html:145
+#: app/echo/templates/core/patient_info_panel.html:633
+msgid "Téléphone 2"
+msgstr "Phone 2"
+
+#: app/echo/templates/core/patient_info_panel.html:232
+#: app/echo/templates/core/patient_info_panel.html:713
+#, fuzzy
+#| msgid "Nom et prénom patient"
+msgid "Mots clé patient"
+msgstr "Patient name"
+
+#: app/echo/templates/core/patient_info_panel.html:247
+#: app/echo/templates/core/shared.html:351
+msgid "Historique des consultations"
+msgstr "Consultations history"
+
+#: app/echo/templates/core/patient_info_panel.html:263
+msgid "Praticiens corresp."
+msgstr "Referring practitioners"
+
+#: app/echo/templates/core/patient_info_panel.html:272
+msgid "Chercher un praticien"
+msgstr "Search practitioner"
+
+#: app/echo/templates/core/patient_info_panel.html:307
+#: app/echo/templates/core/patient_info_panel.html:752
+msgid "Supprimer le praticien"
+msgstr "Delete practitioner"
+
+#: app/echo/templates/core/patient_info_panel.html:314
+msgid "Pas de praticiens correspondants"
+msgstr "No corresponding practitioners"
+
+#: app/echo/templates/core/patient_info_panel.html:379
+msgid "Chercher un établissement"
+msgstr "Search facility"
+
+#: app/echo/templates/core/patient_info_panel.html:424
+msgid "Aucun lieu défini"
+msgstr "No defined place"
+
+#: app/echo/templates/core/patient_info_panel.html:623
+msgid "Date naissance"
+msgstr "Date of birth"
+
+#: app/echo/templates/core/patient_list.html:20
+#: app/echo/templates/core/patient_list_v2.html:27
+msgid "Recherche patient"
+msgstr "Patient search"
+
+#: app/echo/templates/core/patient_list.html:22
+#: app/echo/templates/core/patient_list_v2.html:29
+msgid "Liste des patients"
+msgstr "Patient list"
+
+#: app/echo/templates/core/patient_list.html:28
+#: app/echo/templates/core/patient_list_v2.html:35
+#: app/echo/templates/core/rdv_form.html:185
+#: app/echo/templates/core/rdv_form_dialog.html:133
+msgid "Nouveau patient"
+msgstr "New patient"
+
+#: app/echo/templates/core/patient_list.html:62
+msgid "CIN:"
+msgstr "CIN:"
+
+#: app/echo/templates/core/patient_list.html:72
+#: app/echo/templates/core/patient_list_v2.html:79
+#: app/echo/templates/core/rdv_calendrier.html:257
+msgid "Chercher"
+msgstr "Search"
+
+#: app/echo/templates/core/patient_list.html:89
+#: app/echo/templates/core/patient_list_v2.html:98
+#: app/echo/templates/core/rapport_consultation.html:17
+msgid "IPP"
+msgstr "IPP"
+
+#: app/echo/templates/core/patient_list.html:97
+#: app/echo/templates/core/patient_list_v2.html:106
+msgid "Ancien numéro"
+msgstr "Old number"
+
+#: app/echo/templates/core/patient_list.html:119
+#: app/echo/templates/core/patient_list_v2.html:127
+msgid "Sélectionner"
+msgstr "Select"
+
+#: app/echo/templates/core/patient_list.html:148
+#: app/echo/templates/core/patient_list_v2.html:154
+msgid "Historique des règlements"
+msgstr "Payments history"
+
+#: app/echo/templates/core/patient_list.html:153
+#: app/echo/templates/core/patient_list.html:162
+#: app/echo/templates/core/patient_list_v2.html:166
+msgid "Archiver patient"
+msgstr "Archive patient"
+
+#: app/echo/templates/core/patient_list.html:160
+#, fuzzy
+#| msgid "Autres informations"
+msgid "Autres actions"
+msgstr "Other information"
+
+#: app/echo/templates/core/patient_list.html:165
+#: app/echo/templates/core/patient_list_v2.html:169
+msgid "Archiver"
+msgstr "Archive"
+
+#: app/echo/templates/core/patient_list.html:190
+#: app/echo/templates/core/patient_list_v2.html:194
+msgid "Le patient n'existe pas"
+msgstr "Patient does not exist"
+
+#: app/echo/templates/core/patient_list.html:195
+#: app/echo/templates/core/patient_list.html:201
+#: app/echo/templates/core/patient_list_v2.html:199
+#: app/echo/templates/core/patient_list_v2.html:205
+msgid "Créer un patient"
+msgstr "Create patient"
+
+#: app/echo/templates/core/patient_list_v2.html:69
+msgid "CIN"
+msgstr "CIN"
+
+#: app/echo/templates/core/praticien_form.html:10
+msgid "praticien"
+msgstr "practitioner"
+
+#: app/echo/templates/core/praticien_form.html:51
+msgid "Spécialité"
+msgstr "Specialty"
+
+#: app/echo/templates/core/prescription_analyse_form.html:26
+msgid "une prescription"
+msgstr "a prescription"
+
+#: app/echo/templates/core/prescription_analyse_form.html:105
+msgid "Pas d'analyses disponibles"
+msgstr "No analyses available"
+
+#: app/echo/templates/core/prescription_analyse_form.html:136
+msgid "Aucun pack disponible"
+msgstr "No pack available"
+
+#: app/echo/templates/core/prescription_analyse_form.html:150
+#, fuzzy
+#| msgid "&nbsp;"
+msgid "&nbsp"
+msgstr "&nbsp;"
+
+#: app/echo/templates/core/prescription_analyse_form.html:196
+#, fuzzy
+#| msgid "Prescriptions"
+msgid "prescription"
+msgstr "Prescriptions"
+
+#: app/echo/templates/core/prescription_analyse_form.html:201
+#, fuzzy
+#| msgid "Résultats"
+msgid "résultats"
+msgstr "Results"
+
+#: app/echo/templates/core/prescription_analyse_form.html:209
+msgid "Afficher la date à l'impression"
+msgstr "Show date on print"
+
+#: app/echo/templates/core/prescription_analyse_form.html:220
+msgid "Résultats"
+msgstr "Results"
+
+#: app/echo/templates/core/prescription_analyse_form.html:262
+#, fuzzy
+#| msgid "Ajouter une analyse"
+msgid "Veuillez ajouter des analyses"
+msgstr "Add an analysis"
+
+#: app/echo/templates/core/prescription_list.html:10
+msgid "Recherche prescription"
+msgstr "Search prescription"
+
+#: app/echo/templates/core/prescription_list.html:15
+msgid "Ajouter une prescription"
+msgstr "Add prescription"
+
+#: app/echo/templates/core/prescription_list.html:22
+#: app/echo/templates/core/template_edition_form.html:25
+#: app/echo/templates/core/template_edition_list.html:22
+msgid "Catégorie"
+msgstr "Category"
+
+#: app/echo/templates/core/prestation_form.html:34
+msgid "Prix total TTC"
+msgstr "Total price incl. tax"
+
+#: app/echo/templates/core/prestation_form.html:42
+msgid "Ticket modérateur"
+msgstr "Co-payment"
+
+#: app/echo/templates/core/prestation_list.html:11
+msgid "Ajouter une prestation"
+msgstr "Add service"
+
+#: app/echo/templates/core/prestation_list.html:15
+msgid "Recherche prestation"
+msgstr "Search service"
+
+#: app/echo/templates/core/prestation_list.html:21
+msgid "Prestation"
+msgstr "Service"
+
+#: app/echo/templates/core/profil_form.html:34
+msgid "un utilisateur"
+msgstr "a user"
+
+#: app/echo/templates/core/profil_form.html:128
+#, fuzzy
+#| msgid "Médecin principal"
+msgid "principal"
+msgstr "Main doctor"
+
+#: app/echo/templates/core/profil_form.html:140
+#, fuzzy
+#| msgid "Honoraires"
+msgid "secondaire"
+msgstr "Fees"
+
+#: app/echo/templates/core/profil_form.html:249
+msgid "Echographe par défaut"
+msgstr "Default ultrasound machine"
+
+#: app/echo/templates/core/profil_form.html:275
+msgid "Nom d'utilisateur"
+msgstr "Username"
+
+#: app/echo/templates/core/profil_form.html:287
+msgid "Mot de passe"
+msgstr "Password"
+
+#: app/echo/templates/core/profil_form.html:295
+msgid "Modifier le mot de passe"
+msgstr "Change password"
+
+#: app/echo/templates/core/profil_list.html:21
+msgid "Ajouter un utilisateur"
+msgstr "Add user"
+
+#: app/echo/templates/core/profil_list.html:62
+msgid "Désactivé"
+msgstr "Disabled"
+
+#: app/echo/templates/core/programme_operatoire.html:9
+msgid "Date à partir de"
+msgstr "Date from"
+
+#: app/echo/templates/core/programme_operatoire.html:20
+msgid "Ajouter un programme opératoire"
+msgstr "Add surgical program"
+
+#: app/echo/templates/core/programme_operatoire.html:28
+msgid "Nom patient"
+msgstr "Patient last name"
+
+#: app/echo/templates/core/programme_operatoire.html:29
+msgid "Prénom patient"
+msgstr "Patient first name"
+
+#: app/echo/templates/core/programme_operatoire.html:30
+msgid "Nom de naissance patient"
+msgstr "Patient birth name"
+
+#: app/echo/templates/core/programme_operatoire.html:31
+#: app/echo/templates/core/programme_operatoire_form.html:74
+msgid "Type d'acte"
+msgstr "Act type"
+
+#: app/echo/templates/core/programme_operatoire.html:35
+msgid "Etablissement"
+msgstr "Establishment"
+
+#: app/echo/templates/core/programme_operatoire.html:36
+#: app/echo/templates/core/rdv_calendrier.html:328
+msgid "Observation"
+msgstr "Observation"
+
+#: app/echo/templates/core/programme_operatoire_form.html:19
+msgid "un programme opératoire"
+msgstr "a surgical program"
+
+#: app/echo/templates/core/programme_operatoire_form.html:28
+#, fuzzy
+#| msgid "Ajouter un programme opératoire"
+msgid "Confirmer le programme operatoire"
+msgstr "Add surgical program"
+
+#: app/echo/templates/core/rapport_accouchement.html:21
+#: app/echo/templates/core/rdv_calendrier.html:167
+#: app/echo/templates/core/reglement_rapport.html:28
+msgid "Tous"
+msgstr "All"
+
+#: app/echo/templates/core/rapport_accouchement.html:27
+msgid "Mes en cours"
+msgstr "My ongoing"
+
+#: app/echo/templates/core/rapport_accouchement.html:34
+msgid "Mes prochain"
+msgstr "My next"
+
+#: app/echo/templates/core/rapport_accouchement.html:68
+#: app/echo/templates/core/rapport_consultation.html:126
+msgid "Identifiant patient"
+msgstr "Patient identifier"
+
+#: app/echo/templates/core/rapport_accouchement.html:76
+msgid "Date prévue d'accouchement"
+msgstr "Expected delivery date"
+
+#: app/echo/templates/core/rapport_accouchement.html:87
+msgid "Historique consultations patient"
+msgstr "Patient consultation history"
+
+#: app/echo/templates/core/rapport_consultation.html:37
+#: app/echo/templates/core/rapport_consultation.html:127
+#: app/echo/templates/core/rdv_form.html:162
+#: app/echo/templates/core/rdv_form_dialog.html:110
+msgid "Gouvernorat"
+msgstr "Governorate"
+
+#: app/echo/templates/core/rapport_consultation.html:44
+#: app/echo/templates/core/rapport_consultation.html:136
+#: app/echo/templates/core/reglement_rapport.html:67
+#: app/echo/templates/core/reglement_rapport_list.html:116
+msgid "Mot clé"
+msgstr "Keyword"
+
+#: app/echo/templates/core/rapport_consultation.html:50
+msgid "Praticien Correspondant"
+msgstr "Referring Physician"
+
+#: app/echo/templates/core/rapport_consultation.html:128
+msgid "Praticien patient"
+msgstr "Patient's Physician"
+
+#: app/echo/templates/core/rapport_consultation.html:148
+msgid "Consulter le compte-rendu"
+msgstr "View report"
+
+#: app/echo/templates/core/rdv_calendrier.html:57
+msgid "Liste"
+msgstr "List"
+
+#: app/echo/templates/core/rdv_calendrier.html:64
+#: app/echo/templates/core/rdv_calendrier.html:306
+#: app/echo/templates/core/rdv_form_dialog.html:21
+msgid "Nouveau rendez-vous"
+msgstr "New appointment"
+
+#: app/echo/templates/core/rdv_calendrier.html:67
+msgid "Nouvelle absence"
+msgstr "New absence"
+
+#: app/echo/templates/core/rdv_calendrier.html:123
+msgid "Légende"
+msgstr "Legend"
+
+#: app/echo/templates/core/rdv_calendrier.html:125
+msgid "RDV Confirmé"
+msgstr "Confirmed appointment"
+
+#: app/echo/templates/core/rdv_calendrier.html:128
+msgid "Patient en salle d'attente"
+msgstr "Patient in waiting room"
+
+#: app/echo/templates/core/rdv_calendrier.html:131
+#: app/echo/templates/core/rdv_form.html:267
+#: app/echo/templates/core/rdv_form_dialog.html:220
+msgid "Consultation terminée"
+msgstr "Consultation completed"
+
+#: app/echo/templates/core/rdv_calendrier.html:134
+msgid "RDV Annulé"
+msgstr "Cancelled appointment"
+
+#: app/echo/templates/core/rdv_calendrier.html:183
+msgid "Demain"
+msgstr "Tomorrow"
+
+#: app/echo/templates/core/rdv_calendrier.html:191
+msgid "Après-demain"
+msgstr "Day after tomorrow"
+
+#: app/echo/templates/core/rdv_calendrier.html:199
+msgid "Cette semaine"
+msgstr "This week"
+
+#: app/echo/templates/core/rdv_calendrier.html:207
+msgid "Semaine prochaine"
+msgstr "Next week"
+
+#: app/echo/templates/core/rdv_calendrier.html:245
+msgid "Date rendez-vous"
+msgstr "Appointment date"
+
+#: app/echo/templates/core/rdv_calendrier.html:312
+msgid "Le"
+msgstr "On"
+
+#: app/echo/templates/core/rdv_calendrier.html:312
+msgid "de"
+msgstr "from"
+
+#: app/echo/templates/core/rdv_calendrier.html:312
+msgid "à"
+msgstr "to"
+
+#: app/echo/templates/core/rdv_calendrier.html:326
+msgid "Tel"
+msgstr ""
+
+#: app/echo/templates/core/rdv_dispo_form_dialog.html:21
+msgid "A partir du"
+msgstr "Starting from"
+
+#: app/echo/templates/core/rdv_form.html:19
+msgid "Ajouter un rendez-vous"
+msgstr "Add appointment"
+
+#: app/echo/templates/core/rdv_form.html:67
+#: app/echo/templates/core/rdv_form_dialog.html:36
+msgid "Confirmer le rendez-vous"
+msgstr "Confirm appointment"
+
+#: app/echo/templates/core/rdv_form.html:81
+#, fuzzy
+#| msgid "Recherche patient"
+msgid "Rechercher un patient"
+msgstr "Patient search"
+
+#: app/echo/templates/core/rdv_form.html:83
+msgid "Tapez le nom, prénom ou téléphone..."
+msgstr ""
+
+#: app/echo/templates/core/rdv_form.html:264
+#: app/echo/templates/core/rdv_form_dialog.html:217
+msgid "Non confirmé"
+msgstr "Not confirmed"
+
+#: app/echo/templates/core/rdv_form.html:265
+#: app/echo/templates/core/rdv_form_dialog.html:218
+msgid "Confirmé"
+msgstr "Confirmed"
+
+#: app/echo/templates/core/rdv_form.html:266
+#: app/echo/templates/core/rdv_form_dialog.html:219
+msgid "En salle d'attente"
+msgstr "Waiting room"
+
+#: app/echo/templates/core/rdv_form.html:268
+#: app/echo/templates/core/rdv_form_dialog.html:221
+msgid "Annulé"
+msgstr "Cancelled"
+
+#: app/echo/templates/core/rdv_form_dialog.html:172
+msgid "La date est dans le passé"
+msgstr "The date is in the past"
+
+#: app/echo/templates/core/rdv_form_dialog.html:225
+msgid "Prénom est obligatoire"
+msgstr "First name is required"
+
+#: app/echo/templates/core/rdv_form_dialog.html:226
+msgid "Nom naissance est obligatoire"
+msgstr "Birth name is required"
+
+#: app/echo/templates/core/rdv_form_dialog.html:227
+msgid "Téléphone est obligatoire"
+msgstr "Phone number is required"
+
+#: app/echo/templates/core/rdv_form_dialog.html:228
+msgid "Téléphone doit contenir des chiffres uniquement"
+msgstr "Phone number must contain digits only"
+
+#: app/echo/templates/core/reglement_caisses.html:10
+msgid "Historique des clôtures"
+msgstr "Closure history"
+
+#: app/echo/templates/core/reglement_caisses.html:39
+msgid "Clôturer la caisse"
+msgstr "Close cash register"
+
+#: app/echo/templates/core/reglement_form.html:11
+#: app/echo/templates/core/reglement_form_2.html:11
+msgid "un Règlement"
+msgstr "a payment"
+
+#: app/echo/templates/core/reglement_form.html:49
+msgid "Désignation Mutuelle"
+msgstr "Insurance designation"
+
+#: app/echo/templates/core/reglement_form.html:57
+msgid "La somme répartie est différente du montant total"
+msgstr "The distributed sum differs from the total amount"
+
+#: app/echo/templates/core/reglement_form.html:62
+#: app/echo/templates/core/reglement_form_2.html:36
+msgid "Espèce"
+msgstr "Cash"
+
+#: app/echo/templates/core/reglement_form.html:67
+#: app/echo/templates/core/reglement_form_2.html:41
+msgid "Chèque"
+msgstr "Check"
+
+#: app/echo/templates/core/reglement_form.html:72
+#: app/echo/templates/core/reglement_form_2.html:46
+msgid "Numéro chèque"
+msgstr "Check number"
+
+#: app/echo/templates/core/reglement_form.html:77
+#: app/echo/templates/core/reglement_form_2.html:51
+msgid "Date chèque"
+msgstr "Check date"
+
+#: app/echo/templates/core/reglement_form.html:106
+msgid "Pas d'historique de paiements"
+msgstr "No payment history"
+
+#: app/echo/templates/core/reglement_list.html:23
+#: app/echo/templates/core/reglement_rapport_list.html:20
+msgid "Règlement"
+msgstr "Payment"
+
+#: app/echo/templates/core/reglement_list.html:33
+#: app/echo/templates/core/reglement_rapport_list.html:30
+msgid "Clôture de caisse"
+msgstr "Cash closure"
+
+#: app/echo/templates/core/reglement_list.html:54
+msgid "Liste des admissions"
+msgstr "Admissions list"
+
+#: app/echo/templates/core/reglement_list.html:60
+msgid "N° admission"
+msgstr "Admission no."
+
+#: app/echo/templates/core/reglement_list.html:64
+msgid "Statut Consultation"
+msgstr "Consultation status"
+
+#: app/echo/templates/core/reglement_list.html:74
+msgid "Ajouter règlement"
+msgstr "Add payment"
+
+#: app/echo/templates/core/reglement_list.html:79
+msgid "Note d\\"
+msgstr "Fee note"
+
+#: app/echo/templates/core/reglement_list.html:90
+#, fuzzy
+#| msgid "Honoraires"
+msgid "Note d'honoraire"
+msgstr "Fees"
+
+#: app/echo/templates/core/reglement_rapport.html:35
+#: app/echo/templates/core/reglement_rapport_list.html:82
+msgid "Contenant une prestation"
+msgstr "Containing a service"
+
+#: app/echo/templates/core/reglement_rapport.html:45
+#, fuzzy
+#| msgid "Nom patient"
+msgid "Nom du patient"
+msgstr "Patient last name"
+
+#: app/echo/templates/core/reglement_rapport.html:64
+#: app/echo/templates/core/reglement_rapport_list.html:113
+msgid "Montant Total"
+msgstr "Total amount"
+
+#: app/echo/templates/core/reglement_rapport.html:68
+msgid "mutuelle"
+msgstr "insurance"
+
+#: app/echo/templates/core/shared.html:43
+#: app/echo/templates/core/shared.html:83
+#: app/echo/templates/core/shared.html:117
+#: app/echo/templates/core/shared.html:149
+#: app/echo/templates/core/shared.html:175
+#: app/echo/templates/core/shared.html:208
+#: app/echo/templates/core/shared.html:240
+#: app/echo/templates/core/shared.html:272
+#: app/echo/templates/core/shared.html:304
+#: app/echo/templates/core/shared.html:336
+msgid "Loading"
+msgstr ""
+
+#: app/echo/templates/core/shared.html:73
+#, fuzzy
+#| msgid "Absence"
+msgid "Doctor Absence"
+msgstr "Absence"
+
+#: app/echo/templates/core/shared.html:109
+msgid "Pregnancy"
+msgstr ""
+
+#: app/echo/templates/core/shared.html:141
+#, fuzzy
+#| msgid "Patient en salle d'attente"
+msgid "Patient Measurements"
+msgstr "Patient in waiting room"
+
+#: app/echo/templates/core/shared.html:200
+msgid "Obstetric History"
+msgstr ""
+
+#: app/echo/templates/core/shared.html:232
+msgid "Pregnancy Calendar"
+msgstr ""
+
+#: app/echo/templates/core/shared.html:264
+msgid "Biological Analyses"
+msgstr ""
+
+#: app/echo/templates/core/shared.html:414
+msgid "Prise de rendez-vous"
+msgstr "Book an appointment"
+
+#: app/echo/templates/core/template_edition_list.html:10
+msgid "Recherche modèle"
+msgstr "Search template"
+
+#: app/echo/templates/core/template_edition_list.html:15
+msgid "Ajouter un modèle"
+msgstr "Add template"
+
+#: app/echo/templates/core/tentative_pma_form.html:10
+#, fuzzy
+#| msgid "Clôturer une tentative PMA"
+msgid "Tentative PMA"
+msgstr "Close PMA attempt"
+
+#: app/echo/templates/core/tentative_pma_form.html:39
+msgid "Diagnostic"
+msgstr "Diagnostic"
+
+#: app/echo/templates/core/tentative_pma_form.html:44
+msgid "Attempt Rank"
+msgstr ""
+
+#: app/echo/templates/core/tentative_pma_form.html:49
+msgid "Previous Attempt Remarks"
+msgstr ""
+
+#: app/echo/templates/core/tentative_pma_form.html:58
+#, fuzzy
+#| msgid "Recherche traitement"
+msgid "Pretreatment"
+msgstr "Search treatment"
+
+#: app/echo/templates/core/tentative_pma_form.html:63
+msgid "Protocol"
+msgstr ""
+
+#: app/echo/templates/core/tentative_pma_form.html:74
+msgid "Stimulation & Monitoring"
+msgstr ""
+
+#: app/echo/templates/core/tentative_pma_form.html:84
+msgid "Stimulation Day"
+msgstr ""
+
+#: app/echo/templates/core/tentative_pma_form.html:96
+msgid "Oestradiol"
+msgstr ""
+
+#: app/echo/templates/core/tentative_pma_form.html:100
+msgid "LH"
+msgstr ""
+
+#: app/echo/templates/core/tentative_pma_form.html:104
+msgid "Progesterone"
+msgstr ""
+
+#: app/echo/templates/core/tentative_pma_form.html:108
+msgid "Right Ovary"
+msgstr ""
+
+#: app/echo/templates/core/tentative_pma_form.html:112
+msgid "Left Ovary"
+msgstr ""
+
+#: app/echo/templates/core/tentative_pma_form.html:116
+#, fuzzy
+#| msgid "Endomètre"
+msgid "Endometrium"
+msgstr "Endometrium"
+
+#: app/echo/templates/core/tentative_pma_form.html:134
+#, python-format
+msgid "Day %(forloop.counter)s"
+msgstr ""
+
+#: app/echo/templates/core/tentative_pma_form.html:181
+msgid "Successful Attempt?"
+msgstr ""
+
+#: app/echo/templates/core/tentative_pma_form.html:212
+msgid "Print Preview"
+msgstr ""
+
+#: app/echo/templates/core/tentative_pma_form.html:232
+msgid "Print"
+msgstr ""
+
+#: app/echo/templates/core/traitement_form.html:37
+msgid "Posologie"
+msgstr "Dosage"
+
+#: app/echo/templates/core/traitement_list.html:10
+#: app/echo/templates/core/traitement_pma_list.html:10
+msgid "Recherche traitement"
+msgstr "Search treatment"
+
+#: app/echo/templates/core/traitement_list.html:15
+#: app/echo/templates/core/traitement_pma_list.html:15
+msgid "Ajouter un traitement"
+msgstr "Add treatment"
+
+#: app/echo/templates/core/traitement_list.html:22
+msgid "Forme"
+msgstr "Form"
+
+#: app/echo/templates/super_admin/dashboard.html:157
+msgid "Logout"
+msgstr "Logout"
+
+#: app/echo/templates/super_admin/dashboard.html:164
+msgid "Doctor Accounts"
+msgstr "Doctor Accounts"
+
+#: app/echo/templates/super_admin/dashboard.html:165
+msgid "Manage isolated doctor accounts and DICOM settings"
+msgstr "Manage isolated doctor accounts and DICOM settings"
+
+#: app/echo/templates/super_admin/dashboard.html:167
+msgid "Add Doctor"
+msgstr "Add Doctor"
+
+#: app/echo/templates/super_admin/dashboard.html:175
+msgid "Total Accounts"
+msgstr "Total Accounts"
+
+#: app/echo/templates/super_admin/dashboard.html:179
+msgid "Active Accounts"
+msgstr "Active Accounts"
+
+#: app/echo/templates/super_admin/dashboard.html:183
+msgid "Pending Requests"
+msgstr ""
+
+#: app/echo/templates/super_admin/dashboard.html:190
+msgid "DICOM Server Configuration"
+msgstr ""
+
+#: app/echo/templates/super_admin/dashboard.html:194
+msgid "Server IP"
+msgstr ""
+
+#: app/echo/templates/super_admin/dashboard.html:198
+msgid "Storage Port"
+msgstr "Storage Port"
+
+#: app/echo/templates/super_admin/dashboard.html:202
+msgid "MWL Port"
+msgstr "MWL Port"
+
+#: app/echo/templates/super_admin/dashboard.html:213
+msgid "Pending Signup Requests"
+msgstr ""
+
+#: app/echo/templates/super_admin/dashboard.html:214
+msgid "pending"
+msgstr ""
+
+#: app/echo/templates/super_admin/dashboard.html:219
+msgid "Name"
+msgstr ""
+
+#: app/echo/templates/super_admin/dashboard.html:222
+msgid "Submitted"
+msgstr ""
+
+#: app/echo/templates/super_admin/dashboard.html:236
+msgid "Approve"
+msgstr ""
+
+#: app/echo/templates/super_admin/dashboard.html:240
+msgid "Reject"
+msgstr ""
+
+#: app/echo/templates/super_admin/dashboard.html:252
+msgid "All Doctor Accounts"
+msgstr "All Doctor Accounts"
+
+#: app/echo/templates/super_admin/dashboard.html:259
+msgid "Name / Clinic"
+msgstr "Name / Clinic"
+
+#: app/echo/templates/super_admin/dashboard.html:262
+msgid "Login"
+msgstr "Login"
+
+#: app/echo/templates/super_admin/dashboard.html:292
+#: app/echo/templates/super_admin/dashboard.html:429
+msgid "Inactive"
+msgstr "Inactive"
+
+#: app/echo/templates/super_admin/dashboard.html:299
+#: app/echo/templates/super_admin/dashboard.html:358
+#: app/echo/templates/super_admin/dashboard.html:432
+msgid "Equipment"
+msgstr ""
+
+#: app/echo/templates/super_admin/dashboard.html:300
+#: app/echo/templates/super_admin/dashboard.html:433
+msgid "Delete"
+msgstr "Delete"
+
+#: app/echo/templates/super_admin/dashboard.html:310
+msgid "No doctor accounts yet. Click 'Add Doctor' to create one."
+msgstr "No doctor accounts yet. Click 'Add Doctor' to create one."
+
+#: app/echo/templates/super_admin/dashboard.html:319
+msgid "Add Doctor Account"
+msgstr "Add Doctor Account"
+
+#: app/echo/templates/super_admin/dashboard.html:321
+msgid "Full Name / Clinic Name"
+msgstr "Full Name / Clinic Name"
+
+#: app/echo/templates/super_admin/dashboard.html:331
+msgid "Leave blank to auto-generate"
+msgstr "Leave blank to auto-generate"
+
+#: app/echo/templates/super_admin/dashboard.html:332
+msgid "Show"
+msgstr "Show"
+
+#: app/echo/templates/super_admin/dashboard.html:337
+#: app/echo/templates/super_admin/dashboard.html:431
+msgid "Create Account"
+msgstr "Create Account"
+
+#: app/echo/templates/super_admin/dashboard.html:345
+msgid "Approve Request"
+msgstr ""
+
+#: app/echo/templates/super_admin/dashboard.html:347
+msgid ""
+"The doctor chose their own password during signup. Approving will create "
+"their account immediately and send them a notification email."
+msgstr ""
+
+#: app/echo/templates/super_admin/dashboard.html:350
+#, fuzzy
+#| msgid "Create Account"
+msgid "Approve & Create Account"
+msgstr "Create Account"
+
+#: app/echo/templates/super_admin/dashboard.html:360
+msgid "Configured Devices"
+msgstr ""
+
+#: app/echo/templates/super_admin/dashboard.html:362
+#: app/echo/templates/super_admin/dashboard.html:634
+msgid "No devices configured."
+msgstr ""
+
+#: app/echo/templates/super_admin/dashboard.html:365
+msgid "Add New Device"
+msgstr ""
+
+#: app/echo/templates/super_admin/dashboard.html:372
+#: app/echo/templates/super_admin/dashboard.html:681
+msgid "Brand"
+msgstr ""
+
+#: app/echo/templates/super_admin/dashboard.html:378
+#: app/echo/templates/super_admin/dashboard.html:682
+#, fuzzy
+#| msgid "Mode"
+msgid "Model"
+msgstr "Method"
+
+#: app/echo/templates/super_admin/dashboard.html:382
+#, fuzzy
+#| msgid "Address"
+msgid "IP Address"
+msgstr "Address"
+
+#: app/echo/templates/super_admin/dashboard.html:394
+msgid "Close"
+msgstr ""
+
+#: app/echo/templates/super_admin/dashboard.html:395
+#: app/echo/templates/super_admin/dashboard.html:636
+#, fuzzy
+#| msgid "Add Doctor"
+msgid "Add Device"
+msgstr "Add Doctor"
+
+#: app/echo/templates/super_admin/dashboard.html:403
+msgid "Account Created"
+msgstr "Account Created"
+
+#: app/echo/templates/super_admin/dashboard.html:406
+msgid "Username"
+msgstr "Username"
+
+#: app/echo/templates/super_admin/dashboard.html:414
+msgid "DICOM AE Title"
+msgstr "DICOM AE Title"
+
+#: app/echo/templates/super_admin/dashboard.html:419
+msgid "Copy All"
+msgstr "Copy All"
+
+#: app/echo/templates/super_admin/dashboard.html:420
+msgid "Done"
+msgstr "Done"
+
+#: app/echo/templates/super_admin/dashboard.html:430
+msgid "Creating…"
+msgstr "Creating…"
+
+#: app/echo/templates/super_admin/dashboard.html:635
+#, fuzzy
+#| msgid "Creating…"
+msgid "Adding…"
+msgstr "Creating…"
+
+#, fuzzy
+#~| msgid "Administration"
+#~ msgid "Panneau d'administration"
+#~ msgstr "Administration"
+
+#, fuzzy
+#~| msgid "Succès"
+#~ msgid "Accès"
+#~ msgstr "Success"
+
+#, fuzzy
+#~| msgid "Date des soins"
+#~ msgid "Base de données"
+#~ msgstr "Care date"
+
+#, fuzzy
+#~| msgid "Consultation"
+#~ msgid "Configuration"
+#~ msgstr "Consultation"
+
+#, fuzzy
+#~| msgid "Terminer la consultation"
+#~ msgid "Terminer consultation"
+#~ msgstr "End consultation"
+
+#~ msgid "Paiement"
+#~ msgstr "Payment"
+
+#, fuzzy
+#~| msgid "Reporté"
+#~ msgid "Report"
+#~ msgstr "Postponed"
+
+#, fuzzy
+#~| msgid "Reporté"
+#~ msgid "View Report"
+#~ msgstr "Postponed"
+
+#~ msgid "BIP"
+#~ msgstr "BIP"
+
+#, fuzzy
+#~| msgid "PMA"
+#~ msgid "PA"
+#~ msgstr "PMA"
+
+#, fuzzy
+#~| msgid "LCC"
+#~ msgid "CC"
+#~ msgstr "CRL"
+
+#, fuzzy
+#~| msgid "DPI"
+#~ msgid "DIO"
+#~ msgstr "PGD"
+
+#, fuzzy
+#~| msgid "Ville"
+#~ msgid "Oreille"
+#~ msgstr "City"
+
+#, fuzzy
+#~| msgid "Examens complémentaires"
+#~ msgid "Mesures supplémentaires"
+#~ msgstr "Additional examinations"
+
+#, fuzzy
+#~| msgid "Moi"
+#~ msgid "MoM"
+#~ msgstr "Me"
+
+#, fuzzy
+#~| msgid "Sélectionner"
+#~ msgid "sélectionné"
+#~ msgstr "Select"
+
+#, fuzzy
+#~| msgid "un patient"
+#~ msgid "Aucun patient trouvé"
+#~ msgstr "a patient"
+
+#, fuzzy
+#~| msgid "Recherche patient"
+#~ msgid "Recherche en cours..."
+#~ msgstr "Patient search"
+
+#, fuzzy
+#~| msgid "naissance"
+#~ msgid "Caisse"
+#~ msgstr "birth"
+
+#, fuzzy
+#~| msgid "Désignation mutuelle"
+#~ msgid "Information mutuelle"
+#~ msgstr "Insurance designation"
+
+#, fuzzy
+#~| msgid "mutuelle"
+#~ msgid "La mutuelle"
+#~ msgstr "insurance"
+
+#~ msgid "Conjoint"
+#~ msgstr "Spouse"
+
+#~ msgid "Menstruation"
+#~ msgstr "Menstruation"
+
+#~ msgid "Rapports sexuels"
+#~ msgstr "Sexual intercourse"
+
+#~ msgid "Contraception"
+#~ msgstr "Contraception"
+
+#~ msgid "Ménopause"
+#~ msgstr "Menopause"
+
+#~ msgid "Sac gestationnel"
+#~ msgstr "Gestational sac"
+
+#~ msgid "Poids av. grossesse"
+#~ msgstr "Pre-pregnancy weight"
+
+#~ msgid "Données de la grossesse"
+#~ msgstr "Pregnancy data"
+
+#~ msgid "Echographie du 1er trimestre"
+#~ msgstr "First trimester ultrasound"
+
+#~ msgid "Informations complémentaires"
+#~ msgstr "Additional information"
+
+#~ msgid "une ordonnance"
+#~ msgstr "a prescription"
+
+#~ msgid "Prises/jour"
+#~ msgstr "Doses/day"
+
+#~ msgid "Examens complémentaires"
+#~ msgstr "Additional examinations"
+
+#~ msgid "RENSEIGNEMENTS cliniques"
+#~ msgstr "Clinical information"
+
+#~ msgid "Historique des ordonnances"
+#~ msgstr "Prescriptions history"
+
+#~ msgid "Ajouter un myome"
+#~ msgstr "Add a myoma"
+
+#~ msgid "Enregistrer l'image"
+#~ msgstr "Save image"
+
+#~ msgid "Identifiant"
+#~ msgstr "Identifier"
+
+#~ msgid "ans"
+#~ msgstr "years"
+
+#~ msgid "un patient"
+#~ msgstr "a patient"
+
+#~ msgid "Date de mariage"
+#~ msgstr "Marriage date"
+
+#~ msgid "Désignation mutuelle"
+#~ msgstr "Insurance designation"
+
+#~ msgid "Caisse d'Affectation"
+#~ msgstr "Assigned fund"
+
+#~ msgid "Régime"
+#~ msgstr "Plan"
+
+#~ msgid "N° carnet de soin"
+#~ msgstr "Care booklet number"
+
+#~ msgid "Date validité mutuelle"
+#~ msgstr "Insurance validity date"
+
+#~ msgid "Demande d'accès"
+#~ msgstr "Access Request"
+
+#~ msgid "Demande envoyée !"
+#~ msgstr "Request sent!"
+
+#~ msgid "Remplissez ce formulaire pour demander un accès médecin."
+#~ msgstr "Fill in this form to request doctor access."
+
+#~ msgid "Nom complet"
+#~ msgstr "Full name"
+
+#~ msgid "Envoyer la demande"
+#~ msgstr "Send request"
+
+#~ msgid "Déjà un compte ? Se connecter"
+#~ msgstr "Already have an account? Sign in"
+
+#~ msgid "Laboratoire/Biologie"
+#~ msgstr "Laboratory/Biology"
+
+#~ msgid "Laboratoire/Anapath"
+#~ msgstr "Laboratory/Pathology"
+
+#~ msgid "CR opératoire"
+#~ msgstr "Operative report"
+
+#~ msgid "Autres"
+#~ msgstr "Others"
+
+#~ msgid "Nom de famille"
+#~ msgstr "Last name"
+
+#~ msgid "Téléphone autre"
+#~ msgstr "Other phone"
+
+#~ msgid "Praticien principal"
+#~ msgstr "Primary physician"
+
+#~ msgid "Nombre de cigarettes"
+#~ msgstr "Number of cigarettes"
+
+#~ msgid "Numéro d'identité"
+#~ msgstr "Identity number"
+
+#~ msgid "Code de sécurité sociale"
+#~ msgstr "Social security code"
+
+#~ msgid "Save these credentials — they will not be shown again."
+#~ msgstr "Save these credentials — they will not be shown again."
+
+#~ msgid "With DICOM AE Title"
+#~ msgstr "With DICOM AE Title"
+
+#~ msgid "Historique consultation"
+#~ msgstr "Consultation history"
+
+#~ msgid "Embryon"
+#~ msgstr "Embryo"
+
+#, fuzzy
+#~| msgid "Salle d'attente"
+#~ msgid "d'attente"
+#~ msgstr "Waiting room"
+
+#, fuzzy
+#~| msgid "Résultat"
+#~ msgid "Result"
+#~ msgstr "Result"
+
+#~ msgid "Assistant"
+#~ msgstr "Assistant"
+
+#~ msgid "Réceptionniste"
+#~ msgstr "Receptionist"
+
+#~ msgid "Messages"
+#~ msgstr "Messages"
+
+#, fuzzy
+#~| msgid "ans"
+#~ msgid "and"
+#~ msgstr "years"
+
+#, fuzzy
+#~| msgid "création"
+#~ msgid "Duration"
+#~ msgstr "creation"
+
+#, fuzzy
+#~| msgid "Positive"
+#~ msgid "Positive integer"
+#~ msgstr "Positive"
+
+#~ msgid "Image"
+#~ msgstr "Image"
+
+#, fuzzy
+#~| msgid "intervalle de dates"
+#~ msgid "Enter a valid date."
+#~ msgstr "Date range"
+
+#, fuzzy
+#~| msgid "intervalle de dates"
+#~ msgid "Enter a valid date/time."
+#~ msgstr "Date range"
+
+#, fuzzy
+#~| msgid "Nom"
+#~ msgid "No"
+#~ msgstr "Name"
+
+#, fuzzy
+#~ msgid "PM"
+#~ msgstr "DPA"
+
+#, fuzzy
+#~| msgid "AMH"
+#~ msgid "AM"
+#~ msgstr "AMH"
+
+#, fuzzy
+#~| msgid "Moi"
+#~ msgid "Mon"
+#~ msgstr "Me"
+
+#, fuzzy
+#~| msgid "Suivant"
+#~ msgid "Sat"
+#~ msgstr "Next"
+
+#, fuzzy
+#~| msgid "Suivant"
+#~ msgid "Sun"
+#~ msgstr "Next"
+
+#, fuzzy
+#~| msgid "ans"
+#~ msgid "jan"
+#~ msgstr "years"
+
+#, fuzzy
+#~| msgid "Rapport"
+#~ msgid "apr"
+#~ msgstr "Report"
+
+#, fuzzy
+#~| msgid "Contact"
+#~ msgid "oct"
+#~ msgstr "Contact"
+
+#, fuzzy
+#~| msgid "de"
+#~ msgid "dec"
+#~ msgstr "from"
+
+#, fuzzy
+#~| msgid "Port"
+#~ msgid "or"
+#~ msgstr "Port"
+
+#, fuzzy
+#~| msgid "Date de mariage"
+#~ msgid "Date out of range"
+#~ msgstr "Marriage date"
+
+#, fuzzy
+#~ msgid "Rendez-vous du jour"
+#~ msgstr "Appointment"
+
+#~ msgid "Echo cardiofoetale"
+#~ msgstr "Fetal echocardiography"
+
+#, fuzzy
+#~ msgid "Consult. grossesse"
+#~ msgstr "Pregnancy data"
+
+#, fuzzy
+#~ msgid "Consultation cardiologie"
+#~ msgstr "Gynecological consultation"
+
+#, fuzzy
+#~ msgid "Echocardiolographie"
+#~ msgstr "Ultrasound"
+
+#, fuzzy
+#~ msgid "Consultation cardio-pédiatrie"
+#~ msgstr "Consultation completed"
+
+#~ msgid "Echographie doppler vasculaire"
+#~ msgstr "Vascular Doppler ultrasound"
+
+#~ msgid "Antécédents familiaux"
+#~ msgstr "Family history"
+
+#~ msgid "Antécédents gynécologiques"
+#~ msgstr "Gynecological history"
+
+#~ msgid "Antécédents obstétricaux"
+#~ msgstr "Obstetric history"
+
+#~ msgid "Antécédents cardio-vasculaires"
+#~ msgstr "Cardiovascular history"
+
+#~ msgid "Antécédent obstétrical"
+#~ msgstr "Obstetric history"
+
+#, fuzzy
+#~ msgid "---Choisir une prestation---"
+#~ msgstr "Services catalog"
+
+#~ msgid "Dimanche"
+#~ msgstr "Sunday"
+
+#~ msgid "J"
+#~ msgstr "days"
+
+#~ msgid "Acte"
+#~ msgstr "Act"
+
+#~ msgid "Echec"
+#~ msgstr "Failure"
+
+#~ msgid "Gauche"
+#~ msgstr "Left"
+
+#~ msgid "Ductus Venosus"
+#~ msgstr "Ductus Venosus"
+
+#~ msgid "Absence Medecin"
+#~ msgstr "Doctor absence"
+
+#~ msgid "Aucune donnée disponible dans le tableau"
+#~ msgstr "No data available in table"
+
+#~ msgid "Afficher"
+#~ msgstr "Show"
+
+#~ msgid "éléments"
+#~ msgstr "items"
+
+#~ msgid "Affichage de l'élément"
+#~ msgstr "Showing element"
+
+#~ msgid "Filtrer"
+#~ msgstr "Filter"
+
+#~ msgid "Exporter"
+#~ msgstr "Export"
+
+#~ msgid "Voir"
+#~ msgstr "View"
+
+#~ msgid "Détails"
+#~ msgstr "Details"
+
+#~ msgid "Retour"
+#~ msgstr "Back"
+
+#~ msgid "Confirmer"
+#~ msgstr "Confirm"
+
+#~ msgid "Quantité"
+#~ msgstr "Quantity"
+
+#~ msgid "Certificat"
+#~ msgstr "Certificate"
+
+#~ msgid "Normale"
+#~ msgstr "Normal"
+
+#~ msgid "Négative"
+#~ msgstr "Negative"
+
+#~ msgid "Présente"
+#~ msgstr "Present"
+
+#~ msgid "Absente"
+#~ msgstr "Absent"
+
+#~ msgid "Aucun"
+#~ msgstr "None"
+
+#~ msgid "Choisir"
+#~ msgstr "Choose"
+
+#~ msgid "Requis"
+#~ msgstr "Required"
+
+#~ msgid "Optionnel"
+#~ msgstr "Optional"
+
+#~ msgid "Activé"
+#~ msgstr "Enabled"
+
+#~ msgid "Urgent"
+#~ msgstr "Urgent"
+
+#~ msgid "Priorité haute"
+#~ msgstr "High priority"
+
+#~ msgid "Priorité basse"
+#~ msgstr "Low priority"
+
+#~ msgid "En attente"
+#~ msgstr "Pending"
+
+#~ msgid "Terminé"
+#~ msgstr "Completed"
+
+#~ msgid "Absent"
+#~ msgstr "Absent"
+
+#~ msgid "Activer"
+#~ msgstr "Activate"
+
+#~ msgid "Agglut"
+#~ msgstr "Agglutination"
+
+#~ msgid "Aucun fichier"
+#~ msgstr "No file"
+
+#~ msgid "Avortements"
+#~ msgstr "Abortions"
+
+#~ msgid "Azoospermie"
+#~ msgstr "Azoospermia"
+
+#~ msgid "Bilan infectieux"
+#~ msgstr "Infectious assessment"
+
+#~ msgid "Bilans endocriniens"
+#~ msgstr "Endocrine assessments"
+
+#~ msgid "Biochimie séminale"
+#~ msgstr "Seminal biochemistry"
+
+#~ msgid "Chirurgicaux"
+#~ msgstr "Surgical"
+
+#~ msgid "Cité"
+#~ msgstr "City"
+
+#~ msgid "Coelioscopie"
+#~ msgstr "Laparoscopy"
+
+#~ msgid "Congélation"
+#~ msgstr "Freezing"
+
+#~ msgid "Cytogénétique"
+#~ msgstr "Cytogenetics"
+
+#~ msgid "DDG"
+#~ msgstr "DDG"
+
+#~ msgid "Dépistage de la trisomie 21"
+#~ msgstr "Down syndrome screening"
+
+#~ msgid "Dépistage diabète gestationnel"
+#~ msgstr "Gestational diabetes screening"
+
+#~ msgid "Désir de grossesse depuis (ans)"
+#~ msgstr "Pregnancy desire since (years)"
+
+#~ msgid "Dr"
+#~ msgstr "Dr"
+
+#~ msgid "Etablissements"
+#~ msgstr "Establishments"
+
+#~ msgid "FIV"
+#~ msgstr "IVF"
+
+#~ msgid "FSH"
+#~ msgstr "FSH"
+
+#~ msgid "gouvernorat"
+#~ msgstr "governorate"
+
+#~ msgid "Grossesses"
+#~ msgstr "Pregnancies"
+
+#~ msgid "GS"
+#~ msgstr "BG"
+
+#~ msgid "Gyneasy"
+#~ msgstr "Gyneasy"
+
+#~ msgid "HSC"
+#~ msgstr "HSC"
+
+#~ msgid "HSG"
+#~ msgstr "HSG"
+
+#~ msgid "IAC"
+#~ msgstr "IUI"
+
+#~ msgid "Jour"
+#~ msgstr "Day"
+
+#~ msgid "Jours"
+#~ msgstr "Days"
+
+#~ msgid "Lieu"
+#~ msgstr "Place"
+
+#~ msgid "LMP"
+#~ msgstr "LMP"
+
+#~ msgid "Longitude"
+#~ msgstr "Longitude"
+
+#~ msgid "Lumière"
+#~ msgstr "Light"
+
+#~ msgid "Matière"
+#~ msgstr "Matter"
+
+#~ msgid "Médecins"
+#~ msgstr "Doctors"
+
+#~ msgid "Menace d'avortement"
+#~ msgstr "Threatened abortion"
+
+#~ msgid "Moyenne"
+#~ msgstr "Average"
+
+#~ msgid "Nationalité"
+#~ msgstr "Nationality"
+
+#~ msgid "Né(e)"
+#~ msgstr "Born"
+
+#~ msgid "Nomenclature"
+#~ msgstr "Nomenclature"
+
+#~ msgid "Numéro de série"
+#~ msgstr "Serial number"
+
+#~ msgid "Obtention"
+#~ msgstr "Obtaining"
+
+#~ msgid "Odeur"
+#~ msgstr "Smell"
+
+#~ msgid "Œdème"
+#~ msgstr "Edema"
+
+#~ msgid "Office"
+#~ msgstr "Office"
+
+#~ msgid "Oligospermie"
+#~ msgstr "Oligospermia"
+
+#~ msgid "Ombilical"
+#~ msgstr "Umbilical"
+
+#~ msgid "Opacité"
+#~ msgstr "Opacity"
+
+#~ msgid "Options"
+#~ msgstr "Options"
+
+#~ msgid "Orientation"
+#~ msgstr "Orientation"
+
+#~ msgid "Osteotomie"
+#~ msgstr "Osteotomy"
+
+#~ msgid "Oter"
+#~ msgstr "Remove"
+
+#~ msgid "Bordereaux"
+#~ msgstr "Bordereaux"
+
+#~ msgid "Sauvegarder"
+#~ msgstr "Save"
+
+#~ msgid "Suivre"
+#~ msgstr "Follow"
+
+#~ msgid "Sélectionnez"
+#~ msgstr "Select"
+
+#~ msgid "Traiter"
+#~ msgstr "Process"
+
+#~ msgid "Valider"
+#~ msgstr "Validate"
+
+#~ msgid "Vérifier"
+#~ msgstr "Check"
+
+#~ msgid "Vider"
+#~ msgstr "Clear"
+
+#~ msgid "Volume"
+#~ msgstr "Volume"
+
+#~ msgid "Vomir"
+#~ msgstr "Vomit"
+
+#~ msgid "Vote"
+#~ msgstr "Vote"
+
+#~ msgid "Voyage"
+#~ msgstr "travel"
+
+#~ msgid "Vrai"
+#~ msgstr "True"
+
+#~ msgid "Vécu"
+#~ msgstr "Experience"
+
+#~ msgid "Zone"
+#~ msgstr "Zone"
+
+#~ msgid "prévue"
+#~ msgstr "expected"
+
+#~ msgid "d'accouchements"
+#~ msgstr "of delivery"
+
+#~ msgid "Mutuelles"
+#~ msgstr "Mutuelles"
+
+#~ msgid "Secrétaire"
+#~ msgstr "Secretary"
+
+#~ msgid "Administrateur"
+#~ msgstr "Administrator"
+#: templates/core/accueil_v2.html:398 templates/core/accueil.html:397
+msgid "Annuler l'admission"
+msgstr "Cancel admission"

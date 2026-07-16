@@ -1,0 +1,69 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="d-flex flex-row-reverse p-2">
+        <a type="button" class="btn btn-primary font-weight-bolder"
+           href="{{ object.modif_url }}?edition=1">
+            <i class="flaticon2-printer icon-sm"></i>
+            {% trans "Editer le compte-rendu" %}
+        </a>
+    </div>
+    <div class="mt-2 p-4">
+        {% if object.text %}
+        <div class="mb-4">
+            <h6 class="text-muted mb-2">{% trans "Compte-rendu" %}</h6>
+            <div id="ordonnance-text">
+                {{ object.text|safe }}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if object.conclusion %}
+        <div class="mb-4">
+            <h6 class="text-muted mb-2">{% trans "Conclusion" %}</h6>
+            <div>{{ object.conclusion|safe }}</div>
+        </div>
+        {% endif %}
+
+        {% if object.conduite %}
+        <div class="mb-4">
+            <h6 class="text-muted mb-2">{% trans "Conduite à tenir" %}</h6>
+            <div>{{ object.conduite|safe }}</div>
+        </div>
+        {% endif %}
+
+        {% if not object.text and not object.conclusion and not object.conduite %}
+        <div class="alert alert-info">
+            {% trans "Aucun contenu pour cette consultation. Cliquez sur 'Editer le compte-rendu' pour ajouter du contenu." %}
+        </div>
+        {% endif %}
+
+        {% if object.imageconsultation_set.exists %}
+        <div class="mb-4">
+            <h6 class="text-muted mb-2">{% trans "Images" %}</h6>
+            <div class="row">
+                {% for img in object.imageconsultation_set.all %}
+                {% if img.image %}
+                <div class="col-3 mb-2">
+                    <a href="{{ img.image.url }}" data-lightbox="consultation-images">
+                        <img src="{{ img.image.url }}" class="img-fluid rounded">
+                    </a>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+
+
+{% endblock %}
+
+
+{% block scripts %}
+
+{% endblock %}

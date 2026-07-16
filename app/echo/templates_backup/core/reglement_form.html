@@ -1,0 +1,120 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+{% load common %}
+
+{% block content %}
+
+<h4 class="pt-4 pb-0 px-4">
+    {% if object %}{% trans "Modifier" %}{% else %}{% trans "Ajouter" %}{% endif %}
+    {% trans "un Règlement" %}
+</h4>
+
+<div class="px-4">
+<form id="form_1" class="form" method="post">
+{% csrf_token %}
+
+{% for hidden in reglement.hidden_fields %}
+    {{ hidden }}
+{% endfor %}
+
+<div class="row">
+<div class="col-8">
+
+<div class="row">
+<div class="form-group col-5">
+    <label>{% trans "Patient" %}</label>
+    <div class="form-control form-control-sm">{{ patient.nom }} {{ patient.prenom }}</div>
+</div>
+
+<div class="form-group col-5">
+    <label>{{ reglement.praticien.label }}</label>
+    <div class="form-control form-control-sm">
+        {% if praticien %}{{ praticien.nom }} {{ praticien.prenom }}{% endif %}
+    </div>
+</div>
+</div>
+
+{% if patient.mutuelle %}
+<div class="row">
+<div class="form-group col-5">
+<label class="checkbox">
+    {% render_field reglement.mutuelle class="mutuelle" %}
+    {% trans "Mutuelle" %}
+</label>
+</div>
+
+<div class="form-group col-5">
+<label>{% trans "Désignation Mutuelle" %}</label>
+<div class="form-control form-control-sm">{{ patient.designation }}</div>
+</div>
+</div>
+{% endif %}
+
+<h5>{% trans "Paiement" %}</h5>
+
+<div id="somme-erreur" class="invalid-feedback">
+    {% trans "La somme répartie est différente du montant total" %}
+</div>
+
+<div class="row">
+<div class="form-group col-3">
+<label>{% trans "Espèce" %}</label>
+{% render_field reglement.espece_payment class+="form-control form-control-sm" %}
+</div>
+
+<div class="form-group col-3">
+<label>{% trans "Chèque" %}</label>
+{% render_field reglement.cheque_payment class+="form-control form-control-sm" %}
+</div>
+
+<div class="form-group col-3">
+<label>{% trans "Numéro chèque" %}</label>
+{% render_field reglement.cheque_number class+="form-control form-control-sm" %}
+</div>
+
+<div class="form-group col-3">
+<label>{% trans "Date chèque" %}</label>
+{% render_field reglement.date_cheque class+="form-control form-control-sm" %}
+</div>
+</div>
+
+<div class="form-group mt-4">
+<label>{{ reglement.note.label }}</label>
+{% render_field reglement.note class+="form-control" %}
+</div>
+
+<div class="d-flex justify-content-end mt-4">
+<a href="#" class="btn btn-default">{% trans "Annuler" %}</a>
+<button type="submit" class="btn btn-primary ml-2">
+    {% trans "Enregistrer" %}
+</button>
+</div>
+
+</div>
+
+<div class="col-4">
+<div class="bg-light p-4">
+<h5>{% trans "Historique des règlements" %}</h5>
+
+<ul class="list-group">
+{% for reg in patient.reglement_set.all|slice:":10" %}
+<li class="list-group-item">
+<strong>{{ reg.date_creation|date:'d/m/y' }} - {{ reg.somme_payee|money_format }} DT</strong>
+</li>
+{% empty %}
+<li class="list-group-item">
+{% trans "Pas d'historique de paiements" %}
+</li>
+{% endfor %}
+</ul>
+
+</div>
+</div>
+
+</div>
+</form>
+</div>
+
+{% endblock %}

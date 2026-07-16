@@ -1,0 +1,96 @@
+{% load i18n %}
+<div class="card">
+<div class="card-header">
+        <div class="card-toolbar">
+            <select name="materiel" id="materiel" class="form-select form-select-sm me-2">
+                <option value="-1">{% trans "Echographe" %}</option>
+                {% for d in devices %}
+                    <option value="{{ d.id }}" {% if user.profil.default_device.id == d.id %}selected{% endif %}>
+                        {{ d.marque }} - {{ d.modele }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="card-body">
+
+        <!-- Waveforms Section -->
+        {% if date_waveforms %}
+        <div class="mb-4">
+            <h6 class="text-primary mb-3">{% trans "Doppler Waveforms" %}</h6>
+            <div id="waveforms-container" class="row p-2">
+                {% for wf in date_waveforms %}
+                    {% if wf.image_preview %}
+                        <div data-waveform-id="{{ wf.pk }}" class="col-3">
+                            <div class="card card-custom gutter-b card-stretch bg-white border">
+                                <div class="card-body pt-2 pl-2 pr-2 pb-6 text-center">
+                                    <a class="d-block overlay" href="{{ wf.image_preview.url }}" data-fslightbox="lightbox-waveform">
+                                        <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px "
+                                            style="background-image:url({{ wf.image_preview.url }})">
+                                        </div>
+                                        <div class="overlay-layer card-rounded bg-dark bg-opacity-25 shadow">
+                                            <i class="bi bi-waveform text-white fs-3x"></i>
+                                        </div>
+                                    </a>
+                                    <div class="mt-2 text-muted small">{{ wf.description|default:"Waveform" }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Images Section -->
+        <div id="images-container" class="row p-2">
+            {% for img in consultation_date_images %}
+                {% if img.image %}
+                    <div data-image-id="{{ img.pk }}" data-device="{{ img.device_id|default:'' }}" class="col-3">
+                        <div class="card card-custom gutter-b card-stretch bg-white border">
+                            <div class="card-header border-0 px-1 h-30px" style="min-height: 0px;">
+                            
+                                <div class="card-toolbar">
+                                    <div class="dropdown dropdown-inline" data-toggle="tooltip"
+                                         title="{% trans 'Actions' %}" data-placement="left">
+                                        <a href="#"
+                                           class="btn btn-clean btn-hover-light-primary btn-sm btn-icon"
+                                           data-toggle="dropdown" aria-haspopup="true"
+                                           aria-expanded="false">
+                                            <i class="ki ki-bold-more-hor"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
+                                            <ul class="navi navi-hover py-1">
+                                                <li class="navi-item">
+                                                    <a href="#" onclick="supprimerImage(event, {{ img.pk }})"
+                                                       class="navi-link">
+                                                                <span class="navi-icon">
+                                                                    <i class="flaticon2-delete icon-sm"></i>
+                                                                </span>
+                                                        <span class="navi-text">{% trans "Supprimer" %}</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body pt-2 pl-2 pr-2 pb-6 text-center">
+                                <a class="d-block overlay" href="{{ img.image.url }}" data-fslightbox="lightbox-basic">
+                                    <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px "
+                                        style="background-image:url({{ img.image.url }})">
+                                    </div>
+                                    <div class="overlay-layer card-rounded bg-dark bg-opacity-25 shadow">
+                                        <i class="bi bi-eye-fill text-white fs-3x"></i>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                {% empty %}
+                <div class="col-12 text-center text-muted py-4">{% trans "Aucune image" %}</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

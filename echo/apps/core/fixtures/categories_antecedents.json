@@ -1,0 +1,44 @@
+[
+  {
+    "model": "core.CatgeorieAntecedent",
+    "pk": 1,
+    "fields": {
+      "libelle": "Antécédents familiaux"
+    }
+  },
+  {
+    "model": "core.CatgeorieAntecedent",
+    "pk": 2,
+    "fields": {
+      "libelle": "Antécédents médico-chirurgicaux"
+    }
+  },
+  {
+    "model": "core.CatgeorieAntecedent",
+    "pk": 3,
+    "fields": {
+      "libelle": "Antécédents gynécologiques"
+    }
+  },
+  {
+    "model": "core.CatgeorieAntecedent",
+    "pk": 4,
+    "fields": {
+      "libelle": "Antécédents obstétricaux"
+    }
+  },
+  {
+    "model": "core.CatgeorieAntecedent",
+    "pk": 5,
+    "fields": {
+      "libelle": "Autres"
+    }
+  },
+  {
+    "model": "core.CatgeorieAntecedent",
+    "pk": 6,
+    "fields": {
+      "libelle": "Allergies"
+    }
+  }
+]

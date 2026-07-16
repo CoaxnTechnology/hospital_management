@@ -1,0 +1,192 @@
+[
+  {
+    "model": "core.MotifConsultation",
+    "pk": 1,
+    "fields": {
+      "libelle": "Consultation grossesse",
+      "code": "obstetrique-defaut",
+      "categorie": 1,
+      "actif": false
+    }
+  },
+  {
+    "model": "core.MotifConsultation",
+    "pk": 2,
+    "fields": {
+      "libelle": "Consultation gynécologique",
+      "code": "gynecologique-defaut",
+      "categorie": 2,
+      "actif": true
+    }
+  },
+  {
+    "model": "core.MotifConsultation",
+    "pk": 3,
+    "fields": {
+      "libelle": "Consultation PMA",
+      "code": "pma",
+      "categorie": 3,
+      "actif": true
+    }
+  },
+  {
+    "model": "core.MotifConsultation",
+    "pk": 4,
+    "fields": {
+      "libelle": "Consultation libre",
+      "code": "libre-defaut",
+      "categorie": 4,
+      "actif": true
+    }
+  },
+  {
+    "model": "core.MotifConsultation",
+    "pk": 5,
+    "fields": {
+      "libelle": "Coloposcopie",
+      "code": "colposcopie",
+      "categorie": 2,
+      "actif": false
+    }
+  },
+  {
+    "model": "core.MotifConsultation",
+    "pk": 6,
+    "fields": {
+      "libelle": "Echographie pelvienne",
+      "code": "echo-pelvienne",
+      "categorie": 2,
+      "actif": false
+    }
+  },
+  {
+    "model": "core.MotifConsultation",
+    "pk": 7,
+    "fields": {
+      "libelle": "Echo < 11 SA",
+      "code": "obs_echo_11SA",
+      "categorie": 1,
+      "actif": true
+    }
+  },
+  {
+    "model": "core.MotifConsultation",
+    "pk": 8,
+    "fields": {
+      "libelle": "Echo 1er trimestre",
+      "code": "obs_echo_trimestre_1",
+      "categorie": 1,
+      "actif": true
+    }
+  },
+  {
+    "model": "core.MotifConsultation",
+    "pk": 9,
+    "fields": {
+      "libelle": "Echo 2ème trimestre",
+      "code": "obs_echo_trimestre_2",
+      "categorie": 1,
+      "actif": true
+    }
+  },
+  {
+    "model": "core.MotifConsultation",
+    "pk": 10,
+    "fields": {
+      "libelle": "Echo 3ème trimestre",
+      "code": "obs_echo_trimestre_3",
+      "categorie": 1,
+      "actif": true
+    }
+  },
+  {
+    "model": "core.MotifConsultation",
+    "pk": 11,
+    "fields": {
+      "libelle": "Echo de croissance",
+      "code": "obs_echo_croissance",
+      "categorie": 1,
+      "actif": true
+    }
+  },
+  {
+    "model": "core.MotifConsultation",
+    "pk": 12,
+    "fields": {
+      "libelle": "Echo du col",
+      "code": "obs_echo_col",
+      "categorie": 1,
+      "actif": false
+    }
+  },
+  {
+    "model": "core.MotifConsultation",
+    "pk": 13,
+    "fields": {
+      "libelle": "Echo cardiofoetale",
+      "code": "obs_echo_cardiofoetale",
+      "categorie": 1,
+      "actif": false
+    }
+  },
+  {
+    "model": "core.MotifConsultation",
+    "pk": 14,
+    "fields": {
+      "libelle": "Consultation grossesse",
+      "code": "obs_grossesse",
+      "categorie": 1,
+      "actif": false
+    }
+  },
+  {
+    "model": "core.MotifConsultation",
+    "pk": 15,
+    "fields": {
+      "libelle": "Compte-rendu opératoire",
+      "code": "cr_op",
+      "categorie": 7,
+      "actif": true
+    }
+  },
+  {
+    "model": "core.MotifConsultation",
+    "pk": 16,
+    "fields": {
+      "libelle": "Interrogatoire PMA",
+      "code": "-",
+      "categorie": 3,
+      "actif": true
+    }
+  },
+  {
+    "model": "core.MotifConsultation",
+    "pk": 17,
+    "fields": {
+      "libelle": "Monitorage PMA",
+      "code": "-",
+      "categorie": 3,
+      "actif": true
+    }
+  },
+  {
+    "model": "core.MotifConsultation",
+    "pk": 18,
+    "fields": {
+      "libelle": "Consultation gynécologique libre",
+      "code": "gyneco-libre",
+      "categorie": 2,
+      "actif": true
+    }
+  },
+  {
+    "model": "core.MotifConsultation",
+    "pk": 19,
+    "fields": {
+      "libelle": "Consultation obstétrique libre",
+      "code": "obs-libre",
+      "categorie": 1,
+      "actif": true
+    }
+  }
+]

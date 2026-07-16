@@ -1,0 +1,154 @@
+[
+  {
+    "model": "core.SousCatgeorieAntecedent",
+    "pk": 1,
+    "fields": {
+      "libelle": "Antécédents familiaux",
+      "categorie": 1
+    }
+  },
+  {
+    "model": "core.SousCatgeorieAntecedent",
+    "pk": 2,
+    "fields": {
+      "libelle": "Antécédents médico-chirurgicaux",
+      "categorie": 2
+    }
+  },
+  {
+    "model": "core.SousCatgeorieAntecedent",
+    "pk": 3,
+    "fields": {
+      "libelle": "Antécédents gynécologiques",
+      "categorie": 3
+    }
+  },
+  {
+    "model": "core.SousCatgeorieAntecedent",
+    "pk": 4,
+    "fields": {
+      "libelle": "Accouchement du siège",
+      "categorie": 4
+    }
+  },
+  {
+    "model": "core.SousCatgeorieAntecedent",
+    "pk": 5,
+    "fields": {
+      "libelle": "Accouchement voie basse",
+      "categorie": 4
+    }
+  },
+  {
+    "model": "core.SousCatgeorieAntecedent",
+    "pk": 6,
+    "fields": {
+      "libelle": "Accouchement voie basse instrumentale",
+      "categorie": 4
+    }
+  },
+  {
+    "model": "core.SousCatgeorieAntecedent",
+    "pk": 7,
+    "fields": {
+      "libelle": "Césarienne",
+      "categorie": 4
+    }
+  },
+  {
+    "model": "core.SousCatgeorieAntecedent",
+    "pk": 8,
+    "fields": {
+      "libelle": "FCS",
+      "categorie": 4
+    }
+  },
+  {
+    "model": "core.SousCatgeorieAntecedent",
+    "pk": 9,
+    "fields": {
+      "libelle": "FCT",
+      "categorie": 4
+    }
+  },
+  {
+    "model": "core.SousCatgeorieAntecedent",
+    "pk": 10,
+    "fields": {
+      "libelle": "GEU",
+      "categorie": 4
+    }
+  },
+  {
+    "model": "core.SousCatgeorieAntecedent",
+    "pk": 11,
+    "fields": {
+      "libelle": "Grossesse molaire",
+      "categorie": 4
+    }
+  },
+  {
+    "model": "core.SousCatgeorieAntecedent",
+    "pk": 12,
+    "fields": {
+      "libelle": "IMG",
+      "categorie": 4
+    }
+  },
+  {
+    "model": "core.SousCatgeorieAntecedent",
+    "pk": 13,
+    "fields": {
+      "libelle": "ISG",
+      "categorie": 4
+    }
+  },
+  {
+    "model": "core.SousCatgeorieAntecedent",
+    "pk": 14,
+    "fields": {
+      "libelle": "IVG",
+      "categorie": 4
+    }
+  },
+  {
+    "model": "core.SousCatgeorieAntecedent",
+    "pk": 15,
+    "fields": {
+      "libelle": "MFIU",
+      "categorie": 4
+    }
+  },
+  {
+    "model": "core.SousCatgeorieAntecedent",
+    "pk": 16,
+    "fields": {
+      "libelle": "FCV",
+      "categorie": 5
+    }
+  },
+  {
+    "model": "core.SousCatgeorieAntecedent",
+    "pk": 17,
+    "fields": {
+      "libelle": "Mammographie",
+      "categorie": 5
+    }
+  },
+  {
+    "model": "core.SousCatgeorieAntecedent",
+    "pk": 18,
+    "fields": {
+      "libelle": "Echo Mammaire",
+      "categorie": 5
+    }
+  },
+  {
+    "model": "core.SousCatgeorieAntecedent",
+    "pk": 19,
+    "fields": {
+      "libelle": "Non définie",
+      "categorie": 4
+    }
+  }
+]

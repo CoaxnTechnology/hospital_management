@@ -1,0 +1,38 @@
+{% extends "core/base_pma.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+{% load common %}
+
+{% block sub_navigation %}
+<li class="nav-item">
+    <a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab" href="#tab-infertilite">
+        {% trans "Type d'infertilité" %}
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-tentatives">
+        {% trans "Tentatives antérieures" %}
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-technique">
+        {% trans "Technique proposée" %}
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-bilan-f">
+        {% trans "Bilan féminin" %}
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-conjoint">
+        {% trans "Informations conjoint" %}
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link text-active-primary pb-4" data-bs-toggle="tab" href="#tab-bilan-m">
+        {% trans "Bilan masculin" %}
+    </a>
+</li>
+{% endblock %}

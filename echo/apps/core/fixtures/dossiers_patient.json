@@ -1,0 +1,44 @@
+[
+  {
+    "model": "core.DossierFichiersPatient",
+    "pk": 1,
+    "fields": {
+      "nom": "Administratif"
+    }
+  },
+  {
+    "model": "core.DossierFichiersPatient",
+    "pk": 2,
+    "fields": {
+      "nom": "Laboratoire/Biologie"
+    }
+  },
+  {
+    "model": "core.DossierFichiersPatient",
+    "pk": 3,
+    "fields": {
+      "nom": "Radiologie"
+    }
+  },
+  {
+    "model": "core.DossierFichiersPatient",
+    "pk": 4,
+    "fields": {
+      "nom": "Laboratoire/Anapath"
+    }
+  },
+  {
+    "model": "core.DossierFichiersPatient",
+    "pk": 5,
+    "fields": {
+      "nom": "CR opératoire"
+    }
+  },
+  {
+    "model": "core.DossierFichiersPatient",
+    "pk": 6,
+    "fields": {
+      "nom": "Autres"
+    }
+  }
+]

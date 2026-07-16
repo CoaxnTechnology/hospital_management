@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block header %}
+    {% include "core/form_header.html" with module=_("Patient") %}
+{% endblock %}
+
+{% block content %}
+<form id="form_1" class="form" method="post">
+{% csrf_token %}
+
+{% for hidden in patient.hidden_fields %}
+    {{ hidden }}
+{% endfor %}
+
+<div class="card card-custom card-sticky px-4">
+
+<div class="card-header">
+    <div class="card-title">
+        <h3 class="card-label">
+            {% trans "Formulaire de" %}
+            {% if object %}
+                {% trans "modification" %}
+            {% else %}
+                {% trans "création" %}
+            {% endif %}
+        </h3>
+    </div>
+
+    <div class="card-toolbar">
+        <a class="back-btn btn btn-light-primary">
+            {% trans "Précédent" %}
+        </a>
+        <button class="btn btn-primary">
+            {% trans "Enregistrer" %}
+        </button>
+    </div>
+</div>
+
+<div class="card-body">
+
+<button type="button" class="btn btn-sm btn-outline-info"
+        data-toggle="collapse" href="#blocConjoint">
+    {% trans "Informations sur le conjoint" %}
+</button>
+
+<div class="collapse" id="blocConjoint">
+<h5>{% trans "Conjoint" %}</h5>
+
+<label>{% trans "Nom" %}</label>
+{% render_field form.nom_conjoint class+="form-control form-control-sm" %}
+
+<label>{% trans "Prénom" %}</label>
+{% render_field form.prenom_conjoint class+="form-control form-control-sm" %}
+
+<label>{% trans "Date de naissance" %}</label>
+{% render_field form.date_naissance_conjoint class+="form-control form-control-sm" %}
+
+<label>{% trans "Téléphone" %}</label>
+{% render_field form.telephone_conjoint class+="form-control form-control-sm" %}
+
+<label>{% trans "Groupe sanguin" %}</label>
+{% render_field form.groupe_sanguin_conjoint class+="form-control form-control-sm" %}
+
+<label>{% trans "Consanguinité" %}</label>
+{% render_field form.consanguinite_conjoint class+="form-control form-control-sm" %}
+
+<label>{% trans "Etat de santé" %}</label>
+{% render_field form.etat_sante_conjoint class+="form-control form-control-sm" %}
+</div>
+
+<label>{% trans "Civilité" %}</label>
+{% render_field patient.civilite class+="form-control form-control-sm" %}
+
+<label>{% trans "Nom de naissance" %}</label>
+{% render_field patient.nom_naissance class+="form-control form-control-sm" %}
+
+<label>{% trans "Prénom" %}</label>
+{% render_field patient.prenom class+="form-control form-control-sm" %}
+
+<label>{% trans "Date de naissance" %}</label>
+{% render_field patient.date_naissance class+="form-control form-control-sm" %}
+
+<label>{% trans "Age" %}</label>
+<div id="age" class="form-control form-control-sm"></div>
+
+<label>{% trans "Ville" %}</label>
+{% render_field adresse.ville class+="form-control form-control-sm" %}
+
+<label>{% trans "Code postal" %}</label>
+{% render_field adresse.cp class+="form-control form-control-sm" %}
+
+<label>{% trans "Pays" %}</label>
+{% render_field adresse.pays class+="form-control form-control-sm" %}
+
+<label>{% trans "Téléphone" %}</label>
+{% render_field patient.telephone class+="form-control form-control-sm" %}
+
+<label>{% trans "Email" %}</label>
+{% render_field patient.email class+="form-control form-control-sm" %}
+
+<label>{% trans "Taille (cm)" %}</label>
+{% render_field patient.taille class+="form-control form-control-sm" %}
+
+<label>{% trans "Poids (kg)" %}</label>
+{% render_field patient.poids class+="form-control form-control-sm" %}
+
+<label>{% trans "Groupe sanguin" %}</label>
+{% render_field patient.groupe_sanguin class+="form-control form-control-sm" %}
+
+<label>{% trans "Profession" %}</label>
+{% render_field patient.profession class+="form-control form-control-sm" %}
+
+</div>
+</div>
+</form>
+{% endblock %}

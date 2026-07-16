@@ -1,0 +1,476 @@
+{% load widget_tweaks %}
+{% load common %}
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between">
+            <div class="form-group col-3">
+                <label class="form-label">{{ form.praticien.label }}</label>
+                {% render_field form.praticien class+="form-select form-select-solid form-select-sm" %}
+            </div>
+            <div class="form-group text-right">
+                <label class="form-label">&nbsp;</label>
+                <div>
+                    <button onclick="setQuickT2T3()" type="button"
+                            class="btn btn-sm btn-secondary">
+                        Tout normal
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-6">
+            <ul class="nav nav-pills nav-tabs-bold nav-pills-sm" role="tablist">
+                <li class="nav-item">
+                    <a id="link_f_1" class="nav-link py-2 active"
+                       data-bs-toggle="tab" href="#f_1">
+                        <span class="nav-text font-weight-bold">Foetus A</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a id="link_f_2" class="nav-link py-2"
+                       data-bs-toggle="tab" href="#f_2">
+                        <span class="nav-text font-weight-bold">Foetus B</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a id="link_f_3" class="nav-link py-2"
+                       data-bs-toggle="tab" href="#f_3">
+                        <span class="nav-text font-weight-bold">Foetus C</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                {{ foetus.management_form }}
+                {% for f in foetus.forms %}
+                    {% for hidden in f.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+                    {% if f.non_field_errors %}
+                        <div class="alert alert-custom alert-danger" role="alert">
+                            <div class="alert-icon">
+                                <i class="flaticon-questions-circular-button"></i>
+                            </div>
+                            <div class="alert-text">{{ f.non_field_errors }}</div>
+                        </div>
+                    {% endif %}
+
+                    <div class="tab-pane foetus {% if forloop.counter == 1 %}active{% endif %} pt-6"
+                         id="f_{{ forloop.counter }}" role="tabpanel">
+                        <div class="row">
+                            <div class="mb-3 col-12 col-lg-3">
+                                    <h5 class="text-primary font-size-h5">Présentation</h5>
+                                    {% render_field f.presentation data-form="consultation_obs_foetus" data-champ="presentation" class+="form-select form-select-solid form-select-sm" %}
+                            </div>
+                        </div>
+
+                        <div class="group-vitalite mt-3">
+                            <h5 class="text-primary font-size-h5">Vitalité</h5>
+
+                            <div class="row">
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <label class="form-label">Activité cardiaque</label>
+                                    {% render_field f.activite_cardiaque data-form="consultation_obs_foetus" data-champ="activite_cardiaque" class+="form-select form-select-solid form-select-sm" %}
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <label class="form-label">Fréquence cardiaque</label>
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        {% render_field f.fc data-form="consultation_obs_foetus" data-champ="fc" class+="form-control form-control-solid" data-unit="BPM" %}
+                                        <span class="input-group-text ">BPM</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-xl-3">
+                                    <label class="form-label">Mobilité</label>
+                                    {% render_field f.mobilite data-form="consultation_obs_foetus" data-champ="mobilite" class+="form-select form-select-solid form-select-sm" %}
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="group-biometrie mt-3">
+                            <h5 class="text-primary font-size-h5">Biométrie</h5>
+
+                            <div class="row">
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">Poids</span>
+                                        {% render_field f.poids class+="form-control form-control-solid form-control-sm poids" data-champ="poids" data-unit="g" %}
+                                        <span class="input-group-text">g</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3 d-none">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text text-danger font-weight-bolder w-75px">LCC</span>
+                                        {% render_field f.lcc class+="form-control form-control-solid form-control-sm" data-champ="lcc" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">BIP</span>
+                                        {% render_field f.bip class+="form-control form-control-solid form-control-sm bip" data-champ="bip" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">PC</span>
+                                        {% render_field f.pc class+="form-control form-control-solid form-control-sm pc" data-champ="pc" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">PA</span>
+                                        {% render_field f.pa class+="form-control form-control-solid form-control-sm pa" data-champ="pa" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">LF</span>
+                                        {% render_field f.femur class+="form-control form-control-solid form-control-sm femur" data-champ="femur" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">Bassinet d.</span>
+                                        {% render_field f.bassinet_droit class+="form-control form-control-sm" data-champ="bassinet_droit" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">Bassinet g.</span>
+                                        {% render_field f.bassinet_gauche class+="form-control form-control-sm" data-champ="bassinet_gauche" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">CC</span>
+                                        {% render_field f.cc class+="form-control form-control-sm" data-champ="cc" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">Cervelet</span>
+                                        {% render_field f.cervelet class+="form-control form-control-sm" data-champ="cervelet" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text text-danger font-weight-bolder w-75px">OPN</span>
+                                        {% render_field f.opn_presence class+="form-control form-control-solid form-control-sm" %}
+                                        {% render_field f.opn class+="form-control form-control-solid form-control-sm" data-champ="opn" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="biometrie-extra" class="row collapse">
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">Cubitus</span>
+                                        {% render_field f.cubitus class+="form-control form-control-sm" data-champ="cubitus" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">DIO</span>
+                                        {% render_field f.dio class+="form-control form-control-sm" data-champ="dio" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">EPN</span>
+                                        {% render_field f.epn class+="form-control form-control-sm" data-champ="epn" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">Humerus</span>
+                                        {% render_field f.humerus class+="form-control form-control-sm" data-champ="humerus" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">Oreille</span>
+                                        {% render_field f.oreille class+="form-control form-control-sm" data-champ="oreille" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">Perone</span>
+                                        {% render_field f.perone class+="form-control form-control-sm" data-champ="perone" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">Pied</span>
+                                        {% render_field f.pied class+="form-control form-control-sm" data-champ="pied" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">Placenta</span>
+                                        {% render_field f.placenta class+="form-control form-control-sm" data-champ="placenta" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">Radius</span>
+                                        {% render_field f.radius class+="form-control form-control-sm" data-champ="radius" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">Rein d.</span>
+                                        {% render_field f.rein_droite class+="form-control form-control-sm" data-champ="rein_droite" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">Rein g.</span>
+                                        {% render_field f.rein_gauche class+="form-control form-control-sm" data-champ="rein_gauche" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">Tibia</span>
+                                        {% render_field f.tibia class+="form-control form-control-sm" data-champ="tibia" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">VL</span>
+                                        {% render_field f.vl class+="form-control form-control-sm" data-champ="vl" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <div class="input-group input-group-solid input-group-sm">
+                                        <span class="input-group-text w-75px">Thyroide</span>
+                                        {% render_field f.thyroide class+="form-control form-control-sm" data-champ="thyroide" data-unit="mm" %}
+                                        <span class="input-group-text">mm</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <a class="btn btn-link pl-0" data-bs-toggle="collapse"
+                                   href="#biometrie-extra" role="button" aria-expanded="false"
+                                   aria-controls="biometrie-extra">
+                                    <i class="fa fa-plus icon-sm text-primary"></i> Mesures supplémentaires
+                                </a>
+                            </div>
+
+                        </div>
+
+                        <div class="group-morpho mt-3">
+                            <h5 class="text-primary font-size-h5">Morphologie</h5>
+
+                            <div class="row">
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <label class="form-label">Boîte crân.</label>
+                                    {% render_field f.morpho_crane data-form="consultation_obs_foetus" data-champ="morpho_crane" class+="form-select form-select-solid form-select-sm" %}
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <label class="form-label">Struct. céréb.</label>
+                                    {% render_field f.morpho_struct data-form="consultation_obs_foetus" data-champ="morpho_struct" class+="form-select form-select-solid form-select-sm" %}
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <label class="form-label">Face</label>
+                                    {% render_field f.morpho_face data-form="consultation_obs_foetus" data-champ="morpho_face" class+="form-select form-select-solid form-select-sm" %}
+                                </div>
+
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <label class="form-label">Cou</label>
+                                    {% render_field f.morpho_cou data-form="consultation_obs_foetus" data-champ="morpho_cou" class+="form-select form-select-solid form-select-sm" %}
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <label class="form-label">Thorax</label>
+                                    {% render_field f.morpho_thorax data-form="consultation_obs_foetus" data-champ="morpho_thorax" class+="form-select form-select-solid form-select-sm" %}
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <label class="form-label">Coeur</label>
+                                    {% render_field f.morpho_coeur data-form="consultation_obs_foetus" data-champ="morpho_coeur"  class+="form-select form-select-solid form-select-sm" %}
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <label class="form-label">Paroi abdominale</label>
+                                    {% render_field f.morpho_abdo data-form="consultation_obs_foetus" data-champ="morpho_abdo"  class+="form-select form-select-solid form-select-sm" %}
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <label class="form-label">Appareil digestif</label>
+                                    {% render_field f.morpho_digest data-form="consultation_obs_foetus" data-champ="morpho_digest" class+="form-select form-select-solid form-select-sm" %}
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <label class="form-label">Appareil urinaire</label>
+                                    {% render_field f.morpho_urine data-form="consultation_obs_foetus" data-champ="morpho_urine" class+="form-select form-select-solid form-select-sm" %}
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <label class="form-label">Rachis</label>
+                                    {% render_field f.morpho_rachis data-form="consultation_obs_foetus" data-champ="morpho_rachis" class+="form-select form-select-solid form-select-sm" %}
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <label class="form-label">Membres</label>
+                                    {% render_field f.morpho_membres data-form="consultation_obs_foetus" data-champ="morpho_membres" class+="form-select form-select-solid form-select-sm" %}
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <label class="form-label">OGE</label>
+                                    {% render_field f.morpho_oge data-form="consultation_obs_foetus" data-champ="morpho_oge" class+="form-select form-select-solid form-select-sm" %}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="group-annexes mt-3">
+                            <h5 class="text-primary font-size-h5">Annexes</h5>
+
+                            <div class="row">
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <label class="form-label">Liquide amnio.</label>
+                                    {% render_field f.morpho_liquide_amnio data-form="consultation_obs_foetus" data-champ="morpho_liquide_amnio" class+="form-select form-select-solid form-select-sm" %}
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <label class="form-label">Placenta</label>
+                                    {% render_field f.morpho_placenta data-form="consultation_obs_foetus" data-champ="morpho_placenta" class+="form-select form-select-solid form-select-sm" %}
+                                </div>
+
+                                <div class="mb-3 col-12 col-lg-3">
+                                    <label class="form-label">Cordon</label>
+                                    {% render_field f.morpho_cordon data-form="consultation_obs_foetus" data-champ="morpho_cordon" class+="form-select form-select-solid form-select-sm" %}
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="mt-3">
+                            <h5 class="text-primary font-size-h5">Commentaires</h5>
+                            {% render_field f.commentaires class+="form-control form-control-solid form-control-sm h-60px" %}
+                        </div>
+
+                        <div class="doppler-ombi mt-3">
+                            <h5 class="text-primary font-size-h5">Doppler Ombilical</h5>
+                            <div class="row">
+                                <div class="form-group col-4">
+                                    <label class="form-label">IP</label>
+                                    {% render_field f.doppler_cordon_ip class+="form-control form-control-solid form-control-sm" data-champ="doppler_cordon_ip" %}
+                                </div>
+                                <div class="form-group col-4">
+                                    <label class="form-label">IR</label>
+                                    {% render_field f.doppler_cordon_ir class+="form-control form-control-solid form-control-sm" data-champ="doppler_cordon_ir" %}
+                                </div>
+
+                                <div class="form-group col-4">
+                                    <label class="form-label">Flux en diastole</label>
+                                    {% render_field f.doppler_cordon_diastole data-form="consultation_obs_foetus" data-champ="doppler_cordon_diastole" class+="form-select form-select-solid form-select-sm" %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="doppler-acm mt-3">
+                            <h5 class="text-primary font-size-h5">Doppler ACM</h5>
+                            <div class="row">
+                                <div class="form-group col-3">
+                                    <label class="form-label">IP</label>
+                                    {% render_field f.doppler_acm_ip class+="form-control form-control-solid form-control-sm" data-champ="doppler_acm_ip" %}
+                                </div>
+                                <div class="form-group col-3">
+                                    <label class="form-label">IR</label>
+                                    {% render_field f.doppler_acm_ir class+="form-control form-control-solid form-control-sm" data-champ="doppler_acm_ir" %}
+                                </div>
+
+                                <div class="form-group col-3">
+                                    <label class="form-label">Vitesse (cm/s)</label>
+                                    {% render_field f.doppler_acm_vitesse class+="form-control form-control-solid form-control-sm" data-champ="doppler_acm_vitesse" %}
+                                </div>
+
+                                <div class="form-group col-3">
+                                    <label class="form-label">MoM</label>
+                                    {% render_field f.doppler_acm_mom class+="form-control form-control-solid form-control-sm" data-champ="doppler_acm_mom" %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="doppler-dv mt-3">
+                            <h5 class="text-primary font-size-h5">Doppler DV</h5>
+                            <div class="row">
+                                <div class="form-group col-4">
+                                    <label class="form-label">IP</label>
+                                    {% render_field f.doppler_dv_ip class+="form-control form-control-solid form-control-sm" data-champ="doppler_dv_ip" %}
+                                </div>
+                                <div class="form-group col-4">
+                                    <label class="form-label">IR</label>
+                                    {% render_field f.doppler_dv_ir class+="form-control form-control-solid form-control-sm" data-champ="doppler_dv_ir" %}
+                                </div>
+
+                                <div class="form-group col-4">
+                                    <label class="form-label">Onde A</label>
+                                    {% render_field f.doppler_dv_onde data-form="consultation_obs_foetus" data-champ="doppler_dv_onde" class+="form-select form-select-solid form-select-sm" %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</div>

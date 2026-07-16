@@ -1,0 +1,16 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+    {% include 'core/patient_fichiers.html' with patient=patient %}
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        const patient = {{ patient.pk }};
+    </script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+    <script src="{% static "js/core/fichiers_patient.js" %}"></script>
+{% endblock %}

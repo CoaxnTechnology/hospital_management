@@ -1,0 +1,292 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block styles %}
+<style>
+  .pf-section-title {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .8px; color: #b5b5c3;
+    margin: 20px 0 10px; padding-bottom: 6px;
+    border-bottom: 1px solid #e5eaee;
+    display: flex; align-items: center; gap: 6px;
+  }
+  [data-hp-theme="dark"] .pf-section-title { color: #6b7a9a; border-color: rgba(255,255,255,0.08); }
+  .required-star { color: #f64e60; margin-left: 2px; }
+  .form-label { font-size: 12px; font-weight: 600; color: #464e5f; margin-bottom: 4px; display: block; }
+  [data-hp-theme="dark"] .form-label { color: #9bafca; }
+  .form-control-sm { font-size: 13px; }
+  .field-error { color: #f64e60; font-size: 11px; margin-top: 3px; }
+  .card-header { position: sticky; top: 0; z-index: 10; background: #fff; }
+  [data-hp-theme="dark"] .card-header { background: #1e1e2d; }
+  .card-footer { position: sticky; bottom: 0; z-index: 10; background: #fff; border-top: 1px solid #e5eaee; }
+  [data-hp-theme="dark"] .card-footer { background: #1e1e2d; border-color: rgba(255,255,255,0.08); }
+</style>
+{% endblock %}
+
+{% block content %}
+<form method="post" id="patient-form">
+{% csrf_token %}
+
+{% for hidden in patient.hidden_fields %}
+    {{ hidden }}
+{% endfor %}
+
+<div class="card card-custom bg-white shadow-none patient-form-dialog" style="display:flex;flex-direction:column;min-height:100vh;">
+
+  <div class="card-header d-flex align-items-center justify-content-between py-3">
+    <h3 class="mb-0 fs-5">
+      {% if object %}
+        <i class="la la-user-edit me-2 text-primary"></i>{% trans "Edit Patient" %}
+      {% else %}
+        <i class="la la-user-plus me-2 text-primary"></i>{% trans "New Patient" %}
+      {% endif %}
+    </h3>
+    <div class="d-flex gap-2">
+      <button type="button" class="btn btn-sm btn-light"
+              onclick="window.parent.bootstrap.Modal.getOrCreateInstance(window.parent.document.getElementById('patient-form-modal')).hide();">
+        <i class="la la-times me-1"></i>{% trans "Cancel" %}
+      </button>
+      <button type="submit" class="btn btn-sm btn-primary">
+        <i class="la la-check me-1"></i>{% trans "Save" %}
+      </button>
+    </div>
+  </div>
+
+  <div class="card-body pt-3 pb-4" style="overflow-y:auto;flex:1;">
+
+    <!-- ── Identity ───────────────────────────────────────── -->
+    <div class="pf-section-title"><i class="la la-id-card"></i>{% trans "Identity" %}</div>
+    <div class="row g-3">
+      <div class="col-md-2">
+        <label class="form-label">{% trans "Title" %}{% if patient.civilite.field.required %}<span class="required-star">*</span>{% endif %}</label>
+        {% render_field patient.civilite class+="form-control form-control-sm" %}
+        {% if patient.civilite.errors %}<div class="field-error">{{ patient.civilite.errors|join:", " }}</div>{% endif %}
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">{% trans "Sex" %}{% if patient.sexe.field.required %}<span class="required-star">*</span>{% endif %}</label>
+        {% render_field patient.sexe class+="form-control form-control-sm" %}
+        {% if patient.sexe.errors %}<div class="field-error">{{ patient.sexe.errors|join:", " }}</div>{% endif %}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "First Name" %}{% if patient.prenom.field.required %}<span class="required-star">*</span>{% endif %}</label>
+        {% render_field patient.prenom class+="form-control form-control-sm" %}
+        {% if patient.prenom.errors %}<div class="field-error">{{ patient.prenom.errors|join:", " }}</div>{% endif %}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "Last Name" %}{% if patient.nom.field.required %}<span class="required-star">*</span>{% endif %}</label>
+        {% render_field patient.nom class+="form-control form-control-sm" %}
+        {% if patient.nom.errors %}<div class="field-error">{{ patient.nom.errors|join:", " }}</div>{% endif %}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "Birth Name" %}{% if patient.nom_naissance.field.required %}<span class="required-star">*</span>{% endif %}</label>
+        {% render_field patient.nom_naissance class+="form-control form-control-sm" %}
+        {% if patient.nom_naissance.errors %}<div class="field-error">{{ patient.nom_naissance.errors|join:", " }}</div>{% endif %}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "Date of Birth" %}{% if patient.date_naissance.field.required %}<span class="required-star">*</span>{% endif %}</label>
+        {% render_field patient.date_naissance class+="form-control form-control-sm" %}
+        {% if patient.date_naissance.errors %}<div class="field-error">{{ patient.date_naissance.errors|join:", " }}</div>{% endif %}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "Origin" %}{% if patient.origine.field.required %}<span class="required-star">*</span>{% endif %}</label>
+        {% render_field patient.origine class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "ID Number" %}</label>
+        {% render_field patient.numero_identite class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "Social Security Code" %}</label>
+        {% render_field patient.code_securite_sociale class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "Old Number" %}</label>
+        {% render_field patient.ancien_numero class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "Occupation" %}</label>
+        {% render_field patient.profession class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "Primary Practitioner" %}{% if patient.praticien_principal.field.required %}<span class="required-star">*</span>{% endif %}</label>
+        {% render_field patient.praticien_principal class+="form-control form-control-sm" %}
+        {% if patient.praticien_principal.errors %}<div class="field-error">{{ patient.praticien_principal.errors|join:", " }}</div>{% endif %}
+      </div>
+      <div class="col-12">
+        <label class="form-label">{% trans "Notes" %}</label>
+        {% render_field patient.observation class+="form-control form-control-sm" rows="2" %}
+      </div>
+    </div>
+
+    <!-- ── Contact ────────────────────────────────────────── -->
+    <div class="pf-section-title"><i class="la la-phone"></i>{% trans "Contact" %}</div>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <label class="form-label">{% trans "Phone" %}</label>
+        {% render_field patient.telephone class+="form-control form-control-sm" placeholder="+216 XX XXX XXX" %}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "Secondary Phone" %}</label>
+        {% render_field patient.telephone_secondaire class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "Other Phone" %}</label>
+        {% render_field patient.telephone_autre class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">{% trans "Email" %}{% if patient.email.field.required %}<span class="required-star">*</span>{% endif %}</label>
+        {% render_field patient.email class+="form-control form-control-sm" placeholder="email@example.com" %}
+        {% if patient.email.errors %}<div class="field-error">{{ patient.email.errors|join:", " }}</div>{% endif %}
+      </div>
+    </div>
+
+    <!-- ── Address ────────────────────────────────────────── -->
+    <div class="pf-section-title"><i class="la la-map-marker"></i>{% trans "Address" %}</div>
+    <div class="row g-3">
+      <div class="col-md-3">
+        <label class="form-label">{% trans "City" %}</label>
+        {% render_field adresse.ville class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">{% trans "Postal Code" %}</label>
+        {% render_field adresse.cp class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">{% trans "Governorate" %}</label>
+        {% render_field adresse.gouvernorat class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">{% trans "Country" %}</label>
+        {% render_field adresse.pays class+="form-control form-control-sm" %}
+      </div>
+    </div>
+
+    <!-- ── Health ─────────────────────────────────────────── -->
+    <div class="pf-section-title"><i class="la la-heartbeat"></i>{% trans "Health" %}</div>
+    <div class="row g-3">
+      <div class="col-md-3">
+        <label class="form-label">{% trans "Height (cm)" %}</label>
+        {% render_field patient.taille class+="form-control form-control-sm" placeholder="170" %}
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">{% trans "Weight (kg)" %}</label>
+        {% render_field patient.poids class+="form-control form-control-sm" placeholder="70" %}
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">{% trans "Blood Type" %}</label>
+        {% render_field patient.groupe_sanguin class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">{% trans "Smoker" %}</label>
+        {% render_field patient.fumeur class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">{% trans "Cigarettes / day" %}</label>
+        {% render_field patient.nombre_cigarettes class+="form-control form-control-sm" placeholder="0" %}
+      </div>
+    </div>
+
+    <!-- ── Spouse ─────────────────────────────────────────── -->
+    <div class="pf-section-title"><i class="la la-ring"></i>{% trans "Spouse Information" %}</div>
+    <div class="row g-3">
+      <div class="col-md-3">
+        <label class="form-label">{% trans "Marriage Date" %}</label>
+        {% render_field patient.date_mariage class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">{% trans "Last Name" %}</label>
+        {% render_field patient.nom_conjoint class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">{% trans "First Name" %}</label>
+        {% render_field patient.prenom_conjoint class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">{% trans "Spouse DOB" %}</label>
+        {% render_field patient.date_naissance_conjoint class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">{% trans "Occupation" %}</label>
+        {% render_field patient.profession_conjoint class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">{% trans "Health Status" %}</label>
+        {% render_field patient.etat_sante_conjoint class+="form-control form-control-sm" %}
+      </div>
+    </div>
+
+    <!-- ── Insurance ──────────────────────────────────────── -->
+    <div class="pf-section-title"><i class="la la-shield-alt"></i>{% trans "Insurance" %}</div>
+    <div class="row g-3">
+      <div class="col-12">
+        <div class="form-check">
+          {% render_field patient.mutuelle class+="form-check-input" %}
+          <label class="form-check-label">{% trans "Has Insurance (Mutuelle)" %}</label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">{% trans "Insurance Name" %}</label>
+        {% render_field patient.designation class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">{% trans "Fund" %}</label>
+        {% render_field patient.caisse_affectation class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "Scheme" %}</label>
+        {% render_field patient.regime class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "Relationship" %}</label>
+        {% render_field patient.lien_parente class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "Insurance Expiry" %}</label>
+        {% render_field patient.date_validite_mutuelle class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "Care Booklet No." %}</label>
+        {% render_field patient.num_carnet_soin class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "Family Doctor Code" %}</label>
+        {% render_field patient.code_medecin_famille class+="form-control form-control-sm" %}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">{% trans "APCI Code" %}</label>
+        {% render_field patient.code_apci class+="form-control form-control-sm" %}
+      </div>
+    </div>
+
+  </div><!-- card-body -->
+
+  <div class="card-footer d-flex justify-content-end gap-2 py-3">
+    <button type="button" class="btn btn-sm btn-light"
+            onclick="window.parent.bootstrap.Modal.getOrCreateInstance(window.parent.document.getElementById('patient-form-modal')).hide();">
+      {% trans "Cancel" %}
+    </button>
+    <button type="submit" class="btn btn-sm btn-primary">
+      <i class="la la-check me-1"></i>{% trans "Save" %}
+    </button>
+  </div>
+
+</div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(function () {
+  $('.pf-date').datepicker({
+    todayHighlight: true,
+    autoclose: true,
+    language: window.currentLang || 'fr',
+    weekStart: 1,
+    format: 'dd/mm/yyyy',
+    orientation: 'bottom auto',
+  });
+});
+</script>
+{% endblock %}

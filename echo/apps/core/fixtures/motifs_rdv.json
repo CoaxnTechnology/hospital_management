@@ -1,0 +1,23 @@
+[
+  {
+    "model": "core.MotifRdv",
+    "pk": 1,
+    "fields": {
+      "libelle": "Consultation"
+    }
+  },
+  {
+    "model": "core.MotifRdv",
+    "pk": 2,
+    "fields": {
+      "libelle": "Examen"
+    }
+  },
+  {
+    "model": "core.MotifRdv",
+    "pk": 21,
+    "fields": {
+      "libelle": "Contrôle"
+    }
+  }
+]

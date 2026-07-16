@@ -1,0 +1,216 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load common %}
+{% load i18n %}
+
+{% trans "longueur" as t_longueur %}
+{% trans "largeur" as t_largeur %}
+{% trans "hauteur" as t_hauteur %}
+{% trans "lon. totale" as t_lon_totale %}
+{% trans "Commentaires" as t_commentaires %}
+
+<div class="card">
+<div class="card-body">
+
+<div class="d-flex flex-row-reverse pl-5 pt-1 pr-5">
+<button onclick="setQuick()" type="button" class="btn btn-sm btn-secondary">
+{% trans "Tout normal" %}
+</button>
+</div>
+
+<div id="uterus-container" class="pt-1 pl-5 pr-5 pb-3">
+
+<div class="form-group mb-0">
+<h5 class="text-primary font-size-h5">{% trans "Utérus" %}</h5>
+</div>
+
+<div class="row gy-4">
+
+<div class="form-group col-3">
+<label class="form-label">{% trans "Position" %}</label>
+<div>
+{% render_field form.position_uterus class+="form-select form-select-solid form-select-sm" %}
+</div>
+</div>
+
+<div class="form-group col-3">
+<label class="form-label">{% trans "Latéralisation" %}</label>
+{% render_field form.lateralisation class+="form-select form-select-solid form-select-sm" %}
+</div>
+
+<div id="uterus-dim" class="form-group col-6">
+<label class="form-label">{% trans "Taille" %}</label>
+
+<div class="row">
+
+<div class="col-3 pr-0">
+{% render_field form.longueur class+="form-control form-control-solid form-control-sm" placeholder=t_longueur %}
+</div>
+
+<div class="col-3 pl-0 pr-0">
+{% render_field form.largeur class+="form-control form-control-solid form-control-sm" placeholder=t_largeur %}
+</div>
+
+<div class="col-3 pl-0 pr-0">
+{% render_field form.hauteur class+="form-control form-control-solid form-control-sm" placeholder=t_hauteur %}
+</div>
+
+<div class="col-3 pl-0 pr-0">
+{% render_field form.longueur_totale class+="form-control form-control-solid form-control-sm" placeholder=t_lon_totale %}
+</div>
+
+</div>
+</div>
+
+<div class="form-group col-2">
+<label class="form-label">{% trans "Vol. utérin" %}</label>
+{% render_field form.volume_uterin class+="form-control form-control-solid form-control-sm" %}
+</div>
+
+<div class="form-group col-3">
+<label class="form-label">{% trans "Commentaire" %}</label>
+{% render_field form.volume_uterin_commentaire class+="form-select form-select-solid form-select-sm" %}
+</div>
+
+<div class="form-group col-3">
+<label class="form-label">{% trans "Asymétrie" %}</label>
+{% render_field form.asymetrie class+="form-select form-select-solid form-select-sm" %}
+</div>
+
+<div class="form-group col-2">
+<label class="form-label">{% trans "Paroi antérieure" %}</label>
+{% render_field form.paroi_anterieure class+="form-control form-control-solid form-control-sm" %}
+</div>
+
+<div class="form-group col-2">
+<label class="form-label">{% trans "Paroi postérieure" %}</label>
+{% render_field form.paroi_posterieure class+="form-control form-control-solid form-control-sm" %}
+</div>
+
+<div class="form-group col-3">
+<label class="form-label">{% trans "Mobilité" %}</label>
+{% render_field form.mobilite class+="form-select form-select-solid form-select-sm" %}
+</div>
+
+<div class="form-group col-3">
+<label class="form-label">{% trans "Structures" %}</label>
+{% render_field form.structures class+="form-select form-select-solid form-select-sm" %}
+</div>
+
+<div class="col-12">
+
+<div class="form-group">
+<label class="form-label">{% trans "Commentaires myomètre" %}</label>
+
+{% render_field form.commentaires_myometre class+="form-control form-control-solid form-control-sm" %}
+
+</div>
+
+</div>
+
+<div class="form-group col-4">
+<label class="form-label">{% trans "Cavité" %}</label>
+{% render_field form.cavite class+="form-select form-select-solid form-select-sm" %}
+</div>
+
+<div class="form-group col-4">
+<label class="form-label">{% trans "Malformation" %}</label>
+{% render_field form.malformation class+="form-select form-select-solid form-select-sm" %}
+</div>
+
+<div class="form-group col-4">
+<label class="form-label">{% trans "Ligne cavitaire" %}</label>
+{% render_field form.ligne_cavitaire class+="form-select form-select-solid form-select-sm" %}
+</div>
+
+<div class="form-group col-3">
+<label class="form-label">{% trans "Largeur inter-ostiale" %}</label>
+{% render_field form.largeur_interostiale class+="form-control form-control-solid form-control-sm" %}
+</div>
+
+<div class="form-group col-3">
+<label class="form-label">{% trans "Hystérométrie" %}</label>
+{% render_field form.hysterometrie class+="form-control form-control-solid form-control-sm" %}
+</div>
+
+</div>
+</div>
+
+<div class="separator py-3"></div>
+
+<div class="pt-4 pl-5 pr-5 pb-3">
+
+<h5 class="text-primary font-size-h5">{% trans "Endomètre" %}</h5>
+
+<div class="row">
+
+<div class="form-group col-3">
+<label class="form-label">{% trans "Visualisation" %}</label>
+{% render_field form.endometre_visualisation class+="form-select form-select-solid form-select-sm" %}
+</div>
+
+<div class="form-group col-3">
+<label class="form-label">{% trans "Echogénicité" %}</label>
+{% render_field form.endometre_echogenicite class+="form-select form-select-solid form-select-sm" %}
+</div>
+
+<div class="form-group col-3">
+<label class="form-label">{% trans "Epaisseur" %}</label>
+{% render_field form.endometre_epaisseur class+="form-control form-control-solid form-control-sm" %}
+</div>
+
+</div>
+</div>
+
+<div class="separator py-3"></div>
+
+<div class="pt-4 pl-5 pr-5 pb-3">
+
+<h5 class="text-primary font-size-h5">{% trans "Col" %}</h5>
+
+<div class="row">
+
+<div class="form-group col-3">
+<label class="form-label">{% trans "Longueur du col" %}</label>
+{% render_field form.col_longueur class+="form-control form-control-solid form-control-sm" %}
+</div>
+
+<div class="form-group col-3">
+<label class="form-label">{% trans "Aspect" %}</label>
+{% render_field form.col_aspect class+="form-select form-select-solid form-select-sm" %}
+</div>
+
+<div class="form-group col-3">
+<label class="form-label">{% trans "Vascularisation" %}</label>
+{% render_field form.col_vascularisation class+="form-select form-select-solid form-select-sm" %}
+</div>
+
+<div class="col-12">
+<label class="form-label">{% trans "Commentaires" %}</label>
+{% render_field form.commentaire_col_endometre class+="form-control form-control-solid form-control-sm" %}
+</div>
+
+</div>
+</div>
+
+<div class="separator py-3"></div>
+
+<h5 class="text-primary font-size-h5">{% trans "Ovaire gauche" %}</h5>
+<h5 class="text-primary font-size-h5">{% trans "Ovaire droit" %}</h5>
+
+<h5 class="text-primary font-size-h5">{% trans "Cul de sac latéro" %}</h5>
+
+<label class="form-label">{% trans "Conclusion échographie" %}</label>
+
+<label class="form-label">{% trans "Conclusion" %}</label>
+
+<label class="form-label">{% trans "Conduite à tenir" %}</label>
+
+<h5 class="modal-title">{% trans "Myomes" %}</h5>
+
+<h5 class="modal-title">{% trans "Adénomyose" %}</h5>
+
+<h5 class="modal-title">{% trans "Follicules" %}</h5>
+
+</div>
+</div>

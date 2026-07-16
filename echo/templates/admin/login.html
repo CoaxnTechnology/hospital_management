@@ -1,0 +1,469 @@
+{% load i18n %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <base href=""/>
+    <title>CabinetPro — Super Admin</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="icon" type="image/x-icon" href="{% static "media/logos/favicon.ico" %}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet"/>
+    <link href="{% static "v2/plugins/global/plugins.bundle.css" %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static "v2/css/style.bundle.css" %}" rel="stylesheet" type="text/css"/>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: 'DM Sans', sans-serif;
+            background: #0D2137;
+        }
+
+        .login-root {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* ── Left Panel ── */
+        .login-left {
+            width: 50%;
+            background: #F0F4F8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 32px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── Card ── */
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            background: #fff;
+            border-radius: 20px;
+            padding: 44px 40px 40px;
+            box-shadow: 0 4px 40px rgba(180,0,0,0.10);
+        }
+
+        /* Brand header */
+        .login-brand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+        .login-brand-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #7B0000 0%, #C62828 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+            box-shadow: 0 6px 20px rgba(198,40,40,0.35);
+        }
+        .login-brand-icon svg { color: #fff; }
+        .login-brand-name {
+            font-size: 24px;
+            font-weight: 800;
+            color: #0D2137;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+        .login-brand-name span { color: #C62828; }
+        .login-brand-sub {
+            font-size: 13px;
+            color: #7B8FA6;
+            font-weight: 400;
+        }
+
+        /* Admin badge */
+        .admin-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #7B0000 0%, #C62828 100%);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            border-radius: 20px;
+            padding: 4px 12px;
+            margin-top: 8px;
+        }
+
+        /* Inputs */
+        .login-field { margin-bottom: 16px; }
+        .login-field label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #7B8FA6;
+            margin-bottom: 6px;
+        }
+        .login-input-wrap { position: relative; }
+        .login-input-wrap .field-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #B0BEC5;
+            font-size: 16px;
+            pointer-events: none;
+            transition: color 0.2s;
+        }
+        .login-input-wrap input {
+            width: 100%;
+            height: 46px;
+            border: 1.5px solid #E2EAF4;
+            border-radius: 10px;
+            padding: 0 14px 0 42px;
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            color: #1a2a3a;
+            background: #FAFCFF;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+        .login-input-wrap input:focus {
+            border-color: #C62828;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(198,40,40,0.10);
+        }
+        .login-input-wrap input.is-invalid {
+            border-color: #e53935;
+            background: #fff5f5;
+        }
+
+        /* Toggle password visibility */
+        .toggle-pw {
+            position: absolute;
+            right: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #B0BEC5;
+            font-size: 15px;
+            background: none;
+            border: none;
+            padding: 0;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+        .toggle-pw:hover { color: #C62828; }
+        .pw-input { padding-right: 42px !important; }
+
+        /* Submit button */
+        .login-submit {
+            width: 100%;
+            height: 48px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #7B0000 0%, #C62828 100%);
+            color: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            cursor: pointer;
+            margin-top: 8px;
+            box-shadow: 0 4px 18px rgba(198,40,40,0.30);
+            transition: box-shadow 0.2s, transform 0.15s, opacity 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .login-submit:hover {
+            box-shadow: 0 8px 24px rgba(198,40,40,0.40);
+            transform: translateY(-1px);
+            opacity: 0.96;
+        }
+        .login-submit:active { transform: translateY(0); }
+
+        /* Error alert */
+        .login-error-alert {
+            background: #fff5f5;
+            border: 1px solid #ffcdd2;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 13px;
+            color: #c62828;
+            font-weight: 500;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .login-error-alert i { font-size: 15px; }
+
+        /* ── Right Panel ── */
+        .login-right {
+            width: 50%;
+            background: #0D2137;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 48px;
+            position: relative;
+            overflow: hidden;
+        }
+        .login-right-bg {
+            position: absolute;
+            inset: 0;
+            opacity: 0.04;
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 48px, rgba(255,255,255,0.6) 48px, rgba(255,255,255,0.6) 50px),
+                repeating-linear-gradient(90deg, transparent, transparent 48px, rgba(255,255,255,0.6) 48px, rgba(255,255,255,0.6) 50px);
+            pointer-events: none;
+        }
+        .login-orb {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(60px);
+            opacity: 0.18;
+        }
+        .login-orb-1 {
+            width: 320px; height: 320px;
+            background: #C62828;
+            top: -80px; right: -80px;
+        }
+        .login-orb-2 {
+            width: 240px; height: 240px;
+            background: #7B0000;
+            bottom: -60px; left: -60px;
+        }
+        .login-right-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 400px;
+        }
+
+        /* Shield icon */
+        .login-shield-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 32px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 32px;
+            backdrop-filter: blur(10px);
+            animation: floatBadge 4s ease-in-out infinite;
+        }
+        @keyframes floatBadge {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .login-right-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.25;
+            letter-spacing: -0.5px;
+            margin-bottom: 14px;
+        }
+        .login-right-title span { color: #EF9A9A; }
+        .login-right-sub {
+            font-size: 15px;
+            color: rgba(255,255,255,0.55);
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        /* Feature pills */
+        .login-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 32px;
+        }
+        .login-feature-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px;
+            padding: 7px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.75);
+        }
+        .login-feature-pill i { color: #EF9A9A; font-size: 13px; }
+
+        @media (max-width: 991px) {
+            .login-right { display: none; }
+            .login-left { width: 100%; min-height: 100vh; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-root">
+
+    <!-- ── Left: Login Form ── -->
+    <div class="login-left">
+        <div class="login-card">
+
+            <!-- Brand -->
+            <div class="login-brand">
+                <div class="login-brand-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" fill="white"/>
+                    </svg>
+                </div>
+                <div class="login-brand-name">Cabinet<span>Pro</span></div>
+                <div class="login-brand-sub">{% trans "Panneau d'administration" %}</div>
+                <span class="admin-badge">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+                    Super Admin
+                </span>
+            </div>
+
+            <!-- Error -->
+            {% if form.errors %}
+            <div class="login-error-alert">
+                <i class="la la-exclamation-circle"></i>
+                {% trans "Nom d'utilisateur ou mot de passe incorrect" %}. {% trans "Merci de réessayer" %}.
+            </div>
+            {% endif %}
+
+            <!-- Form -->
+            <form method="post" action="{{ request.path }}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next }}"/>
+
+                <!-- Username -->
+                <div class="login-field">
+                    <label for="id_username">{% trans "Nom d'utilisateur" %}</label>
+                    <div class="login-input-wrap">
+                        <input type="text"
+                               id="id_username"
+                               name="username"
+                               class="{% if form.errors %}is-invalid{% endif %}"
+                               placeholder="admin"
+                               autocomplete="off"
+                               autofocus
+                               value="{{ form.username.value|default:"" }}"/>
+                        <i class="la la-user-shield field-icon"></i>
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div class="login-field">
+                    <label for="id_password">{% trans "Mot de passe" %}</label>
+                    <div class="login-input-wrap">
+                        <input type="password"
+                               id="id_password"
+                               name="password"
+                               class="pw-input"
+                               placeholder="••••••••"
+                               autocomplete="current-password"/>
+                        <i class="la la-lock field-icon"></i>
+                        <button type="button" class="toggle-pw" id="toggle-pw-btn" tabindex="-1">
+                            <i class="la la-eye" id="pw-eye-icon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="login-submit">
+                    <i class="la la-sign-in-alt" style="font-size:17px;"></i>
+                    {% trans "Connexion" %}
+                </button>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- ── Right: Branding Panel ── -->
+    <div class="login-right">
+        <div class="login-right-bg"></div>
+        <div class="login-orb login-orb-1"></div>
+        <div class="login-orb login-orb-2"></div>
+
+        <div class="login-right-content">
+            <div class="login-shield-icon">
+                <svg width="56" height="56" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" fill="rgba(255,255,255,0.9)"/>
+                </svg>
+            </div>
+
+            <div class="login-right-title">
+                {% trans "Accès" %} <span>{% trans "Super Admin" %}</span><br/>{% trans "réservé." %}
+            </div>
+            <div class="login-right-sub">
+                {% trans "Gestion complète de la plateforme — utilisateurs, données, configuration et sécurité." %}
+            </div>
+
+            <div class="login-features">
+                <div class="login-feature-pill">
+                    <i class="la la-users-cog"></i> {% trans "Utilisateurs" %}
+                </div>
+                <div class="login-feature-pill">
+                    <i class="la la-database"></i> {% trans "Base de données" %}
+                </div>
+                <div class="login-feature-pill">
+                    <i class="la la-cogs"></i> {% trans "Configuration" %}
+                </div>
+                <div class="login-feature-pill">
+                    <i class="la la-shield-alt"></i> {% trans "Sécurité" %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="{% static "plugins/global/plugins.bundle.js" %}"></script>
+<script src="{% static "js/scripts.bundle.js" %}"></script>
+<script>
+// Password toggle
+var pwInput = document.getElementById('id_password');
+var pwBtn = document.getElementById('toggle-pw-btn');
+var pwIcon = document.getElementById('pw-eye-icon');
+if (pwBtn) {
+    pwBtn.addEventListener('click', function() {
+        if (pwInput.type === 'password') {
+            pwInput.type = 'text';
+            pwIcon.className = 'la la-eye-slash';
+        } else {
+            pwInput.type = 'password';
+            pwIcon.className = 'la la-eye';
+        }
+    });
+}
+
+// Input focus — update icon color
+document.querySelectorAll('.login-input-wrap input').forEach(function(inp) {
+    inp.addEventListener('focus', function() {
+        var icon = this.parentElement.querySelector('.field-icon');
+        if (icon) icon.style.color = '#C62828';
+    });
+    inp.addEventListener('blur', function() {
+        var icon = this.parentElement.querySelector('.field-icon');
+        if (icon) icon.style.color = '';
+    });
+});
+</script>
+</body>
+</html>

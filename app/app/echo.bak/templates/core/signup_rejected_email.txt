@@ -1,0 +1,9 @@
+Hello {{ full_name }},
+
+Thank you for your interest in CabinetPro.
+
+After review, we are unfortunately unable to process your access request at this time.
+
+If you believe this is a mistake, please contact our support team.
+
+— The CabinetPro Team

@@ -1,0 +1,35 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="p-4">
+        <div class="form-group">
+            <label for="dossier">Dossier</label>
+            <select name="dossier" class="form-control">
+                {% for dossier in dossiers %}
+                    <option value="{{ dossier.id }}">{{ dossier.nom }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <form id="dz" action="/patients/{{ patient.pk }}/fichier/ajouter/" class="mt-2">
+        </form>
+
+        <div class="dropzone dropzone-default h-200px" id="kt_dropzone_1">
+            <div class="dropzone-msg dz-message needsclick">
+                <h3 class="dropzone-msg-title">Déposer un fichier ou cliquer pour télécharger.</h3>
+                <span class="dropzone-msg-desc">Le fichier sera  ajouté au dossier sélectionné.</span>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        const patient = {{ patient.pk }};
+    </script>
+    <script src="{% static "js/core/patient_fichiers_telecharger.js" %}"></script>
+{% endblock %}

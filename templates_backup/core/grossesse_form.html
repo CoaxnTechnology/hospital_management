@@ -1,0 +1,227 @@
+{% extends "base_dialog.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<form id="form_1" class="form" method="post">
+    {% csrf_token %}
+    {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+    {% endfor %}
+
+<div class="card card-custom bg-white shadow-none">
+<div class="card-header d-flex justify-content-between align-items-center bg-light">
+
+    <h3>
+        {% if object %}
+            {% trans "Modifier" %}
+        {% else %}
+            {% trans "Créer" %}
+        {% endif %}
+        {% trans "une grossesse" %}
+    </h3>
+
+    <div>
+        <button type="button" class="btn btn-default" onclick="window.parent.fermerModals()">
+            {% trans "Annuler" %}
+        </button>
+        <button type="submit" class="btn btn-primary">
+            {% trans "Enregistrer" %}
+        </button>
+    </div>
+</div>
+
+<div class="card-body">
+
+<!-- ================= Conjoint ================= -->
+
+<button type="button" class="btn btn-outline-info" data-toggle="collapse" href="#blocConjoint">
+    {% trans "Informations sur le conjoint" %}
+</button>
+
+<div class="collapse" id="blocConjoint">
+<div class="card mt-3">
+<div class="card-body">
+
+<h5>{% trans "Conjoint" %}</h5>
+
+<label>{% trans "Nom" %}</label>
+{% render_field form.nom_conjoint class+="form-control form-control-sm" %}
+
+<label>{% trans "Prénom" %}</label>
+{% render_field form.prenom_conjoint class+="form-control form-control-sm" %}
+
+<label>{% trans "Date de naissance" %}</label>
+{% render_field form.date_naissance_conjoint class+="form-control form-control-sm" %}
+
+<label>{% trans "Téléphone" %}</label>
+{% render_field form.telephone_conjoint class+="form-control form-control-sm" %}
+
+<label>{% trans "Groupe sanguin" %}</label>
+{% render_field form.groupe_sanguin_conjoint class+="form-control form-control-sm" %}
+
+<label>{% trans "Consanguinité" %}</label>
+{% render_field form.consanguinite_conjoint class+="form-control form-control-sm" %}
+
+<label>{% trans "Etat de santé" %}</label>
+{% render_field form.etat_sante_conjoint class+="form-control form-control-sm" %}
+
+</div>
+</div>
+</div>
+
+<!-- ================= Données générales ================= -->
+
+<label>{% trans "Poids av. grossesse" %}</label>
+{% render_field form.poids_avant_grossesse class+="form-control form-control-sm" %}
+
+<label>{% trans "Taille" %}</label>
+{% render_field form.taille class+="form-control form-control-sm" %}
+
+<label>{% trans "IMC" %}</label>
+<input disabled class="form-control form-control-sm"/>
+
+<label>{% trans "DDR" %}</label>
+{% render_field form.ddr class+="form-control form-control-sm" %}
+
+<label>{% trans "DDR corrigée" %}</label>
+{% render_field form.ddr_corrige class+="form-control form-control-sm" %}
+
+<label>{% trans "DDG théorique" %}</label>
+<input type="text" class="form-control form-control-sm">
+
+<label>{% trans "DDG corrigée" %}</label>
+{% render_field form.ddg_corrige class+="form-control form-control-sm" %}
+
+<label>{% trans "Cycle (jours)" %}</label>
+{% render_field form.cycle class+="form-control form-control-sm" %}
+
+<!-- ================= Données grossesse ================= -->
+
+<h5>{% trans "Données de la grossesse" %}</h5>
+
+<label>{% trans "Nb de Fœtus" %}</label>
+{% render_field form.nb_foetus class+="form-control form-control-sm" %}
+
+<label>{% trans "Type de grossesse" %}</label>
+{% render_field form.type_grossesse_v2 class+="form-control form-control-sm" %}
+
+<label>{% trans "Conception" %}</label>
+{% render_field form.conception_v2 class+="form-control form-control-sm" %}
+
+<!-- ================= Echo ================= -->
+
+<h5>{% trans "Echographie du 1er trimestre" %}</h5>
+
+<label>{% trans "Date de l'écho" %}</label>
+{% render_field form.date_echo class+="form-control form-control-sm" %}
+
+<label>{% trans "LCC" %}</label>
+{% render_field form.lcc_1 class+="form-control form-control-sm" %}
+
+<label>{% trans "CN" %}</label>
+{% render_field form.cn_1 class+="form-control form-control-sm" %}
+
+<label>{% trans "Score de Herman" %}</label>
+{% render_field form.score_herman_1_v2 class+="form-control form-control-sm" %}
+
+<h5>{% trans "Trisomie" %}</h5>
+
+<label>
+    {% render_field form.test_t21_fait class+="form-check-input" %}
+    {% trans "Dépistage T21 Fait" %}
+</label>
+
+<label>{% trans "Risque T21 combiné" %}</label>
+{% render_field form.risque class+="form-control form-control-sm" %}
+
+<label>{% trans "Risque T21 biochimique" %}</label>
+{% render_field form.risque_t21_bio class+="form-control form-control-sm" %}
+
+<label>{% trans "Risque T21 lié à l'âge" %}</label>
+{% render_field form.risque_t21_age class+="form-control form-control-sm" %}
+
+<label>{% trans "Risque T18 et 13" %}</label>
+{% render_field form.risque_t18_13 class+="form-control form-control-sm" %}
+
+<!-- ================= Screening ================= -->
+
+<h5>{% trans "Screening" %}</h5>
+
+<label>{% trans "1er trimestre" %}</label>
+{% render_field form.screening_premier_trimestre class+="form-control form-control-sm" %}
+
+<label>{% trans "2ème trimestre" %}</label>
+{% render_field form.screening_deuxieme_trimestre class+="form-control form-control-sm" %}
+
+<label>{% trans "Caryotype" %}</label>
+{% render_field form.caryotype_type class+="form-control form-control-sm" %}
+
+{% render_field form.caryotype_val class+="form-control form-control-sm" placeholder=_("Résultat") %}
+
+<label>{% trans "DPNI" %}</label>
+{% render_field form.dpni class+="form-control form-control-sm" placeholder=_("Résultat") %}
+
+{% render_field form.dpni_comment class+="form-control form-control-sm" placeholder=_("Commentaire") %}
+
+<label>{% trans "Diabète" %}</label>
+{% render_field form.diabete_v2 class+="form-control form-control-sm" %}
+
+<!-- ================= Infos complémentaires ================= -->
+
+<h5>{% trans "Informations complémentaires" %}</h5>
+
+<label>
+    {% render_field form.listeria class+="form-check-input" %}
+    {% trans "Listeria" %}
+</label>
+
+<label>
+    {% render_field form.cmv class+="form-check-input" %}
+    {% trans "CMV" %}
+</label>
+
+<label>
+    {% render_field form.alcool class+="form-check-input" %}
+    {% trans "Alcool" %}
+</label>
+
+<label>{% trans "Toxoplasmose" %}</label>
+{% render_field form.toxoplasmose_v2 class+="form-control form-control-sm" %}
+
+<label>
+    {% render_field form.aspegic class+="form-check-input" %}
+    {% trans "Sous traitement Aspegic" %}
+</label>
+
+<!-- ================= Projet accouchement ================= -->
+
+<h5>{% trans "Projet d'accouchement" %}</h5>
+
+<label>
+    {% render_field form.allaitement_maternel class+="form-check-input" %}
+    {% trans "Allaitement maternel" %}
+</label>
+
+<label>
+    {% render_field form.allaitement_artificiel class+="form-check-input" %}
+    {% trans "Allaitement artificiel" %}
+</label>
+
+<label>{% trans "Lieu d'accouchement" %}</label>
+{% render_field form.lieu_accouchement_principal class+="form-control form-control-sm" %}
+
+<label>{% trans "Préciser" %}</label>
+{% render_field form.lieu_accouchement_libre class+="form-control form-control-sm" %}
+
+<h5>{% trans "Informations complémentaires" %}</h5>
+{% render_field form.infos_complemenatires class+="form-control" placeholder=_("Autres informations") %}
+
+<h5>{% trans "Notes" %}</h5>
+{% render_field form.notes class+="form-control" %}
+
+</div>
+</div>
+</form>
+{% endblock %}

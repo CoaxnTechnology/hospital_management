@@ -1,0 +1,826 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Super Admin — Doctor Management</title>
+<link rel="icon" type="image/x-icon" href="{% static 'media/logos/favicon.ico' %}"/>
+<link rel="icon" type="image/png" sizes="32x32" href="{% static 'media/logos/favicon-32x32.png' %}"/>
+<link rel="shortcut icon" href="{% static 'media/logos/favicon.ico' %}"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0F1117; color: #E2E8F0; min-height: 100vh; }
+
+  /* Header */
+  .header { background: #1A1D2B; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .header-brand { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 700; color: #4A9EFF; }
+  .header-brand span { color: #E2E8F0; font-weight: 400; font-size: 14px; }
+  .header-actions { display: flex; align-items: center; gap: 12px; }
+  .btn-logout { color: #9BAFCA; text-decoration: none; font-size: 14px; padding: 6px 12px; border-radius: 6px; transition: color .15s; }
+  .btn-logout:hover { color: #F87171; }
+
+  /* Main */
+  .main { max-width: 1400px; margin: 0 auto; padding: 40px 24px; }
+  .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+  .page-title { font-size: 24px; font-weight: 700; }
+  .page-subtitle { color: #9BAFCA; font-size: 14px; margin-top: 4px; }
+
+  /* Button */
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all .15s; text-decoration: none; }
+  .btn-primary { background: #4A9EFF; color: #fff; }
+  .btn-primary:hover { background: #60B4FF; }
+  .btn-danger { background: rgba(248,113,113,0.15); color: #F87171; }
+  .btn-danger:hover { background: rgba(248,113,113,0.25); }
+  .btn-sm { padding: 6px 12px; font-size: 13px; }
+
+  /* Stats */
+  .stat-card { background: #1A1D2B; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px 24px; }
+  .stat-label { font-size: 13px; color: #9BAFCA; margin-bottom: 6px; }
+  .stat-value { font-size: 28px; font-weight: 700; color: #4A9EFF; }
+
+  /* Table */
+  .card { background: #1A1D2B; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden; }
+  .card-header { padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; }
+  .card-header h3 { font-size: 16px; font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  th { padding: 10px 10px; text-align: left; font-size: 11px; font-weight: 600; color: #9BAFCA; text-transform: uppercase; letter-spacing: .5px; border-bottom: 1px solid rgba(255,255,255,0.06); white-space: nowrap; }
+  td { padding: 12px 10px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; overflow: hidden; }
+  .col-id { width: 40px; }
+  .col-name { width: 14%; }
+  .col-email { width: 18%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .col-ae { width: 10%; }
+.col-login { width: 12%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .col-active { width: 10%; }
+  .col-actions { width: 170px; white-space: nowrap; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .badge-gyneco { background: rgba(74,158,255,0.15); color: #4A9EFF; }
+  .badge-cardio { background: rgba(167,139,250,0.15); color: #A78BFA; }
+  .badge-general { background: rgba(45,212,191,0.15); color: #2DD4BF; }
+  .ae-tag { font-family: monospace; font-size: 13px; background: rgba(255,255,255,0.06); padding: 2px 8px; border-radius: 4px; color: #E2E8F0; }
+  .empty-state { text-align: center; padding: 60px 24px; color: #6B7A99; }
+  .empty-state p { margin-top: 8px; font-size: 14px; }
+
+  /* Modal */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity .2s; }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal { background: #1A1D2B; border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 32px; width: 100%; max-width: 480px; transform: translateY(16px); transition: transform .2s; }
+  .modal-overlay.open .modal { transform: translateY(0); }
+  .modal h2 { font-size: 20px; font-weight: 700; margin-bottom: 24px; }
+  .form-group { margin-bottom: 18px; }
+  label { display: block; font-size: 13px; font-weight: 600; color: #9BAFCA; margin-bottom: 6px; }
+  input, select { width: 100%; padding: 10px 14px; background: #252836; border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; color: #E2E8F0; font-size: 14px; outline: none; transition: border-color .15s; }
+  input:focus, select:focus { border-color: #4A9EFF; }
+  select option { background: #252836; }
+  .modal-footer { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+  .btn-cancel { background: rgba(255,255,255,0.06); color: #9BAFCA; }
+  .btn-cancel:hover { background: rgba(255,255,255,0.1); }
+
+  /* Credentials popup */
+  .cred-box { background: #252836; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+  .cred-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .cred-row:last-child { border-bottom: none; }
+  .cred-label { font-size: 13px; color: #9BAFCA; }
+  .cred-value { font-family: monospace; font-size: 14px; color: #E2E8F0; font-weight: 600; }
+  .warning-note { font-size: 13px; color: #FB923C; display: flex; align-items: center; gap: 6px; margin-bottom: 20px; }
+  .copy-btn { background: rgba(74,158,255,0.12); color: #4A9EFF; border: none; border-radius: 6px; padding: 6px 12px; font-size: 12px; cursor: pointer; }
+  .copy-btn:hover { background: rgba(74,158,255,0.2); }
+
+  /* Language switcher */
+  .lang-switcher { position: relative; }
+  .lang-btn { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 6px 12px; color: #E2E8F0; font-size: 13px; font-weight: 600; cursor: pointer; transition: background .15s; }
+  .lang-btn:hover { background: rgba(255,255,255,0.1); }
+  .lang-btn svg { flex-shrink: 0; }
+  .lang-menu { position: absolute; top: calc(100% + 6px); right: 0; background: #1E2235; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; min-width: 150px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.4); z-index: 999; display: none; }
+  .lang-menu a { display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: #9BAFCA; font-size: 13px; text-decoration: none; transition: background .12s; }
+  .lang-menu a:hover, .lang-menu a.active { background: rgba(74,158,255,0.12); color: #E2E8F0; }
+  .lang-menu a.active { font-weight: 600; }
+  .lang-flag { font-size: 11px; font-weight: 700; color: #4A9EFF; background: rgba(74,158,255,0.12); border-radius: 4px; padding: 2px 5px; }
+
+  /* Equipment modal */
+  .modal.modal-lg { max-width: 640px; }
+  .device-list { margin-bottom: 20px; }
+  .device-item { display: flex; align-items: center; justify-content: space-between; background: #252836; border-radius: 8px; padding: 10px 14px; margin-bottom: 8px; gap: 12px; }
+  .device-item-info { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .device-item-label { font-size: 13px; color: #9BAFCA; }
+  .device-item-val { font-size: 13px; font-family: monospace; color: #E2E8F0; font-weight: 600; }
+  .device-section-title { font-size: 13px; font-weight: 600; color: #9BAFCA; text-transform: uppercase; letter-spacing: .5px; margin: 18px 0 10px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .btn-equipment { background: rgba(74,158,255,0.12); color: #4A9EFF; }
+  .btn-equipment:hover { background: rgba(74,158,255,0.22); }
+  .no-devices { color: #6B7A99; font-size: 13px; text-align: center; padding: 16px 0; }
+
+  /* Toggle switch */
+  .toggle-wrap { display: flex; align-items: center; gap: 8px; }
+  .toggle { position: relative; display: inline-block; width: 40px; height: 22px; }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider { position: absolute; cursor: pointer; inset: 0; background: rgba(255,255,255,0.12); border-radius: 22px; transition: .2s; }
+  .toggle-slider::before { content: ''; position: absolute; width: 16px; height: 16px; left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: .2s; }
+  .toggle input:checked + .toggle-slider { background: #22C55E; }
+  .toggle input:checked + .toggle-slider::before { transform: translateX(18px); }
+  .toggle-label { font-size: 12px; color: #9BAFCA; min-width: 48px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-brand">
+    <img src="{% static 'media/logos/logo.jpeg' %}" alt="CabinetPro" style="height:32px;width:auto;"> CabinetPro
+    <span>Super Admin</span>
+  </div>
+  <div class="header-actions">
+    <span style="font-size:14px;color:#9BAFCA;">{{ request.user.username }}</span>
+
+    <!-- Language Switcher -->
+    {% get_current_language as CURRENT_LANGUAGE %}
+    <div class="lang-switcher">
+      <button type="button" class="lang-btn" id="lang-btn" onclick="toggleLangMenu(event)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="#9BAFCA"/>
+        </svg>
+        {{ CURRENT_LANGUAGE|upper }}
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#9BAFCA" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="lang-menu" id="lang-menu">
+        {% get_available_languages as LANGUAGES %}
+        {% for lang_code, lang_name in LANGUAGES %}
+        <a href="javascript:switchLanguage('{{ lang_code }}')" class="{% if lang_code == CURRENT_LANGUAGE %}active{% endif %}">
+          <span class="lang-flag">{{ lang_code|upper }}</span>
+          {{ lang_name }}
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <a href="/accounts/logout" class="btn-logout">{% trans "Logout" %}</a>
+  </div>
+</div>
+
+<div class="main">
+  <div class="page-header">
+    <div>
+      <div class="page-title">{% trans "Doctor Accounts" %}</div>
+      <div class="page-subtitle">{% trans "Manage isolated doctor accounts and DICOM settings" %}</div>
+    </div>
+    <button class="btn btn-primary" onclick="openCreateModal()">&#43; {% trans "Add Doctor" %}</button>
+  </div>
+
+  <!-- Top row: Stats + DICOM config -->
+  <div style="display:grid;grid-template-columns:3fr 2fr;gap:16px;margin-bottom:32px;align-items:stretch;">
+    <!-- Stats -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+      <div class="stat-card">
+        <div class="stat-label">{% trans "Total Accounts" %}</div>
+        <div class="stat-value" id="stat-total">{{ comptes.count }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">{% trans "Active Accounts" %}</div>
+        <div class="stat-value" id="stat-active">{{ active_count }}</div>
+      </div>
+      <div class="stat-card" id="stat-pending-card" style="{% if signup_requests %}border-color:rgba(251,146,60,0.4);{% endif %}">
+        <div class="stat-label">{% trans "Pending Requests" %}</div>
+        <div class="stat-value" id="stat-pending" style="{% if signup_requests %}color:#FB923C;{% endif %}">{{ signup_requests|length }}</div>
+      </div>
+    </div>
+    <!-- DICOM Server Info -->
+    <div class="card">
+      <div class="card-header" style="padding:16px 20px;">
+        <h3>&#127760; {% trans "DICOM Server Configuration" %}</h3>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;">
+        <div style="padding:16px 18px;border-right:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:11px;font-weight:600;color:#9BAFCA;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">{% trans "Server IP" %}</div>
+          <span class="ae-tag">187.77.184.12</span>
+        </div>
+        <div style="padding:16px 18px;border-right:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:11px;font-weight:600;color:#9BAFCA;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">{% trans "Storage Port" %}</div>
+          <span class="ae-tag">{{ storage_port }}</span>
+        </div>
+        <div style="padding:16px 18px;">
+          <div style="font-size:11px;font-weight:600;color:#9BAFCA;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">{% trans "MWL Port" %}</div>
+          <span class="ae-tag">{{ mwl_port }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Signup Requests -->
+  {% if signup_requests %}
+  <div class="card" style="margin-bottom:24px;border-color:rgba(251,146,60,0.3);">
+    <div class="card-header" style="border-color:rgba(251,146,60,0.2);">
+      <h3 style="color:#FB923C;">&#9888; {% trans "Pending Signup Requests" %}</h3>
+      <span style="font-size:13px;color:#9BAFCA;">{{ signup_requests|length }} {% trans "pending" %}</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>{% trans "Name" %}</th>
+          <th>{% trans "Email" %}</th>
+          <th>{% trans "Phone" %}</th>
+          <th>{% trans "Submitted" %}</th>
+          <th>{% trans "Actions" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for req in signup_requests %}
+        <tr id="signup-row-{{ req.pk }}">
+          <td style="font-weight:600;">{{ req.full_name }}</td>
+          <td style="color:#9BAFCA;">{{ req.email }}</td>
+          <td style="color:#9BAFCA;">{{ req.phone|default:"—" }}</td>
+          <td style="color:#6B7A99;font-size:13px;">{{ req.created_at|date:"d/m/Y H:i" }}</td>
+          <td>
+            <button class="btn btn-sm" style="background:rgba(34,197,94,0.15);color:#22C55E;margin-right:6px;"
+                    onclick="approveSignup({{ req.pk }}, '{{ req.full_name|escapejs }}')">
+              &#10003; {% trans "Approve" %}
+            </button>
+            <button class="btn btn-danger btn-sm"
+                    onclick="rejectSignup({{ req.pk }}, '{{ req.full_name|escapejs }}')">
+              &#10005; {% trans "Reject" %}
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+
+  <div class="card">
+    <div class="card-header">
+      <h3>{% trans "All Doctor Accounts" %}</h3>
+    </div>
+    {% if comptes %}
+    <table>
+      <thead>
+        <tr>
+          <th class="col-id">#</th>
+          <th class="col-name">{% trans "Name / Clinic" %}</th>
+          <th class="col-email">{% trans "Email" %}</th>
+          <th class="col-ae">{% trans "AE Title" %}</th>
+          <th class="col-login">{% trans "Login" %}</th>
+          <th class="col-active">{% trans "Active" %}</th>
+          <th class="col-actions">{% trans "Actions" %}</th>
+        </tr>
+      </thead>
+      <tbody id="doctors-tbody">
+        {% for compte in comptes %}
+        <tr data-pk="{{ compte.pk }}">
+          <td class="col-id" style="color:#6B7A99;">{{ compte.pk }}</td>
+          <td class="col-name" style="font-weight:600;">{{ compte.raison_sociale }}</td>
+          <td class="col-email" style="color:#9BAFCA;" title="{{ compte.responsable.email|default:compte.email|default:'' }}">{{ compte.responsable.email|default:compte.email|default:"—" }}</td>
+          <td class="col-ae">
+            {% if compte.parametrescompte.ae_title %}
+              <span class="ae-tag">{{ compte.parametrescompte.ae_title }}</span>
+            {% else %}
+              <span style="color:#6B7A99;">—</span>
+            {% endif %}
+          </td>
+          <td class="col-login" style="color:#9BAFCA;" title="{% if compte.responsable %}{{ compte.responsable.username }}{% endif %}">
+            {% if compte.responsable %}{{ compte.responsable.username }}{% else %}—{% endif %}
+          </td>
+          <td class="col-active">
+            {% if compte.responsable %}
+            <div class="toggle-wrap">
+              <label class="toggle">
+                <input type="checkbox" {% if compte.responsable.is_active %}checked{% endif %}
+                       onchange="toggleCompte({{ compte.pk }}, this)"/>
+                <span class="toggle-slider"></span>
+              </label>
+              <span class="toggle-label" id="toggle-label-{{ compte.pk }}">
+                {% if compte.responsable.is_active %}{% trans "Active" %}{% else %}{% trans "Inactive" %}{% endif %}
+              </span>
+            </div>
+            {% else %}—{% endif %}
+          </td>
+          <td class="col-actions">
+            <div style="display:flex;gap:6px;align-items:center;">
+              <button class="btn btn-equipment btn-sm" onclick="openEquipmentModal({{ compte.pk }}, '{{ compte.raison_sociale|escapejs }}')">&#9881; {% trans "Equipment" %}</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteCompte({{ compte.pk }}, '{{ compte.raison_sociale|escapejs }}')">{% trans "Delete" %}</button>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+      <div style="font-size:48px;">&#128100;</div>
+      <p>{% trans "No doctor accounts yet. Click 'Add Doctor' to create one." %}</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Create Doctor Modal -->
+<div class="modal-overlay" id="createModal">
+  <div class="modal">
+    <h2>{% trans "Add Doctor Account" %}</h2>
+    <div class="form-group">
+      <label>{% trans "Full Name / Clinic Name" %}</label>
+      <input type="text" id="field-name" placeholder="Dr. Ahmed Ben Ali"/>
+    </div>
+    <div class="form-group">
+      <label>{% trans "Email" %}</label>
+      <input type="email" id="field-email" placeholder="dr.benali@example.com"/>
+    </div>
+    <div class="form-group">
+      <label>{% trans "Password" %}</label>
+      <div style="position:relative;">
+        <input type="password" id="field-password" placeholder="{% trans "Leave blank to auto-generate" %}" autocomplete="new-password"/>
+        <button type="button" onclick="togglePwd()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#9BAFCA;cursor:pointer;font-size:13px;" id="btn-toggle-pwd">{% trans "Show" %}</button>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeCreateModal()">{% trans "Cancel" %}</button>
+      <button class="btn btn-primary" id="btn-create" onclick="submitCreate()">{% trans "Create Account" %}</button>
+    </div>
+  </div>
+</div>
+
+<!-- Approve Signup Modal -->
+<div class="modal-overlay" id="approveModal">
+  <div class="modal">
+    <h2>&#10003; {% trans "Approve Request" %}</h2>
+    <p style="color:#9BAFCA;font-size:14px;margin-bottom:20px;" id="approve-doctor-name"></p>
+    <p style="color:#9BAFCA;font-size:13px;">{% trans "The doctor chose their own password during signup. Approving will create their account immediately and send them a notification email." %}</p>
+    <div class="modal-footer" style="margin-top:24px;">
+      <button class="btn btn-cancel" onclick="closeApproveModal()">{% trans "Cancel" %}</button>
+      <button class="btn btn-primary" id="btn-approve-submit" onclick="submitApprove()" style="background:#22C55E;">&#10003; {% trans "Approve & Create Account" %}</button>
+    </div>
+  </div>
+</div>
+
+<!-- Equipment Modal -->
+<div class="modal-overlay" id="equipmentModal">
+  <div class="modal modal-lg">
+    <h2>&#9881; {% trans "Equipment" %} — <span id="equip-doctor-name" style="color:#9BAFCA;font-weight:400;font-size:16px;"></span></h2>
+
+    <div class="device-section-title">{% trans "Configured Devices" %}</div>
+    <div class="device-list" id="device-list">
+      <div class="no-devices" id="device-empty">{% trans "No devices configured." %}</div>
+    </div>
+
+    <div class="device-section-title">{% trans "Add New Device" %}</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>{% trans "AE Title" %} *</label>
+        <input type="text" id="eq-ae_title" placeholder="VOLUSON_E10" maxlength="16" style="text-transform:uppercase;"/>
+      </div>
+      <div class="form-group">
+        <label>{% trans "Brand" %}</label>
+        <input type="text" id="eq-marque" placeholder="GE"/>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>{% trans "Model" %}</label>
+        <input type="text" id="eq-modele" placeholder="Voluson E10"/>
+      </div>
+      <div class="form-group">
+        <label>{% trans "IP Address" %}</label>
+        <input type="text" id="eq-ip" placeholder="192.168.1.100" value="187.77.184.12"/>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>{% trans "Port" %}</label>
+        <input type="number" id="eq-port" placeholder="104" value="104"/>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeEquipmentModal()">{% trans "Close" %}</button>
+      <button class="btn btn-primary" id="btn-add-device" onclick="submitAddDevice()">&#43; {% trans "Add Device" %}</button>
+    </div>
+  </div>
+</div>
+
+<!-- Credentials Modal -->
+<div class="modal-overlay" id="credModal">
+  <div class="modal">
+    <h2>&#10003; {% trans "Account Created" %}</h2>
+    <div class="cred-box">
+      <div class="cred-row">
+        <span class="cred-label">{% trans "Username" %}</span>
+        <span class="cred-value" id="cred-username"></span>
+      </div>
+      <div class="cred-row" id="cred-password-row">
+        <span class="cred-label">{% trans "Password" %}</span>
+        <span class="cred-value" id="cred-password"></span>
+      </div>
+      <div class="cred-row">
+        <span class="cred-label">{% trans "DICOM AE Title" %}</span>
+        <span class="cred-value" id="cred-ae"></span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel copy-btn" style="padding:10px 20px;font-size:14px;" onclick="copyAll()">&#128203; {% trans "Copy All" %}</button>
+      <button class="btn btn-primary" onclick="closeCredModal()">{% trans "Done" %}</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const CSRF = '{{ csrf_token }}';
+  let lastCreds = {};
+  const STR_ACTIVE = '{% trans "Active" %}';
+  const STR_INACTIVE = '{% trans "Inactive" %}';
+  const STR_CREATING = '{% trans "Creating…" %}';
+  const STR_CREATE = '{% trans "Create Account" %}';
+  const STR_EQUIPMENT = '{% trans "Equipment" %}';
+  const STR_DELETE = '{% trans "Delete" %}';
+
+  // Language switcher
+  function toggleLangMenu(e) {
+    e.stopPropagation();
+    const m = document.getElementById('lang-menu');
+    m.style.display = m.style.display === 'block' ? 'none' : 'block';
+  }
+  document.addEventListener('click', function() {
+    const m = document.getElementById('lang-menu');
+    if (m) m.style.display = 'none';
+  });
+  function switchLanguage(langCode) {
+    var csrftoken = document.cookie.split(';').map(c => c.trim()).find(c => c.startsWith('csrftoken='));
+    csrftoken = csrftoken ? csrftoken.split('=')[1] : '';
+    fetch('/i18n/setlang/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRFToken': csrftoken},
+      body: 'language=' + langCode + '&next=' + window.location.pathname
+    }).then(() => window.location.replace(window.location.pathname));
+  }
+
+  function openCreateModal() {
+    document.getElementById('createModal').classList.add('open');
+    document.getElementById('field-name').focus();
+  }
+  function closeCreateModal() {
+    document.getElementById('createModal').classList.remove('open');
+    document.getElementById('field-name').value = '';
+    document.getElementById('field-email').value = '';
+    document.getElementById('field-password').value = '';
+  }
+
+  function togglePwd() {
+    const f = document.getElementById('field-password');
+    const b = document.getElementById('btn-toggle-pwd');
+    if (f.type === 'password') { f.type = 'text'; b.textContent = 'Hide'; }
+    else { f.type = 'password'; b.textContent = 'Show'; }
+  }
+  function closeCredModal() {
+    document.getElementById('credModal').classList.remove('open');
+    pollDashboard();
+  }
+
+  function submitCreate() {
+    const name = document.getElementById('field-name').value.trim();
+    const email = document.getElementById('field-email').value.trim();
+    const password = document.getElementById('field-password').value.trim();
+if (!name || !email) { alert('Name and email are required.'); return; }
+
+    const btn = document.getElementById('btn-create');
+    btn.disabled = true;
+    btn.textContent = STR_CREATING;
+
+    fetch('/super-admin/create-doctor/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF },
+      body: JSON.stringify({ name, email, password })
+    })
+    .then(r => r.json())
+    .then(data => {
+      btn.disabled = false;
+      btn.textContent = STR_CREATE;
+      if (data.error) { alert(data.error); return; }
+      lastCreds = data;
+      closeCreateModal();
+      document.getElementById('cred-password-row').style.display = '';
+      document.getElementById('cred-username').textContent = data.username;
+      document.getElementById('cred-password').textContent = data.password;
+      document.getElementById('cred-ae').textContent = data.ae_title;
+      document.getElementById('credModal').classList.add('open');
+    })
+    .catch(() => {
+      btn.disabled = false;
+      btn.textContent = STR_CREATE;
+      alert('An error occurred. Please try again.');
+    });
+  }
+
+  function copyAll() {
+    const text = `Username: ${lastCreds.username}\nPassword: ${lastCreds.password}\nAE Title: ${lastCreds.ae_title}`;
+    navigator.clipboard.writeText(text).then(() => alert('Copied to clipboard!'));
+  }
+
+  function toggleCompte(pk, checkbox) {
+    fetch(`/super-admin/toggle-compte/${pk}/`, {
+      method: 'POST',
+      headers: { 'X-CSRFToken': CSRF }
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) { alert(data.error); checkbox.checked = !checkbox.checked; return; }
+      const label = document.getElementById('toggle-label-' + pk);
+      if (label) label.textContent = data.is_active ? STR_ACTIVE : STR_INACTIVE;
+      // Update Active Accounts count immediately
+      const activeEl = document.getElementById('stat-active');
+      if (activeEl) {
+        let count = parseInt(activeEl.textContent) || 0;
+        activeEl.textContent = data.is_active ? count + 1 : Math.max(0, count - 1);
+      }
+    })
+    .catch(() => { checkbox.checked = !checkbox.checked; alert('Error toggling status.'); });
+  }
+
+  let currentApprovePk = null;
+
+  function approveSignup(pk, name) {
+    currentApprovePk = pk;
+    document.getElementById('approve-doctor-name').textContent = name;
+    document.getElementById('approveModal').classList.add('open');
+  }
+
+  function closeApproveModal() {
+    document.getElementById('approveModal').classList.remove('open');
+    currentApprovePk = null;
+  }
+
+  function submitApprove() {
+    const btn = document.getElementById('btn-approve-submit');
+    btn.disabled = true;
+
+    fetch(`/super-admin/approve-signup/${currentApprovePk}/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF },
+      body: JSON.stringify({})
+    })
+    .then(r => r.json())
+    .then(data => {
+      btn.disabled = false;
+      if (data.error) { alert(data.error); return; }
+      const approvedPk = currentApprovePk;
+      closeApproveModal();
+      const row = document.getElementById('signup-row-' + approvedPk);
+      if (row) row.remove();
+      // Update pending count immediately
+      const pendingEl = document.getElementById('stat-pending');
+      if (pendingEl) {
+        const newCount = Math.max(0, (parseInt(pendingEl.textContent) || 0) - 1);
+        pendingEl.textContent = newCount;
+        pendingEl.style.color = newCount > 0 ? '#FB923C' : '#4A9EFF';
+        const pc = document.getElementById('stat-pending-card');
+        if (pc) pc.style.borderColor = newCount > 0 ? 'rgba(251,146,60,0.4)' : '';
+      }
+      document.getElementById('cred-password-row').style.display = 'none';
+      document.getElementById('cred-username').textContent = data.username;
+      document.getElementById('cred-ae').textContent = data.ae_title;
+      document.getElementById('credModal').classList.add('open');
+      pollDashboard();
+    })
+    .catch(() => { btn.disabled = false; alert('Error approving request.'); });
+  }
+
+  function rejectSignup(pk, name) {
+    if (!confirm(`Reject signup request for "${name}"? They will be notified by email.`)) return;
+    fetch(`/super-admin/reject-signup/${pk}/`, {
+      method: 'POST',
+      headers: { 'X-CSRFToken': CSRF }
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) { alert(data.error); return; }
+      const row = document.getElementById('signup-row-' + pk);
+      if (row) row.remove();
+      const pendingEl = document.getElementById('stat-pending');
+      if (pendingEl) {
+        const newCount = Math.max(0, (parseInt(pendingEl.textContent) || 0) - 1);
+        pendingEl.textContent = newCount;
+        pendingEl.style.color = newCount > 0 ? '#FB923C' : '#4A9EFF';
+        const pc = document.getElementById('stat-pending-card');
+        if (pc) pc.style.borderColor = newCount > 0 ? 'rgba(251,146,60,0.4)' : '';
+      }
+      pollDashboard();
+    })
+    .catch(() => alert('Error rejecting request.'));
+  }
+
+  function deleteCompte(pk, name) {
+    if (!confirm(`Delete account for "${name}"? This cannot be undone.`)) return;
+    fetch(`/super-admin/delete-compte/${pk}/`, {
+      method: 'POST',
+      headers: { 'X-CSRFToken': CSRF }
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) { alert(data.error); return; }
+      const row = document.querySelector('tr[data-pk="' + pk + '"]');
+      if (row) row.remove();
+      pollDashboard();
+    });
+  }
+
+  // Close modal on overlay click
+  document.getElementById('createModal').addEventListener('click', function(e) {
+    if (e.target === this) closeCreateModal();
+  });
+  document.getElementById('equipmentModal').addEventListener('click', function(e) {
+    if (e.target === this) closeEquipmentModal();
+  });
+
+  // Equipment modal
+  let currentEquipComptePk = null;
+  const STR_NO_DEVICES = '{% trans "No devices configured." %}';
+  const STR_ADDING = '{% trans "Adding…" %}';
+  const STR_ADD_DEVICE = '{% trans "Add Device" %}';
+
+  function openEquipmentModal(pk, name) {
+    currentEquipComptePk = pk;
+    document.getElementById('equip-doctor-name').textContent = name;
+    document.getElementById('equipmentModal').classList.add('open');
+    loadDevices(pk);
+  }
+
+  function closeEquipmentModal() {
+    document.getElementById('equipmentModal').classList.remove('open');
+    currentEquipComptePk = null;
+    clearEquipForm();
+  }
+
+  function clearEquipForm() {
+    ['eq-ae_title','eq-marque','eq-modele'].forEach(id => { document.getElementById(id).value = ''; });
+    document.getElementById('eq-ip').value = '187.77.184.12';
+    document.getElementById('eq-port').value = '104';
+  }
+
+  function loadDevices(pk) {
+    const list = document.getElementById('device-list');
+    const empty = document.getElementById('device-empty');
+    fetch(`/super-admin/compte/${pk}/devices/`)
+      .then(r => r.json())
+      .then(data => {
+        // Remove existing device items (keep the empty placeholder)
+        list.querySelectorAll('.device-item').forEach(el => el.remove());
+        if (data.devices.length === 0) {
+          empty.style.display = '';
+        } else {
+          empty.style.display = 'none';
+          data.devices.forEach(d => list.insertBefore(buildDeviceRow(d), empty));
+        }
+      });
+  }
+
+  function buildDeviceRow(d) {
+    const div = document.createElement('div');
+    div.className = 'device-item';
+    div.id = 'device-row-' + d.id;
+    div.innerHTML = `
+      <div class="device-item-info">
+        <span><span class="device-item-label">AE: </span><span class="device-item-val ae-tag">${d.ae_title}</span></span>
+        ${d.marque ? `<span><span class="device-item-label">{% trans "Brand" %}: </span><span class="device-item-val">${d.marque}</span></span>` : ''}
+        ${d.modele ? `<span><span class="device-item-label">{% trans "Model" %}: </span><span class="device-item-val">${d.modele}</span></span>` : ''}
+        ${d.ip ? `<span><span class="device-item-label">IP: </span><span class="device-item-val">${d.ip}:${d.port}</span></span>` : ''}
+      </div>
+      <button class="btn btn-danger btn-sm" onclick="removeDevice(${d.id})">&#10005;</button>`;
+    return div;
+  }
+
+  function submitAddDevice() {
+    const ae_title = document.getElementById('eq-ae_title').value.trim().toUpperCase();
+    if (!ae_title) { alert('AE Title is required.'); return; }
+    const btn = document.getElementById('btn-add-device');
+    btn.disabled = true; btn.textContent = STR_ADDING;
+
+    fetch(`/super-admin/compte/${currentEquipComptePk}/devices/add/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF },
+      body: JSON.stringify({
+        ae_title,
+        marque: document.getElementById('eq-marque').value.trim(),
+        modele: document.getElementById('eq-modele').value.trim(),
+        ip: document.getElementById('eq-ip').value.trim(),
+        port: document.getElementById('eq-port').value || 104,
+      })
+    })
+    .then(r => r.json())
+    .then(data => {
+      btn.disabled = false; btn.innerHTML = '&#43; ' + STR_ADD_DEVICE;
+      if (data.error) { alert(data.error); return; }
+      const list = document.getElementById('device-list');
+      const empty = document.getElementById('device-empty');
+      empty.style.display = 'none';
+      list.insertBefore(buildDeviceRow(data), empty);
+      clearEquipForm();
+    })
+    .catch(() => { btn.disabled = false; btn.innerHTML = '&#43; ' + STR_ADD_DEVICE; alert('Error adding device.'); });
+  }
+
+  function removeDevice(devicePk) {
+    if (!confirm('Remove this device?')) return;
+    fetch(`/super-admin/devices/${devicePk}/delete/`, {
+      method: 'POST',
+      headers: { 'X-CSRFToken': CSRF }
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) { alert(data.error); return; }
+      const row = document.getElementById('device-row-' + devicePk);
+      if (row) row.remove();
+      const list = document.getElementById('device-list');
+      if (!list.querySelector('.device-item')) {
+        document.getElementById('device-empty').style.display = '';
+      }
+    });
+  }
+
+  // AJAX polling — update stats + doctor table every 20s
+  function escHtml(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function escJs(s) {
+    return String(s || '').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  }
+
+  function buildDoctorRow(d) {
+    var toggleHtml = d.has_responsable
+      ? `<div class="toggle-wrap"><label class="toggle"><input type="checkbox" ${d.is_active ? 'checked' : ''} onchange="toggleCompte(${d.pk}, this)"/><span class="toggle-slider"></span></label><span class="toggle-label" id="toggle-label-${d.pk}">${d.is_active ? STR_ACTIVE : STR_INACTIVE}</span></div>`
+      : '—';
+    var aeHtml = d.ae_title
+      ? `<span class="ae-tag">${escHtml(d.ae_title)}</span>`
+      : `<span style="color:#6B7A99;">—</span>`;
+    var tr = document.createElement('tr');
+    tr.setAttribute('data-pk', d.pk);
+    tr.innerHTML = `
+      <td class="col-id" style="color:#6B7A99;">${d.pk}</td>
+      <td class="col-name" style="font-weight:600;">${escHtml(d.name)}</td>
+      <td class="col-email" style="color:#9BAFCA;" title="${escHtml(d.email)}">${escHtml(d.email) || '—'}</td>
+      <td class="col-ae">${aeHtml}</td>
+      <td class="col-login" style="color:#9BAFCA;">${escHtml(d.username) || '—'}</td>
+      <td class="col-active">${toggleHtml}</td>
+      <td class="col-actions"><div style="display:flex;gap:6px;align-items:center;">
+        <button class="btn btn-equipment btn-sm" onclick="openEquipmentModal(${d.pk},'${escJs(d.name)}')">&#9881; ${STR_EQUIPMENT}</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteCompte(${d.pk},'${escJs(d.name)}')">${STR_DELETE}</button>
+      </div></td>`;
+    return tr;
+  }
+
+  function pollDashboard() {
+    fetch('/super-admin/poll/')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        // Update stat numbers
+        var el;
+        el = document.getElementById('stat-total');   if (el) el.textContent = data.total;
+        el = document.getElementById('stat-active');  if (el) el.textContent = data.active;
+        el = document.getElementById('stat-pending'); if (el) {
+          el.textContent = data.pending;
+          el.style.color = data.pending > 0 ? '#FB923C' : '#4A9EFF';
+        }
+        var pc = document.getElementById('stat-pending-card');
+        if (pc) pc.style.borderColor = data.pending > 0 ? 'rgba(251,146,60,0.4)' : '';
+
+        // Update doctor table
+        var tbody = document.getElementById('doctors-tbody');
+        if (!tbody) return;
+
+        // Map existing rows by pk
+        var existing = {};
+        tbody.querySelectorAll('tr[data-pk]').forEach(function(tr) {
+          existing[tr.getAttribute('data-pk')] = tr;
+        });
+
+        var newPks = data.doctors.map(function(d) { return String(d.pk); });
+
+        // Remove deleted rows
+        Object.keys(existing).forEach(function(pk) {
+          if (newPks.indexOf(pk) === -1) existing[pk].remove();
+        });
+
+        // Add new rows / update existing
+        data.doctors.forEach(function(d, i) {
+          var pk = String(d.pk);
+          if (existing[pk]) {
+            // Update only dynamic cells to avoid disrupting toggles in use
+            var emailCell = existing[pk].querySelector('.col-email');
+            if (emailCell) { emailCell.textContent = d.email || '—'; emailCell.title = d.email || ''; }
+            var label = document.getElementById('toggle-label-' + d.pk);
+            if (label) label.textContent = d.is_active ? STR_ACTIVE : STR_INACTIVE;
+            var cb = existing[pk].querySelector('input[type=checkbox]');
+            if (cb && cb.checked !== d.is_active) cb.checked = d.is_active;
+          } else {
+            // New doctor — insert at correct position
+            var newRow = buildDoctorRow(d);
+            var allRows = tbody.querySelectorAll('tr[data-pk]');
+            if (i < allRows.length) tbody.insertBefore(newRow, allRows[i]);
+            else tbody.appendChild(newRow);
+          }
+        });
+      })
+      .catch(function() {}); // silently ignore network errors
+  }
+
+  setInterval(pollDashboard, 20000);
+</script>
+</body>
+</html>

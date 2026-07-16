@@ -1,0 +1,1390 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-27 08:23+0100\n"
+"PO-Revision-Date: 2026-02-26 07:00+0100\n"
+"Last-Translator: \n"
+"Language-Team: French\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Dialog owner"
+msgstr "Dialog owner"
+
+msgid "Dialog opponent"
+msgstr "Dialog opponent"
+
+msgid "Discussion avec "
+msgstr "Discussion avec "
+
+msgid "Dialog"
+msgstr "Dialog"
+
+msgid "Author"
+msgstr "Author"
+
+msgid "Message text"
+msgstr "Message text"
+
+msgid "Read"
+msgstr "Read"
+
+msgid "Français"
+msgstr "Français"
+
+msgid "English"
+msgstr "English"
+
+msgid "العربية"
+msgstr "العربية"
+
+msgid "Español"
+msgstr "Español"
+
+msgid "Agenda"
+msgstr "Agenda"
+
+msgid "Tableau de bord"
+msgstr "Tableau de bord"
+
+msgid "Patients"
+msgstr "Patients"
+
+msgid "Rapports"
+msgstr "Rapports"
+
+msgid "Mutuelle"
+msgstr "Mutuelle"
+
+msgid "Utilisateurs"
+msgstr "Utilisateurs"
+
+msgid "Paramètres"
+msgstr "Paramètres"
+
+msgid "Support"
+msgstr "Support"
+
+msgid "Discussions"
+msgstr "Discussions"
+
+msgid "Bonjour,"
+msgstr "Bonjour,"
+
+msgid "Profil utilisateur"
+msgstr "Profil utilisateur"
+
+msgid "Déconnexion"
+msgstr "Déconnexion"
+
+msgid "En ligne"
+msgstr "En ligne"
+
+msgid "Hors ligne"
+msgstr "Hors ligne"
+
+msgid "Active"
+msgstr "Active"
+
+msgid "Moi"
+msgstr "Moi"
+
+msgid "Veuillez saisir votre requête"
+msgstr "Veuillez saisir votre requête"
+
+msgid "Version"
+msgstr "Version"
+
+msgid "Envoyer"
+msgstr "Envoyer"
+
+msgid "Règlements & Encaissements"
+msgstr "Règlements & Encaissements"
+
+msgid "Administration"
+msgstr "Administration"
+
+msgid "Messagerie"
+msgstr "Messagerie"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Heure début"
+msgstr "Heure début"
+
+msgid "Heure fin"
+msgstr "Heure fin"
+
+msgid "Praticien"
+msgstr "Praticien"
+
+msgid "Praticien remplaçant"
+msgstr "Praticien remplaçant"
+
+msgid "Tous les praticiens"
+msgstr "Tous les praticiens"
+
+msgid "RDV du jour"
+msgstr "RDV du jour"
+
+msgid "Salle d'attente"
+msgstr "Salle d'attente"
+
+msgid "En examen"
+msgstr "En examen"
+
+msgid "Réalisés"
+msgstr "Réalisés"
+
+msgid "Modifications"
+msgstr "Modifications"
+
+msgid "Consultations en cours"
+msgstr "Consultations en cours"
+
+msgid "Consultations réalisées"
+msgstr "Consultations réalisées"
+
+msgid "E."
+msgstr "E."
+
+msgid "Etat"
+msgstr "Etat"
+
+msgid "Nom de naissance"
+msgstr "Nom de naissance"
+
+msgid "Nom marital"
+msgstr "Nom marital"
+
+msgid "Prénom"
+msgstr "Prénom"
+
+msgid "Ville"
+msgstr "Ville"
+
+msgid "Tél."
+msgstr "Tél."
+
+msgid "Heure"
+msgstr "Heure"
+
+msgid "Motif"
+msgstr "Motif"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Age"
+msgstr "Age"
+
+msgid "Admission"
+msgstr "Admission"
+
+msgid "Attente"
+msgstr "Attente"
+
+msgid "Aujourd'hui"
+msgstr "Aujourd'hui"
+
+msgid "Libellé"
+msgstr "Libellé"
+
+msgid "Unité"
+msgstr "Unité"
+
+msgid "Modèle résultat"
+msgstr "Modèle résultat"
+
+msgid "Ordre"
+msgstr "Ordre"
+
+msgid "Annuler"
+msgstr "Annuler"
+
+msgid "Enregistrer"
+msgstr "Enregistrer"
+
+msgid "Issue de grossesse"
+msgstr "Durée de grossesse"
+
+msgid "Nb de Fœtus"
+msgstr ""
+
+msgid "Evacuation"
+msgstr "création"
+
+msgid "Périnée"
+msgstr "Période"
+
+msgid "Suite de couche"
+msgstr ""
+
+msgid "&nbsp;"
+msgstr ""
+
+msgid "ATCD à surligner"
+msgstr ""
+
+msgid "Lieu d'accouchement"
+msgstr "Lieu d'accouchement"
+
+msgid "Nom"
+msgstr "Nom"
+
+msgid "Préciser"
+msgstr "Précédent"
+
+msgid "Honoraires"
+msgstr "Honoraires"
+
+msgid "Liste des patients en salle"
+msgstr "Liste des patients en salle"
+
+msgid "Chargement"
+msgstr "Chargement"
+
+msgid "Imprimer"
+msgstr "Imprimer"
+
+msgid "Supprimer"
+msgstr "Supprimer"
+
+msgid "Edition"
+msgstr "Edition"
+
+msgid "Bordereau"
+msgstr "Liste des Bordereaux"
+
+msgid "Précédent"
+msgstr "Précédent"
+
+msgid ""
+"NOTE D'HONORAIRES DES CONSULTATIONS ET DES ACTES AMBULATOIRES EFFECTUÉS PAR "
+"MÉDECIN CONVENTIONNÉ DANS LE CADRE DU TIERS PAYANT"
+msgstr ""
+
+msgid "Médecin"
+msgstr "Médecin principal"
+
+msgid "Code conventionnel"
+msgstr "Code conventionnel"
+
+msgid "Période"
+msgstr "Période"
+
+msgid "N°"
+msgstr "N°"
+
+msgid "Date des soins"
+msgstr "Date des soins"
+
+msgid "IU de l'assuré"
+msgstr "IU de l'assuré"
+
+msgid "L'identité du bénéficiaire"
+msgstr "L'identité du bénéficiaire"
+
+msgid "Acte effectué"
+msgstr "Acte effectué"
+
+msgid "Montant total"
+msgstr "Montant total"
+
+msgid "Montant à la charge de la CNAM"
+msgstr "Montant à la charge de la CNAM"
+
+msgid "Ticket modérateur perçu de l'assuré"
+msgstr "Ticket modérateur perçu de l'assuré"
+
+msgid "Code conventionnel du médecin traitant"
+msgstr "Code conventionnel du médecin traitant"
+
+msgid "Nom et prénom patient"
+msgstr "Nom et prénom patient"
+
+msgid "Qualité"
+msgstr "Qualité"
+
+msgid "Code APCI"
+msgstr "Code APCI"
+
+msgid "Code acte"
+msgstr "Code acte"
+
+msgid "Cotation"
+msgstr "Cotation"
+
+msgid "Total à payer"
+msgstr ""
+
+msgid "Télécharger fichier d'échange"
+msgstr ""
+
+msgid "Action"
+msgstr "Action"
+
+msgid "Modifier"
+msgstr "Modifier"
+
+msgid "Créer"
+msgstr "Créer"
+
+msgid "un courrier"
+msgstr "un courrier"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Durée (jours)"
+msgstr "Durée (jours)"
+
+msgid "Clôture du"
+msgstr "Clôture du"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Dont"
+msgstr "Dont"
+
+msgid "Espèces"
+msgstr "Espèces"
+
+msgid "Chèques"
+msgstr "Chèques"
+
+msgid "CB"
+msgstr "CB"
+
+msgid "Formulaire"
+msgstr "Formulaire"
+
+msgid "Terminer la consultation"
+msgstr "Terminer la consultation"
+
+msgid "Editer le compte-rendu"
+msgstr "Editer le compte-rendu"
+
+msgid "Echo pelvienne"
+msgstr "Echo pelvienne"
+
+msgid "Images"
+msgstr "Images"
+
+msgid "Motif de consultation"
+msgstr "Motif de consultation"
+
+msgid "Modèle"
+msgstr "Modèle"
+
+msgid "Consultation"
+msgstr "Consultation"
+
+msgid "Informations de grossesse"
+msgstr "Informations de grossesse"
+
+msgid "Ajouter les antécédents"
+msgstr "Ajouter les antécédents"
+
+msgid "Ajouter les notes"
+msgstr "Ajouter les notes"
+
+msgid "Interrogatoire"
+msgstr "Interrogatoire"
+
+msgid "Examen clinique"
+msgstr "Examen clinique"
+
+msgid "Observations"
+msgstr "Observations"
+
+msgid "Informations conjoint"
+msgstr "Informations conjoint"
+
+msgid "Conjoint"
+msgstr "Conjoint"
+
+msgid "Date de naissance"
+msgstr "Date de naissance"
+
+msgid "Téléphone"
+msgstr "Téléphone"
+
+msgid "Groupe sanguin"
+msgstr "Groupe sanguin"
+
+msgid "Consanguinité"
+msgstr "Consanguinité"
+
+msgid "Etat de santé"
+msgstr "Etat de santé"
+
+msgid "Menstruation"
+msgstr "Menstruation"
+
+msgid "Abondance"
+msgstr "Abondance"
+
+msgid "Douleur"
+msgstr "Douleur"
+
+msgid "Syndrome pré-menstruel"
+msgstr "Syndrome pré-menstruel"
+
+msgid "Rapports sexuels"
+msgstr "Rapports sexuels"
+
+msgid "Partenaire"
+msgstr "Partenaire"
+
+msgid "Age 1er rapport (ans)"
+msgstr "Age 1er rapport (ans)"
+
+msgid "Contraception"
+msgstr "Contraception"
+
+msgid "Mode"
+msgstr "Mode"
+
+msgid "Commentaire"
+msgstr "Commentaire"
+
+msgid "Observance"
+msgstr "Observance"
+
+msgid "Satisfaction"
+msgstr "Satisfaction"
+
+msgid "Ménopause"
+msgstr "Ménopause"
+
+msgid "Bouffées de chaleur"
+msgstr "Bouffées de chaleur"
+
+msgid "Incontinence urinaire"
+msgstr "Incontinence urinaire"
+
+msgid "Pesanteur pelvienne"
+msgstr "Pesanteur pelvienne"
+
+msgid "Dyspareunies"
+msgstr "Dyspareunies"
+
+msgid "Signe clinique"
+msgstr "Signe clinique"
+
+msgid "Mesures foetales"
+msgstr "Mesures foetales"
+
+msgid "Conclusion"
+msgstr "Conclusion"
+
+msgid "Tout normal"
+msgstr "Tout normal"
+
+msgid "Sac gestationnel"
+msgstr "Sac gestationnel"
+
+msgid "Mesures maternelles"
+msgstr "Mesures maternelles"
+
+msgid "Graphiques"
+msgstr "Graphiques"
+
+msgid "Conduite à tenir"
+msgstr "Conduite à tenir"
+
+msgid "Echographie morphologique"
+msgstr "Echographie morphologique"
+
+msgid "Echographie T3"
+msgstr "Echographie T3"
+
+msgid "Marque"
+msgstr "Marque"
+
+msgid "Mise en circulation"
+msgstr "Mise en circulation"
+
+msgid "Référence"
+msgstr "Référence"
+
+msgid "Informations"
+msgstr "Informations"
+
+msgid "AE Title"
+msgstr "AE Title"
+
+msgid "IP"
+msgstr "IP"
+
+msgid "Port"
+msgstr "Port"
+
+msgid "Ajouter un matériel"
+msgstr "Ajouter un matériel"
+
+msgid "Recherche matériel"
+msgstr "Recherche matériel"
+
+msgid "une grossesse"
+msgstr "une grossesse"
+
+msgid "Informations sur le conjoint"
+msgstr "Informations sur le conjoint"
+
+msgid "Poids av. grossesse"
+msgstr "Consult. grossesse"
+
+msgid "Taille"
+msgstr "Ville"
+
+msgid "IMC"
+msgstr ""
+
+msgid "DDR"
+msgstr "DDR"
+
+msgid "DDR corrigée"
+msgstr ""
+
+msgid "DDG théorique"
+msgstr "Obstétrique"
+
+msgid "DDG corrigée"
+msgstr ""
+
+msgid "Cycle (jours)"
+msgstr "Durée (jours)"
+
+msgid "Données de la grossesse"
+msgstr "Durée de grossesse"
+
+msgid "Type de grossesse"
+msgstr "Type de grossesse"
+
+msgid "Conception"
+msgstr "Contraception"
+
+msgid "Echographie du 1er trimestre"
+msgstr "Echographie doppler vasculaire"
+
+msgid "Date de l'écho"
+msgstr "Date des soins"
+
+msgid "LCC"
+msgstr ""
+
+msgid "CN"
+msgstr ""
+
+msgid "Score de Herman"
+msgstr ""
+
+msgid "Trisomie"
+msgstr ""
+
+msgid "Dépistage T21 Fait"
+msgstr ""
+
+msgid "Risque T21 combiné"
+msgstr ""
+
+msgid "Risque T21 biochimique"
+msgstr ""
+
+msgid "Risque T21 lié à l'âge"
+msgstr ""
+
+msgid "Risque T18 et 13"
+msgstr ""
+
+msgid "Screening"
+msgstr ""
+
+msgid "1er trimestre"
+msgstr "T21 2ème trimestre"
+
+msgid "2ème trimestre"
+msgstr "T21 2ème trimestre"
+
+msgid "Caryotype"
+msgstr ""
+
+msgid "Résultat"
+msgstr "Résultats"
+
+msgid "DPNI"
+msgstr ""
+
+msgid "Diabète"
+msgstr ""
+
+msgid "Informations complémentaires"
+msgstr "Examens complémentaires"
+
+msgid "Listeria"
+msgstr "Liste"
+
+msgid "CMV"
+msgstr "FCV"
+
+msgid "Alcool"
+msgstr ""
+
+msgid "Toxoplasmose"
+msgstr ""
+
+msgid "Sous traitement Aspegic"
+msgstr "Modèles de traitements"
+
+msgid "Projet d'accouchement"
+msgstr "Lettre d'accouchement"
+
+msgid "Allaitement maternel"
+msgstr ""
+
+msgid "Allaitement artificiel"
+msgstr ""
+
+msgid "Autres informations"
+msgstr "Informations"
+
+msgid "Notes"
+msgstr "Notes"
+
+msgid "Type d'infertilité"
+msgstr ""
+
+msgid "Tentatives antérieures"
+msgstr ""
+
+msgid "Technique proposée"
+msgstr ""
+
+msgid "Bilan féminin"
+msgstr ""
+
+msgid "Bilan masculin"
+msgstr ""
+
+msgid "Valeur"
+msgstr "Valeur"
+
+msgid "Valeur normale"
+msgstr "Valeur normale"
+
+msgid "L'application de gestion de cabinet de médecine."
+msgstr "L'application de gestion de cabinet de médecine."
+
+msgid "Connexion à l'application Expert"
+msgstr "Connexion à l'application Expert"
+
+msgid "Saisir votre nom d'utilisateur et mot de passe"
+msgstr "Saisir votre nom d'utilisateur et mot de passe"
+
+msgid "d'utilisateur"
+msgstr "d'utilisateur"
+
+msgid "ou mot de passe incorrect."
+msgstr "ou mot de passe incorrect."
+
+msgid "Merci de réessayer."
+msgstr "Merci de réessayer."
+
+msgid "Connexion"
+msgstr "Connexion"
+
+msgid "Nouveau mot de passe"
+msgstr "ou mot de passe incorrect."
+
+msgid "Tension"
+msgstr "Version"
+
+msgid "Température"
+msgstr "Ticket modérateur"
+
+msgid "Poids"
+msgstr ""
+
+msgid "Glycémie"
+msgstr ""
+
+msgid "Liste des règlements"
+msgstr "Liste des règlements"
+
+msgid "Liste des Bordereaux"
+msgstr "Liste des Bordereaux"
+
+msgid "intervalle de dates"
+msgstr "intervalle de dates"
+
+msgid "Réinitialiser"
+msgstr "Réinitialiser"
+
+msgid "Générer le Bordereau"
+msgstr "Générer le Bordereau"
+
+msgid "une ordonnance"
+msgstr "une ordonnance"
+
+msgid "Traitements"
+msgstr "Traitements"
+
+msgid "Prises/jour"
+msgstr "Prises/jour"
+
+msgid "Nb jours"
+msgstr "Nb jours"
+
+msgid "Qté/prise"
+msgstr "Qté/prise"
+
+msgid "Examens complémentaires"
+msgstr "Examens complémentaires"
+
+msgid "RENSEIGNEMENTS cliniques"
+msgstr "RENSEIGNEMENTS cliniques"
+
+msgid "Historique des ordonnances"
+msgstr "Historique des ordonnances"
+
+msgid "Paramètres généraux"
+msgstr "Paramètres généraux"
+
+msgid "Modifier les paramètres du compte"
+msgstr "Modifier les paramètres du compte"
+
+msgid "Médecin principal"
+msgstr "Médecin principal"
+
+msgid "Durée rendez-vous par défaut"
+msgstr "Durée rendez-vous par défaut"
+
+msgid "minutes"
+msgstr "minutes"
+
+msgid "Fuseau horaire"
+msgstr "Fuseau horaire"
+
+msgid "Horaires d'ouverture"
+msgstr "Horaires d'ouverture"
+
+msgid "Lundi"
+msgstr "Lundi"
+
+msgid "Matin"
+msgstr "Matin"
+
+msgid "Après-midi"
+msgstr "Après-midi"
+
+msgid "Mardi"
+msgstr "Mardi"
+
+msgid "Mercredi"
+msgstr "Mercredi"
+
+msgid "Jeudi"
+msgstr "Jeudi"
+
+msgid "Vendredi"
+msgstr "Vendredi"
+
+msgid "Samedi"
+msgstr "Samedi"
+
+msgid "Paramètres patients"
+msgstr "Paramètres patients"
+
+msgid "Modifier les paramètres des patients"
+msgstr "Modifier les paramètres des patients"
+
+msgid "Antécédents familiaux par défaut"
+msgstr "Antécédents familiaux par défaut"
+
+msgid "Antécédents médico-chirurgicaux par défaut"
+msgstr "Antécédents médico-chirurgicaux par défaut"
+
+msgid "Antécédents gynécologiques par défaut"
+msgstr "Antécédents gynécologiques par défaut"
+
+msgid "Ajouter les antécédents aux éditions"
+msgstr "Ajouter les antécédents aux éditions"
+
+msgid "Durée de grossesse"
+msgstr "Durée de grossesse"
+
+msgid "Écho. de datation"
+msgstr "Écho. de datation"
+
+msgid "1ère écho"
+msgstr "1ère écho"
+
+msgid "2ème écho"
+msgstr "2ème écho"
+
+msgid "3ème écho"
+msgstr "3ème écho"
+
+msgid "T21 Combiné 1er trimestre"
+msgstr "T21 Combiné 1er trimestre"
+
+msgid "T21 2ème trimestre"
+msgstr "T21 2ème trimestre"
+
+msgid "Glycémie à jeun 1er trimestre"
+msgstr "Glycémie à jeun 1er trimestre"
+
+msgid "Paramètres d'édition"
+msgstr "Paramètres d'édition"
+
+msgid "Modifier les paramètres d'édition des documents"
+msgstr "Modifier les paramètres d'édition des documents"
+
+msgid "Nom du cabinet"
+msgstr "Nom du cabinet"
+
+msgid "Entête A5"
+msgstr "Entête A5"
+
+msgid "Entête A4"
+msgstr "Entête A4"
+
+msgid "Pied de page A5"
+msgstr "Pied de page A5"
+
+msgid "Pied de page A4"
+msgstr "Pied de page A4"
+
+msgid "Marges"
+msgstr "Marges"
+
+msgid "Entête"
+msgstr "Entête"
+
+msgid "Pied de page"
+msgstr "Pied de page"
+
+msgid "Marge gauche"
+msgstr "Marge gauche"
+
+msgid "Marge droite"
+msgstr "Marge droite"
+
+msgid "Ajouter la date et lieu"
+msgstr "Ajouter la date et lieu"
+
+msgid "Courriers"
+msgstr "Courriers"
+
+msgid "Compte-rendus opératoires"
+msgstr "Compte-rendus opératoires"
+
+msgid "Ajouter l'entête et pied de page aux éditions"
+msgstr "Ajouter l'entête et pied de page aux éditions"
+
+msgid "Compte-rendus"
+msgstr "Compte-rendus"
+
+msgid "Ordonnances"
+msgstr "Ordonnances"
+
+msgid "Certificat médical"
+msgstr "Certificat médical"
+
+msgid "Certificat de présence"
+msgstr "Certificat de présence"
+
+msgid "Lettre d'accouchement"
+msgstr "Lettre d'accouchement"
+
+msgid "Prescription analyses biologiques"
+msgstr "Prescription analyses biologiques"
+
+msgid "Lettre confidentielle"
+msgstr "Lettre confidentielle"
+
+msgid "Attestation de grossesse"
+msgstr "Attestation de grossesse"
+
+msgid "Lettre Fit-to-fly"
+msgstr "Lettre Fit-to-fly"
+
+msgid "Modèles"
+msgstr "Modèles"
+
+msgid "Modifier les paramètres des modèles"
+msgstr "Modifier les paramètres des modèles"
+
+msgid "Modèles de traitements"
+msgstr "Modèles de traitements"
+
+msgid "Modèles de traitements PMA"
+msgstr "Modèles de traitements PMA"
+
+msgid "Modèles de prescriptions"
+msgstr "Modèles de prescriptions"
+
+msgid "Modèles d'analyses biologiques"
+msgstr "Modèles d'analyses biologiques"
+
+msgid "Modèles de compte-rendus"
+msgstr "Modèles de compte-rendus"
+
+msgid "Prestations"
+msgstr "Prestations"
+
+msgid "Gérer le catalogue des prestations"
+msgstr "Gérer le catalogue des prestations"
+
+msgid "Motifs des absences"
+msgstr "Motifs des absences"
+
+msgid "Gérer la liste des motifs d'absence des médecins"
+msgstr "Gérer la liste des motifs d'absence des médecins"
+
+msgid "Matériel"
+msgstr "Matériel"
+
+msgid "Gérer les échographes"
+msgstr "Gérer les échographes"
+
+msgid "Biologie"
+msgstr "Biologie"
+
+msgid "Modèles de compte-rendu"
+msgstr "Modèles de compte-rendu"
+
+msgid "Catalogue des prestations"
+msgstr "Catalogue des prestations"
+
+msgid "Liste du matériel"
+msgstr "Liste du matériel"
+
+msgid "Liste des motifs"
+msgstr "Liste des motifs"
+
+msgid "Dossier patient"
+msgstr "Dossier patient"
+
+msgid "Motifs d'absence médecin"
+msgstr "Absence médecin"
+
+msgid "Date d'accouchement"
+msgstr "Date d'accouchement"
+
+msgid "Poids foetal"
+msgstr "Poids foetal"
+
+msgid "Diamètre bipariétal"
+msgstr "Diamètre bipariétal"
+
+msgid "Périmètre céphalique"
+msgstr "Périmètre céphalique"
+
+msgid "Périmètre abdominal"
+msgstr "Périmètre abdominal"
+
+msgid "Longueur du fémur"
+msgstr "Longueur du fémur"
+
+msgid "Echographe"
+msgstr "Echographe"
+
+msgid "Compte-rendu"
+msgstr "Compte-rendu"
+
+msgid "Catégorie Consultation"
+msgstr "Catégorie Consultation"
+
+msgid "Motif Consultation"
+msgstr "Motif Consultation"
+
+msgid "Consultations"
+msgstr "Consultations"
+
+msgid "Accouchements previstos"
+msgstr "Accouchements previstos"
+
+msgid "Patient"
+msgstr "Patient"
+
+msgid "Identifiant"
+msgstr "Identifiant patient"
+
+msgid "ans"
+msgstr ""
+
+msgid "Nouvelle consultation"
+msgstr "Nouvelle consultation"
+
+msgid "Formulaire de"
+msgstr "Formulaire de"
+
+msgid "modification"
+msgstr "modification"
+
+msgid "création"
+msgstr "création"
+
+msgid "Civilité"
+msgstr ""
+
+msgid "Code postal"
+msgstr "Code postal"
+
+msgid "Pays"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Taille (cm)"
+msgstr ""
+
+msgid "Poids (kg)"
+msgstr ""
+
+msgid "Profession"
+msgstr ""
+
+msgid "un patient"
+msgstr "Nouveau patient"
+
+msgid "Date de mariage"
+msgstr "Date de naissance"
+
+msgid "Désignation mutuelle"
+msgstr "Désignation Mutuelle"
+
+msgid "Caisse d'Affectation"
+msgstr ""
+
+msgid "Régime"
+msgstr ""
+
+msgid "N° carnet de soin"
+msgstr "Date des soins"
+
+msgid "Date validité mutuelle"
+msgstr ""
+
+msgid "Recherche patient"
+msgstr "Recherche patient"
+
+msgid "Liste des patients"
+msgstr "Liste des patients"
+
+msgid "Ancien numéro"
+msgstr "Ancien numéro"
+
+msgid "CIN:"
+msgstr ""
+
+msgid "Chercher"
+msgstr "Chercher"
+
+msgid "IPP"
+msgstr "IPP"
+
+msgid "CIN"
+msgstr ""
+
+msgid "Titre"
+msgstr ""
+
+msgid "Spécialité"
+msgstr "Qualité"
+
+msgid "une prescription"
+msgstr "une prescription"
+
+msgid "Analyses"
+msgstr "Analyses"
+
+msgid "Packs"
+msgstr "Packs"
+
+msgid "Code"
+msgstr "Code"
+
+msgid "Pas d'analyses disponibles"
+msgstr "Pas d'analyses disponibles"
+
+msgid "Afficher la date à l'impression"
+msgstr "Afficher la date à l'impression"
+
+msgid "Résultats"
+msgstr "Résultats"
+
+msgid "Recherche prescription"
+msgstr "Recherche prescription"
+
+msgid "Ajouter une prescription"
+msgstr "Ajouter une prescription"
+
+msgid "Catégorie"
+msgstr "Catégorie"
+
+msgid "Prix total TTC"
+msgstr "Prix TTC"
+
+msgid "Ticket modérateur"
+msgstr "Ticket modérateur"
+
+msgid "Prestation"
+msgstr "Prestation"
+
+msgid "Type d'acte"
+msgstr "Code acte"
+
+msgid "Tous"
+msgstr "Tous"
+
+msgid "Mes en cours"
+msgstr "Mes en cours"
+
+msgid "Mes prochain"
+msgstr "Mes prochain"
+
+msgid "Terme"
+msgstr "Terme"
+
+msgid "Identifiant patient"
+msgstr "Identifiant patient"
+
+msgid "Terme actuel"
+msgstr "Terme actuel"
+
+msgid "Date prévue d'accouchement"
+msgstr "Date prévue d'accouchement"
+
+msgid "Gouvernorat"
+msgstr "Gouvernorat"
+
+msgid "Mot clé"
+msgstr "Mot clé"
+
+msgid "Praticien Correspondant"
+msgstr "Praticien Correspondant"
+
+msgid "Date début"
+msgstr "Date début"
+
+msgid "Date fin"
+msgstr "Date fin"
+
+msgid "Praticien patient"
+msgstr "Praticien patient"
+
+msgid "naissance"
+msgstr "naissance"
+
+msgid "Calendrier"
+msgstr "Calendrier"
+
+msgid "Liste"
+msgstr "Liste"
+
+msgid "Nouveau rendez-vous"
+msgstr "Nouveau rendez-vous"
+
+msgid "Nouvelle absence"
+msgstr "Nouvelle absence"
+
+msgid "Légende"
+msgstr "Légende"
+
+msgid "RDV Confirmé"
+msgstr "RDV Confirmé"
+
+msgid "Patient en salle d'attente"
+msgstr "Patient en salle d'attente"
+
+msgid "Consultation terminée"
+msgstr "Consultation terminée"
+
+msgid "RDV Annulé"
+msgstr "RDV Annulé"
+
+msgid "Absence médecin"
+msgstr "Absence médecin"
+
+msgid "Programme opératoire"
+msgstr "Programme opératoire"
+
+msgid "Demain"
+msgstr "Demain"
+
+msgid "Après-demain"
+msgstr "Après-demain"
+
+msgid "Cette semaine"
+msgstr "Cette semaine"
+
+msgid "Semaine prochaine"
+msgstr "Semaine prochaine"
+
+msgid "Date rendez-vous"
+msgstr "Date rendez-vous"
+
+msgid "Le"
+msgstr "Le"
+
+msgid "de"
+msgstr "de"
+
+msgid "à"
+msgstr "à"
+
+msgid "A partir du"
+msgstr ""
+
+msgid "Ajouter un rendez-vous"
+msgstr "Ajouter un rendez-vous"
+
+msgid "Confirmer le rendez-vous"
+msgstr "Confirmer le rendez-vous"
+
+msgid "Nouveau patient"
+msgstr "Nouveau patient"
+
+msgid "Historique des clôtures"
+msgstr "Historique des clôtures"
+
+msgid "Clôturer la caisse"
+msgstr "Clôturer la caisse"
+
+msgid "Ajouter"
+msgstr "Ajouter"
+
+msgid "un Règlement"
+msgstr "un Règlement"
+
+msgid "Désignation Mutuelle"
+msgstr "Désignation Mutuelle"
+
+msgid "Paiement"
+msgstr "Paiement"
+
+msgid "La somme répartie est différente du montant total"
+msgstr "La somme répartie est différente du montant total"
+
+msgid "Espèce"
+msgstr "Espèce"
+
+msgid "Chèque"
+msgstr "Chèque"
+
+msgid "Numéro chèque"
+msgstr ""
+
+msgid "Date chèque"
+msgstr "Chèque"
+
+msgid "Historique des règlements"
+msgstr "Historique des règlements"
+
+msgid "Pas d'historique de paiements"
+msgstr "Historique des règlements"
+
+msgid "Règlement"
+msgstr "Règlement"
+
+msgid "Clôture de caisse"
+msgstr "Clôture de caisse"
+
+msgid "Rapport"
+msgstr "Rapport"
+
+msgid "Liste des admissions"
+msgstr "Liste des admissions"
+
+msgid "N° admission"
+msgstr "N° admission"
+
+msgid "Statut Consultation"
+msgstr "Statut Consultation"
+
+msgid "Oui"
+msgstr "Oui"
+
+msgid "Non"
+msgstr "Non"
+
+msgid "Contenant une prestation"
+msgstr "Contenant une prestation"
+
+msgid "Montant Total"
+msgstr "Montant Total"
+
+msgid "mutuelle"
+msgstr "mutuelle"
+
+msgid "Posologie"
+msgstr "Posologie"
+
+msgid "Recherche traitement"
+msgstr "Recherche traitement"
+
+msgid "Ajouter un traitement"
+msgstr "Ajouter un traitement"
+
+msgid "Forme"
+msgstr "Forme"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

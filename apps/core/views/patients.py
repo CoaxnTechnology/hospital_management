@@ -1,0 +1,1292 @@
+import json
+import logging
+import datetime
+from datetime import date
+from pprint import pformat
+from urllib.parse import quote
+
+from django.contrib.auth.decorators import login_required, permission_required
+from django.views.decorators.http import require_POST
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.db.models import Max, Q, F
+# Create your views here.
+from django.core import serializers
+from django.forms import model_to_dict
+from django.http import HttpResponseNotFound, HttpResponseBadRequest, JsonResponse
+from django.shortcuts import redirect, render, get_object_or_404
+from django.utils import timezone
+from django.urls import reverse, reverse_lazy
+from django.views import View
+from django.views.generic import ListView, CreateView, UpdateView, DetailView, FormView
+from apps.core.forms import EtablissementForm, AntecedentObstetriqueForm, GrossesseForm, MesuresPatientForm, \
+    DonneesFoetusFormset
+from apps.core.data import adresses
+from apps.core.forms import PatientForm, AdresseForm, ConsultationForm, ConsultationEcho11SAForm, \
+    ConsultationEchoPremierTrimestreForm, ConsultationEchoDeuxiemeTrimestreForm, \
+    ConsultationEchoTroisiemeTrimestreForm, ConsultationEchoCroissanceForm
+from apps.core.models import *
+from apps.core.serializers import PhrasierSerializer, PatientSerializer, ListeChoixSerializer, \
+    SousCategorieAntecedentSerializer, AntecedentSerializer, MedecinSerializer, ConsultationSerializer, \
+    GrossesseSerializer, ConsultationObstetriqueSerializer, AntecedentObstetriqueSerializer, PraticienSerializer, \
+    TentativePMASerializer, AdmissionSerializer, MotifSerializer, ConsultationRapportSerializer, DeviceSerializer, \
+    ImageConsultationSerializerLight, SRConsultationSerializer, TemplateEditionSerializer
+from bootstrap_modal_forms.generic import BSModalCreateView, BSModalUpdateView
+
+from apps.core.services.patients import get_grossesse_data
+
+logger = logging.getLogger()
+
+
+class PatientList(PermissionRequiredMixin, View):
+    template_name = 'core/patient_list_v2.html'
+    permission_required = 'core.view_patient'
+
+    def get(self, request):
+        if 'rdv' in request.GET:
+            # Recherche patient pour admission
+            rdv = get_object_or_404(Rdv, pk=request.GET['rdv'])
+            return render(request, self.template_name, {'rdv': rdv})
+
+        return render(request, self.template_name)
+
+
+@login_required
+@permission_required('core.view_patient', raise_exception=True)
+def fichiers_list(request, pk):
+    patient = get_object_or_404(Patient, pk=pk)
+    dossiers = DossierFichiersPatient.objects.all()
+    return render(request, 'core/patient_fichiers_list.html',
+                  {'patient': patient, 'dossiers': dossiers })
+
+@login_required
+@permission_required('core.view_patient', raise_exception=True)
+def fichiers_telecharger(request, pk):
+    patient = get_object_or_404(Patient, pk=pk)
+    dossiers = DossierFichiersPatient.objects.all()
+    return render(request, 'core/patient_fichiers_telecharger.html',
+                  {'patient': patient, 'dossiers': dossiers })
+
+
+def charger_info_panel_context(request, context, patient):
+    context['patient_json'] = json.dumps(PatientSerializer(patient).data)
+    praticiens = Praticien.objects.filter(compte=request.user.profil.compte)
+    praticiens_json = PraticienSerializer(praticiens, many=True)
+    context['praticiens_json'] = json.dumps(praticiens_json.data)
+    etablissement = serializers.serialize('json', Etablissement.objects.all(), use_natural_foreign_keys=True,
+                                          fields=('pk', 'nom', 'adresse'))
+    context['etablissements_json'] = etablissement
+    lst = []
+    mot_cle_values = Patient.objects.exclude(pk=patient.pk) \
+        .exclude(mot_cle__isnull=True).exclude(mot_cle='') \
+        .values_list('mot_cle', flat=True)
+    for mot_cle in mot_cle_values:
+        mots = json.loads(mot_cle)
+        lst.extend(m['value'] for m in mots)
+    context['mot_patient'] = list(set(lst))
+
+    #logger.error('Mots cle patient %s', pformat(mots_cles))
+
+    if patient.grossesse_encours is not None:
+        context['grossesse_encours_json'] = json.dumps(GrossesseSerializer(patient.grossesse_encours).data)
+        #logger.info('Grossesse en cours %s', model_to_dict(patient.grossesse_encours))
+        context['grossesse_data'] = json.dumps(get_grossesse_data(patient))
+    return context
+
+
+CONSULTATION_TYPE_CONFIG = [
+    ('11SA', ConsultationEcho11SA, ConsultationEcho11SAForm, None),
+    ('premier_trimestre', ConsultationEchoPremierTrimestre, ConsultationEchoPremierTrimestreForm,
+     'core/partials/examen_obs_t1_foetal.html'),
+    ('deuxieme_trimestre', ConsultationEchoDeuxiemeTrimestre, ConsultationEchoDeuxiemeTrimestreForm,
+     'core/partials/examen_obs_t23_foetal.html'),
+    ('troisieme_trimestre', ConsultationEchoTroisiemeTrimestre, ConsultationEchoTroisiemeTrimestreForm,
+     'core/partials/examen_obs_t23_foetal.html'),
+    ('croissance', ConsultationEchoCroissance, ConsultationEchoCroissanceForm,
+     'core/partials/examen_obs_t23_foetal.html'),
+]
+
+CONSULTATION_TYPE_MAP = {t[1]: (t[0], t[2], t[3]) for t in CONSULTATION_TYPE_CONFIG}
+CONSULTATION_TYPE_STR_MAP = {t[0]: (t[2], t[3]) for t in CONSULTATION_TYPE_CONFIG}
+CONSULTATION_MOTIF_CODES = {
+    '11SA': 'obs_echo_11SA',
+    'premier_trimestre': 'obs_echo_trimestre_1',
+    'deuxieme_trimestre': 'obs_echo_trimestre_2',
+    'troisieme_trimestre': 'obs_echo_trimestre_3',
+    'croissance': 'obs_echo_croissance',
+}
+
+
+class PatientView(PermissionRequiredMixin, DetailView):
+    model = Patient
+    form_class = PatientForm
+    permission_required = 'core.view_patient'
+    template_name = 'core/patient_detail_v2.html'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Patient.objects.select_related('compte'), pk=self.kwargs['pk'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        charger_info_panel_context(self.request, context, self.object)
+
+        if 'msg' in self.request.GET:
+            if self.request.GET['msg'] == 'admission_succes':
+                context['msg'] = 'Patient admis avec succès'
+
+        if self.object.taille and self.object.poids:
+            taille = self.object.taille * 0.01
+            IMC = self.object.poids / (taille * taille)
+            context['IMC'] = round(IMC, 1)
+
+        grossesse = self.object.grossesse_set.filter(encours=True)
+        if len(grossesse):
+            context['grossesse_encours_json'] = json.dumps(GrossesseSerializer(grossesse[0]).data)
+            context['grossesse_encours'] = grossesse[0]
+
+        consult_query = self.object.consultation_set.filter() \
+            .select_related('patient') \
+            .select_related('praticien') \
+            .select_related('praticien__user') \
+            .select_related('motif') \
+            .order_by('-date')
+        context['consultations'] = consult_query
+        context['consultations_json'] = json.dumps(ConsultationSerializer(consult_query, many=True).data)
+
+        consult_obs_query = ConsultationObstetrique.objects.filter(patient=self.object)
+        context['consultations_obs_json'] = json.dumps(ConsultationObstetriqueSerializer(consult_obs_query, many=True).data)
+
+        # Consultation tabs context
+        context['consultation_active'] = getattr(self, 'consultation_active', None)
+        context['consultation_tabs_form'] = getattr(self, 'consultation_form', None)
+        context['consultation_foetus'] = getattr(self, 'consultation_foetus_formset', None)
+        context['consultation_type'] = getattr(self, 'consultation_type_str', None)
+        context['fetal_partial'] = getattr(self, 'fetal_partial', None)
+        context['is_new_consultation'] = getattr(self, 'is_new_consultation', False)
+
+        if context.get('consultation_active'):
+            context['consultation_active_json'] = json.dumps(
+                ConsultationObstetriqueSerializer(context['consultation_active']).data)
+        else:
+            context['consultation_active_json'] = 'null'
+
+        grossesse_encours = context.get('grossesse_encours')
+        if grossesse_encours:
+            cons_list = ConsultationObstetrique.objects.filter(grossesse=grossesse_encours).order_by('-date')
+            context['consultations_obs_list'] = cons_list
+        else:
+            context['consultations_obs_list'] = []
+
+        devices = Device.for_user(self.request.user)
+        context['devices'] = devices
+        context['devices_json'] = json.dumps(DeviceSerializer(devices, many=True).data)
+
+        medecins = Medecin.objects.filter(compte=self.request.user.profil.compte)
+        context['medecins_json'] = json.dumps(MedecinSerializer(medecins, many=True).data)
+
+        patient = self.object
+        context['patient_images_echo'] = ImageConsultation.objects.filter(
+            consultation__patient=patient, type=ImageConsultation.IMG_ECHO
+        ).order_by('-date')
+        context['patient_images_graph'] = ImageConsultation.objects.filter(
+            consultation__patient=patient, type=ImageConsultation.IMG_GRAPH
+        ).order_by('-date')
+
+        context['consultation_date_images'] = ImageConsultation.objects.none()
+        context['consultation_date_graphs'] = ImageConsultation.objects.none()
+        context['date_waveforms'] = WaveformConsultation.objects.none()
+        consultation_active = getattr(self, 'consultation_active', None)
+        if consultation_active and consultation_active.date:
+            cons_date_qs = ImageConsultation.objects.filter(
+                consultation=consultation_active
+            )
+            default_device = self.request.user.profil.default_device
+            if default_device:
+                cons_date_qs = cons_date_qs.filter(
+                    Q(device=default_device) | Q(device__isnull=True)
+                )
+            context['consultation_date_images'] = cons_date_qs.filter(type=ImageConsultation.IMG_ECHO).order_by('-date')
+            context['consultation_date_graphs'] = cons_date_qs.filter(type=ImageConsultation.IMG_GRAPH).order_by('-date')
+            context['date_waveforms'] = WaveformConsultation.objects.filter(
+                consultation=consultation_active
+            )
+
+        listes_choix = ListeChoix.objects.filter(
+            Q(formulaire='consultation_obs_foetus') | Q(formulaire='consultation_obs'))
+        context['listes_choix_json'] = json.dumps(ListeChoixSerializer(listes_choix, many=True).data)
+
+        # Consultation motif / templates / images / JS context
+        consultation_active = context.get('consultation_active')
+        consultation_type = context.get('consultation_type')
+        is_new = context.get('is_new_consultation')
+        motif = None
+        context['images_json'] = '[]'
+        context['sr_json'] = 'null'
+        context['templates'] = []
+        context['templates_json'] = '[]'
+        context['mode_edition'] = False
+        context['doublon_consultation'] = None
+
+        if consultation_active and consultation_active.date:
+            motif = consultation_active.motif
+            cons_date = consultation_active.date.date()
+            date_images_qs = ImageConsultation.objects.filter(
+                consultation__patient=self.object,
+                date__date=cons_date
+            )
+            default_device = self.request.user.profil.default_device
+            if default_device:
+                date_images_qs = date_images_qs.filter(
+                    Q(device=default_device) | Q(device__isnull=True)
+                )
+            if date_images_qs.exists():
+                context['images_json'] = json.dumps(ImageConsultationSerializerLight(date_images_qs, many=True).data)
+            date_sr_qs = SRConsultation.objects.filter(
+                consultation__patient=self.object,
+                date__date=cons_date
+            )
+            last_sr = date_sr_qs.last()
+            if last_sr:
+                context['sr_json'] = json.dumps(SRConsultationSerializer(last_sr).data)
+            if 'edition' in self.request.GET:
+                context['mode_edition'] = True
+        elif is_new and consultation_type:
+            motif_code = CONSULTATION_MOTIF_CODES.get(consultation_type)
+            if motif_code:
+                motif_qs = MotifConsultation.objects.filter(code=motif_code)
+                if motif_qs.exists():
+                    motif = motif_qs[0]
+
+        if motif:
+            context['motif'] = motif
+            templates = TemplateEdition.objects.filter(
+                compte=self.request.user.profil.compte,
+                motif_consultation=motif,
+            )
+            context['templates'] = templates
+            context['templates_json'] = json.dumps(TemplateEditionSerializer(templates, many=True).data)
+
+        context['patient_json'] = json.dumps(PatientSerializer(self.object).data)
+        compte = self.request.user.profil.compte
+        context['logo_url'] = compte.parametrescompte.logo_a4.url if compte.parametrescompte.logo_a4 else ''
+        context['footer_url'] = compte.parametrescompte.footer_a4.url if compte.parametrescompte.footer_a4 else ''
+        context['signature_url'] = self.request.user.profil.signature.url if self.request.user.profil.signature and self.request.user.profil.ajouter_signature_edition else ''
+        context['entete'] = compte.parametrescompte.nom_entete
+
+        ord_query = self.object.ordonnance_set.all() \
+            .select_related('patient') \
+            .select_related('praticien') \
+            .select_related('praticien__user') \
+            .order_by('-date')
+        ordonnances = serializers.serialize('json', ord_query, use_natural_foreign_keys=True,
+                                            fields=('pk', 'date', 'type', 'text', 'praticien'))
+        context['ordonnances_json'] = ordonnances
+
+        motifs = serializers.serialize('json', MotifConsultation.objects.all(), use_natural_foreign_keys=True,
+                                       fields=('pk', 'libelle', 'code', 'catgeorie'))
+        context['motifs'] = motifs
+
+        praticiens = json.dumps(PraticienSerializer(Praticien.objects.filter(compte=self.request.user.profil.compte), many=True).data)
+        context['praticiens_json'] = praticiens
+
+        dossiers = serializers.serialize('json', DossierFichiersPatient.objects.all(), use_natural_foreign_keys=True,
+                                         fields=('pk', 'nom'))
+        context['dossiers_json'] = dossiers
+
+        # fichiers = serializers.serialize('json', object.fichiers(), use_natural_foreign_keys=True)
+        context['fichiers'] = self.object.fichiers()
+
+        phrasiers = PhrasierAntecedent.objects.all().prefetch_related('categorie')
+        context['phrasiers_json'] = json.dumps(PhrasierSerializer(phrasiers, many=True).data)
+
+        params_compte = self.request.user.profil.compte.parametrescompte
+        context['antecedents_defaut'] = json.dumps([
+            params_compte.antecedents_familiaux_defaut,
+            params_compte.antecedents_medico_chirurgicaux_defaut,
+            params_compte.antecedents_gynecologiques_defaut
+        ])
+
+        liste_choix = ListeChoix.objects.filter(formulaire='antecedents').order_by('valeur')
+        context['formulaire_antecedents_liste_choix'] = json.dumps(ListeChoixSerializer(liste_choix, many=True).data)
+
+        sous_categories_antecedents = SousCatgeorieAntecedent.objects.all().select_related('categorie')
+        context['sous_categories_antecedents'] = json.dumps(
+            SousCategorieAntecedentSerializer(sous_categories_antecedents, many=True).data)
+
+        antecedents = Antecedent.objects.filter(patient=self.object) \
+            .select_related('sous_categorie').select_related('patient').order_by('-date')
+        context['antecedents_fcv'] = antecedents.filter(sous_categorie__libelle='FCV')
+        context['antecedents_mammographie'] = antecedents.filter(sous_categorie__libelle='Mammographie')
+        context['antecedents_echo_mammaire'] = antecedents.filter(sous_categorie__libelle='Echo Mammaire')
+
+        ant_obs = AntecedentObstetrique.objects\
+            .filter(patient=self.object, sous_categorie__categorie=4)\
+            .order_by('-date_accouchement')
+        context['antecedents_obstetriques_patient'] = ant_obs
+        context['antecedents_obstetriques_patient_json'] = json.dumps(AntecedentObstetriqueSerializer(ant_obs, many=True).data)
+
+        tentatives_pma = self.object.tentativepma_set.filter(encours=False)\
+            .select_related('patient') \
+            .select_related('praticien') \
+            .select_related('praticien__user') \
+            .order_by('-updated_at')
+        context['tentatives_pma_json'] = json.dumps(TentativePMASerializer(tentatives_pma, many=True).data)
+
+        categories = self.request.user.profil.compte.categories_consultations.all()
+        motifs = MotifConsultation.objects.all().select_related('categorie')
+        motifs_json = json.dumps(MotifSerializer(motifs, many=True).data)
+        context['categories'] = categories
+        context['motifs_'] = motifs
+        context['motifs_json'] = motifs_json
+
+        dossiers = DossierFichiersPatient.objects.all()
+        context['dossiers'] = dossiers
+
+        return context
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.consultation_active = None
+        self.consultation_form = None
+        self.consultation_foetus_formset = None
+        self.consultation_type_str = None
+        self.fetal_partial = None
+        self.is_new_consultation = False
+
+        consultation_param = request.GET.get('consultation')
+        if consultation_param == 'new':
+            self.is_new_consultation = True
+            consultation_type = request.GET.get('type', 'troisieme_trimestre')
+            config = CONSULTATION_TYPE_STR_MAP.get(consultation_type)
+            if config:
+                form_class, fetal_partial = config
+                initial = {
+                    'patient': self.object.pk,
+                    'praticien': request.user.profil,
+                    'date': timezone.now(),
+                }
+                grossesse_encours = self.object.grossesse_set.filter(encours=True).first()
+                if grossesse_encours:
+                    initial['grossesse'] = grossesse_encours.pk
+                if self.object.mesures_jour:
+                    initial['poids'] = self.object.mesures_jour.poids
+                    initial['ta'] = self.object.mesures_jour.ta
+                    initial['temperature'] = self.object.mesures_jour.temperature
+                    initial['gly'] = self.object.mesures_jour.gly
+                self.consultation_form = form_class(compte=request.user.profil.compte, initial=initial)
+                self.consultation_foetus_formset = DonneesFoetusFormset()
+                self.consultation_type_str = consultation_type
+                self.fetal_partial = fetal_partial
+        elif consultation_param:
+            try:
+                pk = int(consultation_param)
+                for type_str, model_class, form_class, fetal_partial in CONSULTATION_TYPE_CONFIG:
+                    try:
+                        cons = model_class.objects.get(pk=pk)
+                        self.consultation_active = cons
+                        self.consultation_form = form_class(instance=cons, compte=request.user.profil.compte)
+                        self.consultation_foetus_formset = DonneesFoetusFormset(instance=cons)
+                        self.consultation_type_str = type_str
+                        self.fetal_partial = fetal_partial
+                        break
+                    except model_class.DoesNotExist:
+                        continue
+            except (ValueError, TypeError):
+                pass
+
+        # Auto-detect latest consultation when none specified in URL
+        if (
+            not self.consultation_active
+            and not self.is_new_consultation
+            and 'action' not in self.request.GET
+            and self.object.grossesse_encours is not None
+        ):
+            latest_obs = ConsultationObstetrique.objects.filter(
+                patient=self.object
+            ).order_by('-id').first()
+            if latest_obs:
+                for type_str, model_class, form_class, fetal_partial in CONSULTATION_TYPE_CONFIG:
+                    try:
+                        child = model_class.objects.get(pk=latest_obs.pk)
+                    except model_class.DoesNotExist:
+                        continue
+                    self.consultation_active = child
+                    self.consultation_form = form_class(instance=child, compte=request.user.profil.compte)
+                    self.consultation_foetus_formset = DonneesFoetusFormset(instance=child)
+                    self.consultation_type_str = type_str
+                    self.fetal_partial = fetal_partial
+                    break
+            if not self.consultation_active:
+                self.is_new_consultation = True
+                consultation_type = 'troisieme_trimestre'
+                config = CONSULTATION_TYPE_STR_MAP.get(consultation_type)
+                if config:
+                    form_class, fetal_partial = config
+                    initial = {
+                        'patient': self.object.pk,
+                        'praticien': self.request.user.profil,
+                        'date': timezone.now(),
+                    }
+                    grossesse_encours = self.object.grossesse_set.filter(encours=True).first()
+                    if grossesse_encours:
+                        initial['grossesse'] = grossesse_encours.pk
+                    if self.object.mesures_jour:
+                        initial['poids'] = self.object.mesures_jour.poids
+                        initial['ta'] = self.object.mesures_jour.ta
+                        initial['temperature'] = self.object.mesures_jour.temperature
+                        initial['gly'] = self.object.mesures_jour.gly
+                    self.consultation_form = form_class(compte=self.request.user.profil.compte, initial=initial)
+                    self.consultation_foetus_formset = DonneesFoetusFormset()
+                    self.consultation_type_str = consultation_type
+                    self.fetal_partial = fetal_partial
+
+        context = self.get_context_data(object=self.object)
+        today = date.today()
+        if 'action' in self.request.GET:
+            if self.request.GET['action'] == 'demarrer_consultation':
+                patient = self.object
+                compte = request.user.profil.compte
+                jour_min = datetime.datetime.combine(today, datetime.time.min)
+                jour_max = datetime.datetime.combine(today, datetime.time.max)
+                existing_exam = Admission.objects.filter(
+                    date__gte=jour_min,
+                    date__lte=jour_max,
+                    statut='2',
+                    patient__compte=compte,
+                ).exclude(patient=patient).first()
+                if existing_exam:
+                    nom = quote(existing_exam.patient.nom_complet)
+                    return redirect(
+                        f"/accueil?error=exam_en_cours&nom={nom}#liste_en_consultation"
+                    )
+                today_admissions = patient.admission_set.filter(
+                    Q(date__day=today.day)
+                    & Q(date__month=today.month)
+                    & Q(date__year=today.year)
+                )
+                rdv = Rdv.objects.filter(
+                    patient=patient,
+                    debut__day=today.day,
+                    debut__month=today.month,
+                    debut__year=today.year,
+                ).first()
+                praticien = None
+                if rdv and rdv.praticien:
+                    praticien = rdv.praticien
+                elif patient.praticien_principal:
+                    praticien = patient.praticien_principal
+                else:
+                    praticien = getattr(request.user, 'medecin', None) or Medecin.objects.filter(compte=compte).first()
+                update_kwargs = {
+                    'statut': '2',
+                    'debut_consultation': timezone.now(),
+                }
+                if praticien:
+                    update_kwargs['praticien'] = praticien
+                today_admissions.update(**update_kwargs)
+                consultation = Consultation.objects.filter(
+                    patient=patient,
+                    date__day=today.day,
+                    date__month=today.month,
+                    date__year=today.year,
+                ).order_by('-id').first()
+                praticien = getattr(request.user, 'medecin', None) or Medecin.objects.filter(compte=compte).first()
+                if consultation:
+                    if not consultation.praticien:
+                        consultation.praticien = praticien
+                        consultation.save(update_fields=['praticien'])
+                else:
+                    motif = MotifConsultation.objects.first()
+                    consultation = Consultation.objects.create(
+                        patient=patient,
+                        motif=motif,
+                        date=timezone.now(),
+                        praticien=praticien,
+                    )
+                return redirect("/accueil?msg=consultation_demarree_succes#liste_en_consultation")
+
+        return self.render_to_response(context)
+
+@login_required
+@permission_required('core.view_patient', raise_exception=True)
+def infos_patient(request, pk):
+    patient = get_object_or_404(Patient, pk=pk)
+    return JsonResponse(json.dumps(PatientSerializer(patient).data), safe=False)
+
+@login_required
+@permission_required('core.view_patient', raise_exception=True)
+def admission_patient(request, pk):
+    # Recherche patient pour admission
+    patient = get_object_or_404(Patient, pk=pk)
+    praticien = patient.praticien_principal
+    motif = MotifRdv.objects.all()[0]
+    if 'rdv' in request.GET:
+        rdv = get_object_or_404(Rdv, pk=request.GET['rdv'])
+        rdv.patient = patient
+        rdv.statut = 2
+        praticien = rdv.praticien
+        rdv.save()
+        motif = rdv.motif
+
+    today = date.today()
+
+    completed = patient.admission_set.filter(
+        date__day=today.day, date__month=today.month, date__year=today.year,
+        statut='3'
+    ).first()
+    if completed:
+        ordre_max = Admission.objects.filter(Q(patient__compte=request.user.profil.compte)
+                                             & Q(date__day=today.day)
+                                             & Q(date__month=today.month)
+                                             & Q(date__year=today.year)).aggregate(Max('ordre'))['ordre__max']
+        completed.ordre = (ordre_max or 0) + 1
+        completed.statut = '1'
+        completed.date = datetime.datetime.now()
+        completed.save()
+        return redirect("/accueil?msg=admission_succes#liste_salle_attente")
+
+    ordre_max = Admission.objects.filter(Q(patient__compte=request.user.profil.compte)
+                                         & Q(date__day=today.day)
+                                         & Q(date__month=today.month)
+                                         & Q(date__year=today.year)).aggregate(Max('ordre'))['ordre__max']
+    if ordre_max is None:
+        ordre = 1
+    else:
+        ordre = 1 + ordre_max
+
+    # Chercher le numéro d'admission max sur l'année en cours
+    numero_max = Admission.objects.filter(patient__compte=request.user.profil.compte, date__year=today.year) \
+        .aggregate(Max('numero'))['numero__max']
+    if numero_max is None:
+        numero = 1
+    else:
+        numero = 1 + numero_max
+
+    admission = Admission(numero=numero, patient=patient, praticien=praticien,
+                          date=datetime.datetime.now(), ordre=ordre, statut='1', motif=motif)
+    print(f'Admission à {datetime.datetime.now()}')
+    admission.save()
+
+    if patient.admission_set.count() > 1 and patient.nouveau:
+        patient.nouveau = False
+        patient.save()
+
+    return redirect("/accueil?msg=admission_succes#liste_salle_attente")
+
+
+@login_required
+@require_POST
+def admission_rapide(request, patient_pk):
+    try:
+        patient = get_object_or_404(Patient, pk=patient_pk)
+        compte = request.user.profil.compte
+        today = date.today()
+        import datetime as dt
+        jour_min = dt.datetime.combine(today, dt.time.min)
+        jour_max = dt.datetime.combine(today, dt.time.max)
+        from django.db.models import Q
+
+        existing = Admission.objects.filter(
+            patient=patient,
+            date__gte=jour_min,
+            date__lte=jour_max,
+            statut__in=['1', '2'],
+        ).first()
+        if existing and existing.statut == '1':
+            return JsonResponse({
+                'status': 'error',
+                'message': 'Patient déjà en salle d\'attente'
+            }, status=409)
+        if existing and existing.statut == '2':
+            existing.statut = '3'
+            existing.save()
+
+        completed = Admission.objects.filter(
+            patient=patient,
+            date__gte=jour_min,
+            date__lte=jour_max,
+            statut='3',
+        ).first()
+        if completed:
+            ordre_max = Admission.objects.filter(
+                Q(patient__compte=compte) & Q(date__gte=jour_min) & Q(date__lte=jour_max)
+            ).aggregate(Max('ordre'))['ordre__max']
+            completed.ordre = (ordre_max or 0) + 1
+            completed.statut = '1'
+            completed.date = timezone.now()
+            completed.praticien = patient.praticien_principal or \
+                getattr(request.user, 'medecin', None) or Medecin.objects.filter(compte=compte).first()
+            completed.motif = MotifRdv.objects.first()
+            completed.save()
+        else:
+            ordre_max = Admission.objects.filter(
+                Q(patient__compte=compte) & Q(date__gte=jour_min) & Q(date__lte=jour_max)
+            ).aggregate(Max('ordre'))['ordre__max']
+            ordre = 1 if ordre_max is None else ordre_max + 1
+            numero_max = Admission.objects.filter(
+                patient__compte=compte, date__year=today.year
+            ).aggregate(Max('numero'))['numero__max']
+            numero = 1 if numero_max is None else numero_max + 1
+            Admission.objects.create(
+                numero=numero, patient=patient,
+                praticien=patient.praticien_principal or \
+                    getattr(request.user, 'medecin', None) or Medecin.objects.filter(compte=compte).first(),
+                date=timezone.now(), ordre=ordre, statut='1',
+                motif=MotifRdv.objects.first(),
+            )
+
+        return JsonResponse({'status': 'success'})
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+
+class PatientCreate(PermissionRequiredMixin, View):
+    template_name = 'core/patient_form_dialog.html'
+    permission_required = 'core.add_patient'
+
+    def get(self, request):
+        context = {}
+        initial_adresse = {}
+        initial_patient = {}
+
+        if 'rdv' in request.GET:
+            # Recherche patient pour admission
+            rdv = get_object_or_404(Rdv, pk=request.GET['rdv'])
+            context['rdv'] = rdv
+            initial_adresse = {
+                'cp': rdv.cp,
+                'ville': rdv.ville,
+                'gouvernorat': rdv.gouvernorat
+            }
+            initial_patient = {
+                'nom': rdv.nom,
+                'nom_naissance': rdv.nom_naissance,
+                'prenom': rdv.prenom,
+                'telephone': rdv.telephone,
+                'praticien_principal': rdv.praticien
+            }
+        else:
+            if 'nom' in request.GET:
+                initial_patient['nom'] = request.GET['nom']
+                initial_patient['nom_naissance'] = request.GET['nom']
+            if 'prenom' in request.GET:
+                initial_patient['prenom'] = request.GET['prenom']
+            if 'nom_naissance' in request.GET:
+                initial_patient['nom_naissance'] = request.GET['nom_naissance']
+            if 'date_naissance' in request.GET:
+                initial_patient['date_naissance'] = request.GET['date_naissance']
+            if 'ville' in request.GET:
+                initial_adresse['ville'] = request.GET['ville']
+            initial_patient['praticien_principal'] = self.request.user.profil.compte.parametrescompte.praticien_defaut if hasattr(self.request.user, 'profil') and self.request.user.profil and self.request.user.profil.compte else None
+
+        if not hasattr(self.request.user, 'profil') or not self.request.user.profil or not self.request.user.profil.compte:
+            adresse_form = AdresseForm(initial=initial_adresse)
+            patient_form = PatientForm(initial=initial_patient, compte=None)
+            context['adresse'] = adresse_form
+            context['patient'] = patient_form
+            return render(request, self.template_name, context)
+        
+        if self.request.user.profil.compte.adresse and self.request.user.profil.compte.adresse.pays:
+            initial_adresse['pays'] = self.request.user.profil.compte.adresse.pays
+        if (not 'ville' in initial_adresse or initial_adresse['ville'] == '') and self.request.user.profil.compte.adresse and self.request.user.profil.compte.adresse.ville:
+            initial_adresse['ville'] = self.request.user.profil.compte.adresse.ville
+        if (not 'gouvernorat' in initial_adresse or initial_adresse['gouvernorat'] == '') and self.request.user.profil.compte.adresse and self.request.user.profil.compte.adresse.gouvernorat:
+            initial_adresse['gouvernorat'] = self.request.user.profil.compte.adresse.gouvernorat
+
+        adresse_form = AdresseForm(initial=initial_adresse)
+        patient_form = PatientForm(initial=initial_patient, compte=self.request.user.profil.compte)
+        context['adresse'] = adresse_form
+        context['patient'] = patient_form
+        pays = "Tunisie"
+        if self.request.user.profil.compte.adresse and self.request.user.profil.compte.adresse.pays:
+            pays = self.request.user.profil.compte.adresse.pays
+        context['codes_postaux'] = adresses.codes_postaux_json(pays)
+
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        adresse_form = AdresseForm(request.POST)
+        patient_form = PatientForm(request.POST, compte=self.request.user.profil.compte)
+        if patient_form.is_valid():
+            patient = patient_form.save(commit=False)
+            if patient_form.cleaned_data['nom'] is None:
+                patient.nom = patient_form.cleaned_data['nom_naissance']
+            patient.praticien_principal = (
+                self.request.user.profil.compte.parametrescompte.praticien_defaut
+                if hasattr(self.request.user, 'profil')
+                and self.request.user.profil
+                and hasattr(self.request.user.profil.compte, 'parametrescompte')
+                and self.request.user.profil.compte.parametrescompte.praticien_defaut
+                else getattr(self.request.user, 'medecin', None)
+                if hasattr(self.request.user, 'profil')
+                and self.request.user.profil
+                else None
+            )
+            if adresse_form.is_valid():
+                adresse = adresse_form.save()
+                patient.adresse = adresse
+                patient.save()
+
+            if 'action' in request.GET:
+                if request.GET['action'] == 'admission':
+                    if 'rdv' in request.GET:
+                        redir = f"{reverse('patient_admission', kwargs={'pk': patient.pk})}?rdv={request.GET['rdv']}"
+                    else:
+                        redir = reverse("patient_admission", kwargs={'pk': patient.pk})
+                elif request.GET['action'] == 'paiement':
+                    # Find patient's latest admission or create redirect to payments list
+                    admission = patient.admission_set.filter(statut__lt=10).order_by('-date').first()
+                    if admission:
+                        redir = reverse('reglements_creer', kwargs={'pk': admission.pk})
+                    else:
+                        redir = reverse('reglements_list')
+            else:
+                redir = reverse("patient_afficher", kwargs={'pk': patient.pk})
+
+            return redirect(f"{reverse('fermer_fenetre')}?next={redir}")
+
+        pays = "Tunisie"
+        if request.user.profil.compte.adresse and request.user.profil.compte.adresse.pays:
+            pays = request.user.profil.compte.adresse.pays
+        codes_postaux = adresses.codes_postaux_json(pays)
+
+        context = {
+            'adresse': adresse_form,
+            'patient': patient_form,
+            'codes_postaux': codes_postaux
+        }
+        return render(request, self.template_name, context)
+
+
+class PatientUpdate(PermissionRequiredMixin, View):
+    template_name = 'core/patient_form_dialog.html'
+    permission_required = 'core.change_patient'
+
+    def get(self, request, pk):
+        patient = get_object_or_404(Patient, pk=pk)
+        patient_form = PatientForm(instance=patient, compte=self.request.user.profil.compte)
+        adresse_form = AdresseForm(instance=patient.adresse)
+        pays = "Tunisie"
+        if request.user.profil.compte.adresse and request.user.profil.compte.adresse.pays:
+            pays = request.user.profil.compte.adresse.pays
+        codes_postaux = adresses.codes_postaux_json(pays)
+        context = {
+            'adresse': adresse_form,
+            'patient': patient_form,
+            'object': patient,
+            'codes_postaux': codes_postaux
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, pk):
+        patient = get_object_or_404(Patient, pk=pk)
+        patient_form = PatientForm(request.POST, instance=patient, compte=self.request.user.profil.compte)
+        adresse_form = AdresseForm(request.POST, instance=patient.adresse)
+        if patient_form.is_valid():
+            patient = patient_form.save(commit=False)
+            if patient_form.cleaned_data['nom'] is None:
+                patient.nom = patient_form.cleaned_data['nom_naissance']
+            if adresse_form.is_valid():
+                adresse = adresse_form.save()
+                patient.adresse = adresse
+                patient.save()
+
+            return redirect(reverse_lazy('fermer_fenetre_noreload') + "?event=patient:updated")
+
+        pays = "Tunisie"
+        if request.user.profil.compte.adresse and request.user.profil.compte.adresse.pays:
+            pays = request.user.profil.compte.adresse.pays
+        codes_postaux = adresses.codes_postaux_json(pays)
+        context = {
+            'adresse': adresse_form,
+            'patient': patient_form,
+            'codes_postaux': codes_postaux
+        }
+        return render(request, self.template_name, context)
+
+
+@login_required
+@permission_required('core.delete_patient', raise_exception=True)
+def supprimer_patient(request, pk):
+    query = get_object_or_404(Patient, pk=pk)
+    query.delete()
+    return redirect('patients_list')
+
+
+@login_required
+@permission_required('core.change_patient', raise_exception=True)
+def enregistrer_antecedents(request, pk):
+    type = request.POST.get('type_antecedent', None)
+    text = request.POST.get('text', None)
+    print(f"Antecedent  {type} = {text}")
+    patient = get_object_or_404(Patient, pk=pk)
+    if type == None:
+        return JsonResponse({'message': "Aucun type fourni".format(type)}, status=400)
+    if type == '1':
+        patient.antecedents_familiaux = text
+    elif type == '2':
+        patient.antecedents_medico_chirurgicaux = text
+    elif type == '3':
+        patient.antecedents_gynecologiques = text
+    elif type == '4':
+        patient.allergies = text
+    else:
+        return JsonResponse({'message': "Le type {} n'existe pas".format(type)}, status=400)
+
+    patient.save()
+
+    data = {
+        'message': "Antécédent enregistré avec succès"
+    }
+    return JsonResponse(data)
+
+
+@login_required
+@permission_required('core.change_patient', raise_exception=True)
+def ajouter_antecedent(request, pk):
+    sous_categorie_id = request.POST.get('sous_categorie', None)
+    text = request.POST.get('text', None)
+    date = request.POST.get('date', None)
+    sous_categorie = get_object_or_404(SousCatgeorieAntecedent, pk=sous_categorie_id)
+    patient = get_object_or_404(Patient, pk=pk)
+    Antecedent.objects.create(sous_categorie=sous_categorie, date=date, text=text, patient=patient)
+    data = {
+        'message': "Antécédent enregistré avec succès"
+    }
+    return JsonResponse(data)
+
+
+@login_required
+@permission_required('core.change_patient', raise_exception=True)
+def supprimer_antecedent(request, pk):
+    ant = get_object_or_404(Antecedent, pk=pk)
+    ant.delete()
+    data = {
+        'message': "Antécédent supprimé avec succès"
+    }
+    return JsonResponse(data)
+
+
+@login_required
+@permission_required('core.change_patient', raise_exception=True)
+def enregistrer_notes(request, pk):
+    text = request.POST.get('text', None)
+    patient = get_object_or_404(Patient, pk=pk)
+    patient.notes = text
+    patient.save()
+    data = {
+        'message': "Notes enregistrées avec succès"
+    }
+    return JsonResponse(data)
+
+
+@login_required
+@permission_required('core.change_patient', raise_exception=True)
+def ajouter_praticien(request, pk):
+    praticien_pk = request.POST.get('praticien', None)
+    patient = get_object_or_404(Patient, pk=pk)
+    praticien = get_object_or_404(Praticien, pk=praticien_pk)
+    patient.praticiens_correspondants.add(praticien)
+    patient.save()
+
+    data = {'message': "Praticien ajouté avec succès", "particien": json.dumps(PraticienSerializer(praticien).data)}
+    return JsonResponse(data)
+
+
+@login_required
+@permission_required('core.change_patient', raise_exception=True)
+def ajouter_fichier(request, pk):
+    print('Ajouter fichier patient')
+    patient = get_object_or_404(Patient, pk=pk)
+    print(patient)
+    id_dossier = request.POST.get('dossier', None)
+    if id_dossier:
+        dossier = get_object_or_404(DossierFichiersPatient, id=id_dossier)
+    else:
+        dossier = DossierFichiersPatient.objects.first()
+        if not dossier:
+            dossier = DossierFichiersPatient.objects.create(nom="General")
+    fichier = FichierPatient(nom=request.FILES['file'].name, fichier=request.FILES['file'], dossier=dossier,
+                             date=datetime.datetime.now(),
+                             patient=patient)
+    fichier.save()
+    patient.fichierpatient_set.add(fichier)
+    patient.save()
+    data = {
+        'pk': fichier.pk,
+        'nom': fichier.nom,
+        'dossier': dossier.nom,
+        'dossierId': dossier.id,
+        'chemin': fichier.fichier.url,
+        'message': "Fichier ajouté"
+    }
+    return JsonResponse(data)
+
+
+@login_required
+@permission_required('core.change_patient', raise_exception=True)
+def deplacer_fichier(request, pk, fichier_pk):
+    if request.method == "GET":
+        fichier = get_object_or_404(FichierPatient, pk=fichier_pk)
+        dossier_patient = DossierFichiersPatient.objects.exclude(id=fichier.dossier.id)
+        context = {'dossier_patient': dossier_patient}
+        return render(request, "core/fichier_form.html", context)
+    else:
+        patient = get_object_or_404(Patient, pk=pk)
+        fichier = get_object_or_404(FichierPatient, pk=fichier_pk)
+        id_dossier = request.POST.get('dossier_fichier_patient', None)
+        dossier = get_object_or_404(DossierFichiersPatient, id=id_dossier)
+        fichier.dossier = dossier
+        fichier.save()
+        return redirect(reverse("patient_afficher", kwargs={'pk': patient.pk}) + '#fichiers')
+
+
+@login_required
+@permission_required('core.delete_patient', raise_exception=True)
+def supprimer_fichier(request, pk, fichier_pk):
+    patient = get_object_or_404(Patient, pk=pk)
+    fichier = get_object_or_404(FichierPatient, pk=fichier_pk)
+    fichier.delete()
+
+    # data = {'message': "Fichier supprimé"}
+    # return JsonResponse(data)
+    return redirect(reverse("patient_afficher", kwargs={'pk': patient.pk}) + '#fichiers')
+
+
+# ajouter_mot_cle_patient
+@login_required
+@permission_required('core.change_patient', raise_exception=True)
+def ajouter_mot_cle(request, pk):
+    mot_cle = request.POST.get('mot_cle', None)
+    patient = get_object_or_404(Patient, pk=pk)
+    print("Ajout des mots clé", mot_cle)
+    patient.mot_cle = mot_cle
+    patient.save()
+    data = {
+        'message': "mot clé enregistré avec succès"
+    }
+    return JsonResponse(data)
+
+
+# supprimer_mot_cle_patient
+@login_required
+@permission_required('core.change_patient', raise_exception=True)
+def supprimer_mot_cle(request, pk):
+    mot_cle = request.POST.get('mot_cle', None)
+    patient = get_object_or_404(Patient, pk=pk)
+    patient.mot_cle = mot_cle
+    patient.save()
+    data = {
+        'message': "mot clé supprimé avec succès"
+    }
+    return JsonResponse(data)
+
+
+class AntecedentObstetriqueCreate(PermissionRequiredMixin, CreateView):
+    model = AntecedentObstetrique
+    form_class = AntecedentObstetriqueForm
+    template_name = 'core/antecedent_obstetrique_form.html'
+    permission_required = 'core.change_patient'
+    success_url = reverse_lazy('fermer_fenetre')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        patient = get_object_or_404(Patient, pk=self.kwargs['pk'])
+        context['patient'] = patient
+        if 'action' in self.request.GET:
+            if self.request.GET['action'] == 'cloturer_grossesse':
+                grossesse = Grossesse.objects.filter(patient=self.kwargs['pk'], encours=True)
+                if len(grossesse):
+                    nb_foetus = 1
+                    if grossesse[0].nb_foetus == 'gemellaire':
+                        nb_foetus = 2
+                    if grossesse[0].nb_foetus == 'triple':
+                        nb_foetus = 3
+                    context['nb_foetus'] = nb_foetus
+                    context['ddr'] = grossesse[0].ddr
+        return context
+
+    def get_initial(self):
+        init = super().get_initial()
+        init['patient'] = self.kwargs['pk']
+        init['sous_categorie'] = 19  # Sous catégorie par défaut
+        if 'action' in self.request.GET:
+            if self.request.GET['action'] == 'cloturer_grossesse':
+                grossesse = Grossesse.objects.filter(patient=self.kwargs['pk'], encours=True)
+                if len(grossesse):
+                    init['grossesse_patient'] = grossesse[0].pk
+                    nb_foetus = 1
+                    if grossesse[0].nb_foetus == 'gemellaire':
+                        nb_foetus = 2
+                    if grossesse[0].nb_foetus == 'triple':
+                        nb_foetus = 3
+                    init['nb_foetus'] = nb_foetus
+        return init
+
+    def form_valid(self, form):
+        if form.is_valid():
+            if 'action' in self.request.GET:
+                if self.request.GET['action'] == 'cloturer_grossesse':
+                    patient = get_object_or_404(Patient, pk=self.kwargs['pk'])
+                    grossesse = patient.grossesse_set.filter(encours=True)
+                    if len(grossesse):
+                        grossesse[0].encours = False
+                        grossesse[0].save()
+            o = form.save(commit=False)
+            if not o.sous_categorie_id:
+                o.sous_categorie_id = 19
+            o.save()
+        return super().form_valid(form)
+
+
+class AntecedentObstetriqueUpdate(PermissionRequiredMixin, UpdateView):
+    model = AntecedentObstetrique
+    form_class = AntecedentObstetriqueForm
+    template_name = 'core/antecedent_obstetrique_form.html'
+    permission_required = 'core.change_patient'
+    success_url = reverse_lazy('fermer_fenetre')
+
+    def form_valid(self, form):
+        if form.is_valid():
+            o = form.save(commit=False)
+            if not o.sous_categorie_id:
+                o.sous_categorie_id = 19
+            o.save()
+        return super().form_valid(form)
+
+
+@login_required
+@permission_required('core.delete_patient', raise_exception=True)
+def supprimer_antecedent_obstetrique(request, pk):
+    ant = get_object_or_404(AntecedentObstetrique, pk=pk)
+    patientId = ant.patient.id
+    ant.delete()
+    return redirect(reverse("patient_afficher", kwargs={'pk': patientId}))
+
+
+@login_required
+@permission_required('core.view_patient', raise_exception=True)
+def liste_admissions_patient(request, pk):
+    patient = get_object_or_404(Patient, pk=pk)
+    today = date.today()
+    admissions = patient.admission_set.filter(date__day=today.day, date__month=today.month, date__year=today.year).exclude(statut='3')
+    adm = json.dumps(AdmissionSerializer(admissions, many=True).data)
+    return JsonResponse({'admissions': adm})
+
+
+class MesuresPatientCreate(PermissionRequiredMixin, CreateView):
+    model = MesuresPatient
+    form_class = MesuresPatientForm
+    template_name = 'core/mesures_patient_form.html'
+    permission_required = 'core.change_patient'
+    success_url = reverse_lazy('fermer_fenetre')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        patient = get_object_or_404(Patient, pk=self.kwargs['pk'])
+        context['patient'] = patient
+        return context
+
+    def get_initial(self):
+        init = super().get_initial()
+        init['patient'] = self.kwargs['pk']
+        return init
+
+    def form_valid(self, form):
+        if form.is_valid():
+            mesures = form.save()
+            if mesures.poids:
+                mesures.patient.poids = mesures.poids
+                mesures.patient.save()
+        return super().form_valid(form)
+
+
+class MesuresPatientUpdate(PermissionRequiredMixin, UpdateView):
+    model = MesuresPatient
+    form_class = MesuresPatientForm
+    template_name = 'core/mesures_patient_form.html'
+    permission_required = 'core.change_patient'
+    success_url = '/utils/fermer_noreload/?event=grossesse:updated'
+
+    def form_valid(self, form):
+        if form.is_valid():
+            mesures = form.save()
+            if mesures.poids:
+                mesures.patient.poids = mesures.poids
+                mesures.patient.save()
+        return super().form_valid(form)
+
+
+
+@login_required
+@permission_required('core.change_patient', raise_exception=True)
+def ajouter_alerte(request, pk):
+    patient = get_object_or_404(Patient, pk=pk)
+    text = request.POST.get('text', None)
+    alerte = AlertePatient.objects.create(text=text, patient=patient)
+    data = {'message': "Alerte ajoutée", 'id': alerte.id, 'date': alerte.created_at}
+    return JsonResponse(data, safe=False)
+
+
+@login_required
+@permission_required('core.change_patient', raise_exception=True)
+def supprimer_alerte(request, pk):
+    print('Supprimer alerte')
+    alerte = get_object_or_404(AlertePatient, pk=pk)
+    alerte.delete()
+    data = {'message': "Alerte supprimée", 'id': pk}
+    return JsonResponse(data, safe=False)
+
+
+@login_required
+@permission_required('core.view_patient', raise_exception=True)
+def rechercher_patient(request):
+    try:
+        compte = request.user.profil.compte
+    except:
+        return JsonResponse({'draw': 0, 'recordsTotal': 0, 'recordsFiltered': 0, 'data': []})
+    objects = Patient.objects.filter(compte=compte)
+    total = objects.count()
+
+    if request.body is not None:
+        try:
+            body = json.loads(request.body)
+            query = body.get('nom') or body.get('nom_naissance') or body.get('prenom') or ''
+            if query:
+                from django.db.models import Q
+                objects = objects.filter(
+                    Q(nom__icontains=query) |
+                    Q(nom_naissance__icontains=query) |
+                    Q(prenom__icontains=query)
+                )
+            filtered = objects.order_by('nom_naissance')[:20]
+            resp = PatientSerializer(filtered, many=True)
+            return JsonResponse(resp.data, safe=False)
+        except:
+            pass
+
+    # Data table request
+    draw = request.POST.get('draw', None)
+    start = int(request.POST.get('start', None))
+    length = int(request.POST.get('length', None))
+    order_col = int(request.POST.get('order[0][column]', None))
+    order_col_name = request.POST.get('columns[{}][data]'.format(order_col))
+    print('Order col', order_col, order_col_name)
+    if order_col_name == 'identifiant_unique':
+        order_col_name = 'id'
+    order_dir = request.POST.get('order[0][dir]', None)
+    dir = ''
+    if order_dir == 'desc':
+        dir = '-'
+
+    fltr = {}
+    for c in range(1, 10):
+        col_name = request.POST.get(f'columns[{c}][data]')
+        sv = request.POST.get(f'columns[{c}][search][value]')
+        print('Filter ', col_name, sv)
+        if col_name and sv and sv != "":
+            if col_name == 'adresse':
+                fltr['adresse__ville__icontains'] = sv
+            else:
+                fltr[col_name + '__icontains'] = sv
+
+    objects = objects.filter(**fltr)
+    #filtered = objects.filter(libelle__icontains=libelle).order_by(dir + order_col_name)
+    filtered = objects.order_by(dir + order_col_name)
+    filtered_count = filtered.count()
+    objs = filtered[start:start + length - 1]
+    objs_json = PatientSerializer(objs, many=True)
+    resp = {
+        'draw': draw,
+        'recordsTotal': total,
+        'recordsFiltered': filtered_count,
+        'data': objs_json.data
+    }
+    return JsonResponse(resp)
+
+
+@login_required
+@permission_required('core.view_patient', raise_exception=True)
+def rechercher_consultation(request, pk):
+    patient = get_object_or_404(Patient, pk=pk)
+    objects = Consultation.objects.filter(patient=patient) \
+            .select_related('patient') \
+            .select_related('praticien') \
+            .select_related('motif') \
+            .select_related('motif__categorie')
+
+    # Data table request
+    draw = request.POST.get('draw', None)
+    start = int(request.POST.get('start', None))
+    length = int(request.POST.get('length', None))
+    order_col = int(request.POST.get('order[0][column]', None))
+    order_col_name = request.POST.get('columns[{}][data]'.format(order_col)).replace('.','__')
+    if order_col == 9:
+        order_col_name = 'praticien__user'
+    order_dir = request.POST.get('order[0][dir]', None)
+    dir = ''
+    if order_dir == 'desc':
+        dir = '-'
+
+    """
+    print("---------------------------")
+    for i in range(0, 15):
+        val = request.POST.get(f'columns[{i}][search][value]')
+        print(f'Col {i}', val)
+    print("---------------------------")
+    """
+    filtered = objects
+    ipp = request.POST.get('columns[0][search][value]')
+    if ipp:
+        filtered = filtered.filter(patient__id=ipp)
+    gouvernorat = request.POST.get('columns[1][search][value]')
+    if gouvernorat:
+        filtered = filtered.filter(patient__adresse__gouvernorat__icontains=gouvernorat)
+    prat_corresp = request.POST.get('columns[2][search][value]')
+    if prat_corresp:
+        filtered = filtered.filter(patient__praticiens_correspondants__nom__icontains=prat_corresp)
+    nom = request.POST.get('columns[4][search][value]')
+    if nom:
+        filtered = filtered.filter(patient__nom__icontains=nom)
+    nom_naissance = request.POST.get('columns[5][search][value]')
+    if nom_naissance:
+        filtered = filtered.filter(patient__nom_naissance__icontains=nom_naissance)
+    prenom = request.POST.get('columns[6][search][value]')
+    if prenom:
+        filtered = filtered.filter(patient__prenom__icontains=prenom)
+    praticien = request.POST.get('columns[9][search][value]')
+    if praticien:
+        filtered = filtered.filter(praticien_id=praticien)
+    categorie = request.POST.get('columns[7][search][value]')
+    if categorie:
+        filtered = filtered.filter(motif__categorie_id=categorie)
+    motif = request.POST.get('columns[8][search][value]')
+    if motif:
+        filtered = filtered.filter(motif_id=motif)
+    mots_cles = request.POST.get('columns[10][search][value]')
+    if mots_cles:
+        mots_parsed = json.loads(mots_cles) #[{"value":"diabète"}]
+        for m in mots_parsed:
+            filtered = filtered.filter(patient__mot_cle__icontains=m["value"])
+    debut = request.POST.get('columns[11][search][value]')
+    if debut and debut != "":
+        print('Debut', debut)
+        filtered = filtered.filter(date__gte=debut)
+    fin = request.POST.get('columns[12][search][value]')
+    if fin and fin != "":
+        filtered = filtered.filter(date__lte=fin)
+
+    print('Order col name', order_col_name)
+    filtered = filtered.order_by(dir + order_col_name)
+    #filtered = objects.filter(patient__pk__icontains=ipp).order_by(dir + order_col_name)
+    total = objects.count()
+    filtered_count = filtered.count()
+    objs = filtered[start:start + length - 1]
+    objs_json = ConsultationRapportSerializer(objs, many=True)
+    resp = {
+        'draw': draw,
+        'recordsTotal': total,
+        'recordsFiltered': filtered_count,
+        'data': objs_json.data
+    }
+    return JsonResponse(resp)

@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dossier patient — {{ patient.nom_complet }}</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: Arial, sans-serif; font-size:10pt; color:#1a1a1a; background:#e8e8e8; }
+.toolbar { position:fixed; top:0; left:0; right:0; z-index:100; background:#1A1D2B; padding:8px 20px; display:flex; align-items:center; gap:10px; box-shadow:0 2px 12px rgba(0,0,0,0.3); }
+@media print { .toolbar { display:none; } }
+.toolbar-title { color:#fff; font-size:13px; font-weight:700; flex:1; }
+.btn-tb { padding:7px 16px; border-radius:8px; border:none; font-size:12px; font-weight:600; cursor:pointer; }
+.btn-print { background:#2196F3; color:#fff; }
+.page { width:210mm; min-height:297mm; margin:56px auto 30px; background:#fff; box-shadow:0 4px 24px rgba(0,0,0,0.18); }
+@media print { body{background:#fff;} .page{margin:0;box-shadow:none;width:100%;} }
+.report-header { padding:16px 28px 12px; border-bottom:2.5px solid #1565C0; display:flex; justify-content:space-between; align-items:flex-start; }
+.header-logo img { max-height:65px; max-width:160px; object-fit:contain; }
+.header-clinic { text-align:right; }
+.clinic-name { font-size:13pt; font-weight:700; color:#1565C0; white-space:pre-line; }
+.clinic-sub { font-size:8pt; color:#546E7A; margin-top:3px; line-height:1.5; }
+.title-bar { background:linear-gradient(90deg,#0D2137,#1565C0); color:#fff; text-align:center; padding:7px 28px; font-size:12pt; font-weight:700; letter-spacing:0.05em; }
+.patient-row { display:flex; background:#F7F9FC; border-bottom:1px solid #E0E0E0; flex-wrap:wrap; }
+.patient-col { flex:1; min-width:160px; padding:9px 14px; border-right:1px solid #E0E0E0; }
+.patient-col:last-child { border-right:none; }
+.lbl { font-size:7.5pt; font-weight:700; color:#7B8FA6; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:2px; }
+.val { font-size:10pt; font-weight:600; color:#1a1a1a; }
+.meta-row { display:flex; border-bottom:1px solid #E0E0E0; flex-wrap:wrap; }
+.meta-item { flex:1; border-right:1px solid #E0E0E0; padding:7px 14px; min-width:150px; }
+.meta-item:last-child { border-right:none; }
+.sec { background:#1565C0; color:#fff; padding:5px 16px; font-size:8.5pt; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; margin-top:12px; }
+.sec.sub { background:#E3F0FF; color:#0D2137; font-size:8pt; padding:4px 16px; margin-top:0; border-left:3px solid #1565C0; }
+.report-text { padding:12px 18px; font-size:10pt; line-height:1.7; min-height:20px; }
+table { width:100%; border-collapse:collapse; }
+th { background:#E3F0FF; color:#0D2137; font-size:8pt; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; padding:5px 10px; border:1px solid #CFDCE8; text-align:left; }
+td { font-size:9.5pt; padding:4px 10px; border:1px solid #E8EFF5; }
+tr:nth-child(even) td { background:#F7FAFD; }
+.visit-card { border:1px solid #CFDCE8; margin:10px 18px; border-radius:8px; overflow:hidden; }
+.visit-header { background:#0D2137; color:#fff; padding:6px 14px; display:flex; justify-content:space-between; align-items:center; }
+.visit-date { font-weight:700; font-size:10pt; }
+.visit-motif { font-size:9pt; opacity:0.9; }
+.visit-body { padding:10px 14px; font-size:9.5pt; line-height:1.6; }
+.visit-field { margin-bottom:6px; }
+.visit-field b { color:#0D2137; }
+.antecedent-box { margin:10px 18px; padding:10px 14px; background:#FFF8E1; border:1px solid #FFE082; border-radius:6px; font-size:9pt; }
+.sign-row { display:flex; justify-content:flex-end; padding:12px 20px 4px; }
+.sign-box { text-align:center; }
+.footer { border-top:1px solid #E0E0E0; margin:10px 28px 0; padding:6px 0 12px; text-align:center; font-size:7.5pt; color:#9E9E9E; }
+@page { size: A4; margin: 0; }
+@media print { html,body{background:#fff!important;} .page{padding:10mm 15mm;} .visit-card{break-inside:avoid;} }
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <span class="toolbar-title">Dossier patient — {{ patient.civilite|upper }} {{ patient.nom_complet }} (IPP {{ patient.identifiant_unique|default:"—" }})</span>
+  <button class="btn-tb btn-print" onclick="window.print()">🖨 Imprimer / PDF</button>
+</div>
+<div class="page">
+  <div class="report-header">
+    <div class="header-logo">
+      {% if logo_url %}<img src="{{ logo_url }}" alt="logo"/>{% endif %}
+    </div>
+    <div class="header-clinic">
+      <div class="clinic-name">{{ entete|default:"" }}</div>
+      {% if compte %}<div class="clinic-sub">{{ compte.raison_sociale }}</div>{% endif %}
+    </div>
+  </div>
+  <div class="title-bar">DOSSIER PATIENT</div>
+  <!-- Patient header -->
+  <div class="patient-row">
+    <div class="patient-col"><div class="lbl">Patient</div><div class="val">{{ patient.civilite|default:"" }} {{ patient.nom_complet }}</div></div>
+    <div class="patient-col"><div class="lbl">Date de naissance</div><div class="val">{{ patient.date_naissance|date:"d/m/Y"|default:"—" }} {% if age_affiche %}({{ age_affiche }}){% endif %}</div></div>
+    <div class="patient-col"><div class="lbl">IPP</div><div class="val">{{ patient.identifiant_unique|default:"—" }}</div></div>
+    <div class="patient-col"><div class="lbl">Téléphone</div><div class="val">{{ patient.telephone|default:"—" }}</div></div>
+  </div>
+  <div class="patient-row">
+    <div class="patient-col"><div class="lbl">Adresse</div><div class="val">{% if patient.adresse %}{{ patient.adresse.rue|default:"" }} {{ patient.adresse.ville|default:"Cité Militaire" }} {{ patient.adresse.gouvernorat|default:"" }}{% else %}Cité Militaire{% endif %}</div></div>
+    <div class="patient-col"><div class="lbl">Médecin</div><div class="val">{% if praticien_principal %}{{ praticien_principal.nom_complet|default:praticien_principal.nom }}{% else %}—{% endif %}</div></div>
+    <div class="patient-col"><div class="lbl">Spécialité</div><div class="val">{{ specialite }}</div></div>
+  </div>
+  <!-- Antecedents summary -->
+  {% if antecedents or antecedents_obs or patient.antecedents_familiaux or patient.antecedents_medico_chirurgicaux %}
+  <div class="sec">Antécédents</div>
+  <div class="antecedent-box">
+    {% if patient.antecedents_familiaux %}<div><b>Familiaux:</b> {{ patient.antecedents_familiaux|safe }}</div>{% endif %}
+    {% if patient.antecedents_medico_chirurgicaux %}<div><b>Médico-chirurgicaux:</b> {{ patient.antecedents_medico_chirurgicaux|safe }}</div>{% endif %}
+    {% if patient.antecedents_gynecologiques %}<div><b>Gynécologiques:</b> {{ patient.antecedents_gynecologiques|safe }}</div>{% endif %}
+    {% for ant in antecedents_obs %}<div><b>{{ ant.sous_categorie.libelle }} ({{ ant.date_accouchement|date:"d/m/Y" }}):</b> {{ ant.text|default:"" }} {% if ant.grossesse %} G{{ ant.grossesse }} {% endif %}</div>{% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="sec">Listes Des Visites : {{ visits|length }} consultation(s)</div>
+  {% for c in visits %}
+  <div class="visit-card">
+    <div class="visit-header">
+      <span class="visit-date">le {{ c.date|date:"d/m/Y"|default:c.created_at|date:"d/m/Y" }}</span>
+      <span class="visit-motif">{% if c.motif %}{{ c.motif.libelle }}{% else %}--Consultation--{% endif %} {% if c.praticien %}· {{ c.praticien.nom_complet|default:c.praticien.nom }}{% endif %}</span>
+    </div>
+    <div class="visit-body">
+      {% if c.motif %}<div class="visit-field"><b>motif :</b> {{ c.motif.libelle }}</div>{% endif %}
+      {% if c.text %}<div class="visit-field"><div style="white-space:pre-wrap">{{ c.text|safe }}</div></div>{% endif %}
+      {# Generic fields that may exist on obstetrique consultations #}
+      {% if c.conclusion %}<div class="visit-field"><b>Conclusion :</b> {{ c.conclusion|safe }}</div>{% endif %}
+      {% if c.conduite %}<div class="visit-field"><b>Conduit à tenir :</b> {{ c.conduite|safe }}</div>{% endif %}
+      {% if c.histoire %}<div class="visit-field"><b>Histoire :</b> {{ c.histoire|safe }}</div>{% endif %}
+      {% if c.examen %}<div class="visit-field"><b>Examen :</b> {{ c.examen|safe }}</div>{% endif %}
+      {% if c.diagnostique %}<div class="visit-field"><b>Diagnostique :</b> {{ c.diagnostique|safe }}</div>{% endif %}
+      {# Fallback: if no structured fields, show at least text #}
+      {% if not c.text and not c.conclusion and not c.histoire %}
+        <div class="visit-field" style="color:#546E7A; font-style:italic;">Aucun détail textuel enregistré.</div>
+      {% endif %}
+      {% with df=c.donneesfoetus_set.all %}
+        {% if df %}
+          <div style="margin-top:6px; font-size:8.5pt;">
+            <b>Mesures fœtales:</b>
+            {% for f in df %}
+              <span style="margin-right:10px;">F{{ forloop.counter }}: BIP {{ f.bip|default:"—" }}mm, PC {{ f.pc|default:"—" }}mm, PA {{ f.pa|default:"—" }}mm, Fémur {{ f.femur|default:"—" }}mm, Poids {{ f.poids|default:"—" }}g</span>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+    </div>
+  </div>
+  {% empty %}
+  <div style="padding:20px; text-align:center; color:#546E7A;">Aucune visite enregistrée pour ce patient.</div>
+  {% endfor %}
+
+  <div class="sign-row">
+    <div class="sign-box">
+      <div style="font-size:8pt; color:#546E7A;">Cachet et signature</div>
+      <div style="height:50px;"></div>
+    </div>
+  </div>
+  <div class="footer">
+    {% if footer_url %}<img src="{{ footer_url }}" style="max-height:30px;"/><br/>{% endif %}
+    Imprimé le {% now "d/m/Y H:i" %} · Document médical confidentiel · {{ patient.nom_complet }}
+  </div>
+</div>
+<script>window.onload=function(){/* auto print optional */};</script>
+</body>
+</html>

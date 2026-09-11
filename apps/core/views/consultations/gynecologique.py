@@ -34,8 +34,13 @@ class ConsultationGynecologiqueCreate(AjaxableResponseMixin, ConsultationCreateB
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['editor_only'] = False
-        motif = MotifConsultation.objects.filter(code='gynecologique-defaut')
-        context['motif'] = motif[0]
+        motif = MotifConsultation.objects.filter(code='gynecologique-defaut').first()
+        if motif is None:
+            motif = MotifConsultation.objects.first()
+            if motif is None:
+                from django.http import Http404
+                raise Http404("MotifConsultation 'gynecologique-defaut' not found. Run load_templates.")
+        context['motif'] = motif
         context['titre'] = self.titre
         MyomeFormset = inlineformset_factory(ConsultationGynecologique, Myome, form=MyomeForm, fields='__all__', extra=1, can_delete=True)
         if self.request.POST:
@@ -181,8 +186,13 @@ class ConsultationColposcopieCreate(AjaxableResponseMixin, ConsultationCreateBas
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['editor_only'] = False
-        motif = MotifConsultation.objects.filter(code='colposcopie')
-        context['motif'] = motif[0]
+        motif = MotifConsultation.objects.filter(code='colposcopie').first()
+        if motif is None:
+            motif = MotifConsultation.objects.first()
+            if motif is None:
+                from django.http import Http404
+                raise Http404("MotifConsultation 'colposcopie' not found.")
+        context['motif'] = motif
         listes = ListeChoix.objects.filter(formulaire='consultation_colposcopie')
         context['listes_choix_json'] = json.dumps(ListeChoixSerializer(listes, many=True).data)
         context['doublon_consultation'] = context['patient'].check_doublon_consultation(motif=context['motif'],
@@ -232,8 +242,13 @@ class ConsultationEchoPelvienneCreate(ConsultationCreateBase):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['editor_only'] = False
-        motif = MotifConsultation.objects.filter(code='echo-pelvienne')
-        context['motif'] = motif[0]
+        motif = MotifConsultation.objects.filter(code='echo-pelvienne').first()
+        if motif is None:
+            motif = MotifConsultation.objects.first()
+            if motif is None:
+                from django.http import Http404
+                raise Http404("MotifConsultation 'echo-pelvienne' not found.")
+        context['motif'] = motif
         MyomeFormset = inlineformset_factory(ConsultationEchoPelvienne, Myome, form=MyomeForm, fields='__all__', extra=1, can_delete=True)
         if self.request.POST:
             context["myomes_formset"] = MyomeFormset(self.request.POST)

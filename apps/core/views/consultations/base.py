@@ -101,50 +101,68 @@ class ConsultationCreateBase(CreateView):
         response = super().form_valid(form)
         return response
 
+    def _get_default_motif(self):
+        from apps.core.models import MotifRdv
+        m = MotifRdv.objects.first()
+        if m is None:
+            try:
+                m = MotifRdv.objects.create(libelle='Consultation', code='consultation', duree=30)
+            except Exception:
+                pass
+        return m
+
     def _ensure_admission(self):
+        import datetime as dt
         patient = get_object_or_404(Patient, pk=self.kwargs['pk'])
         today = timezone.now().date()
+        jour_min = dt.datetime.combine(today, dt.time.min)
+        jour_max = dt.datetime.combine(today, dt.time.max)
         existing = Admission.objects.filter(
             patient=patient,
-            date__day=today.day, date__month=today.month, date__year=today.year,
+            date__gte=jour_min, date__lte=jour_max,
             statut='2'
         ).first()
         if existing:
             return
         waiting = Admission.objects.filter(
             patient=patient,
-            date__day=today.day, date__month=today.month, date__year=today.year,
+            date__gte=jour_min, date__lte=jour_max,
             statut='1'
         ).first()
         if waiting:
             waiting.statut = '2'
             waiting.debut_consultation = timezone.now()
-            waiting.save()
+            waiting.save(update_fields=['statut', 'debut_consultation'])
             return
         completed = Admission.objects.filter(
             patient=patient,
-            date__day=today.day, date__month=today.month, date__year=today.year,
+            date__gte=jour_min, date__lte=jour_max,
             statut='3'
         ).first()
         if completed:
             completed.statut = '2'
             completed.debut_consultation = timezone.now()
-            completed.save()
+            completed.save(update_fields=['statut', 'debut_consultation'])
             return
+        compte = self.request.user.profil.compte
         ordre_max = Admission.objects.filter(
-            patient__compte=self.request.user.profil.compte,
-            date__day=today.day, date__month=today.month, date__year=today.year
+            patient__compte=compte,
+            date__gte=jour_min, date__lte=jour_max
         ).aggregate(Max('ordre'))['ordre__max']
         ordre = 1 if ordre_max is None else ordre_max + 1
         numero_max = Admission.objects.filter(
-            patient__compte=self.request.user.profil.compte,
+            patient__compte=compte,
             date__year=today.year
         ).aggregate(Max('numero'))['numero__max']
         numero = 1 if numero_max is None else numero_max + 1
+        motif = self._get_default_motif()
+        if motif is None:
+            return
         Admission.objects.create(
             numero=numero, patient=patient,
-            praticien=getattr(self.request.user, 'medecin', None) or Medecin.objects.filter(compte=self.request.user.profil.compte).first(),
+            praticien=getattr(self.request.user, 'medecin', None) or Medecin.objects.filter(compte=compte).first(),
             date=timezone.now(), ordre=ordre, statut='2', debut_consultation=timezone.now(),
+            motif=motif,
         )
 
 
@@ -155,40 +173,45 @@ class ConsultationUpdateBase(UpdateView):
         self.object = self.get_object()
         return super().get(request, *args, **kwargs)
 
-    def _ensure_admission(self):
+    def _ensure_admission_update(self):
+        import datetime as dt
         patient = self.object.patient
         today = timezone.now().date()
+        jour_min = dt.datetime.combine(today, dt.time.min)
+        jour_max = dt.datetime.combine(today, dt.time.max)
         existing = Admission.objects.filter(
             patient=patient,
-            date__day=today.day, date__month=today.month, date__year=today.year,
+            date__gte=jour_min, date__lte=jour_max,
             statut='2'
         ).first()
         if existing:
             return
         waiting = Admission.objects.filter(
             patient=patient,
-            date__day=today.day, date__month=today.month, date__year=today.year,
+            date__gte=jour_min, date__lte=jour_max,
             statut='1'
         ).first()
         if waiting:
             waiting.statut = '2'
             waiting.debut_consultation = timezone.now()
-            waiting.save()
+            waiting.save(update_fields=['statut', 'debut_consultation'])
             return
         completed = Admission.objects.filter(
             patient=patient,
-            date__day=today.day, date__month=today.month, date__year=today.year,
+            date__gte=jour_min, date__lte=jour_max,
             statut='3'
         ).first()
         if completed:
             completed.statut = '2'
             completed.debut_consultation = timezone.now()
-            completed.save()
+            completed.save(update_fields=['statut', 'debut_consultation'])
             return
         compte = self.request.user.profil.compte if hasattr(self.request.user, 'profil') and self.request.user.profil else None
+        if compte is None:
+            return
         ordre_max = Admission.objects.filter(
             patient__compte=compte,
-            date__day=today.day, date__month=today.month, date__year=today.year
+            date__gte=jour_min, date__lte=jour_max
         ).aggregate(Max('ordre'))['ordre__max']
         ordre = 1 if ordre_max is None else ordre_max + 1
         numero_max = Admission.objects.filter(
@@ -196,11 +219,23 @@ class ConsultationUpdateBase(UpdateView):
             date__year=today.year
         ).aggregate(Max('numero'))['numero__max']
         numero = 1 if numero_max is None else numero_max + 1
+        from apps.core.models import MotifRdv
+        motif = MotifRdv.objects.first()
+        if motif is None:
+            try:
+                motif = MotifRdv.objects.create(libelle='Consultation', code='consultation', duree=30)
+            except Exception:
+                return
         Admission.objects.create(
             numero=numero, patient=patient,
             praticien=getattr(self.request.user, 'medecin', None) or Medecin.objects.filter(compte=self.request.user.profil.compte).first(),
             date=timezone.now(), ordre=ordre, statut='2', debut_consultation=timezone.now(),
+            motif=motif,
         )
+
+    def _ensure_admission(self):
+        # Alias for compatibility - delegate to update version
+        return self._ensure_admission_update()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -266,10 +301,13 @@ class ConsultationCreate(PermissionRequiredMixin, ConsultationCreateBase):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        motif = MotifConsultation.objects.filter(code=self.request.GET.get('motif'))
-        context['motif'] = motif[0]
+        motif = MotifConsultation.objects.filter(code=self.request.GET.get('motif')).first() or MotifConsultation.objects.first()
+        if motif is None:
+            from django.http import Http404
+            raise Http404("MotifConsultation not found for code %s" % self.request.GET.get('motif'))
+        context['motif'] = motif
         templates = TemplateEdition.objects.filter(compte=self.request.user.profil.compte,
-                                                   categorie_consultation=motif[0].categorie)
+                                                   categorie_consultation=motif.categorie)
         context['templates'] = templates
         templates_json = TemplateEditionSerializer(templates, many=True)
         context['templates_json'] = json.dumps(templates_json.data)
@@ -367,14 +405,18 @@ class ConsultationUpdate(PermissionRequiredMixin, ConsultationUpdateBase):
 @login_required
 @permission_required('core.change_patient', raise_exception=True)
 def terminer_consultation(request, pk):
-    consultation = get_object_or_404(Consultation, pk=pk)
-    consultation.worklistitem_set.all().update(mpps_status=WorklistItem.MPPS_STATUS_COMPLETED)
-    patient = consultation.patient
-    today = date.today()
-    patient.admission_set.filter(Q(date__day=today.day)
-                                 & Q(date__month=today.month)
-                                 & Q(date__year=today.year)).update(statut='3')
-    d = date.today()
-    patient.rdv_set.filter(debut__day=d.day, debut__month=d.month, debut__year=d.year).update(statut=3)
+    import datetime as dt
+    from django.db import transaction
+    with transaction.atomic():
+        consultation = get_object_or_404(Consultation, pk=pk)
+        consultation.worklistitem_set.all().update(mpps_status=WorklistItem.MPPS_STATUS_COMPLETED)
+        patient = consultation.patient
+        today = dt.date.today()
+        jour_min = dt.datetime.combine(today, dt.time.min)
+        jour_max = dt.datetime.combine(today, dt.time.max)
+        updated = patient.admission_set.filter(date__gte=jour_min, date__lte=jour_max, statut__in=['1', '2']).update(statut='3')
+        if updated == 0:
+            patient.admission_set.filter(date__gte=jour_min, date__lte=jour_max).update(statut='3')
+        patient.rdv_set.filter(debut__gte=jour_min, debut__lte=jour_max).update(statut=3)
     # return redirect("/accueil?msg=consultation_terminee_succes")
     return redirect(reverse("patient_afficher", kwargs={'pk': patient.pk}))

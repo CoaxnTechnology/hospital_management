@@ -43,16 +43,44 @@ def ds_to_png(ds, dest):
 
 def ds_to_jpeg(ds, dest):
     print(f'ds_to_jpeg {dest}')
-    color = ds[0x00280004]
-    print('Color space', color.value)
+    try:
+        color = ds[0x00280004].value if 0x00280004 in ds else 'MONOCHROME2'
+    except Exception:
+        color = 'MONOCHROME2'
+    print('Color space', color)
     img = ds.pixel_array  # get image array
-    if color.value != 'RGB':
-        img = convert_color_space(img, color.value, 'RGB')
-        cv2.imwrite(dest, img)
-        return
-    # Normalise to range 0..255
-    norm = (img.astype(float) - img.min()) * 255.0 / (img.max() - img.min())
-    img_mem = Image.fromarray(norm.astype(np.uint8))
+    # Handle color spaces that need conversion; MONOCHROME is grayscale and should not use convert_color_space
+    if color not in ('MONOCHROME1', 'MONOCHROME2') and color != 'RGB':
+        try:
+            img = convert_color_space(img, color, 'RGB')
+            cv2.imwrite(dest, img)
+            return
+        except Exception as e:
+            print(f'convert_color_space {color}->RGB failed: {e}, falling back to grayscale handling')
+    # For MONOCHROME or fallback: normalize to 0..255 and save as JPEG
+    # Handle multi-frame or single frame
+    if img.ndim == 3 and img.shape[2] == 3:
+        # Already RGB
+        norm = img
+    else:
+        # Grayscale: normalize
+        if img.max() > img.min():
+            norm = (img.astype(float) - img.min()) * 255.0 / (img.max() - img.min() + 1e-6)
+        else:
+            norm = np.zeros_like(img, dtype=float)
+        norm = norm.astype(np.uint8)
+        # Convert single channel to RGB via PIL for JPEG
+        if norm.ndim == 2:
+            img_mem = Image.fromarray(norm)
+            if img_mem.mode != 'RGB':
+                img_mem = img_mem.convert('RGB')
+            img_mem.save(dest)
+            print('Saved grayscale as RGB JPEG', dest)
+            return
+    # For RGB case after normalization
+    if isinstance(img, np.ndarray) and img.dtype != np.uint8:
+        img = np.clip(norm if 'norm' in locals() else img, 0, 255).astype(np.uint8)
+    img_mem = Image.fromarray(img)
     print('Image mode', img_mem.mode)
     if img_mem.mode != 'RGB':
         img_mem = img_mem.convert('RGB')

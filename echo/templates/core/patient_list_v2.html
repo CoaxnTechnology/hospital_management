@@ -139,6 +139,9 @@
                 <a href="/patients/<%- id %>" class="btn btn-info btn-icon" title="{% trans 'Consulter' %}">
                     <i class="la la-eye icon-md"></i>
                 </a>
+                <a href="/patients/<%- id %>/dossier/imprimer/" target="_blank" class="btn btn-secondary btn-icon" title="Imprimer dossier">
+                    <i class="la la-print icon-md"></i>
+                </a>
                 <button type="button"
                         onclick="creerPatient('/patients/<%- id %>/modifier')"
                         class="btn btn-warning btn-icon" title="{% trans 'Modifier' %}">

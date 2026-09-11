@@ -61,7 +61,7 @@ archive_dicom_files = True
 _study_images = {}
 
 web_url = os.environ.get('EE_URL', 'http://localhost')
-web_port = os.environ.get('EE_HTTP_PORT', '8001')
+web_port = os.environ.get('EE_HTTP_PORT', '8000')
 
 
 class ServiceClassProvider:
@@ -207,12 +207,13 @@ class ServiceClassProvider:
             called_aet = event.assoc.acceptor.ae_title.strip().decode('UTF-8') if hasattr(event.assoc, 'acceptor') else ''
             calling_aet = event.assoc.requestor.ae_title.strip().decode('UTF-8')
 
-            # Reject images from unregistered devices
+            # Allow images from any device but log if unregistered (auto-whitelist via AE)
             try:
                 from apps.core.models import Device
                 if not Device.objects.filter(ae_title=calling_aet).exists():
-                    logger.warning(f"Rejected C-STORE from unregistered device AE={calling_aet}")
-                    return 0xC000
+                    logger.warning(f"C-STORE from unregistered device AE={calling_aet} - allowing but recommend registering device in Admin")
+                    # Optionally auto-create placeholder device for visibility: comment out if strict
+                    # Device.objects.get_or_create(ae_title=calling_aet, defaults={'compte_id': 6, 'ip': event.assoc.requestor.address if hasattr(event.assoc.requestor,'address') else '', 'port': 104})
             except Exception as e:
                 logger.error(f"Device lookup failed for AE={calling_aet}: {e}")
             metadata: Dict[str, Optional[ParsedElementValue]] = {

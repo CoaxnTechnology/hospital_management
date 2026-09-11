@@ -218,6 +218,7 @@ urlpatterns = [
         name="patient_modifier",
     ),
     path("patients/<int:pk>/", patients.PatientView.as_view(), name="patient_afficher"),
+    path("patients/<int:pk>/dossier/imprimer/", patients.PatientDossierPrintView.as_view(), name="patient_dossier_imprimer"),
     path("patients/<int:pk>/infos/", patients.infos_patient, name="patient_infos"),
     path(
         "patients/<int:pk>/supprimer",

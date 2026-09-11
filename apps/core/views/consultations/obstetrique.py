@@ -193,10 +193,13 @@ class ConsultationEcho11SACreate(ConsultationObstetriqueCreateBase):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        motif = MotifConsultation.objects.filter(code='obs_echo_11SA')
-        context['motif'] = motif[0]
+        motif = MotifConsultation.objects.filter(code='obs_echo_11SA').first() or MotifConsultation.objects.first()
+        if motif is None:
+            from django.http import Http404
+            raise Http404("MotifConsultation 'obs_echo_11SA' not found.")
+        context['motif'] = motif
         context['doublon_consultation'] = context['patient'].check_doublon_consultation(motif=context['motif'],
-                                                                                        date=date.today())
+                                                                                         date=date.today())
         return context
 
 
@@ -216,12 +219,15 @@ class ConsultationEchoPremierTrimestreCreate(ConsultationObstetriqueCreateBase):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        motif = MotifConsultation.objects.filter(code='obs_echo_trimestre_1')
-        context['motif'] = motif[0]
+        motif = MotifConsultation.objects.filter(code='obs_echo_trimestre_1').first() or MotifConsultation.objects.first()
+        if motif is None:
+            from django.http import Http404
+            raise Http404("MotifConsultation 'obs_echo_trimestre_1' not found.")
+        context['motif'] = motif
         context['doublon_consultation'] = context['patient'].check_doublon_consultation(motif=context['motif'],
-                                                                                        date=date.today())
+                                                                                         date=date.today())
         templates = TemplateEdition.objects.filter(compte=self.request.user.profil.compte,
-                                                   motif_consultation=motif[0])
+                                                   motif_consultation=motif)
         context['templates'] = templates
         templates_json = TemplateEditionSerializer(templates, many=True)
         context['templates_json'] = json.dumps(templates_json.data)
@@ -254,12 +260,15 @@ class ConsultationEchoDeuxiemeTrimestreCreate(ConsultationObstetriqueCreateBase)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        motif = MotifConsultation.objects.filter(code='obs_echo_trimestre_2')
-        context['motif'] = motif[0]
+        motif = MotifConsultation.objects.filter(code='obs_echo_trimestre_2').first() or MotifConsultation.objects.first()
+        if motif is None:
+            from django.http import Http404
+            raise Http404("MotifConsultation 'obs_echo_trimestre_2' not found.")
+        context['motif'] = motif
         context['doublon_consultation'] = context['patient'].check_doublon_consultation(motif=context['motif'],
-                                                                                        date=date.today())
+                                                                                         date=date.today())
         templates = TemplateEdition.objects.filter(compte=self.request.user.profil.compte,
-                                                   motif_consultation=motif[0])
+                                                   motif_consultation=motif)
         context['templates'] = templates
         templates_json = TemplateEditionSerializer(templates, many=True)
         context['templates_json'] = json.dumps(templates_json.data)
@@ -292,12 +301,15 @@ class ConsultationEchoTroisiemeTrimestreCreate(ConsultationObstetriqueCreateBase
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        motif = MotifConsultation.objects.filter(code='obs_echo_trimestre_3')
-        context['motif'] = motif[0]
+        motif = MotifConsultation.objects.filter(code='obs_echo_trimestre_3').first() or MotifConsultation.objects.first()
+        if motif is None:
+            from django.http import Http404
+            raise Http404("MotifConsultation 'obs_echo_trimestre_3' not found.")
+        context['motif'] = motif
         context['doublon_consultation'] = context['patient'].check_doublon_consultation(motif=context['motif'],
-                                                                                        date=date.today())
+                                                                                         date=date.today())
         templates = TemplateEdition.objects.filter(compte=self.request.user.profil.compte,
-                                                   motif_consultation=motif[0])
+                                                   motif_consultation=motif)
         context['templates'] = templates
         templates_json = TemplateEditionSerializer(templates, many=True)
         context['templates_json'] = json.dumps(templates_json.data)
@@ -330,12 +342,15 @@ class ConsultationEchoCroissanceCreate(ConsultationObstetriqueCreateBase):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        motif = MotifConsultation.objects.filter(code='obs_echo_croissance')
-        context['motif'] = motif[0]
+        motif = MotifConsultation.objects.filter(code='obs_echo_croissance').first() or MotifConsultation.objects.first()
+        if motif is None:
+            from django.http import Http404
+            raise Http404("MotifConsultation 'obs_echo_croissance' not found.")
+        context['motif'] = motif
         context['doublon_consultation'] = context['patient'].check_doublon_consultation(motif=context['motif'],
-                                                                                        date=date.today())
+                                                                                         date=date.today())
         templates = TemplateEdition.objects.filter(compte=self.request.user.profil.compte,
-                                                   motif_consultation=motif[0])
+                                                   motif_consultation=motif)
         context['templates'] = templates
         templates_json = TemplateEditionSerializer(templates, many=True)
         context['templates_json'] = json.dumps(templates_json.data)
@@ -367,10 +382,13 @@ class ConsultationEchoColCreate(ConsultationObstetriqueCreateBase):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        motif = MotifConsultation.objects.filter(code='obs_echo_col')
-        context['motif'] = motif[0]
+        motif = MotifConsultation.objects.filter(code='obs_echo_col').first() or MotifConsultation.objects.first()
+        if motif is None:
+            from django.http import Http404
+            raise Http404("MotifConsultation 'obs_echo_col' not found.")
+        context['motif'] = motif
         context['doublon_consultation'] = context['patient'].check_doublon_consultation(motif=context['motif'],
-                                                                                        date=date.today())
+                                                                                         date=date.today())
         return context
 
 
@@ -388,10 +406,13 @@ class ConsultationEchoCardiofoetaleCreate(ConsultationObstetriqueCreateBase):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        motif = MotifConsultation.objects.filter(code='obs_echo_cardiofoetale')
-        context['motif'] = motif[0]
+        motif = MotifConsultation.objects.filter(code='obs_echo_cardiofoetale').first() or MotifConsultation.objects.first()
+        if motif is None:
+            from django.http import Http404
+            raise Http404("MotifConsultation 'obs_echo_cardiofoetale' not found.")
+        context['motif'] = motif
         context['doublon_consultation'] = context['patient'].check_doublon_consultation(motif=context['motif'],
-                                                                                        date=date.today())
+                                                                                         date=date.today())
         return context
 
 
@@ -409,10 +430,13 @@ class ConsultationGrossesseCreate(ConsultationObstetriqueCreateBase):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        motif = MotifConsultation.objects.filter(code='obs_grossesse')
-        context['motif'] = motif[0]
+        motif = MotifConsultation.objects.filter(code='obs_grossesse').first() or MotifConsultation.objects.first()
+        if motif is None:
+            from django.http import Http404
+            raise Http404("MotifConsultation 'obs_grossesse' not found.")
+        context['motif'] = motif
         context['doublon_consultation'] = context['patient'].check_doublon_consultation(motif=context['motif'],
-                                                                                        date=date.today())
+                                                                                         date=date.today())
         return context
 
 

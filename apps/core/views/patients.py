@@ -122,6 +122,18 @@ class PatientView(PermissionRequiredMixin, DetailView):
     permission_required = 'core.view_patient'
     template_name = 'core/patient_detail_v2.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            from django.contrib.auth.views import redirect_to_login
+            return redirect_to_login(request.get_full_path())
+        # Ensure profil exists; otherwise redirect to login with error (matches accueil fix)
+        try:
+            _ = request.user.profil.compte
+        except Exception:
+            from django.contrib.auth.views import redirect_to_login
+            return redirect_to_login(request.get_full_path())
+        return super().dispatch(request, *args, **kwargs)
+
     def get_object(self, queryset=None):
         return get_object_or_404(Patient.objects.select_related('compte'), pk=self.kwargs['pk'])
 
@@ -484,11 +496,13 @@ class PatientView(PermissionRequiredMixin, DetailView):
                 if praticien:
                     update_kwargs['praticien'] = praticien
                 today_admissions.update(**update_kwargs)
+                # Use range filter for date to leverage index and avoid day/month/year pitfalls
+                jour_min = datetime.datetime.combine(today, datetime.time.min)
+                jour_max = datetime.datetime.combine(today, datetime.time.max)
                 consultation = Consultation.objects.filter(
                     patient=patient,
-                    date__day=today.day,
-                    date__month=today.month,
-                    date__year=today.year,
+                    date__gte=jour_min,
+                    date__lte=jour_max,
                 ).order_by('-id').first()
                 praticien = getattr(request.user, 'medecin', None) or Medecin.objects.filter(compte=compte).first()
                 if consultation:
@@ -497,6 +511,26 @@ class PatientView(PermissionRequiredMixin, DetailView):
                         consultation.save(update_fields=['praticien'])
                 else:
                     motif = MotifConsultation.objects.first()
+                    if motif is None:
+                        # Fallback: try well-known codes or create a default
+                        for code in ['obs_echo_trimestre_3', 'obs_echo_trimestre_2', 'consultation-generale', 'gynecologique-defaut']:
+                            motif = MotifConsultation.objects.filter(code=code).first()
+                            if motif:
+                                break
+                        if motif is None:
+                            # Last resort: create a generic motif so the FK NOT NULL constraint is satisfied
+                            try:
+                                from apps.core.models import CategorieConsultation
+                                cat = CategorieConsultation.objects.first()
+                                if cat:
+                                    motif = MotifConsultation.objects.create(code='consultation-generale', libelle='Consultation générale', categorie=cat)
+                            except Exception:
+                                pass
+                    if motif is None:
+                        from django.http import HttpResponseServerError
+                        import logging
+                        logging.getLogger().error("demarrer_consultation: MotifConsultation table empty, cannot create Consultation for patient %s", patient.pk)
+                        return redirect("/accueil?error=motif_manquant#liste_en_consultation")
                     consultation = Consultation.objects.create(
                         patient=patient,
                         motif=motif,
@@ -507,11 +541,95 @@ class PatientView(PermissionRequiredMixin, DetailView):
 
         return self.render_to_response(context)
 
+class PatientDossierPrintView(PermissionRequiredMixin, DetailView):
+    model = Patient
+    permission_required = 'core.view_patient'
+    template_name = 'core/patient_dossier_print.html'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Patient.objects.select_related('compte', 'adresse'), pk=self.kwargs['pk'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        patient = self.object
+        # Header info
+        try:
+            compte = patient.compte
+        except Exception:
+            compte = None
+        context['compte'] = compte
+        # Practitioner info
+        praticien = patient.praticien_principal
+        if not praticien:
+            try:
+                praticien = patient.admission_set.select_related('praticien').order_by('-date').first().praticien
+            except Exception:
+                praticien = None
+        context['praticien_principal'] = praticien
+        # Resolve specialty
+        specialite = ''
+        if praticien and hasattr(praticien, 'specialite') and praticien.specialite:
+            specialite = praticien.specialite
+        elif praticien and hasattr(praticien, 'titre'):
+            specialite = praticien.titre or ''
+        # Fallback from compte parametres
+        if not specialite and compte and hasattr(compte, 'parametrescompte') and compte.parametrescompte:
+            try:
+                specialite = compte.parametrescompte.specialite or ''
+            except Exception:
+                pass
+        if not specialite:
+            specialite = 'Spécialiste en Gynécologie Obstétrique et Stérilité'
+        context['specialite'] = specialite
+        # Age
+        try:
+            context['age_affiche'] = f"{patient.age} Ans" if hasattr(patient, 'age') and patient.age else ''
+        except Exception:
+            context['age_affiche'] = ''
+        # Visits: all consultations ordered chronologically
+        consultations = Consultation.objects.filter(patient=patient).select_related('motif', 'praticien', 'praticien__user').order_by('date')
+        # Fallback to date field, if None order by id
+        context['visits'] = consultations
+        # Antecedents
+        antecedents = Antecedent.objects.filter(patient=patient).select_related('sous_categorie').order_by('-date')
+        context['antecedents'] = antecedents
+        antecedents_obs = AntecedentObstetrique.objects.filter(patient=patient).select_related('sous_categorie').order_by('-date_accouchement')
+        context['antecedents_obs'] = antecedents_obs
+        # Grossesses
+        grossesses = patient.grossesse_set.all().order_by('-created_at')
+        context['grossesses'] = grossesses
+        # Logo/footer
+        try:
+            if compte and hasattr(compte, 'parametrescompte'):
+                context['logo_url'] = compte.parametrescompte.logo_a4.url if compte.parametrescompte.logo_a4 else ''
+                context['footer_url'] = compte.parametrescompte.footer_a4.url if compte.parametrescompte.footer_a4 else ''
+                context['entete'] = compte.parametrescompte.nom_entete or ''
+            else:
+                context['logo_url'] = ''
+                context['footer_url'] = ''
+                context['entete'] = ''
+        except Exception:
+            context['logo_url'] = ''
+            context['footer_url'] = ''
+            context['entete'] = ''
+        return context
+
+
 @login_required
 @permission_required('core.view_patient', raise_exception=True)
 def infos_patient(request, pk):
     patient = get_object_or_404(Patient, pk=pk)
     return JsonResponse(json.dumps(PatientSerializer(patient).data), safe=False)
+
+def _get_default_motif_rdv():
+    motif = MotifRdv.objects.first()
+    if motif is None:
+        try:
+            motif = MotifRdv.objects.create(libelle='Consultation', code='consultation', duree=30)
+        except Exception:
+            pass
+    return motif
+
 
 @login_required
 @permission_required('core.view_patient', raise_exception=True)
@@ -519,7 +637,12 @@ def admission_patient(request, pk):
     # Recherche patient pour admission
     patient = get_object_or_404(Patient, pk=pk)
     praticien = patient.praticien_principal
-    motif = MotifRdv.objects.all()[0]
+    motif = MotifRdv.objects.first()
+    if motif is None:
+        motif = _get_default_motif_rdv()
+        if motif is None:
+            from django.http import JsonResponse
+            return JsonResponse({'status': 'error', 'message': 'Aucun MotifRdv configuré'}, status=500)
     if 'rdv' in request.GET:
         rdv = get_object_or_404(Rdv, pk=request.GET['rdv'])
         rdv.patient = patient
@@ -616,7 +739,9 @@ def admission_rapide(request, patient_pk):
             completed.date = timezone.now()
             completed.praticien = patient.praticien_principal or \
                 getattr(request.user, 'medecin', None) or Medecin.objects.filter(compte=compte).first()
-            completed.motif = MotifRdv.objects.first()
+            mot = MotifRdv.objects.first() or _get_default_motif_rdv()
+            if mot:
+                completed.motif = mot
             completed.save()
         else:
             ordre_max = Admission.objects.filter(
@@ -627,12 +752,15 @@ def admission_rapide(request, patient_pk):
                 patient__compte=compte, date__year=today.year
             ).aggregate(Max('numero'))['numero__max']
             numero = 1 if numero_max is None else numero_max + 1
+            mot = MotifRdv.objects.first() or _get_default_motif_rdv()
+            if mot is None:
+                return JsonResponse({'status': 'error', 'message': 'Aucun MotifRdv configuré'}, status=500)
             Admission.objects.create(
                 numero=numero, patient=patient,
                 praticien=patient.praticien_principal or \
                     getattr(request.user, 'medecin', None) or Medecin.objects.filter(compte=compte).first(),
                 date=timezone.now(), ordre=ordre, statut='1',
-                motif=MotifRdv.objects.first(),
+                motif=mot,
             )
 
         return JsonResponse({'status': 'success'})

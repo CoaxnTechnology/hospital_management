@@ -17,12 +17,15 @@ from apps.core.serializers import AdmissionSerializer, ConsultationSerializer, R
 # Reinitialise l'ordre de passage des patients de la journée
 # Todo transférer comme signal ou dans le module patients
 def reinitialiser_ordre_passage(request):
-    today = date.today()
+    from django.utils import timezone
     try:
         compte = request.user.profil.compte
     except:
         return
-    admissions = Admission.objects.filter(date__day=today.day, date__month=today.month, date__year=today.year,
+    now = timezone.now()
+    jour_min = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    jour_max = now.replace(hour=23, minute=59, second=59, microsecond=999999)
+    admissions = Admission.objects.filter(date__gte=jour_min, date__lte=jour_max,
                                           statut='1',
                                           patient__compte=compte).order_by('ordre')
     count = 1
@@ -81,13 +84,14 @@ class Accueil(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
 
         context['date'] = today
 
-        now = datetime.now()
+        from django.utils import timezone
+        now = timezone.now()
         periode_debut = now - timedelta(days=10)
-        periode_debut = periode_debut.replace(hour=0, minute=0)
+        periode_debut = periode_debut.replace(hour=0, minute=0, second=0, microsecond=0)
         periode_fin = now + timedelta(days=60)
-        periode_fin = periode_fin.replace(hour=23, minute=59)
-        jour_min = now.replace(hour=0, minute=0)
-        jour_max = now.replace(hour=23, minute=59)
+        periode_fin = periode_fin.replace(hour=23, minute=59, second=59, microsecond=999999)
+        jour_min = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        jour_max = now.replace(hour=23, minute=59, second=59, microsecond=999999)
 
         rdvs = Rdv.objects.filter(Q(compte=compte) &
                                   (Q(debut__gte=periode_debut) & Q(debut__lte=periode_fin)
@@ -118,16 +122,25 @@ class Accueil(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
         terminated_admissions = Admission.objects.filter(date__gte=jour_min,
                                                          date__lte=jour_max,
                                                          patient__compte=compte,
-                                                         statut='4') \
+                                                         statut__in=['3', '4']) \
                                                    .order_by('ordre') \
                                                    .select_related('patient').select_related('patient__adresse')
         context['terminated_admissions_json'] = json.dumps(AdmissionSerializer(terminated_admissions, many=True).data)
 
+        # Exclude consultations for patients currently in exam (statut 2 or 4 today)
+        # Use subquery + distinct to avoid duplicate rows from JOIN with multiple admissions
+        from django.db.models import Exists, OuterRef
+        active_admissions_today = Admission.objects.filter(
+            patient=OuterRef('patient_id'),
+            date__gte=jour_min,
+            date__lte=jour_max,
+            statut__in=['2', '4']
+        )
         consultations = Consultation.objects.filter(patient__compte=compte,
                                                     date__gte=periode_debut, date__lte=periode_fin) \
-                                            .exclude(patient__admission__statut__in=['2', '4'],
-                                                     patient__admission__date__gte=jour_min,
-                                                     patient__admission__date__lte=jour_max)
+                                            .filter(~Exists(active_admissions_today)) \
+                                            .distinct() \
+                                            .order_by('-date')
         consultations_json = ConsultationSerializer(consultations, many=True)
         context['consultations_json'] = json.dumps(consultations_json.data)
 
@@ -163,9 +176,11 @@ class AdmissionsAujourdhuiJson(LoginRequiredMixin, View):
             compte = request.user.profil.compte
         except:
             return JsonResponse({'admissions': []})
+        from django.utils import timezone
         today = date.today()
-        jour_min = datetime.now().replace(hour=0, minute=0)
-        jour_max = datetime.now().replace(hour=23, minute=59)
+        now = timezone.now()
+        jour_min = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        jour_max = now.replace(hour=23, minute=59, second=59, microsecond=999999)
         admissions = Admission.objects.filter(date__gte=jour_min, date__lte=jour_max,
                                               patient__compte=compte) \
                                       .order_by('ordre') \

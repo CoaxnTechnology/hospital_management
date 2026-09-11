@@ -27,12 +27,16 @@ def _complete_admission_if_mpps_done(consultation):
     complete the admission now."""
     if consultation.worklistitem_set.filter(mpps_status=WorklistItem.MPPS_STATUS_COMPLETED).exists():
         today = datetime.date.today()
-        consultation.patient.admission_set.filter(
-            date__day=today.day,
-            date__month=today.month,
-            date__year=today.year,
-            statut='2'
+        jour_min = datetime.datetime.combine(today, datetime.time.min)
+        jour_max = datetime.datetime.combine(today, datetime.time.max)
+        updated = consultation.patient.admission_set.filter(
+            date__gte=jour_min, date__lte=jour_max,
+            statut__in=['1', '2']
         ).update(statut='3')
+        if updated == 0:
+            consultation.patient.admission_set.filter(
+                date__gte=jour_min, date__lte=jour_max
+            ).update(statut='3')
 
 
 @csrf_exempt
@@ -40,7 +44,7 @@ def rechercher_worklists(request):
     items = WorklistItem.objects.filter().order_by('consultation__patient__nom')
     if 'patient_name' in request.POST:
         patient_name = request.POST.get('patient_name').replace('*', '')
-        name = re.split('[\^]', patient_name)
+        name = re.split(r'[\^]', patient_name)
         print('Chercher worklist patient name', name)
         if len(name) == 2:
             items = items.filter(consultation__patient__prenom__icontains=name[1],
@@ -79,7 +83,25 @@ def rechercher_worklists(request):
 
     items = items.filter(mpps_status__in=[WorklistItem.MPPS_STATUS_PENDING, WorklistItem.MPPS_STATUS_INPROGRESS])
     # Deduplicate: only the most recent WorklistItem per patient (handles double-click duplicates)
-    items = items.order_by('consultation__patient_id', '-id').distinct('consultation__patient_id')
+    try:
+        items = items.order_by('consultation__patient_id', '-id').distinct('consultation__patient_id')
+    except Exception as e:
+        # Fallback for SQLite / non-Postgres (DISTINCT ON not supported)
+        print(f'Distinct ON failed ({e}), falling back to Python deduplication')
+        seen = set()
+        deduped = []
+        for it in items.order_by('-id'):
+            pid = it.consultation.patient_id if hasattr(it.consultation, 'patient_id') else it.consultation_id
+            if pid not in seen:
+                seen.add(pid)
+                deduped.append(it)
+        items = deduped
+        print('Items found (fallback)', len(items))
+        data = WorklistItemSerializer(items, many=True)
+        resp = {
+            'items': json.dumps(data.data),
+        }
+        return JsonResponse(resp)
     print('Items found', items)
     data = WorklistItemSerializer(items, many=True)
     resp = {
@@ -104,12 +126,16 @@ def modifier_worklist_statut(request):
             if status.upper() == 'COMPLETED':
                 consultation = item.consultation
                 today = datetime.date.today()
-                consultation.patient.admission_set.filter(
-                    date__day=today.day,
-                    date__month=today.month,
-                    date__year=today.year,
-                    statut='2'
+                jour_min = datetime.datetime.combine(today, datetime.time.min)
+                jour_max = datetime.datetime.combine(today, datetime.time.max)
+                updated = consultation.patient.admission_set.filter(
+                    date__gte=jour_min, date__lte=jour_max,
+                    statut__in=['1', '2']
                 ).update(statut='3')
+                if updated == 0:
+                    consultation.patient.admission_set.filter(
+                        date__gte=jour_min, date__lte=jour_max
+                    ).update(statut='3')
     resp = {
         'status': 'success',
     }
@@ -137,18 +163,20 @@ def ajouter_image(request):
             today = datetime.datetime.now().date()
             # Only match consultations for doctors who have this device as their default
             from apps.core.models import Medecin
-            device_doctors = Medecin.objects.filter(default_device=device).values_list('id', flat=True)
-            item = WorklistItem.objects.filter(
+            device_doctors = list(Medecin.objects.filter(default_device=device).values_list('id', flat=True))
+            qs = WorklistItem.objects.filter(
                 Q(device=device) | Q(device__isnull=True),
                 consultation__date__date=today,
-                consultation__praticien__in=device_doctors,
                 mpps_status__in=[WorklistItem.MPPS_STATUS_PENDING, WorklistItem.MPPS_STATUS_INPROGRESS]
-            ).order_by('-id').first()
+            )
+            if device_doctors:
+                qs = qs.filter(consultation__praticien__in=device_doctors)
+            item = qs.order_by('-id').first()
             if item:
                 consultation = item.consultation
-                logger.info(f'Found consultation {item.consultation.id} by WorklistItem for device={calling_aet} (doctors={list(device_doctors)})')
+                logger.info(f'Found consultation {item.consultation.id} by WorklistItem for device={calling_aet} (doctors={device_doctors})')
             else:
-                logger.info(f'No WorklistItem found for device={calling_aet} today with doctors={list(device_doctors)}')
+                logger.info(f'No WorklistItem found for device={calling_aet} today with doctors={device_doctors}')
 
     if consultation is None and patient_name:
         logger.info(f'ajouter_image: trying patient name fallback: {patient_name}')
@@ -169,14 +197,15 @@ def ajouter_image(request):
                 jour_min = datetime.datetime.combine(today, datetime.time.min)
                 jour_max = datetime.datetime.combine(today, datetime.time.max)
                 cons_qs = Consultation.objects.filter(patient=patient, date__gte=jour_min, date__lte=jour_max)
-                # If device info available, restrict to its doctors
+                # If device info available, restrict to its doctors only when configured
                 if calling_aet:
                     device = Device.objects.filter(ae_title=calling_aet).first()
                     if device:
                         from apps.core.models import Medecin
-                        device_doctors = Medecin.objects.filter(default_device=device).values_list('id', flat=True)
-                        cons_qs = cons_qs.filter(praticien__in=device_doctors)
-                        logger.info(f'Restricted patient name fallback to device doctors={list(device_doctors)}')
+                        device_doctors = list(Medecin.objects.filter(default_device=device).values_list('id', flat=True))
+                        if device_doctors:
+                            cons_qs = cons_qs.filter(praticien__in=device_doctors)
+                            logger.info(f'Restricted patient name fallback to device doctors={device_doctors}')
                 cons = cons_qs.order_by('-id').first()
                 if cons:
                     logger.info(f'Found consultation {cons.id} for patient {patient.id} via name+date fallback')
@@ -229,18 +258,20 @@ def ajouter_sr(request):
         if device:
             today = datetime.datetime.now().date()
             from apps.core.models import Medecin
-            device_doctors = Medecin.objects.filter(default_device=device).values_list('id', flat=True)
-            item = WorklistItem.objects.filter(
+            device_doctors = list(Medecin.objects.filter(default_device=device).values_list('id', flat=True))
+            qs = WorklistItem.objects.filter(
                 Q(device=device) | Q(device__isnull=True),
                 consultation__date__date=today,
-                consultation__praticien__in=device_doctors,
                 mpps_status__in=[WorklistItem.MPPS_STATUS_PENDING, WorklistItem.MPPS_STATUS_INPROGRESS]
-            ).order_by('-id').first()
+            )
+            if device_doctors:
+                qs = qs.filter(consultation__praticien__in=device_doctors)
+            item = qs.order_by('-id').first()
             if item:
-                logger.info(f'Found consultation {item.consultation.id} by WorklistItem for device={calling_aet} (doctors={list(device_doctors)})')
+                logger.info(f'Found consultation {item.consultation.id} by WorklistItem for device={calling_aet} (doctors={device_doctors})')
                 consultation = item.consultation
             else:
-                logger.info(f'No WorklistItem found for device={calling_aet} today with doctors={list(device_doctors)}')
+                logger.info(f'No WorklistItem found for device={calling_aet} today with doctors={device_doctors}')
 
     if consultation is None and patient_name:
         logger.info(f'Trying patient name fallback: patient_name={patient_name}')
@@ -266,9 +297,10 @@ def ajouter_sr(request):
                     device = Device.objects.filter(ae_title=calling_aet).first()
                     if device:
                         from apps.core.models import Medecin
-                        device_doctors = Medecin.objects.filter(default_device=device).values_list('id', flat=True)
-                        cons_qs = cons_qs.filter(praticien__in=device_doctors)
-                        logger.info(f'Restricted patient name fallback to device doctors={list(device_doctors)}')
+                        device_doctors = list(Medecin.objects.filter(default_device=device).values_list('id', flat=True))
+                        if device_doctors:
+                            cons_qs = cons_qs.filter(praticien__in=device_doctors)
+                            logger.info(f'Restricted patient name fallback to device doctors={device_doctors}')
                 cons = cons_qs.order_by('-id').first()
                 if cons:
                     logger.info(f'Found consultation {cons.id} for patient {patient.id} via name+date fallback')
@@ -512,33 +544,41 @@ def modifier_worklist(request, pk):
 @login_required
 @permission_required('core.change_patient', raise_exception=True)
 def terminer_consultation_patient(request, patient_pk):
+    from django.db import transaction
     from django.db.models import Q
-    from datetime import date
+    import datetime as dt
     try:
-        patient = get_object_or_404(Patient, pk=patient_pk)
-        today = date.today()
-        consultation = Consultation.objects.filter(
-            patient=patient,
-            date__day=today.day,
-            date__month=today.month,
-            date__year=today.year,
-        ).order_by('-id').first()
-        if consultation:
-            items = consultation.worklistitem_set.all()
-            items.filter(mpps_status=WorklistItem.MPPS_STATUS_INPROGRESS).update(
-                mpps_status=WorklistItem.MPPS_STATUS_DISCONTINUED
-            )
-            items.filter(mpps_status=WorklistItem.MPPS_STATUS_PENDING).update(
-                mpps_status=WorklistItem.MPPS_STATUS_DISCONTINUED
-            )
-        patient.admission_set.filter(
-            Q(date__day=today.day) & Q(date__month=today.month) & Q(date__year=today.year)
-        ).update(statut='3')
-        patient.rdv_set.filter(
-            debut__day=today.day, debut__month=today.month, debut__year=today.year
-        ).update(statut=3)
+        with transaction.atomic():
+            patient = get_object_or_404(Patient, pk=patient_pk)
+            today = dt.date.today()
+            jour_min = dt.datetime.combine(today, dt.time.min)
+            jour_max = dt.datetime.combine(today, dt.time.max)
+            consultation = Consultation.objects.filter(
+                patient=patient,
+                date__gte=jour_min,
+                date__lte=jour_max,
+            ).order_by('-id').first()
+            if consultation:
+                # Mark any pending/inprogress as COMPLETED on explicit finish (not discontinued)
+                consultation.worklistitem_set.filter(
+                    mpps_status__in=[WorklistItem.MPPS_STATUS_INPROGRESS, WorklistItem.MPPS_STATUS_PENDING]
+                ).update(mpps_status=WorklistItem.MPPS_STATUS_COMPLETED)
+            # Update admission(s) today: waiting (1) or in consultation (2) -> finished (3)
+            updated = patient.admission_set.filter(
+                date__gte=jour_min, date__lte=jour_max,
+                statut__in=['1', '2']
+            ).update(statut='3')
+            # Fallback: if no admission was in 1/2, also ensure any remaining is set to 3
+            if updated == 0:
+                patient.admission_set.filter(
+                    date__gte=jour_min, date__lte=jour_max
+                ).update(statut='3')
+            patient.rdv_set.filter(
+                debut__gte=jour_min, debut__lte=jour_max
+            ).update(statut=3)
         return JsonResponse({'status': 'success', 'message': 'Consultation terminée'})
     except Exception as e:
+        logger.error("terminer_consultation_patient failed for patient %s: %s", patient_pk, e, exc_info=True)
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
 
@@ -626,6 +666,11 @@ def remettre_en_salle_patient(request, patient_pk):
             compte = request.user.profil.compte
             praticien = getattr(request.user, 'medecin', None) or Medecin.objects.filter(compte=compte).first()
             motif = MotifRdv.objects.first()
+            if motif is None:
+                try:
+                    motif = MotifRdv.objects.create(libelle='Consultation', code='consultation', duree=30)
+                except Exception:
+                    return JsonResponse({'status': 'error', 'message': 'Aucun MotifRdv configuré'}, status=500)
             ordre_max = Admission.objects.filter(
                 Q(patient__compte=compte) & Q(date__gte=jour_min) & Q(date__lte=jour_max)
             ).aggregate(Max('ordre'))['ordre__max']

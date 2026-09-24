@@ -1,0 +1,145 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  # =========================================================================
+  # 1. CI JOB: Test, Lint, Migrate & Validate
+  # =========================================================================
+  test:
+    name: Build & Test (CI)
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: echoapp
+          POSTGRES_USER: django
+          POSTGRES_PASSWORD: Owbq4rT4_RqC
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install system dependencies (for OpenCV & PostgreSQL)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libpq-dev libgl1 libglib2.0-0
+
+      - name: Ensure runtime directories exist
+        run: |
+          mkdir -p logs data
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Django System Check
+        env:
+          DJANGO_SETTINGS_MODULE: echo.settings.development
+          POSTGRES_HOST: 127.0.0.1
+        run: |
+          python manage.py check
+
+      - name: Run Database Migrations
+        env:
+          DJANGO_SETTINGS_MODULE: echo.settings.development
+          POSTGRES_HOST: 127.0.0.1
+        run: |
+          python manage.py migrate --noinput
+
+      - name: Run Unit Tests
+        env:
+          DJANGO_SETTINGS_MODULE: echo.settings.development
+          POSTGRES_HOST: 127.0.0.1
+        run: |
+          python manage.py test apps.core.tests --noinput
+
+  # =========================================================================
+  # 2. CD JOB: Deploy to VPS Server (Runs only if CI succeeds on 'main' branch)
+  # =========================================================================
+  deploy:
+    name: Deploy to VPS (CD)
+    needs: [test]
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Prepare directory on VPS
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            mkdir -p /home/echo/app
+
+      - name: Rsync code to VPS
+        uses: burnett01/rsync-deployments@7.0.1
+        with:
+          switches: -avz --delete --exclude='.git/' --exclude='venv/' --exclude='__pycache__/' --exclude='.env' --exclude='/echo/data/' --exclude='logs/'
+          path: ./
+          remote_path: /home/echo/app/
+          remote_host: ${{ secrets.VPS_HOST }}
+          remote_user: ${{ secrets.VPS_USER }}
+          remote_key: ${{ secrets.VPS_SSH_KEY }}
+
+      - name: Run server update script
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            chmod +x /home/echo/app/deploy/update.sh
+            /bin/bash /home/echo/app/deploy/update.sh
+
+      - name: Health Check
+        env:
+          SUBDOMAIN: ${{ secrets.SUBDOMAIN }}
+        run: |
+          sleep 5
+          if [ -z "$SUBDOMAIN" ]; then
+            echo "SUBDOMAIN secret not set, skipping health check"
+            exit 0
+          fi
+          STATUS=$(curl -o /dev/null -s -w "%{http_code}" "https://${SUBDOMAIN}")
+          if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 400 ]; then
+            echo "Health check passed (HTTP $STATUS)"
+          else
+            echo "Health check failed (HTTP $STATUS)"
+            exit 1
+          fi

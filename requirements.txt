@@ -5,7 +5,7 @@ attrs==21.2.0
 autobahn==21.2.1
 Automat==20.2.0
 certifi==2020.12.5
-cffi==1.14.5
+cffi>=1.15.0
 channels==3.0.5
 channels-redis==3.4.0
 chardet==3.0.4
@@ -32,7 +32,7 @@ mbstrdecoder==1.0.1
 msgpack==1.0.2
 packaging==20.9
 Pillow==9.2.0
-psycopg2-binary==2.8.6
+psycopg2-binary>=2.9.0
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.21
@@ -56,4 +56,4 @@ urllib3==1.25.11
 zope.interface==5.4.0
 opencv-python==4.5.5.64
 pypng==0.20220715.0
-numpy>=1.24.0
+numpy>=1.24.0,<2.0.0

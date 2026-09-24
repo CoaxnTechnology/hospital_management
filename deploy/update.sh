@@ -1,7 +1,11 @@
 #!/bin/bash
 set -e
 
-APP_DIR="/home/echo/app/echo"
+if [ -d "/home/echo/app/echo" ]; then
+    APP_DIR="/home/echo/app/echo"
+else
+    APP_DIR="/home/echo/app"
+fi
 VENV_DIR="/home/echo/venv"
 
 cd "$APP_DIR"

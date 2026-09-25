@@ -105,14 +105,16 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            mkdir -p /home/echo/app
+            mkdir -p /var/www/echo
 
       - name: Rsync code to VPS
         uses: burnett01/rsync-deployments@7.0.1
         with:
-          switches: -avz --delete --exclude='.git/' --exclude='venv/' --exclude='__pycache__/' --exclude='.env' --exclude='/echo/data/' --exclude='logs/'
+          # --delete syncs code, but live secrets/data/logs/dumps/build output are NEVER touched.
+          # The Postgres DB is not file-synced at all; update.sh runs `migrate` only (schema, no data loss).
+          switches: -avz --delete --exclude='.git/' --exclude='venv/' --exclude='__pycache__/' --exclude='.env' --exclude='/data/' --exclude='/storage/' --exclude='/uploads/' --exclude='logs/' --exclude='*.log' --exclude='*.sql' --exclude='*.db' --exclude='public/static/' --exclude='staticfiles/' --exclude='templates_backup/' --exclude='__MACOSX/' --exclude='.DS_Store' --exclude='nohup.out'
           path: ./
-          remote_path: /home/echo/app/
+          remote_path: /var/www/echo/
           remote_host: ${{ secrets.VPS_HOST }}
           remote_user: ${{ secrets.VPS_USER }}
           remote_key: ${{ secrets.VPS_SSH_KEY }}
@@ -124,22 +126,26 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            chmod +x /home/echo/app/deploy/update.sh
-            /bin/bash /home/echo/app/deploy/update.sh
+            chmod +x /var/www/echo/deploy/update.sh
+            /bin/bash /var/www/echo/deploy/update.sh
 
       - name: Health Check
         env:
           SUBDOMAIN: ${{ secrets.SUBDOMAIN }}
         run: |
-          sleep 5
           if [ -z "$SUBDOMAIN" ]; then
             echo "SUBDOMAIN secret not set, skipping health check"
             exit 0
           fi
-          STATUS=$(curl -o /dev/null -s -w "%{http_code}" "https://${SUBDOMAIN}")
-          if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 400 ]; then
-            echo "Health check passed (HTTP $STATUS)"
-          else
-            echo "Health check failed (HTTP $STATUS)"
-            exit 1
-          fi
+          # Retry: gunicorn restarts during deploy, allow workers time to boot
+          for i in 1 2 3 4 5 6; do
+            STATUS=$(curl -o /dev/null -s -w "%{http_code}" "https://${SUBDOMAIN}/accounts/login/" || echo "000")
+            if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 400 ]; then
+              echo "Health check passed (HTTP $STATUS, attempt $i)"
+              exit 0
+            fi
+            echo "Attempt $i: HTTP $STATUS, retrying in 10s..."
+            sleep 10
+          done
+          echo "Health check failed after 6 attempts (last HTTP $STATUS)"
+          exit 1

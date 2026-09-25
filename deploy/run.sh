@@ -1,5 +1,5 @@
 #!/bin/bash
 set -a
-source /home/echo/echo/.env
+source /var/www/echo/.env
 set +a
 exec "$@"

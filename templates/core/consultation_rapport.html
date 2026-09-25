@@ -410,6 +410,78 @@ tr:nth-child(even) td { background:#F7FAFD; }
   </div>
   {% endif %}
 
+  <!-- ══ MORPHOLOGIE FŒTALE ══ -->
+  {% if foetus_db_list %}
+  {% for f in foetus_db_list %}
+  {% if f.morpho_crane or f.morpho_struct or f.morpho_face or f.morpho_cou or f.morpho_thorax or f.morpho_coeur or f.morpho_abdo or f.morpho_digest or f.morpho_urine or f.morpho_rachis or f.morpho_membres or f.morpho_oge or f.morpho_liquide_amnio or f.morpho_placenta or f.morpho_cordon or f.commentaires or consultation_obs.echo_morpho or consultation_obs.echo_t3 %}
+  <div class="sec">Morphologie fœtale{% if foetus_db_list|length > 1 %} — Fœtus {{ forloop.counter }}{% endif %}</div>
+
+  <div class="two-col">
+    <div>
+      <div class="sec sub">Structures anatomiques</div>
+      <table>
+        <tr><th>Élément examiné</th><th>Évaluation</th></tr>
+        {% if f.morpho_crane %}<tr><td>Boîte crânienne</td><td class="v" style="text-align:left;">{{ f.morpho_crane }}</td></tr>{% endif %}
+        {% if f.morpho_struct %}<tr><td>Structures cérébrales</td><td class="v" style="text-align:left;">{{ f.morpho_struct }}</td></tr>{% endif %}
+        {% if f.morpho_face %}<tr><td>Face / Profil</td><td class="v" style="text-align:left;">{{ f.morpho_face }}</td></tr>{% endif %}
+        {% if f.morpho_cou %}<tr><td>Cou</td><td class="v" style="text-align:left;">{{ f.morpho_cou }}</td></tr>{% endif %}
+        {% if f.morpho_thorax %}<tr><td>Thorax</td><td class="v" style="text-align:left;">{{ f.morpho_thorax }}</td></tr>{% endif %}
+        {% if f.morpho_coeur %}<tr><td>Cœur (4 cavités & gros vaisseaux)</td><td class="v" style="text-align:left;">{{ f.morpho_coeur }}</td></tr>{% endif %}
+        {% if f.morpho_abdo %}<tr><td>Paroi abdominale</td><td class="v" style="text-align:left;">{{ f.morpho_abdo }}</td></tr>{% endif %}
+        {% if f.morpho_digest %}<tr><td>Appareil digestif / Estomac</td><td class="v" style="text-align:left;">{{ f.morpho_digest }}</td></tr>{% endif %}
+        {% if f.morpho_urine %}<tr><td>Appareil urinaire / Reins & Vessie</td><td class="v" style="text-align:left;">{{ f.morpho_urine }}</td></tr>{% endif %}
+        {% if f.morpho_rachis %}<tr><td>Rachis / Colonne vertébrale</td><td class="v" style="text-align:left;">{{ f.morpho_rachis }}</td></tr>{% endif %}
+        {% if f.morpho_membres %}<tr><td>Membres (supérieurs & inférieurs)</td><td class="v" style="text-align:left;">{{ f.morpho_membres }}</td></tr>{% endif %}
+        {% if f.morpho_oge %}<tr><td>Organes génitaux externes (OGE)</td><td class="v" style="text-align:left;">{{ f.morpho_oge }}</td></tr>{% endif %}
+      </table>
+    </div>
+
+    <div>
+      <div class="sec sub">Annexes & Environnement fœtal</div>
+      <table>
+        <tr><th>Élément</th><th>Description</th></tr>
+        {% if f.morpho_liquide_amnio %}<tr><td>Liquide amniotique</td><td class="v" style="text-align:left;">{{ f.morpho_liquide_amnio }}</td></tr>{% endif %}
+        {% if f.morpho_placenta %}<tr><td>Placenta</td><td class="v" style="text-align:left;">{{ f.morpho_placenta }}</td></tr>{% endif %}
+        {% if f.morpho_cordon %}<tr><td>Cordon ombilical</td><td class="v" style="text-align:left;">{{ f.morpho_cordon }}</td></tr>{% endif %}
+        {% if f.morpho_trophoblaste_localisation %}<tr><td>Trophoblaste (localisation)</td><td class="v" style="text-align:left;">{{ f.morpho_trophoblaste_localisation }}</td></tr>{% endif %}
+        {% if f.morpho_trophoblaste_aspect %}<tr><td>Trophoblaste (aspect)</td><td class="v" style="text-align:left;">{{ f.morpho_trophoblaste_aspect }}</td></tr>{% endif %}
+        {% if f.morpho_decol %}<tr><td>Décollement</td><td class="v" style="text-align:left;">{{ f.morpho_decol }}</td></tr>{% endif %}
+        {% if f.presentation %}<tr><td>Présentation</td><td class="v" style="text-align:left;">{{ f.presentation }}</td></tr>{% endif %}
+        {% if f.activite_cardiaque %}<tr><td>Activité cardiaque</td><td class="v" style="text-align:left;">{{ f.activite_cardiaque }}</td></tr>{% endif %}
+        {% if f.mobilite %}<tr><td>Mobilité</td><td class="v" style="text-align:left;">{{ f.mobilite }}</td></tr>{% endif %}
+      </table>
+
+      {% if f.commentaires %}
+      <div class="sec sub" style="margin-top:8px;">Remarques morphologiques</div>
+      <div class="report-text" style="padding:6px 10px; font-size:9pt;">{{ f.commentaires|linebreaksbr }}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if forloop.first and consultation_obs.echo_morpho %}
+  <div class="sec sub" style="margin-top:8px;">Synthèse échographie morphologique</div>
+  <div class="report-text">{{ consultation_obs.echo_morpho|linebreaksbr }}</div>
+  {% endif %}
+
+  {% if forloop.first and consultation_obs.echo_t3 %}
+  <div class="sec sub" style="margin-top:8px;">Notes échographie 3ème trimestre</div>
+  <div class="report-text">{{ consultation_obs.echo_t3|linebreaksbr }}</div>
+  {% endif %}
+
+  {% endif %}
+  {% endfor %}
+  {% elif consultation_obs and consultation_obs.echo_morpho or consultation_obs and consultation_obs.echo_t3 %}
+  <div class="sec">Morphologie fœtale</div>
+  {% if consultation_obs.echo_morpho %}
+  <div class="sec sub">Synthèse échographie morphologique</div>
+  <div class="report-text">{{ consultation_obs.echo_morpho|linebreaksbr }}</div>
+  {% endif %}
+  {% if consultation_obs.echo_t3 %}
+  <div class="sec sub">Notes échographie 3ème trimestre</div>
+  <div class="report-text">{{ consultation_obs.echo_t3|linebreaksbr }}</div>
+  {% endif %}
+  {% endif %}
+
   <!-- Conclusion -->
   {% if object.conclusion %}
   <div class="sec">Conclusion</div>

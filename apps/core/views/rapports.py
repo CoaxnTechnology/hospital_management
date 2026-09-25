@@ -26,6 +26,9 @@ from apps.core.models import (
     Praticien,
     Medecin,
     Grossesse,
+    ConsultationObstetrique,
+    DonneesFoetus,
+    ConsultationEchoPelvienne,
 )
 from apps.core.serializers import (
     ConsultationSerializer,
@@ -204,7 +207,7 @@ class ConsultationView(PermissionRequiredMixin, DetailView):
 def _get_measurements(consultation):
     """
     Returns the final measurement dict for a consultation.
-    Priority: MesuresConsultation (manual edits) > SRConsultation (raw DICOM, date-based).
+    Priority: MesuresConsultation (manual edits) > SRConsultation (raw DICOM, date-based) > Database consultation models.
     """
     # 1. Try manual overrides first
     try:
@@ -233,6 +236,84 @@ def _get_measurements(consultation):
     except Exception as e:
         logger.warning(f"_get_measurements (SR) failed for consultation {consultation.id}: {e}")
         pass
+
+    # 3. Fall back to data saved directly in consultation models
+    try:
+        # Check ConsultationEchoPelvienne
+        try:
+            pelv = consultation.consultationechopelvienne
+            pelv_data = {}
+            if pelv.longueur: pelv_data['uterus_longueur'] = pelv.longueur
+            if pelv.largeur: pelv_data['uterus_largeur'] = pelv.largeur
+            if pelv.hauteur: pelv_data['uterus_hauteur'] = pelv.hauteur
+            if pelv.volume_uterin: pelv_data['uterus_volume'] = pelv.volume_uterin
+            if pelv.endometre_epaisseur: pelv_data['endometre_epaisseur'] = pelv.endometre_epaisseur
+            if pelv_data:
+                return pelv_data, 'form'
+        except Exception:
+            pass
+
+        # Check ConsultationObstetrique
+        try:
+            obs = consultation.consultationobstetrique
+            foetus_qs = obs.donneesfoetus_set.all()
+            if foetus_qs.exists():
+                obs_data = {'foetus': []}
+                for f in foetus_qs:
+                    f_dict = {
+                        'poids': f.poids or f.poids_estime,
+                        'fc': f.fc,
+                        'biometrie': {},
+                        'os': {},
+                        'crane': {},
+                    }
+                    if f.bip: f_dict['biometrie']['bip'] = f.bip
+                    if f.pc: f_dict['biometrie']['pc'] = f.pc
+                    if f.pa: f_dict['biometrie']['pa'] = f.pa
+                    if f.femur: f_dict['biometrie']['femur'] = f.femur
+                    if f.lcc: f_dict['biometrie']['lcc'] = f.lcc
+                    if f.cn: f_dict['biometrie']['cn'] = f.cn
+                    if f.epn: f_dict['biometrie']['epn'] = f.epn
+                    if f.dat: f_dict['biometrie']['dat'] = f.dat
+                    if f.humerus: f_dict['os']['humerus'] = f.humerus
+                    if f.radius: f_dict['os']['radius'] = f.radius
+                    if f.cubitus: f_dict['os']['cubitus'] = f.cubitus
+                    if f.tibia: f_dict['os']['tibia'] = f.tibia
+                    if f.perone: f_dict['os']['perone'] = f.perone
+                    if f.pied: f_dict['os']['pied'] = f.pied
+                    if f.cervelet: f_dict['crane']['cervelet'] = f.cervelet
+                    if f.dio: f_dict['crane']['dio'] = f.dio
+
+                    if f.doppler_cordon_ip or f.doppler_cordon_ir:
+                        f_dict['doppler_ombilical'] = {
+                            'doppler_cordon_ip': f.doppler_cordon_ip,
+                            'doppler_cordon_ir': f.doppler_cordon_ir,
+                        }
+                    if f.doppler_acm_ip or f.doppler_acm_ir:
+                        f_dict['doppler_acm'] = {
+                            'doppler_acm_ip': f.doppler_acm_ip,
+                            'doppler_acm_ir': f.doppler_acm_ir,
+                        }
+
+                    obs_data['foetus'].append(f_dict)
+
+                if obs.col_long:
+                    obs_data['col_longueur'] = obs.col_long
+                if obs.ir_droit or obs.ir_gauche or obs.ip_droit or obs.ip_gauche:
+                    obs_data['doppler_uterin'] = {
+                        'ir_droit': obs.ir_droit,
+                        'ir_gauche': obs.ir_gauche,
+                        'ip_droit': obs.ip_droit,
+                        'ip_gauche': obs.ip_gauche,
+                    }
+
+                has_any_val = any(bool(f_dict['biometrie'] or f_dict['os'] or f_dict['crane'] or f_dict['poids'] or f_dict['fc']) for f_dict in obs_data['foetus'])
+                if has_any_val or obs.col_long:
+                    return obs_data, 'form'
+        except Exception:
+            pass
+    except Exception as e:
+        logger.warning(f"_get_measurements (form fallback) failed: {e}")
 
     return None, None
 
@@ -268,6 +349,34 @@ class ConsultationRapportView(PermissionRequiredMixin, DetailView):
             context['images_echo'] = ImageConsultation.objects.none()
             context['images_graph'] = ImageConsultation.objects.none()
             context['waveforms'] = WaveformConsultation.objects.none()
+
+        obs = None
+        try:
+            obs = consultation.consultationobstetrique
+        except Exception:
+            pass
+        context['consultation_obs'] = obs
+
+        foetus_list = []
+        if obs:
+            foetus_list = list(obs.donneesfoetus_set.all().select_related(
+                'presentation', 'activite_cardiaque', 'mobilite',
+                'morpho_crane', 'morpho_struct', 'morpho_face', 'morpho_cou',
+                'morpho_thorax', 'morpho_coeur', 'morpho_pole_cepha',
+                'morpho_abdo', 'morpho_digest', 'morpho_urine', 'morpho_rachis',
+                'morpho_membres', 'morpho_oge', 'morpho_liquide_amnio',
+                'morpho_trophoblaste_localisation', 'morpho_trophoblaste_aspect',
+                'morpho_decol', 'morpho_placenta', 'morpho_cordon',
+                'doppler_cordon_diastole', 'doppler_dv_onde'
+            ))
+        context['foetus_db_list'] = foetus_list
+
+        pelvienne = None
+        try:
+            pelvienne = consultation.consultationechopelvienne
+        except Exception:
+            pass
+        context['consultation_pelvienne'] = pelvienne
 
         data, source = _get_measurements(consultation)
         context['sr'] = data

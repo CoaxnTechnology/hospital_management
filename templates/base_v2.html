@@ -151,7 +151,7 @@
 								</div>
 								{% endif %}
 								<!--end:Menu item-->
-								{% if user.profil.groupe != 'Secrétaire' %}
+								{% if user.profil.groupe != 'Secrétaire' and perms.core.view_profil or perms.core.change_parametrescompte %}
 								<div class="menu-section-label">{% trans "Administration" %}</div>
 								<!--begin:Menu item - Administration-->
 								<div data-aside-accordion class="menu-item menu-accordion {% if '/utilisateurs' in request.path or '/parametres' in request.path %}here show{% endif %}">
@@ -161,18 +161,22 @@
 										<span class="menu-arrow"></span>
 									</span>
 									<div class="menu-sub menu-sub-accordion">
+										{% if perms.core.view_profil %}
 										<div class="menu-item {% if '/utilisateurs' in request.path %}here{% endif %}">
 											<a class="menu-link" href="/utilisateurs">
 												<span class="menu-icon"><i class="la la-user fs-5"></i></span>
 												<span class="menu-title">{% trans "Utilisateurs" %}</span>
 											</a>
 										</div>
+										{% endif %}
+										{% if perms.core.change_parametrescompte %}
 										<div class="menu-item {% if '/parametres' in request.path %}here{% endif %}">
 											<a class="menu-link" href="/parametres/{{ user.profil.compte.parametrescompte.id }}">
 												<span class="menu-icon"><i class="la la-cog fs-5"></i></span>
 												<span class="menu-title">{% trans "Paramètres" %}</span>
 											</a>
 										</div>
+										{% endif %}
 									</div>
 								</div>
 								{% endif %}

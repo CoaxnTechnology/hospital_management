@@ -410,6 +410,59 @@ tr:nth-child(even) td { background:#F7FAFD; }
   </div>
   {% endif %}
 
+  <!-- ══ EXAMEN (dropdown selections from the exam form) ══ -->
+  {% if examen %}
+  <div class="sec">Examen</div>
+
+  {% if examen.sac %}
+  <div class="sec sub">Sac gestationnel</div>
+  <table>
+    {% for row in examen.sac %}<tr><td>{{ row.label }}</td><td class="v">{{ row.value }}</td></tr>{% endfor %}
+  </table>
+  {% endif %}
+
+  {% for f in examen.foetus %}
+  <div class="fetus-hd">
+    <span class="fid">{{ f.titre }}</span>
+  </div>
+  {% if f.vitalite %}
+  <div class="sec sub">Vitalité</div>
+  <table>
+    {% for row in f.vitalite %}<tr><td>{{ row.label }}</td><td class="v">{{ row.value }}</td></tr>{% endfor %}
+  </table>
+  {% endif %}
+  {% if f.morpho %}
+  <div class="sec sub">Morphologie</div>
+  <table>
+    {% for row in f.morpho %}<tr><td>{{ row.label }}</td><td class="v">{{ row.value }}</td></tr>{% endfor %}
+  </table>
+  {% endif %}
+  {% if f.doppler %}
+  <div class="sec sub">Doppler qualitatif</div>
+  <table>
+    {% for row in f.doppler %}<tr><td>{{ row.label }}</td><td class="v">{{ row.value }}</td></tr>{% endfor %}
+  </table>
+  {% endif %}
+  {% if f.commentaires %}
+  <div class="report-text">{{ f.commentaires|safe }}</div>
+  {% endif %}
+  {% endfor %}
+
+  {% if examen.maternel %}
+  <div class="sec sub">Examen maternel (Doppler utérin / col / pelvis)</div>
+  <table>
+    {% for row in examen.maternel %}<tr><td>{{ row.label }}</td><td class="v">{{ row.value }}</td></tr>{% endfor %}
+  </table>
+  {% endif %}
+
+  {% if examen.clinique %}
+  <div class="sec sub">Examen clinique</div>
+  <table>
+    {% for row in examen.clinique %}<tr><td>{{ row.label }}</td><td class="v">{{ row.value }}</td></tr>{% endfor %}
+  </table>
+  {% endif %}
+  {% endif %}
+
   <!-- Conclusion -->
   {% if object.conclusion %}
   <div class="sec">Conclusion</div>

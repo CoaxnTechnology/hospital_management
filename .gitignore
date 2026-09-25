@@ -37,5 +37,7 @@ __MACOSX/
 
 # Misc
 .echoapp_db_export.sql
+echoapp_db_export.sql
+*.sql
 templates_backup/
 

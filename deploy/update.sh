@@ -19,6 +19,7 @@ fi
 # Ensure required directories exist
 mkdir -p logs
 chmod +x "$APP_DIR/deploy/run.sh"
+chmod +x "$VENV_DIR/bin/"* 2>/dev/null || true
 
 export DJANGO_SETTINGS_MODULE="echo.settings.production"
 
